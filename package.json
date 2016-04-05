@@ -1,7 +1,7 @@
 {
   "name": "ember-osf-models",
-  "version": "0.0.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "version": "0.0.1",
+  "description": "Ember Data models for the OSF APIv2",
   "directories": {
     "doc": "doc",
     "test": "tests"
