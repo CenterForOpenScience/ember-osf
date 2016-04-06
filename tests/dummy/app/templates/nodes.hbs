@@ -1,0 +1,6 @@
+{{#each model as |node|}}
+<p><label>Title: </label>{{node.title}}</p>
+<p><label>Category: </label>{{node.category}}</p>
+<p><label>Date Created: </label>{{moment-format node.dateCreated}}</p>
+<p><label>Date Modified: </label>{{moment-format node.dateModified}}</p>
+{{/each}}
