@@ -1,4 +1,4 @@
-p# Ember-osf
+# Ember OSF
 
 This repo contains code for interacting with the OSF APIv2 inside of an Ember app.
 
