@@ -1,5 +1,5 @@
 {
-  "name": "ember-osf-models",
+  "name": "ember-osf",
   "version": "0.0.1",
   "description": "Ember Data models for the OSF APIv2",
   "directories": {

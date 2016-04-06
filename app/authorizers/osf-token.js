@@ -1,1 +1,1 @@
-export { default } from 'ember-osf-models/authorizers/osf-token';
+export { default } from 'ember-osf/authorizers/osf-token';

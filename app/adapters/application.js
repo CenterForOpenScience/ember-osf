@@ -1,1 +1,1 @@
-export { default } from 'ember-osf-models/adapters/application';
+export { default } from 'ember-osf/adapters/application';

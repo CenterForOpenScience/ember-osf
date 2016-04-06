@@ -1,1 +1,1 @@
-export { default } from 'ember-osf-models/models/user';
+export { default } from 'ember-osf/models/user';

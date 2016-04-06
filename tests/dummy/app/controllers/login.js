@@ -1,12 +1,5 @@
 import Ember from 'ember';
 
-import config from 'ember-get-config';
+import OsfLoginControllerMixin from 'ember-osf/mixins/osf-login-controller';
 
-export default Ember.Controller.extend({
-    session: Ember.inject.service(),
-    actions: {
-        login() {
-            window.location = `${config.OSF.authUrl}oauth2/authorize?response_type=token&scope=${config.OSF.scope}&client_id=${config.OSF.clientId}&redirect_uri=${encodeURI(window.location)}`;
-        }
-    }
-});
+export default Ember.Controller.extend(OsfLoginControllerMixin);
