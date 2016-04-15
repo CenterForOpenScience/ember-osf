@@ -1,7 +1,23 @@
 /* jshint node: true */
-require('dotenv').config();
+var dotenv = require('dotenv');
+var path = require('path');
 
 module.exports = function(environment) {
+    dotenv.config();
+    dotenv.config({
+	path: path.join(
+	    __dirname,
+	    '.env-' + {
+		development: 'local',
+		test: 'test',
+		staging: 'stage',
+		staging2: 'stage2',
+		production: 'prod'
+	    }[environment]
+	),
+	silent: true
+    });
+
     var ENV = {
         modulePrefix: 'dummy',
         environment: environment,
@@ -63,6 +79,13 @@ module.exports = function(environment) {
         ENV.OSF.url = 'https://staging.osf.io/';
         ENV.OSF.apiUrl = 'https://staging-api.osf.io/v2/';
         ENV.OSF.authUrl = 'https://staging-accounts.osf.io/';
+    }
+    if (environment === 'staging2') {
+
+        ENV.APP.LOG_TRANSITIONS = true;
+        ENV.OSF.url = 'https://staging2.osf.io/';
+        ENV.OSF.apiUrl = 'https://staging2-api.osf.io/v2/';
+        ENV.OSF.authUrl = 'https://staging2-accounts.osf.io/';
     }
 
     if (environment === 'production') {
