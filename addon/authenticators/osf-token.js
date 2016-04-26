@@ -12,7 +12,7 @@ export default BaseAuthenticator.extend({
             url: `${config.OSF.apiUrl}users/me/`,
             dataType: 'json',
             contentType: 'application/json',
-            xhrFields: {withCredentials: true},
+            xhrFields: {withCredentials: false},
             headers: {
                 Authorization: `Bearer ${accessToken}`
             }
