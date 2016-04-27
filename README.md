@@ -20,7 +20,7 @@ Next, depending on the environment you want to target, you will need to create t
 - staging2: .env-stage2
 - production: .env-prod
 
-Do do this:
+To do this:
 ```bash
 cp .env-dist .env-<env>
 ```
