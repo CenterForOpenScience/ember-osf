@@ -10,15 +10,15 @@ This repo contains code for interacting with the OSF APIv2 inside of an Ember ap
 
 ## Configuration
 
+#### Using the Staging or Production API (preferred)
+
+To do this, you will need to [create a developer application](https://staging.osf.io/settings/applications/) on the relevant version of the OSF.
+
 #### Running the OSF Locally (optional)
 
 For local development, you will need to be running the [OSF APIv2](https://github.com/CenterForOpenScience/osf.io#running-the-api-server).
 To connect to the APIv2 while using [fakecas](https://github.com/CenterForOpenScience/osf.io#running-the-osf), you will need to generate a
 personal access token on your local OSF instance ([here](http://localhost:5000/settings/tokens/-- go ahead and grant access to all scopes)).
-
-#### Using the Staging or Production API
-
-To do this, you will need to [create a developer application](https://staging.osf.io/settings/applications/) on the relevant version of the OSF.
 
 #### Create a .env
 
