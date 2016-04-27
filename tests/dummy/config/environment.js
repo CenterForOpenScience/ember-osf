@@ -92,7 +92,7 @@ module.exports = function(environment) {
 
         ENV.OSF.url = 'https://osf.io/';
         ENV.OSF.apiUrl = 'https://api.osf.io/v2/';
-        ENV.OSF.authUrl = 'https://accounts.osf.io/';
+        ENV.OSF.authUrl = 'https://accounts.osf.io/login/oauth2/';
     }
 
     return ENV;
