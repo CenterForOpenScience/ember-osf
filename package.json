@@ -21,7 +21,7 @@
     "broccoli-asset-rev": "^2.2.0",
     "dotenv": "^2.0.0",
     "ember-ajax": "0.7.1",
-    "ember-cli": "2.3.0-beta.1",
+    "ember-cli": "^2.4.3",
     "ember-cli-app-version": "^1.0.0",
     "ember-cli-dependency-checker": "^1.2.0",
     "ember-cli-htmlbars": "^1.0.1",
@@ -37,15 +37,19 @@
     "ember-disable-proxy-controllers": "^1.0.1",
     "ember-export-application-global": "^1.0.4",
     "ember-get-config": "0.0.2",
+    "ember-load-initializers": "0.5.1",
     "ember-moment": "6.1.0",
     "ember-resolver": "2.0.3",
-    "ember-simple-auth": "^1.0.1"
+    "ember-simple-auth": "^1.0.1",
+    "loader": "2.1.0",
+    "loader.js": "4.0.3"
   },
   "keywords": [
     "ember-addon"
   ],
   "dependencies": {
-    "ember-cli-babel": "^5.1.5"
+    "ember-cli-babel": "^5.1.5",
+    "loader": "^2.1.0"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
