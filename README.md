@@ -1,6 +1,57 @@
 # Ember OSF
 
+`master` Build Status: [![Build Status](https://travis-ci.org/CenterForOpenScience/ember-osf.svg?branch=master)](https://travis-ci.org/CenterForOpenScience/ember-osf)
+
+`develop` Build Status: [![Build Status](https://travis-ci.org/CenterForOpenScience/ember-osf.svg?branch=develop)](https://travis-ci.org/CenterForOpenScience/ember-osf)
+
 This repo contains code for interacting with the OSF APIv2 inside of an Ember app.
+
+## Using this code in an Ember app
+
+1. Follow the instructions in **Installation** below
+2. From the consuming Ember app:
+  a. `npm link ../ember-osf`
+  b. Edit the package.json to include:
+	  ```json
+	  ...
+	  "devDependencies": {
+	  ...
+	    "ember-osf": "0.0.1",
+	  ...
+	  }
+	  ...
+	  ```
+  c. Import code from ember-osf like:
+  ```javascript
+  import Ember from 'ember';
+  import OsfLoginRouteMixin from 'ember-osf/mixins/osf-login-route';
+
+  export default Ember.Route.extend(OsfLoginRouteMixin);
+  ```
+  
+#### Ember Data: Using the OSF models
+  
+The models, serializers, adapters bundled in this addon with be available to you automatically. 
+For example, simply do:
+```javascript
+this.store.findAll('node')
+```
+to fetch all nodes.
+
+#### Ember Simple Auth config
+
+Specify that you want to use to osf-token authorizer in your app's enviornment.js like:
+```javascript
+...
+var ENV = {
+    ...
+    'ember-simple-auth': {
+        ...
+        authorizer: 'authorizer:osf-token'
+    }
+    ...
+```
+
 
 ## Installation
 
