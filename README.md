@@ -1,4 +1,6 @@
-# Ember OSF
+# Ember Dashboard
+
+Project is based off of Sam Chrisinger's ember-osf project.
 
 This repo contains code for interacting with the OSF APIv2 inside of an Ember app.
 
