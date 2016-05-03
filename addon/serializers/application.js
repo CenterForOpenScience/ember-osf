@@ -19,5 +19,8 @@ export default DS.JSONAPISerializer.extend({
             return record;
         });
         return this._super(...arguments);
+    },
+    keyForAttribute(key) {
+	return Ember.String.camelize(key);
     }
 });
