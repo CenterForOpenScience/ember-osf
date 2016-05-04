@@ -1,0 +1,26 @@
+{{link-to 'Back to list' 'nodes' class="btn btn-default"}}
+<div class="panel">
+  <p><label>Title: </label>{{model.title}}</p>
+  <p><label>Category: </label>{{model.category}}</p>
+  <p><label>Date Created: </label>{{moment-format model.dateCreated}}</p>
+  <p><label>Date Modified: </label>{{moment-format model.dateModified}}</p>
+  <p>
+    <a href="{{model.links.html}}" target="_blank" class="btn btn-primary">
+      View on OSF
+    </a>
+  </p>
+  <hr>
+  <p>
+    <label>Contributors</label>
+    <p>
+      <table class="table">
+	{{#each model.contributors as |contrib|}}
+	  <tr>
+	    {{contrib.bibliographic}}
+	  </tr>	     
+	{{/each}}
+      </table>
+    </p>
+  </p>
+</div>
+

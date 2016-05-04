@@ -1,6 +1,8 @@
 import DS from 'ember-data';
 
-export default DS.Model.extend({
+import OsfModel from 'ember-osf/models/base';
+
+export default OsfModel.extend({
     title: DS.attr('string'),
     description: DS.attr('string'),
     category: DS.attr('string'),
@@ -19,17 +21,15 @@ export default DS.Model.extend({
 
     templateFrom: DS.attr('string'),
 
-    // TODO?
-    // links = LinksField({'html': 'get_absolute_html_url'})
-
     parent: DS.belongsTo('node', {
         inverse: 'children'
     }),
     children: DS.hasMany('nodes', {
         inverse: 'parent'
     }),
-    //comments: DS.hasMany('comments'),
-    //contributors: DS.hasMany('node-contributors')
+    comments: DS.hasMany('comments'),
+    contributors: DS.hasMany('contributors'),
+
     //files: DS.hasMany('files'),
     //forkedFrom: DS.belongsTo('node'),
     //nodeLinks:  DS.hasMany('node-pointers'),

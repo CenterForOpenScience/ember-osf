@@ -9,18 +9,28 @@ export default DS.JSONAPISerializer.extend({
         });
         return normalized;
     },
+    _normalizeRecord(record) {
+	record.attributes = this._normalizeAttributes(record.attributes);
+	if (record.links) {
+	    record.attributes.links = record.links;
+	}
+	return record;
+    },
     normalizeSingleResponse(_, __, payload) {
-        payload.data.attributes = this._normalizeAttributes(payload.data.attributes);
+        payload.data = this._normalizeRecord(payload.data);
         return this._super(...arguments);
     },
     normalizeArrayResponse(_, __, payload) {
-        payload.data = payload.data.map((record) => {
-            record.attributes = this._normalizeAttributes(record.attributes);
-            return record;
-        });
+        payload.data = payload.data.map(this._normalizeRecord.bind(this));
         return this._super(...arguments);
     },
     keyForAttribute(key) {
 	return Ember.String.camelize(key);
+    },
+
+    serializeIntoHash(/*hash, typeClass, snapshot, options*/) {
+	// Don't send links as part of hash
+	// TODO
+	return this._super(...arguments);
     }
 });

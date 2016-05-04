@@ -7,7 +7,9 @@ const Router = Ember.Router.extend({
 
 Router.map(function() {
     this.route('index', {path: '/'});
-    this.route('nodes');
+    this.route('nodes', function() {
+	this.route('detail', {path: '/:node_id'});
+    });
     this.route('login');
 });
 

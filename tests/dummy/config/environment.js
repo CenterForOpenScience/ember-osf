@@ -36,7 +36,7 @@ module.exports = function(environment) {
         'ember-simple-auth': {
             authenticationRoute: 'login',
             routeAfterAuthentication: 'index',
-            authorizer: 'authorizer:custom'
+            authorizer: 'authorizer:osf-token'
         }
     };
 
