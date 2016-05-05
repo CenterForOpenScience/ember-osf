@@ -8,20 +8,12 @@ This repo contains code for interacting with the OSF APIv2 inside of an Ember ap
 
 ## Using this code in an Ember app
 
-1. Follow the instructions in **Installation** below
+1. Clone the repository: `git clone https://github.com/CenterForOpenScience/ember-osf.git`
 2. From the consuming Ember app:
-  a. `npm link ../ember-osf`
-  b. Edit the package.json to include:
-	  ```json
-	  ...
-	  "devDependencies": {
-	  ...
-	    "ember-osf": "0.0.1",
-	  ...
-	  }
-	  ...
-	  ```
-  c. Import code from ember-osf like:
+  a. install the addon and it's dependencies: `ember install ../ember-osf`
+  b. link the app for local development: `npm link ../ember-osf`
+  c. generate a .env (see 'Configuration' below): `ember generate env stage`
+  d. Import code from ember-osf like:
   ```javascript
   import Ember from 'ember';
   import OsfLoginRouteMixin from 'ember-osf/mixins/osf-login-route';
@@ -38,22 +30,7 @@ this.store.findAll('node')
 ```
 to fetch all nodes.
 
-#### Ember Simple Auth config
-
-Specify that you want to use to osf-token authorizer in your app's enviornment.js like:
-```javascript
-...
-var ENV = {
-    ...
-    'ember-simple-auth': {
-        ...
-        authorizer: 'authorizer:osf-token'
-    }
-    ...
-```
-
-
-## Installation
+## Installation (for Development)
 
 * `git clone` this repository
 * `npm install`
@@ -73,7 +50,7 @@ personal access token on your local OSF instance ([here](http://localhost:5000/s
 
 #### Create a .env
 
-Next, depending on the environment you want to target, you will need to create the .env file. For:
+Next, depending on the backend you want to target, you will need to create the .env file. For:
 - local: .env-local
 - staging: .env-stage
 - staging2: .env-stage2
@@ -81,7 +58,7 @@ Next, depending on the environment you want to target, you will need to create t
 
 To do this:
 ```bash
-cp .env-dist .env-<env>
+ember g env <backend>
 ```
 
 Edit the new .env and replace:
