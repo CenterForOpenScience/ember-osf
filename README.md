@@ -1,4 +1,6 @@
-# Ember OSF
+# Ember Dashboard
+
+Project is based off of Sam Chrisinger's ember-osf project.
 
 `master` Build Status: [![Build Status](https://travis-ci.org/CenterForOpenScience/ember-osf.svg?branch=master)](https://travis-ci.org/CenterForOpenScience/ember-osf)
 
