@@ -10,10 +10,10 @@ This repo contains code for interacting with the OSF APIv2 inside of an Ember ap
 
 1. Clone the repository: `git clone https://github.com/CenterForOpenScience/ember-osf.git`
 2. From the consuming Ember app:
-  a. install the addon and it's dependencies: `ember install ../ember-osf`
-  b. link the app for local development: `npm link ../ember-osf`
-  c. generate a .env (see 'Configuration' below): `ember generate env stage`
-  d. Import code from ember-osf like:
+  - install the addon and it's dependencies: `ember install ../ember-osf`
+  - link the app for local development: `npm link ../ember-osf`
+  - generate a .env (see 'Configuration' below): `ember generate env stage`
+  - Import code from ember-osf like:
   ```javascript
   import Ember from 'ember';
   import OsfLoginRouteMixin from 'ember-osf/mixins/osf-login-route';
