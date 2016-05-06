@@ -14,6 +14,10 @@ export default DS.JSONAPISerializer.extend({
 	if (record.links) {
 	    record.attributes.links = record.links;
 	}
+	if (record.embeds) {
+	    // TODO, actually merge in embedded data?
+	    record.attributes.embeds = record.embeds;
+	}
 	return record;
     },
     normalizeSingleResponse(_, __, payload) {
