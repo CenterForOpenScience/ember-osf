@@ -1,44 +1,40 @@
 /* jshint node: true */
 'use strict';
-var dotenv = require('dotenv');
+var config = require('config');
 
 module.exports = {
     name: 'ember-osf',
     config: function(environment, ENV) {
-	dotenv.config({
-	    path:'.env-' + {
-		development: 'local',
-		test: 'test',
-		staging: 'stage',
-		staging2: 'stage2',
-		production: 'prod'
-	    }[environment]
-	});
+	let BACKEND = process.env.BACKEND || 'local';
+	if (!config.has(BACKEND)) {
+	    throw new Error(`WARNING: you have specified a backend: ${BACKEND} that you have not configured in your local.yml`);
+	}
+	let SETTINGS = config.get(BACKEND);
 
 	ENV.OSF = {
-            clientId: process.env.OSF_CLIENT_ID,
-            scope: process.env.OSF_SCOPE
+            clientId: SETTINGS.CLIENT_ID,
+            scope: SETTINGS.OAUTH_SCOPES
         };
 
-	if (environment === 'development') {
+	if (BACKEND === 'local') {
             ENV.OSF.url = 'http://localhost:5000/';
             ENV.OSF.apiUrl = 'http://localhost:8000/v2/';
             ENV.OSF.authUrl = 'http://localhost:8080/oauth2/profile';
 
-            ENV.OSF.accessToken = process.env.OSF_ACCESS_TOKEN;
+            ENV.OSF.accessToken = SETTINGS.PERSONAL_ACCESS_TOKEN;
             ENV.OSF.local = true;
 	}
-	if (environment === 'staging') {
+	if (BACKEND === 'stage') {
             ENV.OSF.url = 'https://staging.osf.io/';
             ENV.OSF.apiUrl = 'https://staging-api.osf.io/v2/';
             ENV.OSF.authUrl = 'https://staging-accounts.osf.io/oauth2/authorize';
 	}
-	if (environment === 'staging2') {
+	if (BACKEND === 'stage2') {
             ENV.OSF.url = 'https://staging2.osf.io/';
             ENV.OSF.apiUrl = 'https://staging2-api.osf.io/v2/';
             ENV.OSF.authUrl = 'https://staging2-accounts.osf.io/oauth2/authorize';
 	}
-	if (environment === 'production') {
+	if (BACKEND === 'prod') {
             ENV.OSF.url = 'https://osf.io/';
             ENV.OSF.apiUrl = 'https://api.osf.io/v2/';
             ENV.OSF.authUrl = 'https://accounts.osf.io/oauth2/authorize';
