@@ -5,7 +5,12 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
     store: Ember.inject.service(),
     session: Ember.inject.service(),
     model() {
-        const user = this.modelFor('application');
-        return user.get('nodes');
+        let user = this.modelFor('application');
+	if(user) {
+            return user.get('nodes');
+	}
+	else {
+	    return this.get('store').findRecord('user', 'me').then(user => user.get('nodes'));
+	}
     }
 });

@@ -2,11 +2,12 @@ import { moduleFor, test } from 'ember-qunit';
 
 moduleFor('adapter:node', 'Unit | Adapter | node', {
   // Specify the other units that are required for this test.
-  // needs: ['serializer:foo']
+    needs: ['model:node']
 });
 
-// Replace this with your real tests.
-test('it exists', function(assert) {
-  let adapter = this.subject();
-  assert.ok(adapter);
+test('it embeds contributors', function(assert) {
+    let adapter = this.subject();
+
+    let url = adapter.buildURL('nodes', null, null, 'GET', null);
+    assert.ok(adapter);
 });
