@@ -8,6 +8,6 @@ moduleFor('adapter:node', 'Unit | Adapter | node', {
 test('it embeds contributors', function(assert) {
     let adapter = this.subject();
 
-    let url = adapter.buildURL('nodes', null, null, 'GET', null);
+    //let url = adapter.buildURL('nodes', null, null, 'GET', null);
     assert.ok(adapter);
 });
