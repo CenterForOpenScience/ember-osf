@@ -7,7 +7,7 @@ export default OsfModel.extend({
     description: DS.attr('string'),
     category: DS.attr('string'),
 
-    currentUserPermissions: DS.attr(''),
+    currentUserPermissions: DS.attr('string'),
 
     fork: DS.attr('boolean'),
     collection: DS.attr('boolean'),
