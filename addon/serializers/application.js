@@ -2,35 +2,19 @@ import Ember from 'ember';
 import DS from 'ember-data';
 
 export default DS.JSONAPISerializer.extend({
-    _normalizeAttributes(attributes) {
-        var normalized = {};
-        Object.keys(attributes).forEach(function(key) {
-            normalized[Ember.String.camelize(key)] = attributes[key];
-        });
-        return normalized;
-    },
-    _normalizeRecord(record) {
-        record.attributes = this._normalizeAttributes(record.attributes);
-        if (record.links) {
-            record.attributes.links = record.links;
+    extractAttributes(modelClass, resourceHash) {
+        //ApiV2 `links` exist outside the attributes field; make them accessible to the data model
+        if (resourceHash.links) {  // TODO: Should also test whether model class defines a links field
+            resourceHash.attributes.links = resourceHash.links;
         }
-        return record;
-    },
-    normalizeSingleResponse(_, __, payload) {
-        payload.data = this._normalizeRecord(payload.data);
-        return this._super(...arguments);
-    },
-    normalizeArrayResponse(_, __, payload) {
-        payload.data = payload.data.map(this._normalizeRecord.bind(this));
-        return this._super(...arguments);
-    },
-    keyForAttribute(key) {
-	    return Ember.String.camelize(key);
+        return this._super(modelClass, resourceHash);
     },
 
-    serializeIntoHash(/*hash, typeClass, snapshot, options*/) {
-        // Don't send links as part of hash
-        // TODO
-        return this._super(...arguments);
+    keyForAttribute(key, method) {
+        if (method === 'deserialize') {
+            return Ember.String.underscore(key);
+        } else if (method === 'serialize') {  // TOOD: Is this needed? Test serialization
+            return Ember.String.camelize(key);
+        }
     }
 });
