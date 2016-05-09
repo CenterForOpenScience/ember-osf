@@ -7,7 +7,7 @@ module.exports = {
     config: function(environment, ENV) {
 	let BACKEND = process.env.BACKEND || 'local';
 	if (!config.has(BACKEND)) {
-	    throw new Error(`WARNING: you have specified a backend: ${BACKEND} that you have not configured in your local.yml`);
+	    console.log(`WARNING: you have specified a backend '${BACKEND}' that you have not configured in your config/<hostname>.yml`);
 	}
 	let SETTINGS = config.get(BACKEND);
 
