@@ -6,7 +6,7 @@ export default OsfModel.extend({
     name: DS.attr('string'),
     description: DS.attr('string'),
     logo_path: DS.attr('string'),
-    auth_url: DS.attr('strign'),
+    auth_url: DS.attr('string'),
 
     children: DS.hasMany('users', {
         inverse: 'affiliated_institutions'
