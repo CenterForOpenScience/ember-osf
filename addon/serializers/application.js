@@ -10,11 +10,11 @@ export default DS.JSONAPISerializer.extend({
         return normalized;
     },
     _normalizeRecord(record) {
-	record.attributes = this._normalizeAttributes(record.attributes);
-	if (record.links) {
-	    record.attributes.links = record.links;
-	}
-	return record;
+        record.attributes = this._normalizeAttributes(record.attributes);
+        if (record.links) {
+            record.attributes.links = record.links;
+        }
+        return record;
     },
     normalizeSingleResponse(_, __, payload) {
         payload.data = this._normalizeRecord(payload.data);
@@ -25,12 +25,12 @@ export default DS.JSONAPISerializer.extend({
         return this._super(...arguments);
     },
     keyForAttribute(key) {
-	return Ember.String.camelize(key);
+	    return Ember.String.camelize(key);
     },
 
     serializeIntoHash(/*hash, typeClass, snapshot, options*/) {
-	// Don't send links as part of hash
-	// TODO
-	return this._super(...arguments);
+        // Don't send links as part of hash
+        // TODO
+        return this._super(...arguments);
     }
 });

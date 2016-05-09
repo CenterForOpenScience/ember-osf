@@ -6,6 +6,6 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
     session: Ember.inject.service(),
     model() {
         const user = this.modelFor('application');
-        return user.get('nodes');
+        return user.get('nodes');  // Fetch from `/users/me/nodes/`
     }
 });
