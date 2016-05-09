@@ -16,4 +16,4 @@
 npm-debug.log
 testem.log
 
-*local.yml
+config/*.yml
