@@ -1,0 +1,28 @@
+{{link-to 'Back to list' 'institutions' class="btn btn-default"}}
+<div class="panel">
+  <p><label>Name: </label>{{model.name}}</p>
+  <p><label>Description: </label>{{model.description}}</p>
+  <p><label>Logo URL: </label>{{model.logo_url}}</p>
+  <p><label>Auth URL: </label>{{model.auth_url}}</p>
+  <p>
+    <a href="{{model.links.html}}" target="_blank" class="btn btn-primary">
+      View on OSF
+    </a>
+  </p>
+  <hr>
+  <p>
+    <label>Nodes</label>
+    <p>
+      <table class="table">
+	{{#each model.nodes as |node|}}
+	  <tr>
+	    {{node.title}}
+	  </tr>
+    <tr>
+	    {{node.description}}
+	  </tr>
+	{{/each}}
+      </table>
+    </p>
+  </p>
+</div>
