@@ -17,7 +17,5 @@ npm-debug.log
 testem.log
 
 .env
-.env-local
-.env-stage*
-.env-prod
+.env-*
 
