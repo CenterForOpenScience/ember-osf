@@ -12,7 +12,7 @@ This repo contains code for interacting with the OSF APIv2 inside of an Ember ap
 2. From the consuming Ember app:
   - install the addon and it's dependencies: `ember install ../ember-osf`
   - link the app for local development: `npm link ../ember-osf`
-  - generate a .env (see 'Configuration' below): `ember generate env stage`
+  - generate a settings file (see 'Configuration' below)
   - Import code from ember-osf like:
   ```javascript
   import Ember from 'ember';
