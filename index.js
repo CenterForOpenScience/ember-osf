@@ -46,5 +46,14 @@ module.exports = {
 	ENV['ember-simple-auth'] = {
 	    authorizer: 'authorizer:osf-token'
         };
+    },
+    // A small hack for ember-data-url-templates to work
+    // TODO: followup based on https://github.com/dfreeman/ember-cli-node-assets/issues/1
+    options: {
+	nodeAssets: {
+	    'uri-templates': {
+		import: ['uri-templates.js']
+	    }
+	}
     }
 };
