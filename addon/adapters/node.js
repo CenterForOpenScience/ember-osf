@@ -1,8 +1,14 @@
 import ApplicationAdapter from './application';
 
 export default ApplicationAdapter.extend({
-    buildURL() {
+    buildURL(_, __, ___, requestType) {
 	// Embed contributors
-	return `${this._super(...arguments)}?embed=contributors`;
+	var base = this._super(...arguments);
+	if (requestType === 'GET') {
+	    return `${base}?embed=contributors`;
+	}
+	else {
+	    return base;
+	}
     }
 });

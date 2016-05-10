@@ -25,7 +25,7 @@ module.exports = {
             ENV.OSF.authUrl = 'http://localhost:8080/oauth2/profile';
 
             ENV.OSF.accessToken = SETTINGS.PERSONAL_ACCESS_TOKEN;
-            ENV.OSF.local = true;
+            ENV.OSF.isLocal = true;
 	}
 	if (BACKEND === 'stage') {
             ENV.OSF.url = 'https://staging.osf.io/';
