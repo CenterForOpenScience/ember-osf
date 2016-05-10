@@ -12,6 +12,7 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
 
     buildURL() {
         var url = this._super(...arguments);
+        // TODO: Is this still necessary?
         if (!url.endsWith('/')) {
             url += '/';
         }

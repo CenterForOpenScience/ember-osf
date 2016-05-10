@@ -10,7 +10,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
             return user.get('nodes');  // Fetch from `/users/me/nodes/`
         }
         else {
-            return this.get('store').findRecord('user', 'me').then  (user => user.get('nodes'));
+            return this.get('store').findRecord('user', 'me').then(user => user.get('nodes'));
         }
     },
     actions: {
