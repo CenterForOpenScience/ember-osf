@@ -42,7 +42,7 @@ to fetch all nodes.
 
 ## Configuration
 
-#### Using the Staging or Production API (preferred)
+#### Using the Staging or Test API
 
 To do this, you will need to [create a developer application](https://staging.osf.io/settings/applications/) on the relevant version of the OSF.
 
