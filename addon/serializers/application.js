@@ -9,7 +9,7 @@ export default DS.JSONAPISerializer.extend({
         }
     	if (resourceHash.embeds) {
 	        // TODO, actually merge in embedded data?
-	        resourceHash.attributes.embeds = record.embeds;
+	        resourceHash.attributes.embeds = resourceHash.embeds;
 	    }
         return this._super(modelClass, resourceHash);
     },
@@ -21,7 +21,7 @@ export default DS.JSONAPISerializer.extend({
             return Ember.String.camelize(key);
         }
     }
-    
+
     // TODO: Sending back to server requires
     // 1. Remove links from payload (try something like serializer attrs: field{serialize:false}), and what happens if record has no links field?
     // 2. Rename keys in payload (try setting something with snake case)

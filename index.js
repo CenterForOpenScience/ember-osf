@@ -22,7 +22,7 @@ module.exports = {
 
 	if (BACKEND === 'local') {
             ENV.OSF.url = 'http://localhost:5000/';
-            ENV.OSF.apiUrl = 'http://localhost:8000/v2/';
+            ENV.OSF.apiUrl = 'http://localhost:8000';
             ENV.OSF.authUrl = 'http://localhost:8080/oauth2/profile';
 
             ENV.OSF.accessToken = SETTINGS.PERSONAL_ACCESS_TOKEN;
@@ -46,6 +46,6 @@ module.exports = {
 
 	ENV['ember-simple-auth'] = {
 	    authorizer: 'authorizer:osf-token'
-        };
+    };
     }
 };
