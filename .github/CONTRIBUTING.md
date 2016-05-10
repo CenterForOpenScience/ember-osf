@@ -45,3 +45,8 @@ _Do test_:
 ## Integration tests
 
 Integration tests allow us to see how components behave while actually running in a browser enviornment. [TODO](https://openscience.atlassian.net/browse/EOSF-28)
+
+#### Accessability checks
+
+We will use the [ember-a11y-testing](https://github.com/trentmwillis/ember-a11y-testing) addon to run a11y checks on all components.
+
