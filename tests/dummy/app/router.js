@@ -13,8 +13,12 @@ Router.map(function() {
     });
     this.route('login');
     this.route('institutions', function() {
-    this.route('detail', {path: '/:institution_id'});
+        this.route('detail', {path: '/:institution_id'});
     });
+    this.route('registrations', function() {
+        this.route('detail', {path: '/:registration_id'})
+    });
+
 });
 
 export default Router;

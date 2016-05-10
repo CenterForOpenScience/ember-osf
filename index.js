@@ -9,6 +9,7 @@ module.exports = {
         return path.join(__dirname, 'blueprints');
     },
     config: function(environment, ENV) {
+
         let BACKEND = process.env.BACKEND || 'local';
         let SETTINGS = {};
         try {
