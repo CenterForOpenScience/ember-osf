@@ -34,7 +34,7 @@ export default OsfModel.extend({
     //forkedFrom: DS.belongsTo('node'),
     //nodeLinks:  DS.hasMany('node-pointers'),
     //registrations: DS.hasMany('registrations'),
-    //primaryInistution: DS.belongsTo('institution'),
+    //primaryInstitution: DS.belongsTo('institution'),
     root: DS.belongsTo('node')
     //logs: DS.hasMany('node-logs'),
 });
