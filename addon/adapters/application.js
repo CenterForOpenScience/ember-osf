@@ -6,7 +6,6 @@ import config from 'ember-get-config';
 
 export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
     authorizer: 'authorizer:osf-token',
-
     host: config.OSF.apiUrl,
     namespace: config.OSF.apiNamespace,
     pathForType: Ember.String.pluralize,

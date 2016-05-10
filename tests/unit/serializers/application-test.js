@@ -1,12 +1,42 @@
-import { moduleForModel/*, test */} from 'ember-qunit';
+import { moduleForModel, test } from 'ember-qunit';
+import { faker } from 'ember-cli-mirage';
 
-moduleForModel('application', 'Unit | Serializer | application', {
-  // Specify the other units that are required for this test.
+moduleForModel('base', 'Unit | Serializer | application', {
   needs: ['serializer:application']
 });
-/*
-// Replace this with your real tests.
-test('it serializes records', function(assert) {
-    
+
+test('#_normalizeRecord adds links to attributes if included in payload', function(assert) {
+    let payload = {
+	id: faker.random.uuid(),
+	type: 'base',
+	attributes: {
+	    key: 'value'
+	},
+	links: {
+	    html: faker.internet.url()
+	}
+    };
+
+    let serializer = this.container.lookup('serializer:application');
+    let normalized = serializer._normalizeRecord(payload);
+
+    assert.equal(normalized.attributes.links, payload.links);
 });
-*/
+test('#_normalizeRecord adds links to attributes if included in payload', function(assert) {
+    let payload = {
+	id: faker.random.uuid(),
+	attributes: {
+	    key: 'value'
+	},
+	embeds: {
+	    embedded: {
+		data: [faker.random.arrayElement()]
+	    }
+	}
+    };
+
+    let serializer = this.container.lookup('serializer:application');
+    let normalized = serializer._normalizeRecord(payload);
+
+    assert.equal(normalized.attributes.embeds, payload.embeds);
+});

@@ -16,6 +16,4 @@
 npm-debug.log
 testem.log
 
-.env
-.env-*
-
+config/*.yml

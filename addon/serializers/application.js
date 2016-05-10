@@ -7,6 +7,10 @@ export default DS.JSONAPISerializer.extend({
         if (resourceHash.links) {  // TODO: Should also test whether model class defines a links field
             resourceHash.attributes.links = resourceHash.links;
         }
+    	if (resourceHash.embeds) {
+	        // TODO, actually merge in embedded data?
+	        resourceHash.attributes.embeds = record.embeds;
+	    }
         return this._super(modelClass, resourceHash);
     },
 
@@ -18,11 +22,10 @@ export default DS.JSONAPISerializer.extend({
         }
     }
     
-    
     // TODO: Sending back to server requires
     // 1. Remove links from payload (try something like serializer attrs: field{serialize:false}), and what happens if record has no links field?
     // 2. Rename keys in payload (try setting something with snake case)
     // 3. Veirfy post, put, and patch operations
     // 4. Don't send relationships, if that breaks writing operations
-    
+
 });
