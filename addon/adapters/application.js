@@ -12,7 +12,8 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
 
     buildURL(modelName, id, snapshot, requestType, query) {  // jshint ignore:line
         var url = this._super(...arguments);
-        // TODO: Is this still necessary?
+        // Fix issue where CORS request failed on 301s: Ember does not seem to append trailing
+        //  slash to URLs for single documents, but DRF redirects to force a trailing slash
         if (url.lastIndexOf('/') !== 0) {
             url += '/';
         }
