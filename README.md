@@ -6,6 +6,10 @@
 
 This repo contains code for interacting with the OSF APIv2 inside of an Ember app.
 
+## Contributing?
+
+Please read the [CONTRIBUTING.md](https://github.com/CenterForOpenScience/ember-osf/blob/develop/.github/CONTRIBUTING.md)
+
 ## Using this code in an Ember app
 
 1. Clone the repository: `git clone https://github.com/CenterForOpenScience/ember-osf.git`
