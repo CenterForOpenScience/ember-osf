@@ -8,11 +8,14 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
     authorizer: 'authorizer:osf-token',
 
     host: config.OSF.apiUrl,
+    namespace: config.OSF.apiNamespace,
     pathForType: Ember.String.pluralize,
-    urlForFindRecord (id, modelName/*, snapshot*/) {
-        return `${this.get('host')}${Ember.String.pluralize(modelName)}/${id}/`;
-    },
-    urlForFindAll (modelName) {
-        return `${this.get('host')}${Ember.String.pluralize(modelName)}/`;
+
+    buildURL() {
+        var url = this._super(...arguments);
+        if (!url.endsWith('/')) {
+            url += '/';
+        }
+        return url;
     }
 });
