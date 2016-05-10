@@ -4,7 +4,7 @@ export default ApplicationAdapter.extend({
     buildURL(_, __, ___, requestType) {
 	// Embed contributors
 	var base = this._super(...arguments);
-	if (requestType === 'GET') {
+	if (['createRecord', 'updateRecord', 'deleteRecord'].indexOf(requestType) === -1) {
 	    return `${base}?embed=contributors`;
 	}
 	else {
