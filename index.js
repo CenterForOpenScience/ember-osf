@@ -26,7 +26,7 @@ module.exports = {
                 ENV.OSF.authUrl = 'http://localhost:8080/oauth2/profile';
 
                 ENV.OSF.accessToken = SETTINGS.PERSONAL_ACCESS_TOKEN;
-                ENV.OSF.local = true;
+                ENV.OSF.isLocal = true;
         }
         if (BACKEND === 'stage') {
                 ENV.OSF.url = 'https://staging.osf.io/';
@@ -43,7 +43,6 @@ module.exports = {
                 ENV.OSF.apiUrl = 'https://api.osf.io';
                 ENV.OSF.authUrl = 'https://accounts.osf.io/oauth2/authorize';
         }
-
         ENV['ember-simple-auth'] = {
             authorizer: 'authorizer:osf-token'
         };
