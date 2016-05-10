@@ -31,6 +31,9 @@ export default DS.JSONAPISerializer.extend({
     keyForAttribute(key) {
 	return Ember.String.camelize(key);
     },
+    keyForRelationship(key) {
+	return Ember.String.camelize(key);
+    },
 
     serializeIntoHash(/*hash, typeClass, snapshot, options*/) {
 	// Don't send links as part of hash

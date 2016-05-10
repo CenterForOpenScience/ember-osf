@@ -12,5 +12,5 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
 	      else {
 	         return this.get('store').findRecord('user', 'me').then(user => user.get('registrations'));
 	      }
-    }
+    },
 });
