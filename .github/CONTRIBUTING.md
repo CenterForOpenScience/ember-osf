@@ -14,7 +14,7 @@ _(In Progress)_ We plan to use the [ember-i18n](https://github.com/jamesarosen/e
 
 ### Components
 
-We will use "pod" style structure for all of the components in this addon. As long as you use the ember-cli to generate the component scaffolds (`ember g component my-component`) , this should happend by default. Basically components should be structured like:
+We will use "pod" style structure for all of the components in this addon. This means when generating component scaffolds with ember-cli you must pass the --pod flag: `ember g component my-component --pod`. Basically components should be structured like:
 
 - addon/components/<name>/
   - component.js
