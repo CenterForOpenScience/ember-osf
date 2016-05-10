@@ -7,7 +7,7 @@ export default Ember.Mixin.create(UnauthenticatedRouteMixin, {
     session: Ember.inject.service(),
     beforeModel() {
         var accessToken;
-        if (config.OSF.local) {
+        if (config.OSF.isLocal) {
             accessToken = config.OSF.accessToken;
         } else {
             // Acquire an OSF access token, then exchange it for a Jam token
