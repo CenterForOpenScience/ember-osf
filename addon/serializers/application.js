@@ -9,7 +9,7 @@ export default DS.JSONAPISerializer.extend({
         embeds: {serialize: false}
     },
 
-    extractAttributes(modelClass, resourceHash) {
+    _mergeFields(resourceHash) {
         // ApiV2 `links` exist outside the attributes field; make them accessible to the data model
         if (resourceHash.links) {  // TODO: Should also test whether model class defines a links field
             resourceHash.attributes.links = resourceHash.links;
@@ -17,6 +17,11 @@ export default DS.JSONAPISerializer.extend({
     	if (resourceHash.embeds) {
 	        resourceHash.attributes.embeds = resourceHash.embeds;
 	    }
+        return resourceHash;
+    },
+    
+    extractAttributes(modelClass, resourceHash) {
+        resourceHash = this._mergeFields(resourceHash);
         return this._super(modelClass, resourceHash);
     },
 

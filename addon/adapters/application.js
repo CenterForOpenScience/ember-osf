@@ -10,10 +10,10 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
     namespace: config.OSF.apiNamespace,
     pathForType: Ember.String.pluralize,
 
-    buildURL() {
+    buildURL(modelName, id, snapshot, requestType, query) {  // jshint ignore:line
         var url = this._super(...arguments);
         // TODO: Is this still necessary?
-        if (!url.endsWith('/')) {
+        if (url.lastIndexOf('/') !== 0) {
             url += '/';
         }
         return url;
