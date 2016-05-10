@@ -1,3 +1,5 @@
+# Style/Conventions
+
 ### Naming conventions
 
 Please review and adhere to the naming conventions defined [here](http://ember-cli.com/user-guide/#naming-conventions)
@@ -22,3 +24,24 @@ We will use "pod" style structure for all of the components in this addon. As lo
 #### Styling components
 
 Leveraging the [ember-component-css](https://github.com/ebryn/ember-component-css) addon will allow us to bundle [Sass](http://sass-lang.com/) files inside components' pod structure, and will automatically namespace those styles to avoid all possible CSS collisions. This approach will allow for easy overrides and paramterization via top-level Sass variables.
+
+# Testing
+
+
+## Unit tests
+
+We aim to have near-full test coverage of the code in this addon. That said we want to avoid testing the Ember core or third-party libraries, so some general guidelines for unit tets (minumum requirements):
+
+**Models**
+_Do test_:
+- helper methods
+- custom transforms
+
+**Components/Mixins**
+_Do test_:
+- methods
+- computed values
+
+## Integration tests
+
+Integration tests allow us to see how components behave while actually running in a browser enviornment. [TODO](https://openscience.atlassian.net/browse/EOSF-28)
