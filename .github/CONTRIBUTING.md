@@ -8,7 +8,7 @@ The [ember-a11y](https://www.npmjs.com/package/ember-a11y) addon is a dependency
 
 ### Internationalization
 
-_(In Progress)_ We plan to use the [ember-i18n](https://github.com/jamesarosen/ember-i18n) addon for internationalization support in all components. The main change required here is that all blocks of texrt should be wrapped with the `t` helper supplied by this library. Read more here: [https://github.com/jamesarosen/ember-i18n/wiki/Doc:-Translating-Text](https://github.com/jamesarosen/ember-i18n/wiki/Doc:-Translating-Text)
+_(In Progress)_ We plan to use the [ember-i18n](https://github.com/jamesarosen/ember-i18n) addon for internationalization support in all components. The main change required here is that all blocks of text should be wrapped with the `t` helper supplied by this library. Read more here: [https://github.com/jamesarosen/ember-i18n/wiki/Doc:-Translating-Text](https://github.com/jamesarosen/ember-i18n/wiki/Doc:-Translating-Text)
 
 ### Components
 
