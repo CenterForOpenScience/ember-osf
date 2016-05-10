@@ -6,15 +6,12 @@ module.exports = {
     name: 'ember-osf',
     config: function(environment, ENV) {
 	let BACKEND = process.env.BACKEND || 'local';
-<<<<<<< HEAD
-	if (!config.has(BACKEND)) {
-=======
 	let SETTINGS = {};
 	try {
 	    SETTINGS = config.get(BACKEND);
 	}
 	catch (e) {
->>>>>>> 3ca2ee5f64139261f846cce06c72d0c74970a1e8
+
 	    console.log(`WARNING: you have specified a backend '${BACKEND}' that you have not configured in your config/<hostname>.yml`);
 	}
 

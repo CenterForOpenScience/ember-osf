@@ -27,7 +27,7 @@ export default OsfModel.extend({
     children: DS.hasMany('nodes', {
         inverse: 'parent'
     }),
-    affiliated_institutions: DS.hasMany('institutions', {
+    affiliatedInstitutions: DS.hasMany('institutions', {
         inverse: 'nodes'
     }),
     comments: DS.hasMany('comments'),
@@ -36,7 +36,9 @@ export default OsfModel.extend({
     //files: DS.hasMany('files'),
     //forkedFrom: DS.belongsTo('node'),
     //nodeLinks:  DS.hasMany('node-pointers'),
-    //registrations: DS.hasMany('registrations'),
+    registrations: DS.hasMany('registrations', {
+      inverse: 'registeredFrom'
+    }),
 
     root: DS.belongsTo('node')
     //logs: DS.hasMany('node-logs'),
