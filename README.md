@@ -35,6 +35,18 @@ Please read the [CONTRIBUTING.md](https://github.com/CenterForOpenScience/ember-
 
 #### local.yml settings
 
+This file is structured like:
+```yaml
+<backend>:
+  CLIENT_ID: null
+  PERSONAL_ACCESS_TOKEN: null
+  OAUTH_SCOPES: osf.full_read osf.full_write
+```
+
+You will need to fill out options for each backend you want to use (see 'Running' below).
+We reccomend using the 'test' backend for development and testing as it is the most stable
+of our staging enviorments.
+
 Edit the new file (installed in the config directory) and set:
 - `CLIENT_ID` to the client id of your developer application
 - `PERSONAL_ACCESS_TOKEN` to the newly generated token (if applicable, optional for staging development)
@@ -69,16 +81,16 @@ to fetch all nodes.
 
 ## Running
 
-First, decide which backend you would like to target. Typically we reccomend developers use either our staging or test servers:
-- staging (`stage`): contains bleeding edge features, but less stable
+We reccomend developers target out test server:
 - test (`test`): matches production features, very stable
 
 Other options include:
 - local (`local`): for developers running the OSF stack locally
+- staging (`stage`): contains bleeding edge features, but less stable
 - staging2 (`stage2`): another version of staging using running a specific feature branch
 
 Then (using staging as an example) run:
-`BACKEND=stage ember s`
+`BACKEND=test ember s`
 
 and visit your app at http://localhost:4200.
 
