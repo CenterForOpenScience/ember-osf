@@ -15,8 +15,13 @@ export default DS.JSONAPISerializer.extend({
             resourceHash.attributes.links = resourceHash.links;
         }
     	if (resourceHash.embeds) {
-	        resourceHash.attributes.embeds = resourceHash.embeds;
-	    }
+                resourceHash.relationships = resourceHash.relationships || {};
+                Object.keys(resourceHash.embeds).forEach(embedded => {
+                resourceHash.relationships[embedded] = resourceHash.relationships[embedded] || {};
+                resourceHash.embeds[embedded].type = embedded;
+                resourceHash.relationships[embedded] = resourceHash.embeds[embedded];
+	    });
+	}
         return resourceHash;
     },
     
@@ -31,6 +36,7 @@ export default DS.JSONAPISerializer.extend({
         } else if (method === 'serialize') {
             return Ember.String.camelize(key);
         }
+	return key;
     },
 
     serialize: function(snapshot, options) {
