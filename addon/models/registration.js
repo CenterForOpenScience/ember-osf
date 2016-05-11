@@ -36,6 +36,6 @@ export default OsfModel.extend({
     registeredBy: DS.belongsTo('user'),
     contributors: DS.hasMany('contributors'),
     comments: DS.hasMany('comments'),
-    //more relationship 
+    //more relationship
 
 });

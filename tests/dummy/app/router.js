@@ -6,7 +6,6 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-
     this.route('index', {path: '/'});
     this.route('nodes', function() {
         this.route('detail', {path: '/:node_id'});
@@ -18,7 +17,6 @@ Router.map(function() {
     this.route('registrations', function() {
         this.route('detail', {path: '/:registration_id'})
     });
-
 });
 
 export default Router;
