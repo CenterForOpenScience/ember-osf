@@ -16,6 +16,6 @@ export default OsfModel.extend({
     }),
     registrations: DS.hasMany('registrations', {
         inverse: 'affiliatedInstitutions'
-    }),
+    })
 
 });

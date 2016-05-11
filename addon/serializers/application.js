@@ -5,18 +5,22 @@ export default DS.JSONAPISerializer.extend({
 
     // TODO: Pre-1.0, refactor this into a separate OSF serializer, so we can support other microservices such as WB
     attrs: {
-        links: {serialize: false},
-        embeds: {serialize: false}
+        links: {
+            serialize: false
+        },
+        embeds: {
+            serialize: false
+        }
     },
 
     _mergeFields(resourceHash) {
         // ApiV2 `links` exist outside the attributes field; make them accessible to the data model
-        if (resourceHash.links) {  // TODO: Should also test whether model class defines a links field
+        if (resourceHash.links) { // TODO: Should also test whether model class defines a links field
             resourceHash.attributes.links = resourceHash.links;
         }
-    	if (resourceHash.embeds) {
-	        resourceHash.attributes.embeds = resourceHash.embeds;
-	    }
+        if (resourceHash.embeds) {
+            resourceHash.attributes.embeds = resourceHash.embeds;
+        }
         return resourceHash;
     },
 
@@ -35,7 +39,7 @@ export default DS.JSONAPISerializer.extend({
     keyForRelationship(key) {
         return Ember.String.underscore(key);
     },
-    
+
     serialize: function(snapshot, options) {
         var serialized = this._super(snapshot, options);
         // Don't send relationships to the server; this can lead to 500 errors.

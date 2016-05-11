@@ -31,11 +31,11 @@ export default OsfModel.extend({
         inverse: 'registrations'
     }),
     registeredFrom: DS.belongsTo('node', {
-      inverse: 'registrations'
+        inverse: 'registrations'
     }),
     registeredBy: DS.belongsTo('user'),
     contributors: DS.hasMany('contributors'),
-    comments: DS.hasMany('comments'),
+    comments: DS.hasMany('comments')
     //more relationship
 
 });

@@ -13,16 +13,16 @@ export default OsfModel.extend({
     user: DS.belongsTo('user'),
     node: DS.belongsTo('node'),
     replies: DS.hasMany('comment', {
-	inverse: null
+        inverse: null
     }),
-   
+
     //reports: DS.hasMany('comment-report'),
-    
+
     dateCreated: DS.attr('date'),
     dateModified: DS.attr('date'),
     modified: DS.attr('boolean'),
     deleted: DS.attr('boolean'),
     isAbuse: DS.attr('boolean'),
     hasChildren: DS.attr('boolean'),
-    canEdit: DS.attr('boolean')  
+    canEdit: DS.attr('boolean')
 });
