@@ -1,1 +1,11 @@
-{{outlet}}
+{{link-to 'Back to list' 'users' class="btn btn-default"}}
+<div>
+  <p><label>Full Name: </label> {{model.full_name}}</p>
+  <p><label>Date Registered: </label> {{moment-format model.date_registered}}</p>
+  <p>
+    <a href="{{model.links.html}}" target="_blank" class="btn btn-primary">
+      View on OSF
+    </a>
+  </p>
+  <hr>
+</div>
