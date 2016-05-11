@@ -44,8 +44,8 @@ This file is structured like:
 ```
 
 You will need to fill out options for each backend you want to use (see 'Running' below).
-We reccomend using the 'test' backend for development and testing as it is the most stable
-of our staging enviorments.
+We recommend using the 'test' backend for development and testing as it is the most stable
+of our environments.
 
 Edit the new file (installed in the config directory) and set:
 - `CLIENT_ID` to the client id of your developer application
@@ -65,7 +65,7 @@ personal access token on your local OSF instance ([here](http://localhost:5000/s
 
 If for some reason you don't have a config/local.yml you can generate one. To do this:
 ```bash
-ember g ember-osf `echo $HOSTNAME`
+ember generate ember-osf
 ```
 
 ## Usage
@@ -81,7 +81,7 @@ to fetch all nodes.
 
 ## Running
 
-We reccomend developers target out test server:
+We recommend developers target out test server:
 - test (`test`): matches production features, very stable
 
 Other options include:
@@ -90,7 +90,7 @@ Other options include:
 - staging2 (`stage2`): another version of staging using running a specific feature branch
 
 Then (using staging as an example) run:
-`BACKEND=test ember s`
+`BACKEND=test ember server`
 
 and visit your app at http://localhost:4200.
 
