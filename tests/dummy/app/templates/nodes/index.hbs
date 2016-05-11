@@ -1,22 +1,28 @@
 <h4> My Nodes </h4>
 
+
 <div>
  <label>Title:</label>
  {{input type="text" value=title placeholder="Node's title"}}
  <p><button {{action "createNode" title}}>Create Node</button></p>
 </div>
+
+<button {{action "createNew"}} class="btn btn-primary">Create record</button>
+
+
+
 {{#each model as |node|}}
-<hr />
-<div class="panel">
-  <p><label>Title: </label>{{node.title}}</p>
-  <p><label>Category: </label>{{node.category}}</p>
-  <p><label>Date Created: </label>{{moment-format node.dateCreated}}</p>
-  <p><label>Date Modified: </label>{{moment-format node.dateModified}}</p>
-  <p class="btn-group">
-    <a href="{{node.links.html}}" target="_blank" class="btn btn-default">
-      View on OSF
-    </a>
-    {{link-to 'Detail' 'nodes.detail' node.id class="btn btn-primary"}}
-  </p>
-</div>
+    <hr />
+    <div class="panel">
+      <p><label>Title:</label> {{node.title}}</p>
+      <p><label>Category:</label> {{node.category}}</p>
+      <p><label>Date Created:</label> {{moment-format node.dateCreated}}</p>
+      <p><label>Date Modified:</label> {{moment-format node.dateModified}}</p>
+      <p class="btn-group">
+        <a href="{{node.links.html}}" target="_blank" class="btn btn-default">
+          View on OSF
+        </a>
+        {{link-to 'Detail' 'nodes.detail' node.id class="btn btn-primary"}}
+      </p>
+    </div>
 {{/each}}

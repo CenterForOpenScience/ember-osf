@@ -10,8 +10,8 @@ export default Ember.Mixin.create(UnauthenticatedRouteMixin, {
         if (config.OSF.isLocal) {
             accessToken = config.OSF.accessToken;
         } else {
-            // Acquire an OSF access token, then exchange it for a Jam token
             var hash = window.location.hash.substring(1).split('&').map(function(str) {
+                // TODO: Comma expression; check with Sam on intent
                 return this[str.split('=')[0]] = str.split('=')[1], this;
             }.bind({}))[0];
             if (!hash || !hash.access_token) {
