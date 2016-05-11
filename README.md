@@ -10,13 +10,19 @@ This repo contains code for interacting with the OSF APIv2 inside of an Ember ap
 
 Please read the [CONTRIBUTING.md](https://github.com/CenterForOpenScience/ember-osf/blob/develop/.github/CONTRIBUTING.md)
 
+## Installation (for Development)
+
+* `git clone` this repository
+* `npm install`
+* `bower install`
+
 ## Using this code in an Ember app
 
 1. Clone the repository: `git clone https://github.com/CenterForOpenScience/ember-osf.git`
 2. From the consuming Ember app:
   - install the addon and it's dependencies: `ember install ../ember-osf`
+	- this generates a config/local.yml file (see 'Configuration' below)
   - link the app for local development: `npm link ../ember-osf`
-  - generate a settings file (see 'Configuration' below)
   - Import code from ember-osf like:
   ```javascript
   import Ember from 'ember';
@@ -24,23 +30,26 @@ Please read the [CONTRIBUTING.md](https://github.com/CenterForOpenScience/ember-
 
   export default Ember.Route.extend(OsfLoginRouteMixin);
   ```
-  
-#### Ember Data: Using the OSF models
-  
-The models, serializers, adapters bundled in this addon with be available to you automatically. 
-For example, simply do:
-```javascript
-this.store.findAll('node')
-```
-to fetch all nodes.
-
-## Installation (for Development)
-
-* `git clone` this repository
-* `npm install`
-* `bower install`
 
 ## Configuration
+
+#### local.yml settings
+
+This file is structured like:
+```yaml
+<backend>:
+  CLIENT_ID: null
+  PERSONAL_ACCESS_TOKEN: null
+  OAUTH_SCOPES: osf.full_read osf.full_write
+```
+
+You will need to fill out options for each backend you want to use (see 'Running' below).
+We recommend using the 'test' backend for development and testing as it is the most stable
+of our environments.
+
+Edit the new file (installed in the config directory) and set:
+- `CLIENT_ID` to the client id of your developer application
+- `PERSONAL_ACCESS_TOKEN` to the newly generated token (if applicable, optional for staging development)
 
 #### Using the Staging or Test API
 
@@ -54,27 +63,34 @@ personal access token on your local OSF instance ([here](http://localhost:5000/s
 
 #### Create a local settings file
 
-To do this:
+If for some reason you don't have a config/local.yml you can generate one. To do this:
 ```bash
-ember g ember-osf-settings `echo $HOSTNAME`
+ember generate ember-osf
 ```
 
-Edit the new file (installed in the config directory) and set:
-- `CLIENT_ID` to the client id of your developer application
-- `PERSONAL_ACCESS_TOKEN` to the newly generated token (if applicable, optional for staging development)
+## Usage
+
+#### Ember Data: Using the OSF models
+
+The models, serializers, adapters bundled in this addon with be available to you automatically.
+For example, simply do:
+```javascript
+this.store.findAll('node')
+```
+to fetch all nodes.
 
 ## Running
 
-First, decide which backend you would like to target. Typically we reccomend developers use either our staging or test servers:
-- staging (`stage`): contains bleeding edge features, but less stable
+We recommend developers target out test server:
 - test (`test`): matches production features, very stable
 
 Other options include:
 - local (`local`): for developers running the OSF stack locally
+- staging (`stage`): contains bleeding edge features, but less stable
 - staging2 (`stage2`): another version of staging using running a specific feature branch
 
 Then (using staging as an example) run:
-`BACKEND=stage ember s`
+`BACKEND=test ember server`
 
 and visit your app at http://localhost:4200.
 
