@@ -9,4 +9,6 @@ export default OsfModel.extend({
     //node: DS.belongsTo('node'),
     provider: DS.attr('string'),
     files: DS.hasMany('file'), 
+
+    isFolder: Ember.computed.equal('kind', 'folder'),
 });

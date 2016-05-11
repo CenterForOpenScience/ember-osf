@@ -1,0 +1,10 @@
+<div style="padding-left:1em">
+    <label>{{model.name}}</label> (kind:{{model.kind}} path:{{model.path}})
+    {{#if model.isFolder}}
+        <div style="border-left:1px solid #ccc">
+            {{#each model.files as |file|}}
+                {{file-tree model=file}}
+            {{/each}}
+        </div>
+    {{/if}}
+</div>

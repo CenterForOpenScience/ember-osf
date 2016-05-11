@@ -23,5 +23,8 @@ export default OsfModel.extend({
     // File attributes
     versions: DS.hasMany('file-version'),
     comments: DS.hasMany('comment'),
-    contents: DS.belongsTo('file-contents') 
+    contents: DS.belongsTo('file-contents'),
+
+    
+    isFolder: Ember.computed.equal('kind', 'folder'),
 });
