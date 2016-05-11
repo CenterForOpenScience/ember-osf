@@ -9,6 +9,7 @@ module.exports = {
         return path.join(__dirname, 'blueprints');
     },
     config: function(environment, ENV) {
+
         let BACKEND = process.env.BACKEND || 'local';
         let SETTINGS = {};
         try {
@@ -16,6 +17,7 @@ module.exports = {
         } catch (e) {
             console.log(`WARNING: you have specified a backend '${BACKEND}' that you have not configured in your config/local.yml`);
         }
+
 
         ENV.OSF = {
             clientId: SETTINGS.CLIENT_ID,
