@@ -1,9 +1,13 @@
 /* jshint node: true */
 'use strict';
+var path = require('path');
 var config = require('config');
 
 module.exports = {
     name: 'ember-osf',
+    blueprintsPath: function() {
+	return path.join(__dirname, 'blueprints');
+    },
     config: function(environment, ENV) {
         let BACKEND = process.env.BACKEND || 'local';
         let SETTINGS = {};

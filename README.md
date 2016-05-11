@@ -10,13 +10,19 @@ This repo contains code for interacting with the OSF APIv2 inside of an Ember ap
 
 Please read the [CONTRIBUTING.md](https://github.com/CenterForOpenScience/ember-osf/blob/develop/.github/CONTRIBUTING.md)
 
+## Installation (for Development)
+
+* `git clone` this repository
+* `npm install`
+* `bower install`
+
 ## Using this code in an Ember app
 
 1. Clone the repository: `git clone https://github.com/CenterForOpenScience/ember-osf.git`
 2. From the consuming Ember app:
   - install the addon and it's dependencies: `ember install ../ember-osf`
+	- this generates a config/local.yml file (see 'Configuration' below)
   - link the app for local development: `npm link ../ember-osf`
-  - generate a settings file (see 'Configuration' below)
   - Import code from ember-osf like:
   ```javascript
   import Ember from 'ember';
@@ -24,23 +30,14 @@ Please read the [CONTRIBUTING.md](https://github.com/CenterForOpenScience/ember-
 
   export default Ember.Route.extend(OsfLoginRouteMixin);
   ```
-  
-#### Ember Data: Using the OSF models
-  
-The models, serializers, adapters bundled in this addon with be available to you automatically. 
-For example, simply do:
-```javascript
-this.store.findAll('node')
-```
-to fetch all nodes.
-
-## Installation (for Development)
-
-* `git clone` this repository
-* `npm install`
-* `bower install`
 
 ## Configuration
+
+#### local.yml settings
+
+Edit the new file (installed in the config directory) and set:
+- `CLIENT_ID` to the client id of your developer application
+- `PERSONAL_ACCESS_TOKEN` to the newly generated token (if applicable, optional for staging development)
 
 #### Using the Staging or Test API
 
@@ -54,14 +51,21 @@ personal access token on your local OSF instance ([here](http://localhost:5000/s
 
 #### Create a local settings file
 
-To do this:
+If for some reason you don't have a config/local.yml you can generate one. To do this:
 ```bash
-ember g ember-osf-settings `echo $HOSTNAME`
+ember g ember-osf `echo $HOSTNAME`
 ```
 
-Edit the new file (installed in the config directory) and set:
-- `CLIENT_ID` to the client id of your developer application
-- `PERSONAL_ACCESS_TOKEN` to the newly generated token (if applicable, optional for staging development)
+## Usage
+
+#### Ember Data: Using the OSF models
+
+The models, serializers, adapters bundled in this addon with be available to you automatically.
+For example, simply do:
+```javascript
+this.store.findAll('node')
+```
+to fetch all nodes.
 
 ## Running
 
