@@ -12,7 +12,9 @@ export default OsfModel.extend({
     //target TargetField(link_type='related', meta={'type': 'get_target_type'})
     user: DS.belongsTo('user'),
     node: DS.belongsTo('node'),
-    replies: DS.hasMany('comment'),
+    replies: DS.hasMany('comment', {
+	inverse: null
+    }),
    
     //reports: DS.hasMany('comment-report'),
     
