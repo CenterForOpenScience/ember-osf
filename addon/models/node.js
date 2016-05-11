@@ -30,7 +30,7 @@ export default OsfModel.extend({
     comments: DS.hasMany('comments'),
     contributors: DS.hasMany('contributors'),
 
-    fileProviders: DS.hasMany('file-provider'),
+    files: DS.hasMany('file'),
     //forkedFrom: DS.belongsTo('node'),
     //nodeLinks:  DS.hasMany('node-pointers'),
     //registrations: DS.hasMany('registrations'),

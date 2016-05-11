@@ -8,11 +8,9 @@ const Router = Ember.Router.extend({
 Router.map(function() {
     this.route('index', {path: '/'});
     this.route('nodes', function() {
-	this.route('detail', {path: '/:node_id'}, function() {
-            this.route('files', function() {
-                this.route('detail', {path: '/:file_id'});
-            });
-        });
+    this.route('detail', {path: '/:node_id'}, function() {
+      this.route('files');
+    });
     });
     this.route('login');
 });

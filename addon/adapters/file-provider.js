@@ -1,7 +1,7 @@
 import JSONAPIAdapter from 'ember-data/adapters/json-api';
 
 export default JSONAPIAdapter.extend({
-    pathForType(type) {
+    pathForType() {
         return 'files';
     }
 });
