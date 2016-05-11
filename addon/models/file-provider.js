@@ -8,5 +8,5 @@ export default OsfModel.extend({
     path: DS.attr('string'),
     //node: DS.belongsTo('node'),
     provider: DS.attr('string'),
-    //files: DS.attr() //.hasMany('file'), 
+    files: DS.hasMany('file'), 
 });

@@ -1,6 +1,6 @@
-import JSONAPIAdapter from 'ember-data/adapters/json-api';
+import ApplicationAdapter from './application';
 
-export default JSONAPIAdapter.extend({
+export default ApplicationAdapter.extend({
     pathForType() {
         return 'files';
     }

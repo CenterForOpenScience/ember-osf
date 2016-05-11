@@ -1,6 +1,6 @@
 {{link-to 'Back to node' 'nodes.detail' model class="btn btn-default"}}
 <div class="panel">
-{{#each model.fileProviders as |provider|}}
+{{#each model.files as |provider|}}
   <p><label>Name: </label>{{provider.name}}</p>
   <p><label>Kind: </label>{{provider.kind}}</p>
   <p><label>Path: </label>{{provider.path}}</p>

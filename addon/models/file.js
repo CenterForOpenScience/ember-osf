@@ -18,10 +18,10 @@ export default OsfModel.extend({
     extra: DS.attr(),
 
     // Folder attributes
-    //files: DS.hasMany('file'),
+    files: DS.hasMany('file', {inverse: 'parentFolder'}),
 
     // File attributes
-    //versions: DS.hasMany('file-version'),
-    //comments: DS.hasMany('comment'),
-    //contents: DS.belongsTo('file-contents') 
+    versions: DS.hasMany('file-version'),
+    comments: DS.hasMany('comment'),
+    contents: DS.belongsTo('file-contents') 
 });

@@ -43,12 +43,18 @@
             <th>Name</th>
             <th>Kind</th>
             <th>Path</th>
+            <th>Filenames</th>
           </tr>
             {{#each model.files as |provider|}}
             <tr>
               <td>{{provider.name}}</td>
               <td>{{provider.kind}}</td>
               <td>{{provider.path}}</td>
+              <td>
+                {{#each provider.files as |file|}}
+                    <p>{{file.name}}</p>
+                {{/each}}
+              </td>
             </tr>
             {{/each}}
       </table>
