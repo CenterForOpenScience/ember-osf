@@ -11,6 +11,12 @@ Router.map(function() {
         this.route('detail', {path: '/:node_id'});
     });
     this.route('login');
+    this.route('institutions', function() {
+        this.route('detail', {path: '/:institution_id'});
+    });
+    this.route('registrations', function() {
+        this.route('detail', {path: '/:registration_id'});
+    });
 });
 
 export default Router;

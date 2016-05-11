@@ -2,7 +2,7 @@ import Ember from 'ember';
 import DS from 'ember-data';
 
 export default DS.JSONAPISerializer.extend({
-    
+
     // TODO: Pre-1.0, refactor this into a separate OSF serializer, so we can support other microservices such as WB
     attrs: {
         links: {serialize: false},
@@ -19,7 +19,7 @@ export default DS.JSONAPISerializer.extend({
 	    }
         return resourceHash;
     },
-    
+
     extractAttributes(modelClass, resourceHash) {
         resourceHash = this._mergeFields(resourceHash);
         return this._super(modelClass, resourceHash);
@@ -32,7 +32,10 @@ export default DS.JSONAPISerializer.extend({
             return Ember.String.camelize(key);
         }
     },
-
+    keyForRelationship(key) {
+        return Ember.String.underscore(key);
+    },
+    
     serialize: function(snapshot, options) {
         var serialized = this._super(snapshot, options);
         // Don't send relationships to the server; this can lead to 500 errors.
