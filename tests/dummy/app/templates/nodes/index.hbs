@@ -3,8 +3,10 @@
 
 <div>
  <label>Title:</label>
- {{input type="text" value=title placeholder="Node's title"}}
- <p><button {{action "createNode" title}}>Create Node</button></p>
+ {{input type="text" value=title placeholder="Node's title" required=true}}
+ <label>Description (optional):</label>
+ {{input type="text" value=description placeholder="Node's description"}}
+ <p><button {{action "createNode" title description}}>Create Node</button></p>
 </div>
 
 <button {{action "createNew"}} class="btn btn-primary">Create record</button>

@@ -17,7 +17,6 @@ Router.map(function() {
     this.route('registrations', function() {
     this.route('detail', {path: '/:registration_id'});
     });
-
 });
 
 export default Router;
