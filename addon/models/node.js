@@ -41,6 +41,10 @@ export default OsfModel.extend({
        inverse: 'registeredFrom'
     }),
 
-    root: DS.belongsTo('node')
+    root: DS.belongsTo('node'),
     //logs: DS.hasMany('node-logs'),
+
+    addInstitution(id) {
+      
+    }
 });

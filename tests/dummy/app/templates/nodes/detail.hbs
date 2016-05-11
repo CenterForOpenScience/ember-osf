@@ -34,6 +34,7 @@
     <h2>Edit this node</h2>
     Title: {{input value=editedTitle}}
     <button {{action "editExisting" editedTitle}} class="btn btn-primary">Edit record</button>
+    <br>
     <p>
       <label>Affiliated Institutions</label>
       <p>
@@ -45,5 +46,10 @@
   	{{/each}}
         </table>
       </p>
+    </p>
+    <p>
+      <label>Institution ID:</label>
+      {{input type="text" value=inst_id placeholder="institution's id"}}
+      <p><button {{action "affiliateNode" inst_id}}>Affiliate</button></p>
     </p>
 </div>
