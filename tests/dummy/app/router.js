@@ -11,6 +11,9 @@ Router.map(function() {
         this.route('detail', {path: '/:node_id'});
     });
     this.route('login');
+    this.route('users', function() {
+        this.route('detail', {path: '/:user_id'});
+    });
 });
 
 export default Router;
