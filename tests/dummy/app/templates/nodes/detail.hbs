@@ -36,12 +36,8 @@
 
   <hr>
 
-   <h2>Files</h2>
-   <div>
-       {{#each model.files as |provider|}}
-           {{file-tree model=provider}}
-       {{/each}}
-   </div>
+  <h2>Files</h2>
+  {{link-to 'Show File Tree' 'nodes.detail.files' model.id}}
 </div>
 
 {{outlet}}
