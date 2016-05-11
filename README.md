@@ -31,6 +31,8 @@ Please read the [CONTRIBUTING.md](https://github.com/CenterForOpenScience/ember-
   export default Ember.Route.extend(OsfLoginRouteMixin);
   ```
 
+> **Note**: Running ember install will automatically install all bower and npm dependencies for ember-osf.
+
 ## Configuration
 
 #### local.yml settings
