@@ -16,13 +16,23 @@
       <table class="table">
 	{{#each model.contributors as |contrib|}}
 	  <tr>
-	    {{contrib.bibliographic}}
+	    {{contrib.id}}
 	  </tr>
 	{{/each}}
       </table>
     </p>
   </p>
   <p>
-    <button onclick={{action "addInstitution"}}>Add Institution </button>
+    <label>Affiliated Institutions</label>
+    <p>
+      <table class="table">
+	{{#each model.affiliatedInstitutions as |inst|}}
+	  <tr>
+	    {{inst.name}}
+	  </tr>
+	{{/each}}
+      </table>
+    </p>
   </p>
+
 </div>

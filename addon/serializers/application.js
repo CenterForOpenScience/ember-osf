@@ -32,7 +32,7 @@ export default DS.JSONAPISerializer.extend({
 	return Ember.String.camelize(key);
     },
     keyForRelationship(key) {
-	return Ember.String.camelize(key);
+	return Ember.String.underscore(key);
     },
 
     serializeIntoHash(/*hash, typeClass, snapshot, options*/) {
