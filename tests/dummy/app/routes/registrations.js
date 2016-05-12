@@ -6,11 +6,10 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
     session: Ember.inject.service(),
     model() {
         let user = this.modelFor('application');
-	      if(user) {
+        if (user) {
             return user.get('registrations');
-	         }
-	      else {
-	         return this.get('store').findRecord('user', 'me').then(user => user.get('registrations'));
-	      }
+        } else {
+            return this.get('store').findRecord('user', 'me').then(user => user.get('registrations'));
+        }
     }
 });
