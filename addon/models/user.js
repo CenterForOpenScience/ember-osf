@@ -3,9 +3,12 @@ import DS from 'ember-data';
 import OsfModel from 'ember-osf/models/base';
 
 export default OsfModel.extend({
-    given_name: DS.attr('string'),
-    middle_names: DS.attr(),
-    family_name: DS.attr('string'),
+    fullName: DS.attr('string'),
+    givenName: DS.attr('string'),
+    middleNames: DS.attr(),
+    familyName: DS.attr('string'),
+
+    dateRegistered: DS.attr('date'),
 
     nodes: DS.hasMany('nodes'),
     registrations: DS.hasMany('registrations'),
