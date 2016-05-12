@@ -1,8 +1,8 @@
 import { moduleForModel, test } from 'ember-qunit';
 
 moduleForModel('file-provider', 'Unit | Model | file provider', {
-  // Specify the other units that are required for this test.
-  needs: []
+    // Specify the other units that are required for this test.
+    needs: ['model:file', 'model:node']
 });
 
 test('it exists', function(assert) {

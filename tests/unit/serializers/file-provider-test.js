@@ -2,7 +2,8 @@ import { moduleForModel, test } from 'ember-qunit';
 
 moduleForModel('file-provider', 'Unit | Serializer | file provider', {
   // Specify the other units that are required for this test.
-  needs: ['serializer:file-provider']
+    needs: ['serializer:file-provider', 'model:file', 'model:node',
+        'transform:links', 'transform:embed']
 });
 
 // Replace this with your real tests.
