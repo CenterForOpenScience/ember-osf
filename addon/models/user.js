@@ -8,6 +8,8 @@ export default OsfModel.extend({
     middleNames: DS.attr(),
     familyName: DS.attr('string'),
 
+    dateRegistered: DS.attr('date'),
+
     nodes: DS.hasMany('nodes'),
     registrations: DS.hasMany('registrations'),
 

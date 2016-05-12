@@ -2,8 +2,8 @@
 <hr />
 {{#each model as |user|}}
 <div>
-<p><label>Full Name: </label> {{user.full_name}}</p>
-<p><label>Date Registered: </label> {{moment-format user.date_registered}}</p>
+<p><label>Full Name: </label> {{user.fullName}}</p>
+<p><label>Date Registered: </label> {{moment-format user.dateRegistered}}</p>
 </div>
 <p class="btn-group">
   <a href="{{user.links.html}}" target="_blank" class="btn btn-default">
