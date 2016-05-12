@@ -43,10 +43,11 @@
     </table>
   </p>
 
-  {{log-detail node-logs=model.logs}}
-
   <h2>Files</h2>
    {{#each model.files as |provider|}}
        {{files-tree model=provider}}
    {{/each}}
+   <hr>
+
+   {{log-detail node-logs=model.logs}}
 </div>
