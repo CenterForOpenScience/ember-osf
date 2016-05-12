@@ -1,0 +1,15 @@
+{{link-to 'Back to list' 'registrations' class="btn btn-default"}}
+<div class="panel">
+  <p><label>Title: </label>{{model.title}}</p>
+  <p><label>Category: </label>{{model.category}}</p>
+  <p><label>Date Registered: </label>{{moment-format model.dateRegistered}}</p>
+  <p>
+    <a href="{{model.links.html}}" target="_blank" class="btn btn-primary">
+      View on OSF
+    </a>
+  </p>
+  
+  <p>{{link-to 'Node Registered' 'nodes.detail' model.registeredFrom.id class="btn btn-warning"}}
+  </p>
+
+</div>

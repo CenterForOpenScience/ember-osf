@@ -1,27 +1,46 @@
 {{link-to 'Back to list' 'nodes' class="btn btn-default"}}
 <div class="panel">
-  <p><label>Title: </label>{{model.title}}</p>
-  <p><label>Category: </label>{{model.category}}</p>
-  <p><label>Date Created: </label>{{moment-format model.dateCreated}}</p>
-  <p><label>Date Modified: </label>{{moment-format model.dateModified}}</p>
-  <p><label>Public: </label>{{model.public}}</p>
+
+    <h2>Data</h2>
+  <p><label>Title:</label> {{model.title}}</p>
+  <p><label>Category:</label> {{model.category}}</p>
+  <p><label>Date Created:</label> {{moment-format model.dateCreated}}</p>
+  <p><label>Date Modified:</label> {{moment-format model.dateModified}}</p>
   <p>
     <a href="{{model.links.html}}" target="_blank" class="btn btn-primary">
       View on OSF
     </a>
   </p>
   <hr>
-  <p>
-    <label>Contributors</label>
-    <p>
+
+  <h2>Edit this node</h2>
+  Title: {{input value=editedTitle}}
+  <button {{action "editExisting" editedTitle}} class="btn btn-primary">Edit record</button>
+
+   <h2>Contributors</h2>
+
       <table class="table">
-	{{#each model.contributors as |contrib|}}
-	  <tr>
-	    {{contrib.bibliographic}}
-	  </tr>	     
-	{{/each}}
+          <tr>
+            <th>ID</th>
+            <th>Author?</th>
+          </tr>
+          {{#each model.contributors as |contrib|}}
+              <tr>
+                <td>{{contrib.id}}</td>
+                <td>{{contrib.bibliographic}}</td>
+              </tr>
+          {{/each}}
       </table>
-    </p>
+
+  <label>Affiliated Institutions</label>
+  <p>
+    <table class="table">
+       	{{#each model.affiliatedInstitutions as |inst|}}
+       	  <tr>
+       	    {{inst.name}}
+       	  </tr>
+       	{{/each}}
+    </table>
   </p>
 
   <label> Recent Activity </label>
@@ -32,7 +51,7 @@
           <td> for </td>
           <td> {{node-log.original_node.id}} </td>
           <td> by </td>
-          <td> {{node-log.user.given_name}} </td>
+          <td> {{node-log.user.givenName}} </td>
           <td> on </td>
           <td> {{moment-format node-log.date}} </td>
         </tr>
