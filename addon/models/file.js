@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import DS from 'ember-data';
-
 import OsfModel from 'ember-osf/models/base';
 
 export default OsfModel.extend({
@@ -19,14 +18,13 @@ export default OsfModel.extend({
     extra: DS.attr(),
 
     // Folder attributes
-    files: DS.hasMany('file', {inverse: 'parentFolder'}),
+    files: DS.hasMany('file', { inverse: 'parentFolder' }),
 
     // File attributes
     versions: DS.hasMany('file-version'),
     comments: DS.hasMany('comment'),
     //contents: DS.belongsTo('file-contents'),
 
-    
     parentFolder: DS.belongsTo('file'),
     isFolder: Ember.computed.equal('kind', 'folder'),
 });
