@@ -1,8 +1,6 @@
-import { moduleForModel, test } from 'ember-qunit';
+import { moduleFor, test } from 'ember-qunit';
 import { faker } from 'ember-cli-mirage';
-moduleForModel('osf-serializer', 'Unit | Serializer | osf serializer', {
-  needs: ['serializer:osf-serializer']
-});
+moduleFor('serializer:osf-serializer');
 
 test('#_mergeFields adds links to attributes if included in payload', function(assert) {
     let payload = {
