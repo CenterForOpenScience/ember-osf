@@ -1,7 +1,7 @@
-<div style="padding-left:1em">
+<div class="files-tree">
     <label>{{model.name}}</label>
     {{#if model.isFolder}}
-        <div style="border-left:1px solid #ccc">
+        <div class="folder-list">
             {{#each model.files as |file|}}
                 {{file-tree model=file}}
             {{/each}}
