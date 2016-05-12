@@ -13,6 +13,10 @@
   </p>
   <hr>
 
+  <h2>Edit this node</h2>
+  Title: {{input value=editedTitle}}
+  <button {{action "editExisting" editedTitle}} class="btn btn-primary">Edit record</button>
+
    <h2>Contributors</h2>
 
       <table class="table">
@@ -28,16 +32,19 @@
           {{/each}}
       </table>
 
-
-
-    <h2>Edit this node</h2>
-    Title: {{input value=editedTitle}}
-    <button {{action "editExisting" editedTitle}} class="btn btn-primary">Edit record</button>
-
-  <hr>
+  <label>Affiliated Institutions</label>
+  <p>
+    <table class="table">
+       	{{#each model.affiliatedInstitutions as |inst|}}
+       	  <tr>
+       	    {{inst.name}}
+       	  </tr>
+       	{{/each}}
+    </table>
+  </p>
 
   <h2>Files</h2>
   {{link-to 'Show File Tree' 'nodes.detail.files' model.id}}
+  
+  {{outlet}}
 </div>
-
-{{outlet}}

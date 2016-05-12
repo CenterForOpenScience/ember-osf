@@ -31,6 +31,8 @@ Please read the [CONTRIBUTING.md](https://github.com/CenterForOpenScience/ember-
   export default Ember.Route.extend(OsfLoginRouteMixin);
   ```
 
+> **Note**: Running ember install will automatically install all bower and npm dependencies for ember-osf.
+
 ## Configuration
 
 #### local.yml settings
@@ -51,9 +53,9 @@ Edit the new file (installed in the config directory) and set:
 - `CLIENT_ID` to the client id of your developer application
 - `PERSONAL_ACCESS_TOKEN` to the newly generated token (if applicable, optional for staging development)
 
-#### Using the Staging or Test API
+#### Using the Test API
 
-To do this, you will need to [create a developer application](https://staging.osf.io/settings/applications/) on the relevant version of the OSF.
+To do this, you will need to [create a developer application](https://test.osf.io/settings/applications/) on the relevant version of the OSF.
 
 #### Running the OSF Locally (optional)
 
@@ -89,7 +91,7 @@ Other options include:
 - staging (`stage`): contains bleeding edge features, but less stable
 - staging2 (`stage2`): another version of staging using running a specific feature branch
 
-Then (using staging as an example) run:
+Then (using test as an example) run:
 `BACKEND=test ember server`
 
 and visit your app at http://localhost:4200.
