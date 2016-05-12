@@ -8,8 +8,23 @@
       View on OSF
     </a>
   </p>
-  
+
   <p>{{link-to 'Node Registered' 'nodes.detail' model.registeredFrom.id class="btn btn-warning"}}
   </p>
+
+  <h2> Recent Activity </h2>
+  <table>
+      {{#each model.logs as |node-log|}}
+        <tr>
+          <td> {{node-log.action}} </td>
+          <td> for </td>
+          <td> {{node-log.originalNode.id}} </td>
+          <td> by </td>
+          <td> {{node-log.user.givenName}} </td>
+          <td> on </td>
+          <td> {{moment-format node-log.date}} </td>
+        </tr>
+    {{/each}}
+  </table>
 
 </div>
