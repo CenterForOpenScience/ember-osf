@@ -1,6 +1,6 @@
 import { moduleForModel, test } from 'ember-qunit';
 import { faker } from 'ember-cli-mirage';
-
+// TODO: Move this to the osf-serializer tests file
 moduleForModel('base', 'Unit | Serializer | application', {
   needs: ['serializer:application']
 });

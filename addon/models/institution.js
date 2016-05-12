@@ -1,8 +1,8 @@
 import DS from 'ember-data';
 
-import OsfModel from 'ember-osf/models/base';
+import OsfModel from '../mixins/osf-model';
 
-export default OsfModel.extend({
+export default DS.Model.extend(OsfModel, {
     name: DS.attr('string'),
     description: DS.attr('string'),
     logoPath: DS.attr('string'),

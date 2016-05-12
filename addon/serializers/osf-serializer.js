@@ -1,9 +1,10 @@
+/*
+  Base serializer class for all OSF APIv2 endpoints
+ */
 import Ember from 'ember';
 import DS from 'ember-data';
 
 export default DS.JSONAPISerializer.extend({
-
-    // TODO: Pre-1.0, refactor this into a separate OSF serializer, so we can support other microservices such as WB
     attrs: {
         links: {
             serialize: false

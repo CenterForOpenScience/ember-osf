@@ -1,6 +1,6 @@
 import DS from 'ember-data';
 
-import Node from 'ember-osf/models/node';
+import Node from '../models/node';
 
 export default Node.extend({
     dateRegistered: DS.attr('date'),
