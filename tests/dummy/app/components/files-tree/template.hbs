@@ -3,7 +3,7 @@
     {{#if model.isFolder}}
         <div class="folder-list">
             {{#each model.files as |file|}}
-                {{file-tree model=file}}
+                {{files-tree model=file}}
             {{/each}}
         </div>
     {{/if}}
