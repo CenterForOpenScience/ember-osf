@@ -30,6 +30,9 @@ Router.map(function() {
             path: '/:user_id'
         });
     });
+    this.route('file', {
+        path: '/file/:file_id'
+    });
 });
 
 export default Router;

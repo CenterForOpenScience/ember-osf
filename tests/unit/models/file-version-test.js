@@ -1,8 +1,8 @@
 import { moduleForModel, test } from 'ember-qunit';
 
-moduleForModel('node', 'Unit | Model | node', {
+moduleForModel('file-version', 'Unit | Model | file version', {
   // Specify the other units that are required for this test.
-    needs: ['model:user', 'model:contributor', 'model:comment', 'model:institution', 'model:registration', 'model:file-provider']
+  needs: []
 });
 
 test('it exists', function(assert) {
