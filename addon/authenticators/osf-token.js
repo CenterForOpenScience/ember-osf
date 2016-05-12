@@ -6,13 +6,15 @@ import config from 'ember-get-config';
 export default BaseAuthenticator.extend({
     store: Ember.inject.service(),
     authUrl: `${config.OSF.authUrl}/`,
-    _test (accessToken) {
+    _test(accessToken) {
         return Ember.$.ajax({
             method: 'GET',
             url: `${config.OSF.apiUrl}/${config.OSF.apiNamespace}/users/me/`,
             dataType: 'json',
             contentType: 'application/json',
-            xhrFields: {withCredentials: false},
+            xhrFields: {
+                withCredentials: false
+            },
             headers: {
                 Authorization: `Bearer ${accessToken}`
             }

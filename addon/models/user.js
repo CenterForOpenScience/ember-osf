@@ -8,5 +8,10 @@ export default OsfModel.extend({
     middleNames: DS.attr(),
     familyName: DS.attr('string'),
 
-    nodes: DS.hasMany('nodes')
+    nodes: DS.hasMany('nodes'),
+    registrations: DS.hasMany('registrations'),
+
+    affiliatedInstitutions: DS.hasMany('institutions', {
+        inverse: 'children'
+    })
 });

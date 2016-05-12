@@ -14,7 +14,7 @@ module.exports = {
         try {
             SETTINGS = config.get(BACKEND);
         } catch (e) {
-            console.log(`WARNING: you have specified a backend '${BACKEND}' that you have not configured in your config/local.yml`);
+            console.log(`WARNING: you\'ve specified a backend '${BACKEND}' that you have not configured in your config/local.yml`);
         }
 
         ENV.OSF = {
@@ -47,7 +47,7 @@ module.exports = {
             ENV.OSF.authUrl = 'https://test-accounts.osf.io/oauth2/authorize';
         }
         if (BACKEND === 'prod') {
-            console.log('WARNING: you\'ve specified production as a backend. Please do not use production for testing or development purposes');
+            console.log(`WARNING: you\'ve specified production as a backend. Please do not use production for testing or development purposes`);
             ENV.OSF.url = 'https://osf.io/';
             ENV.OSF.apiUrl = 'https://api.osf.io';
             ENV.OSF.authUrl = 'https://accounts.osf.io/oauth2/authorize';
