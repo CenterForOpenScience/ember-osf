@@ -1,5 +1,10 @@
 # Style/Conventions
 
+### Checking your code
+
+Code style checking is part of the Travis build, and PRs that do not meet the code style guidelines will not be merged. You can run these checks locally with:
+`npm run check-style`
+
 ### Naming conventions
 
 Please review and adhere to the naming conventions defined [here](http://ember-cli.com/user-guide/#naming-conventions)

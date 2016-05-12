@@ -5,8 +5,12 @@ export default DS.JSONAPISerializer.extend({
 
     // TODO: Pre-1.0, refactor this into a separate OSF serializer, so we can support other microservices such as WB
     attrs: {
-        links: {serialize: false},
-        embeds: {serialize: false}
+        links: {
+            serialize: false
+        },
+        embeds: {
+            serialize: false
+        }
     },
 
     _extractEmbeds(resourceHash) {
@@ -45,6 +49,8 @@ export default DS.JSONAPISerializer.extend({
     },
 
     _normalizeDocumentHelper(documentHash) {
+	// Note: overrides a private method of the JSONAPISerializer. This is the best place to get the raw
+	// serialized document.
         documentHash.included = this._extractEmbeds(documentHash.data);
         return this._super(documentHash);
     },
@@ -61,6 +67,9 @@ export default DS.JSONAPISerializer.extend({
             return Ember.String.camelize(key);
         }
         return key;
+    },
+    keyForRelationship(key) {
+        return Ember.String.underscore(key);
     },
 
     serialize: function(snapshot, options) {

@@ -7,9 +7,8 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
     model() {
         let user = this.modelFor('application');
         if (user) {
-            return user.get('nodes');  // Fetch from `/users/me/nodes/`
-        }
-        else {
+            return user.get('nodes'); // Fetch from `/users/me/nodes/`
+        } else {
             return this.get('store').findRecord('user', 'me').then(user => user.get('nodes'));
         }
     },
