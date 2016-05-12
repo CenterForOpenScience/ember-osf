@@ -5,7 +5,7 @@ import {
 
 moduleForModel('registration', 'Unit | Model | registration', {
     // Specify the other units that are required for this test.
-    needs: ['model:institution', 'model:node', 'model:user', 'model:contributor', 'model:comment']
+    needs: ['model:institution', 'model:node', 'model:user', 'model:contributor', 'model:comment', 'model:file-provider']
 });
 
 test('it exists', function(assert) {
