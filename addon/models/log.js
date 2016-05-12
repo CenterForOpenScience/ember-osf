@@ -5,14 +5,15 @@ export default OsfModel.extend({
     date: DS.attr('date'),
     action: DS.attr('string'),
     params: DS.attr(),
-
     node: DS.belongsTo('node', {
-      inverse: null
+        inverse: null
     }),
-    original_node: DS.belongsTo('node', {inverse: 'logs'}),
+    originalNode: DS.belongsTo('node', {
+        inverse: 'logs'
+    }),
     user: DS.belongsTo('user'),
     linked_node: DS.belongsTo('node'),
-    template_node: DS.belongsTo('node', {
-      inverse: 'templateFrom'
+    templateNode: DS.belongsTo('node', {
+        inverse: 'templateFrom'
     })
 });
