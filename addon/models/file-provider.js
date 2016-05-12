@@ -7,9 +7,9 @@ export default OsfModel.extend({
     kind: DS.attr('string'),
     name: DS.attr('string'),
     path: DS.attr('string'),
-    //node: DS.belongsTo('node'),
     provider: DS.attr('string'),
     files: DS.hasMany('file'), 
+    node: DS.belongsTo('node'),
 
     isFolder: Ember.computed.equal('kind', 'folder'),
 });
