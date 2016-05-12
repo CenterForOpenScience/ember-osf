@@ -67,7 +67,7 @@
     },
     "jscsConfig": {
 	"preset": "airbnb",
-	"excludeFiles": ["bower_components", "dist", "tmp", "vendor", "app/locales", "tests"],
+	"excludeFiles": ["bower_components", "dist", "tmp", "vendor", "app/locales", "tests/unit", "tests/integration", "tests/helpers", "tests/dummy/app/mirage"],
 	"requireSpacesInAnonymousFunctionExpression": false,
 	"requireTrailingComma": false,
 	"disallowTrailingComma": false,

@@ -25,6 +25,11 @@ Router.map(function() {
             path: '/:registration_id'
         });
     });
+    this.route('users', function() {
+        this.route('detail', {
+            path: '/:user_id'
+        });
+    });
 });
 
 export default Router;

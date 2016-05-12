@@ -1,0 +1,15 @@
+<h4> Users </h4>
+<hr />
+{{#each model as |user|}}
+<div>
+<p><label>Full Name: </label> {{user.fullName}}</p>
+<p><label>Date Registered: </label> {{moment-format user.dateRegistered}}</p>
+</div>
+<p class="btn-group">
+  <a href="{{user.links.html}}" target="_blank" class="btn btn-default">
+    View on OSF
+  </a>
+  {{link-to 'Detail' 'users.detail' user.id class="btn btn-primary"}}
+</p>
+<hr />
+{{/each}}
