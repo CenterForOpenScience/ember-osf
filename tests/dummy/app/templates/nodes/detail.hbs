@@ -44,7 +44,7 @@
   </p>
 
   <h2>Files</h2>
-  {{link-to 'Show File Tree' 'nodes.detail.files' model.id}}
-  
-  {{outlet}}
+   {{#each model.files as |provider|}}
+       {{files-tree model=provider}}
+   {{/each}}
 </div>

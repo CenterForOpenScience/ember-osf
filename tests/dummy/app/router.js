@@ -27,6 +27,9 @@ Router.map(function() {
             path: '/:registration_id'
         });
     });
+    this.route('file', {
+        path: '/file/:file_id'
+    });
 });
 
 export default Router;
