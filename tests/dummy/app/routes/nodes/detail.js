@@ -11,12 +11,15 @@ export default Ember.Route.extend({
     },
 
     actions: {
-        editExisting(value) {
+        editExisting(title, description, category) {
             // TODO: Should test PUT or PATCH
-            console.log('Will edit title from', this.modelFor(this.routeName).get('title'), ' to ', value);
+            // console.log('Will edit title from', this.modelFor(this.routeName).get('title'), ' to ', value);
             var node = this.modelFor(this.routeName);
             if (node.get('currentUserPermissions').indexOf('write') !== -1) {
-                node.set('title', value);
+                console.log(title, category, description, this.routeName);
+                if (title) {node.set('title', title);}
+                if (category) {node.set('category', category);}
+                if (description) {node.set('description', description);}
                 node.save();
             } else {
                 console.log('You do not have permissions to edit this node');

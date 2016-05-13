@@ -3,6 +3,7 @@
 
     <h2>Data</h2>
   <p><label>Title:</label> {{model.title}}</p>
+  <p><label>Description: </label> {{model.description}}</p>
   <p><label>Category:</label> {{model.category}}</p>
   <p><label>Date Created:</label> {{moment-format model.dateCreated}}</p>
   <p><label>Date Modified:</label> {{moment-format model.dateModified}}</p>
@@ -14,8 +15,35 @@
   <hr>
 
   <h2>Edit this node</h2>
-  Title: {{input value=editedTitle}}
-  <button {{action "editExisting" editedTitle}} class="btn btn-primary">Edit record</button>
+  <table>
+    <tr>
+      <td> Title: </td>
+      <td> {{input value=editedTitle}} </td>
+    </tr>
+
+    <tr>
+      <td> Description: </td>
+      <td> {{input value=editedDescription}} </td>
+    </tr>
+  </table>
+
+  <p> Category: </p>
+  <div>
+    {{radio-button name="category" value="analysis" checked=editedCategory}} Analysis <br>
+    {{radio-button name="category" value="communication" checked=editedCategory}} Communication <br>
+    {{radio-button name="category" value="data" checked=editedCategory}} Data <br>
+    {{radio-button name="category" value="hypothesis" checked=editedCategory}} Hypothesis <br>
+    {{radio-button name="category" value="instrumentation" checked=editedCategory}} Instrumentation <br>
+    {{radio-button name="category" value="methods and measures" checked=editedCategory}} Methods and Measures <br>
+    {{radio-button name="category" value="procedure" checked=editedCategory}} Procedure <br>
+    {{radio-button name="category" value="project" checked=editedCategory}} Project <br>
+    {{radio-button name="category" value="software" checked=editedCategory}} Software <br>
+    {{radio-button name="category" value="other" checked=editedCategory}} Other <br>
+    {{radio-button name="category" value="uncategorized" checked=editedCategory}} Uncategorized <br>
+    </div>
+  <br>
+
+  <button {{action "editExisting" editedTitle editedDescription editedCategory}} class="btn btn-primary">Edit node settings</button>
 
    <h2>Contributors</h2>
 
