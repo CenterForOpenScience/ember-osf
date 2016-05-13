@@ -14,6 +14,6 @@ export default DS.Model.extend(OsfModel, {
     registrations: DS.hasMany('registrations'),
 
     affiliatedInstitutions: DS.hasMany('institutions', {
-        inverse: 'children'
+        inverse: 'users'
     })
 });

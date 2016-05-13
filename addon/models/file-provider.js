@@ -11,5 +11,5 @@ export default DS.Model.extend(OsfModel, {
     files: DS.hasMany('file'),
     node: DS.belongsTo('node'),
 
-    isFolder: Ember.computed.equal('kind', 'folder'),
+    isFolder: Ember.computed.equal('kind', 'folder')
 });
