@@ -13,7 +13,7 @@ Router.map(function() {
         this.route('detail', {
             path: '/:node_id'
         }, function() {
-          this.route('children');
+            this.route('children');
         });
     });
     this.route('login');
