@@ -14,37 +14,41 @@
   </p>
   <hr>
 
-  <h2>Edit this node</h2>
-  <table>
-    <tr>
-      <td> Title: </td>
-      <td> {{input value=editedTitle}} </td>
-    </tr>
+  {{#if propertiesVisible}}
+      <button {{action "expandProperties"}}> Close Node Settings </button>
+      <table>
+        <tr>
+          <td> Title: </td>
+          <td> {{input value=editedTitle}} </td>
+        </tr>
 
-    <tr>
-      <td> Description: </td>
-      <td> {{input value=editedDescription}} </td>
-    </tr>
-  </table>
+        <tr>
+          <td> Description: </td>
+          <td> {{input value=editedDescription}} </td>
+        </tr>
+      </table>
 
-  <p> Category: </p>
-  <div>
-    {{radio-button name="category" value="analysis" checked=editedCategory}} Analysis <br>
-    {{radio-button name="category" value="communication" checked=editedCategory}} Communication <br>
-    {{radio-button name="category" value="data" checked=editedCategory}} Data <br>
-    {{radio-button name="category" value="hypothesis" checked=editedCategory}} Hypothesis <br>
-    {{radio-button name="category" value="instrumentation" checked=editedCategory}} Instrumentation <br>
-    {{radio-button name="category" value="methods and measures" checked=editedCategory}} Methods and Measures <br>
-    {{radio-button name="category" value="procedure" checked=editedCategory}} Procedure <br>
-    {{radio-button name="category" value="project" checked=editedCategory}} Project <br>
-    {{radio-button name="category" value="software" checked=editedCategory}} Software <br>
-    {{radio-button name="category" value="other" checked=editedCategory}} Other <br>
-    {{radio-button name="category" value="uncategorized" checked=editedCategory}} Uncategorized <br>
-    </div>
-  <br>
+      <p> Category: </p>
+      <div>
+        {{radio-button name="category" value="analysis" checked=editedCategory}} Analysis <br>
+        {{radio-button name="category" value="communication" checked=editedCategory}} Communication <br>
+        {{radio-button name="category" value="data" checked=editedCategory}} Data <br>
+        {{radio-button name="category" value="hypothesis" checked=editedCategory}} Hypothesis <br>
+        {{radio-button name="category" value="instrumentation" checked=editedCategory}} Instrumentation <br>
+        {{radio-button name="category" value="methods and measures" checked=editedCategory}} Methods and Measures <br>
+        {{radio-button name="category" value="procedure" checked=editedCategory}} Procedure <br>
+        {{radio-button name="category" value="project" checked=editedCategory}} Project <br>
+        {{radio-button name="category" value="software" checked=editedCategory}} Software <br>
+        {{radio-button name="category" value="other" checked=editedCategory}} Other <br>
+        {{radio-button name="category" value="uncategorized" checked=editedCategory}} Uncategorized <br>
+        </div>
+      <br>
 
-  <button {{action "editExisting" editedTitle editedDescription editedCategory}} class="btn btn-primary">Edit node settings</button>
+      <button {{action "editExisting" editedTitle editedDescription editedCategory}} class="btn btn-primary"> Save changes </button>
+  {{else}}
+    <button {{action "expandProperties"}}> Edit node settings </button>
 
+  {{/if}}
    <h2>Contributors</h2>
 
       <table class="table">

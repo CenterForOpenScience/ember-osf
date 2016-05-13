@@ -7,6 +7,8 @@ export default Ember.Route.extend({
 
     setupController(controller, model) {
         controller.set('editedTitle', model.get('title'));
+        controller.set('editedTitle', model.get('category'));
+        controller.set('editedTitle', model.get('dscription'));
         this._super(...arguments);
     },
 
