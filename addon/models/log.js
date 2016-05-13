@@ -12,8 +12,10 @@ export default OsfModel.extend({
         inverse: 'logs'
     }),
     user: DS.belongsTo('user'),
-    linked_node: DS.belongsTo('node'),
+    linkedNode: DS.belongsTo('node', {
+        inverse: null
+    }),
     templateNode: DS.belongsTo('node', {
-        inverse: 'templateFrom'
+        inverse: null
     })
 });

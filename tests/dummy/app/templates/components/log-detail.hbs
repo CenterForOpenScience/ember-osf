@@ -19,6 +19,8 @@
         <td> {{#each-in node-log.params as |key value|}}
                 {{key}},
              {{/each-in}}
+             {{if node-log.linkedNode "linked_node"}}
+             {{if node-log.templateNode "template_node"}}
         </td>
       </tr>
   {{/each}}
