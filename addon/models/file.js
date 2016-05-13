@@ -2,6 +2,16 @@ import Ember from 'ember';
 import DS from 'ember-data';
 import OsfModel from 'ember-osf/models/base';
 
+/*
+function readonlyAttr(transform) {
+    return DS.attr(transform).extend({
+        set() {
+            // just throw?
+        }
+    });
+}
+*/
+
 export default OsfModel.extend({
     name: DS.attr('string'),
     kind: DS.attr('string'),
@@ -23,8 +33,7 @@ export default OsfModel.extend({
     // File attributes
     versions: DS.hasMany('file-version'),
     comments: DS.hasMany('comment'),
-    //contents: DS.belongsTo('file-contents'),
 
-    parentFolder: DS.belongsTo('file'),
+    parentFolder: DS.belongsTo('file', { inverse: 'files' }),
     isFolder: Ember.computed.equal('kind', 'folder'),
 });
