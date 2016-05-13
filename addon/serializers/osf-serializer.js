@@ -37,12 +37,12 @@ export default DS.JSONAPISerializer.extend({
         }
         delete resourceHash.embeds;
         //Recurse in, includeds are only processed on the top level. Emebeds are nested.
-        return included.concat(included.reduce((acc, include) =>  acc.concat(this._extractEmbeds(include)), []));
+        return included.concat(included.reduce((acc, include) => acc.concat(this._extractEmbeds(include)), []));
     },
 
     _mergeFields(resourceHash) {
         // ApiV2 `links` exist outside the attributes field; make them accessible to the data model
-        if (resourceHash.links) {  // TODO: Should also test whether model class defines a links field
+        if (resourceHash.links) { // TODO: Should also test whether model class defines a links field
             resourceHash.attributes.links = resourceHash.links;
         }
 
@@ -50,8 +50,8 @@ export default DS.JSONAPISerializer.extend({
     },
 
     _normalizeDocumentHelper(documentHash) {
-	// Note: overrides a private method of the JSONAPISerializer. This is the best place to get the raw
-	// serialized document.
+        // Note: overrides a private method of the JSONAPISerializer. This is the best place to get the raw
+        // serialized document.
         documentHash.included = this._extractEmbeds(documentHash.data);
         return this._super(documentHash);
     },

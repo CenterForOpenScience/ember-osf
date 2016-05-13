@@ -30,23 +30,19 @@ module.exports = {
 
             ENV.OSF.accessToken = SETTINGS.PERSONAL_ACCESS_TOKEN;
             ENV.OSF.isLocal = true;
-        }
-        else if (BACKEND === 'stage') {
+        } else if (BACKEND === 'stage') {
             ENV.OSF.url = 'https://staging.osf.io/';
             ENV.OSF.apiUrl = 'https://staging-api.osf.io';
             ENV.OSF.authUrl = 'https://staging-accounts.osf.io/oauth2/authorize';
-        }
-        else if (BACKEND === 'stage2') {
+        } else if (BACKEND === 'stage2') {
             ENV.OSF.url = 'https://staging2.osf.io/';
             ENV.OSF.apiUrl = 'https://staging2-api.osf.io';
             ENV.OSF.authUrl = 'https://staging2-accounts.osf.io/oauth2/authorize';
-        }
-        else if (BACKEND === 'test') {
+        } else if (BACKEND === 'test') {
             ENV.OSF.url = 'https://test.osf.io/';
             ENV.OSF.apiUrl = 'https://test-api.osf.io';
             ENV.OSF.authUrl = 'https://test-accounts.osf.io/oauth2/authorize';
-        }
-        else if (BACKEND === 'prod') {
+        } else if (BACKEND === 'prod') {
             console.log(`WARNING: you\'ve specified production as a backend. Please do not use production for testing or development purposes`);
             ENV.OSF.url = 'https://osf.io/';
             ENV.OSF.apiUrl = 'https://api.osf.io';
