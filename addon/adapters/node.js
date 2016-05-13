@@ -1,6 +1,6 @@
-import ApplicationAdapter from './application';
+import OsfAdapter from './osf-adapter';
 
-export default ApplicationAdapter.extend({
+export default OsfAdapter.extend({
     buildURL(_, __, ___, requestType) {
         // Embed contributors
         var base = this._super(...arguments);
