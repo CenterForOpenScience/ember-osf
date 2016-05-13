@@ -1,6 +1,8 @@
 import DS from 'ember-data';
 
-export default DS.Model.extend({
+import OsfModel from '../mixins/osf-model';
+
+export default DS.Model.extend(OsfModel, {
     category: DS.attr('string'),
     text: DS.belongsTo('comment')
 });

@@ -10,7 +10,7 @@
         "build": "ember build",
         "start": "ember server",
         "test": "ember test",
-	"check-style": "./node_modules/jscs/bin/jscs ."
+	    "check-style": "./node_modules/jscs/bin/jscs ."
     },
     "repository": "",
     "engines": {
@@ -66,14 +66,14 @@
         "configPath": "tests/dummy/config"
     },
     "jscsConfig": {
-	"preset": "airbnb",
-	"excludeFiles": ["bower_components", "dist", "tmp", "vendor", "app/locales", "tests/unit", "tests/integration", "tests/helpers", "tests/dummy/app/mirage"],
-	"requireSpacesInAnonymousFunctionExpression": false,
-	"requireTrailingComma": false,
-	"disallowTrailingComma": false,
-	"requirePaddingNewLinesAfterBlocks": false,
-	"validateIndentation": 4,
-	"requirePaddingNewLinesBeforeLineComments": false,
-	"maximumLineLength": false
+        "preset": "airbnb",
+        "excludeFiles": ["bower_components", "dist", "tmp", "vendor", "app/locales", "tests/unit", "tests/integration", "tests/helpers", "tests/dummy/app/mirage"],
+        "requireSpacesInAnonymousFunctionExpression": false,
+        "requireTrailingComma": false,
+        "disallowTrailingComma": false,
+        "requirePaddingNewLinesAfterBlocks": false,
+        "validateIndentation": 4,
+        "requirePaddingNewLinesBeforeLineComments": false,
+        "maximumLineLength": false
     }
 }
