@@ -43,6 +43,5 @@ export default OsfModel.extend({
     root: DS.belongsTo('node', {
         inverse: null
     }),
-    //primaryInstitution: DS.belongsTo('institution'),
     logs: DS.hasMany('logs')
 });
