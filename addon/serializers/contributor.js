@@ -1,6 +1,6 @@
-import ApplicationSerializer from './application';
+import OsfSerializer from './osf-serializer';
 
-export default ApplicationSerializer.extend({
+export default OsfSerializer.extend({
     extractAttributes(modelClass, resourceHash) {
         resourceHash.relationships.user = resourceHash.relationships.users;
         delete resourceHash.relationships.users;

@@ -1,9 +1,6 @@
-import { moduleForModel, test } from 'ember-qunit';
+import { moduleFor, test } from 'ember-qunit';
 import { faker } from 'ember-cli-mirage';
-
-moduleForModel('base', 'Unit | Serializer | application', {
-  needs: ['serializer:application']
-});
+moduleFor('serializer:osf-serializer');
 
 test('#_mergeFields adds links to attributes if included in payload', function(assert) {
     let payload = {
@@ -16,7 +13,7 @@ test('#_mergeFields adds links to attributes if included in payload', function(a
             html: faker.internet.url()
         }
     };
-    let serializer = this.container.lookup('serializer:application');
+    let serializer = this.container.lookup('serializer:osf-serializer');
     let normalized = serializer._mergeFields(payload);
     assert.equal(normalized.attributes.links, payload.links);
 });
@@ -32,7 +29,7 @@ test('#_mergeFields adds embeds to attributes if included in payload', function(
             }
         }
     };
-    let serializer = this.container.lookup('serializer:application');
+    let serializer = this.container.lookup('serializer:osf-serializer');
     let normalized = serializer._mergeFields(payload);
 
     assert.equal(normalized.attributes.embeds, payload.embeds);

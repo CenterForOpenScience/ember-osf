@@ -1,8 +1,8 @@
 import DS from 'ember-data';
 
-import OsfModel from 'ember-osf/models/base';
+import OsfModel from '../mixins/osf-model';
 
-export default OsfModel.extend({
+export default DS.Model.extend(OsfModel, {
     title: DS.attr('string'),
     description: DS.attr('string'),
     category: DS.attr('string'),
@@ -33,7 +33,7 @@ export default OsfModel.extend({
     comments: DS.hasMany('comments'),
     contributors: DS.hasMany('contributors'),
 
-    //files: DS.hasMany('files'),
+    files: DS.hasMany('file-provider'),
     //forkedFrom: DS.belongsTo('node'),
     //nodeLinks:  DS.hasMany('node-pointers'),
     registrations: DS.hasMany('registrations', {
@@ -42,6 +42,6 @@ export default OsfModel.extend({
 
     root: DS.belongsTo('node', {
         inverse: null
-    })
-    //logs: DS.hasMany('node-logs'),
+    }),
+    logs: DS.hasMany('logs')
 });
