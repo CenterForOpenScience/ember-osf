@@ -1,7 +1,7 @@
 import DS from 'ember-data';
-import OsfModel from 'ember-osf/models/base';
+import OsfModel from '../mixins/osf-model';
 
-export default OsfModel.extend({
+export default DS.Model.extend(OsfModel, {
     date: DS.attr('date'),
     action: DS.attr('string'),
     params: DS.attr(),
