@@ -75,4 +75,7 @@
    {{#each model.files as |provider|}}
        {{files-tree model=provider}}
    {{/each}}
+   <hr>
+
+   {{log-detail node-logs=model.logs}}
 </div>
