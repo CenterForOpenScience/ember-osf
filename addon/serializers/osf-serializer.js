@@ -30,13 +30,10 @@ export default DS.JSONAPISerializer.extend({
         return this._super(modelClass, resourceHash);
     },
 
-    keyForAttribute(key, method) {
-        if (method === 'deserialize') {
-            return Ember.String.underscore(key);
-        } else if (method === 'serialize') {
-            return Ember.String.camelize(key);
-        }
+    keyForAttribute(key) {
+        return Ember.String.underscore(key);
     },
+
     keyForRelationship(key) {
         return Ember.String.underscore(key);
     },
@@ -46,5 +43,16 @@ export default DS.JSONAPISerializer.extend({
         // Don't send relationships to the server; this can lead to 500 errors.
         delete serialized.data.relationships;
         return serialized;
+    },
+
+    serializeAttribute(snapshot, json, key, attribute) {  // jshint ignore:line
+        // In certain cases, a field may be omitted from the server payload, but have a value (undefined)
+        // when serialized from the model. (eg node.template_from)
+        // Omit fields with a value of undefined before sending to the server. (but still allow null to be sent)
+        let val = snapshot.attr(key);
+        if (val !== undefined) {
+            this._super(...arguments);
+        }
     }
+
 });
