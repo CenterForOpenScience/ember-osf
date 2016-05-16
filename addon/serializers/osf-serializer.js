@@ -30,12 +30,8 @@ export default DS.JSONAPISerializer.extend({
         return this._super(modelClass, resourceHash);
     },
 
-    keyForAttribute(key, method) {
-        if (method === 'deserialize') {
-            return Ember.String.underscore(key);
-        } else if (method === 'serialize') {
-            return Ember.String.camelize(key);
-        }
+    keyForAttribute(key) {
+        return Ember.String.underscore(key);
     },
     keyForRelationship(key) {
         return Ember.String.underscore(key);
