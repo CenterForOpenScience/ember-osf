@@ -31,10 +31,12 @@ export default Ember.Route.extend({
           self.store.findRecord('institution', inst_id).then(
             function(inst){
               var node = self.modelFor(self.routeName);
+              debugger;
               node.get('affiliatedInstitutions').pushObject(inst)
-              node.set('title', 'poo')
-            }
-            node.save()
+              node.set('fork', true)
+              node.save()
+
+            });
           // debugger;
           // var relationship = self.store.createRecord('relationship', {
           //   target_type: 'nodes',
@@ -60,7 +62,7 @@ export default Ember.Route.extend({
           //   }
           //)
 
-        //}
+        }
     }
 
 });

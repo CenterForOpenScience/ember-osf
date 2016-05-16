@@ -4,9 +4,18 @@ import DS from 'ember-data';
 import OsfModel from 'ember-osf/models/base';
 function hasMany(ret, model){
     ret.set = function(){
-	debugger;
         var val = ret.set(...arguments);
         model.set('relationshipIsDirty', true);
+        return val;
+    }
+    return ret
+}
+function attr(ret, model){
+    var func = ret.set
+    ret.set = function(){
+
+        var val = func.apply(ret, arguments);
+        debugger;
         return val;
     }
     return ret
@@ -76,6 +85,8 @@ export default OsfModel.extend({
     onReady: Ember.on('ready', function() {
         var affiliated = this.affiliatedInstitutions;
         this.affiliatedInstitutions = hasMany(affiliated, this);
+        var fork = this.fork;
+        this.fork = attr(fork, this);
     })
 
 });

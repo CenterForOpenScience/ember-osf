@@ -2,7 +2,6 @@ import ApplicationAdapter from './application';
 
 export default ApplicationAdapter.extend({
     buildURL(_, __, ___, requestType) {
-      debugger;
         // Embed contributors
         //debugger;
         var base = this._super(...arguments);
