@@ -1,7 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.Service.extend({
-    session: Ember.inject.service('session'),
+    session: Ember.inject.service(),
+    store: Ember.inject.service(),
 
     // File actions
     getContents(file) {
@@ -24,17 +25,18 @@ export default Ember.Service.extend({
     // Folder actions
     addSubfolder(folder, name) {
         var url = folder.get('links').new_folder;
+        var params = {
+            name,
+            kind: 'folder'
+        };
 
         // HACK: This is the only link that already has a query string
         if (url.search(/\?kind=folder$/) > -1) {
             url = `${url}&name=${name}`;
-            return this._waterbutlerRequest('PUT', url);
-        } else {
-            return this._waterbutlerRequest('PUT', url, {
-                name,
-                kind: 'folder'
-            });
+            params = undefined;
         }
+
+        return this._waterbutlerRequest('PUT', url, params);
     },
 
     uploadFile(folder, name, contents) {
@@ -48,14 +50,12 @@ export default Ember.Service.extend({
     // File and folder actions
     rename(file, newName) {
         var url = file.get('links').move;
-        return this._waterbutlerRequest('POST', url, data = {
-            action: 'rename',
-            rename: newName
-        });
+        return this._waterbutlerRequest('POST', url, null,
+                JSON.stringify({ action: 'rename', rename: newName }));
     },
 
-    move(file, targetFolder, newName=null, replace=true, node=null,
-            provider=null, action='move') {
+    move(file, targetFolder, newName=null, replace=true,
+            node=null, provider=null, action='move') {
         var url = file.get('links').move;
         var data = {
             action,
@@ -75,38 +75,42 @@ export default Ember.Service.extend({
         if (provider) {
             data.provider = provider;
         }
-        return this._waterbutlerRequest('POST', url, data=data);
+        return this._waterbutlerRequest('POST', url, null, data);
     },
 
-    copy(file, targetFolder, newName=null,
-            replace=true, node=null, provider=null) {
+    copy(file, targetFolder, newName=null, replace=true,
+            node=null, provider=null) {
         return this.move(file, targetFolder, newName, replace,
                 node, provider, 'copy');
     },
 
     deleteFile(file) {
-        var url = folder.get('links').delete;
+        var url = file.get('links').delete;
         return this._waterbutlerRequest('DELETE', url);
     },
 
     _waterbutlerRequest(method, url, queryParams=null, data=null) {
+        if (!url) {
+            return Ember.RSVP.Promise.reject('That file/folder has no link for that action!');
+        }
         if (queryParams) {
             let queryString = Ember.$.param(queryParams);
             url = `${url}?${queryString}`;
         }
-        var sessionData = this.get('session').get('data');
-        var accessToken = sessionData.authenticated.attributes.accessToken;
+        var sessionData = this.get('session').get('data').authenticated;
+        var accessToken = sessionData.attributes.accessToken;
         return new Ember.RSVP.Promise(function(resolve, reject) {
             Ember.$.ajax(url, {
                 method,
+                data,
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 },
                 error(_, __, errorMsg) {
                     reject(new Error(errorMsg));
                 },
-                success(data) {
-                    resolve(data);
+                success(response) {
+                    resolve(response);
                 }
             });
         });

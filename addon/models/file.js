@@ -18,14 +18,14 @@ export default OsfModel.extend({
     path: DS.attr('string'),
     size: DS.attr('number'),
     provider: DS.attr('string'),
-
     materializedPath: DS.attr('string'),
     lastTouched: DS.attr('date'),
     dateModified: DS.attr('date'),
     dateCreated: DS.attr('date'),
-
-    checkout: DS.attr(),
     extra: DS.attr(),
+
+    parentFolder: DS.belongsTo('file', { inverse: 'files' }),
+    isFolder: Ember.computed.equal('kind', 'folder'),
 
     // Folder attributes
     files: DS.hasMany('file', { inverse: 'parentFolder' }),
@@ -33,7 +33,5 @@ export default OsfModel.extend({
     // File attributes
     versions: DS.hasMany('file-version'),
     comments: DS.hasMany('comment'),
-
-    parentFolder: DS.belongsTo('file', { inverse: 'files' }),
-    isFolder: Ember.computed.equal('kind', 'folder'),
+    checkout: DS.attr(),
 });
