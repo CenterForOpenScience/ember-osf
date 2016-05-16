@@ -2,7 +2,7 @@ import { moduleForModel, test } from 'ember-qunit';
 
 moduleForModel('children', 'Unit | Model | children', {
   // Specify the other units that are required for this test.
-  needs: ['model:user', 'model:contributor', 'model:comment', 'model:institution', 'model:registration', 'model:file-provider', 'model:log']
+  needs: ['model:node', 'model:user', 'model:contributor', 'model:comment', 'model:institution', 'model:registration', 'model:file-provider', 'model:log']
 
 });
 
