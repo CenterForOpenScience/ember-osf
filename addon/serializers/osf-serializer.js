@@ -33,6 +33,7 @@ export default DS.JSONAPISerializer.extend({
     keyForAttribute(key) {
         return Ember.String.underscore(key);
     },
+
     keyForRelationship(key) {
         return Ember.String.underscore(key);
     },
