@@ -33,6 +33,7 @@ Router.map(function() {
     this.route('file', {
         path: '/file/:file_id'
     });
+    this.route('cookielogin');
 });
 
 export default Router;
