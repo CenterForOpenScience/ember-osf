@@ -1,10 +1,6 @@
 import Ember from 'ember';
 
-export default Ember.Controller.extend({
-    actions: {
-        loginHandler: function () {
-            console.log('Called submit', ...arguments);
-            return true;
-        }
-    }
+import OsfCookieLoginController from 'ember-osf/mixins/osf-cookie-login-controller';
+
+export default Ember.Controller.extend(OsfCookieLoginController, {
 });
