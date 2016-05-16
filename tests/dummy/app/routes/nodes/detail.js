@@ -37,6 +37,17 @@ export default Ember.Route.extend({
                 parentId: node.id
             });
             child.save();
+        },
+        deleteNode() {
+            var node = this.modelFor(this.routeName);
+            if (node.get('currentUserPermissions').indexOf('write') !== -1) {
+                node.one('didDelete', this, function () {
+                    this.transitionTo('nodes.index');
+                });
+                node.destroyRecord();
+            } else {
+                console.log('You do not have permissions to delete this node');
+            }
         }
 
     }
