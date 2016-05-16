@@ -22,15 +22,31 @@
       <table class="table">
           <tr>
             <th>ID</th>
+            <th> Permissions </th>
             <th>Author?</th>
           </tr>
           {{#each model.contributors as |contrib|}}
               <tr>
                 <td>{{contrib.id}}</td>
+                <td> {{contrib.permission}} </td>
                 <td>{{contrib.bibliographic}}</td>
               </tr>
           {{/each}}
       </table>
+
+    <h2> Add contributor </h2>
+    <label> User ID </label> {{input value=contributorID}}<br>
+
+    <label> Permissions </label><br>
+    {{radio-button name="permission" value="read" checked=contributorPermissions}} Read <br>
+    {{radio-button name="permission" value="write" checked=contributorPermissions}} Read + Write <br>
+    {{radio-button name="permission" value="admin" checked=contributorPermissions}} Administrator <br>
+
+    <label> Bibliographic Contributor </label> <br>
+    {{radio-button name="bibliographic" value=1 checked=bibliographic}} Bibliographic <br>
+    {{radio-button name="bibliographic" value=0 checked=bibliographic}} Non-Bibliographic <br>
+
+    <button {{action "addContributor" contributorID contributorPermissions bibliographic}} class="btn btn-primary">Add</button>
 
   <label>Affiliated Institutions</label>
   <p>
