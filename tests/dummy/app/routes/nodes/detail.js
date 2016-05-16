@@ -30,13 +30,20 @@ export default Ember.Route.extend({
         },
         addChildren(title, description, category) {
             var node = this.modelFor(this.routeName);
-            var child = this.store.createRecord('children', {
-                title: title,
-                category: category || 'project',
-                description: description || null,
-                parentId: node.id
-            });
-            child.save();
+            if (node.get('currentUserPermissions').indexOf('write') !== -1) {
+                var child = this.store.createRecord('children', {
+                    title: title,
+                    category: category || 'project',
+                    description: description || null,
+                    parentId: node.id
+                });
+                child.one('didCreate', this, function() {
+                    this.transitionTo('nodes.detail.children');
+                });
+                child.save();
+            } else {
+                console.log('You do not have permissions to create this component');
+            }
         },
         deleteNode() {
             var node = this.modelFor(this.routeName);
