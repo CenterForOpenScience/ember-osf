@@ -45,7 +45,7 @@ export default DS.JSONAPISerializer.extend({
         return serialized;
     },
 
-    serializeAttribute(snapshot, json, key, attribute) {
+    serializeAttribute(snapshot, json, key, attribute) {  // jshint ignore:line
         // In certain cases, a field may be omitted from the server payload, but have a value (undefined)
         // when serialized from the model. (eg node.template_from)
         // Omit fields with a value of undefined before sending to the server. (but still allow null to be sent)
