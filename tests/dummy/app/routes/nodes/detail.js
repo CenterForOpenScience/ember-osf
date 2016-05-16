@@ -24,6 +24,7 @@ export default Ember.Route.extend({
         },
         affiliateNode(inst_id){
           var self = this;
+
           // var node = self.modelFor(self.routeName);
           // debugger;
           // node.addInstitution(inst_id);
@@ -32,11 +33,34 @@ export default Ember.Route.extend({
               var node = self.modelFor(self.routeName);
               node.get('affiliatedInstitutions').pushObject(inst)
               node.set('title', 'poo')
-              node.save()
             }
-          )
+            node.save()
+          // debugger;
+          // var relationship = self.store.createRecord('relationship', {
+          //   target_type: 'nodes',
+          //   target_id: node.id,
+          //   data_: [{type: 'institutions', id: inst_id}]
+          //
+          // })
+          // relationship.save()
 
-        }
+
+          // self.store.findRecord('institution', inst_id).then(
+          //   function(inst){
+          //     var node = self.modelFor(self.routeName);
+          //     // var node = self.modelFor(self.routeName);
+          //     // var inst = self.store.getRecord('institution', inst_id)
+          //     // insts = node.get('affiliatedInstitutions').members.list
+          //     // insts.push(inst._internalModel)
+          //     // node.set('affiliatedInstitutions', insts)
+          //     node.get('affiliatedInstitutions').pushObject(inst)
+          //     //node.set('title', 'poo')
+          //
+          //     node.save()
+          //   }
+          //)
+
+        //}
     }
 
 });

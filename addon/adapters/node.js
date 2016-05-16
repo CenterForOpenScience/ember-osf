@@ -4,6 +4,7 @@ export default ApplicationAdapter.extend({
     buildURL(_, __, ___, requestType) {
       debugger;
         // Embed contributors
+        //debugger;
         var base = this._super(...arguments);
         if (['createRecord', 'updateRecord', 'deleteRecord'].indexOf(requestType) === -1) {
             return `${base}?embed=contributors`;
