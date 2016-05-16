@@ -7,6 +7,7 @@
   <p><label>Category:</label> {{model.category}}</p>
   <p><label>Date Created:</label> {{moment-format model.dateCreated}}</p>
   <p><label>Date Modified:</label> {{moment-format model.dateModified}}</p>
+  <p><label>Public </label> {{model.public}} </p>
   <p>
     <a href="{{model.links.html}}" target="_blank" class="btn btn-primary">
       View on OSF
@@ -18,17 +19,17 @@
       <button {{action "expandProperties"}}> Close Node Settings </button>
       <table>
         <tr>
-          <td> Title: </td>
-          <td> {{input value=editedTitle}} </td>
+          <td><label> Title: </label></td>
+          <td>{{input value=editedTitle}}</td>
         </tr>
 
         <tr>
-          <td> Description: </td>
-          <td> {{input value=editedDescription}} </td>
+          <td><label> Description: </label></td>
+          <td>{{input value=editedDescription}} </td>
         </tr>
       </table>
 
-      <p> Category: </p>
+      <p><label> Category: </label></p>
       <div>
         {{radio-button name="category" value="analysis" checked=editedCategory}} Analysis <br>
         {{radio-button name="category" value="communication" checked=editedCategory}} Communication <br>
@@ -44,7 +45,11 @@
         </div>
       <br>
 
-      <button {{action "editExisting" editedTitle editedDescription editedCategory}} class="btn btn-primary"> Save changes </button>
+      <p><label> Privacy settings </label></p>
+      {{radio-button name="isPublic" value=1 checked=isPublic}} Public <br>
+      {{radio-button name="isPublic" value=0 checked=isPublic}} Private <br>
+
+      <button {{action "editExisting" editedTitle editedDescription editedCategory isPublic}} class="btn btn-primary"> Save changes </button>
   {{else}}
     <button {{action "expandProperties"}}> Edit node settings </button>
 
