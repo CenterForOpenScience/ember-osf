@@ -27,7 +27,18 @@ export default Ember.Route.extend({
             } else {
                 console.log('You do not have permissions to edit this node');
             }
+        },
+        addChildren(title, description, category) {
+            var node = this.modelFor(this.routeName);
+            var child = this.store.createRecord('children', {
+                title: title,
+                category: category || 'project',
+                description: description || null,
+                parentId: node.id
+            });
+            child.save();
         }
+
     }
 
 });
