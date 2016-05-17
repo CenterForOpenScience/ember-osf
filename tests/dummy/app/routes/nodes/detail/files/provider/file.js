@@ -5,27 +5,15 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
     fileManager: Ember.inject.service(),
 
     model(params) {
-        // File provider IDs are 'nodeid:provider'
-        if (params.file_id.includes(':')) {
-            let [node_id, provider] = params.file_id.split(':');
-            let node = this.store.findRecord('node', node_id);
-            if (node) {
-                let files = node.get('files');
-                let name = node.get('name');
-                if (files) {
-                    return files.findBy('provider', provider);
-                }
-            }
-        }
-
+        // TODO: verify that this file actually belongs to the parent node?
         return this.store.findRecord('file', params.file_id);
     },
 
     actions: {
         addSubfolder(name) {
-            if (name) {
-                var folder = this.modelFor(this.routeName);
-                var p = this.get('fileManager').addSubfolder(folder, name);
+            let folder = this.modelFor(this.routeName);
+            if (name && folder.get('isFolder')) {
+                let p = this.get('fileManager').addSubfolder(folder, name);
                 p.then(() => {
                     this.store.unloadRecord(folder);
                     this.refresh();
@@ -37,9 +25,9 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
         },
 
         rename(newName) {
-            if (newName) {
-                var file = this.modelFor(this.routeName);
-                var p = this.get('fileManager').rename(file, newName);
+            let file = this.modelFor(this.routeName);
+            if (newName && newName !== file.get('name')) {
+                let p = this.get('fileManager').rename(file, newName);
                 p.then(() => {
                     file.set('name', newName);
                     this.refresh();
@@ -48,11 +36,13 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
         },
 
         deleteFile() {
-            var file = this.modelFor(this.routeName);
-            var p = this.get('fileManager').deleteFile(file);
+            let file = this.modelFor(this.routeName);
+            let p = this.get('fileManager').deleteFile(file);
             p.then(() => {
                 this.store.unloadRecord(file);
-                this.refresh();
+                let node = this.modelFor('nodes.detail');
+                this.replaceWith('nodes.detail.files.provider', 
+                    node, file.get('provider'));
             });
         }
     }
