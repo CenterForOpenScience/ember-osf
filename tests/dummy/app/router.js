@@ -9,12 +9,13 @@ Router.map(function() {
     this.route('index', {
         path: '/'
     });
+    //this.route('login');
+    this.route('cookielogin');
     this.route('nodes', function() {
         this.route('detail', {
             path: '/:node_id'
         });
     });
-    this.route('login');
     this.route('institutions', function() {
         this.route('detail', {
             path: '/:institution_id'
@@ -33,7 +34,6 @@ Router.map(function() {
     this.route('file', {
         path: '/file/:file_id'
     });
-    this.route('cookielogin');
 });
 
 export default Router;

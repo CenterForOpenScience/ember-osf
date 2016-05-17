@@ -5,7 +5,7 @@ import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
 import config from 'ember-get-config';
 
 export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
-    authorizer: 'authorizer:osf-token',
+    authorizer: config['ember-simple-auth'].authorizer,
     host: config.OSF.apiUrl,
     namespace: config.OSF.apiNamespace,
     pathForType: Ember.String.pluralize,
