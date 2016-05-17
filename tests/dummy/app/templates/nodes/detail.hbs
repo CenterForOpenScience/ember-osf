@@ -42,6 +42,11 @@
        	{{/each}}
     </table>
   </p>
+  <p>
+     <label>Institution ID:</label>
+     {{input type="text" value=instId placeholder="institution's id"}}
+     <p><button {{action "affiliateNode" instId}}>Affiliate</button></p>
+  </p>
 
   <h2>Files</h2>
    {{#each model.files as |provider|}}

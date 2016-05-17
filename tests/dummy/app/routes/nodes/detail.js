@@ -21,7 +21,17 @@ export default Ember.Route.extend({
             } else {
                 console.log('You do not have permissions to edit this node');
             }
-        }
+        },
+        affiliateNode(instId){
+            var self = this;
+            self.store.findRecord('institution', instId).then(
+                  function(inst){
+                      var node = self.modelFor(self.routeName);
+                      node.get('affiliatedInstitutions').pushObject(inst);
+                      node.save();
+                  }
+            );
+        },
     }
 
 });
