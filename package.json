@@ -10,7 +10,7 @@
         "build": "ember build",
         "start": "ember server",
         "test": "ember test",
-	    "check-style": "./node_modules/jscs/bin/jscs ."
+        "check-style": "./node_modules/jscs/bin/jscs ."
     },
     "repository": "",
     "engines": {
@@ -25,6 +25,7 @@
         "ember-ajax": "0.7.1",
         "ember-cli": "^2.4.3",
         "ember-cli-app-version": "^1.0.0",
+        "ember-cli-bootstrap-sassy": "0.5.3",
         "ember-cli-dependency-checker": "^1.2.0",
         "ember-cli-htmlbars": "^1.0.1",
         "ember-cli-htmlbars-inline-precompile": "^0.3.1",
@@ -35,6 +36,7 @@
         "ember-cli-sass": "5.3.1",
         "ember-cli-sri": "^2.0.0",
         "ember-cli-uglify": "^1.2.0",
+        "ember-component-css": "0.1.9",
         "ember-data": "^2.3.0",
         "ember-disable-prototype-extensions": "^1.0.0",
         "ember-disable-proxy-controllers": "^1.0.1",
@@ -67,7 +69,17 @@
     },
     "jscsConfig": {
         "preset": "airbnb",
-        "excludeFiles": ["bower_components", "dist", "tmp", "vendor", "app/locales", "tests/unit", "tests/integration", "tests/helpers", "tests/dummy/app/mirage"],
+        "excludeFiles": [
+            "bower_components",
+            "dist",
+            "tmp",
+            "vendor",
+            "app/locales",
+            "tests/unit",
+            "tests/integration",
+            "tests/helpers",
+            "tests/dummy/app/mirage"
+        ],
         "requireSpacesInAnonymousFunctionExpression": false,
         "requireTrailingComma": false,
         "disallowTrailingComma": false,
