@@ -25,17 +25,21 @@ export default Ember.Route.extend({
         },
         addContributor(contribId, permission, bibliographic) {
             var node = this.modelFor(this.routeName);
-            if (node.get('currentUserPermissions').indexOf('admin') !== -1) {
-                var contributor = this.store.createRecord('contributor', {
-                    id: contribId,
-                    permission: permission,
-                    bibliographic: bibliographic,
-                    nodeId: node.id
-                });
-                contributor.save();
-                console.log('Contributor added.');
+            if (contribId) {
+                if (node.get('currentUserPermissions').indexOf('admin') !== -1) {
+                    var contributor = this.store.createRecord('contributor', {
+                        id: contribId,
+                        permission: permission,
+                        bibliographic: bibliographic,
+                        nodeId: node.id
+                    });
+                    contributor.save();
+                    console.log('Contributor added.');
+                } else {
+                    console.log('You do not have permissions to add contributors');
+                }
             } else {
-                console.log('You do not have permissions to add contributors');
+                console.log('User ID must be specified.');
             }
         },
         deleteContributor(contrib) {
