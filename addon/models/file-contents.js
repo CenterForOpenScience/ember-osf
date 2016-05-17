@@ -1,7 +1,6 @@
-//import DS from 'ember-data';
+import DS from 'ember-data';
 
-import OsfModel from 'ember-osf/models/base';
+import OsfModel from '../mixins/osf-model';
 
-export default OsfModel.extend({
-    // TODO fetch file content from waterbutler
+export default DS.Model.extend(OsfModel, {
 });

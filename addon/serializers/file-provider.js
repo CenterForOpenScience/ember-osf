@@ -1,6 +1,6 @@
-import JSONAPISerializer from 'ember-data/serializers/json-api';
+import OsfSerializer from './osf-serializer';
 
-export default JSONAPISerializer.extend({
+export default OsfSerializer.extend({
     modelNameFromPayloadKey() {
         return 'file-provider';
     }

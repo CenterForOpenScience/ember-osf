@@ -1,14 +1,15 @@
-import Ember from 'ember';
+/*
+  Base adapter class for all OSF APIv2 endpoints
+ */
 import DS from 'ember-data';
-import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
 
 import config from 'ember-get-config';
+import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
 
 export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
     authorizer: config['ember-simple-auth'].authorizer,
     host: config.OSF.apiUrl,
     namespace: config.OSF.apiNamespace,
-    pathForType: Ember.String.pluralize,
 
     buildURL(modelName, id, snapshot, requestType, query) {  // jshint ignore:line
         var url = this._super(...arguments);
