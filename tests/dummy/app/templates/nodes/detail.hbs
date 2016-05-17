@@ -23,16 +23,20 @@
           <tr>
             <th>ID</th>
             <th> Permissions </th>
-            <th>Author?</th>
+            <th>Bibliographic</th>
+            <th> </th>
           </tr>
           {{#each model.contributors as |contrib|}}
               <tr>
                 <td>{{contrib.id}}</td>
                 <td> {{contrib.permission}} </td>
                 <td>{{contrib.bibliographic}}</td>
+                <td> <button {{action "deleteContributor" contrib}} class="btn btn-danger"> Remove </button> </td>
               </tr>
           {{/each}}
       </table>
+
+    <hr>
 
     <h2> Add contributor </h2>
     <label> User ID </label> {{input value=contributorID}}<br>
@@ -42,11 +46,13 @@
     {{radio-button name="permission" value="write" checked=contributorPermissions}} Read + Write <br>
     {{radio-button name="permission" value="admin" checked=contributorPermissions}} Administrator <br>
 
-    <label> Bibliographic Contributor </label> <br>
+    <label> Bibliographic </label> <br>
     {{radio-button name="bibliographic" value=1 checked=bibliographic}} Bibliographic <br>
     {{radio-button name="bibliographic" value=0 checked=bibliographic}} Non-Bibliographic <br>
 
-    <button {{action "addContributor" contributorID contributorPermissions bibliographic}} class="btn btn-primary">Add</button>
+    <button {{action "addContributor" contributorID contributorPermissions bibliographic}} class="btn btn-primary">Add</button> <br>
+
+    <hr>
 
   <label>Affiliated Institutions</label>
   <p>
@@ -58,6 +64,8 @@
        	{{/each}}
     </table>
   </p>
+
+  <hr>
 
   <h2>Files</h2>
    {{#each model.files as |provider|}}
