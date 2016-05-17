@@ -1,0 +1,58 @@
+<article class="sign-up">
+    <div class="col-sm-5 toggle-box toggle-box-right toggle-box-active p-h-lg" style="height: auto;">
+        <form class="form-horizontal">
+            <h3 class="m-b-lg"> Create a free account </h3>
+                <div class="form-group">
+                    <label form="inputName" class="col-sm-4 control-label">Full Name</label>
+                    <div class="col-sm-8">
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="inputName"
+                            placeholder="Name"
+                        >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail" class="col-sm-4 control-label">Email</label>
+                    <div class="col-sm-8">
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="inputEmail"
+                            placeholder="Email"
+                        >
+                    </div>
+                </div>
+            <div class="form-group">
+                <label for="inputEmail2" class="col-sm-4 control-label">Confirm Email</label>
+                <div class="col-sm-8">
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="inputEmail2"
+                        placeholder="Re-enter email">
+           </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword3" class="col-sm-4 control-label">Password</label>
+                <div class="col-sm-8">
+                    <input
+                        type="password"
+                        class="form-control"
+                        id="inputPassword3"
+                        placeholder="Password">
+                </div>
+            </div>
+            <div>
+                <p> By clicking "Create account", you agree to our <a href="https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/TERMS_OF_USE.md">Terms</a> and that you have read our <a href="https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/PRIVACY_POLICY.md">Privacy Policy</a>, including our information on <a href="https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/PRIVACY_POLICY.md#f-cookies">Cookie Use</a>.</p>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8">
+                    <button type="submit" class="btn pull-right btn-success">Create account</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <p>{{yield}}</p>
+</article>
