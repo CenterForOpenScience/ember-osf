@@ -11,4 +11,5 @@ export default OsfModel.extend({
     node: DS.belongsTo('node'),
 
     isFolder: Ember.computed.equal('kind', 'folder'),
+    isProvider: true
 });

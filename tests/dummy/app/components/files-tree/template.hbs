@@ -1,18 +1,19 @@
-<p class="files-tree">
-    <label>{{model.name}}</label>
-    {{#if model.isFolder}}
-        ({{link-to 'folder details' 'file' model}})
+<div class="files-tree">
+    {{#if root.isProvider}}
+        {{link-to root.name 'nodes.detail.files.provider' node root}}
+    {{else}}
+        {{link-to root.name 'nodes.detail.files.provider.file'
+            node root.provider root}}
+    {{/if}}
+    {{#if root.isFolder}}
         <ul class="folder-list">
-            {{#each model.files as |file|}}
+            {{#each root.files as |file|}}
                 <li>
-                {{file.name}}
-                ({{#link-to 'file' file}}{{file.kind}} details{{/link-to}})
+                    {{files-tree root=file node=node}}
                 </li>
             {{else}}
-                <li>(empty)</li>
+                <li>(empty folder)</li>
             {{/each}}
         </ul>
-    {{else}}
-        ({{link-to 'file details' 'file' model}})
     {{/if}}
-</p>
+</div>

@@ -1,0 +1,19 @@
+{{#unless file.isProvider}}
+    <p>
+        Rename: {{input value=newName}}
+        <button {{action "rename" newName}} class="btn btn-primary">
+            Rename</button>
+    </p>
+    <p>
+        Delete: <button {{action "deleteFile"}} class="btn btn-primary">
+            Delete</button>
+    </p>
+{{/unless}}
+
+{{#if file.isFolder}}
+    <p>
+        New folder: {{input value=newFolderName}}
+        <button {{action "addSubfolder" newFolderName}} class="btn btn-primary">
+            Add folder</button>
+    </p>
+{{/if}}

@@ -3,5 +3,4 @@ import layout from './template';
 
 export default Ember.Component.extend({
     layout,
-    fileManager: Ember.inject.service()
 });

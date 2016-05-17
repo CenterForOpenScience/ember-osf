@@ -1,0 +1,13 @@
+<div class="panel">
+    <div>
+        {{link-to 'Back to providers' 'nodes.detail.files'
+            model.node class='btn'}}
+    </div>
+    <h2>{{model.name}}</h2>
+
+    {{files-tree root=model node=model.node}}
+
+    <hr />
+
+    {{file-actions file=model onChange=(action 'reloadFiles')}}
+</div>

@@ -43,8 +43,7 @@
     </table>
   </p>
 
-  <h2>Files</h2>
-   {{#each model.files as |provider|}}
-       {{files-tree model=provider}}
-   {{/each}}
+  <hr />
+  <h3>Files</h3>
+    {{link-to 'View Files' 'nodes.detail.files' model class='btn btn-primary'}}
 </div>

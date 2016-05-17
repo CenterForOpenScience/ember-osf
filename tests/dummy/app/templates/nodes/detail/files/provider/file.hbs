@@ -1,4 +1,9 @@
 <div class="panel">
+  <div>
+    {{#link-to 'nodes.detail.files.provider' node model.provider class='btn'}}
+        Back to {{model.provider}}
+    {{/link-to}}
+  </div>
   <h2>File detail: {{model.name}}</h2>
   <p><label>Kind: </label>{{model.kind}}</p>
   <p><label>Provider: </label>{{model.provider}}</p>
@@ -12,27 +17,14 @@
   <hr />
 
   <h3>Actions</h3>
-  <p>
-    Rename: {{input value=newName}}
-    <button {{action "rename" newName}} class="btn btn-primary">
-        Rename</button>
-  </p>
-  <p>
-    Delete: <button {{action "deleteFile"}} class="btn btn-primary">
-        Delete</button>
-  </p>
-  {{#if model.isFolder}}
-    <p>
-      New folder: {{input value=newFolderName}}
-      <button {{action "addSubfolder" newFolderName}} class="btn btn-primary">
-          Add folder</button>
-    </p>
+  {{file-actions file=model onChange=(action 'reloadFiles')}}
 
-    <hr />
+  <hr />
+  {{#if model.isFolder}}
     <h3>Files</h3>
-    {{files-tree model=model}}
+    {{files-tree root=model node=node}}
   {{else}}
-    <hr />
+    
     <h3>Versions</h3>
     <ul>
     {{#each model.versions as |version|}}
