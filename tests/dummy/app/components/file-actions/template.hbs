@@ -16,4 +16,7 @@
         <button {{action "addSubfolder" newFolderName}} class="btn btn-primary">
             Add folder</button>
     </p>
+    <p>
+        Upload file: {{input type='file' change=(action 'uploadFile')}}
+    </p>
 {{/if}}

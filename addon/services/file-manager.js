@@ -103,6 +103,7 @@ export default Ember.Service.extend({
             Ember.$.ajax(url, {
                 method,
                 data,
+                processData: false,
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 },
