@@ -7,6 +7,12 @@ export default Ember.Component.extend({
     store: Ember.inject.service(),
 
     actions: {
+        download() {
+            let file = this.get('file');
+            let url = file.get('links').download;
+            window.open(url);
+        },
+
         updateContents(evt) {
             let contents = evt.target.files[0];
             let file = this.get('file');

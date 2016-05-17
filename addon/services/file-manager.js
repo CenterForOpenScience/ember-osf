@@ -5,8 +5,8 @@ export default Ember.Service.extend({
     store: Ember.inject.service(),
 
     // TODO: After each waterbutler action, either update the Ember
-    // store based on the returned WB entity, or force a refresh of 
-    // file info through the OSF. Or maybe both?
+    // store based on the returned WB entity (when possible), or force a
+    // refresh of file info through the OSF. Or maybe both?
 
     // File actions
     getContents(file) {

@@ -1,9 +1,13 @@
 <div class="files-tree">
-    {{#if root.isProvider}}
-        {{link-to root.name 'nodes.detail.files.provider' node root}}
+    {{#if onClickFile}}
+        <a {{action onClickFile root}}>{{root.name}}</a>
     {{else}}
-        {{link-to root.name 'nodes.detail.files.provider.file'
-            node root.provider root}}
+        {{#if root.isProvider}}
+            {{link-to root.name 'nodes.detail.files.provider' node root}}
+        {{else}}
+            {{link-to root.name 'nodes.detail.files.provider.file'
+                node root.provider root}}
+        {{/if}}
     {{/if}}
     {{#if root.isFolder}}
         <ul class="folder-list">

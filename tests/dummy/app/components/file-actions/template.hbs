@@ -1,29 +1,62 @@
-{{#unless file.isProvider}}
-    <p>
-        Rename: {{input value=newName}}
-        <button {{action "rename" newName}} class="btn btn-primary">
-            Rename</button>
-    </p>
-    <p>
-        Delete: <button {{action "deleteFile"}} class="btn btn-primary">
-            Delete</button>
-    </p>
-{{/unless}}
-
-{{#if file.isFolder}}
-    <p>
-        New folder: {{input value=newFolderName}}
-        <button {{action "addSubfolder" newFolderName}} class="btn btn-primary">
-            Add folder</button>
-    </p>
-    <p>
-        Upload file:
-        {{input type='file' change=(action 'uploadFile')}}
-    </p>
-{{else}}
-    <p>
-        Update file contents:
-        {{input type='file' change=(action 'updateContents')}}
-    </p>
-
-{{/if}}
+<table>
+    {{#if file.isFolder}}
+        <tr>
+            <td>
+                New folder:
+            </td>
+            <td>
+                {{input value=newFolderName}}
+            </td>
+            <td>
+                <button {{action "addSubfolder" newFolderName}}
+                    class="btn btn-primary">Add folder</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Upload file:
+            </td>
+            <td colspan=2>
+                {{input type='file' change=(action 'uploadFile')}}
+            </td>
+        </tr>
+        {{#unless file.isProvider}}
+            <tr>
+                <td>
+                    Rename: 
+                </td>
+                <td>
+                    {{input value=newName}}
+                </td>
+                <td>
+                    <button {{action "rename" newName}} class="btn btn-primary">
+                        Rename</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Delete:
+                </td>
+                <td colspan=2>
+                    <button {{action "deleteFile"}} class="btn btn-primary">
+                        Delete</button>
+                </td>
+            </tr>
+        {{/unless}}
+    {{else}}
+        <tr>
+            <td colspan=3>
+                <button {{action "download"}} class="btn btn-primary">
+                        Download</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Update file contents:
+            </td>
+            <td colspan=2>
+                {{input type='file' change=(action 'updateContents')}}
+            </td>
+        </tr>
+    {{/if}}
+</table>
