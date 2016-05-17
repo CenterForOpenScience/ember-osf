@@ -1,4 +1,27 @@
 <table>
+    {{#unless file.isProvider}}
+        <tr>
+            <td>
+                Rename: 
+            </td>
+            <td>
+                {{input value=newName}}
+            </td>
+            <td>
+                <button {{action "rename" newName}} class="btn btn-primary">
+                    Rename</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Delete:
+            </td>
+            <td colspan=2>
+                <button {{action "deleteFile"}} class="btn btn-primary">
+                    Delete</button>
+            </td>
+        </tr>
+    {{/unless}}
     {{#if file.isFolder}}
         <tr>
             <td>
@@ -20,29 +43,6 @@
                 {{input type='file' change=(action 'uploadFile')}}
             </td>
         </tr>
-        {{#unless file.isProvider}}
-            <tr>
-                <td>
-                    Rename: 
-                </td>
-                <td>
-                    {{input value=newName}}
-                </td>
-                <td>
-                    <button {{action "rename" newName}} class="btn btn-primary">
-                        Rename</button>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Delete:
-                </td>
-                <td colspan=2>
-                    <button {{action "deleteFile"}} class="btn btn-primary">
-                        Delete</button>
-                </td>
-            </tr>
-        {{/unless}}
     {{else}}
         <tr>
             <td colspan=3>
