@@ -4,6 +4,10 @@ export default Ember.Service.extend({
     session: Ember.inject.service(),
     store: Ember.inject.service(),
 
+    // TODO: After each waterbutler action, either update the Ember
+    // store based on the returned WB entity, or force a refresh of 
+    // file info through the OSF. Or maybe both?
+
     // File actions
     getContents(file) {
         var url = file.get('links').download;

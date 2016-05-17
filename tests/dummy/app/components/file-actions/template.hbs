@@ -17,6 +17,13 @@
             Add folder</button>
     </p>
     <p>
-        Upload file: {{input type='file' change=(action 'uploadFile')}}
+        Upload file:
+        {{input type='file' change=(action 'uploadFile')}}
     </p>
+{{else}}
+    <p>
+        Update file contents:
+        {{input type='file' change=(action 'updateContents')}}
+    </p>
+
 {{/if}}
