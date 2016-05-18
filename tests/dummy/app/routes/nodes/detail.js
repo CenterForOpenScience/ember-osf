@@ -64,13 +64,22 @@ export default Ember.Route.extend({
             }
         }
     },
-    canRemoveContributor(contribRemoving, contribMap) {
-        /** Contributor can only be removed if there is at least one other contributor
-        with admin permissions, and at least one other bibliographic contributor **/
+
+    generateContributorMap(contributors) {
+        // Maps all node contributors to format {contribID: {permission: "read|write|admin", bibliographic: "true|false"}}
+        var contribMap = contributors.content.currentState.reduce(function(newMap, contrib) {
+            newMap[contrib.id] = { permission: contrib._data.permission, bibliographic: contrib._data.bibliographic };
+            return newMap;
+        }, {});
+        return contribMap;
+    },
+    canModifyContributor(contribRemoving, contribMap) {
+        /** Checks to see if contributor(s) can be updated/removed. Contributor can only be updated/removed
+        if there is at least one other contributor with admin permissions, and at least one other bibliographic contributor **/
         var bibliographic = false;
         var admin = false;
         for (var contribId in contribMap) {
-            if (contribId === contribRemoving.id) {
+            if (contribRemoving && contribId === contribRemoving.id) {
                 continue;
             } else {
                 if (contribMap[contribId].bibliographic) {
