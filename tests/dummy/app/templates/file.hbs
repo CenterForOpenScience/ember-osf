@@ -28,12 +28,9 @@
   <h3>Comments</h3>
   <ul>
   {{#each model.comments as |comment|}}
-    <li>
-        <div><label>{{comment.dateCreated}}: </label>{{comment.content}}</div>
-    </li>
+    {{comment-detail model=comment}}
   {{else}}
     (none)
   {{/each}}
   </ul>
-    
 </div>
