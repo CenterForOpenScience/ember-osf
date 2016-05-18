@@ -1,15 +1,15 @@
 <h4> My Registrations </h4>
 {{#each model as |registration|}}
-<hr />
-<div class="panel">
-  <p><label>Title: </label>{{registration.title}}</p>
-  <p><label>Category: </label>{{registration.category}}</p>
-  <p><label>Date Registered: </label>{{moment-format registration.dateRegistered}}</p>
-  <p class="btn-group">
-    <a href="{{registration.links.html}}" target="_blank" class="btn btn-default">
-      View on OSF
-    </a>
-    {{link-to 'Detail' 'registrations.detail' registration.id class="btn btn-primary"}}
-  </p>
-</div>
+  <hr>
+  <div class="panel">
+    <p><label>Title: </label>{{registration.title}}</p>
+    <p><label>Category: </label>{{registration.category}}</p>
+    <p><label>Date Registered: </label>{{moment-format registration.dateRegistered}}</p>
+    <p class="btn-group">
+      <a href="{{registration.links.html}}" target="_blank" class="btn btn-default">
+        View on OSF
+      </a>
+      {{link-to 'Detail' 'registrations.detail' registration.id class="btn btn-primary"}}
+    </p>
+  </div>
 {{/each}}
