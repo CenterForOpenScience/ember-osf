@@ -96,8 +96,32 @@ export default Ember.Route.extend({
         return false;
     },
 
+    attemptContributorsUpdate(contribMap, node, editedPermissions, editedBibliographic) {
+        if (this.canModifyContributor(null, contribMap)) {
+            for (var contrib in editedPermissions) {
+                this.store.findRecord('contributor', contrib).then(function(contributor) {
+                    contributor.set('nodeId', node.id);
+                    contributor.set('permission', editedPermissions[contrib]);
+                    contributor.save();
+                });
+            }
+            for (var c in editedBibliographic) {
+                this.store.findRecord('contributor', c).then(function(contributor) {
+                    debugger
+                    contributor.set('nodeId', node.id);
+                    contributor.set('bibliographic', editedBibliographic[c]);
+                    contributor.save();
+                });
+            }
+            node.save();
+            console.log('Contributor(s) updated.');
+        } else {
+            console.log('Cannot update contributor(s)');
+        }
+    },
+
     attemptContributorRemoval(contrib, contribMap, node) {
-        if (this.canRemoveContributor(contrib, contribMap)) {
+        if (this.canModifyContributor(contrib, contribMap)) {
             node.get('contributors').removeObject(contrib);
             contrib.deleteRecord();
             node.save();
