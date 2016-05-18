@@ -2,7 +2,6 @@
 'use strict';
 var path = require('path');
 var config = require('config');
-// var Funnel = require('broccoli-funnel');
 
 module.exports = {
     name: 'ember-osf',
@@ -56,8 +55,5 @@ module.exports = {
         ENV['ember-simple-auth'] = {
             authorizer: 'authorizer:osf-token'
         };
-    },
-    treeForStyles: function(/*tree*/) {
-        // TODO expose ember-osf styles
     }
 };
