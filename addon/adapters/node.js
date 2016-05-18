@@ -4,15 +4,6 @@ import isEnabled from 'ember-data/-private/features';
 import OsfAdapter from './osf-adapter';
 
 export default OsfAdapter.extend({
-    customSerialize: false,
-    findDirtyRelations(snapshot) {
-        var dirtyRelationships = snapshot.record.get('dirtyRelationships');
-        return Object.keys(dirtyRelationships).filter(function(rel){
-            var attr = snapshot._internalModel._relationships.get(rel);
-            var foo = Ember.get(dirtyRelationships, rel);
-            return attr && foo && Ember.get(attr.relationshipMeta.options, 'relationshipEndpoint');
-          });
-    },
     buildURL(_, __, snapshot, requestType) {
         var self = this;
         if (requestType === 'updateRecord' && !snapshot.record.changedAttributes().length) {
@@ -43,13 +34,7 @@ export default OsfAdapter.extend({
         var id = snapshot.id;
         var url = this.buildURL(type.modelName, id, snapshot, 'updateRecord');
         if (url.indexOf('relationships') !== -1){
-            var dirty = self.findDirtyRelations(snapshot)[0];
-            var url_ = url.split('/');
-            var relationType = url_[url_.indexOf('relationships') + 1];
-            var dirtyList = snapshot._internalModel._relationships.get(dirty).members.list;
-            data = {data: dirtyList.map(function(item){
-                return {type: relationType, id: item.id}
-            })}
+            data = self.relationshipPayload(snapshot, url);
         } else {
             var serializer = store.serializerFor(type.modelName);
             serializer.serializeIntoHash(data, type, snapshot, { includeId: true });

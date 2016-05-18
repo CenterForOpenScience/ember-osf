@@ -19,5 +19,22 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
             url += '/';
         }
         return url;
-    }
+    },
+    findDirtyRelations(snapshot) {
+        var dirtyRelationships = snapshot.record.get('dirtyRelationships');
+        return Object.keys(dirtyRelationships).filter(function(rel){
+            var attr = snapshot._internalModel._relationships.get(rel);
+            var foo = Ember.get(dirtyRelationships, rel);
+            return attr && foo && Ember.get(attr.relationshipMeta.options, 'relationshipEndpoint');
+          });
+    },
+    relationshipPayload(snapshot, url){
+      var dirty = this.findDirtyRelations(snapshot)[0];
+      var url_ = url.split('/');
+      var relationType = url_[url_.indexOf('relationships') + 1];
+      var dirtyList = snapshot._internalModel._relationships.get(dirty).members.list;
+      return {data: dirtyList.map(function(item){
+          return {type: relationType, id: item.id}
+      })}
+    },
 });
