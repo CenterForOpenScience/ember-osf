@@ -58,6 +58,6 @@ module.exports = {
         };
     },
     treeForStyles: function(/*tree*/) {
-	// TODO expose ember-osf styles
+        // TODO expose ember-osf styles
     }
 };
