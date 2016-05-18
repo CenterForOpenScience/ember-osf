@@ -15,7 +15,7 @@ export default Ember.Mixin.create({
 
     errorMessage: undefined,
 
-    actions: { // TODO: What does submit do in the new scheme?
+    actions: { // TODO: What does submit do in the new scheme? Needs to be form post, so probably nothing
         loginHandler: function (username, password) {
             console.log('Called submit', username, password);
             //this.get('session').authenticate('authenticator:osf-cookie', username, password)
