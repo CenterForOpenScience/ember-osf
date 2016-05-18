@@ -28,7 +28,6 @@ export default Ember.Component.extend({
             if (name) {
                 let p = this.get('fileManager').addSubfolder(folder, name);
                 p.then(() => {
-                    this.get('store').unloadRecord(folder);
                     this.get('onChange')();
                 });
             }
@@ -61,7 +60,6 @@ export default Ember.Component.extend({
             let file = this.get('file');
             let p = this.get('fileManager').deleteFile(file);
             p.then(() => {
-                file.get('parentFolder').get('files').removeObject(file);
                 this.get('onChange')();
             });
         },
@@ -81,7 +79,7 @@ export default Ember.Component.extend({
                 node: this.get('moveNode'),
                 provider: folder.get('provider'),
                 replace: this.get('moveReplace'),
-                action: this.get('moveCopy') ? 'copy' : 'move',
+                copy: this.get('moveCopy'),
                 newName: this.get('moveName')
             };
 
