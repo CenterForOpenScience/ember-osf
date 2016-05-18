@@ -2,6 +2,16 @@
 
 module.exports = function(environment) {
 
+    // Allow the dummy app to support either token or cookie auth as needed. (default to tokens)
+    var AUTHORIZER = process.env.AUTHORIZER || 'token';
+    var authConfig = {};
+    if (AUTHORIZER === 'cookie') {
+        authConfig = {
+                authorizer: 'authorizer:osf-cookie',
+                authenticationRoute: 'cookielogin'
+        };
+    }
+
     var ENV = {
         modulePrefix: 'dummy',
         environment: environment,
@@ -17,10 +27,8 @@ module.exports = function(environment) {
             // Here you can pass flags/options to your application instance
             // when it is created
         },
-        'ember-simple-auth': {
-            authenticationRoute: 'login',
-            routeAfterAuthentication: 'index'
-        },
+
+        'ember-simple-auth': authConfig, // TODO: Does this override any default behaviors?
         'ember-cli-mirage': {
             enabled: false
         }

@@ -55,25 +55,7 @@ module.exports = {
         ENV['ember-simple-auth'] = {
             authorizer: 'authorizer:osf-token'
         };
-
-
-        let AUTHORIZER = process.env.AUTHORIZER || 'token';
-        switch (AUTHORIZER) {
-            case 'cookie':
-                ENV['ember-simple-auth'] = {
-                    authorizer: 'authorizer:osf-cookie',
-                    authenticationRoute: 'cookielogin'
-                };
-                console.log('configured cookie auth');
-                break;
-            case 'token':
-            default:
-                // TODO: set settings in setting-ish fashion
-                // TODO: Don't set default route here, though useful for testing with dummy app
-                console.log('configured token auth');
-
-        }
-        }
+    }
 
 
 
