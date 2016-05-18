@@ -23,8 +23,13 @@ export default Base.extend({
     },
 
     authenticate(code) {
-        // For now, authentication consists of sending the user to OSF
-        return Ember.$.get({url: config.OSF.url + 'ticket=' + code})
+        // Authentication procedure: hit an OSF endpoint with a URL parameter "ticket". If backend validates the ticket, the response should set a cookie
+        return Ember.$.get({
+            url: config.OSF.url + 'login/?ticket=' + code,
+            xhrFields: {
+                withCredentials: true
+            }
+        })
             .then(()=> console.log(...arguments));
         // TODO: rv?
   }
