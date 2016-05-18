@@ -42,15 +42,37 @@ export default Ember.Route.extend({
                 console.log('User ID must be specified.');
             }
         },
+        updateContributors(editedPermissions, editedBibliographic) {
+            var node = this.modelFor(this.routeName);
+            var contribMap = this.generateContributorMap(node.get('contributors'));
+            let user = this.modelFor('application');
+
+            for (var contrib in editedPermissions) {
+                contribMap[contrib].permission = editedPermissions[contrib];
+            }
+
+            for (var c in editedBibliographic) {
+                contribMap[c].bibliographic = editedBibliographic[c];
+            }
+
+            if (node.get('currentUserPermissions').indexOf('admin') !== -1) {
+                this.attemptContributorsUpdate(contribMap, node, editedPermissions, editedBibliographic);
+            } else {
+                // Non-admins can only attempt to remove themselves as contributors
+                if (contrib.id === user.id) {
+                    this.attemptContributorsUpdate(contribMap, node);
+                } else {
+                    console.log('Non-admins cannot update other contributors.');
+                }
+            }
+
+        },
         deleteContributor(contrib) {
             var node = this.modelFor(this.routeName);
             contrib.setProperties({ nodeId: node.id });
             let user = this.modelFor('application');
 
-            var contribMap = node.get('contributors').content.currentState.reduce(function(newMap, contrib) {
-                newMap[contrib.id] = { permission: contrib._data.permission, bibliographic: contrib._data.bibliographic };
-                return newMap;
-            }, {});
+            var contribMap = this.generateContributorMap(node.get('contributors'));
 
             if (node.get('currentUserPermissions').indexOf('admin') !== -1) {
                 this.attemptContributorRemoval(contrib, contribMap, node);
