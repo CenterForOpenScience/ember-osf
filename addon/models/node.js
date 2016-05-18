@@ -28,7 +28,8 @@ export default DS.Model.extend(OsfModel, {
         inverse: 'parent'
     }),
     affiliatedInstitutions: DS.hasMany('institutions', {
-        inverse: 'nodes'
+        inverse: 'nodes',
+        relationshipEndpoint: true 
     }),
     comments: DS.hasMany('comments'),
     contributors: DS.hasMany('contributors'),
