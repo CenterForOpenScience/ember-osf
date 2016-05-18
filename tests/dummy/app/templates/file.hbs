@@ -15,11 +15,7 @@
   <h3>Versions</h3>
   <ul>
   {{#each model.versions as |version|}}
-    <li>
-        <div><label>ID: </label>{{version.id}}</div>
-        <div><label>Size: </label>{{version.size}}</div>
-        <div><label>Content type: </label>{{version.contentType}}</div>
-    </li>
+    {{file-version model=version}}
   {{else}}
     (none)
   {{/each}}
