@@ -25,33 +25,39 @@
             <th> Permissions </th>
             <th>Bibliographic</th>
             <th> </th>
+            <th> </th>
           </tr>
           {{#each model.contributors as |contrib|}}
               <tr>
                 <td>{{contrib.id}}</td>
-                <td> {{contrib.permission}} </td>
-                <td>{{contrib.bibliographic}}</td>
+                <td> <select onchange={{action "permissionChange" value="target.value" bubbles=true}}>
+                      <option value="read {{contrib.id}}" selected={{permissionHelper contrib.permission "read"}}> Read </option>
+                      <option value="write {{contrib.id}}" selected={{permissionHelper contrib.permission "write"}}>  Read + Write </option>
+                      <option value="admin {{contrib.id}}" selected={{permissionHelper contrib.permission "admin"}}>  Administrator </option>
+                    </select>
+                </td>
+                <input onchange={{action "bibliographicChange" value="target"}} checked={{bibliographicHelper contrib.bibliographic}} type="checkbox" name="bibliographic" value="{{contrib.id}}">
                 <td> <button {{action "deleteContributor" contrib}} class="btn btn-danger"> Remove </button> </td>
               </tr>
           {{/each}}
       </table>
+      <td> <button {{action "updateContributors" editedPermissions editedBibliographic}} class="btn btn-primary"> Save changes </button></td>
 
     <hr>
 
     <h2> Add contributor </h2>
-    <label> User ID </label> {{input value=contributorID}}<br>
+    <label> User ID </label> {{input value=contributorID}}
 
-    <label> Permissions </label><br>
-    {{radio-button name="permission" value="read" checked=contributorPermissions}} Read <br>
-    {{radio-button name="permission" value="write" checked=contributorPermissions}} Read + Write <br>
-    {{radio-button name="permission" value="admin" checked=contributorPermissions}} Administrator <br>
+    <label> Permissions </label>
+    <p>{{radio-button name="permission" value="read" checked=contributorPermissions}} Read
+    {{radio-button name="permission" value="write" checked=contributorPermissions}} Read + Write
+    {{radio-button name="permission" value="admin" checked=contributorPermissions}} Administrator </p>
 
-    <label> Bibliographic </label> <br>
-    {{radio-button name="bibliographic" value=1 checked=bibliographic}} Bibliographic <br>
-    {{radio-button name="bibliographic" value=0 checked=bibliographic}} Non-Bibliographic <br>
+    <label> Bibliographic </label>
+    <p> {{radio-button name="bibliographic" value=1 checked=bibliographic}} Bibliographic
+    {{radio-button name="bibliographic" value=0 checked=bibliographic}} Non-Bibliographic </p>
 
-    <button {{action "addContributor" contributorID contributorPermissions bibliographic}} class="btn btn-primary">Add</button> <br>
-
+    <button {{action "addContributor" contributorID contributorPermissions bibliographic}} class="btn btn-primary">Add</button>
     <hr>
 
   <label>Affiliated Institutions</label>
