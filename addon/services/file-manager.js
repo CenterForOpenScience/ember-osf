@@ -58,8 +58,8 @@ export default Ember.Service.extend({
                 JSON.stringify({ action: 'rename', rename: newName }));
     },
 
-    move(file, targetFolder, newName=null, replace=true,
-            node=null, provider=null, action='move') {
+    move(file, targetFolder, { newName=null, replace=true,
+            node=null, provider=null, action='move' }) {
         var url = file.get('links').move;
         var data = {
             action,
@@ -79,13 +79,14 @@ export default Ember.Service.extend({
         if (provider) {
             data.provider = provider;
         }
-        return this._waterbutlerRequest('POST', url, null, data);
+        return this._waterbutlerRequest('POST', url, null, 
+                JSON.stringify(data));
     },
 
-    copy(file, targetFolder, newName=null, replace=true,
-            node=null, provider=null) {
-        return this.move(file, targetFolder, newName, replace,
-                node, provider, 'copy');
+    copy(file, targetFolder, { newName=null, replace=true,
+            node=null, provider=null }) {
+        return this.move(file, targetFolder, 
+                { newName, replace, node, provider, action: 'copy' });
     },
 
     deleteFile(file) {

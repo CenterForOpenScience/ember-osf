@@ -1,4 +1,4 @@
-<div class="files-tree">
+<div class="file-tree">
     {{#if onClickFile}}
         <a {{action onClickFile root}}>{{root.name}}</a>
     {{else}}
@@ -13,7 +13,7 @@
         <ul class="folder-list">
             {{#each root.files as |file|}}
                 <li>
-                    {{files-tree root=file node=node}}
+                    {{file-tree root=file node=node}}
                 </li>
             {{else}}
                 <li>(empty folder)</li>

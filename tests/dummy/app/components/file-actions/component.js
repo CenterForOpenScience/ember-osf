@@ -64,6 +64,29 @@ export default Ember.Component.extend({
                 file.get('parentFolder').get('files').removeObject(file);
                 this.get('onChange')();
             });
+        },
+
+        moveFile(folderId) {
+            let file = this.get('file');
+            let store = this.get('store');
+            let folder = store.peekRecord('file', folderId);
+            if (!folder) {
+                folder = store.peekRecord('file-provider', folderId);
+                if (!folder) {
+                    debugger;
+                }
+                // TODO errors
+            }
+            let options = {
+                node: this.get('moveNode'),
+                provider: folder.get('provider'),
+                replace: this.get('moveReplace'),
+                action: this.get('moveCopy') ? 'copy' : 'move',
+                newName: this.get('moveName')
+            };
+
+            let p = this.get('fileManager').move(file, folder, options);
+            p.then(() => this.get('onChange'));
         }
     }
 });

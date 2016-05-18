@@ -21,6 +21,26 @@
                     Delete</button>
             </td>
         </tr>
+        <tr>
+            <td>
+                Move to:
+            </td>
+            <td>
+                <div>Folder ID: {{input value=moveTarget}}</div>
+                <div>Node ID (optional): {{input value=moveNode}}</div>
+                <div>New name (optional): {{input value=moveName}}</div>
+                <div><label>
+                    Replace {{input type="checkbox" checked=moveReplace}}
+                </label></div>
+                <div><label>
+                    Copy {{input type="checkbox" checked=moveCopy}}
+                </label></div>
+            </td>
+            <td>
+                <button {{action "moveFile" moveTarget}} class="btn btn-primary">
+                    Move</button>
+            </td>
+        </tr>
     {{/unless}}
     {{#if file.isFolder}}
         <tr>
