@@ -2,13 +2,17 @@ import Ember from 'ember';
 
 export default Ember.Mixin.create({
     queryParams: ['page', 'page_size'],
-    // TODO: Confirm that setting to null causes server to use its default values
-    page: 1,
-    page_size: null,
+    page: 1,  // Current page
+    page_size: null,  // Number of results per page. Param may be omitted.
 
-    // Placeholders, may use pagination metadata to track this instead
-    firstPage: null,
-    lastPage: null,
+    totalResults: Ember.computed('model', function() {
+        return this.get('model.meta.pagination.total');
+    }),
+    totalPages: Ember.computed('model', 'totalResults', function() {
+        let results = this.get('totalResults');
+        let pageSize = this.get('model.meta.pagination.per_page');
+        return Math.ceil(results / pageSize);
+    }),
 
     actions: {
         previous() {
