@@ -48,7 +48,6 @@ export default Ember.Component.extend({
             let file = this.get('file');
             if (newName) {
                 let p = this.get('fileManager').rename(file, newName);
-                let onChange = this.get('onChange');
                 p.then(() => {
                     file.set('name', newName);
                     this.get('onChange')();
@@ -71,9 +70,9 @@ export default Ember.Component.extend({
             if (!folder) {
                 folder = store.peekRecord('file-provider', folderId);
                 if (!folder) {
-                    debugger;
+                    // TODO errors
+                    return;
                 }
-                // TODO errors
             }
             let options = {
                 node: this.get('moveNode'),
