@@ -1,7 +1,6 @@
 {{link-to 'Back to list' 'nodes' class="btn btn-default"}}
 <div class="panel">
-
-    <h2>Data</h2>
+  <h2>Data</h2>
   <p><label>Title:</label> {{model.title}}</p>
   <p><label>Category:</label> {{model.category}}</p>
   <p><label>Date Created:</label> {{moment-format model.dateCreated}}</p>
@@ -12,7 +11,6 @@
     </a>
   </p>
   <hr>
-
   <h2>Edit this node</h2>
   Title: {{input value=editedTitle}}
   <button {{action "editExisting" editedTitle}} class="btn btn-primary">Edit record</button>
@@ -63,21 +61,20 @@
   <label>Affiliated Institutions</label>
   <p>
     <table class="table">
-       	{{#each model.affiliatedInstitutions as |inst|}}
-       	  <tr>
-       	    {{inst.name}}
-       	  </tr>
-       	{{/each}}
+      {{#each model.affiliatedInstitutions as |inst|}}
+       	<tr>
+       	  {{inst.name}}
+       	</tr>
+      {{/each}}
     </table>
   </p>
 
   <hr>
 
   <h2>Files</h2>
-   {{#each model.files as |provider|}}
-       {{files-tree model=provider}}
-   {{/each}}
-   <hr>
-
-   {{log-detail node-logs=model.logs}}
+  {{#each model.files as |provider|}}
+    {{files-tree model=provider}}
+  {{/each}}
+  <hr>
+  {{log-detail node-logs=model.logs}}
 </div>
