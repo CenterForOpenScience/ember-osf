@@ -15,6 +15,7 @@
   Title: {{input value=editedTitle}}
   <button {{action "editExisting" editedTitle}} class="btn btn-primary">Edit record</button>
 
+  <hr>
   <h2>Contributors</h2>
   <table class="table">
     <tr>
@@ -43,8 +44,8 @@
   <hr>
 
   <h2> Add contributor </h2>
-  <label> User ID </label> {{input value=contributorID}}
-  <label> Permissions </label>
+  <p><label> User ID </label> {{input value=contributorID}} </p>
+  <p><label> Permissions </label></p>
   <p>
     {{radio-button name="permission" value="read" checked=contributorPermissions}} Read
     {{radio-button name="permission" value="write" checked=contributorPermissions}} Read + Write
