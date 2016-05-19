@@ -42,7 +42,7 @@ export default Ember.Route.extend({
                 console.log('User ID must be specified.');
             }
         },
-        updateContributors(editedPermissions, editedBibliographic, firstPerm, firstBib) {
+        updateContributors(editedPermissions, editedBibliographic) {
             var node = this.modelFor(this.routeName);
             var contribMap = this.generateContributorMap(node.get('contributors'));
             let user = this.modelFor('application');
@@ -130,13 +130,12 @@ export default Ember.Route.extend({
 
     attemptContributorsUpdate(contribMap, node, editedPermissions, editedBibliographic,
       firstPerm, firstBib) {
-        debugger;
         if (this.canModifyContributor(null, contribMap)) {
             if (firstPerm) {
-              this.modifyPermissions(firstPerm, node, editedPermissions);
+                this.modifyPermissions(firstPerm, node, editedPermissions);
             }
             if (firstBib) {
-                this.modifyBibliographic(firstBib, node, editedBibliographic)
+                this.modifyBibliographic(firstBib, node, editedBibliographic);
             }
 
             for (var contrib in editedPermissions) {

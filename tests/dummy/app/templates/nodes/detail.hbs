@@ -15,48 +15,49 @@
   Title: {{input value=editedTitle}}
   <button {{action "editExisting" editedTitle}} class="btn btn-primary">Edit record</button>
 
-   <h2>Contributors</h2>
+  <h2>Contributors</h2>
+  <table class="table">
+    <tr>
+      <th>ID</th>
+      <th> Permissions </th>
+      <th>Bibliographic</th>
+      <th> </th>
+    </tr>
+    {{#each model.contributors as |contrib|}}
+      <tr>
+        <td>{{contrib.id}}</td>
+        <td>
+          <select onchange={{action "permissionChange" value="target.value" bubbles=true}}>
+            <option value="read {{contrib.id}}" selected={{permissionHelper contrib.permission "read"}}> Read </option>
+            <option value="write {{contrib.id}}" selected={{permissionHelper contrib.permission "write"}}>  Read + Write </option>
+            <option value="admin {{contrib.id}}" selected={{permissionHelper contrib.permission "admin"}}>  Administrator </option>
+          </select>
+        </td>
+        <input onchange={{action "bibliographicChange" value="target"}} checked={{bibliographicHelper contrib.bibliographic}} type="checkbox" name="bibliographic" value="{{contrib.id}}">
+        <td> <button {{action "deleteContributor" contrib}} class="btn btn-danger"> Remove </button> </td>
+      </tr>
+    {{/each}}
+  </table>
+  <button {{action "updateContributors" editedPermissions editedBibliographic}} class="btn btn-primary"> Save changes </button>
 
-      <table class="table">
-          <tr>
-            <th>ID</th>
-            <th> Permissions </th>
-            <th>Bibliographic</th>
-            <th> </th>
-            <th> </th>
-          </tr>
-          {{#each model.contributors as |contrib|}}
-              <tr>
-                <td>{{contrib.id}}</td>
-                <td> <select onchange={{action "permissionChange" value="target.value" bubbles=true}}>
-                      <option value="read {{contrib.id}}" selected={{permissionHelper contrib.permission "read"}}> Read </option>
-                      <option value="write {{contrib.id}}" selected={{permissionHelper contrib.permission "write"}}>  Read + Write </option>
-                      <option value="admin {{contrib.id}}" selected={{permissionHelper contrib.permission "admin"}}>  Administrator </option>
-                    </select>
-                </td>
-                <input onchange={{action "bibliographicChange" value="target"}} checked={{bibliographicHelper contrib.bibliographic}} type="checkbox" name="bibliographic" value="{{contrib.id}}">
-                <td> <button {{action "deleteContributor" contrib}} class="btn btn-danger"> Remove </button> </td>
-              </tr>
-          {{/each}}
-      </table>
-      <td> <button {{action "updateContributors" editedPermissions editedBibliographic}} class="btn btn-primary"> Save changes </button></td>
+  <hr>
 
-    <hr>
-
-    <h2> Add contributor </h2>
-    <label> User ID </label> {{input value=contributorID}}
-
-    <label> Permissions </label>
-    <p>{{radio-button name="permission" value="read" checked=contributorPermissions}} Read
+  <h2> Add contributor </h2>
+  <label> User ID </label> {{input value=contributorID}}
+  <label> Permissions </label>
+  <p>
+    {{radio-button name="permission" value="read" checked=contributorPermissions}} Read
     {{radio-button name="permission" value="write" checked=contributorPermissions}} Read + Write
-    {{radio-button name="permission" value="admin" checked=contributorPermissions}} Administrator </p>
+    {{radio-button name="permission" value="admin" checked=contributorPermissions}} Administrator
+  </p>
 
-    <label> Bibliographic </label>
-    <p> {{radio-button name="bibliographic" value=1 checked=bibliographic}} Bibliographic
-    {{radio-button name="bibliographic" value=0 checked=bibliographic}} Non-Bibliographic </p>
-
-    <button {{action "addContributor" contributorID contributorPermissions bibliographic}} class="btn btn-primary">Add</button>
-    <hr>
+  <label> Bibliographic </label>
+  <p>
+    {{radio-button name="bibliographic" value=1 checked=bibliographic}} Bibliographic
+    {{radio-button name="bibliographic" value=0 checked=bibliographic}} Non-Bibliographic
+  </p>
+  <button {{action "addContributor" contributorID contributorPermissions bibliographic}} class="btn btn-primary">Add</button>
+  <hr>
 
   <label>Affiliated Institutions</label>
   <p>
