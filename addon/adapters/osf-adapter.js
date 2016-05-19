@@ -13,23 +13,23 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
     namespace: config.OSF.apiNamespace,
 
     buildURL(modelName, id, snapshot, requestType, query, dirtyRelationship) { // jshint ignore:line
+	var url;
         if (dirtyRelationship) {
             var links = snapshot.record.get(
                 `links.relationships.${Ember.String.underscore(dirtyRelationship)}.links`
             );
             if (links) {
-                return links.self ? links.self.href : links.related.href;
+                url = links.self ? links.self.href : links.related.href;
             }
-            return null;
         } else {
-            var url = this._super(...arguments);
-            // Fix issue where CORS request failed on 301s: Ember does not seem to append trailing
-            //  slash to URLs for single documents, but DRF redirects to force a trailing slash
-            if (url.lastIndexOf('/') !== 0) {
-                url += '/';
-            }
-            return url;
+            url = this._super(...arguments);
         }
+	// Fix issue where CORS request failed on 301s: Ember does not seem to append trailing
+        //  slash to URLs for single documents, but DRF redirects to force a trailing slash
+        if (url.lastIndexOf('/') !== 0) {
+            url += '/';
+        }
+        return url;
     },
     relationshipPayload(snapshot, dirty, store) {
         var relationMeta = snapshot.record[dirty].meta();
