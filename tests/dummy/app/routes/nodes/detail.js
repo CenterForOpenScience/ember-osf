@@ -42,25 +42,35 @@ export default Ember.Route.extend({
                 console.log('User ID must be specified.');
             }
         },
-        updateContributors(editedPermissions, editedBibliographic) {
+        updateContributors(editedPermissions, editedBibliographic, firstPerm, firstBib) {
             var node = this.modelFor(this.routeName);
             var contribMap = this.generateContributorMap(node.get('contributors'));
             let user = this.modelFor('application');
+            var firstPerm;
+            var firstBib;
 
             for (var contrib in editedPermissions) {
                 contribMap[contrib].permission = editedPermissions[contrib];
+                if (editedPermissions[contrib]) {
+                    firstPerm = contrib;
+                }
             }
 
             for (var c in editedBibliographic) {
                 contribMap[c].bibliographic = editedBibliographic[c];
+                if (editedBibliographic[c]) {
+                    firstBib = c;
+                }
             }
 
             if (node.get('currentUserPermissions').indexOf('admin') !== -1) {
-                this.attemptContributorsUpdate(contribMap, node, editedPermissions, editedBibliographic);
+                this.attemptContributorsUpdate(contribMap, node, editedPermissions, editedBibliographic,
+                  firstPerm, firstBib);
             } else {
                 // Non-admins can only attempt to remove themselves as contributors
                 if (contrib.id === user.id) {
-                    this.attemptContributorsUpdate(contribMap, node);
+                    this.attemptContributorsUpdate(contribMap, node, editedPermissions,
+                      editedBibliographic, firstPerm, firstBib);
                 } else {
                     console.log('Non-admins cannot update other contributors.');
                 }
@@ -118,28 +128,48 @@ export default Ember.Route.extend({
         return false;
     },
 
-    attemptContributorsUpdate(contribMap, node, editedPermissions, editedBibliographic) {
+    attemptContributorsUpdate(contribMap, node, editedPermissions, editedBibliographic,
+      firstPerm, firstBib) {
+        debugger;
         if (this.canModifyContributor(null, contribMap)) {
+            if (firstPerm) {
+              this.modifyPermissions(firstPerm, node, editedPermissions);
+            }
+            if (firstBib) {
+                this.modifyBibliographic(firstBib, node, editedBibliographic)
+            }
+
             for (var contrib in editedPermissions) {
-                this.store.findRecord('contributor', contrib).then(function(contributor) {
-                    contributor.set('nodeId', node.id);
-                    contributor.set('permission', editedPermissions[contrib]);
-                    contributor.save();
-                });
+                if (contrib !== firstPerm) {
+                    this.modifyPermissions(contrib, node, editedPermissions);
+                }
             }
             for (var c in editedBibliographic) {
-                this.store.findRecord('contributor', c).then(function(contributor) {
-                    debugger
-                    contributor.set('nodeId', node.id);
-                    contributor.set('bibliographic', editedBibliographic[c]);
-                    contributor.save();
-                });
+                if (c !== firstBib) {
+                    this.modifyBibliographic(c, node, editedBibliographic);
+                }
             }
             node.save();
             console.log('Contributor(s) updated.');
         } else {
             console.log('Cannot update contributor(s)');
         }
+    },
+
+    modifyPermissions(contrib, node, editedPermissions) {
+        this.store.findRecord('contributor', contrib).then(function(contributor) {
+            contributor.set('nodeId', node.id);
+            contributor.set('permission', editedPermissions[contrib]);
+            contributor.save();
+        });
+    },
+
+    modifyBibliographic(contrib, node, editedBibliographic) {
+        this.store.findRecord('contributor', contrib).then(function(contributor) {
+            contributor.set('nodeId', node.id);
+            contributor.set('bibliographic', editedBibliographic[contrib]);
+            contributor.save();
+        });
     },
 
     attemptContributorRemoval(contrib, contribMap, node) {
