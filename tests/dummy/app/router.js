@@ -37,6 +37,11 @@ Router.map(function() {
         path: '/file/:file_id'
     });
     this.route('profile');
+    this.route('collections', function() {
+        this.route('detail', {
+            path: '/:collection_id'
+        });
+    });
 });
 
 export default Router;
