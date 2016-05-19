@@ -152,9 +152,7 @@ export default Ember.Route.extend({
 
     attemptContributorRemoval(contrib, contribMap, node) {
         if (this.canModifyContributor(contrib, contribMap)) {
-            node.get('contributors').removeObject(contrib);
             contrib.deleteRecord();
-            node.save();
             contrib.save();
             console.log('Contributor removed.');
         } else {
