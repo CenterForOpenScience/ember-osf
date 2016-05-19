@@ -26,20 +26,12 @@ export default OsfAdapter.extend({
         }
     },
     updateRecord(store, type, snapshot) {
-      var self = this;
-      if (isEnabled('ds-improved-ajax')) {
-        return this._super(...arguments);
+      var url = this.buildURL(type.modelName, snapshot.id, snapshot, 'updateRecord');
+      if (url.indexOf('relationships') !== -1){
+          data = self.relationshipPayload(snapshot, url);
+          return this.ajax(url, 'PATCH', { data: data });
       } else {
-        var data = {};
-        var id = snapshot.id;
-        var url = this.buildURL(type.modelName, id, snapshot, 'updateRecord');
-        if (url.indexOf('relationships') !== -1){
-            data = self.relationshipPayload(snapshot, url);
-        } else {
-            var serializer = store.serializerFor(type.modelName);
-            serializer.serializeIntoHash(data, type, snapshot, { includeId: true });
-        }
-        return this.ajax(url, 'PATCH', { data: data });
+          return this._super(...arguments);
       }
     }
 });
