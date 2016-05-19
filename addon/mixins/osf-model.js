@@ -11,26 +11,30 @@ export default Ember.Mixin.create({
 
     relationshipLinks: DS.attr('links'),
     dirtyRelationships: Ember.computed('_dirtyRelationships', function() {
-	var dirtyRelationships = this.get('_dirtyRelationships');
+        var dirtyRelationships = this.get('_dirtyRelationships');
         return Object.keys(dirtyRelationships).map((rel) => {
-	    if (rel === 'files') {
-		return null;
-	    }
-	    if (dirtyRelationships[rel]) {
-		return rel;
-	    }
-	    return null;
+            if (rel === 'files') {
+                return null;
+            }
+            if (dirtyRelationships[rel]) {
+                return rel;
+            }
+            return null;
         }).filter(Boolean);
     }),
     _dirtyRelationships: {},
     onLoad: Ember.on('ready', function() {
-        this.eachRelationship((rel) => {
+        this.eachRelationship((rel, meta) => {
             let update = function() {
                 let key = `_dirtyRelationships.${rel}`;
                 this.set(key, !Ember.isEmpty(this.get(key)));
             }.bind(this);
 
             this.get(rel).then(() => {
+                var watch = rel;
+                if (meta.kind === 'hasMany') {
+                    watch = `${rel}.[]`;
+                }
                 this.addObserver(rel, update);
             });
         });
