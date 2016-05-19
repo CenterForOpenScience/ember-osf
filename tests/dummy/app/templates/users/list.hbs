@@ -1,10 +1,11 @@
-<h4> Users </h4>
+<h2> Users </h2>
 
-Current page: {{page}}
+<p>
+    <strong>Current Page</strong>: {{page}}
+</p>
 
-
-Previous: <button {{action 'previous'}}>Previous</button>
-Next: <button {{action 'next'}}>Next</button>
+<button class="btn btn-primary" {{action 'previous'}}>Previous</button>
+<button class="btn btn-primary" {{action 'next'}}>Next</button>
 
 <hr>
 {{#each model as |user|}}
