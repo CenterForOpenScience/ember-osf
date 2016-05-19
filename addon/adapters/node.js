@@ -13,7 +13,6 @@ export default OsfAdapter.extend({
           			);
           			return links.self ? links.self.href : links.related.href;
             });
-            this.customSerialize = {};
             return urls[0];
         } else {
             // Embed contributors
@@ -24,14 +23,5 @@ export default OsfAdapter.extend({
                 return base;
             }
         }
-    },
-    updateRecord(store, type, snapshot) {
-      var url = this.buildURL(type.modelName, snapshot.id, snapshot, 'updateRecord');
-      if (url.indexOf('relationships') !== -1){
-          data = self.relationshipPayload(snapshot, url);
-          return this.ajax(url, 'PATCH', { data: data });
-      } else {
-          return this._super(...arguments);
-      }
     }
 });
