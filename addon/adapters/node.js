@@ -1,3 +1,6 @@
+import Ember from 'ember';
+import isEnabled from 'ember-data/-private/features';
+
 import OsfAdapter from './osf-adapter';
 
 export default OsfAdapter.extend({
