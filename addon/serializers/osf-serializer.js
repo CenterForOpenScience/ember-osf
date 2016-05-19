@@ -55,7 +55,7 @@ export default DS.JSONAPISerializer.extend({
         }
     },
 
-    normalizeArrayResponse(store, primaryModelClass, payload, id, requestType){  // jshint ignore:line
+    normalizeArrayResponse(store, primaryModelClass, payload, id, requestType) {  // jshint ignore:line
         // Ember data does not yet support pagination. For any request that returns more than one result, extract
         //  links.meta from the payload links section, and add to the model metadata manually.
         let documentHash = this._super(...arguments);
