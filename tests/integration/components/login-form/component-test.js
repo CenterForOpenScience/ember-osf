@@ -11,14 +11,10 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{login-form}}`);
 
-  assert.equal(this.$().text().trim(), '');
+  assert.equal(this.$('label[for=inputEmail3]').text(), 'Email');
+  assert.ok(this.$('input[id=inputEmail3]'));
+  assert.equal(this.$('label[for=inputPassword3]').text(), 'Password');
+  assert.ok(this.$('input[id=inputPassword3]'));
+  assert.ok(this.$('label:contains("Remember me)'));
 
-  // Template block usage:
-  this.render(hbs`
-    {{#login-form}}
-      template block text
-    {{/login-form}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
 });

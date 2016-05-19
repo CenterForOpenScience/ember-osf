@@ -11,14 +11,13 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{sign-up}}`);
 
-  assert.equal(this.$().text().trim(), '');
+  assert.equal(this.$('label[for=inputName]').text(), 'Full Name');
+  assert.ok(this.$('input[id=inputName]'));
+  assert.equal(this.$('label[for=inputEmail]').text(), 'Email');
+  assert.ok(this.$('input[id=inputEmail]'));
+  assert.equal(this.$('label[for=inputEmail2]').text(), 'Confirm Email');
+  assert.ok(this.$('input[id=inputEmail2]'));
+  assert.equal(this.$('label[for=inputPassword3]').text(), 'Password');
+  assert.ok(this.$('input[id=inputPassword3]'));
 
-  // Template block usage:
-  this.render(hbs`
-    {{#sign-up}}
-      template block text
-    {{/sign-up}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
 });
