@@ -11,25 +11,24 @@
   <p><label>Date created: </label>{{model.dateCreated}}</p>
   <p><label>Checkout: </label>{{model.checkout}}</p>
 
-  <hr />
+  <hr>
   <h3>Versions</h3>
   <ul>
-  {{#each model.versions as |version|}}
-    {{file-version model=version}}
-  {{else}}
-    (none)
-  {{/each}}
+    {{#each model.versions as |version|}}
+      {{file-version model=version}}
+    {{else}}
+      (none)
+    {{/each}}
   </ul>
-  <hr />
+  <hr>
   <h3>Comments</h3>
   <ul>
-  {{#each model.comments as |comment|}}
-    <li>
+    {{#each model.comments as |comment|}}
+      <li>
         <div><label>{{comment.dateCreated}}: </label>{{comment.content}}</div>
-    </li>
-  {{else}}
-    (none)
-  {{/each}}
+      </li>
+    {{else}}
+      (none)
+    {{/each}}
   </ul>
-    
 </div>
