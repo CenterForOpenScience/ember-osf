@@ -1,11 +1,14 @@
 <h2> Users </h2>
 
 <p>
-    <strong>Current Page</strong>: {{page}} out of {{totalPages}}
+  {{pagination-control
+    currentPage=page
+    pageCount=totalPages
+    next=(action 'next')
+    previous=(action 'previous')
+    goToPage=(action 'goToPage')
+  }}
 </p>
-
-<button class="btn btn-primary" {{action 'previous'}}>Previous</button>
-<button class="btn btn-primary" {{action 'next'}}>Next</button>
 
 <hr>
 {{#each model as |user|}}

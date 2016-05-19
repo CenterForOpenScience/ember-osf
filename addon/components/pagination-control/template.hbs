@@ -1,0 +1,8 @@
+<div>
+  <button class="btn btn-primary" {{action 'previous'}}>Previous</button>
+  <button class="btn btn-primary" {{action 'next'}}>Next</button>
+</div>
+
+<div>
+  Page <input value={{currentPage}} onchange={{action 'goToPage' value='target.value'}}> of {{pageCount}}
+</div>
