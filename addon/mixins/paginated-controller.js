@@ -16,7 +16,6 @@ export default Ember.Mixin.create({
 
     actions: {
         previous() {
-            // TODO: Add bounds checking somewhere
             this.decrementProperty('page', 1);
         },
         next() {

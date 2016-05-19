@@ -6,6 +6,12 @@ export default Ember.Component.extend({
     currentPage: null,
     pageCount: null,
 
+    // Bounds checking for control buttons
+    disablePageReverse: Ember.computed.lte('currentPage', 1),
+    disablePageForward: Ember.computed('currentPage', 'pageCount', function() {
+        return this.get('currentPage') >= this.get('pageCount');
+    }),
+
     // TODO: This actions hash feels a bit kludgy
     actions: {
         next() {
