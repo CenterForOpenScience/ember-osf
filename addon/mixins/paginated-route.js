@@ -16,7 +16,13 @@ export default Ember.Mixin.create({
     pageArg: 'page',
     pageSizeArg: 'page[size]',
 
-    /* Convenience method. Given a model name (and optional user params), fetch a page of records. */
+    /**
+     * @method queryForPage  Fetch a route-specifed page of results from an external API
+     * @param modelName The name of the model to query in the store
+     * @param routeParams Parameters gictionary available to the model hook; must be passed in manually
+     * @param userParams Additional user-specified query parameters
+     * @returns {Promise}
+     */
     queryForPage(modelName, routeParams, userParams) {
         let params = Object.assign({}, userParams || {}, routeParams);
         // If page_size is present, rename the url arg to to whatever URL param name the API server expects
