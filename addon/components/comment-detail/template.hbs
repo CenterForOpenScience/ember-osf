@@ -1,0 +1,6 @@
+<li>
+  <div><label>{{model.dateCreated}}: </label>
+    {{input value=model.content}}<button {{action "editedComment" model model.content}} class="btn btn-default"> Edit</button>
+  </div>
+</li>
+{{yield}}
