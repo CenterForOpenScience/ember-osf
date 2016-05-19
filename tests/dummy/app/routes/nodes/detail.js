@@ -32,6 +32,10 @@ export default Ember.Route.extend({
                   }
             );
         },
+	deaffiliateNode(inst) {
+            var node = this.modelFor(this.routeName);
+            node.get('affiliatedInstitutions').removeObject(inst);
+            node.save();
+	}
     }
-
 });
