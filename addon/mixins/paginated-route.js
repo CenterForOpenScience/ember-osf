@@ -11,25 +11,20 @@ export default Ember.Mixin.create({
         }
     },
 
-    /*
-        Convenience method. Given a model name (and optional user params), fetch a page of records.
-     */
+    // Allow support for different APIs, by making the API pagination query param names configurable. Most users will not need to change this.
+    // TODO: Use these
+    pageArg: 'page',
+    pageSizeArg: 'page[size]',
+
+    /* Convenience method. Given a model name (and optional user params), fetch a page of records. */
     queryForPage(modelName, routeParams, userParams) {
-        // TODO: While it would be a nicer API to fetch params from the controller directly, page_size wasn't correctly being initialized 
-        
-        let controller = this.controllerFor(this.routeName);
-
-        let defaultParams = {page: controller.get('page')};
-        let pageSize = controller.get('page_size');
-        
-        if (pageSize) {
-            // TODO: if the user manually passes params,
-            defaultParams['page[size]'] = pageSize;
+        let params = Object.assign({}, userParams || {}, routeParams);
+        // If page_size is present, rename the url arg to to whatever URL param name the API server expects
+        if (params.page_size) {
+            // TODO: support making api pagination param names configurable
+            params['page[size]'] = params.page_size;
         }
-
-        let params = Object.assign({}, userParams || {}, defaultParams);
-        console.log('qparam', params);
-
-        //return this.store.query(modelName, params);
+        delete params.page_size;
+        return this.store.query(modelName, params);
     }
 });
