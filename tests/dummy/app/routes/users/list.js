@@ -6,7 +6,8 @@ import PaginatedRouteMixin from  'ember-osf/mixins/paginated-route';
 export default Ember.Route.extend(AuthenticatedRouteMixin, PaginatedRouteMixin, {
     store: Ember.inject.service(),
     session: Ember.inject.service(),
-    model() {
+    model(params) {
+        this.queryForPage('user');
         return this.get('store').findAll('user');
     }
 });
