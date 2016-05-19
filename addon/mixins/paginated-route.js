@@ -11,10 +11,12 @@ export default Ember.Mixin.create({
         }
     },
 
-    // Allow support for different APIs, by making the API pagination query param names configurable. Most users will not need to change this.
-    // TODO: Use these
-    pageArg: 'page',
-    pageSizeArg: 'page[size]',
+    // Configure how pagination query params in the frontend map to the query params expected by the API backend
+    //  (helps support different APIs). Most users will not need to change this.
+    apiArgs: {
+        page: 'page',
+        page_size: 'page[size]'
+    },
 
     /**
      * @method queryForPage  Fetch a route-specifed page of results from an external API
@@ -25,12 +27,18 @@ export default Ember.Mixin.create({
      */
     queryForPage(modelName, routeParams, userParams) {
         let params = Object.assign({}, userParams || {}, routeParams);
-        // If page_size is present, rename the url arg to to whatever URL param name the API server expects
-        if (params.page_size) {
-            // TODO: support making api pagination param names configurable
-            params['page[size]'] = params.page_size;
+
+        // Rename parameters to match what the API expects, and remove the old param name if necessary
+        let apiArgs = this.get('apiArgs');
+        for (let frontEndParamName of Object.keys(apiArgs)) {
+            let backEndParamName = apiArgs[frontEndParamName];
+            if (params[frontEndParamName]) {
+                params[backEndParamName] = params[frontEndParamName];
+            }
+            if (frontEndParamName !== backEndParamName) {
+                delete params[frontEndParamName];
+            }
         }
-        delete params.page_size;
         return this.store.query(modelName, params);
     }
 });

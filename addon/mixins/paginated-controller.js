@@ -18,15 +18,12 @@ export default Ember.Mixin.create({
         previous() {
             // TODO: Add bounds checking somewhere
             this.decrementProperty('page', 1);
-            console.log('decrement to previous');
         },
         next() {
             this.incrementProperty('page', 1);
-            console.log('increment to next');
         },
         goToPage(pageNumber) {
             this.set('page', pageNumber);
-            console.log('Went to page: ', this.get('page'));
         }
     }
 });
