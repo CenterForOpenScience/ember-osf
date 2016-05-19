@@ -1,4 +1,11 @@
 <h4> Users </h4>
+
+Current page: {{page}}
+
+
+Previous: <button {{action 'previous'}}>Previous</button>
+Next: <button {{action 'next'}}>Next</button>
+
 <hr>
 {{#each model as |user|}}
   <div>
