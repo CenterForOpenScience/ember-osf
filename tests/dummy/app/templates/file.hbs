@@ -1,5 +1,5 @@
 <div class="panel">
-  <h2>File detail</h2>
+  <h2>File detail</h2><a href="{{model.links.download}}" target="_blank" class="btn btn-primary"> Download </a>
   <p><label>Name: </label>{{model.name}}</p>
   <p><label>Kind: </label>{{model.kind}}</p>
   <p><label>Path: </label>{{model.path}}</p>
@@ -34,5 +34,9 @@
     {{else}}
       (none)
     {{/each}}
-  </ul>    
+  </ul>
+
+  <hr>
+  {{#file-renderer download=model.links.download}}
+  {{/file-renderer}}
 </div>
