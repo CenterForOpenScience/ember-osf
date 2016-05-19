@@ -76,11 +76,11 @@ export default Ember.Route.extend({
             var contribMap = this.generateContributorMap(node.get('contributors'));
 
             if (node.get('currentUserPermissions').indexOf('admin') !== -1) {
-                this.attemptContributorRemoval(contrib, contribMap, node);
+                this.attemptContributorRemoval(contrib, contribMap);
             } else {
                 // Non-admins can only attempt to remove themselves as contributors
                 if (contrib.id === user.id) {
-                    this.attemptContributorRemoval(contrib, contribMap, node);
+                    this.attemptContributorRemoval(contrib, contribMap);
                 } else {
                     console.log('Non-admins cannot delete other contributors.');
                 }
@@ -150,7 +150,7 @@ export default Ember.Route.extend({
         });
     },
 
-    attemptContributorRemoval(contrib, contribMap, node) {
+    attemptContributorRemoval(contrib, contribMap) {
         if (this.canModifyContributor(contrib, contribMap)) {
             contrib.deleteRecord();
             contrib.save();
