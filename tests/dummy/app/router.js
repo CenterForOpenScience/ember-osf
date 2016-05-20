@@ -26,6 +26,9 @@ Router.map(function() {
         });
     });
     this.route('users', function() {
+        this.route('list', {
+            path: '/'
+        });
         this.route('detail', {
             path: '/:user_id'
         });
