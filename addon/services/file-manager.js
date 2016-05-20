@@ -77,7 +77,7 @@ export default Ember.Service.extend({
     },
 
     move(file, targetFolder, { newName=null, replace=true,
-            node=null, provider=null, copy=false }) {
+            node=null, provider=null, copy=false } = {}) {
         let url = file.get('links').move;
         let data = {
             action: copy ? 'copy' : 'move',
@@ -109,7 +109,7 @@ export default Ember.Service.extend({
     },
 
     copy(file, targetFolder, { newName=null, replace=true,
-            node=null, provider=null }) {
+            node=null, provider=null } = {}) {
         return this.move(file, targetFolder, 
                 { newName, replace, node, provider, copy: true });
     },

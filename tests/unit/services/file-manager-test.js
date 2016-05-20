@@ -342,7 +342,7 @@ test('move sends valid waterbutler request', function(assert) {
     };
     setupAjax(assert, request, response);
 
-    service.move(file, folder, {}).then(function(movedFile) {
+    service.move(file, folder).then(function(movedFile) {
         assert.equal(movedFile.get('id'), file.get('id'));
         done();
     }).catch(function() {
@@ -374,7 +374,7 @@ test('move passes along error', function(assert) {
     };
     setupAjax(assert, request, response);
 
-    service.move(file, folder, {}).then(function() {
+    service.move(file, folder).then(function() {
         done();
     }).catch(function(error) {
         assert.equal(error, response.statusText);
@@ -411,7 +411,7 @@ test('copy sends valid waterbutler request', function(assert) {
     };
     setupAjax(assert, request, response);
 
-    service.copy(file, folder, {}).then(function() {
+    service.copy(file, folder).then(function() {
         assert.ok(true);
         done();
     }).catch(function() {
@@ -443,7 +443,7 @@ test('copy passes along error', function(assert) {
     };
     setupAjax(assert, request, response);
 
-    service.copy(file, folder, {}).then(function() {
+    service.copy(file, folder).then(function() {
         done();
     }).catch(function(error) {
         assert.equal(error, response.statusText);
