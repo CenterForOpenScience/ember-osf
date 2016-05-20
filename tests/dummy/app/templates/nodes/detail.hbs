@@ -1,7 +1,6 @@
 {{link-to 'Back to list' 'nodes' class="btn btn-default"}}
 <div class="panel">
-
-    <h2>Data</h2>
+  <h2>Data</h2>
   <p><label>Title:</label> {{model.title}}</p>
   <p><label>Description: </label> {{model.description}}</p>
   <p><label>Category:</label> {{model.category}}</p>
@@ -71,24 +70,35 @@
           {{/each}}
       </table>
 
+  <h2>Contributors</h2>
+  <table class="table">
+    <tr>
+      <th>ID</th>
+      <th>Author?</th>
+    </tr>
+    {{#each model.contributors as |contrib|}}
+      <tr>
+        <td>{{contrib.id}}</td>
+        <td>{{contrib.bibliographic}}</td>
+      </tr>
+    {{/each}}
+  </table>
   <label>Affiliated Institutions</label>
   <p>
     <table class="table">
-       	{{#each model.affiliatedInstitutions as |inst|}}
-       	  <tr>
-       	    {{inst.name}}
-       	  </tr>
-       	{{/each}}
+      {{#each model.affiliatedInstitutions as |inst|}}
+       	<tr>
+       	  {{inst.name}}
+       	</tr>
+      {{/each}}
     </table>
   </p>
-
   <h2>Files</h2>
-   {{#each model.files as |provider|}}
-       {{files-tree model=provider}}
-   {{/each}}
-   <hr>
-
-   {{log-detail node-logs=model.logs}}
+  {{#each model.files as |provider|}}
+    {{files-tree model=provider}}
+  {{/each}}
+  <hr>
+  {{log-detail node-logs=model.logs}}
 </div>
 
 <h2> Create component </h2>

@@ -5,6 +5,6 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
     store: Ember.inject.service(),
     session: Ember.inject.service(),
     model() {
-        return this.get('store').findAll('user');
+        return this.get('store').findAll('collection');
     }
 });

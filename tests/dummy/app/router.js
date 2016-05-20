@@ -17,6 +17,7 @@ Router.map(function() {
         });
     });
     this.route('login');
+    this.route('signup');
     this.route('institutions', function() {
         this.route('detail', {
             path: '/:institution_id'
@@ -28,6 +29,9 @@ Router.map(function() {
         });
     });
     this.route('users', function() {
+        this.route('list', {
+            path: '/'
+        });
         this.route('detail', {
             path: '/:user_id'
         });
@@ -36,6 +40,11 @@ Router.map(function() {
         path: '/file/:file_id'
     });
     this.route('profile');
+    this.route('collections', function() {
+        this.route('detail', {
+            path: '/:collection_id'
+        });
+    });
 });
 
 export default Router;
