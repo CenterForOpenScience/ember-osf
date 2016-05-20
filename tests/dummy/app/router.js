@@ -15,6 +15,7 @@ Router.map(function() {
         });
     });
     this.route('login');
+    this.route('signup');
     this.route('institutions', function() {
         this.route('detail', {
             path: '/:institution_id'
