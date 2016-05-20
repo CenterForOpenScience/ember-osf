@@ -66,11 +66,10 @@ export default Ember.Component.extend({
         moveFile(folderId) {
             let file = this.get('file');
             let store = this.get('store');
-            let folder = store.peekRecord('file', folderId);
+            let folder = store.findRecord('file', folderId);
             if (!folder) {
-                folder = store.peekRecord('file-provider', folderId);
+                folder = store.findRecord('file-provider', folderId);
                 if (!folder) {
-                    // TODO errors
                     return;
                 }
             }
@@ -83,7 +82,7 @@ export default Ember.Component.extend({
             };
 
             let p = this.get('fileManager').move(file, folder, options);
-            p.then(() => this.get('onChange'));
+            p.then(() => this.get('onChange')());
         }
     }
 });
