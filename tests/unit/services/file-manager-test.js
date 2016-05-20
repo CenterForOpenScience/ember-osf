@@ -30,8 +30,8 @@ function setupAjax(assert, expectedRequest, response) {
 
         for (let o in expectedRequest.options) {
             // Check for a JSON payload
-            if (typeof expectedRequest.options[o] == 'object' &&
-                    typeof options[o] == 'string') {
+            if (typeof expectedRequest.options[o] === 'object' &&
+                    typeof options[o] === 'string') {
                 let payload = JSON.parse(options[o]);
                 assert.deepEqual(payload, expectedRequest.options[o],
                         `request has expected JSON payload '${o}'`);
@@ -147,7 +147,7 @@ test('getContents passes along error', function(assert) {
     };
     setupAjax(assert, request, response);
 
-    service.getContents(file).then(function(data) {
+    service.getContents(file).then(function() {
         done();
     }).catch(function(message) {
         assert.equal(message, response.statusText, 'correct error message');
@@ -199,7 +199,7 @@ test('updateContents passes along error', function(assert) {
     };
     setupAjax(assert, request, response);
 
-    service.updateContents(file, request.options.data).then(function(data) {
+    service.updateContents(file, request.options.data).then(function() {
         done();
     }).catch(function(message) {
         assert.equal(message, response.statusText);
@@ -251,7 +251,7 @@ test('addSubfolder passes along error', function(assert) {
     };
     setupAjax(assert, request, response);
 
-    service.addSubfolder(file, request.query.name).then(function(data) {
+    service.addSubfolder(file, request.query.name).then(function() {
         done();
     }).catch(function(message) {
         assert.equal(message, response.statusText, 'correct error message');
