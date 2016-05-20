@@ -1,6 +1,6 @@
 import { moduleFor, test } from 'ember-qunit';
 
-moduleFor('adapter:file-provider', 'Unit | Adapter | file provider', {
+moduleFor('adapter:collection', 'Unit | Adapter | collection', {
   // Specify the other units that are required for this test.
   // needs: ['serializer:foo']
 });

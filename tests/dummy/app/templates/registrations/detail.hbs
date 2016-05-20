@@ -8,8 +8,9 @@
       View on OSF
     </a>
   </p>
-  
-  <p>{{link-to 'Node Registered' 'nodes.detail' model.registeredFrom.id class="btn btn-warning"}}
+  <p>
+    {{link-to 'Node Registered' 'nodes.detail' model.registeredFrom.id class="btn btn-warning"}}
   </p>
-
+  <hr>
+  {{log-detail node-logs=model.logs}}
 </div>

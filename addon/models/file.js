@@ -1,18 +1,8 @@
 import Ember from 'ember';
 import DS from 'ember-data';
-import OsfModel from 'ember-osf/models/base';
+import OsfModel from '../mixins/osf-model';
 
-/*
-function readonlyAttr(transform) {
-    return DS.attr(transform).extend({
-        set() {
-            // just throw?
-        }
-    });
-}
-*/
-
-export default OsfModel.extend({
+export default DS.Model.extend(OsfModel, {
     name: DS.attr('string'),
     kind: DS.attr('string'),
     path: DS.attr('string'),

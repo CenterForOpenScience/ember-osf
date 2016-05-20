@@ -1,6 +1,6 @@
-import ApplicationSerializer from 'ember-osf/serializers/application';
+import OsfSerializer from './osf-serializer';
 
-export default ApplicationSerializer.extend({
+export default OsfSerializer.extend({
     modelNameFromPayloadKey() {
         return 'file-provider';
     }
