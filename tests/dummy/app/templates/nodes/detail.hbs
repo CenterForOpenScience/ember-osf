@@ -36,9 +36,12 @@
             {{#each model.affiliatedInstitutions as |inst|}}
                 <tr>
                     {{inst.name}}
-		</tr>
+                </tr>
             {{/each}}
         </table>
     </p>
-    <h2>Files</h2> {{#each model.files as |provider|}} {{files-tree model=provider}} {{/each}}
+    <h2>Files</h2>
+    {{#each model.files as |provider|}}
+        {{files-tree model=provider}}
+    {{/each}}
 </div>
