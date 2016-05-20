@@ -31,14 +31,14 @@
   <p>
     <table class="table">
       {{#each model.affiliatedInstitutions as |inst|}}
-       	<tr>
-       	  {{inst.name}}
-       	</tr>
+        <tr>
+          {{inst.name}}
+        </tr>
       {{/each}}
     </table>
   </p>
   <h2>Files</h2>
-    {{link-to 'View Files' 'nodes.detail.files' model class='btn btn-primary'}}
+  {{link-to 'View Files' 'nodes.detail.files' model class='btn btn-primary'}}
   <hr>    
   {{log-detail node-logs=model.logs}}
 </div>
