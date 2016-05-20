@@ -1,7 +1,7 @@
 <div class="panel">
   <div>
     {{#link-to 'nodes.detail.files.provider' node model.provider class='btn'}}
-        Back to {{model.provider}}
+      Back to {{model.provider}}
     {{/link-to}}
   </div>
   <h2>{{model.kind}} detail: {{model.name}}</h2>
@@ -14,40 +14,36 @@
   <p><label>Date created: </label>{{model.dateCreated}}</p>
   <p><label>Checkout: </label>{{model.checkout}}</p>
 
-  <hr />
+  <hr>
 
   <h3>Actions</h3>
   {{file-actions file=model onChange=(action 'reloadFiles')}}
 
-  <hr />
+  <hr>
   {{#if model.isFolder}}
     <h3>Files</h3>
     {{file-tree root=model node=node}}
   {{else}}
-    
+
     <h3>Versions</h3>
     <ul>
-    {{#each model.versions as |version|}}
-      <li>
-          <div><label>ID: </label>{{version.id}}</div>
-          <div><label>Size: </label>{{version.size}}</div>
-          <div><label>Content type: </label>{{version.contentType}}</div>
-      </li>
-    {{else}}
-      (none)
-    {{/each}}
+      {{#each model.versions as |version|}}
+        {{file-version version=version}}
+      {{else}}
+        (none)
+      {{/each}}
     </ul>
-    <hr />
+    <hr>
     <h3>Comments</h3>
     <ul>
-    {{#each model.comments as |comment|}}
-      <li>
+      {{#each model.comments as |comment|}}
+        <li>
           <label>{{comment.dateCreated}}: </label>
           {{comment.content}}
-      </li>
-    {{else}}
-      (none)
-    {{/each}}
+        </li>
+      {{else}}
+        (none)
+      {{/each}}
     </ul>
   {{/if}}
 </div>

@@ -1,0 +1,44 @@
+<article class="login-form">
+  <div class="col-sm-5 col-sm-offset-1 toggle-box toggle-box-left p-h-lg">
+    <form id="logInForm" class="form-horizontal">
+      <h3 class="m-b-lg"> Login </h3>
+      <div class="form-group">
+        <label for="inputEmail3" class="col-sm-3 control-label">Email</label>
+        <div class="col-sm-9">
+          <input
+            type="email"
+            class="form-control"
+            name="username"
+            id="inputEmail3"
+            placeholder="Email"
+          >
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputPassword3" class="col-sm-3 control-label">Password</label>
+        <div class="col-sm-9">
+          <input
+            type="password"
+            class="form-control"
+            id="inputPassword3"
+            placeholder="Password"
+            name="password"
+          >
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-9">
+          <div class="checkbox">
+            <label><input type="checkbox"> Remember me</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-9">
+          <button type="submit" class="btn btn-success pull-right">Sign in</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  {{yield}}
+</article>
