@@ -9,7 +9,8 @@
       </td>
       <td>
         <button {{action "rename" newName}} class="btn btn-primary">
-          Rename</button>
+          Rename
+        </button>
       </td>
     </tr>
     <tr>
@@ -18,7 +19,8 @@
       </td>
       <td colspan=2>
         <button {{action "deleteFile"}} class="btn btn-primary">
-          Delete</button>
+          Delete
+        </button>
       </td>
     </tr>
     <tr>
@@ -29,16 +31,21 @@
         <div>Folder ID: {{input value=moveTarget}}</div>
         <div>Node ID (optional): {{input value=moveNode}}</div>
         <div>New name (optional): {{input value=moveName}}</div>
-        <div><label>
+        <div>
+          <label>
             Replace {{input type="checkbox" checked=moveReplace}}
-        </label></div>
-        <div><label>
+          </label>
+        </div>
+        <div>
+          <label>
             Copy {{input type="checkbox" checked=moveCopy}}
-        </label></div>
+          </label>
+        </div>
       </td>
       <td>
         <button {{action "moveFile" moveTarget}} class="btn btn-primary">
-          Move</button>
+          Move
+        </button>
       </td>
     </tr>
   {{/unless}}
@@ -51,8 +58,9 @@
         {{input value=newFolderName}}
       </td>
       <td>
-        <button {{action "addSubfolder" newFolderName}}
-          class="btn btn-primary">Add folder</button>
+        <button {{action "addSubfolder" newFolderName}} class="btn btn-primary">
+          Add folder
+        </button>
       </td>
     </tr>
     <tr>
@@ -67,7 +75,8 @@
     <tr>
       <td colspan=3>
         <button {{action "download"}} class="btn btn-primary">
-          Download</button>
+          Download
+        </button>
       </td>
     </tr>
     <tr>
