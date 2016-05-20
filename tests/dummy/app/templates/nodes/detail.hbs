@@ -34,23 +34,22 @@
 
       <p><label> Category: </label></p>
       <div>
-        {{radio-button name="category" value="analysis" checked=editedCategory}} Analysis <br>
-        {{radio-button name="category" value="communication" checked=editedCategory}} Communication <br>
-        {{radio-button name="category" value="data" checked=editedCategory}} Data <br>
-        {{radio-button name="category" value="hypothesis" checked=editedCategory}} Hypothesis <br>
-        {{radio-button name="category" value="instrumentation" checked=editedCategory}} Instrumentation <br>
-        {{radio-button name="category" value="methods and measures" checked=editedCategory}} Methods and Measures <br>
-        {{radio-button name="category" value="procedure" checked=editedCategory}} Procedure <br>
-        {{radio-button name="category" value="project" checked=editedCategory}} Project <br>
-        {{radio-button name="category" value="software" checked=editedCategory}} Software <br>
-        {{radio-button name="category" value="other" checked=editedCategory}} Other <br>
-        {{radio-button name="category" value="uncategorized" checked=editedCategory}} Uncategorized <br>
+        <p>{{radio-button name="category" value="analysis" checked=editedCategory}} Analysis </p>
+        <p>{{radio-button name="category" value="communication" checked=editedCategory}} Communication </p>
+        <p>{{radio-button name="category" value="data" checked=editedCategory}} Data </p>
+        <p>{{radio-button name="category" value="hypothesis" checked=editedCategory}} Hypothesis </p>
+        <p>{{radio-button name="category" value="instrumentation" checked=editedCategory}} Instrumentation </p>
+        <p>{{radio-button name="category" value="methods and measures" checked=editedCategory}} Methods and Measures </p>
+        <p>{{radio-button name="category" value="procedure" checked=editedCategory}} Procedure </p>
+        <p>{{radio-button name="category" value="project" checked=editedCategory}} Project </p>
+        <p>{{radio-button name="category" value="software" checked=editedCategory}} Software</p>
+        <p>{{radio-button name="category" value="other" checked=editedCategory}} Other </p>
+        <p>{{radio-button name="category" value="uncategorized" checked=editedCategory}} Uncategorized </p>
         </div>
-      <br>
 
       <p><label> Privacy settings </label></p>
-      {{radio-button name="isPublic" value=1 checked=isPublic}} Public <br>
-      {{radio-button name="isPublic" value=0 checked=isPublic}} Private <br>
+      {{radio-button name="isPublic" value=1 checked=isPublic}} Public
+      {{radio-button name="isPublic" value=0 checked=isPublic}} Private
 
       <button {{action "editExisting" editedTitle editedDescription editedCategory isPublic}} class="btn btn-primary"> Save changes </button>
   {{else}}
@@ -94,24 +93,24 @@
 
 <h2> Create component </h2>
 <div>
-     <label>Title:</label>
-     {{input type="text" value=title placeholder="Component's title" required=true}}<br>
-     <label>Description (optional):</label>
-     {{input type="text" value=description placeholder="Component's description"}} <br>
-     <label>Category (optional):</label><br>
-       {{radio-button name="category" value="analysis" checked=category}} Analysis <br>
-       {{radio-button name="category" value="communication" checked=category}} Communication <br>
-       {{radio-button name="category" value="data" checked=category}} Data <br>
-       {{radio-button name="category" value="hypothesis" checked=category}} Hypothesis <br>
-       {{radio-button name="category" value="instrumentation" checked=category}} Instrumentation <br>
-       {{radio-button name="category" value="methods and measures" checked=category}} Methods and Measures <br>
-       {{radio-button name="category" value="procedure" checked=category}} Procedure <br>
-       {{radio-button name="category" value="project" checked=category}} Project <br>
-       {{radio-button name="category" value="software" checked=category}} Software <br>
-       {{radio-button name="category" value="other" checked=category}} Other <br>
-       {{radio-button name="category" value="uncategorized" checked=category}} Uncategorized <br>
-     <br>
-     <p><button {{action "addChildren" title description category }}>Create</button></p>
+  <label>Title:</label>
+  {{input type="text" value=title placeholder="Component's title" required=true}}
+  <label>Description (optional):</label>
+  {{input type="text" value=description placeholder="Component's description"}}
+  <p><label>Category (optional):</label></p>
+    <p>{{radio-button name="category" value="analysis" checked=category}} Analysis </p>
+    <p>{{radio-button name="category" value="communication" checked=category}} Communication </p>
+    <p>{{radio-button name="category" value="data" checked=category}} Data </p>
+    <p>{{radio-button name="category" value="hypothesis" checked=category}} Hypothesis </p>
+    <p>{{radio-button name="category" value="instrumentation" checked=category}} Instrumentation </p>
+    <p>{{radio-button name="category" value="methods and measures" checked=category}} Methods and Measures </p>
+    <p>{{radio-button name="category" value="procedure" checked=category}} Procedure </p>
+    <p>{{radio-button name="category" value="project" checked=category}} Project </p>
+    <p>{{radio-button name="category" value="software" checked=category}} Software </p>
+    <p>{{radio-button name="category" value="other" checked=category}} Other </p>
+    <p>{{radio-button name="category" value="uncategorized" checked=category}} Uncategorized </p>
+
+  <p><button {{action "addChildren" title description category }}>Create</button></p>
 
 </div>
 
