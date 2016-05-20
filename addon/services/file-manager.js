@@ -18,7 +18,9 @@ export default Ember.Service.extend({
     // after you create a file, you should go get a cup of coffee, come back,
     // and hard reload.
 
-    // File actions
+
+    ///////////////////// File-only actions /////////////////////
+
     getContents(file) {
         let url = file.get('links').download;
         return this._waterbutlerRequest('GET', url);
@@ -35,7 +37,9 @@ export default Ember.Service.extend({
         // the only writable attribute on the file model.
     },
 
-    // Folder actions
+
+    ///////////////////// Folder-only actions /////////////////////
+
     addSubfolder(folder, name) {
         let url = folder.get('links').new_folder;
         let params = {
@@ -60,7 +64,9 @@ export default Ember.Service.extend({
         return this._waterbutlerRequest('PUT', url, params, contents);
     },
 
-    // File and folder actions
+
+    ///////////////////// File and folder actions /////////////////////
+
     rename(file, newName) {
         let url = file.get('links').move;
         let data = JSON.stringify({ action: 'rename', rename: newName });
@@ -119,6 +125,9 @@ export default Ember.Service.extend({
         });
     },
 
+
+    ///////////////////// Privates /////////////////////
+
     _waterbutlerRequest(method, url, queryParams=null, data=null) {
         if (queryParams) {
             let queryString = Ember.$.param(queryParams);
@@ -136,9 +145,7 @@ export default Ember.Service.extend({
                     Authorization: `Bearer ${accessToken}`
                 },
                 success: (data) => resolve(data),
-                error: (_, __, error) => {
-                    reject(error);
-                }
+                error: (_, __, error) => reject(error)
             });
         });
     },
