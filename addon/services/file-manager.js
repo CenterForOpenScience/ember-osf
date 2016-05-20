@@ -18,7 +18,6 @@ export default Ember.Service.extend({
     // after you create a file, you should go get a cup of coffee, come back,
     // and hard reload.
 
-
     ///////////////////// File-only actions /////////////////////
 
     getContents(file) {
@@ -36,7 +35,6 @@ export default Ember.Service.extend({
         // TODO? Having checkout here makes more sense to me than making it
         // the only writable attribute on the file model.
     },
-
 
     ///////////////////// Folder-only actions /////////////////////
 
@@ -64,54 +62,54 @@ export default Ember.Service.extend({
         return this._waterbutlerRequest('PUT', url, params, contents);
     },
 
-
     ///////////////////// File and folder actions /////////////////////
 
     rename(file, newName) {
         let url = file.get('links').move;
         let data = JSON.stringify({ action: 'rename', rename: newName });
         let p = this._waterbutlerRequest('POST', url, null, data);
-        return p.then((data) => {
-            return this._pushToStore(data, file.get('id'));
-        });
+        return p.then((data) => this._pushToStore(data, file.get('id')));
     },
 
-    move(file, targetFolder, { newName=null, replace=true,
-            node=null, provider=null, copy=false } = {}) {
+    move(file, targetFolder, options = {}) {
+        // Default options:
+        // newName: null
+        // replace: true
+        // node: null
+        // provider: null
+        // copy: false
+
         let url = file.get('links').move;
         let data = {
-            action: copy ? 'copy' : 'move',
+            action: options.copy ? 'copy' : 'move',
             path: targetFolder.get('path'),
-            conflict: replace ? 'replace' : 'keep'
+            conflict: options.replace === false ? 'keep' : 'replace'
         };
-        if (newName) {
-            data.rename = newName;
+        if (options.newName) {
+            data.rename = options.newName;
         }
-        if (node) {
-            if (typeof node === 'string') {
-                data.resource = node;
+        if (options.node) {
+            if (typeof options.node === 'string') {
+                data.resource = options.node;
             } else {
-                data.resource = node.get('id');
+                data.resource = options.node.get('id');
             }
         }
-        if (provider) {
-            data.provider = provider;
+        if (options.provider) {
+            data.provider = options.provider;
         }
 
         let p = this._waterbutlerRequest('POST', url, null, JSON.stringify(data));
         return p.then((data) => {
-            if (copy) {
-                // TODO get new file's info from OSF
-            } else {
+            if (!options.copy) {
                 return this._pushToStore(data, file.get('id'), targetFolder);
             }
         });
     },
 
-    copy(file, targetFolder, { newName=null, replace=true,
-            node=null, provider=null } = {}) {
-        return this.move(file, targetFolder, 
-                { newName, replace, node, provider, copy: true });
+    copy(file, targetFolder, options={}) {
+        options.copy = true;
+        return this.move(file, targetFolder, options);
     },
 
     deleteFile(file) {
@@ -124,7 +122,6 @@ export default Ember.Service.extend({
             }
         });
     },
-
 
     ///////////////////// Privates /////////////////////
 

@@ -13,15 +13,15 @@ Router.map(function() {
         this.route('detail', {
             path: '/:node_id'
         }, function() {
-          this.route('files', function() {
-            this.route('provider', {
-                path: '/:provider'
-            }, function() {
-                this.route('file', {
-                    path: '/:file_id'
+            this.route('files', function() {
+                this.route('provider', {
+                    path: '/:provider'
+                }, function() {
+                    this.route('file', {
+                        path: '/:file_id'
+                    });
                 });
             });
-          });
         });
     });
     this.route('login');
