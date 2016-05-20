@@ -1,5 +1,7 @@
 import Ember from 'ember';
 
+// TODO: refactor permissions strings when https://github.com/CenterForOpenScience/ember-osf/pull/23/files#diff-7fd0bf247bef3c257e0fcfd7e544a338R5 is merged
+
 export default Ember.Route.extend({
 
     model(params) {
