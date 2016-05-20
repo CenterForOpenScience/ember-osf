@@ -1,6 +1,7 @@
 import DS from 'ember-data';
 
 import OsfModel from '../mixins/osf-model';
+import RelationshipSerializer from '../serializers/relationship';
 
 export default DS.Model.extend(OsfModel, {
     title: DS.attr('string'),
@@ -28,7 +29,10 @@ export default DS.Model.extend(OsfModel, {
         inverse: 'parent'
     }),
     affiliatedInstitutions: DS.hasMany('institutions', {
-        inverse: 'nodes'
+        inverse: 'nodes',
+	serializer: RelationshipSerializer.extend({
+	    type: 'institutions'
+	})
     }),
     comments: DS.hasMany('comments'),
     contributors: DS.hasMany('contributors'),
