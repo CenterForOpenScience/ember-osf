@@ -1,18 +1,18 @@
 <div class="panel">
-  <div>
-    {{link-to 'Back to providers' 'nodes.detail.files'
-    model.node class='btn'}}
-  </div>
-  <h2>{{model.name}}</h2>
-  <p><label>ID: </label>{{model.id}}</p>
-  <p><label>Provider: </label>{{model.provider}}</p>
-  <p><label>Path: </label>{{model.path}}</p>
+    <div>
+        {{link-to 'Back to providers' 'nodes.detail.files'
+        model.node class='btn'}}
+    </div>
+    <h2>{{model.name}}</h2>
+    <p><label>ID: </label>{{model.id}}</p>
+    <p><label>Provider: </label>{{model.provider}}</p>
+    <p><label>Path: </label>{{model.path}}</p>
 
-  <h3>Files</h3>
-  {{file-tree root=model node=model.node}}
+    <h3>Files</h3>
+    {{file-tree root=model node=model.node}}
 
-  <hr>
+    <hr>
 
-  <h3>Actions</h3>
-  {{file-actions file=model onChange=(action 'reloadFiles')}}
+    <h3>Actions</h3>
+    {{file-actions file=model onChange=(action 'reloadFiles')}}
 </div>
