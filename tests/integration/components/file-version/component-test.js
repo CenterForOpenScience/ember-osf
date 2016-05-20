@@ -11,6 +11,6 @@ test('it renders', function(assert) {
   this.set('version', {'id': '1', 'size': 125, 'contentType': 'text'});
   this.render(hbs`{{file-version version=version}}`);
 
-  assert.equal(this.$().text().trim(), 'ID: 1\n  Size: 125\n  Content type: text');
+  assert.equal(this.$().text().trim(), 'ID: 1\n    Size: 125\n    Content type: text');
 
 });
