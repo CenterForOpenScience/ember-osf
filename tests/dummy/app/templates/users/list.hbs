@@ -1,4 +1,15 @@
-<h4> Users </h4>
+<h2> Users </h2>
+
+<p>
+    {{pagination-control
+    currentPage=page
+    pageCount=totalPages
+    next=(action 'next')
+    previous=(action 'previous')
+    goToPage=(action 'goToPage')
+    }}
+</p>
+
 <hr>
 {{#each model as |user|}}
     <div>
