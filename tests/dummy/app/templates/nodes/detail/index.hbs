@@ -15,51 +15,6 @@
     Title: {{input value=editedTitle}}
     <button {{action "editExisting" editedTitle}} class="btn btn-primary">Edit record</button>
     <h2>Contributors</h2>
-    <table class="table">
-        <tr>
-            <th>ID</th>
-            <th>Author?</th>
-        </tr>
-        {{#each model.contributors as |contrib|}}
-            <tr>
-                <td>{{contrib.id}}</td>
-                <td>{{contrib.bibliographic}}</td>
-            </tr>
-        {{/each}}
-    </table>
-    <label>Affiliated Institutions</label>
-    <p>
-      <table class="table">
-         	{{#each model.affiliatedInstitutions as |inst|}}
-         	  <tr>
-         	    {{inst.name}}
-         	  </tr>
-  	      <button {{action "deaffiliateNode" inst}}>Undeaffilite</button>
-         	{{/each}}
-      </table>
-    </p>
-    <h2>Files</h2>
-    {{link-to 'View Files' 'nodes.detail.files' model class='btn btn-primary'}}
-    <hr>
-    {{log-detail node-logs=model.logs}}
-</div>
-{{link-to 'Back to list' 'nodes' class="btn btn-default"}}
-<div class="panel">
-    <h2>Data</h2>
-    <p><label>Title:</label> {{model.title}}</p>
-    <p><label>Category:</label> {{model.category}}</p>
-    <p><label>Date Created:</label> {{moment-format model.dateCreated}}</p>
-    <p><label>Date Modified:</label> {{moment-format model.dateModified}}</p>
-    <p>
-        <a href="{{model.links.html}}" target="_blank" class="btn btn-primary">
-            View on OSF
-        </a>
-    </p>
-    <hr>
-    <h2>Edit this node</h2>
-    Title: {{input value=editedTitle}}
-    <button {{action "editExisting" editedTitle}} class="btn btn-primary">Edit record</button>
-    <h2>Contributors</h2>
     <button {{action "updateContributors" editedPermissions editedBibliographic}} class="btn btn-primary"> Save changes </button>
     <hr>
     <h2> Add contributor </h2>
@@ -75,17 +30,26 @@
     </p>
     <button {{action "addContributor" contributorID contributorPermissions bibliographic}} class="btn btn-primary">Add</button>
     <hr>
-    <label>Affiliated Institutions</label>
+
+    <h2>Affiliated Institutions</h2>
     <p>
       <table class="table">
          	{{#each model.affiliatedInstitutions as |inst|}}
          	  <tr>
+              <td>
          	    {{inst.name}}
-         	  </tr>
-  	      <button {{action "deaffiliateNode" inst}}>Undeaffilite</button>
+            </td>
+              <td>
+              <button {{action "deaffiliateNode" inst}}>Unaffiliate</button>
+            </td>
+            </tr>
          	{{/each}}
       </table>
+      <h4>Add Institution</h4>
+      Institution Id {{input value=instId}}
+      <button {{action "affiliateNode" instId}} class="btn btn-primary">Affiliate Node</button>
     </p>
+
     <h2>Files</h2>
     {{link-to 'View Files' 'nodes.detail.files' model class='btn btn-primary'}}
 </div>

@@ -39,7 +39,7 @@ export default Ember.Route.extend({
               var node = this.modelFor(this.routeName);
               node.get('affiliatedInstitutions').removeObject(inst);
               node.save();
-      	}
+      	},
         addContributor(contribId, permission, bibliographic) {
             var node = this.modelFor(this.routeName);
             if (contribId) {

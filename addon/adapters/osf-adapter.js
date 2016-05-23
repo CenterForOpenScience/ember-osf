@@ -26,7 +26,7 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         }
 	// Fix issue where CORS request failed on 301s: Ember does not seem to append trailing
         //  slash to URLs for single documents, but DRF redirects to force a trailing slash
-        if (url.lastIndexOf('/') !== 0) {
+        if (url.lastIndexOf('/') !== url.length - 1) {
             url += '/';
         }
         return url;
