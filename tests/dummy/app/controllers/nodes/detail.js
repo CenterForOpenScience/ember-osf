@@ -19,4 +19,6 @@ export default Ember.Controller.extend({
             var bibliographic = target.checked;
             var contributorId = target.value;
             this.editedBibliographic[contributorId] = bibliographic;
+        }
+    }
 });

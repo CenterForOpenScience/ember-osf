@@ -60,7 +60,7 @@ export default Ember.Route.extend({
             }
         }
 
-    }
+    },
 
     attemptContributorsUpdate(contribMap, node, editedPermissions, editedBibliographic) {
         if (this.canModifyContributor(null, contribMap)) {
