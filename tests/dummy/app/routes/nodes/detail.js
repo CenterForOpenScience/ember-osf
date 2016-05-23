@@ -1,6 +1,9 @@
 import Ember from 'ember';
 
+// TODO: refactor permissions strings when https://github.com/CenterForOpenScience/ember-osf/pull/23/files#diff-7fd0bf247bef3c257e0fcfd7e544a338R5 is merged
+
 export default Ember.Route.extend({
+
     model(params) {
         return this.store.findRecord('node', params.node_id);
     },
@@ -59,4 +62,44 @@ export default Ember.Route.extend({
 
     }
 
+    attemptContributorsUpdate(contribMap, node, editedPermissions, editedBibliographic) {
+        if (this.canModifyContributor(null, contribMap)) {
+            for (var contrib in editedPermissions) {
+                this.modifyPermissions(contrib, node, editedPermissions);
+            }
+            for (var c in editedBibliographic) {
+                this.modifyBibliographic(c, node, editedBibliographic);
+            }
+            node.save();
+            console.log('Contributor(s) updated.');
+        } else {
+            console.log('Cannot update contributor(s)');
+        }
+    },
+
+    modifyPermissions(contrib, node, editedPermissions) {
+        this.store.findRecord('contributor', contrib).then(function(contributor) {
+            contributor.set('nodeId', node.id);
+            contributor.set('permission', editedPermissions[contrib]);
+            contributor.save();
+        });
+    },
+
+    modifyBibliographic(contrib, node, editedBibliographic) {
+        this.store.findRecord('contributor', contrib).then(function(contributor) {
+            contributor.set('nodeId', node.id);
+            contributor.set('bibliographic', editedBibliographic[contrib]);
+            contributor.save();
+        });
+    },
+
+    attemptContributorRemoval(contrib, contribMap) {
+        if (this.canModifyContributor(contrib, contribMap)) {
+            contrib.deleteRecord();
+            contrib.save();
+            console.log('Contributor removed.');
+        } else {
+            console.log('Cannot remove contributor');
+        }
+    }
 });

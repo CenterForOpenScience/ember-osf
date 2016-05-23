@@ -14,6 +14,15 @@ Router.map(function() {
             path: '/:node_id'
         }, function() {
             this.route('children');
+            this.route('files', function() {
+                this.route('provider', {
+                    path: '/:provider'
+                }, function() {
+                    this.route('file', {
+                        path: '/:file_id'
+                    });
+                });
+            });
         });
     });
     this.route('login');
@@ -35,9 +44,6 @@ Router.map(function() {
         this.route('detail', {
             path: '/:user_id'
         });
-    });
-    this.route('file', {
-        path: '/file/:file_id'
     });
     this.route('profile');
     this.route('collections', function() {

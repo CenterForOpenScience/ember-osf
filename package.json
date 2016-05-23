@@ -73,6 +73,7 @@
   "jscsConfig": {
     "preset": "airbnb",
     "excludeFiles": [
+      "package.json",
       "bower_components",
       "dist",
       "tmp",
