@@ -67,13 +67,13 @@
     {{log-detail node-logs=model.logs}}
 
     <h2>Contributors</h2>
-        <table class="table">
-            <tr>
-                <th>ID</th>
-                <th> Permissions </th>
-                <th>Bibliographic</th>
-                <th> </th>
-            </tr>
+    <table class="table">
+        <tr>
+            <th>ID</th>
+            <th> Permissions </th>
+            <th>Bibliographic</th>
+            <th> </th>
+        </tr>
         {{#each model.contributors as |contrib|}}
             <tr>
                 <td>{{contrib.id}}</td>
@@ -90,7 +90,7 @@
                 <td> <button {{action "deleteContributor" contrib}} class="btn btn-danger"> Remove </button> </td>
             </tr>
         {{/each}}
-        </table>
+    </table>
     <button {{action "updateContributors" editedPermissions editedBibliographic}} class="btn btn-primary"> Save changes </button>
 
     <hr>
@@ -110,26 +110,25 @@
     <hr>
 
     <h2> Create component </h2>
-        <div>
-            <label>Title:</label>
-                {{input type="text" value=title placeholder="Component's title" required=true}}
-            <label>Description (optional):</label>
-                {{input type="text" value=description placeholder="Component's description"}}
-            <p><label>Category (optional):</label></p>
-                <p>{{radio-button name="category" value="analysis" checked=category}} Analysis </p>
-                <p>{{radio-button name="category" value="communication" checked=category}} Communication </p>
-                <p>{{radio-button name="category" value="data" checked=category}} Data </p>
-                <p>{{radio-button name="category" value="hypothesis" checked=category}} Hypothesis </p>
-                <p>{{radio-button name="category" value="instrumentation" checked=category}} Instrumentation </p>
-                <p>{{radio-button name="category" value="methods and measures" checked=category}} Methods and Measures </p>
-                <p>{{radio-button name="category" value="procedure" checked=category}} Procedure </p>
-                <p>{{radio-button name="category" value="project" checked=category}} Project </p>
-                <p>{{radio-button name="category" value="software" checked=category}} Software </p>
-                <p>{{radio-button name="category" value="other" checked=category}} Other </p>
-                <p>{{radio-button name="category" value="uncategorized" checked=category}} Uncategorized </p>
-
-          <p><button {{action "addChildren" title description category }}>Create</button></p>
-      </div>
+    <div>
+        <label>Title:</label>
+        {{input type="text" value=title placeholder="Component's title" required=true}}
+        <label>Description (optional):</label>
+        {{input type="text" value=description placeholder="Component's description"}}
+        <p><label>Category (optional):</label></p>
+        <p>{{radio-button name="category" value="analysis" checked=category}} Analysis </p>
+        <p>{{radio-button name="category" value="communication" checked=category}} Communication </p>
+        <p>{{radio-button name="category" value="data" checked=category}} Data </p>
+        <p>{{radio-button name="category" value="hypothesis" checked=category}} Hypothesis </p>
+        <p>{{radio-button name="category" value="instrumentation" checked=category}} Instrumentation </p>
+        <p>{{radio-button name="category" value="methods and measures" checked=category}} Methods and Measures </p>
+        <p>{{radio-button name="category" value="procedure" checked=category}} Procedure </p>
+        <p>{{radio-button name="category" value="project" checked=category}} Project </p>
+        <p>{{radio-button name="category" value="software" checked=category}} Software </p>
+        <p>{{radio-button name="category" value="other" checked=category}} Other </p>
+        <p>{{radio-button name="category" value="uncategorized" checked=category}} Uncategorized </p>
+        <p><button {{action "addChildren" title description category }}>Create</button></p>
+    </div>
 
 </div>
 
