@@ -2,14 +2,14 @@ import DS from 'ember-data';
 
 import OsfModel from '../mixins/osf-model';
 
-function relationshipSerializer(relationship, type){
-    return function(snapshot){
-      return {
-        data: snapshot.record.get(relationship).map(
-          function(record){ return {type: type, id: record.id};}
-        )
-      };
-    }
+function relationshipSerializer(relationship, type) {
+    return function(snapshot) {
+        return {
+            data: snapshot.record.get(relationship).map(
+                function(record) { return { type: type, id: record.id }; }
+            )
+        };
+    };
 }
 
 export default DS.Model.extend(OsfModel, {
@@ -40,7 +40,7 @@ export default DS.Model.extend(OsfModel, {
     }),
     affiliatedInstitutions: DS.hasMany('institutions', {
         inverse: 'nodes',
-	      serializer: relationshipSerializer('affiliatedInstitutions', 'institutions')
+        serializer: relationshipSerializer('affiliatedInstitutions', 'institutions')
     }),
     comments: DS.hasMany('comments'),
     contributors: DS.hasMany('contributors'),

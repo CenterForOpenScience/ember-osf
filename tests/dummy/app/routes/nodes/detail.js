@@ -3,7 +3,6 @@ import Ember from 'ember';
 // TODO: refactor permissions strings when https://github.com/CenterForOpenScience/ember-osf/pull/23/files#diff-7fd0bf247bef3c257e0fcfd7e544a338R5 is merged
 
 export default Ember.Route.extend({
-
     model(params) {
         return this.store.findRecord('node', params.node_id);
     },
@@ -30,21 +29,21 @@ export default Ember.Route.extend({
                 console.log('You do not have permissions to edit this node');
             }
         },
-        affiliateNode(instId){
-            var self = this;
+        affiliateNode(instId) {
+            var _this = this;
             self.store.findRecord('institution', instId).then(
-                  function(inst){
-                      var node = self.modelFor(self.routeName);
-                      node.get('affiliatedInstitutions').pushObject(inst);
-                      node.save();
-                  }
+                function(inst) {
+                    var node = _this.modelFor(self.routeName);
+                    node.get('affiliatedInstitutions').pushObject(inst);
+                    node.save();
+                }
             );
         },
-      	deaffiliateNode(inst) {
-              var node = this.modelFor(this.routeName);
-              node.get('affiliatedInstitutions').removeObject(inst);
-              node.save();
-      	},
+        deaffiliateNode(inst) {
+            var node = this.modelFor(this.routeName);
+            node.get('affiliatedInstitutions').removeObject(inst);
+            node.save();
+        },
         addContributor(contribId, permission, bibliographic) {
             var node = this.modelFor(this.routeName);
             if (contribId) {

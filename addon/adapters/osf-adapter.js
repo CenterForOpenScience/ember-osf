@@ -11,9 +11,8 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
     authorizer: 'authorizer:osf-token',
     host: config.OSF.apiUrl,
     namespace: config.OSF.apiNamespace,
-
     buildURL(modelName, id, snapshot, requestType, query, dirtyRelationship) { // jshint ignore:line
-	      var url;
+        var url;
         var links = dirtyRelationship ? snapshot.record.get(
             `links.relationships.${Ember.String.underscore(dirtyRelationship)}.links`
         ) : false;
@@ -22,7 +21,7 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         } else {
             url = this._super(...arguments);
         }
-	// Fix issue where CORS request failed on 301s: Ember does not seem to append trailing
+        // Fix issue where CORS request failed on 301s: Ember does not seem to append trailing
         //  slash to URLs for single documents, but DRF redirects to force a trailing slash
         if (url.lastIndexOf('/') !== url.length - 1) {
             url += '/';
@@ -34,18 +33,18 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         var relationType = relationMeta.type;
         var serialized;
         if (relationMeta.options.serializer) {
-          serialized = relationMeta.options.serializer(snapshot);
+            serialized = relationMeta.options.serializer(snapshot);
         } else {
-          var serializer = store.serializerFor(relationType);
-          var toBeSent = snapshot.record.get(dirty).filter(
-            function(record){
-              return record.id === null;
-            }
-          );
-          //under the assumption relationship saves are atomic, only one component is added at a time.
-          serialized = serializer.serialize(new DS.Snapshot(toBeSent[0]._internalModel));
-          // for some reason this is not hitting the node overloaded serialize method
-          delete serialized.data.relationships;
+            var serializer = store.serializerFor(relationType);
+            var toBeSent = snapshot.record.get(dirty).filter(
+                function(record) {
+                    return record.id === null;
+                }
+            );
+            //under the assumption relationship saves are atomic, only one component is added at a time.
+            serialized = serializer.serialize(new DS.Snapshot(toBeSent[0]._internalModel));
+            // for some reason this is not hitting the node overloaded serialize method
+            delete serialized.data.relationships;
         }
         return serialized;
     },
@@ -58,7 +57,6 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
             return this.ajax(url, requestType || 'PATCH', {
                 data: this.relationshipPayload(snapshot, dirty, store)
             });
-
         } else {
             return this._super(...arguments);
         }
