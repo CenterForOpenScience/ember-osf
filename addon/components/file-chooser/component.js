@@ -1,15 +1,35 @@
 import Ember from 'ember';
 import layout from './template';
 
+/*
+ * file-chooser component
+ *
+ * This component lets the user choose files from their computer, either through
+ * a file browser or by drag-and-drop. 
+ *
+ * Exposed to parent context (bindable attributes)
+ *  - `onChoose`: action called each time a file is added, with the new File
+ *          object as the only argument
+ *  - `files`: mutable list of chosen File objects
+ *
+ * Exposed to child context (block)
+ *  - `files`: mutable list of chosen File objects, yielded to block
+ *  - `errorMessage`: most recent error message, yielded to block
+ *  - `onFileInputChange`: action to handle files chosen through a file input
+ *          e.g. `{{input type='file' change=(action 'onFileInputChange')}}`
+ *
+ * Styling
+ *  - This component's element has the `drop-zone` class
+ *  - While the user is holding dragged files over this component, it
+ *    has the `drop-zone-ready` class
+ */
+
 export default Ember.Component.extend({
     layout,
-    fileManager: Ember.inject.service(),
     classNames: ['drop-zone'],
     classNameBindings: ['dropZoneReady'],
     dropZoneReady: false,
-    currentUploads: Ember.A(),
-    completedUploads: Ember.A(),
-    errorMessage: null,
+    files: Ember.A(),
 
     dragOver(event) {
         if (event.dataTransfer.types.indexOf('Files') > -1) {
@@ -32,36 +52,31 @@ export default Ember.Component.extend({
         for (let i = 0; i < event.dataTransfer.files.length; i++) {
             let file = event.dataTransfer.files[i];
             let p = this._fileCheck(file);
-            p.then(() => this._uploadFile(file));
+            p.then(() => this.actions.onChooseFile(file));
             p.catch(() => this.set('errorMessage',
                 `Cannot upload directories (${file.name})`));
         }
     },
 
     actions: {
-        uploadFile(event) {
+        onFileInputChange(event) {
             for (let i = 0; i < event.target.files.length; i++) {
                 let file = event.target.files[i];
-                this._uploadFile(file);
+                this.actions.onChooseFile(file);
+            }
+        },
+
+        onChooseFile(file) {
+            this.get('files').pushObject(file);
+            let onChoose = this.get('onChoose');
+            if (onChoose) {
+                onChoose(file);
             }
         }
     },
 
-    _uploadFile(file) {
-        this.get('currentUploads').pushObject(file);
-        let folder = this.get('uploadFolder');
-        let p = this.get('fileManager').uploadFile(folder, file.name, file);
-        p.then(() => {
-            this.get('currentUploads').removeObject(file);
-            this.get('completedUploads').pushObject(file);
-        }).catch((error) => {
-            this.get('currentUploads').removeObject(file);
-            this.set('errorMessage', error);
-        });
-    },
-
     _fileCheck(file) {
-        // HACK: There's not a cross-browser way to upload the contents of
+        // HACK: There's not a cross-browser way to see the contents of
         // dragged-and-dropped directories, but there's also not a good way to
         // tell whether a given File object is a directory. Hence, this:
         return new Promise(function(resolve, reject) {

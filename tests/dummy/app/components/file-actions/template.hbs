@@ -65,10 +65,15 @@
         </tr>
         <tr>
             <td>
-                Upload file:
+                Upload files:
             </td>
-            <td colspan=2>
-                {{file-uploader uploadFolder=file}}
+            <td>
+                {{file-chooser files=filesToUpload}}
+            </td>
+            <td>
+                <button {{action "uploadFiles" filesToUpload}} class="btn btn-primary">
+                    Add folder
+                </button>
             </td>
         </tr>
     {{else}}

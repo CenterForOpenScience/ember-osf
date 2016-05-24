@@ -1,0 +1,21 @@
+{{#if hasBlock}}
+    {{yield files errorMessage}}
+{{else}}
+    <p>
+        {{input type='file' change=(action 'onFileInputChange')}}
+    </p>
+    <p>
+        You can also drag and drop a file from your computer.
+    </p>
+    {{#if errorMessage}}
+        <div>Error: {{errorMessage}}</div>
+    {{/if}}
+    {{#if files}}
+        <h4>Chosen files</h4>
+        <ul>
+            {{#each files as |file|}}
+                <li>file.name</li>
+            {{/each}}
+        </ul>
+    {{/if}}
+{{/if}}
