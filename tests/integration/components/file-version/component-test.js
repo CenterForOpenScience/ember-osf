@@ -18,9 +18,10 @@ test('it renders', function(assert) {
     let fileVersion = FactoryGuy.make('file-version');
     this.set('fileVersion', fileVersion);
     this.render(hbs`{{file-version version=fileVersion}}`);
-    
+
     assert.equal(
         this.$('.file-version').children().eq(1).text(),
         `Size: ${fileVersion.get('size')}`,
-        'Second list element should be a label with file size');
+        'Second list element should be a label with file size'
+    );
 });
