@@ -12,9 +12,20 @@ Router.map(function() {
     this.route('nodes', function() {
         this.route('detail', {
             path: '/:node_id'
+        }, function() {
+            this.route('files', function() {
+                this.route('provider', {
+                    path: '/:provider'
+                }, function() {
+                    this.route('file', {
+                        path: '/:file_id'
+                    });
+                });
+            });
         });
     });
     this.route('login');
+    this.route('signup');
     this.route('institutions', function() {
         this.route('detail', {
             path: '/:institution_id'
@@ -26,14 +37,19 @@ Router.map(function() {
         });
     });
     this.route('users', function() {
+        this.route('list', {
+            path: '/'
+        });
         this.route('detail', {
             path: '/:user_id'
         });
     });
-    this.route('file', {
-        path: '/file/:file_id'
-    });
     this.route('profile');
+    this.route('collections', function() {
+        this.route('detail', {
+            path: '/:collection_id'
+        });
+    });
 });
 
 export default Router;
