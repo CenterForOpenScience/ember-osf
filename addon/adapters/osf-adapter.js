@@ -42,6 +42,7 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
               return record.id === null;
             }
           );
+          //under the assumption relationship saves are atomic, only one component is added at a time.
           serialized = serializer.serialize(new DS.Snapshot(toBeSent[0]._internalModel));
           // for some reason this is not hitting the node overloaded serialize method
           delete serialized.data.relationships;

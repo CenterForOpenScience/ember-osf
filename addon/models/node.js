@@ -1,7 +1,6 @@
 import DS from 'ember-data';
 
 import OsfModel from '../mixins/osf-model';
-import RelationshipSerializer from '../serializers/relationship';
 
 function relationshipSerializer(relationship, type){
     return function(snapshot){
