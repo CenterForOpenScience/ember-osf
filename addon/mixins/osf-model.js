@@ -13,7 +13,7 @@ export default Ember.Mixin.create({
     dirtyRelationships: Ember.computed('_dirtyRelationships', function() {
         var dirtyRelationships = this.get('_dirtyRelationships');
         return Object.keys(dirtyRelationships).map((rel) => {
-            if (rel === 'files') {
+            if (rel === 'files' || rel === 'node' || rel === 'user') {
                 return null;
             }
             if (dirtyRelationships[rel]) {

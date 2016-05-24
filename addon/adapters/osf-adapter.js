@@ -13,14 +13,12 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
     namespace: config.OSF.apiNamespace,
 
     buildURL(modelName, id, snapshot, requestType, query, dirtyRelationship) { // jshint ignore:line
-	var url;
-        if (dirtyRelationship) {
-            var links = snapshot.record.get(
-                `links.relationships.${Ember.String.underscore(dirtyRelationship)}.links`
-            );
-            if (links) {
-                url = links.self ? links.self.href : links.related.href;
-            }
+	      var url;
+        var links = dirtyRelationship ? snapshot.record.get(
+            `links.relationships.${Ember.String.underscore(dirtyRelationship)}.links`
+        ) : false;
+        if (links) {
+            url = links.self ? links.self.href : links.related.href;
         } else {
             url = this._super(...arguments);
         }
@@ -34,22 +32,29 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
     relationshipPayload(snapshot, dirty, store) {
         var relationMeta = snapshot.record[dirty].meta();
         var relationType = relationMeta.type;
-        var Serializer = relationMeta.options.serializer || store.serializerFor(
-            relationType
-        );
-        var serializer = new Serializer();
-        return {
-            data: snapshot.record.get(dirty).map((record) => {
-                return serializer.serialize(new DS.Snapshot(record._internalModel));
-            })
-        };
+        var serialized;
+        if (relationMeta.options.serializer) {
+          serialized = relationMeta.options.serializer(snapshot);
+        } else {
+          var serializer = store.serializerFor(relationType);
+          var toBeSent = snapshot.record.get(dirty).filter(
+            function(record){
+              return record.id === null;
+            }
+          );
+          serialized = serializer.serialize(new DS.Snapshot(toBeSent[0]._internalModel));
+          // for some reason this is not hitting the node overloaded serialize method
+          delete serialized.data.relationships;
+        }
+        return serialized;
     },
     updateRecord(store, type, snapshot, _, query) {
         var dirtyRelationships = snapshot.record.get('dirtyRelationships');
         if (dirtyRelationships.length) {
             var dirty = dirtyRelationships.pop();
             var url = this.buildURL(type.modelName, snapshot.id, snapshot, 'updateRecord', query, dirty);
-            return this.ajax(url, 'PATCH', {
+            var requestType = snapshot.record[dirty].meta().options.updateRequestType;
+            return this.ajax(url, requestType || 'PATCH', {
                 data: this.relationshipPayload(snapshot, dirty, store)
             });
 
