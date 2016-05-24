@@ -8,6 +8,10 @@ export default Ember.Component.extend({
         editedComment(comment, content) {
             comment.set('content', content);
             comment.save();
+        },
+        deletedComment(comment) {
+            comment.deleteRecord();
+            comment.save();
         }
     }
 });
