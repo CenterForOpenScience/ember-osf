@@ -1,16 +1,16 @@
 <h4> All Institutions </h4>
 {{#each model as |inst|}}
-  <hr>
-  <div class="panel">
-    <p><label>Name: </label>{{inst.name}}</p>
-    <p><label>Description: </label>{{inst.description}}</p>
-    <p><label>Logo URL: </label>{{inst.logoPath}}</p>
-    <p><label>Auth URL: </label>{{inst.authUrl}}</p>
-    <p class="btn-group">
-      <a href="{{inst.links.html}}" target="_blank" class="btn btn-default">
-        View on OSF
-      </a>
-      {{link-to 'Detail' 'institutions.detail' inst.id class="btn btn-primary"}}
-    </p>
-  </div>
+    <hr>
+    <div class="panel">
+        <p><label>Name: </label>{{inst.name}}</p>
+        <p><label>Description: </label>{{inst.description}}</p>
+        <p><label>Logo URL: </label>{{inst.logoPath}}</p>
+        <p><label>Auth URL: </label>{{inst.authUrl}}</p>
+        <p class="btn-group">
+            <a href="{{inst.links.html}}" target="_blank" class="btn btn-default">
+                View on OSF
+            </a>
+            {{link-to 'Detail' 'institutions.detail' inst.id class="btn btn-primary"}}
+        </p>
+    </div>
 {{/each}}

@@ -1,23 +1,23 @@
 {{link-to 'Back to list' 'institutions' class="btn btn-default"}}
 <div class="panel">
-  <p><label>Name: </label>{{model.name}}</p>
-  <p><label>Description: </label>{{model.description}}</p>
-  <p><label>Logo URL: </label>{{model.logoPath}}</p>
-  <p><label>Auth URL: </label>{{model.authUrl}}</p>
-  <hr>
-  <p>
-    <label>Nodes</label>
+    <p><label>Name: </label>{{model.name}}</p>
+    <p><label>Description: </label>{{model.description}}</p>
+    <p><label>Logo URL: </label>{{model.logoPath}}</p>
+    <p><label>Auth URL: </label>{{model.authUrl}}</p>
+    <hr>
     <p>
-      <table class="table">
-        {{#each model.nodes as |node|}}
-          <tr>
-            {{node.title}}
-          </tr>
-          <tr>
-            {{node.description}}
-          </tr>
-        {{/each}}
-      </table>
+        <label>Nodes</label>
+        <p>
+            <table class="table">
+                {{#each model.nodes as |node|}}
+                    <tr>
+                        {{node.title}}
+                    </tr>
+                    <tr>
+                        {{node.description}}
+                    </tr>
+                {{/each}}
+            </table>
+        </p>
     </p>
-  </p>
 </div>
