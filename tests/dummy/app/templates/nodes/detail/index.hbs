@@ -1,48 +1,4 @@
 {{link-to 'Back to list' 'nodes' class="btn btn-default"}}
-<div class="panel"> 
-    <h2>Data</h2>
-    <p><label>Title:</label> {{model.title}}</p>
-    <p><label>Category:</label> {{model.category}}</p>
-    <p><label>Date Created:</label> {{moment-format model.dateCreated}}</p>
-    <p><label>Date Modified:</label> {{moment-format model.dateModified}}</p>
-    <p>
-        <a href="{{model.links.html}}" target="_blank" class="btn btn-primary">
-            View on OSF
-        </a>
-    </p>
-    <hr>
-    <h2>Edit this node</h2>
-    Title: {{input value=editedTitle}}
-    <button {{action "editExisting" editedTitle}} class="btn btn-primary">Edit record</button>  
-    <h2>Contributors</h2>
-    <table class="table">
-        <tr>
-            <th>ID</th>
-            <th>Author?</th>
-        </tr>
-        {{#each model.contributors as |contrib|}}
-            <tr>
-                <td>{{contrib.id}}</td>
-                <td>{{contrib.bibliographic}}</td>
-            </tr>
-        {{/each}}
-    </table>  
-    <label>Affiliated Institutions</label>
-    <p>
-        <table class="table">
-            {{#each model.affiliatedInstitutions as |inst|}}
-                <tr>
-                    {{inst.name}}
-                </tr>
-            {{/each}}
-        </table>
-    </p>
-    <h2>Files</h2>
-    {{link-to 'View Files' 'nodes.detail.files' model class='btn btn-primary'}}
-    <hr>    
-    {{log-detail node-logs=model.logs}}
-</div>
-{{link-to 'Back to list' 'nodes' class="btn btn-default"}}
 <div class="panel">
     <h2>Data</h2>
     <p><label>Title:</label> {{model.title}}</p>
@@ -58,9 +14,36 @@
     <h2>Edit this node</h2>
     Title: {{input value=editedTitle}}
     <button {{action "editExisting" editedTitle}} class="btn btn-primary">Edit record</button>
+
     <h2>Contributors</h2>
+    <table class="table">
+        <tr>
+            <th>ID</th>
+            <th> Permissions </th>
+            <th>Bibliographic</th>
+            <th> </th>
+        </tr>
+        {{#each model.contributors as |contrib|}}
+            <tr>
+                <td>{{contrib.id}}</td>
+                <td>
+                    <select onchange={{action "permissionChange" value="target.value" bubbles=true}}>
+                        <option value="read {{contrib.id}}" selected={{permissionHelper contrib.permission "read"}}> Read </option>
+                        <option value="write {{contrib.id}}" selected={{permissionHelper contrib.permission "write"}}>  Read + Write </option>
+                        <option value="admin {{contrib.id}}" selected={{permissionHelper contrib.permission "admin"}}>  Administrator </option>
+                    </select>
+                </td>
+                <td>
+                    <input onchange={{action "bibliographicChange" value="target"}} checked={{bibliographicHelper contrib.bibliographic}} type="checkbox" name="bibliographic" value="{{contrib.id}}">
+                </td>
+                <td> <button {{action "deleteContributor" contrib}} class="btn btn-danger"> Remove </button> </td>
+            </tr>
+        {{/each}}
+    </table>
     <button {{action "updateContributors" editedPermissions editedBibliographic}} class="btn btn-primary"> Save changes </button>
+
     <hr>
+
     <h2> Add contributor </h2>
     <p><label> User ID </label> {{input value=contributorID}} </p>
     <p><label> Permissions </label></p>
@@ -74,6 +57,7 @@
     </p>
     <button {{action "addContributor" contributorID contributorPermissions bibliographic}} class="btn btn-primary">Add</button>
     <hr>
+
     <label>Affiliated Institutions</label>
     <p>
         <table class="table">
@@ -84,6 +68,9 @@
             {{/each}}
         </table>
     </p>
+
+    {{log-detail node-logs=model.logs}}
+
     <h2>Files</h2>
     {{link-to 'View Files' 'nodes.detail.files' model class='btn btn-primary'}}
 </div>
