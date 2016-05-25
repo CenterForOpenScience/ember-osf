@@ -15,7 +15,7 @@ moduleForComponent('file-version', 'Integration | Component | file version', {
 test('it renders', function(assert) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
-    let fileVersion = FactoryGuy.make('file-version');
+    var fileVersion = FactoryGuy.make('file-version');
     this.set('fileVersion', fileVersion);
     this.render(hbs`{{file-version version=fileVersion}}`);
 
