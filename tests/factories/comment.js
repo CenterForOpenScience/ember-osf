@@ -13,7 +13,7 @@ FactoryGuy.define('comment', {
 
         isAbuse: false,
         hasChildren: false,
-        
+
         canEdit: true,
     },
     traits: {
