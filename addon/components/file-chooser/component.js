@@ -4,24 +4,30 @@ import layout from './template';
 /*
  * file-chooser component
  *
- * This component lets the user choose files from their computer, either through
- * a file browser or by drag-and-drop. 
+ * This component lets the user choose a list of files from their computer, by
+ * drag-and-drop, a file browser, or whatever method the developer wants.
  *
  * Exposed to parent context (bindable attributes)
- *  - `onChoose`: action called each time a file is added, with the new File
+ *  - `onChoose`: function called each time a file is added, with the new File
  *          object as the only argument
  *  - `files`: mutable list of chosen File objects
  *
- * Exposed to child context (block)
- *  - `files`: mutable list of chosen File objects, yielded to block
- *  - `errorMessage`: most recent error message, yielded to block
+ * Exposed to block context
+ *  - `this`: the component object itself, so the block can invoke actions
+ *
+ * Actions
  *  - `onFileInputChange`: action to handle files chosen through a file input
- *          e.g. `{{input type='file' change=(action 'onFileInputChange')}}`
+ *  - `onChooseFile`: if you use a different way
  *
  * Styling
  *  - This component's element has the `drop-zone` class
  *  - While the user is holding dragged files over this component, it
  *    has the `drop-zone-ready` class
+ *
+ * {{#file-chooser files=fileList as |component|}}
+ *     {{input type='file' 
+ *         change=(action 'onFileInputChange' target=component)}}
+ * {{/file-chooser}}
  */
 
 export default Ember.Component.extend({
@@ -29,7 +35,6 @@ export default Ember.Component.extend({
     classNames: ['drop-zone'],
     classNameBindings: ['dropZoneReady'],
     dropZoneReady: false,
-    files: Ember.A(),
 
     dragOver(event) {
         if (event.dataTransfer.types.indexOf('Files') > -1) {
@@ -49,10 +54,11 @@ export default Ember.Component.extend({
     drop(event) {
         event.preventDefault();
         this.set('dropZoneReady', false);
+        let callback = this.get('onChoose');
         for (let i = 0; i < event.dataTransfer.files.length; i++) {
             let file = event.dataTransfer.files[i];
             let p = this._fileCheck(file);
-            p.then(() => this.actions.onChooseFile(file));
+            p.then(() => this.send('onChooseFile', file, callback));
             p.catch(() => this.set('errorMessage',
                 `Cannot upload directories (${file.name})`));
         }
@@ -62,15 +68,21 @@ export default Ember.Component.extend({
         onFileInputChange(event) {
             for (let i = 0; i < event.target.files.length; i++) {
                 let file = event.target.files[i];
-                this.actions.onChooseFile(file);
+                let callback = this.get('onChoose');
+                this.send('onChooseFile', file, callback);
             }
         },
 
-        onChooseFile(file) {
-            this.get('files').pushObject(file);
-            let onChoose = this.get('onChoose');
-            if (onChoose) {
-                onChoose(file);
+        onChooseFile(file, callback) {
+            let files = this.get('files');
+            if (typeof files === 'undefined') {
+                this.set('files', Ember.A());
+                files = this.get('files');
+            }
+            files.pushObject(file);
+
+            if (callback) {
+                callback(file);
             }
         }
     },

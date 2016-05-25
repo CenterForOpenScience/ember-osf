@@ -1,5 +1,5 @@
 {{#if hasBlock}}
-    {{yield files errorMessage}}
+    {{yield this}}
 {{else}}
     <p>
         {{input type='file' change=(action 'onFileInputChange')}}
@@ -14,7 +14,7 @@
         <h4>Chosen files</h4>
         <ul>
             {{#each files as |file|}}
-                <li>file.name</li>
+                <li>{{file.name}}</li>
             {{/each}}
         </ul>
     {{/if}}
