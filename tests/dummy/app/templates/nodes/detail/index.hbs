@@ -71,13 +71,14 @@
         </table>
     </p>
 
-    {{log-detail node-logs=model.logs}}
+    {{!-- {{log-detail node-logs=model.logs}} --}}
 
     <h2>Files</h2>
     {{link-to 'View Files' 'nodes.detail.files' model class='btn btn-primary'}}
 
     <h2>Node links </h2>
     {{#each model.nodeLinks as |nodelink|}}
+        {{debugger}}
         <p>{{link-to nodelink.targetNode.title 'nodes.detail' nodelink.targetNode.id }}</p>
     {{/each}}
 </div>
