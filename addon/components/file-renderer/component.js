@@ -5,6 +5,8 @@ import config from 'ember-get-config';
 export default Ember.Component.extend({
     layout,
     download: null,
+    width: '100%',
+    height: '100%',
     mfrUrl: Ember.computed('download', function() {
         var base = config.OSF.renderUrl;
         var download = this.get('download');
