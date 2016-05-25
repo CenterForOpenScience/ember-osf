@@ -9,7 +9,7 @@ Code style checking is part of the Travis build, and PRs that do not meet the co
 
 Please review and adhere to the naming conventions defined [here](http://ember-cli.com/user-guide/#naming-conventions)
 
-### Accessability
+### Accessibility
 
 The [ember-a11y](https://www.npmjs.com/package/ember-a11y) addon is a dependency of this addon, and helps facilitate compliance with the guidelines laid out by the [A11y Project](http://a11yproject.com/). This requires one simple change: wherever you would normally use the `{{outlet}}` helper, instead use `{{focusing-outlet}}`. See the project page for more details.
 
@@ -51,7 +51,7 @@ _Do test_:
 
 Integration tests allow us to see how components behave while actually running in a browser enviornment. [TODO](https://openscience.atlassian.net/browse/EOSF-28)
 
-#### Accessability checks
+#### Accessibility checks
 
 We will use the [ember-a11y-testing](https://github.com/trentmwillis/ember-a11y-testing) addon to run a11y checks on all components.
 
