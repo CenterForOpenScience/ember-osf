@@ -53,23 +53,23 @@
     {{/if}}
     <hr>
     <h2>Affiliated Institutions</h2>
-        <p>
-          <table class="table">
-             	{{#each model.affiliatedInstitutions as |inst|}}
-             	  <tr>
-                  <td>
-             	    {{inst.name}}
-                </td>
-                  <td>
-                  <button {{action "deaffiliateNode" inst}}>Unaffiliate</button>
-                </td>
+    <p>
+        <table class="table">
+            {{#each model.affiliatedInstitutions as |inst|}}
+                <tr>
+                    <td>
+                        {{inst.name}}
+                    </td>
+                    <td>
+                        <button {{action "deaffiliateNode" inst}}>Unaffiliate</button>
+                    </td>
                 </tr>
-             	{{/each}}
-          </table>
-          <h4>Add Institution</h4>
-          Institution Id {{input value=instId}}
-          <button {{action "affiliateNode" instId}} class="btn btn-primary">Affiliate Node</button>
-        </p>
+            {{/each}}
+        </table>
+        <h4>Add Institution</h4>
+        Institution Id {{input value=instId}}
+        <button {{action "affiliateNode" instId}} class="btn btn-primary">Affiliate Node</button>
+    </p>
     <h2>Files</h2>
     {{link-to 'View Files' 'nodes.detail.files' model class='btn btn-primary'}}
     <hr>

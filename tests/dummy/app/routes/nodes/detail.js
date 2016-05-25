@@ -31,9 +31,9 @@ export default Ember.Route.extend({
         },
         affiliateNode(instId) {
             var _this = this;
-            self.store.findRecord('institution', instId).then(
+            _this.store.findRecord('institution', instId).then(
                 function(inst) {
-                    var node = _this.modelFor(self.routeName);
+                    var node = _this.modelFor(_this.routeName);
                     node.get('affiliatedInstitutions').pushObject(inst);
                     node.save();
                 }
