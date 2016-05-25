@@ -9,8 +9,10 @@ import layout from './template';
  *
  * Exposed to parent context (bindable attributes)
  *  - `files`: mutable list of chosen File objects
- *  - `onChoose`: function called each time a file is added, with the new File
- *          object as the only argument
+ *  - `multiple`: boolean (default `true`), when `false`, only keeps the most
+ *          recently chosen File in the list
+ *  - `onChoose`: callback function called each time a file is added, with the
+ *          new File object as the only argument
  *
  * Exposed to block context
  *  - `this`: the component object itself, so the block can invoke actions
@@ -35,6 +37,7 @@ export default Ember.Component.extend({
     classNames: ['drop-zone'],
     classNameBindings: ['dropZoneReady'],
     dropZoneReady: false,
+    multiple: true,
 
     dragOver(event) {
         if (event.dataTransfer.types.indexOf('Files') > -1) {
@@ -64,19 +67,23 @@ export default Ember.Component.extend({
         onFileInputChange(event) {
             for (let i = 0; i < event.target.files.length; i++) {
                 let file = event.target.files[i];
-                let callback = this.get('onChoose');
-                this.send('onChooseFile', file, callback);
+                this.send('onChooseFile', file);
             }
         },
 
-        onChooseFile(file, callback) {
+        onChooseFile(file) {
             let files = this.get('files');
             if (typeof files === 'undefined') {
                 this.set('files', Ember.A());
                 files = this.get('files');
             }
-            files.pushObject(file);
+            if (this.get('multiple')) {
+                files.pushObject(file);
+            } else {
+                this.set('files', Ember.A([file]));
+            }
 
+            let callback = this.get('onChoose');
             if (callback) {
                 callback(file);
             }
@@ -93,8 +100,7 @@ export default Ember.Component.extend({
             reader.onerror = () => reject(); // it's a directory or something
             reader.readAsText(file.slice(0, 5));
         });
-        let callback = this.get('onChoose');
-        p.then(() => this.send('onChooseFile', file, callback));
+        p.then(() => this.send('onChooseFile', file));
         p.catch(() => this.set('errorMessage',
             `Cannot upload directories (${file.name})`));
     }

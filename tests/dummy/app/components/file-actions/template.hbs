@@ -14,10 +14,10 @@
             </td>
         </tr>
         <tr>
-            <td>
+            <td colspan=2>
                 Delete:
             </td>
-            <td colspan=2>
+            <td>
                 <button {{action "deleteFile"}} class="btn btn-primary">
                     Delete
                 </button>
@@ -78,7 +78,10 @@
         </tr>
     {{else}}
         <tr>
-            <td colspan=3>
+            <td colspan=2>
+                Download:
+            </td>
+            <td>
                 <button {{action "download"}} class="btn btn-primary">
                     Download
                 </button>
@@ -89,7 +92,8 @@
                 Update file contents:
             </td>
             <td colspan=2>
-                {{input type='file' change=(action 'updateContents')}}
+                {{file-chooser multiple=false
+                    onChoose=(action 'updateContents')}}
             </td>
         </tr>
     {{/if}}

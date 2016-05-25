@@ -13,8 +13,7 @@ export default Ember.Component.extend({
             window.open(url);
         },
 
-        updateContents(evt) {
-            let contents = evt.target.files[0];
+        updateContents(contents) {
             let file = this.get('file');
             let fm = this.get('fileManager');
 
