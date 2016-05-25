@@ -1,17 +1,17 @@
-<h4>Collections</h4>
-
 <div>
-    <h5>Create Collection</h5>
-    {{input value=title placeholder="Collection's title" required=true}}
+    <h3>Create Collection</h3>
+    {{input value=title placeholder="Collection title" required=true}}
     <button {{action "createCollection" title}}>Create</button>
 </div>
 <hr>
 <div>
-    <h5>Collections list</h5>
+    <h3>Collections list</h3>
     {{#each model as |collection|}}
         <p>Title: {{collection.title}}</p>
         <p>Date created: {{moment-format collection.dateCreated}}</p>
         <p>Date modified: {{moment-format collection.dateModified}}</p>
-        {{link-to "Detail" "collections.detail" collection.id class="btn btn-primary"}}
+        <p>Bookmark: {{collection.bookmarks}}</p>
+        {{link-to "View collection" "collections.detail" collection.id class="btn btn-primary"}}
+        <hr>
     {{/each}}
 </div>
