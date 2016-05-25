@@ -1,0 +1,18 @@
+<h2>Profile Information</h2>
+<div class="panel">
+    <p><label>Full Name:</label> {{model.fullName}}</p>
+    <p><label>Given Name:</label> {{model.givenName}}</p>
+    <p><label>Middle Name:</label> {{model.middleName}}</p>
+    <p><label>Family Name:</label> {{model.familyName}}</p>
+
+    <p>
+        <a href="{{model.links.html}}" target="_blank" class="btn btn-primary">
+            View on OSF
+        </a>
+    </p>
+    <hr>
+
+    <h2>Edit your profile</h2>
+    Full Name: {{input value=editedFullName}}
+    <button {{action "editExisting" editedFullName}} class="btn btn-primary">Edit record</button>
+</div>

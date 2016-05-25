@@ -45,15 +45,8 @@ export default DS.JSONAPISerializer.extend({
         if (resourceHash.links) { // TODO: Should also test whether model class defines a links field
             resourceHash.attributes.links = resourceHash.links;
         }
-
+        this._extractEmbeds(resourceHash);
         return resourceHash;
-    },
-
-    _normalizeDocumentHelper(documentHash) {
-        // Note: overrides a private method of the JSONAPISerializer. This is the best place to get the raw
-        // serialized document.
-        documentHash.included = this._extractEmbeds(documentHash.data);
-        return this._super(documentHash);
     },
 
     extractAttributes(modelClass, resourceHash) {
@@ -61,14 +54,10 @@ export default DS.JSONAPISerializer.extend({
         return this._super(modelClass, resourceHash);
     },
 
-    keyForAttribute(key, method) {
-        if (method === 'deserialize') {
-            return Ember.String.underscore(key);
-        } else if (method === 'serialize') {
-            return Ember.String.camelize(key);
-        }
-        return key;
+    keyForAttribute(key) {
+        return Ember.String.underscore(key);
     },
+
     keyForRelationship(key) {
         return Ember.String.underscore(key);
     },
@@ -78,5 +67,24 @@ export default DS.JSONAPISerializer.extend({
         // Don't send relationships to the server; this can lead to 500 errors.
         delete serialized.data.relationships;
         return serialized;
+    },
+
+    serializeAttribute(snapshot, json, key, attribute) {  // jshint ignore:line
+        // In certain cases, a field may be omitted from the server payload, but have a value (undefined)
+        // when serialized from the model. (eg node.template_from)
+        // Omit fields with a value of undefined before sending to the server. (but still allow null to be sent)
+        let val = snapshot.attr(key);
+        if (val !== undefined) {
+            this._super(...arguments);
+        }
+    },
+
+    normalizeArrayResponse(store, primaryModelClass, payload, id, requestType) {  // jshint ignore:line
+        // Ember data does not yet support pagination. For any request that returns more than one result, extract
+        //  links.meta from the payload links section, and add to the model metadata manually.
+        let documentHash = this._super(...arguments);
+        documentHash.meta = documentHash.meta || {};
+        documentHash.meta.pagination = Ember.get(payload || {}, 'links.meta');
+        return documentHash;
     }
 });
