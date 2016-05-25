@@ -2,7 +2,7 @@
     {{yield this}}
 {{else}}
     <p>
-        {{input type='file' change=(action 'onFileInputChange')}}
+        {{input type='file' multiple=true change=(action 'onFileInputChange')}}
     </p>
     <p>
         You can also drag and drop a file from your computer.

@@ -11,7 +11,7 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{file-chooser}}`);
 
-  assert.equal(this.$().text().trim(), '');
+  assert.equal(this.$().text().trim(), 'You can also drag and drop a file from your computer.');
 
   // Template block usage:
   this.render(hbs`

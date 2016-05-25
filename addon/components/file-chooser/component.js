@@ -8,16 +8,16 @@ import layout from './template';
  * drag-and-drop, a file browser, or whatever method the developer wants.
  *
  * Exposed to parent context (bindable attributes)
+ *  - `files`: mutable list of chosen File objects
  *  - `onChoose`: function called each time a file is added, with the new File
  *          object as the only argument
- *  - `files`: mutable list of chosen File objects
  *
  * Exposed to block context
  *  - `this`: the component object itself, so the block can invoke actions
  *
  * Actions
- *  - `onFileInputChange`: action to handle files chosen through a file input
- *  - `onChooseFile`: if you use a different way
+ *  - `onFileInputChange`: handle the `change` event on a file input
+ *  - `onChooseFile`: add a file to the chosen list
  *
  * Styling
  *  - This component's element has the `drop-zone` class
@@ -54,13 +54,9 @@ export default Ember.Component.extend({
     drop(event) {
         event.preventDefault();
         this.set('dropZoneReady', false);
-        let callback = this.get('onChoose');
         for (let i = 0; i < event.dataTransfer.files.length; i++) {
             let file = event.dataTransfer.files[i];
-            let p = this._fileCheck(file);
-            p.then(() => this.send('onChooseFile', file, callback));
-            p.catch(() => this.set('errorMessage',
-                `Cannot upload directories (${file.name})`));
+            this._chooseIfFile(file);
         }
     },
 
@@ -87,15 +83,19 @@ export default Ember.Component.extend({
         }
     },
 
-    _fileCheck(file) {
+    _chooseIfFile(file) {
         // HACK: There's not a cross-browser way to see the contents of
         // dragged-and-dropped directories, but there's also not a good way to
         // tell whether a given File object is a directory. Hence, this:
-        return new Promise(function(resolve, reject) {
+        let p = new Ember.RSVP.Promise(function(resolve, reject) {
             let reader = new FileReader();
             reader.onload = () => resolve(); // it's a file
             reader.onerror = () => reject(); // it's a directory or something
             reader.readAsText(file.slice(0, 5));
         });
+        let callback = this.get('onChoose');
+        p.then(() => this.send('onChooseFile', file, callback));
+        p.catch(() => this.set('errorMessage',
+            `Cannot upload directories (${file.name})`));
     }
 });
