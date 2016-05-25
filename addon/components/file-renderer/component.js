@@ -8,7 +8,7 @@ export default Ember.Component.extend({
     mfrUrl: Ember.computed('download', function() {
         var base = config.OSF.renderUrl;
         var download = this.get('download');
-        var renderUrl = base + '?url=' + encodeURIComponent(download + '?direct&mode=render&initialWidth=766&childId=mfrIframe');
+        var renderUrl = base + '?url=' + encodeURIComponent(download + '?direct&mode=render&initialWidth=766');
         return renderUrl;
     })
 });
