@@ -3,7 +3,6 @@ import DS from 'ember-data';
 import OsfModel from '../mixins/osf-model';
 
 export default DS.Model.extend(OsfModel, {
-    type: DS.attr('string'),
     // TODO validation: maxLength
     content: DS.attr('string'),
     page: DS.attr('string'),
