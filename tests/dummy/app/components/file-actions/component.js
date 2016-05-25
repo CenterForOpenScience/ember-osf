@@ -35,15 +35,13 @@ export default Ember.Component.extend({
 
         uploadFiles(files) {
             let fm = this.get('fileManager');
-            /* TODO
-            let newFile = evt.target.files[0];
             let folder = this.get('file');
-            if (newFile) {
-                fm.uploadFile(folder, newFile.name, newFile).then(() => {
+            while(files && files.length) {
+                let file = files.pop();
+                fm.uploadFile(folder, file.name, file).then(() => {
                     this.get('onChange')();
                 });
             }
-           */
         },
 
         rename(newName) {
