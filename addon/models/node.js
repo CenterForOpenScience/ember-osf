@@ -49,7 +49,7 @@ export default DS.Model.extend(OsfModel, {
 
     files: DS.hasMany('file-provider'),
     //forkedFrom: DS.belongsTo('node'),
-    //nodeLinks:  DS.hasMany('node-pointers'),
+    nodeLinks: DS.hasMany('node-links'),
     registrations: DS.hasMany('registrations', {
         inverse: 'registeredFrom'
     }),
