@@ -9,7 +9,7 @@ FactoryGuy.define('file-provider', {
     },
     traits: {
         hasFiles: {
-            files: FactoryGuy.generate(() => FactoryGuy.hasMany('file', 3))
+            files: () => FactoryGuy.hasMany('file', 3)
         }
     }
 });

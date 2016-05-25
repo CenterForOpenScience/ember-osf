@@ -3,10 +3,10 @@ import faker from 'faker';
 
 FactoryGuy.define('comment', {
     default: {
-        content: faker.lorem.sentence(),
+        content: () => faker.lorem.sentence(),
 
-        dateCreated: FactoryGuy.generate(() => faker.date.past(1)),
-        dateModified: FactoryGuy.generate(() => faker.date.recent(1)),
+        dateCreated: () => faker.date.past(1),
+        dateModified: () => faker.date.recent(1),
 
         modified: true,
         deleted: false,

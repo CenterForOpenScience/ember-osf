@@ -3,9 +3,9 @@ import faker from 'faker';
 
 FactoryGuy.define('log', {
     default: {
-        date: FactoryGuy.generate(() => faker.date.past(1)),
-        // Horked directly from Nodelog.actions
-        action: FactoryGuy.generate(() => faker.random.arrayElement(
+        date: () => faker.date.past(1),
+        // Extracted from Nodelog.actions as of May 24, 2016
+        action: () => faker.random.arrayElement(
             [
                 'checked_in', 'checked_out', 'file_tag_removed', 'file_tag_added',
                 'created_from', 'project_created', 'project_registered', 'project_deleted',
@@ -24,7 +24,7 @@ FactoryGuy.define('log', {
                 'citation_added', 'citation_edited', 'citation_removed', 'primary_institution_changed',
                 'primary_institution_removed'
             ]
-        )),
+        ),
         params: {}, // Correct info from this field will depend on the log type
         // TODO: Figure out node vs originalnode vs linkedNode vs templateNode, and add sample traits with correct values
     }

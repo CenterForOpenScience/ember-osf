@@ -3,7 +3,7 @@ import faker from 'faker';
 
 FactoryGuy.define('file-version', {
     default: {
-        size: FactoryGuy.generate(() => faker.random.number()),
+        size: () => faker.random.number(),
         contentType: 'text/plain', // faker.system may not come with older versions of lib
     }
 });

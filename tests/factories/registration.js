@@ -3,10 +3,10 @@ import faker from 'faker';
 
 FactoryGuy.define('registration', {
     default: {
-        dateRegistered: FactoryGuy.generate(() => faker.date.past(1)),
+        dateRegistered: () => faker.date.past(1),
         pendingRegistrationApproval: false,
 
-        embargoEndDate: FactoryGuy.generate(() => faker.date.future(1)),
+        embargoEndDate: () => faker.date.future(1),
         pendingEmbargoApproval: false,
 
         withdrawn: false,
@@ -16,14 +16,14 @@ FactoryGuy.define('registration', {
         registrationSupplement: null,
         registeredMeta: null,
 
-        registeredFrom: FactoryGuy.generate(() => FactoryGuy.belongsTo('node')),
-        registeredBy: FactoryGuy.generate(() => FactoryGuy.belongsTo('user')),
+        registeredFrom: () => FactoryGuy.belongsTo('node'),
+        registeredBy: () => FactoryGuy.belongsTo('user'),
 
-        contributors: FactoryGuy.generate(() => FactoryGuy.hasMany('contributor', 3)),
+        contributors: () => FactoryGuy.hasMany('contributor', 3),
     },
     traits: {
         hasComments: {
-            comments: FactoryGuy.generate(() => FactoryGuy.hasMany('comment', 3))
+            comments: () => FactoryGuy.hasMany('comment', 3)
         }
     }
 });
