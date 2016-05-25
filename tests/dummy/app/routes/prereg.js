@@ -11,7 +11,6 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
             window.alert(`Files: ${fileNames}`);
 
             // store.createRecord('node', { title: name, ... })
-            
             // for (let file of files) {
             //     this.get('fileManager').uploadFile(...)
             // }
