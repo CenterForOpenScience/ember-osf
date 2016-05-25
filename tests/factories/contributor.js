@@ -1,9 +1,10 @@
 import FactoryGuy from 'ember-data-factory-guy';
+import faker from 'faker';
 
 FactoryGuy.define('contributor', {
     default: {
-        bibliographic: true,
-        permission: 'admin',  // Must be one of read, write, or admin
+        bibliographic: FactoryGuy.generate(() => faker.random.boolean()),
+        permission: FactoryGuy.generate(() => faker.random.arrayElement(['read', 'write', 'admin']))
         // nodeID: // TODO: Field not defined in serializer. Find out meaning and add to factory.
     }
 });

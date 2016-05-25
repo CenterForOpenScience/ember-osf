@@ -8,7 +8,9 @@ FactoryGuy.define('file', {
         path: '/1234567890',  // Faker.system.filePath may not yet be implemented
         size: FactoryGuy.generate(() => faker.random.number()),
         provider: 'osfstorage',
-        materialized_path: "/osf_test_file.jpg",
+        materializedPath: FactoryGuy.generate(() => {
+            return '/' + faker.system.fileName();
+        }),
         lastTouched: null,
 
         dateModified: FactoryGuy.generate(() => faker.date.recent(1)),
@@ -19,13 +21,17 @@ FactoryGuy.define('file', {
     },
     traits: {
         // Folder specific
-        hasFiles: { 
+        isFolder: {
             kind: 'folder',
+            materializedPath: FactoryGuy.generate(() => {
+                return '/' + faker.lorem.word();
+            }),
             files: FactoryGuy.generate(() => FactoryGuy.hasMany('file', 3))
         },
         // File specific
         hasVersions: {
-            kind: 'file'
+            kind: 'file',
+            versions: FactoryGuy.generate(() => FactoryGuy.hasMany('file-version', 3))
         },
         hasComments: {
             kind: 'file',
