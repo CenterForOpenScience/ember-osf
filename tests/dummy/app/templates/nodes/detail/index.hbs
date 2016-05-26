@@ -2,18 +2,79 @@
 <div class="panel">
     <h2>Data</h2>
     <p><label>Title:</label> {{model.title}}</p>
+    <p><label>Description: </label> {{model.description}}</p>
     <p><label>Category:</label> {{model.category}}</p>
     <p><label>Date Created:</label> {{moment-format model.dateCreated}}</p>
     <p><label>Date Modified:</label> {{moment-format model.dateModified}}</p>
+    <p><label>Public </label> {{model.public}} </p>
+
     <p>
         <a href="{{model.links.html}}" target="_blank" class="btn btn-primary">
             View on OSF
         </a>
     </p>
+
+    <p><button class="btn btn-danger" {{action "deleteNode" title description category }}>Delete this project</button></p>
     <hr>
-    <h2>Edit this node</h2>
-    Title: {{input value=editedTitle}}
-    <button {{action "editExisting" editedTitle}} class="btn btn-primary">Edit record</button>
+
+    {{#if propertiesVisible}}
+        <button {{action "expandProperties"}}> Close Node Settings </button>
+        <table>
+            <tr>
+                <td><label> Title: </label></td>
+                <td>{{input value=editedTitle}}</td>
+            </tr>
+            <tr>
+                <td><label> Description: </label></td>
+                <td>{{input value=editedDescription}} </td>
+            </tr>
+        </table>
+        <p><label> Category: </label></p>
+        <div>
+            <p>{{radio-button name="category" value="analysis" checked=editedCategory}} Analysis </p>
+            <p>{{radio-button name="category" value="communication" checked=editedCategory}} Communication </p>
+            <p>{{radio-button name="category" value="data" checked=editedCategory}} Data </p>
+            <p>{{radio-button name="category" value="hypothesis" checked=editedCategory}} Hypothesis </p>
+            <p>{{radio-button name="category" value="instrumentation" checked=editedCategory}} Instrumentation </p>
+            <p>{{radio-button name="category" value="methods and measures" checked=editedCategory}} Methods and Measures </p>
+            <p>{{radio-button name="category" value="procedure" checked=editedCategory}} Procedure </p>
+            <p>{{radio-button name="category" value="project" checked=editedCategory}} Project </p>
+            <p>{{radio-button name="category" value="software" checked=editedCategory}} Software</p>
+            <p>{{radio-button name="category" value="other" checked=editedCategory}} Other </p>
+            <p>{{radio-button name="category" value="uncategorized" checked=editedCategory}} Uncategorized </p>
+        </div>
+        <p><label> Privacy settings </label></p>
+        {{radio-button name="isPublic" value=1 checked=isPublic}} Public
+        {{radio-button name="isPublic" value=0 checked=isPublic}} Private
+
+        <button {{action "editExisting" editedTitle editedDescription editedCategory isPublic}} class="btn btn-primary"> Save changes </button>
+    {{else}}
+        <button {{action "expandProperties"}}> Edit node settings </button>
+    {{/if}}
+    <hr>
+    <h2>Affiliated Institutions</h2>
+    <p>
+        <table class="table">
+            {{#each model.affiliatedInstitutions as |inst|}}
+                <tr>
+                    <td>
+                        {{inst.name}}
+                    </td>
+                    <td>
+                        <button {{action "deaffiliateNode" inst}}>Unaffiliate</button>
+                    </td>
+                </tr>
+            {{/each}}
+        </table>
+        <h4>Add Institution</h4>
+        Institution Id {{input value=instId}}
+        <button {{action "affiliateNode" instId}} class="btn btn-primary">Affiliate Node</button>
+    </p>
+    <h2>Files</h2>
+    {{link-to 'View Files' 'nodes.detail.files' model class='btn btn-primary'}}
+    <hr>
+
+    {{log-detail node-logs=model.logs}}
 
     <h2>Contributors</h2>
     <table class="table">
@@ -59,22 +120,27 @@
     </p>
     <button {{action "addContributor" contributorID contributorPermissions bibliographic}} class="btn btn-primary">Add</button>
     <hr>
+    <h2> Create component </h2>
+    <div>
+        <label>Title:</label>
+        {{input type="text" value=title placeholder="Component's title" required=true}}
+        <label>Description (optional):</label>
+        {{input type="text" value=description placeholder="Component's description"}}
+        <p><label>Category (optional):</label></p>
+        <p>{{radio-button name="category" value="analysis" checked=category}} Analysis </p>
+        <p>{{radio-button name="category" value="communication" checked=category}} Communication </p>
+        <p>{{radio-button name="category" value="data" checked=category}} Data </p>
+        <p>{{radio-button name="category" value="hypothesis" checked=category}} Hypothesis </p>
+        <p>{{radio-button name="category" value="instrumentation" checked=category}} Instrumentation </p>
+        <p>{{radio-button name="category" value="methods and measures" checked=category}} Methods and Measures </p>
+        <p>{{radio-button name="category" value="procedure" checked=category}} Procedure </p>
+        <p>{{radio-button name="category" value="project" checked=category}} Project </p>
+        <p>{{radio-button name="category" value="software" checked=category}} Software </p>
+        <p>{{radio-button name="category" value="other" checked=category}} Other </p>
+        <p>{{radio-button name="category" value="uncategorized" checked=category}} Uncategorized </p>
+        <p><button {{action "addChildren" title description category }}>Create</button></p>
+    </div>
 
-    <label>Affiliated Institutions</label>
-    <p>
-        <table class="table">
-            {{#each model.affiliatedInstitutions as |inst|}}
-                <tr>
-                    {{inst.name}}
-                </tr>
-            {{/each}}
-        </table>
-    </p>
-
-    {{!-- {{log-detail node-logs=model.logs}} --}}
-
-    <h2>Files</h2>
-    {{link-to 'View Files' 'nodes.detail.files' model class='btn btn-primary'}}
 
     <h2>Node links </h2>
     {{#each model.nodeLinks as |nodelink|}}
@@ -82,3 +148,5 @@
         <p>{{link-to nodelink.targetNode.title 'nodes.detail' nodelink.targetNode.id }}</p>
     {{/each}}
 </div>
+
+{{outlet}}
