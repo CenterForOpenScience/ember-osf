@@ -1,27 +1,27 @@
 <article class="login-form">
     <div class="col-sm-5 col-sm-offset-1 toggle-box toggle-box-left p-h-lg">
-        <form id="logInForm" class="form-horizontal">
-            <h3 class="m-b-lg"> {{t 'eosf.login.formTitle'}} </h3>
+        <form id={{elem-id this 'login-form'}} class="form-horizontal">
+            <h3 class="m-b-lg"> {{t 'eosf.loginForm.formTitle'}} </h3>
             <div class="form-group">
-                <label for="inputEmail3" class="col-sm-3 control-label">{{t 'eosf.login.labelEmail'}}</label>
+                <label for={{elem-id this 'login-input-email'}} class="col-sm-3 control-label">{{t 'eosf.loginForm.labelInputEmail'}}</label>
                 <div class="col-sm-9">
                     <input
                     type="email"
                     class="form-control"
                     name="username"
-                    id="inputEmail3"
-                    placeholder={{t 'eosf.login.labelEmail'}}
+                    id={{elem-id this 'login-input-email'}}
+                    placeholder={{t 'eosf.loginForm.labelInputEmail'}}
                     >
                 </div>
             </div>
             <div class="form-group">
-                <label for="inputPassword3" class="col-sm-3 control-label">{{t 'eosf.login.labelPassword'}}</label>
+                <label for={{elem-id this 'login-input-password'}} class="col-sm-3 control-label">{{t 'eosf.loginForm.labelInputPassword'}}</label>
                 <div class="col-sm-9">
                     <input
                     type="password"
                     class="form-control"
-                    id="inputPassword3"
-                    placeholder={{t 'eosf.login.labelPassword'}}
+                    id={{elem-id this 'login-input-password'}}
+                    placeholder={{t 'eosf.loginForm.labelInputPassword'}}
                     name="password"
                     >
                 </div>
@@ -29,13 +29,15 @@
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-9">
                     <div class="checkbox">
-                        <label><input type="checkbox"> {{t 'eosf.login.labelRememberMe'}}</label>
+                        <label for={{elem-id this 'login-input-remember'}}>
+                            <input type="checkbox" id={{elem-id this 'login-input-remember'}} name="rememberMe"> {{t 'eosf.loginForm.labelInputRemember'}}
+                        </label>
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-9">
-                    <button type="submit" class="btn btn-success pull-right">{{t 'eosf.login.buttonSignIn'}}</button>
+                    <button type="submit" class="btn btn-success pull-right">{{t 'eosf.loginForm.buttonSubmit'}}</button>
                 </div>
             </div>
         </form>
