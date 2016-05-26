@@ -124,6 +124,18 @@ export default Ember.Route.extend({
                 console.log('You do not have permissions to create this component');
             }
         },
+        addNodeLink(targetNodeId){
+            var node = this.modelFor(this.routeName);
+            if (node.get('currentUserPermissions').indexOf('write') !== -1) {
+                var nodeLink = this.store.createRecord('node-link', {
+                    targetNode: targetNodeId
+                });
+                node.get('nodeLinks').pushObject(nodeLink);
+                node.save()
+            } else {
+                console.log('You do not have permissions to create a node link');
+            }
+        },
         deleteNode() {
             var node = this.modelFor(this.routeName);
             if (node.get('currentUserPermissions').indexOf('write') !== -1) {
