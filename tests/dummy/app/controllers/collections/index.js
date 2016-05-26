@@ -8,8 +8,7 @@ export default Ember.Controller.extend({
                     title: title
                 });
                 collection.save();
-            }
-            else {
+            } else {
                 console.log('Title required.');
             }
 
