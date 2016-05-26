@@ -1,7 +1,23 @@
 {{link-to 'Back to list' 'collections' class="btn btn-default"}}
 <div class="panel">
+    <h3> Collection Details </h3>
     <p><label>Title:</label> {{model.title}}</p>
     <p><label>Date created:</label> {{moment-format model.dateCreated}}</p>
     <p><label>Date modified:</label> {{moment-format model.dateModified}}</p>
     <p><label>Bookmark:</label> {{model.bookmarks}}</p>
+
+    <h3> Collection Contents </h3>
+    <table class="table">
+        {{#each model.linkedNodes as |linkedNode|}}
+            <tr>
+                <th> Name </th>
+                <th> Date Modified </th>
+            </tr>
+            <tr>
+                <td>{{link-to linkedNode.title 'nodes.detail' linkedNode.id }} </td>
+                <td>{{moment-format linkedNode.dateModified}} </td>
+            </tr>
+        {{/each}}
+    </table>
+
 </div>
