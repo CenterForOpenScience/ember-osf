@@ -3,10 +3,10 @@ import DS from 'ember-data';
 import OsfModel from '../mixins/osf-model';
 
 export default DS.Model.extend(OsfModel, {
-    fullName: DS.attr('string'),
     givenName: DS.attr('string'),
     middleNames: DS.attr(),
     familyName: DS.attr('string'),
+    fullName: DS.attr('string'),
 
     dateRegistered: DS.attr('date'),
 
@@ -14,6 +14,6 @@ export default DS.Model.extend(OsfModel, {
     registrations: DS.hasMany('registrations'),
 
     affiliatedInstitutions: DS.hasMany('institutions', {
-        inverse: 'children'
+        inverse: 'users'
     })
 });

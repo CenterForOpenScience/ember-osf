@@ -3,6 +3,20 @@ import DS from 'ember-data';
 import OsfModel from '../mixins/osf-model';
 
 export default DS.Model.extend(OsfModel, {
+    CATEGORY_MAP: {
+        analysis: 'Analysis',
+        communication: 'Communication',
+        data: 'Data',
+        hypothesis: 'Hypothesis',
+        instrumentation: 'Instrumentation',
+        'methods and measures': 'Methods and Measures',
+        procedure: 'Procedure',
+        project: 'Project',
+        software: 'Software',
+        other: 'Other',
+        '': 'Uncategorized'
+    },
+
     title: DS.attr('string'),
     description: DS.attr('string'),
     category: DS.attr('string'),
@@ -35,7 +49,9 @@ export default DS.Model.extend(OsfModel, {
 
     files: DS.hasMany('file-provider'),
     //forkedFrom: DS.belongsTo('node'),
-    //nodeLinks:  DS.hasMany('node-pointers'),
+    nodeLinks: DS.hasMany('node-links', {
+        inverse: null
+    }),
     registrations: DS.hasMany('registrations', {
         inverse: 'registeredFrom'
     }),

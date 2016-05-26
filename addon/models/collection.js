@@ -6,8 +6,11 @@ export default DS.Model.extend(OsfModel, {
     title: DS.attr('string'),
     dateCreated: DS.attr('date'),
     dateModified: DS.attr('date'),
-
-    // nodeLinks: DS.hasMany('node-pointers'),
-    // linkedNodes: DS.hasMany('node-pointers')
-
+    bookmarks: DS.attr('boolean'),
+    // nodeLinks: DS.hasMany('node-links', {
+    //     inverse:null
+    // }),
+    linkedNodes: DS.hasMany('nodes', {
+        inverse: null
+    })
 });

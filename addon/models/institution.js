@@ -8,7 +8,7 @@ export default DS.Model.extend(OsfModel, {
     logoPath: DS.attr('string'),
     authUrl: DS.attr('string'),
 
-    children: DS.hasMany('users', {
+    users: DS.hasMany('users', {
         inverse: 'affiliatedInstitutions'
     }),
     nodes: DS.hasMany('nodes', {
