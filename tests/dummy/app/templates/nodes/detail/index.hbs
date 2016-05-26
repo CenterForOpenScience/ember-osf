@@ -144,9 +144,12 @@
 
     <h2>Node links </h2>
     {{#each model.nodeLinks as |nodelink|}}
-        {{debugger}}
         <p>{{link-to nodelink.targetNode.title 'nodes.detail' nodelink.targetNode.id }}</p>
     {{/each}}
+
+    <h3>Add link</h3>
+    Target node id {{input value=targetNodeId}}
+    <button {{action "addNodeLink" targetNodeId}} class="btn btn-primary">Add</button>
 </div>
 
 {{outlet}}
