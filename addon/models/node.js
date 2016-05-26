@@ -62,7 +62,8 @@ export default DS.Model.extend(OsfModel, {
     files: DS.hasMany('file-provider'),
     //forkedFrom: DS.belongsTo('node'),
     nodeLinks: DS.hasMany('node-links', {
-        inverse: null
+        inverse: null,
+        updateRequestType: 'POST'
     }),
     registrations: DS.hasMany('registrations', {
         inverse: 'registeredFrom'
