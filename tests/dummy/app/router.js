@@ -50,6 +50,7 @@ Router.map(function() {
             path: '/:collection_id'
         });
     });
+    this.route('prereg');
 });
 
 export default Router;
