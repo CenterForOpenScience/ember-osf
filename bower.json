@@ -8,7 +8,8 @@
     "Faker": "~3.0.0",
     "pretender": "~0.10.1",
     "lodash": "~3.7.0",
-    "bootstrap-sass": "^3.3.6"
+    "bootstrap-sass": "^3.3.6",
+    "jquery-mockjax": "2.1.1"
   },
   "devDependencies": {
     "bootstrap": "^3.3.6"

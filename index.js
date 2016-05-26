@@ -32,8 +32,7 @@ module.exports = {
 
             ENV.OSF.accessToken = SETTINGS.PERSONAL_ACCESS_TOKEN;
             ENV.OSF.isLocal = true;
-        }
-        if (BACKEND === 'stage') {
+        } else if (BACKEND === 'stage') {
             ENV.OSF.url = 'https://staging.osf.io/';
             ENV.OSF.apiUrl = 'https://staging-api.osf.io';
             ENV.OSF.authUrl = 'https://staging-accounts.osf.io/oauth2/authorize';
