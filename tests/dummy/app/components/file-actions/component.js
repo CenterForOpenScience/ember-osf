@@ -13,8 +13,7 @@ export default Ember.Component.extend({
             window.open(url);
         },
 
-        updateContents(evt) {
-            let contents = evt.target.files[0];
+        updateContents(contents) {
             let file = this.get('file');
             let fm = this.get('fileManager');
 
@@ -33,12 +32,12 @@ export default Ember.Component.extend({
             }
         },
 
-        uploadFile(evt) {
-            let newFile = evt.target.files[0];
+        uploadFiles(files) {
+            let fm = this.get('fileManager');
             let folder = this.get('file');
-            if (newFile) {
-                let fm = this.get('fileManager');
-                fm.uploadFile(folder, newFile.name, newFile).then(() => {
+            while (files && files.length) {
+                let file = files.pop();
+                fm.uploadFile(folder, file.name, file).then(() => {
                     this.get('onChange')();
                 });
             }
