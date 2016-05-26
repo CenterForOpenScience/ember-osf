@@ -25,10 +25,11 @@ export default Ember.Mixin.create({
     _dirtyRelationships: {},
     onLoad: Ember.on('ready', function() {
         this.eachRelationship((rel, meta) => {
-            let update = function() {
-                let key = `_dirtyRelationships.${rel}`;
-                this.set(key, !Ember.isEmpty(this.get(key)));
-            }.bind(this);
+            var _this = this;
+            function update() {
+                var key = `_dirtyRelationships.${rel}`;
+                _this.set(key, !Ember.isEmpty(_this.get(key)));
+            }
 
             this.get(rel).then(() => {
                 var watch = rel;
