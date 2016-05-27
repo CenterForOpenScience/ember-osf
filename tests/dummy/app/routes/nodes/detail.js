@@ -124,7 +124,7 @@ export default Ember.Route.extend({
                 console.log('You do not have permissions to create this component');
             }
         },
-        addNodeLink(targetNodeId){
+        addNodeLink(targetNodeId) {
             var node = this.modelFor(this.routeName);
             if (node.get('currentUserPermissions').indexOf('write') !== -1) {
                 var nodeLink = this.store.createRecord('node-link', {
@@ -136,7 +136,7 @@ export default Ember.Route.extend({
                 console.log('You do not have permissions to create a node link');
             }
         },
-        removeNodeLink(targetNode){
+        removeNodeLink(targetNode) {
             var node = this.modelFor(this.routeName);
             if (node.get('currentUserPermissions').indexOf('write') !== -1) {
                 targetNode.destroyRecord();
