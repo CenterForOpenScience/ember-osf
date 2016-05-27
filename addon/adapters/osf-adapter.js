@@ -18,6 +18,9 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         ) : false;
         if (links) {
             url = links.self ? links.self.href : links.related.href;
+        }
+        else if (requestType === 'deleteRecord') {
+            url = snapshot.record.get('links.self');
         } else {
             url = this._super(...arguments);
         }
