@@ -128,10 +128,10 @@ export default Ember.Route.extend({
             var node = this.modelFor(this.routeName);
             if (node.get('currentUserPermissions').indexOf('write') !== -1) {
                 var nodeLink = this.store.createRecord('node-link', {
-                    targetNode: targetNodeId
+                    target: targetNodeId
                 });
                 node.get('nodeLinks').pushObject(nodeLink);
-                node.save()
+                node.save();
             } else {
                 console.log('You do not have permissions to create a node link');
             }
