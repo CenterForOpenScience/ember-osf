@@ -62,7 +62,7 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
     _buildRelationshipURL() {
 	var [,, snapshot,,, relationship] = arguments;
         var links = relationship ? snapshot.record.get(
-            `links.relationships.${Ember.String.underscore(relationship)}.links`
+            `relationshipLinks.${Ember.String.underscore(relationship)}.links`
         ) : false;
         if (links) {
             return links.self ? links.self.href : links.related.href;
@@ -83,9 +83,16 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
 		}).then(() => snapshot.record.clearDirtyRelationship(relationship));
 	    }));	
         }
-	if (snapshot.record.get('hasDirtyAttributes')) {
+	if (Object.keys(snapshot.record.changedAttributes()).length) {
 	    promises.push(this._super(...arguments));
         }
-	return Ember.Promise.all(promises);
+	return Ember.RSVP.Promise.all(promises).then(values => {
+	    var updated = values.shift() || {};
+	    values.forEach(value => Ember.merge(updated, value));
+	    if (Object.keys(updated).length) {
+		return updated;
+	    }
+	    return null;
+	});
     }
 });
