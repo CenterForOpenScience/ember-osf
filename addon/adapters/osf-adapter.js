@@ -35,7 +35,7 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         if (relationMeta.options.serializer) {
             serialized = relationMeta.options.serializer(snapshot);
         } else {
-            var serializer = store.serializerFor(relationType);
+            var serializer = store.serializerFor(relationType.substring(0, relationType.length - 1));
             var toBeSent = snapshot.record.get(dirty).filter(
                 function(record) {
                     return record.id === null;
@@ -43,8 +43,6 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
             );
             //under the assumption relationship saves are atomic, only one component is added at a time.
             serialized = serializer.serialize(new DS.Snapshot(toBeSent[0]._internalModel));
-            // for some reason this is not hitting the node overloaded serialize method
-            delete serialized.data.relationships;
         }
         return serialized;
     },
