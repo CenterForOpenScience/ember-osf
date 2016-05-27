@@ -140,7 +140,7 @@ export default Ember.Route.extend({
             var node = this.modelFor(this.routeName);
             if (node.get('currentUserPermissions').indexOf('write') !== -1) {
                 targetNode.destroyRecord();
-                console.log('Node link removed.')
+                console.log('Node link removed.');
             } else {
                 console.log('You do not have permissions to delete this node link.');
             }
