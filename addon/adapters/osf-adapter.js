@@ -58,8 +58,7 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
      * @param {String} relationship the relationship to build a url for
      * @return {String} a URL
      **/
-    _buildRelationshipURL() {
-        var [, , snapshot, , , relationship] = arguments;
+    _buildRelationshipURL(modelName, id, snapshot, requestType, query, relationship) { // jshint ignore:line
         var links = relationship ? snapshot.record.get(
             `relationshipLinks.${Ember.String.underscore(relationship)}.links`
         ) : false;
