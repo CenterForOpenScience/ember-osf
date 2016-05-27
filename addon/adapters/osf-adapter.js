@@ -40,8 +40,13 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
             serialized = relationMeta.options.serializer(snapshot.record);
         } else {
             var serializer = store.serializerFor(relationType);
-            var toBeSent = snapshot.record.get(relationship).filter(record => record.id === null);
-            serialized = serializer.serialize(toBeSent);
+            if (relationMeta.kind === 'hasMany') {
+                // A hack, since we'd have to use a bulk requests to send a list; TODO remove [0]
+                serialized = snapshot.hasMany(relationship).filter(record => record.id === null).map(record => serializer.serialize(record))[0];
+                delete serialized.data.relationships;
+            } else {
+                serialized = serializer.serialize(snapshot.belongsTo(relationship));
+            }
         }
         return serialized;
     },
@@ -80,7 +85,7 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         if (Object.keys(snapshot.record.changedAttributes()).length) {
             promises.push(this._super(...arguments));
         }
-        return Ember.RSVP.Promise.all(promises).then(values => {
+        return Ember.RSVP.Promise.allSettled(promises).then(values => {
             var updated = values.shift() || {};
             values.forEach(value => Ember.merge(updated, value));
             if (Object.keys(updated).length) {
