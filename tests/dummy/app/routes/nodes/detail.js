@@ -17,7 +17,6 @@ export default Ember.Route.extend({
     actions: {
         editExisting(title, description, category, isPublic) {
             // TODO: Should test PUT or PATCH
-            // console.log('Will edit title from', this.modelFor(this.routeName).get('title'), ' to ', value);
             var node = this.modelFor(this.routeName);
             if (node.get('currentUserPermissions').indexOf('write') !== -1) {
                 if (title) {node.set('title', title);}
@@ -30,14 +29,11 @@ export default Ember.Route.extend({
             }
         },
         affiliateNode(instId) {
-            var _this = this;
-            _this.store.findRecord('institution', instId).then(
-                function(inst) {
-                    var node = _this.modelFor(_this.routeName);
-                    node.get('affiliatedInstitutions').pushObject(inst);
-                    node.save();
-                }
-            );
+            this.store.findRecord('institution', instId).then(inst => {
+                var node = this.modelFor(this.routeName);
+                node.get('affiliatedInstitutions').pushObject(inst);
+                node.save();
+            });
         },
         deaffiliateNode(inst) {
             var node = this.modelFor(this.routeName);
