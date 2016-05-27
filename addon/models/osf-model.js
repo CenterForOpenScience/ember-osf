@@ -9,7 +9,7 @@ export default DS.Model.extend({
     links: DS.attr('links'),
     embeds: DS.attr('embed'),
 
-    relationshipLinks: DS.attr('links'),
+    relationshipLinks: Ember.computed.alias('links.relationships'),
     _dirtyRelationships: null,
     dirtyRelationships: Ember.computed('_dirtyRelationships', function() {
         var dirtyRelationships = this.get('_dirtyRelationships');
@@ -21,13 +21,17 @@ export default DS.Model.extend({
 	var relatedMeta = this[relationship].meta();
 	// A slight hack to get the related record w/o an API call
 	if (relatedMeta.kind === 'hasMany') {
-	    this._internalModel._relationships.initializedRelationships[relationship].canonicalState.forEach(record => record.set(`_dirtyRelationships.${relatedMeta.options.inverse}`, false));
+	    this._internalModel._relationships.initializedRelationships[relationship].canonicalState.forEach(internalModel => {
+		internalModel.record.set(`_dirtyRelationships.${relatedMeta.options.inverse}`, false);
+	    });
 	} else {
 	    // TODO: belongsTo
 	}
-	
+
     },
-    onReady: Ember.on('ready', function() {
+    ready() {
+	this._super(...arguments);
+
 	let model = this;
 	model.set('_dirtyRelationships', Ember.Object.create({}));
         model.eachRelationship((relationship, meta) => {
@@ -43,5 +47,5 @@ export default DS.Model.extend({
                 });
             });
         });
-    })
+    }
 });
