@@ -12,10 +12,10 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
     host: config.OSF.apiUrl,
     namespace: config.OSF.apiNamespace,
     buildURL() {
-	// Fix issue where CORS request failed on 301s: Ember does not seem to append trailing
+        // Fix issue where CORS request failed on 301s: Ember does not seem to append trailing
         // slash to URLs for single documents, but DRF redirects to force a trailing slash
-	var url = this._super(...arguments);
-	if (url.lastIndexOf('/') !== url.length - 1) {
+        var url = this._super(...arguments);
+        if (url.lastIndexOf('/') !== url.length - 1) {
             url += '/';
         }
         return url;
@@ -41,13 +41,7 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         } else {
             var serializer = store.serializerFor(relationType);
             var toBeSent = snapshot.record.get(relationship).filter(record => record.id === null);
-	    if (!toBeSent) {
-		// TODO console.log ?
-	    }
             serialized = serializer.serialize(toBeSent);
-
-            // for some reason this is not hitting the node overloaded serialize method
-            // delete serialized.data.relationships;
         }
         return serialized;
     },
@@ -60,7 +54,7 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
      * @return {String} a URL
      **/
     _buildRelationshipURL() {
-	var [,, snapshot,,, relationship] = arguments;
+        var [, , snapshot, , , relationship] = arguments;
         var links = relationship ? snapshot.record.get(
             `relationshipLinks.${Ember.String.underscore(relationship)}.links`
         ) : false;
@@ -71,28 +65,28 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         }
     },
     updateRecord(store, type, snapshot, _, query) {
-	var promises = [];
+        var promises = [];
 
         var dirtyRelationships = snapshot.record.get('dirtyRelationships');
         if (dirtyRelationships.length) {
-	    promises = promises.concat(dirtyRelationships.map(relationship => {
-		var url = this._buildRelationshipURL(type.modelName, snapshot.id, snapshot, 'updateRecord', query, relationship);
-		var requestType = snapshot.record[relationship].meta().options.updateRequestType;
-		return this.ajax(url, requestType || 'PATCH', {
-		    data: this._relationshipPayload(store, snapshot, relationship)
-		}).then(() => snapshot.record.clearDirtyRelationship(relationship));
-	    }));	
+            promises = promises.concat(dirtyRelationships.map(relationship => {
+                var url = this._buildRelationshipURL(type.modelName, snapshot.id, snapshot, 'updateRecord', query, relationship);
+                var requestType = snapshot.record[relationship].meta().options.updateRequestType;
+                return this.ajax(url, requestType || 'PATCH', {
+                    data: this._relationshipPayload(store, snapshot, relationship)
+                }).then(() => snapshot.record.clearDirtyRelationship(relationship));
+            }));
         }
-	if (Object.keys(snapshot.record.changedAttributes()).length) {
-	    promises.push(this._super(...arguments));
+        if (Object.keys(snapshot.record.changedAttributes()).length) {
+            promises.push(this._super(...arguments));
         }
-	return Ember.RSVP.Promise.all(promises).then(values => {
-	    var updated = values.shift() || {};
-	    values.forEach(value => Ember.merge(updated, value));
-	    if (Object.keys(updated).length) {
-		return updated;
-	    }
-	    return null;
-	});
+        return Ember.RSVP.Promise.all(promises).then(values => {
+            var updated = values.shift() || {};
+            values.forEach(value => Ember.merge(updated, value));
+            if (Object.keys(updated).length) {
+                return updated;
+            }
+            return null;
+        });
     }
 });

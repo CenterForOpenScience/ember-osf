@@ -13,12 +13,12 @@ const inflector = new Ember.Inflector(Ember.Inflector.defaultRules);
  */
 export function serializeHasMany(relationship, type, record) {
     return {
-        data: record.get(relationship).map(record => {
+        data: record.get(relationship).map(function(record) {
             return {
                 type: inflector.pluralize(type),
                 id: record.id
             };
-	})
+        })
     };
 }
 

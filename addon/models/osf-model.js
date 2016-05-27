@@ -16,34 +16,33 @@ export default DS.Model.extend({
         return Object.keys(dirtyRelationships).filter(k => dirtyRelationships[k]);
     }).volatile(),
     clearDirtyRelationship: function(relationship) {
-	this.set(`_dirtyRelationships.${relationship}`, false);
-	// Also clean the inverse relationship
-	var relatedMeta = this[relationship].meta();
-	// A slight hack to get the related record w/o an API call
-	if (relatedMeta.kind === 'hasMany') {
-	    this._internalModel._relationships.initializedRelationships[relationship].canonicalState.forEach(internalModel => {
-		internalModel.record.set(`_dirtyRelationships.${relatedMeta.options.inverse}`, false);
-	    });
-	} else {
-	    // TODO: belongsTo
-	}
+        this.set(`_dirtyRelationships.${relationship}`, false);
+        // Also clean the inverse relationship
+        var relatedMeta = this[relationship].meta();
+        // A slight hack to get the related record w/o an API call
+        if (relatedMeta.kind === 'hasMany') {
+            this._internalModel._relationships.initializedRelationships[relationship].canonicalState.forEach(internalModel => {
+                internalModel.record.set(`_dirtyRelationships.${relatedMeta.options.inverse}`, false);
+            });
+        }
+        // else {
+        //     // TODO: belongsTo
+        // }
 
     },
     ready() {
-	this._super(...arguments);
-
-	let model = this;
-	model.set('_dirtyRelationships', Ember.Object.create({}));
-        model.eachRelationship((relationship, meta) => {
-	    let rel = relationship;
-            model.get(rel).then(() => {
+        this._super(...arguments);
+        this.set('_dirtyRelationships', Ember.Object.create({}));
+        this.eachRelationship((relationship, meta) => {
+            let rel = relationship;
+            this.get(rel).then(() => {
                 var watch = rel;
                 if (meta.kind === 'hasMany') {
                     watch = `${rel}.[]`;
                 }
-                model.addObserver(rel, () => {
+                this.addObserver(rel, () => {
                     var key = `_dirtyRelationships.${rel}`;
-                    model.set(key, !Ember.isEmpty(this.get(key)));
+                    this.set(key, !Ember.isEmpty(this.get(key)));
                 });
             });
         });
