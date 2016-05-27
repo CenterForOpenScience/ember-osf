@@ -1,8 +1,8 @@
 import { moduleForModel, test } from 'ember-qunit';
 
-moduleForModel('node', 'Unit | Model | node', {
+moduleForModel('node-link', 'Unit | Model | node link', {
   // Specify the other units that are required for this test.
-    needs: ['model:user', 'model:contributor', 'model:comment', 'model:institution', 'model:registration', 'model:file-provider', 'model:log', 'model:node-link']
+  needs: ['model:node-link', 'model:node']
 });
 
 test('it exists', function(assert) {

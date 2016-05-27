@@ -2,7 +2,31 @@ import DS from 'ember-data';
 
 import OsfModel from '../mixins/osf-model';
 
+function relationshipSerializer(relationship, type) {
+    return function(snapshot) {
+        return {
+            data: snapshot.record.get(relationship).map(
+                function(record) { return { type: type, id: record.id }; }
+            )
+        };
+    };
+}
+
 export default DS.Model.extend(OsfModel, {
+    CATEGORY_MAP: {
+        analysis: 'Analysis',
+        communication: 'Communication',
+        data: 'Data',
+        hypothesis: 'Hypothesis',
+        instrumentation: 'Instrumentation',
+        'methods and measures': 'Methods and Measures',
+        procedure: 'Procedure',
+        project: 'Project',
+        software: 'Software',
+        other: 'Other',
+        '': 'Uncategorized'
+    },
+
     title: DS.attr('string'),
     description: DS.attr('string'),
     category: DS.attr('string'),
@@ -25,17 +49,22 @@ export default DS.Model.extend(OsfModel, {
         inverse: 'children'
     }),
     children: DS.hasMany('nodes', {
-        inverse: 'parent'
+        inverse: 'parent',
+        updateRequestType: 'POST'
     }),
     affiliatedInstitutions: DS.hasMany('institutions', {
-        inverse: 'nodes'
+        inverse: 'nodes',
+        serializer: relationshipSerializer('affiliatedInstitutions', 'institutions')
     }),
     comments: DS.hasMany('comments'),
     contributors: DS.hasMany('contributors'),
 
     files: DS.hasMany('file-provider'),
     //forkedFrom: DS.belongsTo('node'),
-    //nodeLinks:  DS.hasMany('node-pointers'),
+    nodeLinks: DS.hasMany('node-links', {
+        inverse: null,
+        updateRequestType: 'POST'
+    }),
     registrations: DS.hasMany('registrations', {
         inverse: 'registeredFrom'
     }),

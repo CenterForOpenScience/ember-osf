@@ -6,7 +6,7 @@ export default Ember.Mixin.create({
     session: Ember.inject.service(),
     actions: {
         login() {
-            window.location = `${config.OSF.authUrl}?response_type=token&scope=${config.OSF.scope}&client_id=${config.OSF.clientId}&redirect_uri=${encodeURI(window.location)}`;
+            window.location = `${config.OSF.authUrl}?response_type=token&scope=${config.OSF.scope}&client_id=${config.OSF.clientId}&redirect_uri=${encodeURI(window.location)}/`;
         }
     }
 });
