@@ -69,28 +69,26 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         }
     },
     updateRecord(store, type, snapshot, _, query) {
-        var promises = [];
-
+        var promises = null;
         var dirtyRelationships = snapshot.record.get('dirtyRelationships');
         if (dirtyRelationships.length) {
-            promises = promises.concat(dirtyRelationships.map(relationship => {
+            promises = dirtyRelationships.map(relationship => {
                 var url = this._buildRelationshipURL(type.modelName, snapshot.id, snapshot, 'updateRecord', query, relationship);
                 var requestType = snapshot.record[relationship].meta().options.updateRequestType;
                 return this.ajax(url, requestType || 'PATCH', {
                     data: this._relationshipPayload(store, snapshot, relationship)
                 }).then(() => snapshot.record.clearDirtyRelationship(relationship));
-            }));
+            });
         }
         if (Object.keys(snapshot.record.changedAttributes()).length) {
-            promises.push(this._super(...arguments));
-        }
-        return Ember.RSVP.Promise.allSettled(promises).then(values => {
-            var updated = values.shift() || {};
-            values.forEach(value => Ember.merge(updated, value));
-            if (Object.keys(updated).length) {
-                return updated;
-            }
-            return null;
-        });
+	    if (promises) {
+		return this._super(...arguments).then(response => {
+		    return Ember.RSVP.allSettled(promises).then(() => response);
+		});
+	    }
+	    return this._super(...arguments);
+        } else {
+	    return Ember.RSVP.allSettled(promises).then(() => null);
+	}
     }
 });
