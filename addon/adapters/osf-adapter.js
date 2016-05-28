@@ -81,14 +81,12 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
             });
         }
         if (Object.keys(snapshot.record.changedAttributes()).length) {
-	    if (promises) {
-		return this._super(...arguments).then(response => {
-		    return Ember.RSVP.allSettled(promises).then(() => response);
-		});
-	    }
-	    return this._super(...arguments);
+            if (promises) {
+                return this._super(...arguments).then(response => Ember.RSVP.allSettled(promises).then(() => response));
+            }
+            return this._super(...arguments);
         } else {
-	    return Ember.RSVP.allSettled(promises).then(() => null);
-	}
+            return Ember.RSVP.allSettled(promises).then(() => null);
+        }
     }
 });
