@@ -87,8 +87,10 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
                 return this._super(...arguments).then(response => Ember.RSVP.allSettled(promises).then(() => response));
             }
             return this._super(...arguments);
-        } else {
+        } else if (promises) {
             return Ember.RSVP.allSettled(promises).then(() => null);
+        } else {
+            return new Ember.RSVP.Promise((resolve) => resolve(null));
         }
     }
 });
