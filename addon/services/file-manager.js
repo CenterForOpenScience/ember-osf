@@ -3,6 +3,7 @@ import Ember from 'ember';
 /**
  * An Ember service for doing things to files.
  * Essentially a wrapper for the Waterbutler API.
+ * http://waterbutler.readthedocs.io/
  *
  * @class file-manager
  * @extends Ember.Service
@@ -32,13 +33,20 @@ export default Ember.Service.extend({
      * @param {file} file A `file` model with `isFolder == false`.
      * @param {Object} contents A native `File` object or another appropriate
      * payload for uploading.
-     * @return {Promise} Promise that resolves on success or rejects with
-     * an error message.
+     * @return {Promise} Promise that resolves to the updated `file` model or
+     * rejects with an error message.
      */
     updateContents(file, contents) {
         let url = file.get('links').upload;
         let params = { kind: 'file' };
-        return this._waterbutlerRequest('PUT', url, params, contents);
+        let lastModified = file.dateModified;
+        let p = this._waterbutlerRequest('PUT', url, params, contents);
+        return p.then(() => this._reloadModel(file, (model) => {
+            if (model.dateModified > lastModified) {
+                return model;
+            }
+            return false;
+        }));
     },
 
     checkout(/*file, user*/) {
@@ -68,14 +76,8 @@ export default Ember.Service.extend({
         if (queryStart > -1) {
             url = url.slice(0, queryStart);
         }
-        return new Ember.RSVP.Promise((resolve, reject) => {
-            let p = this._waterbutlerRequest('PUT', url, params);
-            p.then(() => {
-                this._freshFile(folder, name).then((newFolder) => {
-                    resolve(newFolder);
-                });
-            });
-        });
+        let p = this._waterbutlerRequest('PUT', url, params);
+        return p.then(() => this._getNewFileInfo(folder, name));
     },
 
     /**
@@ -96,14 +98,8 @@ export default Ember.Service.extend({
             name,
             kind: 'file'
         };
-        return new Ember.RSVP.Promise((resolve, reject) => {
-            let p = this._waterbutlerRequest('PUT', url, params);
-            p.then(() => {
-                this._freshFile(folder, name).then((newFolder) => {
-                    resolve(newFolder);
-                });
-            });
-        });
+        let p = this._waterbutlerRequest('PUT', url, params, contents);
+        return p.then(() => this._getNewFileInfo(folder, name));
     },
 
     /**
@@ -119,8 +115,12 @@ export default Ember.Service.extend({
         let url = file.get('links').move;
         let data = JSON.stringify({ action: 'rename', rename: newName });
         let p = this._waterbutlerRequest('POST', url, null, data);
-        return p.then((data) => this._pushToStore(data, file.get('id')));
-        // TODO refresh parent
+        return p.then(() => this._reloadModel(file, (model) => {
+            if (model.get('name') === newName) {
+                return model;
+            }
+            return false;
+        }));
     },
 
     /**
@@ -142,8 +142,8 @@ export default Ember.Service.extend({
      * @param {Boolean} [options.copy=false] When `true`, create a copy of the
      * file instead of moving it.
      * @return {Promise} Promise that resolves to the the updated (or newly
-     * created, if `options.copy == true`) `file` model or rejects with an error
-     * message.
+     * created, if `options.copy` is `true`) `file` model or rejects with an
+     * error message.
      */
     move(file, targetFolder, options = {}) {
         let url = file.get('links').move;
@@ -166,12 +166,11 @@ export default Ember.Service.extend({
             data.provider = options.provider;
         }
 
-        let p = this._waterbutlerRequest('POST', url, null, JSON.stringify(data));
-        return p.then((data) => {
-            if (!options.copy) {
-                // TODO refresh parent
-                return this._pushToStore(data, file.get('id'), targetFolder);
-            }
+        let p = this._waterbutlerRequest('POST', url, null,
+                                         JSON.stringify(data));
+        return p.then((wbResponse) => {
+            let name = wbResponse.data.attributes.name;
+            return this._getNewFileInfo(targetFolder, name);
         });
     },
 
@@ -185,9 +184,9 @@ export default Ember.Service.extend({
      * `isFolder == true`.
      * @param {Object} [options]
      * @param {String} [options.newName] If specified, also rename the file.
-     * @param {Boolean} [options.replace=true] When `true`, replace any file with
-     * the same name in the target location. When `false`, rename the copied file
-     * to avoid conflict.
+     * @param {Boolean} [options.replace=true] When `true`, replace any file
+     * with the same name in the target location. When `false`, rename the
+     * copied file to avoid conflict.
      * @param {node} [options.node] If specified, copy the file to a different
      * node.
      * @param {String} [options.provider] If specified, copy the file to a
@@ -212,11 +211,7 @@ export default Ember.Service.extend({
         let url = file.get('links').delete;
         let p = this._waterbutlerRequest('DELETE', url);
         return p.then(() => {
-            // TODO refresh parent
-            let parentFolder = file.get('parentFolder');
-            if (parentFolder) {
-                parentFolder.get('files').removeObject(file);
-            }
+            this.get('store').unloadRecord(file);
         });
     },
 
@@ -249,8 +244,8 @@ export default Ember.Service.extend({
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 },
-                success: (data) => resolve(data),
-                error: (_, __, error) => reject(error)
+                error: (_, __, error) => reject(error),
+                success: (data) => resolve(data)
             });
         });
     },
@@ -258,28 +253,55 @@ export default Ember.Service.extend({
     /**
      * Get an updated `file` model from the OSF API.
      *
-     * @method _updateFileInfo
+     * @method _reloadModel
+     * @private
+     * @param {Object} model Ember model to reload.
+     * @param {Function} isFresh Function that is called with the reloaded
+     * model from the OSF API. If the model is actually still stale, should
+     * return `false`. Otherwise, return the fresh model.
      * @return {Promise} Promise that resolves to an updated `file` model or
      * rejects with an error message.
      */
-    _freshFile(parentFolder, fileName) {
+    _reloadModel(model, isFresh) {
+        const maxTries = 32;
         return new Ember.RSVP.Promise((resolve, reject) => {
-            let runs = 0;
-            let refresh = function() {
-                runs++;
-                parentFolder.get('files').reload().then((files) => {
-                    let file = files.findBy('name', fileName);
-                    if (file) {
-                        resolve(file);
-                    } else if (runs < 50) {
-                        Ember.run.later(refresh, 250);
+            let tries = 0;
+            let tryReload = function() {
+                model.reload().then((freshModel) => {
+                    freshModel = isFresh(freshModel);
+                    if (freshModel) {
+                        resolve(freshModel);
+                    } else if (tries < maxTries) {
+                        tries++;
+                        Ember.run.later(tryReload, 250);
                     } else {
                         reject('Timed out refreshing file info');
                     }
                 });
             };
 
-            refresh();
+            tryReload();
         });
+    },
+
+    /**
+     * Get the `file` model for a newly created file.
+     *
+     * @method _getNewFileInfo
+     * @private
+     * @param {file} parentFolder Model for the new file's parent folder.
+     * @param {String} name Name of the new file.
+     * @return {Promise} Promise that resolves to the new file's model or
+     * rejects with an error message.
+     */
+    _getNewFileInfo(parentFolder, name) {
+        let hasFile = function(files) {
+            let file = files.findBy('name', name);
+            if (file) {
+                return file;
+            }
+            return false;
+        };
+        return this._reloadModel(parentFolder.get('files'), hasFile);
     }
 });
