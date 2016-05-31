@@ -81,7 +81,7 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
             });
         }
         if (Object.keys(snapshot.record.changedAttributes()).length) {
-            if (promises) {
+            if (promises && promises.length) {
                 return this._super(...arguments).then(response => Ember.RSVP.allSettled(promises).then(() => response));
             }
             return this._super(...arguments);
