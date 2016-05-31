@@ -39,11 +39,10 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         if (relationMeta.options.serializer) {
             serialized = relationMeta.options.serializer(snapshot.record);
         } else {
-            var serializer = store.serializerFor(relationType);
+            var serializer = store.serializerFor(relationType.substring(0, relationType.length - 1));
             if (relationMeta.kind === 'hasMany') {
                 // A hack, since we'd have to use a bulk requests to send a list; TODO remove [0]
                 serialized = snapshot.hasMany(relationship).filter(record => record.id === null).map(record => serializer.serialize(record))[0];
-                delete serialized.data.relationships;
             } else {
                 serialized = serializer.serialize(snapshot.belongsTo(relationship));
             }
