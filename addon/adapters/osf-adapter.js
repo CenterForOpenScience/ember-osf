@@ -44,17 +44,16 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
             if (relationMeta.kind === 'hasMany') {
                 // A hack, since we'd have to use a bulk requests to send a list; TODO remove [0]
                 serialized = snapshot.hasMany(relationship).filter(record => record.id === null).map(record => serializer.serialize(record));
-                if (serialized.length > 1){
+                if (serialized.length > 1) {
                     this.isBulk = true;
                     serialized = {
-                        data: serialized.map(function(record){
+                        data: serialized.map(function(record) {
                             var data = record.data;
                             delete data.relationships;
                             return data;
                         })
                     };
-                }
-                else {
+                } else {
                     serialized = serialized[0];
                     delete serialized.data.relationships;
                 }
@@ -105,9 +104,9 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
             return new Ember.RSVP.Promise((resolve) => resolve(null));
         }
     },
-    ajaxOptions(){
+    ajaxOptions() {
         var ret = this._super(...arguments);
-        if (this.isBulk){
+        if (this.isBulk) {
             ret.contentType = 'application/vnd.api+json; ext=bulk';
         }
         return ret;
