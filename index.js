@@ -18,6 +18,11 @@ module.exports = {
             console.log(`WARNING: you\'ve specified a backend '${BACKEND}' that you have not configured in your config/local.yml`);
         }
 
+        // For i18n
+        ENV.i18n = {
+            defaultLocale: 'en-US'
+        };
+
         ENV.OSF = {
             clientId: SETTINGS.CLIENT_ID,
             scope: SETTINGS.OAUTH_SCOPES,
