@@ -130,8 +130,28 @@ export default Ember.Route.extend({
             } else {
                 console.log('You do not have permissions to delete this node');
             }
+        },
+        addNodeLink(targetNodeId) {
+            var node = this.modelFor(this.routeName);
+            if (node.get('currentUserPermissions').indexOf('write') !== -1) {
+                var nodeLink = this.store.createRecord('node-link', {
+                    target: targetNodeId
+                });
+                node.get('nodeLinks').pushObject(nodeLink);
+                node.save();
+            } else {
+                console.log('You do not have permissions to create a node link');
+            }
+        },
+        removeNodeLink(targetNode) {
+            var node = this.modelFor(this.routeName);
+            if (node.get('currentUserPermissions').indexOf('write') !== -1) {
+                targetNode.destroyRecord();
+                console.log('Node link removed.');
+            } else {
+                console.log('You do not have permissions to delete this node link.');
+            }
         }
-
     },
     generateContributorMap(contributors) {
         // Maps all node contributors to format {contribID: {permission: "read|write|admin", bibliographic: "true|false"}}
