@@ -4,8 +4,7 @@ import Ember from 'ember';
 
 module('Unit | Helper | elem id');
 
-// Replace this with your real tests.
-test('it works', function(assert) {
+test('ID name is prefixed with guid for that component', function(assert) {
     let testObj = {};
     let testObjId = Ember.guidFor(testObj);
 
