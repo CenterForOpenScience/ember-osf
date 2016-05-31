@@ -1,12 +1,12 @@
 import DS from 'ember-data';
 
-import OsfModel from '../mixins/osf-model';
+import OsfModel from './osf-model';
 
-export default DS.Model.extend(OsfModel, {
+export default OsfModel.extend({
+    fullName: DS.attr('string'),
     givenName: DS.attr('string'),
     middleNames: DS.attr(),
     familyName: DS.attr('string'),
-    fullName: DS.attr('string'),
 
     dateRegistered: DS.attr('date'),
 

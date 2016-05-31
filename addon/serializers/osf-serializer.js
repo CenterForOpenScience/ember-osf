@@ -46,6 +46,10 @@ export default DS.JSONAPISerializer.extend({
             resourceHash.attributes.links = resourceHash.links;
         }
         this._extractEmbeds(resourceHash);
+
+        if (resourceHash.relationships && resourceHash.attributes.links) {
+            resourceHash.attributes.links = Ember.$.extend(resourceHash.attributes.links, { relationships: resourceHash.relationships });
+        }
         return resourceHash;
     },
 

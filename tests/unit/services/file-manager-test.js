@@ -81,7 +81,7 @@ let sessionStub = Ember.Service.extend({
 
 moduleFor('service:file-manager', 'Unit | Service | file manager', {
     unit: true,
-    needs: ['model:file'],
+    needs: ['model:file', 'model:file-version', 'model:comment'],
     beforeSetup() {
         Ember.$.ajaxTransport('+*', function(options) {
             if (ajaxOptionsHandler) {
