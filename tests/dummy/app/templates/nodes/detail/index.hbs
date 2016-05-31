@@ -141,12 +141,14 @@
         <p><button {{action "addChildren" title description category }}>Create</button></p>
     </div>
 
+    <hr>
+
     <h2>Node links </h2>
     <table class="table">
         <tr>
             <th> Id </th>
             <th> Name </th>
-            {{!-- <th> </th> --}}
+            <th> </th>
         </tr>
         {{#each model.nodeLinks as |nodelink|}}
             <tr>
@@ -156,6 +158,8 @@
             </tr>
         {{/each}}
     </table>
+
+    <hr>
 
     <h3>Add link</h3>
     <label> Target node id </label> {{input value=targetNodeId}}
