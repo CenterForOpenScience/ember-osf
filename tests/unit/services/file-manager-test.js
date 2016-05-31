@@ -1,57 +1,44 @@
 import Ember from 'ember';
 import { moduleFor, test } from 'ember-qunit';
+import FactoryGuy, { manualSetup } from 'ember-data-factory-guy';
 
-function getFakeFile() {
-    return Ember.Object.create({
-        id: 'blip',
-        links: {
-            download: '/this/is/a/download/url',
-            upload: '/this/is/an/upload/url',
-            new_folder: '/this/is/a/new_folder/url',
-            move: '/this/is/a/move/url',
-            delete: '/this/is/a/delete/url'
+/*
+ * assertions:
+ *  - once for expectedRequest.url
+ *  - once for each key in expectedRequest.query
+ *  - once for each key in expectedRequest.headers
+ *  - once for each key in expectedRequest.settings
+ */
+function setupMockjax(assert, expectedRequest, response, freshModel) {
+    Ember.$.mockjax(function(requestSettings) {
+        if (requestSettings.url.startsWith(expectedRequest.url)) {
+            return {
+                response: function(origSettings) {
+                    assertURL(assert, requestSettings.url,
+                              expectedRequest.url, expectedRequest.query);
+                    assertHeaders(assert, requestSettings.headers,
+                                  expectedRequest.headers);
+                    assertSettings(assert, requestSettings,
+                                   expectedRequest.settings);
+                    this.responseText = response.data || {};
+                    this.status = response.status;
+                }
+            };
         }
+        return;
     });
-}
 
-let ajaxOptionsHandler = null;
-let ajaxTransport = null;
-
-function setupAjax(assert, expectedRequest, response) {
-    // Whenever $.ajax() is called, instead of actually sending anything just
-    // check the request matches what's expected, then
-    // pretend a server responded with the given response.
-    // Asserts once for each provided option and header, plus once for the
-    // URL and once more if query params are expected
-
-    ajaxOptionsHandler = function(options) {
-        assertURL(assert, options.url, expectedRequest.url,
-                expectedRequest.query);
-
-        for (let o in expectedRequest.options) {
-            // Check for a JSON payload
-            if (typeof expectedRequest.options[o] === 'object' &&
-                    typeof options[o] === 'string') {
-                let payload = JSON.parse(options[o]);
-                assert.deepEqual(payload, expectedRequest.options[o],
-                        `request has expected JSON payload '${o}'`);
-            } else {
-                assert.equal(options[o], expectedRequest.options[o],
-                        `request has expected option '${o}'`);
+    if (freshModel) {
+        Ember.$.mockjax({
+            url: '/files/*',
+            response: function() {
+                this.responseText = reloadModelResponse(freshModel);
             }
-        }
-    };
-
-    ajaxTransport = function(headers, callback) {
-        for (let h in expectedRequest.headers) {
-            assert.equal(headers[h], expectedRequest.headers[h],
-                    `request has expected header '${h}'`);
-        }
-        callback(response.status, response.statusText, { text: response.data });
-    };
+        });
+    }
 }
 
-// asserts once for the base URL and once more if queryParams are given
+// assert once for the path and once for each expected query param
 function assertURL(assert, actual, expected, queryParams) {
     if (!queryParams) {
         assert.equal(actual, expected, 'correct request URL');
@@ -68,6 +55,60 @@ function assertURL(assert, actual, expected, queryParams) {
             'correct query params');
 }
 
+// assert once for each expected header
+function assertHeaders(assert, actual, expected) {
+    for (let header in expected) {
+        assert.equal(actual[header], expected[header],
+                     `request has expected header '${header}'`);
+    }
+}
+
+// assert once for each expected ajax setting
+function assertSettings(assert, actual, expected) {
+    for (let s in expected) {
+	// Check for a JSON payload
+	if (typeof expected[s] === 'object' &&
+	    typeof actual[s] === 'string') {
+	    let payload = JSON.parse(actual[s]);
+	    assert.deepEqual(payload, expected[s],
+			     `request has expected JSON payload '${s}'`);
+	} else {
+	    assert.equal(actual[s], expected[s],
+			 `request has expected option '${s}'`);
+	}
+    }
+}
+
+function reloadModelResponse(models) {
+    function modelToData(model) {
+        let data = {
+            attributes: {
+                name: model.get('name'),
+                kind: model.get('kind'),
+                path: model.get('path'),
+                size: model.get('size'),
+                provider: model.get('provider'),
+                dateModified: new Date() + 1,
+                dateCreated: model.get('dateCreated'),
+                checkout: model.get('checkout')
+            },
+            id: model.get('id'),
+            type: 'files'
+        };
+        return data;
+    }
+
+    if (Array.isArray(models)) {
+        return {
+            data: models.map(modelToData)
+        };
+    } else {
+        return {
+            data: modelToData(models)
+        };
+    }
+}
+
 let fakeAccessToken = 'thisisafakeaccesstoken';
 let sessionStub = Ember.Service.extend({
     data: {
@@ -82,50 +123,35 @@ let sessionStub = Ember.Service.extend({
 moduleFor('service:file-manager', 'Unit | Service | file manager', {
     unit: true,
     needs: ['model:file'],
-    beforeSetup() {
-        Ember.$.ajaxTransport('+*', function(options) {
-            if (ajaxOptionsHandler) {
-                ajaxOptionsHandler(options);
-            }
-            if (ajaxTransport) {
-                return {
-                    send: ajaxTransport,
-                    abort() {}
-                };
-            }
-        });
-    },
     beforeEach() {
         this.register('service:session', sessionStub);
-    },
-    afterEach() {
-        ajaxOptionsHandler = null;
-        ajaxTransport = null;
+        manualSetup(this.container);
+        Ember.$.mockjax.clear();
     },
 });
 
 test('getContents sends valid waterbutler request', function(assert) {
     assert.expect(4);
     let service = this.subject();
-    let file = getFakeFile();
+    let file = FactoryGuy.make('file');
     let done = assert.async();
 
     let request = {
-        url: file.links.download,
-        options: { method: 'GET' },
+        url: file.get('links').download,
+        settings: { method: 'GET' },
         headers: { Authorization: `Bearer ${fakeAccessToken}` }
     };
     let response = {
         status: 200,
-        statusText: 'ok',
         data: 'file contents here'
     };
-    setupAjax(assert, request, response);
+    setupMockjax(assert, request, response);
 
     service.getContents(file).then(function(data) {
         assert.equal(data, response.data);
         done();
     }).catch(function() {
+        assert.ok(false, 'promise should not reject on success');
         done();
     });
 });
@@ -133,24 +159,24 @@ test('getContents sends valid waterbutler request', function(assert) {
 test('getContents passes along error', function(assert) {
     assert.expect(4);
     let service = this.subject();
-    let file = getFakeFile();
+    let file = FactoryGuy.make('file');
     let done = assert.async();
 
     let request = {
-        url: file.links.download,
-        options: { method: 'GET' },
+        url: file.get('links').download,
+        settings: { method: 'GET' },
         headers: { Authorization: `Bearer ${fakeAccessToken}` }
     };
     let response = {
-        status: 404,
-        statusText: 'missing!'
+        status: 404
     };
-    setupAjax(assert, request, response);
+    setupMockjax(assert, request, response);
 
     service.getContents(file).then(function() {
+        assert.ok(false, 'promise should reject');
         done();
-    }).catch(function(message) {
-        assert.equal(message, response.statusText, 'correct error message');
+    }).catch(function() {
+        assert.ok(true, 'promise rejects on error');
         done();
     });
 });
@@ -158,25 +184,26 @@ test('getContents passes along error', function(assert) {
 test('updateContents sends valid waterbutler request', function(assert) {
     assert.expect(6);
     let service = this.subject();
-    let file = getFakeFile();
+    let file = FactoryGuy.make('file');
     let done = assert.async();
 
     let request = {
-        url: file.links.upload,
+        url: file.get('links').upload,
         query: { kind: 'file' },
-        options: { method: 'PUT', data: 'contents contents!' },
+        settings: { method: 'PUT', data: 'contents contents' },
         headers: { Authorization: `Bearer ${fakeAccessToken}` },
     };
     let response = {
         status: 200,
-        statusText: 'ok'
     };
-    setupAjax(assert, request, response);
+    let freshModel = FactoryGuy.make('file', { id: file.id });
+    setupMockjax(assert, request, response, freshModel);
 
-    service.updateContents(file, request.options.data).then(function(data) {
-        assert.equal(data, response.data);
+    service.updateContents(file, request.settings.data).then(function(fresh) {
+        assert.deepEqual(fresh, freshModel, 'returns updated model');
         done();
     }).catch(function() {
+        assert.ok(false, 'promise should not reject on success');
         done();
     });
 });
@@ -184,25 +211,25 @@ test('updateContents sends valid waterbutler request', function(assert) {
 test('updateContents passes along error', function(assert) {
     assert.expect(6);
     let service = this.subject();
-    let file = getFakeFile();
+    let file = FactoryGuy.make('file');
     let done = assert.async();
 
     let request = {
-        url: file.links.upload,
+        url: file.get('links').upload,
         query: { kind: 'file' },
-        options: { method: 'PUT', data: 'contents contents' },
+        settings: { method: 'PUT', data: 'contents contents' },
         headers: { Authorization: `Bearer ${fakeAccessToken}` },
     };
     let response = {
         status: 404,
-        statusText: 'missing!'
     };
-    setupAjax(assert, request, response);
+    setupMockjax(assert, request, response);
 
-    service.updateContents(file, request.options.data).then(function() {
+    service.updateContents(file, request.settings.data).then(function() {
+        assert.ok(false, 'promise should reject on error');
         done();
-    }).catch(function(message) {
-        assert.equal(message, response.statusText);
+    }).catch(function() {
+        assert.ok(true, 'promise rejects on error');
         done();
     });
 });
@@ -210,25 +237,27 @@ test('updateContents passes along error', function(assert) {
 test('addSubfolder sends valid waterbutler request', function(assert) {
     assert.expect(5);
     let service = this.subject();
-    let file = getFakeFile();
+    let folder = FactoryGuy.make('file', 'isFolder');
     let done = assert.async();
 
     let request = {
-        url: file.links.new_folder,
+        url: folder.get('links').new_folder,
         query: { name: 'fooname', kind: 'folder' },
-        options: { method: 'PUT' },
+        settings: { method: 'PUT' },
         headers: { Authorization: `Bearer ${fakeAccessToken}` },
     };
     let response = {
         status: 200,
-        statusText: 'ok'
     };
-    setupAjax(assert, request, response);
+    let freshModel = [...folder.get('files'),
+        FactoryGuy.make('file', 'isFolder', { name: request.query.name })];
+    setupMockjax(assert, request, response, freshModel);
 
-    service.addSubfolder(file, request.query.name).then(function(data) {
+    service.addSubfolder(folder, request.query.name).then(function(data) {
         assert.equal(data, response.data);
         done();
     }).catch(function() {
+        assert.ok(false, 'promise should not reject on success');
         done();
     });
 });
@@ -236,25 +265,25 @@ test('addSubfolder sends valid waterbutler request', function(assert) {
 test('addSubfolder passes along error', function(assert) {
     assert.expect(5);
     let service = this.subject();
-    let file = getFakeFile();
+    let folder = FactoryGuy.make('file', 'isFolder');
     let done = assert.async();
 
     let request = {
-        url: file.links.new_folder,
+        url: folder.get('links').new_folder,
         query: { name: 'fooname', kind: 'folder' },
-        options: { method: 'PUT' },
+        settings: { method: 'PUT' },
         headers: { Authorization: `Bearer ${fakeAccessToken}` },
     };
     let response = {
         status: 404,
-        statusText: 'missing!'
     };
-    setupAjax(assert, request, response);
+    setupMockjax(assert, request, response);
 
-    service.addSubfolder(file, request.query.name).then(function() {
+    service.addSubfolder(folder, request.query.name).then(function() {
+        assert.ok(false, 'promise should reject on error');
         done();
-    }).catch(function(message) {
-        assert.equal(message, response.statusText, 'correct error message');
+    }).catch(function() {
+        assert.ok(true, 'promise rejects on error');
         done();
     });
 });
@@ -262,26 +291,28 @@ test('addSubfolder passes along error', function(assert) {
 test('uploadFile sends valid waterbutler request', function(assert) {
     assert.expect(6);
     let service = this.subject();
-    let file = getFakeFile();
+    let folder = FactoryGuy.make('file', 'isFolder');
     let done = assert.async();
 
     let request = {
-        url: file.links.upload,
+        url: folder.get('links').upload,
         query: { name: 'fooname', kind: 'file' },
-        options: { method: 'PUT', data: 'contents contents' },
+        settings: { method: 'PUT', data: 'contents contents' },
         headers: { Authorization: `Bearer ${fakeAccessToken}` },
     };
     let response = {
         status: 200,
-        statusText: 'ok'
     };
-    setupAjax(assert, request, response);
+    let freshModel = [...folder.get('files'),
+        FactoryGuy.make('file', { name: request.query.name })];
+    setupMockjax(assert, request, response, freshModel);
 
     service.uploadFile(file, request.query.name,
-            request.options.data).then(function(data) {
+            request.settings.data).then(function(data) {
         assert.equal(data, response.data);
         done();
     }).catch(function() {
+        assert.ok(false, 'promise should not reject on success');
         done();
     });
 });
@@ -289,26 +320,26 @@ test('uploadFile sends valid waterbutler request', function(assert) {
 test('uploadFile passes along error', function(assert) {
     assert.expect(6);
     let service = this.subject();
-    let file = getFakeFile();
+    let file = FactoryGuy.make('file', 'isFolder');
     let done = assert.async();
 
     let request = {
-        url: file.links.upload,
+        url: file.get('links').upload,
         query: { name: 'fooname', kind: 'file' },
-        options: { method: 'PUT', data: 'contents contents' },
+        settings: { method: 'PUT', data: 'contents contents' },
         headers: { Authorization: `Bearer ${fakeAccessToken}` },
     };
     let response = {
         status: 401,
-        statusText: 'bad'
     };
-    setupAjax(assert, request, response);
+    setupMockjax(assert, request, response);
 
     service.uploadFile(file, request.query.name,
-            request.options.data).then(function() {
+            request.settings.data).then(function() {
+        assert.ok(false, 'promise should reject on error');
         done();
     }).catch(function(error) {
-        assert.equal(error, response.statusText);
+        assert.ok(true, 'promise rejects on error');
         done();
     });
 });
@@ -317,13 +348,13 @@ test('move sends valid waterbutler request', function(assert) {
     assert.expect(5);
     let service = this.subject();
     let done = assert.async();
-    let file = getFakeFile();
-    let folder = getFakeFile();
+    let file = FactoryGuy.make('file');
+    let folder = FactoryGuy.make('file', 'isFolder');
     folder.set('path', '/path/path/this/is/a/path/');
 
     let request = {
-        url: file.links.move,
-        options: { method: 'POST', data: {
+        url: file.get('links').move,
+        settings: { method: 'POST', data: {
                 action: 'move',
                 path: folder.get('path'),
                 conflict: 'replace'
@@ -333,19 +364,16 @@ test('move sends valid waterbutler request', function(assert) {
     };
     let response = {
         status: 200,
-        statusText: 'ok',
-        data: {
-            data: {
-                attributes: {}
-            }
-        }
     };
-    setupAjax(assert, request, response);
+    let freshModel = [...folder.get('files'),
+        FactoryGuy.make('file', { name: file.get('name') })];
+    setupMockjax(assert, request, response, freshModel);
 
     service.move(file, folder).then(function(movedFile) {
         assert.equal(movedFile.get('id'), file.get('id'));
         done();
     }).catch(function() {
+        assert.ok(false, 'promise should not reject on success');
         done();
     });
 });
@@ -354,13 +382,13 @@ test('move passes along error', function(assert) {
     assert.expect(5);
     let service = this.subject();
     let done = assert.async();
-    let file = getFakeFile();
-    let folder = getFakeFile();
+    let file = FactoryGuy.make('file');
+    let folder = FactoryGuy.make('file', 'isFolder');
     folder.set('path', '/path/path/this/is/a/path/');
 
     let request = {
-        url: file.links.move,
-        options: { method: 'POST', data: {
+        url: file.get('links').move,
+        settings: { method: 'POST', data: {
                 action: 'move',
                 path: folder.get('path'),
                 conflict: 'replace'
@@ -370,14 +398,14 @@ test('move passes along error', function(assert) {
     };
     let response = {
         status: 402,
-        statusText: 'oh no'
     };
-    setupAjax(assert, request, response);
+    setupMockjax(assert, request, response);
 
     service.move(file, folder).then(function() {
+        assert.ok(false, 'promise should reject');
         done();
     }).catch(function(error) {
-        assert.equal(error, response.statusText);
+        assert.ok(true, 'promise rejects on error');
         done();
     });
 });
@@ -386,13 +414,13 @@ test('copy sends valid waterbutler request', function(assert) {
     assert.expect(5);
     let service = this.subject();
     let done = assert.async();
-    let file = getFakeFile();
-    let folder = getFakeFile();
+    let file = FactoryGuy.make('file');
+    let folder = FactoryGuy.make('file', 'isFolder');
     folder.set('path', '/path/path/this/is/a/path/');
 
     let request = {
-        url: file.links.move,
-        options: { method: 'POST', data: {
+        url: file.get('links').move,
+        settings: { method: 'POST', data: {
                 action: 'copy',
                 path: folder.get('path'),
                 conflict: 'replace'
@@ -402,19 +430,16 @@ test('copy sends valid waterbutler request', function(assert) {
     };
     let response = {
         status: 200,
-        statusText: 'ok',
-        data: {
-            data: {
-                attributes: {}
-            }
-        }
     };
-    setupAjax(assert, request, response);
+    let freshModel = [...folder.get('files'),
+        FactoryGuy.make('file', { name: file.get('name') })];
+    setupMockjax(assert, request, response, freshModel);
 
     service.copy(file, folder).then(function() {
-        assert.ok(true);
+        assert.ok(true, 'promise resolves on success');
         done();
     }).catch(function() {
+        assert.ok(false, 'promise should not reject on success');
         done();
     });
 });
@@ -423,13 +448,13 @@ test('copy passes along error', function(assert) {
     assert.expect(5);
     let service = this.subject();
     let done = assert.async();
-    let file = getFakeFile();
-    let folder = getFakeFile();
+    let file = FactoryGuy.make('file');
+    let folder = FactoryGuy.make('file', 'isFolder');
     folder.set('path', '/path/path/this/is/a/path/');
 
     let request = {
-        url: file.links.move,
-        options: { method: 'POST', data: {
+        url: file.get('links').move,
+        settings: { method: 'POST', data: {
                 action: 'copy',
                 path: folder.get('path'),
                 conflict: 'replace'
@@ -439,9 +464,8 @@ test('copy passes along error', function(assert) {
     };
     let response = {
         status: 402,
-        statusText: 'oh no'
     };
-    setupAjax(assert, request, response);
+    setupMockjax(assert, request, response);
 
     service.copy(file, folder).then(function() {
         done();
@@ -454,26 +478,22 @@ test('copy passes along error', function(assert) {
 test('rename sends valid waterbutler request', function(assert) {
     assert.expect(5);
     let service = this.subject();
-    let file = getFakeFile();
+    let file = FactoryGuy.make('file');
     let done = assert.async();
 
     let request = {
-        url: file.links.move,
-        options: { method: 'POST', data: { action: 'rename', rename: 'flooby' } },
+        url: file.get('links').move,
+        settings: { method: 'POST', data: { action: 'rename', rename: 'flooby' } },
         headers: { Authorization: `Bearer ${fakeAccessToken}` },
     };
     let response = {
         status: 200,
-        statusText: 'ok',
-        data: {
-            data: {
-                attributes: {}
-            }
-        }
     };
-    setupAjax(assert, request, response);
+    let freshModel = [...folder.get('files'),
+        FactoryGuy.make('file', { name: request.settings.data.rename })];
+    setupMockjax(assert, request, response, freshModel);
 
-    service.rename(file, request.options.data.rename).then(function(renamed) {
+    service.rename(file, request.settings.data.rename).then(function(renamed) {
         assert.equal(renamed.get('id'), file.get('id'));
         done();
     }).catch(function() {
@@ -484,21 +504,20 @@ test('rename sends valid waterbutler request', function(assert) {
 test('rename passes along error', function(assert) {
     assert.expect(5);
     let service = this.subject();
-    let file = getFakeFile();
+    let file = FactoryGuy.make('file');
     let done = assert.async();
 
     let request = {
-        url: file.links.move,
-        options: { method: 'POST', data: { action: 'rename', rename: 'flooby' } },
+        url: file.get('links').move,
+        settings: { method: 'POST', data: { action: 'rename', rename: 'flooby' } },
         headers: { Authorization: `Bearer ${fakeAccessToken}` },
     };
     let response = {
         status: 401,
-        statusText: 'bad'
     };
-    setupAjax(assert, request, response);
+    setupMockjax(assert, request, response);
 
-    service.rename(file, request.options.data.rename).then(function() {
+    service.rename(file, request.settings.data.rename).then(function() {
         done();
     }).catch(function(error) {
         assert.equal(error, response.statusText);
@@ -509,19 +528,18 @@ test('rename passes along error', function(assert) {
 test('deleteFile sends valid waterbutler request', function(assert) {
     assert.expect(4);
     let service = this.subject();
-    let file = getFakeFile();
+    let file = FactoryGuy.make('file');
     let done = assert.async();
 
     let request = {
-        url: file.links.delete,
-        options: { method: 'DELETE' },
+        url: file.get('links').delete,
+        settings: { method: 'DELETE' },
         headers: { Authorization: `Bearer ${fakeAccessToken}` },
     };
     let response = {
         status: 200,
-        statusText: 'ok'
     };
-    setupAjax(assert, request, response);
+    setupMockjax(assert, request, response);
 
     service.deleteFile(file).then(function() {
         assert.ok(true);
@@ -534,19 +552,18 @@ test('deleteFile sends valid waterbutler request', function(assert) {
 test('deleteFile passes along error', function(assert) {
     assert.expect(4);
     let service = this.subject();
-    let file = getFakeFile();
+    let file = FactoryGuy.make('file');
     let done = assert.async();
 
     let request = {
-        url: file.links.delete,
-        options: { method: 'DELETE' },
+        url: file.get('links').delete,
+        settings: { method: 'DELETE' },
         headers: { Authorization: `Bearer ${fakeAccessToken}` },
     };
     let response = {
         status: 401,
-        statusText: 'bad'
     };
-    setupAjax(assert, request, response);
+    setupMockjax(assert, request, response);
 
     service.deleteFile(file).then(function() {
         done();

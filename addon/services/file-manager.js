@@ -39,10 +39,10 @@ export default Ember.Service.extend({
     updateContents(file, contents) {
         let url = file.get('links').upload;
         let params = { kind: 'file' };
-        let lastModified = file.dateModified;
+        let lastModified = file.get('dateModified');
         let p = this._waterbutlerRequest('PUT', url, params, contents);
         return p.then(() => this._reloadModel(file, (model) => {
-            if (model.dateModified > lastModified) {
+            if (model.get('dateModified') > lastModified) {
                 return model;
             }
             return false;
@@ -264,6 +264,7 @@ export default Ember.Service.extend({
      */
     _reloadModel(model, isFresh) {
         const maxTries = 32;
+        const interval = 256;
         return new Ember.RSVP.Promise((resolve, reject) => {
             let tries = 0;
             let tryReload = function() {
@@ -273,7 +274,7 @@ export default Ember.Service.extend({
                         resolve(freshModel);
                     } else if (tries < maxTries) {
                         tries++;
-                        Ember.run.later(tryReload, 250);
+                        Ember.run.later(tryReload, interval);
                     } else {
                         reject('Timed out refreshing file info');
                     }
