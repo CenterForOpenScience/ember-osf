@@ -10,14 +10,14 @@ export default {
     // "key.with.interpolation": "Text with {{anInterpolation}}"
     eosf: {
         loginForm: {
-            formTitle: 'Login',
+            headingTitle: 'Login',
             labelInputEmail: 'Email',
             labelInputPassword: 'Password',
             labelInputRemember: 'Remember me',
             buttonSubmit: 'Sign in'
         },
         signup: {
-            formTitle: 'Create a free account',
+            headingTitle: 'Create a free account',
             labelInputName: 'Full name',
             labelInputEmail: 'Email',
             labelConfirmEmail: 'Confirm Email',

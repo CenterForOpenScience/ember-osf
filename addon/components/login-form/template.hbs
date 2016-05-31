@@ -1,7 +1,7 @@
-<article class="login-form">
+<article class="login-form" role="region" aria-labelledby={{elem-id this "login-heading-title"}}>
     <div class="col-sm-5 col-sm-offset-1 toggle-box toggle-box-left p-h-lg">
         <form id={{elem-id this 'login-form'}} class="form-horizontal">
-            <h3 class="m-b-lg"> {{t 'eosf.loginForm.formTitle'}} </h3>
+            <h2 class="m-b-lg" id={{elem-id this "login-heading-title"}}> {{t 'eosf.loginForm.headingTitle'}} </h2>
             <div class="form-group">
                 <label for={{elem-id this 'login-input-email'}} class="col-sm-3 control-label">{{t 'eosf.loginForm.labelInputEmail'}}</label>
                 <div class="col-sm-9">
