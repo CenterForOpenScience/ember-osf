@@ -11,6 +11,7 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
     authorizer: 'authorizer:osf-token',
     host: config.OSF.apiUrl,
     namespace: config.OSF.apiNamespace,
+    isBulk: false,
     buildURL() {
         // Fix issue where CORS request failed on 301s: Ember does not seem to append trailing
         // slash to URLs for single documents, but DRF redirects to force a trailing slash
@@ -42,8 +43,21 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
             var serializer = store.serializerFor(relationType);
             if (relationMeta.kind === 'hasMany') {
                 // A hack, since we'd have to use a bulk requests to send a list; TODO remove [0]
-                serialized = snapshot.hasMany(relationship).filter(record => record.id === null).map(record => serializer.serialize(record))[0];
-                delete serialized.data.relationships;
+                serialized = snapshot.hasMany(relationship).filter(record => record.id === null).map(record => serializer.serialize(record));
+                if (serialized.length > 1){
+                    this.isBulk = true;
+                    serialized = {
+                        data: serialized.map(function(record){
+                            var data = record.data;
+                            delete data.relationships;
+                            return data;
+                        })
+                    };
+                }
+                else {
+                    serialized = serialized[0];
+                    delete serialized.data.relationships;
+                }
             } else {
                 serialized = serializer.serialize(snapshot.belongsTo(relationship));
             }
@@ -88,5 +102,12 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         } else {
             return Ember.RSVP.allSettled(promises).then(() => null);
         }
+    },
+    ajaxOptions(){
+        var ret = this._super(...arguments);
+        if (this.isBulk){
+            ret.contentType = 'application/vnd.api+json; ext=bulk';
+        }
+        return ret;
     }
 });
