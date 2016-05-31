@@ -11,11 +11,7 @@ test('it renders', function(assert) {
 
     this.render(hbs`{{login-form}}`);
 
-    // "This" is not the component instance itself, but rather an object with a different GUID
-    // We can hack it but not proudly
-    let someID = this.$().children().attr('id');
-
     // Test that the expected fields are present (accounting for unique IDs)
-    assert.ok(this.$(`input[id=${someID}-login-input-email]`).length);
-    assert.ok(this.$(`input[id=${someID}-login-input-password]`).length);
+    assert.ok(this.$('input[id$=login-input-email]').length);
+    assert.ok(this.$('input[id$=login-input-password]').length);
 });

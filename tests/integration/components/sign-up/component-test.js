@@ -11,8 +11,8 @@ test('it renders', function(assert) {
 
     this.render(hbs`{{sign-up}}`);
 
-    assert.ok(this.$('input[id=inputName]').length);
-    assert.ok(this.$('input[id=inputEmail]').length);
-    assert.ok(this.$('input[id=inputEmail2]').length);
-    assert.ok(this.$('input[id=inputPassword3]').length);
+    assert.ok(this.$('input[id$=signup-input-name]').length);
+    assert.ok(this.$('input[id$=signup-input-email]').length);
+    assert.ok(this.$('input[id$=signup-input-confirm-email]').length);
+    assert.ok(this.$('input[id$=signup-input-password]').length);
 });
