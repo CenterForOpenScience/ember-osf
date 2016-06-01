@@ -2,7 +2,6 @@
 Automatically expose translations for addon in a way that can be merged in with app
     https://github.com/jamesarosen/ember-i18n/issues/255
  */
-//import Ember from 'ember';
 import enUS from 'ember-osf/locales/en-us/translations';
 
 export function initialize(appInstance) {
