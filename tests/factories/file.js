@@ -3,12 +3,12 @@ import faker from 'faker';
 
 FactoryGuy.define('file', {
     default: {
-        name: () => 'foo.txt',//faker.lorem.word() + '.txt',
+        name: () => faker.lorem.words(1) + '.txt',
         kind: 'file',
         path: '/1234567890',  // Faker.system.filePath may not yet be implemented
         size: () => faker.random.number(),
         provider: 'osfstorage',
-        materializedPath: () => '/' + 'foo.png',//faker.lorem.word() + '.png',
+        materializedPath: () => '/' + faker.lorem.words(1) + '.png',
         lastTouched: null,
 
         dateModified: () => faker.date.recent(1),
@@ -29,7 +29,7 @@ FactoryGuy.define('file', {
         // Folder specific
         isFolder: {
             kind: 'folder',
-            materializedPath: () => '/' + 'foo',//faker.lorem.word(),
+            materializedPath: () => '/' + faker.lorem.words(1),
             files: () => FactoryGuy.hasMany('file', 3)
         },
         // File specific
