@@ -9,12 +9,26 @@ export default {
     //
     // "key.with.interpolation": "Text with {{anInterpolation}}"
     eosf: {
+        fileActions:{
+            labelInputMoveFolder: 'Folder ID',
+            labelInputMoveName: 'New name (optional)',
+            labelInputMoveNode: 'Node ID (optional)'
+        }, 
+        fileChooser: {
+            headingPicker: 'Chosen Files',
+            textHelp: 'You can also drag and drop a file from your computer.',
+            textError: 'Error'
+        },
         loginForm: {
             headingTitle: 'Login',
             labelInputEmail: 'Email',
             labelInputPassword: 'Password',
             labelInputRemember: 'Remember me',
             buttonSubmit: 'Sign in'
+        },
+        paginationControl: {
+            buttonNext: 'Next',
+            buttonPrevious: 'Previous'
         },
         signup: {
             headingTitle: 'Create a free account',
