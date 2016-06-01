@@ -15,7 +15,7 @@ export default Ember.Service.extend({
 
     /**
      * Download the contents of the given file.
-     * 
+     *
      * @method getContents
      * @param {file} file A `file` model with `isFolder == false`.
      * @return {Promise} Promise that resolves to the file contents or rejects
@@ -27,7 +27,7 @@ export default Ember.Service.extend({
     },
 
     /**
-     * Upload a new version of an existing file 
+     * Upload a new version of an existing file.
      *
      * @method updateContents
      * @param {file} file A `file` model with `isFolder == false`.

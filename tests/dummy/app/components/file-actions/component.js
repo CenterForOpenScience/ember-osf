@@ -17,18 +17,13 @@ export default Ember.Component.extend({
             let file = this.get('file');
             let fm = this.get('fileManager');
 
-            fm.updateContents(file, contents).then(() => {
-                //this.get('onChange')();
-            });
+            fm.updateContents(file, contents);
         },
 
         addSubfolder(name) {
             let folder = this.get('file');
             if (name) {
-                let p = this.get('fileManager').addSubfolder(folder, name);
-                p.then((newFolder) => {
-                    //this.get('onChange')();
-                });
+                this.get('fileManager').addSubfolder(folder, name);
             }
         },
 
@@ -37,20 +32,14 @@ export default Ember.Component.extend({
             let folder = this.get('file');
             while (files && files.length) {
                 let file = files.pop();
-                fm.uploadFile(folder, file.name, file).then((newFile) => {
-                    //this.get('onChange')();
-                });
+                fm.uploadFile(folder, file.name, file);
             }
         },
 
         rename(newName) {
             let file = this.get('file');
             if (newName) {
-                let p = this.get('fileManager').rename(file, newName);
-                p.then(() => {
-                    file.set('name', newName);
-                    //this.get('onChange')();
-                });
+                this.get('fileManager').rename(file, newName);
             }
         },
 
@@ -58,7 +47,7 @@ export default Ember.Component.extend({
             let file = this.get('file');
             let p = this.get('fileManager').deleteFile(file);
             p.then(() => {
-                //this.get('onChange')();
+                this.get('onChange')();
             });
         },
 
@@ -75,8 +64,7 @@ export default Ember.Component.extend({
                     newName: this.get('moveName')
                 };
 
-                let p = this.get('fileManager').move(file, folder, options);
-                //p.then(() => this.get('onChange')());
+                this.get('fileManager').move(file, folder, options);
             });
         }
     }

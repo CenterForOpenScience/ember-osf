@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import { moduleFor, test } from 'ember-qunit';
-import FactoryGuy, { manualSetup } from 'ember-data-factory-guy';
+import FactoryGuy, { manualSetup, mockSetup,
+    mockTeardown, mockFind, mockReload } from 'ember-data-factory-guy';
 
 /*
  * assertions:
@@ -9,11 +10,11 @@ import FactoryGuy, { manualSetup } from 'ember-data-factory-guy';
  *  - once for each key in expectedRequest.headers
  *  - once for each key in expectedRequest.settings
  */
-function setupMockjax(assert, expectedRequest, response, freshModel) {
+function mockWaterbutler(assert, expectedRequest, response) {
     Ember.$.mockjax(function(requestSettings) {
         if (requestSettings.url.startsWith(expectedRequest.url)) {
             return {
-                response: function(origSettings) {
+                response: function() {
                     assertURL(assert, requestSettings.url,
                               expectedRequest.url, expectedRequest.query);
                     assertHeaders(assert, requestSettings.headers,
@@ -27,15 +28,6 @@ function setupMockjax(assert, expectedRequest, response, freshModel) {
         }
         return;
     });
-
-    if (freshModel) {
-        Ember.$.mockjax({
-            url: '/files/*',
-            response: function() {
-                this.responseText = reloadModelResponse(freshModel);
-            }
-        });
-    }
 }
 
 // assert once for the path and once for each expected query param
@@ -79,36 +71,6 @@ function assertSettings(assert, actual, expected) {
     }
 }
 
-function reloadModelResponse(models) {
-    function modelToData(model) {
-        let data = {
-            attributes: {
-                name: model.get('name'),
-                kind: model.get('kind'),
-                path: model.get('path'),
-                size: model.get('size'),
-                provider: model.get('provider'),
-                dateModified: new Date() + 1,
-                dateCreated: model.get('dateCreated'),
-                checkout: model.get('checkout')
-            },
-            id: model.get('id'),
-            type: 'files'
-        };
-        return data;
-    }
-
-    if (Array.isArray(models)) {
-        return {
-            data: models.map(modelToData)
-        };
-    } else {
-        return {
-            data: modelToData(models)
-        };
-    }
-}
-
 let fakeAccessToken = 'thisisafakeaccesstoken';
 let sessionStub = Ember.Service.extend({
     data: {
@@ -122,12 +84,18 @@ let sessionStub = Ember.Service.extend({
 
 moduleFor('service:file-manager', 'Unit | Service | file manager', {
     unit: true,
-    needs: ['model:file'],
+    needs: ['model:file', 'transform:links', 'transform:embed'],
     beforeEach() {
         this.register('service:session', sessionStub);
+        //Ember.$.mockjax.clear();
+
+        // FactoryGuy setup
         manualSetup(this.container);
-        Ember.$.mockjax.clear();
+        mockSetup();
     },
+    afterEach() {
+        mockTeardown();
+    }
 });
 
 test('getContents sends valid waterbutler request', function(assert) {
@@ -145,7 +113,7 @@ test('getContents sends valid waterbutler request', function(assert) {
         status: 200,
         data: 'file contents here'
     };
-    setupMockjax(assert, request, response);
+    mockWaterbutler(assert, request, response);
 
     service.getContents(file).then(function(data) {
         assert.equal(data, response.data);
@@ -170,7 +138,7 @@ test('getContents passes along error', function(assert) {
     let response = {
         status: 404
     };
-    setupMockjax(assert, request, response);
+    mockWaterbutler(assert, request, response);
 
     service.getContents(file).then(function() {
         assert.ok(false, 'promise should reject');
@@ -196,11 +164,14 @@ test('updateContents sends valid waterbutler request', function(assert) {
     let response = {
         status: 200,
     };
-    let freshModel = FactoryGuy.make('file', { id: file.id });
-    setupMockjax(assert, request, response, freshModel);
+    let freshModel = FactoryGuy.build('file', { id: file.id,
+                                      dateModified: new Date() });
+    mockFind('file', file.id).returns({json:freshModel});
+
+    mockWaterbutler(assert, request, response);
 
     service.updateContents(file, request.settings.data).then(function(fresh) {
-        assert.deepEqual(fresh, freshModel, 'returns updated model');
+        assert.equal(fresh.get('id'), file.get('id'));
         done();
     }).catch(function() {
         assert.ok(false, 'promise should not reject on success');
@@ -223,7 +194,7 @@ test('updateContents passes along error', function(assert) {
     let response = {
         status: 404,
     };
-    setupMockjax(assert, request, response);
+    mockWaterbutler(assert, request, response);
 
     service.updateContents(file, request.settings.data).then(function() {
         assert.ok(false, 'promise should reject on error');
@@ -249,12 +220,17 @@ test('addSubfolder sends valid waterbutler request', function(assert) {
     let response = {
         status: 200,
     };
-    let freshModel = [...folder.get('files'),
-        FactoryGuy.make('file', 'isFolder', { name: request.query.name })];
-    setupMockjax(assert, request, response, freshModel);
+    mockWaterbutler(assert, request, response);
 
-    service.addSubfolder(folder, request.query.name).then(function(data) {
-        assert.equal(data, response.data);
+    let p = service.addSubfolder(folder, request.query.name);
+
+    let newFolder = FactoryGuy.make('file', 'isFolder', {
+        name: request.query.name,
+        parentFolder: folder
+    });
+
+    p.then(function(model) {
+        assert.equal(model.get('id'), newFolder.get('id'));
         done();
     }).catch(function() {
         assert.ok(false, 'promise should not reject on success');
@@ -277,7 +253,7 @@ test('addSubfolder passes along error', function(assert) {
     let response = {
         status: 404,
     };
-    setupMockjax(assert, request, response);
+    mockWaterbutler(assert, request, response);
 
     service.addSubfolder(folder, request.query.name).then(function() {
         assert.ok(false, 'promise should reject on error');
@@ -303,13 +279,18 @@ test('uploadFile sends valid waterbutler request', function(assert) {
     let response = {
         status: 200,
     };
-    let freshModel = [...folder.get('files'),
-        FactoryGuy.make('file', { name: request.query.name })];
-    setupMockjax(assert, request, response, freshModel);
+    mockWaterbutler(assert, request, response);
 
-    service.uploadFile(file, request.query.name,
-            request.settings.data).then(function(data) {
-        assert.equal(data, response.data);
+    let p = service.uploadFile(folder, request.query.name,
+                               request.settings.data);
+
+    let newFile = FactoryGuy.make('file', {
+        name: request.query.name,
+        parentFolder: folder
+    });
+
+    p.then(function(model) {
+        assert.equal(model.get('id'), newFile.get('id'));
         done();
     }).catch(function() {
         assert.ok(false, 'promise should not reject on success');
@@ -332,13 +313,13 @@ test('uploadFile passes along error', function(assert) {
     let response = {
         status: 401,
     };
-    setupMockjax(assert, request, response);
+    mockWaterbutler(assert, request, response);
 
     service.uploadFile(file, request.query.name,
             request.settings.data).then(function() {
         assert.ok(false, 'promise should reject on error');
         done();
-    }).catch(function(error) {
+    }).catch(function() {
         assert.ok(true, 'promise rejects on error');
         done();
     });
@@ -349,9 +330,8 @@ test('move sends valid waterbutler request', function(assert) {
     let service = this.subject();
     let done = assert.async();
     let file = FactoryGuy.make('file');
-    let folder = FactoryGuy.make('file', 'isFolder');
-    folder.set('path', '/path/path/this/is/a/path/');
-
+    let folder = FactoryGuy.make('file', 'isFolder', 
+                                 { path: '/path/path/this/is/a/path/' });
     let request = {
         url: file.get('links').move,
         settings: { method: 'POST', data: {
@@ -364,12 +344,23 @@ test('move sends valid waterbutler request', function(assert) {
     };
     let response = {
         status: 200,
+        data: {
+            data: {
+                attributes: { name: file.get('name') }
+            }
+        }
     };
-    let freshModel = [...folder.get('files'),
-        FactoryGuy.make('file', { name: file.get('name') })];
-    setupMockjax(assert, request, response, freshModel);
+    mockWaterbutler(assert, request, response);
 
-    service.move(file, folder).then(function(movedFile) {
+    let p = service.move(file, folder);
+
+    FactoryGuy.make('file', {
+        id: file.get('id'),
+        name: file.get('name'),
+        parentFolder: folder
+    });
+
+    p.then(function(movedFile) {
         assert.equal(movedFile.get('id'), file.get('id'));
         done();
     }).catch(function() {
@@ -383,8 +374,8 @@ test('move passes along error', function(assert) {
     let service = this.subject();
     let done = assert.async();
     let file = FactoryGuy.make('file');
-    let folder = FactoryGuy.make('file', 'isFolder');
-    folder.set('path', '/path/path/this/is/a/path/');
+    let folder = FactoryGuy.make('file', 'isFolder', 
+                                 { path: '/path/path/this/is/a/path/' });
 
     let request = {
         url: file.get('links').move,
@@ -399,12 +390,12 @@ test('move passes along error', function(assert) {
     let response = {
         status: 402,
     };
-    setupMockjax(assert, request, response);
+    mockWaterbutler(assert, request, response);
 
     service.move(file, folder).then(function() {
         assert.ok(false, 'promise should reject');
         done();
-    }).catch(function(error) {
+    }).catch(function() {
         assert.ok(true, 'promise rejects on error');
         done();
     });
@@ -415,12 +406,14 @@ test('copy sends valid waterbutler request', function(assert) {
     let service = this.subject();
     let done = assert.async();
     let file = FactoryGuy.make('file');
-    let folder = FactoryGuy.make('file', 'isFolder');
-    folder.set('path', '/path/path/this/is/a/path/');
+    let folder = FactoryGuy.make('file', 'isFolder', 
+                                 { path: '/path/path/this/is/a/path/' });
 
     let request = {
         url: file.get('links').move,
-        settings: { method: 'POST', data: {
+        settings: {
+            method: 'POST',
+            data: {
                 action: 'copy',
                 path: folder.get('path'),
                 conflict: 'replace'
@@ -430,13 +423,23 @@ test('copy sends valid waterbutler request', function(assert) {
     };
     let response = {
         status: 200,
+        data: {
+            data: {
+                attributes: { name: file.get('name') }
+            }
+        }
     };
-    let freshModel = [...folder.get('files'),
-        FactoryGuy.make('file', { name: file.get('name') })];
-    setupMockjax(assert, request, response, freshModel);
+    mockWaterbutler(assert, request, response);
 
-    service.copy(file, folder).then(function() {
-        assert.ok(true, 'promise resolves on success');
+    let p = service.copy(file, folder);
+
+    let newFile = FactoryGuy.make('file', {
+        name: file.get('name'),
+        parentFolder: folder
+    });
+
+    p.then(function(model) {
+        assert.equal(model.get('id'), newFile.get('id'));
         done();
     }).catch(function() {
         assert.ok(false, 'promise should not reject on success');
@@ -449,8 +452,8 @@ test('copy passes along error', function(assert) {
     let service = this.subject();
     let done = assert.async();
     let file = FactoryGuy.make('file');
-    let folder = FactoryGuy.make('file', 'isFolder');
-    folder.set('path', '/path/path/this/is/a/path/');
+    let folder = FactoryGuy.make('file', 'isFolder', 
+                                 { path: '/path/path/this/is/a/path/' });
 
     let request = {
         url: file.get('links').move,
@@ -465,12 +468,13 @@ test('copy passes along error', function(assert) {
     let response = {
         status: 402,
     };
-    setupMockjax(assert, request, response);
+    mockWaterbutler(assert, request, response);
 
     service.copy(file, folder).then(function() {
+        assert.ok(false, 'promise should reject');
         done();
-    }).catch(function(error) {
-        assert.equal(error, response.statusText);
+    }).catch(function() {
+        assert.ok(true, 'promise rejects on error');
         done();
     });
 });
@@ -489,11 +493,18 @@ test('rename sends valid waterbutler request', function(assert) {
     let response = {
         status: 200,
     };
-    let freshModel = [...folder.get('files'),
-        FactoryGuy.make('file', { name: request.settings.data.rename })];
-    setupMockjax(assert, request, response, freshModel);
 
-    service.rename(file, request.settings.data.rename).then(function(renamed) {
+    mockWaterbutler(assert, request, response);
+    mockReload(file).returns({
+        json: FactoryGuy.build('file', {
+            id: file.get('id'),
+            name: request.settings.data.rename
+        })
+    });
+
+    let p = service.rename(file, request.settings.data.rename);
+
+    p.then(function(renamed) {
         assert.equal(renamed.get('id'), file.get('id'));
         done();
     }).catch(function() {
@@ -515,12 +526,13 @@ test('rename passes along error', function(assert) {
     let response = {
         status: 401,
     };
-    setupMockjax(assert, request, response);
+    mockWaterbutler(assert, request, response);
 
     service.rename(file, request.settings.data.rename).then(function() {
+        assert.ok(false, 'promise should reject');
         done();
-    }).catch(function(error) {
-        assert.equal(error, response.statusText);
+    }).catch(function() {
+        assert.ok(true, 'promise rejects on error');
         done();
     });
 });
@@ -539,7 +551,7 @@ test('deleteFile sends valid waterbutler request', function(assert) {
     let response = {
         status: 200,
     };
-    setupMockjax(assert, request, response);
+    mockWaterbutler(assert, request, response);
 
     service.deleteFile(file).then(function() {
         assert.ok(true);
@@ -563,12 +575,13 @@ test('deleteFile passes along error', function(assert) {
     let response = {
         status: 401,
     };
-    setupMockjax(assert, request, response);
+    mockWaterbutler(assert, request, response);
 
     service.deleteFile(file).then(function() {
+        assert.ok(false, 'promise should reject');
         done();
-    }).catch(function(error) {
-        assert.equal(error, response.statusText);
+    }).catch(function() {
+        assert.ok(true, 'promise rejects on error');
         done();
     });
 });
