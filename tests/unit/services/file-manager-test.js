@@ -84,7 +84,8 @@ let sessionStub = Ember.Service.extend({
 
 moduleFor('service:file-manager', 'Unit | Service | file manager', {
     unit: true,
-    needs: ['model:file', 'transform:links', 'transform:embed'],
+    needs: ['model:file', 'model:file-version', 'model:comment',
+        'transform:links', 'transform:embed'],
     beforeEach() {
         this.register('service:session', sessionStub);
 

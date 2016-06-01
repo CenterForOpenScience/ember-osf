@@ -1,8 +1,9 @@
 import Ember from 'ember';
 import DS from 'ember-data';
-import OsfModel from '../mixins/osf-model';
 
-export default DS.Model.extend(OsfModel, {
+import OsfModel from './osf-model';
+
+export default OsfModel.extend({
     name: DS.attr('string'),
     kind: DS.attr('string'),
     path: DS.attr('string'),
@@ -24,5 +25,5 @@ export default DS.Model.extend(OsfModel, {
     // File attributes
     versions: DS.hasMany('file-version'),
     comments: DS.hasMany('comment'),
-    checkout: DS.attr(),
+    checkout: DS.attr()
 });

@@ -93,6 +93,7 @@
     "requirePaddingNewLinesAfterBlocks": false,
     "validateIndentation": 4,
     "requirePaddingNewLinesBeforeLineComments": false,
-    "maximumLineLength": false
+    "maximumLineLength": false,
+    "disallowSpaceBeforeComma": false
   }
 }
