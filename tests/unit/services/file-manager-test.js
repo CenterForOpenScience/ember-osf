@@ -12,7 +12,7 @@ import FactoryGuy, { manualSetup, mockSetup,
  */
 function mockWaterbutler(assert, expectedRequest, response) {
     Ember.$.mockjax(function(requestSettings) {
-        if (requestSettings.url.startsWith(expectedRequest.url)) {
+        if (requestSettings.url.indexOf(expectedRequest.url) === 0) {
             return {
                 response: function() {
                     assertURL(assert, requestSettings.url,
