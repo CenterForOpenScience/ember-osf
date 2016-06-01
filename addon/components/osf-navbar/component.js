@@ -5,6 +5,8 @@ export default Ember.Component.extend({
     layout,
     session: Ember.inject.service('session'),
     onSearchPage: false,
-    allowLogin: true, // TODO: Make this configurable from... somewhere
 
+    // TODO: Make these parameters configurable from... somewhere. (currently set by OSF settings module)
+    allowLogin: true,
+    enableInstitutions: true,
 });

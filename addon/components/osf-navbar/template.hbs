@@ -15,8 +15,8 @@
                         </a>
                     </span>
                 {{/unless}}
-                <a class="navbar-brand hidden-sm hidden-xs" href="/"><img src="/static/img/cos-white2.png" class="osf-navbar-logo" width="27" alt="COS logo"/> Open Science Framework</a>
-                <a class="navbar-brand visible-sm visible-xs" href="/"><img src="/static/img/cos-white2.png" class="osf-navbar-logo" width="27" alt="COS logo"/> OSF</a>
+                <a class="navbar-brand hidden-sm hidden-xs" href="/"><img src="/static/img/cos-white2.png" class="osf-navbar-logo" width="27" alt="COS logo"> Open Science Framework</a>
+                <a class="navbar-brand visible-sm visible-xs" href="/"><img src="/static/img/cos-white2.png" class="osf-navbar-logo" width="27" alt="COS logo"> OSF</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse navbar-right">
                 <ul class="nav navbar-nav">
@@ -38,17 +38,17 @@
                         </li>
                     {{/unless}}
 
-                   {{# unless onSearchPage}}
+                    {{# unless onSearchPage}}
                         <li class="hidden-xs" data-bind="click : toggleSearch, css: searchCSS">
                             <a class="" >
                                 <span rel="tooltip" data-placement="bottom" title="Search OSF" class="fa fa-search fa-lg" ></span>
                             </a>
                         </li>
-                   {{/unless}}
-                   {{# if session.isAuthenticated }}
+                    {{/unless}}
+                    {{# if session.isAuthenticated }}
                         {{!-- TODO: Replace display name functionality if possible- for now truncate via CSS at end of label --}}
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle nav-user-dropdown" data-toggle="dropdown" role="button" aria-expanded="false"><span class="osf-gravatar"><img src="${user_gravatar}" alt="User gravatar"/> </span> ${display_name} <span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle nav-user-dropdown" data-toggle="dropdown" role="button" aria-expanded="false"><span class="osf-gravatar"><img src="${user_gravatar}" alt="User gravatar"> </span> ${display_name} <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li>
                                     <a href="/profile/"><i class="fa fa-user fa-lg p-r-xs"></i> My Profile</a>
@@ -66,18 +66,16 @@
 
                             </ul>
                         </li>
-                   {{else if  allowLogin}}
-                       {{#if institution}}  {{!-- TODO: Find a source for this info (eg may only be on node pages? Make work with nested router --}}
+                    {{else if  allowLogin}}
+                        {{#if institution}}  {{!-- TODO: Find a source for this info (eg may only be on node pages? Make work with nested router --}}
                             <li class="dropdown sign-in" data-bind="with: $root.signIn">
                                 <div class="btn-group">
-                                    <a href="${domain}login/?campaign=institution&redirect_url=${redirect_url}">
-                                    <button type="button" class="btn btn-info btn-top-login">
+                                    <a href="${domain}login/?campaign=institution&redirect_url=${redirect_url}" class="btn btn-info btn-top-login">
                                         Sign in <span class="hidden-xs"><i class="fa fa-arrow-right"></i></span>
-                                    </button>
                                     </a>
                                 </div>
                             </li>
-                       {{else}}
+                        {{else}}
                             <li class="dropdown sign-in" data-bind="with: $root.signIn">
                                 <div class="col-sm-12">
                                     <a href="${web_url_for('auth_login')}?sign_up=True" class="btn btn-success btn-top-signup m-r-xs">Sign up</a>
@@ -89,21 +87,22 @@
                                             <div class="form-group"><input id="email" class="form-control" type="email" data-bind="value: username" name="username" placeholder="Email" aria-label="Username"></div>
                                             <div class="form-group"><input name="password" id="password" class="form-control" type="password" placeholder="Password" data-bind="value: password" aria-label="Password"></div>
                                             <div class="form-group"><button type="submit" id="btnLogin" class="btn btn-block btn-primary">Login</button></div>
-                                            %if enable_institutions:
+                                            {{#if enableInstitutions}}
                                                 <div class="text-center m-b-sm"> <a href="/login/?campaign=institution">Login through your institution  <i class="fa fa-arrow-right"></i></a></div>
-                                            %endif
+                                            {{/if}}
                                             <div class="text-center m-b-sm"> <a href="/forgotpassword">Forgot password?</a></div>
                                         </form>
                                     </ul>
                                 </div>
                             </li>
-                       {{/if}}
+                        {{/if}}
                     {{/if}}
                 </ul>
-            </div><!--/.navbar-collapse -->
+            </div>{{!--/.navbar-collapse --}}
         </div>
     </nav>
-    <!-- ko ifnot: onSearchPage -->
+    {{#unless onSearchPage}}
+        {{!-- TODO: Implement modal --}}
         <%include file='./search_bar.mako' />
-    <!-- /ko -->
+    {{/unless}}
 </div>
