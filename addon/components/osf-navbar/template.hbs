@@ -8,22 +8,22 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <!-- ko ifnot: onSearchPage -->
-                <span class="visible-xs" data-bind="click : toggleSearch, css: searchCSS">
-                    <a class="osf-xs-search pull-right" style="padding-top: 12px" >
-                        <span rel="tooltip" data-placement="bottom" title="Search OSF" class="fa fa-search fa-lg fa-inverse" ></span>
-                    </a>
-                </span>
-                <!-- /ko -->
+                {{# unless onSearchPage}}
+                    <span class="visible-xs" data-bind="click : toggleSearch, css: searchCSS">
+                        <a class="osf-xs-search pull-right" style="padding-top: 12px" >
+                            <span rel="tooltip" data-placement="bottom" title="Search OSF" class="fa fa-search fa-lg fa-inverse" ></span>
+                        </a>
+                    </span>
+                {{/unless}}
                 <a class="navbar-brand hidden-sm hidden-xs" href="/"><img src="/static/img/cos-white2.png" class="osf-navbar-logo" width="27" alt="COS logo"/> Open Science Framework</a>
                 <a class="navbar-brand visible-sm visible-xs" href="/"><img src="/static/img/cos-white2.png" class="osf-navbar-logo" width="27" alt="COS logo"/> OSF</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse navbar-right">
                 <ul class="nav navbar-nav">
-                    % if user_name:
+                    {{#if session.isAuthenticated}}
                         <li id="osfNavDashboard"><a href="/">Dashboard</a></li>
                         <li id="osfNavMyProjects"><a href="/myprojects/">My Projects</a></li>
-                    % endif
+                    {{/if}}
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Browse <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
@@ -32,20 +32,21 @@
                             <li><a href="${web_url_for('conference_view', _absolute=True)}">Meetings</a></li>
                         </ul>
                     </li>
-                    % if not user_name:
+                    {{# unless session.isAuthenticated}}
                         <li class="dropdown">
                             <a href="${domain}support/" >Support</a>
                         </li>
-                    % endif
+                    {{/unless}}
 
-                    <!-- ko ifnot: onSearchPage -->
-                    <li class="hidden-xs" data-bind="click : toggleSearch, css: searchCSS">
-                        <a class="" >
-                            <span rel="tooltip" data-placement="bottom" title="Search OSF" class="fa fa-search fa-lg" ></span>
-                        </a>
-                    </li>
-                    <!-- /ko -->
-                    % if user_name and display_name:
+                   {{# unless onSearchPage}}
+                        <li class="hidden-xs" data-bind="click : toggleSearch, css: searchCSS">
+                            <a class="" >
+                                <span rel="tooltip" data-placement="bottom" title="Search OSF" class="fa fa-search fa-lg" ></span>
+                            </a>
+                        </li>
+                   {{/unless}}
+                   {{# if session.isAuthenticated }}
+                        {{!-- TODO: Replace display name functionality if possible- for now truncate via CSS at end of label --}}
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle nav-user-dropdown" data-toggle="dropdown" role="button" aria-expanded="false"><span class="osf-gravatar"><img src="${user_gravatar}" alt="User gravatar"/> </span> ${display_name} <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
@@ -65,8 +66,8 @@
 
                             </ul>
                         </li>
-                    % elif allow_login:
-                        %if institution:
+                   {{else if  allowLogin}}
+                       {{#if institution}}  {{!-- TODO: Find a source for this info (eg may only be on node pages? Make work with nested router --}}
                             <li class="dropdown sign-in" data-bind="with: $root.signIn">
                                 <div class="btn-group">
                                     <a href="${domain}login/?campaign=institution&redirect_url=${redirect_url}">
@@ -76,7 +77,7 @@
                                     </a>
                                 </div>
                             </li>
-                        %else :
+                       {{else}}
                             <li class="dropdown sign-in" data-bind="with: $root.signIn">
                                 <div class="col-sm-12">
                                     <a href="${web_url_for('auth_login')}?sign_up=True" class="btn btn-success btn-top-signup m-r-xs">Sign up</a>
@@ -91,13 +92,13 @@
                                             %if enable_institutions:
                                                 <div class="text-center m-b-sm"> <a href="/login/?campaign=institution">Login through your institution  <i class="fa fa-arrow-right"></i></a></div>
                                             %endif
-                                            <div class="text-center m-b-sm"> {{#link-to "forgotpassword"}}>Forgot password?{{/link-to}}</div>
+                                            <div class="text-center m-b-sm"> <a href="/forgotpassword">Forgot password?</a></div>
                                         </form>
                                     </ul>
                                 </div>
                             </li>
-                         %endif
-                    % endif
+                       {{/if}}
+                    {{/if}}
                 </ul>
             </div><!--/.navbar-collapse -->
         </div>
