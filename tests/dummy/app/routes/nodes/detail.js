@@ -103,7 +103,7 @@ export default Ember.Route.extend({
                 }
             }
         },
-        addChildren(title, description, category) {
+        addChild(title, description, category) {
             var node = this.modelFor(this.routeName);
             if (node.get('currentUserPermissions').indexOf('write') !== -1) {
                 var child = this.store.createRecord('node', {
@@ -115,6 +115,24 @@ export default Ember.Route.extend({
                     this.transitionTo('nodes.detail.children');
                 });
                 node.get('children').pushObject(child);
+                node.save();
+            } else {
+                console.log('You do not have permissions to create this component');
+            }
+        },
+        addChildren(title1, title2) {
+            var node = this.modelFor(this.routeName);
+            if (node.get('currentUserPermissions').indexOf('write') !== -1) {
+                var child1 = this.store.createRecord('node', {
+                    title: title1,
+                    category: 'project'
+                });
+                var child2 = this.store.createRecord('node', {
+                    title: title2,
+                    category: 'project',
+                });
+                node.get('children').pushObject(child1);
+                node.get('children').pushObject(child2);
                 node.save();
             } else {
                 console.log('You do not have permissions to create this component');

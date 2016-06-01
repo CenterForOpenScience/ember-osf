@@ -11,7 +11,6 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
     authorizer: 'authorizer:osf-token',
     host: config.OSF.apiUrl,
     namespace: config.OSF.apiNamespace,
-    isBulk: false,
     buildURL() {
         // Fix issue where CORS request failed on 301s: Ember does not seem to append trailing
         // slash to URLs for single documents, but DRF redirects to force a trailing slash
@@ -45,7 +44,6 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
                 // A hack, since we'd have to use a bulk requests to send a list; TODO remove [0]
                 serialized = snapshot.hasMany(relationship).filter(record => record.id === null).map(record => serializer.serialize(record));
                 if (serialized.length > 1) {
-                    this.isBulk = true;
                     serialized = {
                         data: serialized.map(function(record) {
                             var data = record.data;
@@ -81,6 +79,11 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
             return this.buildURL(...arguments);
         }
     },
+    _isBulk(snapshot, relationship) {
+        var relationMeta = snapshot.record[relationship].meta();
+        var howMany = snapshot.hasMany(relationship).filter(record => record.id === null).length;
+        return howMany > 1 && relationMeta.kind === 'hasMany' && !relationMeta.options.serializer;
+    },
     updateRecord(store, type, snapshot, _, query) {
         var promises = null;
         var dirtyRelationships = snapshot.record.get('dirtyRelationships');
@@ -88,8 +91,11 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
             promises = dirtyRelationships.map(relationship => {
                 var url = this._buildRelationshipURL(type.modelName, snapshot.id, snapshot, 'updateRecord', query, relationship);
                 var requestType = snapshot.record[relationship].meta().options.updateRequestType;
+                var isBulk = this._isBulk(snapshot, relationship);
+                var data = this._relationshipPayload(store, snapshot, relationship);
                 return this.ajax(url, requestType || 'PATCH', {
-                    data: this._relationshipPayload(store, snapshot, relationship)
+                    data: data,
+                    isBulk: isBulk
                 }).then(() => snapshot.record.clearDirtyRelationship(relationship));
             });
         }
@@ -104,9 +110,9 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
             return new Ember.RSVP.Promise((resolve) => resolve(null));
         }
     },
-    ajaxOptions() {
+    ajaxOptions(_, __, options) {
         var ret = this._super(...arguments);
-        if (this.isBulk) {
+        if (options && options.isBulk) {
             ret.contentType = 'application/vnd.api+json; ext=bulk';
         }
         return ret;
