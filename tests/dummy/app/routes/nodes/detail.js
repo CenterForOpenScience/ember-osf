@@ -51,6 +51,8 @@ export default Ember.Route.extend({
                         nodeId: node.id
                     });
                     contributor.save();
+                    node.get('contributors').pushObject(contributor);
+                    node.save();
                     console.log('Contributor added.');
                 } else {
                     console.log('You do not have permissions to add contributors');
@@ -192,7 +194,6 @@ export default Ember.Route.extend({
             for (var c in editedBibliographic) {
                 this.modifyBibliographic(c, node, editedBibliographic);
             }
-            node.save();
             console.log('Contributor(s) updated.');
         } else {
             console.log('Cannot update contributor(s)');
