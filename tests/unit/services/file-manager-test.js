@@ -6,7 +6,7 @@ import FactoryGuy, { manualSetup, mockSetup,
 /*
  * assertions:
  *  - once for expectedRequest.url
- *  - once for each key in expectedRequest.query
+ *  - once for expectedRequest.query
  *  - once for each key in expectedRequest.headers
  *  - once for each key in expectedRequest.settings
  */
@@ -87,7 +87,6 @@ moduleFor('service:file-manager', 'Unit | Service | file manager', {
     needs: ['model:file', 'transform:links', 'transform:embed'],
     beforeEach() {
         this.register('service:session', sessionStub);
-        //Ember.$.mockjax.clear();
 
         // FactoryGuy setup
         manualSetup(this.container);
