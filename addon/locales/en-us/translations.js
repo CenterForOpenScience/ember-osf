@@ -10,10 +10,13 @@ export default {
     // "key.with.interpolation": "Text with {{anInterpolation}}"
     eosf: {
         fileActions:{
+            buttonMoveFile: 'Move', 
             labelInputMoveFolder: 'Folder ID',
             labelInputMoveName: 'New name (optional)',
-            labelInputMoveNode: 'Node ID (optional)'
-        }, 
+            labelInputMoveNode: 'Node ID (optional)',
+            labelInputOptionsCopy: 'Copy',
+            labelInputOptionsReplace: 'Replace'
+        },
         fileChooser: {
             headingPicker: 'Chosen Files',
             textHelp: 'You can also drag and drop a file from your computer.',
