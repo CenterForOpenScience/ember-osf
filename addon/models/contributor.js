@@ -1,9 +1,10 @@
 import DS from 'ember-data';
 
-import OsfModel from '../mixins/osf-model';
+import OsfModel from './osf-model';
 
-export default DS.Model.extend(OsfModel, {
+export default OsfModel.extend({
     bibliographic: DS.attr('boolean'),
     permission: DS.attr('string'),
-    users: DS.hasMany('user')
+    users: DS.hasMany('user'),
+    nodeId: DS.attr('string')
 });

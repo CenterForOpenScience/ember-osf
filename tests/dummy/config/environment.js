@@ -33,6 +33,10 @@ module.exports = function(environment) {
         },
 
         'ember-simple-auth': authConfig, // TODO: Does this override any default behaviors?
+        i18n: {
+            defaultLocale: 'en-US'
+        },
+
         'ember-cli-mirage': {
             enabled: false
         }

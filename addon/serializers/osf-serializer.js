@@ -22,6 +22,9 @@ export default DS.JSONAPISerializer.extend({
         if (resourceHash.embeds) {
             resourceHash.attributes.embeds = resourceHash.embeds;
         }
+        if (resourceHash.relationships && resourceHash.attributes.links) {
+            resourceHash.attributes.links = Ember.$.extend(resourceHash.attributes.links, { relationships: resourceHash.relationships });
+        }
         return resourceHash;
     },
 
@@ -53,6 +56,14 @@ export default DS.JSONAPISerializer.extend({
         if (val !== undefined) {
             this._super(...arguments);
         }
-    }
+    },
 
+    normalizeArrayResponse(store, primaryModelClass, payload, id, requestType) {  // jshint ignore:line
+        // Ember data does not yet support pagination. For any request that returns more than one result, extract
+        //  links.meta from the payload links section, and add to the model metadata manually.
+        let documentHash = this._super(...arguments);
+        documentHash.meta = documentHash.meta || {};
+        documentHash.meta.pagination = Ember.get(payload || {}, 'links.meta');
+        return documentHash;
+    }
 });
