@@ -1,7 +1,13 @@
 {{#light-table table as |t|}}
+    {{#if isRoot}}
+        {{t.head}}
+    {{/if}}
+
     {{#t.body canExpand=true as |body|}}
         {{#body.expanded-row as |row|}}
-            {{file-browser-subtree files=row.files columns=indentedColumns}}
+            {{#if row.isFolder}}
+                {{file-browser-subtree files=row.files columns=indentedColumns}}
+            {{/if}}
         {{/body.expanded-row}}
 
         {{#if isLoading}}
