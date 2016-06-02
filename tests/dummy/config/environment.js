@@ -2,11 +2,25 @@
 
 module.exports = function(environment) {
 
+    // Allow the dummy app to support either token or cookie auth as needed. (default to tokens)
+    var AUTHORIZER = process.env.AUTHORIZER || 'token';
+    var authConfig = {};
+    if (AUTHORIZER === 'cookie') {
+        authConfig = {
+            authorizer: 'authorizer:osf-cookie',
+            authenticationRoute: 'cookielogin'
+        };
+    }
+
     var ENV = {
         modulePrefix: 'dummy',
         environment: environment,
-        baseURL: '/',
-        locationType: 'auto',
+
+        // Settings that may be helpful when serving from within another application (non-root directory)
+        //baseURL: '/static/ember-dist/',
+        //rootUrl: '/emberosf/',
+        locationType: 'auto',  // hash
+
         EmberENV: {
             FEATURES: {
                 // Here you can enable experimental features on an ember canary build
@@ -17,13 +31,12 @@ module.exports = function(environment) {
             // Here you can pass flags/options to your application instance
             // when it is created
         },
+
+        'ember-simple-auth': authConfig, // TODO: Does this override any default behaviors?
         i18n: {
             defaultLocale: 'en-US'
         },
-        'ember-simple-auth': {
-            authenticationRoute: 'login',
-            routeAfterAuthentication: 'index'
-        },
+
         'ember-cli-mirage': {
             enabled: false
         }

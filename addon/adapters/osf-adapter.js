@@ -8,7 +8,7 @@ import config from 'ember-get-config';
 import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
 
 export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
-    authorizer: 'authorizer:osf-token',
+    authorizer: config['ember-simple-auth'].authorizer,
     host: config.OSF.apiUrl,
     namespace: config.OSF.apiNamespace,
     buildURL() {
@@ -18,6 +18,8 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         if (url.lastIndexOf('/') !== url.length - 1) {
             url += '/';
         }
+
+        console.log('authorizer', config['ember-simple-auth'].authorizer);
         return url;
     },
     /**
