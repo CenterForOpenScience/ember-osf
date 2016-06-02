@@ -1,0 +1,25 @@
+{{#light-table table as |t|}}
+    {{#if isRoot}}
+        {{t.head}}
+    {{/if}}
+
+    {{#t.body canExpand=true as |body|}}
+        {{#body.expanded-row as |row|}}
+            {{#if row.isFolder}}
+                {{file-browser-subtree files=row.files columns=indentedColumns}}
+            {{/if}}
+        {{/body.expanded-row}}
+
+        {{#if isLoading}}
+            {{#body.loader}}
+                Loading...
+            {{/body.loader}}
+        {{else}}
+            {{#if table.isEmpty}}
+                {{#body.no-data}}
+                    (empty)
+                {{/body.no-data}}
+            {{/if}}
+        {{/if}}
+    {{/t.body}}
+{{/light-table}}
