@@ -1,6 +1,11 @@
 <article class="login-form" role="region" aria-labelledby={{elem-id this "login-heading-title"}}>
-    <div class="col-sm-5 col-sm-offset-1 toggle-box toggle-box-left p-h-lg">
-        <form id={{elem-id this 'login-form'}} class="form-horizontal">
+    <div class="toggle-box toggle-box-left p-h-lg">
+        <form
+            id={{elem-id this 'login-form'}}
+            class="form-horizontal"
+            method="POST"
+            action={{submitUrl}}
+        >
             <h2 class="m-b-lg" id={{elem-id this "login-heading-title"}}> {{t 'eosf.loginForm.headingTitle'}} </h2>
             <div class="form-group">
                 <label for={{elem-id this 'login-input-email'}} class="col-sm-3 control-label">{{t 'eosf.loginForm.labelInputEmail'}}</label>
@@ -49,3 +54,17 @@
     </div>
     {{yield}}
 </article>
+
+    {{!--
+     Login flow:
+      1. This form sends to CAS
+      2. Then CAS redirects to this app's cookielogin url, so the ember authorizer can immediately pick off the ticket
+      3. The ember authorizer then sends an ajax request to the OSF so a cookie can be set
+
+    Tricky bit: the ember app and the OSF must run on the same port, so that the authorizer request doesn't trigger a CORS error when hitting the OSF
+    This is problematic, because we need to serve the ember app (for redirect from CAS) at ~same time OSF is running to respond to the ajax call
+
+    These are two separate servers (unless we build and dump into an OSF static folder somewhere)
+
+    staging url: action="https://staging-accounts.osf.io/login?service=http://localhost:4200/cookielogin/&amp;auto=true"
+    --}}
