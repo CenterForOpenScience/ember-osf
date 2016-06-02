@@ -6,25 +6,19 @@ export default Ember.Component.extend({
     layout,
     table: null,
     isLoading: true,
+    indent: 20,
 
     init() {
         this._super(...arguments);
-        this.set('table', new Table(this.get('columns')));
-        this.get('files').then((files) => {
+        this.set('table', new Table(this.get('indentedColumns')));
+        this.get('row.files').then((files) => {
+            this.table.setRows(files);
             this.set('isLoading', false);
-            this.table.setRows(this.get('files'));
         });
     },
 
     nextIndent: Ember.computed('indent', function() {
-        let indent = this.get('indent') || 0;
-        return indent + 20;
-    });
-
-    indent: Ember.computed('columns', function() {
-        let columns = this.get('columns');
-        // TODO: no magic numbers
-        return columns[0].width + 20;
+        return this.get('indent') + 20;
     }),
 
     indentedColumns: Ember.computed('indent', function() {

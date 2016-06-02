@@ -6,7 +6,10 @@
     {{#t.body canExpand=true as |body|}}
         {{#body.expanded-row as |row|}}
             {{#if row.isFolder}}
-                {{file-browser-subtree files=row.files columns=indentedColumns}}
+                {{file-browser-subtree
+                row=row
+                indent=nextIndent
+                }}
             {{/if}}
         {{/body.expanded-row}}
 
