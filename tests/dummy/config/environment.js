@@ -7,8 +7,8 @@ module.exports = function(environment) {
     var authConfig = {};
     if (AUTHORIZER === 'cookie') {
         authConfig = {
-                authorizer: 'authorizer:osf-cookie',
-                authenticationRoute: 'cookielogin'
+            authorizer: 'authorizer:osf-cookie',
+            authenticationRoute: 'cookielogin'
         };
     }
 
@@ -20,7 +20,7 @@ module.exports = function(environment) {
         //baseURL: '/static/ember-dist/',
         //rootUrl: '/emberosf/',
         locationType: 'auto',  // hash
-        
+
         EmberENV: {
             FEATURES: {
                 // Here you can enable experimental features on an ember canary build

@@ -1,8 +1,6 @@
 import Ember from 'ember';
 import Base from 'ember-simple-auth/authenticators/base';
-
 import config from 'ember-get-config';
-
 
 export default Base.extend({
     _test() {
@@ -32,5 +30,5 @@ export default Base.extend({
         })
             .then(()=> console.log(...arguments));
         // TODO: rv?
-  }
+    }
 });

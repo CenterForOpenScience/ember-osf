@@ -70,7 +70,4 @@ module.exports = {
     treeForStyles: function(/*tree*/) {
         // TODO expose ember-osf styles
     }
-
-
-
 };

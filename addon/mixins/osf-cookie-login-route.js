@@ -1,8 +1,6 @@
 import Ember from 'ember';
 
 import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-route-mixin';
-//import config from 'ember-get-config';
-
 
 export default Ember.Mixin.create(UnauthenticatedRouteMixin, {
     session: Ember.inject.service(),
@@ -13,7 +11,7 @@ export default Ember.Mixin.create(UnauthenticatedRouteMixin, {
         // Otherwise show login form.
         let params = this.paramsFor(this.routeName);
         if (params.ticket) {
-            console.log("I found a ticket!", params.ticket);
+            console.log('I found a ticket!', params.ticket);
             return this.get('session').authenticate('authenticator:osf-cookie', params.ticket)
                 .then(()=> this.transitionTo('index')); // todo: is this transition necessary?
         }
