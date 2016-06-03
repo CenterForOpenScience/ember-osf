@@ -4,6 +4,8 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 
+import config from 'ember-get-config';
+
 export default DS.JSONAPISerializer.extend({
     attrs: {
         links: {
@@ -12,6 +14,25 @@ export default DS.JSONAPISerializer.extend({
         embeds: {
             serialize: false
         }
+    },
+
+    _restoreLinksBeforeEmbed(resourceId, embeddedType) {
+        // If items are embedded, the embedded resource detail replaces the links. The APIv2 might need to be modified
+        // to return the original links in addition to the embedded information.
+        let links = {};
+        if (embeddedType === 'linked_nodes') {
+            links = {
+                self: {
+                    href: config.OSF.apiUrl + '/v2/collections/' + resourceId + '/relationships/linked_nodes/',
+                    meta: {}
+                },
+                related: {
+                    href: config.OSF.apiUrl + '/v2/collections/' + resourceId + '/linked_nodes/',
+                    meta: {}
+                }
+            };
+        }
+        return links;
     },
 
     _extractEmbeds(resourceHash) {
@@ -32,6 +53,10 @@ export default DS.JSONAPISerializer.extend({
                 included.push(data);
             }
             resourceHash.embeds[embedded].type = embedded;
+            var links = this._restoreLinksBeforeEmbed(resourceHash.id, embedded);
+            if (links !== {}) {
+                resourceHash.embeds[embedded].links = links;
+            }
             //Only needs to contain id and type but this way we don't have to special case arrays
             resourceHash.relationships[embedded] = resourceHash.embeds[embedded];
         }
