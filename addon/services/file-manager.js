@@ -201,16 +201,15 @@ export default Ember.Service.extend({
     deleteFile(file) {
         let url = file.get('links').delete;
         let p = this._waterbutlerRequest('DELETE', url);
-        return p.then(() => {
-            return file.get('parentFolder').then((parent) => {
+        return p.then(() => file.get('parentFolder').then((parent) => {
                 if (parent) {
                     return this._reloadModel(parent.get('files'));
                 } else {
                     this.get('store').unloadRecord(file);
                     return true;
                 }
-            });
-        });
+            })
+        );
     },
 
     /**
