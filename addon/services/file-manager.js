@@ -258,7 +258,7 @@ export default Ember.Service.extend({
      */
     _reloadModel(model) {
         this.set('isReloading', true);
-        model.reload().then((freshModel) => {
+        return model.reload().then((freshModel) => {
             this.set('isReloading', false);
             return freshModel;
         });
