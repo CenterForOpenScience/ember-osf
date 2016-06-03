@@ -15,11 +15,8 @@ module.exports = function(environment) {
     var ENV = {
         modulePrefix: 'dummy',
         environment: environment,
-
-        // Settings that may be helpful when serving from within another application (non-root directory)
-        //baseURL: '/static/ember-dist/',
-        //rootUrl: '/emberosf/',
-        locationType: 'auto',  // hash
+        baseURL: '/',
+        locationType: 'auto',
 
         EmberENV: {
             FEATURES: {
