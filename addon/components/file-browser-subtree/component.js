@@ -36,7 +36,6 @@ export default Ember.Component.extend({
         return [{
             sortable: false,
             align: 'right',
-            width: 20,
             cellComponent: 'file-browser-expand-cell'
         }, {
             label: 'Name',
