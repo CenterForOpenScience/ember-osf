@@ -13,6 +13,8 @@ export default Ember.Service.extend({
     session: Ember.inject.service(),
     store: Ember.inject.service(),
 
+    isReloading: false,
+
     /**
      * Download the contents of the given file.
      *
@@ -39,14 +41,8 @@ export default Ember.Service.extend({
     updateContents(file, contents) {
         let url = file.get('links').upload;
         let params = { kind: 'file' };
-        let lastModified = file.get('dateModified');
         let p = this._waterbutlerRequest('PUT', url, params, contents);
-        return p.then(() => this._reloadModel(file, (model) => {
-            if (model.get('dateModified') > lastModified) {
-                return model;
-            }
-            return false;
-        }));
+        return p.then(() => this._reloadModel(file));
     },
 
     checkout(/*file, user*/) {
@@ -115,12 +111,7 @@ export default Ember.Service.extend({
         let url = file.get('links').move;
         let data = JSON.stringify({ action: 'rename', rename: newName });
         let p = this._waterbutlerRequest('POST', url, null, data);
-        return p.then(() => this._reloadModel(file, (model) => {
-            if (model.get('name') === newName) {
-                return model;
-            }
-            return false;
-        }));
+        return p.then(() => this._reloadModel(file));
     },
 
     /**
@@ -211,7 +202,13 @@ export default Ember.Service.extend({
         let url = file.get('links').delete;
         let p = this._waterbutlerRequest('DELETE', url);
         return p.then(() => {
-            this.get('store').unloadRecord(file);
+            let parent = file.get('parentFolder');
+            if (parent) {
+                return this._reloadModel(parent.get('files'));
+            } else {
+                this.get('store').unloadRecord(file);
+                return this;
+            }
         });
     },
 
@@ -251,37 +248,19 @@ export default Ember.Service.extend({
     },
 
     /**
-     * Get an updated `file` model from the OSF API.
+     * Force reload a model from the API.
      *
      * @method _reloadModel
      * @private
-     * @param {Object} model Ember model to reload.
-     * @param {Function} isFresh Function that is called with the reloaded
-     * model from the OSF API. If the model is actually still stale, should
-     * return `false`. Otherwise, return the fresh model.
-     * @return {Promise} Promise that resolves to an updated `file` model or
+     * @param {Object} model Any Ember model with a `reload` method.
+     * @return {Promise} Promise that resolves to the reloaded model or
      * rejects with an error message.
      */
-    _reloadModel(model, isFresh) {
-        const maxTries = 32;
-        const interval = 256;
-        return new Ember.RSVP.Promise((resolve, reject) => {
-            let tries = 0;
-            let tryReload = function() {
-                model.reload().then((freshModel) => {
-                    freshModel = isFresh(freshModel);
-                    if (freshModel) {
-                        resolve(freshModel);
-                    } else if (tries < maxTries) {
-                        tries++;
-                        Ember.run.later(tryReload, interval);
-                    } else {
-                        reject('Timed out refreshing file info');
-                    }
-                });
-            };
-
-            tryReload();
+    _reloadModel(model) {
+        this.set('isReloading', true);
+        model.reload().then((freshModel) => {
+            this.set('isReloading', false);
+            return freshModel;
         });
     },
 
@@ -296,13 +275,7 @@ export default Ember.Service.extend({
      * rejects with an error message.
      */
     _getNewFileInfo(parentFolder, name) {
-        let hasFile = function(files) {
-            let file = files.findBy('name', name);
-            if (file) {
-                return file;
-            }
-            return false;
-        };
-        return this._reloadModel(parentFolder.get('files'), hasFile);
+        let p = this._reloadModel(parentFolder.get('files'));
+        return p.then((files) => files.findBy('name', name));
     }
 });
