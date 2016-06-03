@@ -43,6 +43,11 @@ export default DS.Model.extend({
                 this.addObserver(rel, () => {
                     var key = `_dirtyRelationships.${rel}`;
                     this.set(key, !Ember.isEmpty(this.get(key)));
+                    // Attempting to check is_embedded flag -
+                    if (this.get('relationshipLinks') && this.get('relationshipLinks')[rel] && this.get('relationshipLinks')[rel]['is_embedded']) {
+                        this.set(key, false);
+                        this.get('relationshipLinks')[rel]['is_embedded'] = false
+                    }
                 });
             });
         });
