@@ -11,11 +11,13 @@
         <tr>
             <th> Name </th>
             <th> Date Modified </th>
+            <th> </th>
         </tr>
         {{#each model.linkedNodes as |linkedNode|}}
             <tr>
                 <td>{{link-to linkedNode.title 'nodes.detail' linkedNode.id }} </td>
                 <td>{{moment-format linkedNode.dateModified}} </td>
+                <td><button {{action "removeNodeFromCollection" linkedNode}} class="btn btn-danger">Remove project</button> </td>
             </tr>
         {{/each}}
     </table>

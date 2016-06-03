@@ -13,5 +13,10 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
                 collection.save();
             });
         },
+        removeNodeFromCollection(project) {
+            var collection = this.modelFor(this.routeName);
+            collection.get('linkedNodes').removeObject(project);
+            collection.save();
+        },
     }
 });
