@@ -337,7 +337,6 @@ test('move sends valid waterbutler request', function(assert) {
         settings: { method: 'POST', data: {
                 action: 'move',
                 path: folder.get('path'),
-                conflict: 'replace'
             }
         },
         headers: { Authorization: `Bearer ${fakeAccessToken}` },
@@ -382,7 +381,6 @@ test('move passes along error', function(assert) {
         settings: { method: 'POST', data: {
                 action: 'move',
                 path: folder.get('path'),
-                conflict: 'replace'
             }
         },
         headers: { Authorization: `Bearer ${fakeAccessToken}` },
@@ -416,7 +414,6 @@ test('copy sends valid waterbutler request', function(assert) {
             data: {
                 action: 'copy',
                 path: folder.get('path'),
-                conflict: 'replace'
             }
         },
         headers: { Authorization: `Bearer ${fakeAccessToken}` },
@@ -460,7 +457,6 @@ test('copy passes along error', function(assert) {
         settings: { method: 'POST', data: {
                 action: 'copy',
                 path: folder.get('path'),
-                conflict: 'replace'
             }
         },
         headers: { Authorization: `Bearer ${fakeAccessToken}` },
