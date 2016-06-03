@@ -33,6 +33,7 @@ export default DS.Model.extend({
     ready() {
         this._super(...arguments);
         this.set('_dirtyRelationships', Ember.Object.create({}));
+
         this.eachRelationship((relationship, meta) => {
             let rel = relationship;
             this.get(rel).then(() => {
@@ -43,10 +44,10 @@ export default DS.Model.extend({
                 this.addObserver(rel, () => {
                     var key = `_dirtyRelationships.${rel}`;
                     this.set(key, !Ember.isEmpty(this.get(key)));
-                    // Attempting to check is_embedded flag -
-                    if (this.get('relationshipLinks') && this.get('relationshipLinks')[rel] && this.get('relationshipLinks')[rel]['is_embedded']) {
+                    // Checks is_embedded flag set in osf-serializer.
+                    if (this.get('relationshipLinks') && this.get('relationshipLinks')[rel] && this.get('relationshipLinks')[rel].is_embedded) {
                         this.set(key, false);
-                        this.get('relationshipLinks')[rel]['is_embedded'] = false
+                        this.get('relationshipLinks')[rel].is_embedded = false;
                     }
                 });
             });
