@@ -557,6 +557,7 @@ test('deleteFile sends valid waterbutler request', function(assert) {
         assert.ok(true);
         done();
     }).catch(function() {
+        assert.ok(false, 'promise rejected!');
         done();
     });
 });
