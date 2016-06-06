@@ -20,6 +20,7 @@ export default Ember.Component.extend({
     },
 
     nextIndent: Ember.computed('indent', function() {
+        // TODO configurable (or styled?) indent
         return this.get('indent') + 20;
     }),
 
@@ -95,6 +96,5 @@ export default Ember.Component.extend({
             }
         });
         this.get('table').setRows(rows);
-    })
-
+    }),
 });
