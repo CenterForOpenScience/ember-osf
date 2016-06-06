@@ -57,7 +57,10 @@
 
     {{!--
      Login flow:
-      1. This form sends to CAS
+      1. This form sends to CAS.
+        For Cookie login:   POST url: https://staging-accounts.osf.io/login?service=https://staging.osf.io/
+        For token login:    window.location = `${config.OSF.oauthUrl}?response_type=token&scope=${config.OSF.scope}&client_id=${config.OSF.clientId}&redirect_uri=${encodeURI(window.location)}/`;
+
       2. Then CAS redirects to this app's cookielogin url, so the ember authorizer can immediately pick off the ticket
       3. The ember authorizer then sends an ajax request to the OSF so a cookie can be set
 

@@ -18,8 +18,6 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         if (url.lastIndexOf('/') !== url.length - 1) {
             url += '/';
         }
-
-        console.log('authorizer', config['ember-simple-auth'].authorizer);
         return url;
     },
     /**

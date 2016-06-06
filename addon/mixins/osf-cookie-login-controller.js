@@ -6,6 +6,7 @@
  */
 
 import Ember from 'ember';
+import config from 'ember-get-config';
 
 export default Ember.Mixin.create({
     session: Ember.inject.service('session'),
@@ -13,14 +14,6 @@ export default Ember.Mixin.create({
     queryParams: ['ticket'],
     ticket: null,
 
-    errorMessage: undefined,
-
-    actions: { // TODO: What does submit do in the new scheme? Needs to be form post, so probably nothing
-        loginHandler: function (username, password) {
-            console.log('Called submit', username, password);
-            //this.get('session').authenticate('authenticator:osf-cookie', username, password)
-            //    .catch((reason) => this.set('errorMessage', reason.error || reason));
-            return true;
-        }
-    }
+    // Form submission URL:
+    submitUrl: `${config.OSF.loginUrl}?service=${window.location}&auto=true`
 });

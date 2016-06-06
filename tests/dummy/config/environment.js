@@ -8,6 +8,7 @@ module.exports = function(environment) {
     if (AUTHORIZER === 'cookie') {
         authConfig = {
             authorizer: 'authorizer:osf-cookie',
+            authenticator: 'authenticator:osf-cookie',
             authenticationRoute: 'cookielogin'
         };
     }
@@ -67,6 +68,5 @@ module.exports = function(environment) {
     }
 
     //if (environment === 'production') {}
-
     return ENV;
 };
