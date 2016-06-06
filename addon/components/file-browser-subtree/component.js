@@ -7,6 +7,8 @@ export default Ember.Component.extend({
     table: null,
     isLoading: true,
     indent: 20,
+    isRoot: true,
+    sort: null,
 
     init() {
         this._super(...arguments);
@@ -58,5 +60,41 @@ export default Ember.Component.extend({
                 }
             }
         }];
+    }),
+
+    actions: {
+        onColumnClick(column) {
+            if (column.sorted) {
+                this.set('sort', column);
+            }
+        }
+    },
+
+    sortChanged: Ember.observer('sort.valuePath', 'sort.ascending', function() {
+        let key = this.get('sort.valuePath');
+        if (!key) {
+            return;
+        }
+        let asc = this.get('sort.ascending');
+        let rows = this.get('table.rows');
+        rows.sort((a, b) => {
+            if (!asc) {
+                [a, b] = [b, a];
+            }
+            let lhs = a.get(key);
+            let rhs = b.get(key);
+            if (typeof lhs === 'number' && typeof rhs === 'number') {
+                return lhs - rhs;
+            }
+            if (lhs < rhs) {
+                return -1;
+            } else if (lhs > rhs) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+        this.get('table').setRows(rows);
     })
+
 });

@@ -1,6 +1,6 @@
 {{#light-table table as |t|}}
     {{#if isRoot}}
-        {{t.head}}
+        {{t.head onColumnClick=(action 'onColumnClick')}}
     {{/if}}
 
     {{#t.body canExpand=true as |body|}}
@@ -9,6 +9,8 @@
                 {{file-browser-subtree
                 row=row
                 indent=nextIndent
+                isRoot=false
+                sort=sort
                 }}
             {{/if}}
         {{/body.expanded-row}}
