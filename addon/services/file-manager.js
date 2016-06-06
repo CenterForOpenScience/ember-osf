@@ -295,6 +295,9 @@ export default Ember.Service.extend({
         return model.reload().then((freshModel) => {
             this.set('isReloading', false);
             return freshModel;
+        }).catch((error) => {
+            this.set('isReloading', false);
+            throw error;
         });
     },
 
