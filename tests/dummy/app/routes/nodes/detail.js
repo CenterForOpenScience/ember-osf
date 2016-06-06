@@ -50,7 +50,6 @@ export default Ember.Route.extend({
                         bibliographic: bibliographic,
                         nodeId: node.id
                     });
-                    contributor.save();
                     node.get('contributors').pushObject(contributor);
                     node.save();
                     console.log('Contributor added.');
