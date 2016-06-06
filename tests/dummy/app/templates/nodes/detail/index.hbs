@@ -88,7 +88,7 @@
         {{#each model.contributors as |contrib|}}
             <tr>
                 <td>{{contrib.id}}</td>
-                <td>{{contrib.users.fullName}}</td>
+                <td> {{if contrib.unregisteredContributor contrib.unregisteredContributor contrib.users.fullName}} </td>
                 <td>
                     <select onchange={{action "permissionChange" value="target.value" bubbles=true}}>
                         <option value="read {{contrib.id}}" selected={{permissionHelper contrib.permission "read"}}> Read </option>
