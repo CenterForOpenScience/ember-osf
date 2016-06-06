@@ -59,6 +59,7 @@ export default DS.JSONAPISerializer.extend({
             }
             //Only needs to contain id and type but this way we don't have to special case arrays
             resourceHash.relationships[embedded] = resourceHash.embeds[embedded];
+            resourceHash.relationships[embedded].is_embedded = true;
         }
         delete resourceHash.embeds;
         //Recurse in, includeds are only processed on the top level. Emebeds are nested.
