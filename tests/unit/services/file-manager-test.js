@@ -73,12 +73,8 @@ function assertSettings(assert, actual, expected) {
 
 let fakeAccessToken = 'thisisafakeaccesstoken';
 let sessionStub = Ember.Service.extend({
-    data: {
-        authenticated: {
-            attributes: {
-                accessToken: fakeAccessToken
-            }
-        }
+    authorize(_, setHeader) {
+        setHeader('Authorization', `Bearer ${fakeAccessToken}`);
     }
 });
 

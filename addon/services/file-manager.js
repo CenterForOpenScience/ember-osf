@@ -263,20 +263,21 @@ export default Ember.Service.extend({
             let queryString = Ember.$.param(options.query);
             url = `${url}?${queryString}`;
         }
-        let sessionData = this.get('session').get('data').authenticated;
-        let accessToken = sessionData.attributes.accessToken;
+
+        let headers = {};
+        this.get('session').authorize('authorizer:osf-token', (headerName, content) => {
+            headers[headerName] = content;
+        });
 
         return new Ember.RSVP.Promise((resolve, reject) => {
-            Ember.$.ajax(url, {
+            let p = Ember.$.ajax(url, {
                 method,
+                headers,
                 data: options.data,
-                processData: false,
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                },
-                error: (_, __, error) => reject(error),
-                success: (data) => resolve(data)
+                processData: false
             });
+            p.done((data) => resolve(data));
+            p.fail((_, __, error) => reject(error));
         });
     },
 
