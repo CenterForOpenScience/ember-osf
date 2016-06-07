@@ -15,6 +15,11 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         // Fix issue where CORS request failed on 301s: Ember does not seem to append trailing
         // slash to URLs for single documents, but DRF redirects to force a trailing slash
         var url = this._super(...arguments);
+        if (requestType === 'deleteRecord' || requestType === 'updateRecord' || requestType === 'findRecord') {
+            if (snapshot.record.get('links.self')) {
+                url = snapshot.record.get('links.self');
+            }
+        }
         if (url.lastIndexOf('/') !== url.length - 1) {
             url += '/';
         }
@@ -32,35 +37,35 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
      * @param {String} relationship the relationship to build a payload for
      * @return {Object} the serialized relationship
      **/
-    _relationshipPayload(store, snapshot, relationship) {
-        var relationMeta = snapshot.record[relationship].meta();
-        var relationType = relationMeta.type;
-        var serialized;
-        if (relationMeta.options.serializer) {
-            serialized = relationMeta.options.serializer(snapshot.record);
-        } else {
-            var serializer = store.serializerFor(relationType);
-            if (relationMeta.kind === 'hasMany') {
-                // A hack, since we'd have to use a bulk requests to send a list; TODO remove [0]
-                serialized = snapshot.hasMany(relationship).filter(record => record.id === null).map(record => serializer.serialize(record));
-                if (serialized.length > 1) {
-                    serialized = {
-                        data: serialized.map(function(record) {
-                            var data = record.data;
-                            delete data.relationships;
-                            return data;
-                        })
-                    };
-                } else {
-                    serialized = serialized[0];
-                    delete serialized.data.relationships;
-                }
-            } else {
-                serialized = serializer.serialize(snapshot.belongsTo(relationship));
-            }
-        }
-        return serialized;
-    },
+    // _relationshipPayload(store, snapshot, relationship) {
+    //     var relationMeta = snapshot.record[relationship].meta();
+    //     var relationType = relationMeta.type;
+    //
+    //     if (relationMeta.options.serializer) {
+    //         serialized = relationMeta.options.serializer(snapshot.record);
+    //     } else {
+    //         var serializer = store.serializerFor(relationType);
+    //         if (relationMeta.kind === 'hasMany') {
+    //             // A hack, since we'd have to use a bulk requests to send a list; TODO remove [0]
+    //             serialized = snapshot.hasMany(relationship).filter(record => record.id === null).map(record => serializer.serialize(record));
+    //             if (serialized.length > 1) {
+    //                 serialized = {
+    //                     data: serialized.map(function(record) {
+    //                         var data = record.data;
+    //                         delete data.relationships;
+    //                         return data;
+    //                     })
+    //                 };
+    //             } else {
+    //                 serialized = serialized[0];
+    //                 delete serialized.data.relationships;
+    //             }
+    //         } else {
+    //             serialized = serializer.serialize(snapshot.belongsTo(relationship));
+    //         }
+    //     }
+    //     return serialized;
+    // },
     /**
      * Construct a URL for a relationship create/update/delete. Has the same
      * signature as buildURL, with the addition of a 'relationship' param
@@ -79,23 +84,61 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
             return this.buildURL(...arguments);
         }
     },
-    _isBulk(snapshot, relationship) {
+    // _isBulk(snapshot, relationship) {
+    //     var relationMeta = snapshot.record[relationship].meta();
+    //     var howMany = snapshot.hasMany(relationship).filter(record => record.id === null).length;
+    //     return howMany > 1 && relationMeta.kind === 'hasMany' && !relationMeta.options.serializer;
+    // },
+    _serializeHasMany(serialized){
+        if (serialized.length > 1) {
+            serialized = {
+                data: serialized.map(function(record) {
+                    var data = record.data;
+                    return data;
+                })
+            };
+        } else {
+            serialized = serialized[0];
+        }
+        return serialized;
+    },
+    _handleManyRequest(type, snapshot, query, relationship){
         var relationMeta = snapshot.record[relationship].meta();
-        var howMany = snapshot.hasMany(relationship).filter(record => record.id === null).length;
-        return howMany > 1 && relationMeta.kind === 'hasMany' && !relationMeta.options.serializer;
+        var serializer = store.serializerFor(relationType.substring(0, relationType.length - 1));
+        var serialized = snapshot.hasMany(relationship).filter(each => each.id === null || Object.keys(each.changedAttributes()).length).map(each => serializer.serialize(each));
+        var options = Ember.$.extend({},
+            {
+                requestType () => 'PATCH',
+                isBulk: serialized => serialized.length > 1,
+                url: this._buildRelationshipURL(type.modelName, snapshot.id, snapshot, 'updateRecord', query, relationship),
+                serialized: this._serializeHasMany;
+            },
+            relationMeta.options.updateRequest(snapshot, relationship, serialized)
+        );
+        return this.ajax(options.url, options.requestType(snapshot, relationship), {
+            data: options.serialized(serialized),
+            isBulk: options.isBulk(serialized)
+        }).then(() => snapshot.record.clearDirtyRelationship(relationMeta))
+
     },
     updateRecord(store, type, snapshot, _, query) {
         var promises = null;
         var dirtyRelationships = snapshot.record.get('dirtyRelationships');
         if (dirtyRelationships.length) {
             promises = dirtyRelationships.map(relationship => {
-                var url = this._buildRelationshipURL(type.modelName, snapshot.id, snapshot, 'updateRecord', query, relationship);
-                var requestType = snapshot.record[relationship].meta().options.updateRequestType;
-                var isBulk = this._isBulk(snapshot, relationship);
-                var data = this._relationshipPayload(store, snapshot, relationship);
-                return this.ajax(url, requestType || 'PATCH', {
-                    data: data,
-                    isBulk: isBulk
+                var relationMeta = snapshot.record[relationship].meta();
+                var relationType = relationMeta.type;
+                var serialized;
+                if (relationMeta.options.serializer) {
+                    serialized = relationMeta.options.serializer(snapshot.record);
+                } else {
+                    if (relationMeta.kind === 'hasMany') {
+                        return this._handleManyRequest(type, snapshot, query, relationship);
+                    }
+                    serialized = serializer.serialize(snapshot.belongsTo(relationship));
+                }
+                return this.ajax(url, 'PATCH', {
+                    data: serialized
                 }).then(() => snapshot.record.clearDirtyRelationship(relationship));
             });
         }
