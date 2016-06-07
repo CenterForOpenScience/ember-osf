@@ -32,16 +32,15 @@ module.exports = {
         if (BACKEND === 'local') {
             ENV.OSF.url = 'http://localhost:5000/';
             ENV.OSF.apiUrl = 'http://localhost:8000';
-            
+
             // If using cookie authentication, where should this app go to exchange the token for a cookie?
             ENV.OSF.cookieAuthUrl = 'http://localhost:5000/api/authendpoint';  // TODO: Make this production aware; for now, only allow testing of login mechanism from localhost
             ENV.OSF.loginUrl = 'http://localhost:8080/login';  // Login URL for cookie auth (POST requests)
-            
+
             ENV.OSF.oauthUrl = 'http://localhost:8080/oauth2/profile';
             ENV.OSF.renderUrl = 'http://localhost:7778/render';
 
             ENV.OSF.accessToken = SETTINGS.PERSONAL_ACCESS_TOKEN;
-            // TODO: Add a setting for cookie value to be grabbed and used in mock auth endpoint
             ENV.OSF.isLocal = true;
         }
         if (BACKEND === 'stage') {

@@ -20,7 +20,7 @@ export default Base.extend({
         return this._test().fail(this.invalidate);
     },
 
-    authenticate(code) {
+    authenticate(code) { // jshint ignore:line
         // Authentication procedure: hit an OSF endpoint with a URL parameter "ticket". If backend validates the ticket, the response should set a cookie
         return Ember.$.ajax({
             method: 'GET',

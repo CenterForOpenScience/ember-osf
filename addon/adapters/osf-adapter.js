@@ -5,9 +5,9 @@ import Ember from 'ember';
 import DS from 'ember-data';
 
 import config from 'ember-get-config';
-import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
+import GenericDataAdapterMixin from 'ember-osf/mixins/generic-data-adapter';
 
-export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
+export default DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
     authorizer: config['ember-simple-auth'].authorizer,
     host: config.OSF.apiUrl,
     namespace: config.OSF.apiNamespace,

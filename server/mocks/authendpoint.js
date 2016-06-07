@@ -4,6 +4,7 @@
     This can be removed once the ember app is integrated directly into the OSF
     (so that there are no same-origin issues for ember + OSF cookies)
  */
+
 module.exports = function(app) {
     var express = require('express');
     var authendpointRouter = express.Router();
@@ -14,10 +15,12 @@ module.exports = function(app) {
                 message: 'You are not authorized to access this resource'
             });
         } else {
-            res.cookie('democookie', 'A great value- yours for only $9.95!',
+            // Ember HTTP mocks appear to use a different module system; how can we get config params?
+            // FIXME: Warning- do not commit your cookie value. To minimize risk, do not use this with anything other than a localhost OSF cookie!
+            res.cookie('democookie', 'Proof that something was set; use an OSF cookie to test actual sending of credentials',
                 {
                     httpOnly: true,
-                    secure: true
+                    //secure: true
                 });
             res.status(200).send({
                 message: 'A cookie has been set!'
