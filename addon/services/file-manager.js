@@ -13,8 +13,6 @@ export default Ember.Service.extend({
     session: Ember.inject.service(),
     store: Ember.inject.service(),
 
-    isReloading: false,
-
     /**
      * Download the contents of the given file.
      *
@@ -245,6 +243,64 @@ export default Ember.Service.extend({
     },
 
     /**
+     * Check whether the given url corresponds to a model that is currently
+     * reloading after a file operation.
+     *
+     * Used by `mixin:file-cache-bypass` to avoid a race condition where the
+     * cache might return stale, inaccurate data.
+     *
+     * @method isReloadingUrl
+     * @param {String} url
+     * @return {Boolean} `true` if `url` corresponds to a pending reload on a
+     * model immediately after a Waterbutler action, otherwise `false`.
+     */
+    isReloadingUrl(url) {
+        return !!this._reloadingUrls[url];
+    },
+
+    /**
+     * Hash set of URLs for `model.reload()` calls that are still pending.
+     *
+     * @property _reloadingUrls
+     * @private
+     */
+    _reloadingUrls: {},
+
+    /**
+     * Force-reload a model from the API.
+     *
+     * @method _reloadModel
+     * @private
+     * @param {Object} model `file` model or a `files` relationship
+     * @return {Promise} Promise that resolves to the reloaded model or
+     * rejects with an error message.
+     */
+    _reloadModel(model) {
+        // If it's a file model, it has its own URL in `links.info`.
+        let reloadUrl = model.get('links.info');
+        if (!reloadUrl) {
+            // If it's not a file model, it must be a relationship.
+            // HACK: Looking at Ember's privates.
+            reloadUrl = model.get('content.relationship.link');
+        }
+        if (reloadUrl) {
+            this._reloadingUrls[reloadUrl] = true;
+        }
+
+        return model.reload().then((freshModel) => {
+            if (reloadUrl) {
+                delete this._reloadingUrls[reloadUrl];
+            }
+            return freshModel;
+        }).catch((error) => {
+            if (reloadUrl) {
+                delete this._reloadingUrls[reloadUrl];
+            }
+            throw error;
+        });
+    },
+
+    /**
      * Make a Waterbutler request
      *
      * @method _waterbutlerRequest
@@ -278,26 +334,6 @@ export default Ember.Service.extend({
             });
             p.done((data) => resolve(data));
             p.fail((_, __, error) => reject(error));
-        });
-    },
-
-    /**
-     * Force-reload a model from the API.
-     *
-     * @method _reloadModel
-     * @private
-     * @param {Object} model Any Ember model with a `reload` method.
-     * @return {Promise} Promise that resolves to the reloaded model or
-     * rejects with an error message.
-     */
-    _reloadModel(model) {
-        this.set('isReloading', true);
-        return model.reload().then((freshModel) => {
-            this.set('isReloading', false);
-            return freshModel;
-        }).catch((error) => {
-            this.set('isReloading', false);
-            throw error;
         });
     },
 
