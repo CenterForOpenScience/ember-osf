@@ -28,14 +28,27 @@ export default OsfModel.extend({
     }),
     children: DS.hasMany('nodes', {
         inverse: 'parent',
-        updateRequestType: () => 'POST'
+        updateRequest: {
+            requestType: () => 'POST'
+        }
     }),
     affiliatedInstitutions: DS.hasMany('institutions', {
         inverse: 'nodes',
         serializer: serializeHasMany.bind(null, 'affiliatedInstitutions', 'institution')
     }),
     comments: DS.hasMany('comments'),
-    contributors: DS.hasMany('contributors'),
+    contributors: DS.hasMany('contributors', {
+        updateRequest: {
+            requestType: (snapshot, relationship) => snapshot.hasMany(relationship).filter(each => Object.keys(each.changedAttributes()).indexOf('userId') !== -1).length > 0 ? 'POST' : 'PATCH',
+            isBulk: () => true,
+            serialized: serialized = > {
+                data: serialized.map(function(record) {
+                    var data = record.data;
+                    return data;
+                })
+            }
+        }
+    }),
 
     files: DS.hasMany('file-provider'),
     //forkedFrom: DS.belongsTo('node'),

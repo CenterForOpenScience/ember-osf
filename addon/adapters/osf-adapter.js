@@ -11,7 +11,7 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
     authorizer: 'authorizer:osf-token',
     host: config.OSF.apiUrl,
     namespace: config.OSF.apiNamespace,
-    buildURL() {
+    buildURL(modelName, id, snapshot, requestType) {
         // Fix issue where CORS request failed on 301s: Ember does not seem to append trailing
         // slash to URLs for single documents, but DRF redirects to force a trailing slash
         var url = this._super(...arguments);
@@ -102,18 +102,19 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         }
         return serialized;
     },
-    _handleManyRequest(type, snapshot, query, relationship){
+    _handleManyRequest(store, type, snapshot, query, relationship){
         var relationMeta = snapshot.record[relationship].meta();
+        var relationType = relationMeta.type;
         var serializer = store.serializerFor(relationType.substring(0, relationType.length - 1));
         var serialized = snapshot.hasMany(relationship).filter(each => each.id === null || Object.keys(each.changedAttributes()).length).map(each => serializer.serialize(each));
         var options = Ember.$.extend({},
             {
-                requestType () => 'PATCH',
+                requestType: () => 'PATCH',
                 isBulk: serialized => serialized.length > 1,
                 url: this._buildRelationshipURL(type.modelName, snapshot.id, snapshot, 'updateRecord', query, relationship),
-                serialized: this._serializeHasMany;
+                serialized: this._serializeHasMany
             },
-            relationMeta.options.updateRequest(snapshot, relationship, serialized)
+            relationMeta.options.updateRequest
         );
         return this.ajax(options.url, options.requestType(snapshot, relationship), {
             data: options.serialized(serialized),
@@ -127,13 +128,12 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         if (dirtyRelationships.length) {
             promises = dirtyRelationships.map(relationship => {
                 var relationMeta = snapshot.record[relationship].meta();
-                var relationType = relationMeta.type;
                 var serialized;
                 if (relationMeta.options.serializer) {
                     serialized = relationMeta.options.serializer(snapshot.record);
                 } else {
                     if (relationMeta.kind === 'hasMany') {
-                        return this._handleManyRequest(type, snapshot, query, relationship);
+                        return this._handleManyRequest(store, type, snapshot, query, relationship);
                     }
                     serialized = serializer.serialize(snapshot.belongsTo(relationship));
                 }
