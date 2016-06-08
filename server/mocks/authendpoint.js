@@ -3,8 +3,8 @@
     Allow testing of authenticators, using a mock endpoint that submits to the OSF and receives a cookie in return
     This can be removed once the ember app is integrated directly into the OSF
     (so that there are no same-origin issues for ember + OSF cookies)
-    
-    For now the primary use case is so that there exists a place where authenticator can be tested
+
+    For now the primary use case is so that there exists a place where authenticator can be tested for success/failure
  */
 
 module.exports = function(app) {
