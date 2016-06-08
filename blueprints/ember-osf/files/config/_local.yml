@@ -4,19 +4,23 @@
 #   CLIENT_ID: null
 #   PERSONAL_ACCESS_TOKEN: null
 #   OAUTH_SCOPES: osf.full_read osf.full_write
+#   TRAILING_SLASH: true
 
 # stage:
 #    CLIENT_ID: null
 #    PERSONAL_ACCESS_TOKEN: null
 #    OAUTH_SCOPES: osf.full_read osf.full_write
+#    TRAILING_SLASH: true
 
 # stage2:
 #   CLIENT_ID: null
 #   PERSONAL_ACCESS_TOKEN: null
 #   OAUTH_SCOPES: osf.full_read osf.full_write
+#   TRAILING_SLASH: true
 
 test:
   CLIENT_ID: null
   PERSONAL_ACCESS_TOKEN: null
   OAUTH_SCOPES: osf.full_read osf.full_write
+  TRAILING_SLASH: true
 ######### end ember-osf ##########

@@ -24,6 +24,7 @@ module.exports = {
         };
 
         ENV.OSF = {
+            trailingSlash: SETTINGS.TRAILING_SLASH,
             clientId: SETTINGS.CLIENT_ID,
             scope: SETTINGS.OAUTH_SCOPES,
             apiNamespace: 'v2' // URL suffix (after host)
