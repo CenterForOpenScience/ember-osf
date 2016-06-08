@@ -80,6 +80,7 @@
     <table class="table">
         <tr>
             <th>ID</th>
+            <th> Name </th>
             <th> Permissions </th>
             <th>Bibliographic</th>
             <th> </th>
@@ -87,6 +88,7 @@
         {{#each model.contributors as |contrib|}}
             <tr>
                 <td>{{contrib.id}}</td>
+                <td> {{if contrib.unregisteredContributor contrib.unregisteredContributor contrib.users.fullName}} </td>
                 <td>
                     <select onchange={{action "permissionChange" value="target.value" bubbles=true}}>
                         <option value="read {{contrib.id}}" selected={{permissionHelper contrib.permission "read"}}> Read </option>
@@ -138,6 +140,30 @@
         <p>{{radio-button name="category" value="uncategorized" checked=category}} Uncategorized </p>
         <p><button {{action "addChildren" title description category }}>Create</button></p>
     </div>
+
+    <hr>
+
+    <h2>Node links </h2>
+    <table class="table">
+        <tr>
+            <th> Id </th>
+            <th> Name </th>
+            <th> </th>
+        </tr>
+        {{#each model.nodeLinks as |nodelink|}}
+            <tr>
+                <td> {{nodelink.targetNode.id}} </td>
+                <td> {{link-to nodelink.targetNode.title 'nodes.detail' nodelink.targetNode.id}} </td>
+                <td> <button {{action "removeNodeLink" nodelink}} class="btn btn-danger"> Remove </button> </td>
+            </tr>
+        {{/each}}
+    </table>
+
+    <hr>
+
+    <h3>Add link</h3>
+    <label> Target node id </label> {{input value=targetNodeId}}
+    <button {{action "addNodeLink" targetNodeId}} class="btn btn-primary">Add</button>
 
 </div>
 

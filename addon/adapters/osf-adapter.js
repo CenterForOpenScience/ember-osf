@@ -11,10 +11,15 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
     authorizer: 'authorizer:osf-token',
     host: config.OSF.apiUrl,
     namespace: config.OSF.apiNamespace,
-    buildURL() {
+    buildURL(modelName, id, snapshot, requestType) {
         // Fix issue where CORS request failed on 301s: Ember does not seem to append trailing
         // slash to URLs for single documents, but DRF redirects to force a trailing slash
         var url = this._super(...arguments);
+        if (requestType === 'deleteRecord' || requestType === 'updateRecord' || requestType === 'findRecord') {
+            if (snapshot.record.get('links.self')) {
+                url = snapshot.record.get('links.self');
+            }
+        }
         if (url.lastIndexOf('/') !== url.length - 1) {
             url += '/';
         }
@@ -39,11 +44,12 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         if (relationMeta.options.serializer) {
             serialized = relationMeta.options.serializer(snapshot.record);
         } else {
-            var serializer = store.serializerFor(relationType);
+            var inflector = new Ember.Inflector(Ember.Inflector.defaultRules);
+            var serializer = store.serializerFor(inflector.singularize(relationType));
             if (relationMeta.kind === 'hasMany') {
                 // A hack, since we'd have to use a bulk requests to send a list; TODO remove [0]
-                serialized = snapshot.hasMany(relationship).filter(record => record.id === null).map(record => serializer.serialize(record))[0];
-                delete serialized.data.relationships;
+                var relationArray = snapshot.hasMany(relationship);
+                serialized = serializer.serialize(relationArray[relationArray.length - 1]);
             } else {
                 serialized = serializer.serialize(snapshot.belongsTo(relationship));
             }

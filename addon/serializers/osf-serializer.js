@@ -14,14 +14,40 @@ export default DS.JSONAPISerializer.extend({
         }
     },
 
+    _extractEmbeds(resourceHash) {
+        if (!resourceHash.embeds) {
+            return []; // Nothing to do
+        }
+        let included = [];
+        resourceHash.relationships = resourceHash.relationships || {};
+        for (let embedded in resourceHash.embeds) {
+            if (!(embedded || resourceHash.embeds[embedded])) {
+                continue;
+            }
+            //TODO Pagination probably breaks here
+            let data = resourceHash.embeds[embedded].data;
+            if (Array.isArray(data)) {
+                included = included.concat(data);
+            } else {
+                included.push(data);
+            }
+            resourceHash.embeds[embedded].type = embedded;
+            //Only needs to contain id and type but this way we don't have to special case arrays
+            resourceHash.relationships[embedded] = resourceHash.embeds[embedded];
+            resourceHash.relationships[embedded].is_embedded = true;
+        }
+        delete resourceHash.embeds;
+        //Recurse in, includeds are only processed on the top level. Emebeds are nested.
+        return included.concat(included.reduce((acc, include) => acc.concat(this._extractEmbeds(include)), []));
+    },
+
     _mergeFields(resourceHash) {
         // ApiV2 `links` exist outside the attributes field; make them accessible to the data model
         if (resourceHash.links) { // TODO: Should also test whether model class defines a links field
             resourceHash.attributes.links = resourceHash.links;
         }
-        if (resourceHash.embeds) {
-            resourceHash.attributes.embeds = resourceHash.embeds;
-        }
+        this._extractEmbeds(resourceHash);
+
         if (resourceHash.relationships && resourceHash.attributes.links) {
             resourceHash.attributes.links = Ember.$.extend(resourceHash.attributes.links, { relationships: resourceHash.relationships });
         }
@@ -43,6 +69,7 @@ export default DS.JSONAPISerializer.extend({
 
     serialize: function(snapshot, options) {
         var serialized = this._super(snapshot, options);
+        serialized.data.type = Ember.String.underscore(serialized.data.type);
         // Don't send relationships to the server; this can lead to 500 errors.
         delete serialized.data.relationships;
         return serialized;
