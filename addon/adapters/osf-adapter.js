@@ -42,8 +42,19 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
             var serializer = store.serializerFor(relationType);
             if (relationMeta.kind === 'hasMany') {
                 // A hack, since we'd have to use a bulk requests to send a list; TODO remove [0]
-                serialized = snapshot.hasMany(relationship).filter(record => record.id === null).map(record => serializer.serialize(record))[0];
-                delete serialized.data.relationships;
+                serialized = snapshot.hasMany(relationship).filter(record => record.id === null).map(record => serializer.serialize(record));
+                if (serialized.length > 1) {
+                    serialized = {
+                        data: serialized.map(function(record) {
+                            var data = record.data;
+                            delete data.relationships;
+                            return data;
+                        })
+                    };
+                } else {
+                    serialized = serialized[0];
+                    delete serialized.data.relationships;
+                }
             } else {
                 serialized = serializer.serialize(snapshot.belongsTo(relationship));
             }
@@ -68,6 +79,11 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
             return this.buildURL(...arguments);
         }
     },
+    _isBulk(snapshot, relationship) {
+        var relationMeta = snapshot.record[relationship].meta();
+        var howMany = snapshot.hasMany(relationship).filter(record => record.id === null).length;
+        return howMany > 1 && relationMeta.kind === 'hasMany' && !relationMeta.options.serializer;
+    },
     updateRecord(store, type, snapshot, _, query) {
         var promises = null;
         var dirtyRelationships = snapshot.record.get('dirtyRelationships');
@@ -75,8 +91,11 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
             promises = dirtyRelationships.map(relationship => {
                 var url = this._buildRelationshipURL(type.modelName, snapshot.id, snapshot, 'updateRecord', query, relationship);
                 var requestType = snapshot.record[relationship].meta().options.updateRequestType;
+                var isBulk = this._isBulk(snapshot, relationship);
+                var data = this._relationshipPayload(store, snapshot, relationship);
                 return this.ajax(url, requestType || 'PATCH', {
-                    data: this._relationshipPayload(store, snapshot, relationship)
+                    data: data,
+                    isBulk: isBulk
                 }).then(() => snapshot.record.clearDirtyRelationship(relationship));
             });
         }
@@ -90,5 +109,12 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         } else {
             return new Ember.RSVP.Promise((resolve) => resolve(null));
         }
+    },
+    ajaxOptions(_, __, options) {
+        var ret = this._super(...arguments);
+        if (options && options.isBulk) {
+            ret.contentType = 'application/vnd.api+json; ext=bulk';
+        }
+        return ret;
     }
 });
