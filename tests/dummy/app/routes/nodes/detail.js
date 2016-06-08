@@ -10,7 +10,7 @@ export default Ember.Route.extend({
     setupController(controller, model) {
         controller.set('editedTitle', model.get('title'));
         controller.set('editedTitle', model.get('category'));
-        controller.set('editedTitle', model.get('dscription'));
+        controller.set('editedTitle', model.get('description'));
         this._super(...arguments);
     },
 
@@ -112,11 +112,11 @@ export default Ember.Route.extend({
                     category: category || 'project',
                     description: description || null
                 });
-                child.one('didCreate', this, function() {
-                    this.transitionTo('nodes.detail.children');
-                });
                 node.get('children').pushObject(child);
                 node.save();
+                node.one('didUpdate', this, function() {
+                    this.transitionTo('nodes.detail.children');
+                });
             } else {
                 console.log('You do not have permissions to create this component');
             }
