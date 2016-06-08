@@ -8,7 +8,7 @@ export default OsfSerializer.extend({
         serialized.data.relationships = {
             users: {
                 data: {
-                    id: serialized.data.id,
+                    id: snapshot.record.get('userId') || snapshot.record.id.substring(5,10),
                     type: 'users'
                 }
             }

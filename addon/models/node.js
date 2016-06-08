@@ -41,11 +41,13 @@ export default OsfModel.extend({
         updateRequest: {
             requestType: (snapshot, relationship) => snapshot.hasMany(relationship).filter(each => Object.keys(each.changedAttributes()).indexOf('userId') !== -1).length > 0 ? 'POST' : 'PATCH',
             isBulk: () => true,
-            serialized: serialized = > {
-                data: serialized.map(function(record) {
-                    var data = record.data;
-                    return data;
+            serialized(serialized){
+                return {
+                    data: serialized.map(function(record) {
+                        var data = record.data;
+                        return data;
                 })
+            }
             }
         }
     }),

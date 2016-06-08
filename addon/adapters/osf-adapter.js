@@ -26,47 +26,6 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         return url;
     },
     /**
-     * Build the request payload for a relationship create/update. We're
-     * using the meta hash of the relationship field to pass an optional
-     * custom serialization method. This bypasses the normal serialization
-     * flow, but is necessary to cooperate with the OSF APIv2.
-     *
-     * @method _buildRelationshipPayload
-     * @param {DS.Store} store
-     * @param {DS.Snapshot} snapshot
-     * @param {String} relationship the relationship to build a payload for
-     * @return {Object} the serialized relationship
-     **/
-    // _relationshipPayload(store, snapshot, relationship) {
-    //     var relationMeta = snapshot.record[relationship].meta();
-    //     var relationType = relationMeta.type;
-    //
-    //     if (relationMeta.options.serializer) {
-    //         serialized = relationMeta.options.serializer(snapshot.record);
-    //     } else {
-    //         var serializer = store.serializerFor(relationType);
-    //         if (relationMeta.kind === 'hasMany') {
-    //             // A hack, since we'd have to use a bulk requests to send a list; TODO remove [0]
-    //             serialized = snapshot.hasMany(relationship).filter(record => record.id === null).map(record => serializer.serialize(record));
-    //             if (serialized.length > 1) {
-    //                 serialized = {
-    //                     data: serialized.map(function(record) {
-    //                         var data = record.data;
-    //                         delete data.relationships;
-    //                         return data;
-    //                     })
-    //                 };
-    //             } else {
-    //                 serialized = serialized[0];
-    //                 delete serialized.data.relationships;
-    //             }
-    //         } else {
-    //             serialized = serializer.serialize(snapshot.belongsTo(relationship));
-    //         }
-    //     }
-    //     return serialized;
-    // },
-    /**
      * Construct a URL for a relationship create/update/delete. Has the same
      * signature as buildURL, with the addition of a 'relationship' param
      *
@@ -84,11 +43,6 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
             return this.buildURL(...arguments);
         }
     },
-    // _isBulk(snapshot, relationship) {
-    //     var relationMeta = snapshot.record[relationship].meta();
-    //     var howMany = snapshot.hasMany(relationship).filter(record => record.id === null).length;
-    //     return howMany > 1 && relationMeta.kind === 'hasMany' && !relationMeta.options.serializer;
-    // },
     _serializeHasMany(serialized){
         if (serialized.length > 1) {
             serialized = {

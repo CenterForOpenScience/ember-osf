@@ -72,7 +72,6 @@ export default Ember.Route.extend({
             for (var c in editedBibliographic) {
                 contribMap[c].bibliographic = editedBibliographic[c];
             }
-
             if (node.get('currentUserPermissions').indexOf('admin') !== -1) {
                 this.attemptContributorsUpdate(contribMap, node, editedPermissions, editedBibliographic);
             } else {
@@ -191,7 +190,7 @@ export default Ember.Route.extend({
             for (var c in editedBibliographic) {
                 this.modifyBibliographic(c, node, editedBibliographic);
             }
-            node.save();
+            node.save('contributors');
             console.log('Contributor(s) updated.');
         } else {
             console.log('Cannot update contributor(s)');
@@ -202,7 +201,6 @@ export default Ember.Route.extend({
         this.store.findRecord('contributor', contrib).then(function(contributor) {
             contributor.set('nodeId', node.id);
             contributor.set('permission', editedPermissions[contrib]);
-            contributor.save();
         });
     },
 
@@ -210,7 +208,6 @@ export default Ember.Route.extend({
         this.store.findRecord('contributor', contrib).then(function(contributor) {
             contributor.set('nodeId', node.id);
             contributor.set('bibliographic', editedBibliographic[contrib]);
-            contributor.save();
         });
     },
 
