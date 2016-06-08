@@ -18,6 +18,11 @@ module.exports = {
             console.log(`WARNING: you\'ve specified a backend '${BACKEND}' that you have not configured in your config/local.yml`);
         }
 
+        // For i18n
+        ENV.i18n = {
+            defaultLocale: 'en-US'
+        };
+
         ENV.OSF = {
             clientId: SETTINGS.CLIENT_ID,
             scope: SETTINGS.OAUTH_SCOPES,
@@ -32,8 +37,7 @@ module.exports = {
 
             ENV.OSF.accessToken = SETTINGS.PERSONAL_ACCESS_TOKEN;
             ENV.OSF.isLocal = true;
-        }
-        if (BACKEND === 'stage') {
+        } else if (BACKEND === 'stage') {
             ENV.OSF.url = 'https://staging.osf.io/';
             ENV.OSF.apiUrl = 'https://staging-api.osf.io';
             ENV.OSF.authUrl = 'https://staging-accounts.osf.io/oauth2/authorize';

@@ -1,57 +1,66 @@
-<article class="sign-up">
+<article class="sign-up" role="region" aria-labelledby={{elem-id this "signup-heading-title"}}>
     <div class="col-sm-5 toggle-box toggle-box-right toggle-box-active p-h-lg" style="height: auto;">
         <form class="form-horizontal">
-            <h3 class="m-b-lg"> Create a free account </h3>
+            <h2 class="m-b-lg" id={{elem-id this "signup-heading-title"}}> {{t 'eosf.signup.headingTitle'}} </h2>
             <div class="form-group">
-                <label for="inputName" class="col-sm-4 control-label">Full Name</label>
+                <label for={{elem-id this 'signup-input-name'}} class="col-sm-4 control-label">{{t 'eosf.signup.labelInputName'}}</label>
                 <div class="col-sm-8">
                     <input
                     type="text"
                     class="form-control"
-                    id="inputName"
-                    placeholder="Name"
+                    id={{elem-id this 'signup-input-name'}}
+                    placeholder={{t 'eosf.signup.labelInputName'}}
+                    autofocus
+                    required
+                    aria-required="true"
                     >
                 </div>
             </div>
             <div class="form-group">
-                <label for="inputEmail" class="col-sm-4 control-label">Email</label>
+                <label for={{elem-id this 'signup-input-email'}} class="col-sm-4 control-label">{{t 'eosf.signup.labelInputEmail'}}</label>
                 <div class="col-sm-8">
                     <input
-                    type="text"
+                    type="email"
                     class="form-control"
-                    id="inputEmail"
-                    placeholder="Email"
+                    id={{elem-id this 'signup-input-email'}}
+                    placeholder={{t 'eosf.signup.labelInputEmail'}}
+                    required
+                    aria-required="true"
                     >
                 </div>
             </div>
             <div class="form-group">
-                <label for="inputEmail2" class="col-sm-4 control-label">Confirm Email</label>
+                <label for={{elem-id this 'signup-input-confirm-email'}}  class="col-sm-4 control-label">{{t 'eosf.signup.labelConfirmEmail'}}</label>
                 <div class="col-sm-8">
                     <input
-                    type="text"
+                    type="email"
                     class="form-control"
-                    id="inputEmail2"
-                    placeholder="Re-enter email"
+                    id={{elem-id this 'signup-input-confirm-email'}}
+                    placeholder={{t 'eosf.signup.placeholderConfirmEmail'}}
+                    required
+                    aria-required="true"
                     >
                 </div>
             </div>
             <div class="form-group">
-                <label for="inputPassword3" class="col-sm-4 control-label">Password</label>
+                <label for={{elem-id this 'signup-input-password'}}  class="col-sm-4 control-label">{{t 'eosf.signup.labelInputPassword'}}</label>
                 <div class="col-sm-8">
                     <input
                     type="password"
                     class="form-control"
-                    id="inputPassword3"
-                    placeholder="Password"
+                    id={{elem-id this 'signup-input-password'}}
+                    placeholder={{t 'eosf.signup.labelInputPassword'}}
+                    required
+                    aria-required="true"
                     >
                 </div>
             </div>
             <div>
-                <p> By clicking "Create account", you agree to our <a href="https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/TERMS_OF_USE.md">Terms</a> and that you have read our <a href="https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/PRIVACY_POLICY.md">Privacy Policy</a>, including our information on <a href="https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/PRIVACY_POLICY.md#f-cookies">Cookie Use</a>.</p>
+                <p>{{t 'eosf.signup.textTosNotice'}}</p>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-4 col-sm-8">
-                    <button type="submit" class="btn pull-right btn-success">Create account</button>
+                    <button type="submit" class="btn pull-right btn-success">{{t 'eosf.signup.buttonSubmit'}}</button>
                 </div>
             </div>
         </form>

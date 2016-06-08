@@ -37,7 +37,7 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         var links = relationship ? snapshot.record.get(
             `relationshipLinks.${Ember.String.underscore(relationship)}.links`
         ) : false;
-        if (links) {
+        if (links && links.self || links.related) {
             return links.self ? links.self.href : links.related.href;
         } else {
             return this.buildURL(...arguments);
@@ -85,7 +85,8 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
                 if (relationMeta.options.serializer) {
                     serialized = relationMeta.options.serializer(snapshot.record);
                 } else {
-                    var serializer = store.serializerFor(relationType.substring(0, relationType.length - 1));
+                    var inflector = new Ember.Inflector(Ember.Inflector.defaultRules);
+                    var serializer = store.serializerFor(inflector.singularize(relationType));
                     if (relationMeta.kind === 'hasMany') {
                         return this._handleManyRequest(store, type, snapshot, query, relationship, serializer);
                     }

@@ -5,7 +5,8 @@ import OsfModel from './osf-model';
 export default OsfModel.extend({
     bibliographic: DS.attr('boolean'),
     permission: DS.attr('string'),
-    users: DS.hasMany('user'),
+    userId: DS.attr('string'),
+    users: DS.belongsTo('user'),
     nodeId: DS.attr('string'),
-    userId: DS.attr('string')
+    unregisteredContributor: DS.attr('string')
 });
