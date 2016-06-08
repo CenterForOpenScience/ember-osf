@@ -43,13 +43,12 @@ This file is structured like:
   CLIENT_ID: null
   PERSONAL_ACCESS_TOKEN: null
   OAUTH_SCOPES: osf.full_read osf.full_write
-  TRAILING_SLASH: true
 ```
 
 You will need to fill out options for each backend you want to use (see 'Running' below).
 We recommend using the 'test' backend for development and testing as it is the most stable
-of our environments.  Setting TRAILING_SLASH to true will add a trailing slash to the end of
-the login redirect uri.
+of our environments.  When configuring your application, make sure that your login redirect
+uri is correct.  If it needs a trailing slash, be sure to include a trailing slash!
 
 Edit the new file (installed in the config directory) and set:
 - `CLIENT_ID` to the client id of your developer application
