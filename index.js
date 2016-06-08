@@ -35,7 +35,7 @@ module.exports = {
 
             // If using cookie authentication, where should this app go to exchange the token for a cookie?
             // TODO: For now this will only be supported on localhost as proof of concept
-            ENV.OSF.cookieAuthUrl = 'http://localhost:4200/api/authendpoint';
+            ENV.OSF.cookieAuthUrl = '/api/authendpoint';
             ENV.OSF.cookieLoginUrl = 'http://localhost:8080/login';
 
             ENV.OSF.oauthUrl = 'http://localhost:8080/oauth2/profile';
