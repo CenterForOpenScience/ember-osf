@@ -43,7 +43,7 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
             return this.buildURL(...arguments);
         }
     },
-    _serializeHasMany(serialized){
+    _serializeHasMany(serialized) {
         if (serialized.length > 1) {
             serialized = {
                 data: serialized.map(function(record) {
@@ -56,7 +56,7 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         }
         return serialized;
     },
-    _handleManyRequest(store, type, snapshot, query, relationship, serializer){
+    _handleManyRequest(store, type, snapshot, query, relationship, serializer) {
         var relationMeta = snapshot.record[relationship].meta();
         var serialized = snapshot.hasMany(relationship).filter(each => each.id === null || Object.keys(each.changedAttributes()).length).map(each => serializer.serialize(each));
         var options = Ember.$.extend({},
