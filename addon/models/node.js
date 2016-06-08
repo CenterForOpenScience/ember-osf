@@ -46,8 +46,7 @@ export default OsfModel.extend({
                     data: serialized.map(function(record) {
                         var data = record.data;
                         return data;
-                })
-            }
+                })};
             }
         }
     }),

@@ -51,7 +51,7 @@ export default Ember.Route.extend({
                         nodeId: node.id
                     });
                     node.get('contributors').pushObject(contributor);
-                    node.save()
+                    node.save();
                     console.log('Contributor added.');
                 } else {
                     console.log('You do not have permissions to add contributors');

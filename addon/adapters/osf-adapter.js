@@ -56,10 +56,8 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         }
         return serialized;
     },
-    _handleManyRequest(store, type, snapshot, query, relationship){
+    _handleManyRequest(store, type, snapshot, query, relationship, serializer){
         var relationMeta = snapshot.record[relationship].meta();
-        var relationType = relationMeta.type;
-        var serializer = store.serializerFor(relationType.substring(0, relationType.length - 1));
         var serialized = snapshot.hasMany(relationship).filter(each => each.id === null || Object.keys(each.changedAttributes()).length).map(each => serializer.serialize(each));
         var options = Ember.$.extend({},
             {
@@ -73,7 +71,7 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         return this.ajax(options.url, options.requestType(snapshot, relationship), {
             data: options.serialized(serialized),
             isBulk: options.isBulk(serialized)
-        }).then(() => snapshot.record.clearDirtyRelationship(relationMeta))
+        }).then(() => snapshot.record.clearDirtyRelationship(relationMeta));
 
     },
     updateRecord(store, type, snapshot, _, query) {
@@ -82,15 +80,18 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         if (dirtyRelationships.length) {
             promises = dirtyRelationships.map(relationship => {
                 var relationMeta = snapshot.record[relationship].meta();
+                var relationType = relationMeta.type;
                 var serialized;
                 if (relationMeta.options.serializer) {
                     serialized = relationMeta.options.serializer(snapshot.record);
                 } else {
+                    var serializer = store.serializerFor(relationType.substring(0, relationType.length - 1));
                     if (relationMeta.kind === 'hasMany') {
-                        return this._handleManyRequest(store, type, snapshot, query, relationship);
+                        return this._handleManyRequest(store, type, snapshot, query, relationship, serializer);
                     }
                     serialized = serializer.serialize(snapshot.belongsTo(relationship));
                 }
+                var url = this._buildRelationshipURL(type.modelName, snapshot.id, snapshot, 'updateRecord', query, relationship);
                 return this.ajax(url, 'PATCH', {
                     data: serialized
                 }).then(() => snapshot.record.clearDirtyRelationship(relationship));
