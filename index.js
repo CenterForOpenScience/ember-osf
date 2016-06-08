@@ -43,6 +43,21 @@ module.exports = {
             ENV.OSF.accessToken = SETTINGS.PERSONAL_ACCESS_TOKEN;
             ENV.OSF.isLocal = true;
         }
+        if (BACKEND === 'localproxy') {
+            // For use with proxy settings. This is useful when testing cookie auth, for example.
+            ENV.OSF.url = 'http://dev.osf.io';
+            ENV.OSF.apiUrl = 'http://api.dev.osf.io';
+
+            // If using cookie authentication, where should this app go to exchange the token for a cookie?
+            ENV.OSF.cookieAuthUrl = 'http://ember.dev.osf.io/api/authendpoint';  // TODO: Make this production aware; for now, only allow testing of login mechanism from localhost
+            ENV.OSF.loginUrl = 'http://accounts.dev.osf.io/login';  // Login URL for cookie auth (POST requests)
+
+            ENV.OSF.oauthUrl = 'http://accounts.dev.osf.io/oauth2/profile';
+            ENV.OSF.renderUrl = 'http://accounts.dev.osf.io:7778/render'; // todo: should this be files / some other url? (may encounter problems testing WB since URL is shipped by the OSF)
+
+            ENV.OSF.accessToken = SETTINGS.PERSONAL_ACCESS_TOKEN;
+            ENV.OSF.isLocal = true;
+        }
         if (BACKEND === 'stage') {
             ENV.OSF.url = 'https://staging.osf.io/';
             ENV.OSF.apiUrl = 'https://staging-api.osf.io';
