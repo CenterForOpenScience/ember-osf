@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import permissions from 'ember-osf/const/permissions';
 
 // TODO: refactor permissions strings when https://github.com/CenterForOpenScience/ember-osf/pull/23/files#diff-7fd0bf247bef3c257e0fcfd7e544a338R5 is merged
 
@@ -43,7 +44,7 @@ export default Ember.Route.extend({
         addContributor(contribId, permission, bibliographic) {
             var node = this.modelFor(this.routeName);
             if (contribId) {
-                if (node.get('currentUserPermissions').indexOf('admin') !== -1) {
+                if (node.get('currentUserPermissions').indexOf(permissions.ADMIN) !== -1) {
                     var contributor = this.store.createRecord('contributor', {
                         id: contribId,
                         permission: permission,
@@ -73,7 +74,7 @@ export default Ember.Route.extend({
                 contribMap[c].bibliographic = editedBibliographic[c];
             }
 
-            if (node.get('currentUserPermissions').indexOf('admin') !== -1) {
+            if (node.get('currentUserPermissions').indexOf(permissions.ADMIN) !== -1) {
                 this.attemptContributorsUpdate(contribMap, node, editedPermissions, editedBibliographic);
             } else {
                 // Non-admins can only attempt to remove themselves as contributors
@@ -93,7 +94,7 @@ export default Ember.Route.extend({
 
             var contribMap = this.generateContributorMap(node.get('contributors'));
 
-            if (node.get('currentUserPermissions').indexOf('admin') !== -1) {
+            if (node.get('currentUserPermissions').indexOf(permissions.ADMIN) !== -1) {
                 this.attemptContributorRemoval(contrib, contribMap);
             } else {
                 // Non-admins can only attempt to remove themselves as contributors
@@ -106,7 +107,7 @@ export default Ember.Route.extend({
         },
         addChildren(title, description, category) {
             var node = this.modelFor(this.routeName);
-            if (node.get('currentUserPermissions').indexOf('write') !== -1) {
+            if (node.get('currentUserPermissions').indexOf(permissions.WRITE) !== -1) {
                 var child = this.store.createRecord('node', {
                     title: title,
                     category: category || 'project',
@@ -123,7 +124,7 @@ export default Ember.Route.extend({
         },
         deleteNode() {
             var node = this.modelFor(this.routeName);
-            if (node.get('currentUserPermissions').indexOf('write') !== -1) {
+            if (node.get('currentUserPermissions').indexOf(permissions.WRITE) !== -1) {
                 node.one('didDelete', this, function () {
                     this.transitionTo('nodes.index');
                 });
@@ -134,7 +135,7 @@ export default Ember.Route.extend({
         },
         addNodeLink(targetNodeId) {
             var node = this.modelFor(this.routeName);
-            if (node.get('currentUserPermissions').indexOf('write') !== -1) {
+            if (node.get('currentUserPermissions').indexOf(permissions.WRITE) !== -1) {
                 var nodeLink = this.store.createRecord('node-link', {
                     target: targetNodeId
                 });
