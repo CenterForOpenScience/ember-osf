@@ -1,28 +1,36 @@
 {{#light-table table as |t|}}
-    {{#if isRoot}}
+    {{#if showHeader}}
         {{t.head onColumnClick=(action 'onColumnClick')}}
     {{/if}}
 
     {{#t.body canExpand=true as |body|}}
         {{#body.expanded-row as |row|}}
-            {{#if row.isFolder}}
-                {{file-browser-subtree
-                row=row
-                indent=nextIndent
-                isRoot=false
-                sort=sort
-                }}
+            {{#if row.isExpandable}}
+                {{! TODO: use a stylesheet }}
+                <div style='padding-left: 20px' class='folder-contents'>
+                    {{file-browser-subtree
+                    root=row
+                    sort=sort
+                    showHeader=false
+                    }}
+                </div>
             {{/if}}
         {{/body.expanded-row}}
 
         {{#if isLoading}}
             {{#body.loader}}
-                Loading...
+                {{! TODO: use a stylesheet }}
+                <div style='padding-left: 20px' class='folder-contents'>
+                    Loading...
+                </div>
             {{/body.loader}}
         {{else}}
             {{#if table.isEmpty}}
                 {{#body.no-data}}
-                    (empty)
+                    {{! TODO: use a stylesheet }}
+                    <div style='padding-left: 20px' class='folder-contents'>
+                        (empty)
+                    </div>
                 {{/body.no-data}}
             {{/if}}
         {{/if}}

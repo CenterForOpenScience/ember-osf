@@ -2,33 +2,64 @@ import Ember from 'ember';
 import layout from './template';
 import Table from 'ember-light-table';
 
+/**
+ * A row could represent a node, file-provider, or file, each of which has a
+ * different interface. RowProxy provides a consistent interface for everything
+ * the file browser needs to know.
+ */
+let RowProxy = Ember.ObjectProxy.extend({
+    allChildren: Ember.computed('files', 'children', function() {
+        return new Ember.RSVP.Promise((resolve, reject) => {
+            let promises = [this.get('files'), this.get('children')];
+            Ember.RSVP.allSettled(promises).then((results) => {
+                let children = Ember.A();
+                for (let r of results) {
+                    let childList = r.value;
+                    if (childList && childList.length) {
+                        for (let i = 0; i < childList.length; i++) {
+                            let child = childList.objectAt(i);
+                            children.push(wrapRow(child));
+                        }
+                    }
+                }
+                resolve(children);
+            });
+        });
+    }),
+
+    isExpandable: Ember.computed('isFolder', 'children', function() {
+        return this.get('isFolder') || !!this.get('children');
+    }),
+
+    name: Ember.computed('content.name', 'content.title', function() {
+        return this.get('content.name') || this.get('content.title');
+    })
+});
+
+function wrapRow(row) {
+    if (row instanceof RowProxy) {
+        return row;
+    }
+    return RowProxy.create({ content: row });
+}
+
 export default Ember.Component.extend({
     layout,
     table: null,
     isLoading: true,
-    indent: 20,
-    isRoot: true,
+    showHeader: true,
     sort: null,
 
     init() {
         this._super(...arguments);
-        this.set('table', new Table(this.get('indentedColumns')));
-        this.get('row.files').then((files) => {
-            this.table.setRows(files);
+        this.set('root', wrapRow(this.get('root')));
+
+        this.set('table', new Table(this.get('columns')));
+        this.get('root.allChildren').then((children) => {
+            this.table.setRows(children);
             this.set('isLoading', false);
         });
     },
-
-    nextIndent: Ember.computed('indent', function() {
-        // TODO configurable (or styled?) indent
-        return this.get('indent') + 20;
-    }),
-
-    indentedColumns: Ember.computed('indent', function() {
-        let columns = Ember.$.extend(true, [], this.get('columns'));
-        columns[0].width = this.get('indent');
-        return columns;
-    }),
 
     /*
     filesChanged: Ember.observer('files.[]', function() {
@@ -39,27 +70,11 @@ export default Ember.Component.extend({
         return [{
             sortable: false,
             align: 'right',
-            cellComponent: 'file-browser-expand-cell'
+            cellComponent: 'file-browser-expand-cell',
+            width: 20
         }, {
             label: 'Name',
-            valuePath: 'name',
-        }, {
-            label: 'Size',
-            valuePath: 'size',
-            width: 100
-        }, {
-            label: 'Modified',
-            valuePath: 'dateModified',
-            width: 200,
-            format: function(date) {
-                if (date) {
-                    let now = new Date();
-                    if (date.toDateString() === now.toDateString()) {
-                        return date.toTimeString();
-                    }
-                    return date.toDateString();
-                }
-            }
+            valuePath: 'name'
         }];
     }),
 
