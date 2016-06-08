@@ -15,5 +15,5 @@ export default Ember.Mixin.create({
     ticket: null,
 
     // Form submission URL:
-    submitUrl: `${config.OSF.loginUrl}?service=${window.location}&auto=true`
+    submitUrl: `${config.OSF.cookieLoginUrl}?service=${window.location.href}&auto=true`
 });

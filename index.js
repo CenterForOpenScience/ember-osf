@@ -34,26 +34,12 @@ module.exports = {
             ENV.OSF.apiUrl = 'http://localhost:8000';
 
             // If using cookie authentication, where should this app go to exchange the token for a cookie?
-            ENV.OSF.cookieAuthUrl = 'http://localhost:5000/api/authendpoint';  // TODO: Make this production aware; for now, only allow testing of login mechanism from localhost
-            ENV.OSF.loginUrl = 'http://localhost:8080/login';  // Login URL for cookie auth (POST requests)
+            // TODO: For now this will only be supported on localhost as proof of concept
+            ENV.OSF.cookieAuthUrl = 'http://localhost:4200/api/authendpoint';
+            ENV.OSF.cookieLoginUrl = 'http://localhost:8080/login';
 
             ENV.OSF.oauthUrl = 'http://localhost:8080/oauth2/profile';
             ENV.OSF.renderUrl = 'http://localhost:7778/render';
-
-            ENV.OSF.accessToken = SETTINGS.PERSONAL_ACCESS_TOKEN;
-            ENV.OSF.isLocal = true;
-        }
-        if (BACKEND === 'localproxy') {
-            // For use with proxy settings. This is useful when testing cookie auth, for example.
-            ENV.OSF.url = 'http://dev.osf.io';
-            ENV.OSF.apiUrl = 'http://api.dev.osf.io';
-
-            // If using cookie authentication, where should this app go to exchange the token for a cookie?
-            ENV.OSF.cookieAuthUrl = 'http://ember.dev.osf.io/api/authendpoint';  // TODO: Make this production aware; for now, only allow testing of login mechanism from localhost
-            ENV.OSF.loginUrl = 'http://accounts.dev.osf.io/login';  // Login URL for cookie auth (POST requests)
-
-            ENV.OSF.oauthUrl = 'http://accounts.dev.osf.io/oauth2/profile';
-            ENV.OSF.renderUrl = 'http://accounts.dev.osf.io:7778/render'; // todo: should this be files / some other url? (may encounter problems testing WB since URL is shipped by the OSF)
 
             ENV.OSF.accessToken = SETTINGS.PERSONAL_ACCESS_TOKEN;
             ENV.OSF.isLocal = true;
