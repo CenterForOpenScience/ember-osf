@@ -1,11 +1,11 @@
 <li>
-    {{#if model.deleted}}
+    {{#if comment.deleted}}
         <div>Comment deleted</div>
     {{else}}
     <div>
-        <label>{{model.dateCreated}}:</label>
-        {{input value=model.content}} <button {{action "editedComment" model model.content}} class="btn btn-default"> Edit</button>
-        <button {{action "deletedComment" model}} class="btn btn-danger"> Delete</button>
+        <label>{{comment.dateCreated}}:
+        {{input value=comment.content}}</label> <button {{action "editComment" comment}} class="btn btn-success"> Edit</button>
+        <button {{action "deleteComment" comment}} class="btn btn-danger"> Delete</button>
     </div>
     {{/if}}
 </li>

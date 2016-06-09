@@ -36,10 +36,10 @@
         <h3>Comments</h3>
         <ul>
             {{#each model.comments as |comment|}}
-                <li>
-                    <label>{{comment.dateCreated}}: </label>
-                    {{comment.content}}
-                </li>
+                {{comment-detail
+                comment=comment
+                editComment=(action 'editComment')
+                deleteComment=(action 'deleteComment')}}
             {{else}}
                 (none)
             {{/each}}

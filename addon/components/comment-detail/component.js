@@ -3,15 +3,15 @@ import layout from './template';
 
 export default Ember.Component.extend({
     layout,
+    comment: null,
 
     actions: {
-        editedComment(comment, content) {
-            comment.set('content', content);
-            comment.save();
+        editComment(comment) {
+            this.sendAction('editComment', comment);
         },
-        deletedComment(comment) {
-            comment.deleteRecord();
-            comment.save();
+        deleteComment(comment) {
+            this.sendAction('deleteComment', comment);
+
         }
     }
 });
