@@ -14,6 +14,9 @@
     <p><label>Date created: </label>{{model.dateCreated}}</p>
     <p><label>Checkout: </label>{{model.checkout}}</p>
 
+    {{#tags-widget addATag=(action 'addATag') removeATag=(action 'removeATag') tags=model.tags}}
+    {{/tags-widget}}
+
     <hr>
 
     <h3>Actions</h3>
