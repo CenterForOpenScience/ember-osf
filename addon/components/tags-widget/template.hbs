@@ -1,12 +1,14 @@
-<label> Tags </label>
-
 {{#each tags as |tag|}}
-    <p> {{tag}}
+    <span>
+        {{tag}}
         <button type="button" {{action "removeATag" tag}} class="btn btn-default btn-sm">
             <i class="glyphicon glyphicon-remove"></i>
         </button>
-    </p>
+    </span>
 {{/each}}
-
-{{input value=newTag}}
-<button {{action "addATag" newTag}} class="btn btn-primary">Add</button>
+<br>
+<br>
+<p>
+    {{input value=newTag}}
+    <button {{action "addATag" newTag}} class="btn btn-primary">Add</button>
+</p>
