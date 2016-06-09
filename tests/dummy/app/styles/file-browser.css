@@ -1,0 +1,20 @@
+.file-browser .file-browser-icon {
+    width: 20px;
+    padding-left: 5px;
+    display: inline-block;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.file-browser .subtree-wrapper {
+    padding: 0 0 0 20px;
+    border: 0;
+}
+
+.file-browser .table {
+    margin-bottom: 0;
+}
+
+.file-browser .table tbody {
+    border: none;
+}
