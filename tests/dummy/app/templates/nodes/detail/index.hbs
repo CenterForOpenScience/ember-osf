@@ -1,3 +1,8 @@
+{{#if model.parent}}
+    {{#link-to 'nodes.detail' model.parent class="btn btn-primary"}}
+        ↑ {{model.parent.title}}
+    {{/link-to}}
+{{/if}}
 {{link-to 'Back to list' 'nodes' class="btn btn-default"}}
 <div class="panel">
     <h2>Data</h2>
@@ -120,7 +125,13 @@
     </p>
     <button {{action "addContributor" contributorID contributorPermissions bibliographic}} class="btn btn-primary">Add</button>
     <hr>
-    <h2> Create component </h2>
+    <h2>Components</h2>
+    <ul>
+        {{#each model.children as |child|}}
+            <li>{{link-to child.title 'nodes.detail' child}}</li>
+        {{/each}}
+    </ul>
+    <h3> Create component </h3>
     <div>
         <label>Title:</label>
         {{input type="text" value=title placeholder="Component's title" required=true}}

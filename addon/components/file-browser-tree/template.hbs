@@ -1,0 +1,22 @@
+<div>
+    {{! TODO: configurable columns }}
+    {{file-browser-icon row=row}}
+    <a {{action 'clickRow' row}}>{{row.name}}</a>
+</div>
+{{#if row.expanded}}
+    {{#if row.isLoading}}
+        {{! TODO: loading component }}
+        Loading...
+    {{else}}
+        {{#each row.childTrees as |child|}}
+            {{! TODO: stylesheet, colspan }}
+            <div style='padding-left: 20px'>
+                {{file-browser-tree root=child
+                onClickFile=onClickFile onClickNode=onClickNode}}
+            </div>
+        {{else}}
+            {{! TODO: empty component }}
+            (empty)
+        {{/each}}
+    {{/if}}
+{{/if}}

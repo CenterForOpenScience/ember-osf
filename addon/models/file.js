@@ -17,6 +17,7 @@ export default OsfModel.extend({
 
     parentFolder: DS.belongsTo('file', { inverse: 'files' }),
     isFolder: Ember.computed.equal('kind', 'folder'),
+    isFile: Ember.computed.equal('kind', 'file'),
     isProvider: false,
 
     // Folder attributes

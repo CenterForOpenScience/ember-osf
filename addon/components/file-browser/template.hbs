@@ -1,0 +1,13 @@
+{{#if mutable}}
+    {{! TODO: show available actions for selected files }}
+{{/if}}
+
+<div>
+    {{! TODO: column config, click to sort }}
+    Files
+</div>
+<div>
+    {{file-browser-tree root=rootNode expanded=true
+    onClickFile=onClickFile onClickNode=onClickNode}}
+</div>
+
