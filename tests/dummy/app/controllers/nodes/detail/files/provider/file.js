@@ -10,11 +10,12 @@ export default Ember.Controller.extend({
             comment.save();
         },
         deleteComment(comment) {
-            comment.destroyRecord().then(()=> {
-                let relation = this.get('model.comments');
-                console.log('calling reload');
-                return relation.reload();
-            }).then(()=> console.log('done reloading'));
+            let relation = this.get('model.comments');
+            // TODO: Deleting comment triggers an update event. Wait for that reload to finish before actual reload can occur
+            //   Dear me, I hope this can be improved
+            comment.destroyRecord()
+                .then(() => relation.reload())
+                .then(() => relation.reload());
         }
     }
 });
