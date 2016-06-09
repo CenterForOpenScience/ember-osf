@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import config from 'ember-get-config';
 
 /**
  * An Ember service for doing things to files.
@@ -321,17 +322,27 @@ export default Ember.Service.extend({
         }
 
         let headers = {};
-        this.get('session').authorize('authorizer:osf-token', (headerName, content) => {
+        let authType = config['ember-simple-auth'].authorizer;
+        this.get('session').authorize(authType, (headerName, content) => {
             headers[headerName] = content;
         });
 
+        let ajaxOptions = {
+            method,
+            headers,
+            data: options.data,
+            processData: false
+        };
+
+        // TODO: Temporary hack to ensure that cookies are sent (if cookie authorizer is selected)
+        if (authType === 'authorizer:osf-cookie') {
+            ajaxOptions.xhrFields =  {
+                withCredentials: true
+            };
+        }
+
         return new Ember.RSVP.Promise((resolve, reject) => {
-            let p = Ember.$.ajax(url, {
-                method,
-                headers,
-                data: options.data,
-                processData: false
-            });
+            let p = Ember.$.ajax(url, ajaxOptions);
             p.done((data) => resolve(data));
             p.fail((_, __, error) => reject(error));
         });
