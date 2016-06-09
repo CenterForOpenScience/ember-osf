@@ -52,5 +52,25 @@ export default DS.Model.extend({
                 });
             });
         });
+    },
+    save() {
+        this.eachRelationship((rel, meta) => {
+            if (meta.kind === 'hasMany') {
+                var relation = this.hasMany(rel).hasManyRelationship;
+                if (relation.record.isLoaded()) {
+                    if (relation.canonicalState.filter(record => Object.keys(record.changedAttributes()).length > 0).length){
+                        var key = `_dirtyRelationships.${rel}`;
+                        this.set(key, !Ember.isEmpty(this.get(key)));
+                    }
+                }
+            } else if (meta.kind === 'belongsTo') {
+                var relation = this.belongsTo(rel).belongsToRelationship;
+                if (relation.record.isLoaded()) {
+                    //debugger;
+                }
+
+            }
+        });
+        this._super(...arguments);
     }
 });

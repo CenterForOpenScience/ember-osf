@@ -205,13 +205,14 @@ export default Ember.Route.extend({
 
     attemptContributorsUpdate(contribMap, node, editedPermissions, editedBibliographic) {
         if (this.canModifyContributor(null, contribMap)) {
+            var promises = [];
             for (var contrib in editedPermissions) {
-                this.modifyPermissions(contrib, node, editedPermissions);
+                promises.push(this.modifyPermissions(contrib, node, editedPermissions));
             }
             for (var c in editedBibliographic) {
-                this.modifyBibliographic(c, node, editedBibliographic);
+                promises.push(this.modifyBibliographic(c, node, editedBibliographic));
             }
-            node.save();
+            Ember.RSVP.Promise.all(promises).then(() => node.save());
             console.log('Contributor(s) updated.');
         } else {
             console.log('Cannot update contributor(s)');
@@ -219,14 +220,14 @@ export default Ember.Route.extend({
     },
 
     modifyPermissions(contrib, node, editedPermissions) {
-        this.store.findRecord('contributor', contrib).then(function(contributor) {
+        return this.store.findRecord('contributor', contrib).then(function(contributor) {
             contributor.set('nodeId', node.id);
             contributor.set('permission', editedPermissions[contrib]);
         });
     },
 
     modifyBibliographic(contrib, node, editedBibliographic) {
-        this.store.findRecord('contributor', contrib).then(function(contributor) {
+        return this.store.findRecord('contributor', contrib).then(function(contributor) {
             contributor.set('nodeId', node.id);
             contributor.set('bibliographic', editedBibliographic[contrib]);
         });
