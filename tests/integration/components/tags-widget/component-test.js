@@ -5,20 +5,12 @@ moduleForComponent('tags-widget', 'Integration | Component | tags widget', {
   integration: true
 });
 
-test('it renders', function(assert) {
+test('it renders a tag', function(assert) {
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
+  this.set('tags', ["hello"]);
 
-  this.render(hbs`{{tags-widget}}`);
+  this.render(hbs`{{tags-widget tags=tags}}`);
 
-  assert.equal(this.$().text().trim(), '');
-
-  // Template block usage:
-  this.render(hbs`
-    {{#tags-widget}}
-      template block text
-    {{/tags-widget}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
+  assert.equal(this.$('span').text().trim(), 'hello');
 });
