@@ -1,41 +1,58 @@
 import Ember from 'ember';
+import permissions from 'ember-osf/const/permissions';
 
 // TODO: refactor permissions strings when https://github.com/CenterForOpenScience/ember-osf/pull/23/files#diff-7fd0bf247bef3c257e0fcfd7e544a338R5 is merged
 
 export default Ember.Route.extend({
-
     model(params) {
         return this.store.findRecord('node', params.node_id);
     },
 
     setupController(controller, model) {
         controller.set('editedTitle', model.get('title'));
+        controller.set('editedTitle', model.get('category'));
+        controller.set('editedTitle', model.get('description'));
         this._super(...arguments);
     },
 
     actions: {
-        editExisting(value) {
+        editExisting(title, description, category, isPublic) {
             // TODO: Should test PUT or PATCH
-            console.log('Will edit title from', this.modelFor(this.routeName).get('title'), ' to ', value);
             var node = this.modelFor(this.routeName);
             if (node.get('currentUserPermissions').indexOf('write') !== -1) {
-                node.set('title', value);
+                if (title) {node.set('title', title);}
+                if (category) {node.set('category', category);}
+                if (description) {node.set('description', description);}
+                if (isPublic !== null) {node.set('public', isPublic);}
                 node.save();
             } else {
                 console.log('You do not have permissions to edit this node');
             }
         },
+        affiliateNode(instId) {
+            this.store.findRecord('institution', instId).then(inst => {
+                var node = this.modelFor(this.routeName);
+                node.get('affiliatedInstitutions').pushObject(inst);
+                node.save();
+            });
+        },
+        deaffiliateNode(inst) {
+            var node = this.modelFor(this.routeName);
+            node.get('affiliatedInstitutions').removeObject(inst);
+            node.save();
+        },
         addContributor(contribId, permission, bibliographic) {
             var node = this.modelFor(this.routeName);
             if (contribId) {
-                if (node.get('currentUserPermissions').indexOf('admin') !== -1) {
+                if (node.get('currentUserPermissions').indexOf(permissions.ADMIN) !== -1) {
                     var contributor = this.store.createRecord('contributor', {
                         id: contribId,
                         permission: permission,
                         bibliographic: bibliographic,
                         nodeId: node.id
                     });
-                    contributor.save();
+                    node.get('contributors').pushObject(contributor);
+                    node.save();
                     console.log('Contributor added.');
                 } else {
                     console.log('You do not have permissions to add contributors');
@@ -57,7 +74,7 @@ export default Ember.Route.extend({
                 contribMap[c].bibliographic = editedBibliographic[c];
             }
 
-            if (node.get('currentUserPermissions').indexOf('admin') !== -1) {
+            if (node.get('currentUserPermissions').indexOf(permissions.ADMIN) !== -1) {
                 this.attemptContributorsUpdate(contribMap, node, editedPermissions, editedBibliographic);
             } else {
                 // Non-admins can only attempt to remove themselves as contributors
@@ -77,7 +94,7 @@ export default Ember.Route.extend({
 
             var contribMap = this.generateContributorMap(node.get('contributors'));
 
-            if (node.get('currentUserPermissions').indexOf('admin') !== -1) {
+            if (node.get('currentUserPermissions').indexOf(permissions.ADMIN) !== -1) {
                 this.attemptContributorRemoval(contrib, contribMap);
             } else {
                 // Non-admins can only attempt to remove themselves as contributors
@@ -87,9 +104,57 @@ export default Ember.Route.extend({
                     console.log('Non-admins cannot delete other contributors.');
                 }
             }
+        },
+        addChildren(title, description, category) {
+            var node = this.modelFor(this.routeName);
+            if (node.get('currentUserPermissions').indexOf(permissions.WRITE) !== -1) {
+                var child = this.store.createRecord('node', {
+                    title: title,
+                    category: category || 'project',
+                    description: description || null
+                });
+                node.get('children').pushObject(child);
+                node.save();
+                node.one('didUpdate', this, function() {
+                    this.transitionTo('nodes.detail.children');
+                });
+            } else {
+                console.log('You do not have permissions to create this component');
+            }
+        },
+        deleteNode() {
+            var node = this.modelFor(this.routeName);
+            if (node.get('currentUserPermissions').indexOf(permissions.WRITE) !== -1) {
+                node.one('didDelete', this, function () {
+                    this.transitionTo('nodes.index');
+                });
+                node.destroyRecord();
+            } else {
+                console.log('You do not have permissions to delete this node');
+            }
+        },
+        addNodeLink(targetNodeId) {
+            var node = this.modelFor(this.routeName);
+            if (node.get('currentUserPermissions').indexOf(permissions.WRITE) !== -1) {
+                var nodeLink = this.store.createRecord('node-link', {
+                    target: targetNodeId
+                });
+                node.get('nodeLinks').pushObject(nodeLink);
+                node.save();
+            } else {
+                console.log('You do not have permissions to create a node link');
+            }
+        },
+        removeNodeLink(targetNode) {
+            var node = this.modelFor(this.routeName);
+            if (node.get('currentUserPermissions').indexOf('write') !== -1) {
+                targetNode.destroyRecord();
+                console.log('Node link removed.');
+            } else {
+                console.log('You do not have permissions to delete this node link.');
+            }
         }
     },
-
     generateContributorMap(contributors) {
         // Maps all node contributors to format {contribID: {permission: "read|write|admin", bibliographic: "true|false"}}
         var contribMap = contributors.content.currentState.reduce(function(newMap, contrib) {
@@ -129,7 +194,6 @@ export default Ember.Route.extend({
             for (var c in editedBibliographic) {
                 this.modifyBibliographic(c, node, editedBibliographic);
             }
-            node.save();
             console.log('Contributor(s) updated.');
         } else {
             console.log('Cannot update contributor(s)');

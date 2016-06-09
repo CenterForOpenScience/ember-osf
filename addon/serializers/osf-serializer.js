@@ -4,6 +4,8 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 
+import config from 'ember-get-config';
+
 export default DS.JSONAPISerializer.extend({
     attrs: {
         links: {
@@ -14,13 +16,65 @@ export default DS.JSONAPISerializer.extend({
         }
     },
 
+    _restoreLinksBeforeEmbed(resourceId, embeddedType) {
+        // If items are embedded, the embedded resource detail replaces the links. The APIv2 might need to be modified
+        // to return the original links in addition to the embedded information.
+        let links = {};
+        if (embeddedType === 'linked_nodes') {
+            links = {
+                self: {
+                    href: config.OSF.apiUrl + '/v2/collections/' + resourceId + '/relationships/linked_nodes/',
+                    meta: {}
+                },
+                related: {
+                    href: config.OSF.apiUrl + '/v2/collections/' + resourceId + '/linked_nodes/',
+                    meta: {}
+                }
+            };
+        }
+        return links;
+    },
+
+    _extractEmbeds(resourceHash) {
+        if (!resourceHash.embeds) {
+            return []; // Nothing to do
+        }
+        let included = [];
+        resourceHash.relationships = resourceHash.relationships || {};
+        for (let embedded in resourceHash.embeds) {
+            if (!(embedded || resourceHash.embeds[embedded])) {
+                continue;
+            }
+            //TODO Pagination probably breaks here
+            let data = resourceHash.embeds[embedded].data;
+            if (Array.isArray(data)) {
+                included = included.concat(data);
+            } else {
+                included.push(data);
+            }
+            resourceHash.embeds[embedded].type = embedded;
+            var links = this._restoreLinksBeforeEmbed(resourceHash.id, embedded);
+            if (links !== {}) {
+                resourceHash.embeds[embedded].links = links;
+            }
+            //Only needs to contain id and type but this way we don't have to special case arrays
+            resourceHash.relationships[embedded] = resourceHash.embeds[embedded];
+            resourceHash.relationships[embedded].is_embedded = true;
+        }
+        delete resourceHash.embeds;
+        //Recurse in, includeds are only processed on the top level. Emebeds are nested.
+        return included.concat(included.reduce((acc, include) => acc.concat(this._extractEmbeds(include)), []));
+    },
+
     _mergeFields(resourceHash) {
         // ApiV2 `links` exist outside the attributes field; make them accessible to the data model
         if (resourceHash.links) { // TODO: Should also test whether model class defines a links field
             resourceHash.attributes.links = resourceHash.links;
         }
-        if (resourceHash.embeds) {
-            resourceHash.attributes.embeds = resourceHash.embeds;
+        this._extractEmbeds(resourceHash);
+
+        if (resourceHash.relationships && resourceHash.attributes.links) {
+            resourceHash.attributes.links = Ember.$.extend(resourceHash.attributes.links, { relationships: resourceHash.relationships });
         }
         return resourceHash;
     },
@@ -40,6 +94,7 @@ export default DS.JSONAPISerializer.extend({
 
     serialize: function(snapshot, options) {
         var serialized = this._super(snapshot, options);
+        serialized.data.type = Ember.String.underscore(serialized.data.type);
         // Don't send relationships to the server; this can lead to 500 errors.
         delete serialized.data.relationships;
         return serialized;

@@ -13,45 +13,33 @@ export default Ember.Component.extend({
             window.open(url);
         },
 
-        updateContents(evt) {
-            let contents = evt.target.files[0];
+        updateContents(contents) {
             let file = this.get('file');
             let fm = this.get('fileManager');
 
-            fm.updateContents(file, contents).then(() => {
-                this.get('onChange')();
-            });
+            fm.updateContents(file, contents);
         },
 
         addSubfolder(name) {
             let folder = this.get('file');
             if (name) {
-                let p = this.get('fileManager').addSubfolder(folder, name);
-                p.then(() => {
-                    this.get('onChange')();
-                });
+                this.get('fileManager').addSubfolder(folder, name);
             }
         },
 
-        uploadFile(evt) {
-            let newFile = evt.target.files[0];
+        uploadFiles(files) {
+            let fm = this.get('fileManager');
             let folder = this.get('file');
-            if (newFile) {
-                let fm = this.get('fileManager');
-                fm.uploadFile(folder, newFile.name, newFile).then(() => {
-                    this.get('onChange')();
-                });
+            while (files && files.length) {
+                let file = files.pop();
+                fm.uploadFile(folder, file.name, file);
             }
         },
 
         rename(newName) {
             let file = this.get('file');
             if (newName) {
-                let p = this.get('fileManager').rename(file, newName);
-                p.then(() => {
-                    file.set('name', newName);
-                    this.get('onChange')();
-                });
+                this.get('fileManager').rename(file, newName);
             }
         },
 
@@ -66,23 +54,18 @@ export default Ember.Component.extend({
         moveFile(folderId) {
             let file = this.get('file');
             let store = this.get('store');
-            let folder = store.findRecord('file', folderId);
-            if (!folder) {
-                folder = store.findRecord('file-provider', folderId);
-                if (!folder) {
-                    return;
-                }
-            }
-            let options = {
-                node: this.get('moveNode'),
-                provider: folder.get('provider'),
-                replace: this.get('moveReplace'),
-                copy: this.get('moveCopy'),
-                newName: this.get('moveName')
-            };
+            store.findRecord('file', folderId).then((folder) => {
+                // TODO: moving to file-provider root
+                let options = {
+                    node: this.get('moveNode'),
+                    provider: folder.get('provider'),
+                    replace: this.get('moveReplace'),
+                    copy: this.get('moveCopy'),
+                    newName: this.get('moveName')
+                };
 
-            let p = this.get('fileManager').move(file, folder, options);
-            p.then(() => this.get('onChange')());
+                this.get('fileManager').move(file, folder, options);
+            });
         }
     }
 });

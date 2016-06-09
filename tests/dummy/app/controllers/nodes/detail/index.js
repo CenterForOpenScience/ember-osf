@@ -4,6 +4,9 @@ export default Ember.Controller.extend({
     editedPermissions: {},
     editedBibliographic: {},
     actions: {
+        expandProperties() {
+            this.toggleProperty('propertiesVisible');
+        },
         permissionChange(permission) {
             // Adds updated permissions for a certain contributor
             var p = permission.split(' ');

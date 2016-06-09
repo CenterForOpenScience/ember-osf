@@ -6,18 +6,13 @@ moduleForComponent('sign-up', 'Integration | Component | sign up', {
 });
 
 test('it renders', function(assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
 
-  this.render(hbs`{{sign-up}}`);
+    this.render(hbs`{{sign-up}}`);
 
-  assert.equal(this.$('label[for=inputName]').text(), 'Full Name');
-  assert.ok(this.$('input[id=inputName]'));
-  assert.equal(this.$('label[for=inputEmail]').text(), 'Email');
-  assert.ok(this.$('input[id=inputEmail]'));
-  assert.equal(this.$('label[for=inputEmail2]').text(), 'Confirm Email');
-  assert.ok(this.$('input[id=inputEmail2]'));
-  assert.equal(this.$('label[for=inputPassword3]').text(), 'Password');
-  assert.ok(this.$('input[id=inputPassword3]'));
-
+    assert.ok(this.$('input[id$=signup-input-name]').length);
+    assert.ok(this.$('input[id$=signup-input-email]').length);
+    assert.ok(this.$('input[id$=signup-input-confirm-email]').length);
+    assert.ok(this.$('input[id$=signup-input-password]').length);
 });

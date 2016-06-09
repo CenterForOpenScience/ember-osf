@@ -1,13 +1,19 @@
 import DS from 'ember-data';
 
-import OsfModel from '../mixins/osf-model';
+import OsfModel from './osf-model';
+import { serializeHasMany } from '../utils/serialize-relationship';
 
-export default DS.Model.extend(OsfModel, {
+export default OsfModel.extend({
     title: DS.attr('string'),
     dateCreated: DS.attr('date'),
     dateModified: DS.attr('date'),
-
-    // nodeLinks: DS.hasMany('node-pointers'),
-    // linkedNodes: DS.hasMany('node-pointers')
+    bookmarks: DS.attr('boolean'),
+    // nodeLinks: DS.hasMany('node-links', {
+    //     inverse:null
+    // }),
+    linkedNodes: DS.hasMany('nodes', {
+        inverse: null,
+        serializer: serializeHasMany.bind(null, 'linkedNodes', 'linked_node')
+    })
 
 });

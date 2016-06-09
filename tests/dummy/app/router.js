@@ -13,6 +13,7 @@ Router.map(function() {
         this.route('detail', {
             path: '/:node_id'
         }, function() {
+            this.route('children');
             this.route('files', function() {
                 this.route('provider', {
                     path: '/:provider'
@@ -50,6 +51,7 @@ Router.map(function() {
             path: '/:collection_id'
         });
     });
+    this.route('prereg');
 });
 
 export default Router;

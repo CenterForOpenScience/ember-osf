@@ -1,8 +1,10 @@
 <div class="container-fluid">
-    {{link-to 'Home' 'index' class="btn btn-default"}}
-    <h1 id="title">Welcome to OSF Ember Example App</h1>
+    <div role="banner">
+        {{link-to 'Home' 'index' class="btn btn-default"}}
+        <h1 id="title">Welcome to OSF Ember Example App</h1>
+    </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12" role="main">
             {{outlet}}
         </div>
     </div>
