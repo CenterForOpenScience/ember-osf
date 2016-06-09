@@ -1,22 +1,23 @@
-<div>
+<tr class='file-row'>
     {{! TODO: configurable columns }}
-    {{file-browser-icon row=row}}
-    <a {{action 'clickRow' row}}>{{row.name}}</a>
-</div>
+    <td>
+        {{file-browser-icon row=row}}
+        <a {{action 'clickRow' row}}>{{row.name}}</a>
+    </td>
+</tr>
 {{#if row.expanded}}
-    {{#if row.isLoading}}
-        {{! TODO: loading component }}
-        Loading...
-    {{else}}
-        {{#each row.childTrees as |child|}}
-            {{! TODO: stylesheet, colspan }}
-            <div style='padding-left: 20px'>
-                {{file-browser-tree root=child
-                onClickFile=onClickFile onClickNode=onClickNode}}
-            </div>
-        {{else}}
-            {{! TODO: empty component }}
-            (empty)
-        {{/each}}
-    {{/if}}
+    <tr>
+        <td class='subtree-wrapper'>
+            {{#if row.childTrees}}
+                <table class='table table-condensed'>
+                    {{#each row.childTrees as |child|}}
+                        {{file-browser-tree root=child
+                        onClickFile=onClickFile onClickNode=onClickNode}}
+                    {{/each}}
+                </table>
+            {{else}}
+                (empty)
+            {{/if}}
+        </td>
+    </tr>
 {{/if}}

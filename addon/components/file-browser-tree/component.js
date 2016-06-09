@@ -7,56 +7,27 @@ import layout from './template';
  * the file browser needs to know.
  */
 let RowProxy = Ember.ObjectProxy.extend({
-    isLoading: false,
+    isLoading: true,
     expanded: false,
-    childTrees: Ember.A(),
-
-    loadChildren() {
-        this.set('isLoading', true);
-        let promises = [
-            this.get('content.files'),
-            this.get('content.children')
-        ];
-        Ember.RSVP.allSettled(promises).then((results) => {
-            let childTrees = Ember.A();
-            for (let r of results) {
-                let childList = r.value;
-                if (childList && childList.length) {
-                    for (let i = 0; i < childList.length; i++) {
-                        let child = childList.objectAt(i);
-                        childTrees.pushObject(child);
-                    }
-                }
-            }
-            this.set('isLoading', false);
-            this.set('childTrees', childTrees);
-        });
-    },
-
-    isNode: Ember.computed('content.constructor.modelName', function() {
-        let modelName = this.get('content.constructor.modelName');
-        return modelName === 'node';
-    }),
-
-    isExpandable: Ember.computed('isFolder', 'isNode', function() {
-        return this.get('isFolder') || this.get('isNode');
-    }),
-
-    name: Ember.computed('content.name', 'content.title', function() {
-        return this.get('content.name') || this.get('content.title');
-    })
+    childTrees: Ember.computed.union('content.files', 'content.children'),
+    isNode: Ember.computed.equal('content.constructor.modelName', 'node'),
+    isExpandable: Ember.computed.or('isFolder', 'isNode'),
+    name: Ember.computed.or('content.name', 'content.title')
 });
 
 export default Ember.Component.extend({
     layout,
-    //tagName: 'tbody',
+    tagName: 'tbody',
     expanded: false,
 
     row: Ember.computed('root', function() {
         let row = RowProxy.create({ content: this.get('root') });
-        row.loadChildren();
         row.set('expanded', this.get('expanded'));
         return row;
+    }),
+
+    childTreesChanged: Ember.observer('row.childTrees', function() {
+        this.set('row.isLoading', false);
     }),
 
     actions: {

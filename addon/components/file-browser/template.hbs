@@ -2,12 +2,13 @@
     {{! TODO: show available actions for selected files }}
 {{/if}}
 
-<div>
-    {{! TODO: column config, click to sort }}
-    Files
-</div>
-<div>
+<table class='table table-condensed'>
+    <thead>
+        {{! TODO: configurable columns, click to sort }}
+        <tr>
+            <th>Files</th>
+        </tr>
+    </thead>
     {{file-browser-tree root=rootNode expanded=true
     onClickFile=onClickFile onClickNode=onClickNode}}
-</div>
-
+</table>
