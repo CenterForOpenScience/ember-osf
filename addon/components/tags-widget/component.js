@@ -6,10 +6,10 @@ export default Ember.Component.extend({
     tags: [],
     actions: {
         addATag(tag) {
-            this.attrs.addATag(tag);
+            this.sendAction('addATag', tag);
         },
         removeATag(tag) {
-            this.attrs.removeATag(tag);
+            this.sendAction('removeATag', tag);
         }
     }
 });
