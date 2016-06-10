@@ -47,7 +47,8 @@ This file is structured like:
 
 You will need to fill out options for each backend you want to use (see 'Running' below).
 We recommend using the 'test' backend for development and testing as it is the most stable
-of our environments.
+of our environments.  When configuring your application, make sure that your login redirect
+uri is correct.  If it needs a trailing slash, be sure to include a trailing slash!
 
 Edit the new file (installed in the config directory) and set:
 - `CLIENT_ID` to the client id of your developer application

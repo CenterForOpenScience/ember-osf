@@ -14,6 +14,7 @@ export default OsfModel.extend({
     dateModified: DS.attr('date'),
     dateCreated: DS.attr('date'),
     extra: DS.attr(),
+    tags: DS.attr(),
 
     parentFolder: DS.belongsTo('file', { inverse: 'files' }),
     isFolder: Ember.computed.equal('kind', 'folder'),

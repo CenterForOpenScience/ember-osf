@@ -18,6 +18,11 @@
         onClickFile=(action 'fileDetail')
         onClickNode=(action 'nodeDetail')
         }}
+        <div>
+            <p><label> Tags </label></p>
+            {{#tags-widget addATag=(action 'addATag') removeATag=(action 'removeATag') tags=model.tags}}
+            {{/tags-widget}}
+        </div>
     </div>
     <div class='col-md-9'>
         {{#file-renderer download=model.links.download

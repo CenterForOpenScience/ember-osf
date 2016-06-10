@@ -1,8 +1,8 @@
 import Ember from 'ember';
+import TaggableMixin from 'ember-osf/mixins/taggable-mixin';
 
-export default Ember.Controller.extend({
+export default Ember.Controller.extend(TaggableMixin, {
     fileManager: Ember.inject.service(),
-
     actions: {
         fileDetail(file) {
             this.transitionToRoute('nodes.detail.files.provider.file',
