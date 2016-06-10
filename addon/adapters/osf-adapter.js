@@ -37,7 +37,7 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         var links = relationship ? snapshot.record.get(
             `relationshipLinks.${Ember.String.underscore(relationship)}.links`
         ) : false;
-        if (links && links.self || links.related) {
+        if (links && (links.self || links.related)) {
             return links.self ? links.self.href : links.related.href;
         } else {
             return this.buildURL(...arguments);

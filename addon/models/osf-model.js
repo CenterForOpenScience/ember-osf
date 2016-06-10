@@ -33,40 +33,31 @@ export default DS.Model.extend({
     ready() {
         this._super(...arguments);
         this.set('_dirtyRelationships', Ember.Object.create({}));
-
-        this.eachRelationship((relationship, meta) => {
-            let rel = relationship;
-            this.get(rel).then(() => {
-                var watch = rel;
-                if (meta.kind === 'hasMany') {
-                    watch = `${rel}.[]`;
-                }
-                this.addObserver(rel, () => {
-                    var key = `_dirtyRelationships.${rel}`;
-                    this.set(key, !Ember.isEmpty(this.get(key)));
-                    // Checks is_embedded flag set in osf-serializer.
-                    if (this.get('relationshipLinks') && this.get('relationshipLinks')[rel] && this.get('relationshipLinks')[rel].is_embedded) {
-                        this.set(key, false);
-                        this.get('relationshipLinks')[rel].is_embedded = false;
-                    }
-                });
-            });
-        });
     },
     save() {
         this.eachRelationship((rel, meta) => {
             if (meta.kind === 'hasMany') {
                 var relation = this.hasMany(rel).hasManyRelationship;
                 if (relation.record.isLoaded()) {
-                    if (relation.canonicalState.filter(record => Object.keys(record.changedAttributes()).length > 0).length){
+                    if (
+                        (relation.canonicalState.filter(record => record && (Object.keys(record.changedAttributes()).length > 0 || record.isNew())).length > 0) ||
+                        relation.canonicalMembers.size !== relation.members.size
+                    ){
                         var key = `_dirtyRelationships.${rel}`;
-                        this.set(key, !Ember.isEmpty(this.get(key)));
+                        this.set(key, true);
                     }
                 }
             } else if (meta.kind === 'belongsTo') {
                 var relation = this.belongsTo(rel).belongsToRelationship;
                 if (relation.record.isLoaded()) {
-                    //debugger;
+                    var record = relation.members.list[0]
+                    if (
+                        (record && (record.isNew() || record.changedAttributes().length > 0)) ||
+                        relation.canonicalMembers.size !== relation.members.size
+                    ){
+                        var key = `_dirtyRelationships.${rel}`;
+                        this.set(key, true);
+                    }
                 }
 
             }
