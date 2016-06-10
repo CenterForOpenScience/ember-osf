@@ -19,7 +19,7 @@ export default Ember.Controller.extend({
             let file = this.get('model');
             this.get('fileManager').deleteFile(file).then(() => {
                 this.transitionToRoute('nodes.detail.files', this.get('node'));
-            }).catch((/*error*/) => {
+            }).catch((error) => {
                 //TODO display error
             });
         },

@@ -1,7 +1,12 @@
 {{#if row.isExpandable}}
     {{#if row.expanded}}
-        {{fa-icon 'chevron-down'}}
+        {{#if row.isLoading}}
+            {{fa-icon 'spinner' pulse=true fixedWidth=true}}
+        {{else}}
+            {{fa-icon 'caret-down' fixedWidth=true}}
+        {{/if}}
     {{else}}
-        {{fa-icon 'chevron-right'}}
+        {{fa-icon 'caret-right' fixedWidth=true}}
     {{/if}}
 {{/if}}
+{{fa-icon iconName fixedWidth=true}}
