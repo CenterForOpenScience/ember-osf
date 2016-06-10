@@ -66,6 +66,13 @@ module.exports = {
             authorizer: 'authorizer:osf-token'
         };
     },
+    included: function(app) {
+        this._super.included.apply(this, arguments);
+
+        app.options['ember-font-awesome'] = {
+            useScss: true
+        };
+    },
     treeForStyles: function(/*tree*/) {
         // TODO expose ember-osf styles
     }
