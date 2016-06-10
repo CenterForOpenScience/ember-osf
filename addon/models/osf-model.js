@@ -42,7 +42,7 @@ export default DS.Model.extend({
                     if (
                         (relation.canonicalState.filter(record => record && (Object.keys(record.changedAttributes()).length > 0 || record.isNew())).length > 0) ||
                         relation.canonicalMembers.size !== relation.members.size
-                    ){
+                    ) {
                         var key = `_dirtyRelationships.${rel}`;
                         this.set(key, true);
                     }
@@ -50,11 +50,11 @@ export default DS.Model.extend({
             } else if (meta.kind === 'belongsTo') {
                 var relation = this.belongsTo(rel).belongsToRelationship;
                 if (relation.record.isLoaded()) {
-                    var record = relation.members.list[0]
+                    var record = relation.members.list[0];
                     if (
                         (record && (record.isNew() || record.changedAttributes().length > 0)) ||
                         relation.canonicalMembers.size !== relation.members.size
-                    ){
+                    ) {
                         var key = `_dirtyRelationships.${rel}`;
                         this.set(key, true);
                     }
