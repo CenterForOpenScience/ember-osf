@@ -67,6 +67,9 @@ module.exports = {
         };
     },
     included: function(app) {
+        // Documentation of the `included` hook is mostly in the comment
+        // threads of `ember-cli` issues on github. For example:
+        // https://github.com/ember-cli/ember-cli/issues/3531#issuecomment-81133458
         this._super.included.apply(this, arguments);
 
         app.options['ember-font-awesome'] = {

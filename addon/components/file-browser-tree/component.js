@@ -5,6 +5,8 @@ import layout from './template';
  * A row could represent a node, file-provider, or file, each of which has a
  * different interface. RowProxy provides a consistent interface for everything
  * the file browser needs to know.
+ *
+ * Important: Use `row.content` when passing a row model outside file-browser
  */
 let RowProxy = Ember.ObjectProxy.extend({
     selected: false,
@@ -26,6 +28,11 @@ let RowProxy = Ember.ObjectProxy.extend({
      * but it sets `isLoading` to `true` when it starts and to `false` when it's
      * done. Computed properties don't expose the underlying promises, and a
      * loading indicator seems important.
+     *
+     * TODO: But this counters ember's binding magic... If the file/node models
+     * change, the tree won't automatically update. Could add another observer
+     * on `files` and `children`, but it would be nice to find another way to
+     * update `isLoading` and get rid of this method entirely
      */
     loadChildTrees() {
         this.set('isLoading', true);

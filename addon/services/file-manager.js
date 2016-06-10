@@ -236,6 +236,7 @@ export default Ember.Service.extend({
                     return this._reloadModel(parent.get('files'));
                 } else {
                     this.get('store').unloadRecord(file);
+                    return true;
                 }
             })
         );
