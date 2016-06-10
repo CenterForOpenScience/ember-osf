@@ -1,6 +1,7 @@
 import Ember from 'ember';
+import TaggableMixin from 'ember-osf/mixins/taggable-mixin';
 
-export default Ember.Controller.extend({
+export default Ember.Controller.extend(TaggableMixin, {
     editedPermissions: {},
     editedBibliographic: {},
     actions: {
@@ -19,21 +20,6 @@ export default Ember.Controller.extend({
             var bibliographic = target.checked;
             var contributorId = target.value;
             this.editedBibliographic[contributorId] = bibliographic;
-        },
-        addATag(tag) {
-            var node = this.get('model');
-            var currentTags = node.get('tags').slice(0);
-            Ember.A(currentTags);
-            currentTags.pushObject(tag);
-            node.set('tags', currentTags);
-            node.save();
-        },
-        removeATag(tag) {
-            var node = this.get('model');
-            var currentTags = node.get('tags').slice(0);
-            currentTags.splice(currentTags.indexOf(tag), 1);
-            node.set('tags', currentTags);
-            node.save();
         }
     }
 });
