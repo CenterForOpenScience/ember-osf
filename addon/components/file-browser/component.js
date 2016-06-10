@@ -10,10 +10,11 @@ export default Ember.Component.extend({
   classNames: ['file-browser'],
 
   selectedPath: Ember.computed('selectedFile', function() {
-      // TODO: return array of node/provider/folder names leading to the
+      // TODO: return array of node/provider/folder names leading from root to
       // selected file. not sure how best to deal with child components, since
-      // we don't know for sure which node the file belongs to (could be a
-      // child component of the root node)
+      // we don't know for sure which node the file belongs to without fetching
+      // most of the file tree (it could belong to a child component of the
+      // root node)
       //
       //let pathArray = this.get('selectedFile.materializedPath').split('/');
   })
