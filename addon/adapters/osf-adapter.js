@@ -7,6 +7,8 @@ import DS from 'ember-data';
 import config from 'ember-get-config';
 import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
 
+let inflector = new Ember.Inflector(Ember.Inflector.defaultRules);
+
 export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
     authorizer: 'authorizer:osf-token',
     host: config.OSF.apiUrl,
@@ -58,9 +60,10 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
     },
     _handleManyRequest(store, type, snapshot, query, relationship, serializer) {
         var relationMeta = snapshot.record[relationship].meta();
-        var serialized = snapshot.hasMany(relationship).filter(each => each.id === null || Object.keys(each.changedAttributes()).length).map(each => serializer.serialize(each));
-        var options = Ember.$.extend({},
-            {
+        var serialized = snapshot.hasMany(relationship)
+            .filter(each => each.record.isNewOrDirty())
+            .map(each => serializer.serialize(each));
+        var options = Ember.merge({
                 requestType: () => 'PATCH',
                 isBulk: serialized => serialized.length > 1,
                 url: this._buildRelationshipURL(type.modelName, snapshot.id, snapshot, 'updateRecord', query, relationship),
@@ -80,13 +83,11 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         if (dirtyRelationships.length) {
             promises = dirtyRelationships.map(relationship => {
                 var relationMeta = snapshot.record[relationship].meta();
-                var relationType = relationMeta.type;
                 var serialized;
                 if (relationMeta.options.serializer) {
                     serialized = relationMeta.options.serializer(snapshot.record);
                 } else {
-                    var inflector = new Ember.Inflector(Ember.Inflector.defaultRules);
-                    var serializer = store.serializerFor(inflector.singularize(relationType));
+                    var serializer = store.serializerFor(inflector.singularize(relationMeta.type));
                     if (relationMeta.kind === 'hasMany') {
                         return this._handleManyRequest(store, type, snapshot, query, relationship, serializer);
                     }
