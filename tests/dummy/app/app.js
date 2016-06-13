@@ -6,6 +6,7 @@ import config from './config/environment';
 let App;
 
 Ember.MODEL_FACTORY_INJECTIONS = true;
+Ember.run.backburner.DEBUG = true;
 
 App = Ember.Application.extend({
     modulePrefix: config.modulePrefix,
