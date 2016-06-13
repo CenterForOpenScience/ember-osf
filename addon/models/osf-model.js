@@ -5,61 +5,80 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 
+function arrayItemsAreEqual(a, b, compareItems) {
+    if (a.length !== b.length) {
+        return false;
+    } else {
+        var length = a.length;
+        for (var i = 0; i < length; i++) {
+            var exists = false;
+            for (var j = 0; j < length; j++) {
+                if ((compareItems || ((a, b) => a === b))(a[i], b[j])) {
+                    exists = true;
+                }
+            }
+            if (!exists) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
 export default DS.Model.extend({
     links: DS.attr('links'),
     embeds: DS.attr('embed'),
 
     relationshipLinks: Ember.computed.alias('links.relationships'),
-    _dirtyRelationships: null,
+    _dirtyRelationships: {},
     dirtyRelationships: Ember.computed('_dirtyRelationships', function() {
         var dirtyRelationships = this.get('_dirtyRelationships');
         return Object.keys(dirtyRelationships).filter(k => dirtyRelationships[k]);
     }).volatile(),
+    _peekRelationship(relationship) {
+        var meta = this[relationship].meta();
+        var relation;
+        if (meta.kind === 'hasMany') {
+            relation = this.hasMany(relationship).hasManyRelationship;
+        } else if (meta.kind === 'belongsTo') {
+            relation = this.belongsTo(relationship).belongsToRelationship;
+        }
+        return relation.members.list;
+    },
     clearDirtyRelationship: function(relationship) {
         this.set(`_dirtyRelationships.${relationship}`, false);
         // Also clean the inverse relationship
         var relatedMeta = this[relationship].meta();
-        // A slight hack to get the related record w/o an API call
-        if (relatedMeta.kind === 'hasMany') {
-            this._internalModel._relationships.initializedRelationships[relationship].canonicalState.forEach(internalModel => {
-                internalModel.record.set(`_dirtyRelationships.${relatedMeta.options.inverse}`, false);
-            });
-        }
-        // else {
-        //     // TODO: belongsTo
-        // }
-
+        this._peekRelationship(relationship).forEach(internalModel => {
+            internalModel.record.set(`_dirtyRelationships.${relatedMeta.options.inverse}`, false);
+        });
     },
-    ready() {
-        this._super(...arguments);
-        this.set('_dirtyRelationships', Ember.Object.create({}));
+    isNewOrDirty() {
+        return this.get('isNew') || Object.keys(this.changedAttributes()).length;
     },
     save() {
         this.eachRelationship((rel, meta) => {
+            var relation;
             if (meta.kind === 'hasMany') {
-                let relation = this.hasMany(rel).hasManyRelationship;
-                if (relation.record.isLoaded()) {
-                    if (
-                        (relation.canonicalState.filter(record => record && (Object.keys(record.changedAttributes()).length > 0 || record.isNew())).length > 0) ||
-                        relation.canonicalMembers.size !== relation.members.size
-                    ) {
-                        let key = `_dirtyRelationships.${rel}`;
-                        this.set(key, true);
-                    }
-                }
+                relation = this.hasMany(rel).hasManyRelationship;
             } else if (meta.kind === 'belongsTo') {
-                let relation = this.belongsTo(rel).belongsToRelationship;
-                if (relation.record.isLoaded()) {
-                    var record = relation.members.list[0];
-                    if (
-                        (record && (record.isNew() || record.changedAttributes().length > 0)) ||
-                        relation.canonicalMembers.size !== relation.members.size
-                    ) {
-                        let key = `_dirtyRelationships.${rel}`;
-                        this.set(key, true);
+                relation = this.belongsTo(rel).belongsToRelationship;
+            }
+            // TODO(samchrisinger): not sure if hasLoaded is a subset if the hasData state
+            if (relation.hasData || relation.hasLoaded) {
+                var canonicalIds = relation.canonicalMembers.list.map(member => member.record.get('id'));
+                var currentIds = relation.members.list.map(member => member.record.get('id'));
+                if (!arrayItemsAreEqual(canonicalIds, currentIds)) {
+                    this.set(`_dirtyRelationships.${rel}`, true);
+                } else {
+                    for (var i = 0; i < relation.members.size; i++) {
+                        let record = relation.members.list[i].record;
+                        if (record && record.isNewOrDirty()) {
+                            this.set(`_dirtyRelationships.${rel}`, true);
+                            break;
+                        }
                     }
                 }
-
             }
         });
         this._super(...arguments);
