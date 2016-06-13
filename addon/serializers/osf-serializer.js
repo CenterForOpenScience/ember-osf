@@ -72,6 +72,12 @@ export default DS.JSONAPISerializer.extend({
     serialize: function(snapshot, options) {
         var serialized = this._super(snapshot, options);
         serialized.data.type = Ember.String.underscore(serialized.data.type);
+        // Only send dirty attributes in request
+        for (var attribute in serialized.data.attributes) {
+            if (!(Ember.String.camelize(attribute) in snapshot.record.changedAttributes())) {
+                delete serialized.data.attributes[attribute];
+            }
+        }
         // Don't send relationships to the server; this can lead to 500 errors.
         delete serialized.data.relationships;
         return serialized;
