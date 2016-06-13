@@ -21,6 +21,8 @@ export default Node.extend({
         inverse: null
     }),
     contributors: DS.hasMany('contributors'),
-    comments: DS.hasMany('comments')
+    comments: DS.hasMany('comments', {
+        updateRequestType: 'POST'
+    })
     //more relationship
 });

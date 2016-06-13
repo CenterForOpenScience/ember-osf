@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import Comment from 'ember-osf/models/comment';
 
 export default Ember.Mixin.create({
     actions: {
@@ -7,15 +6,18 @@ export default Ember.Mixin.create({
             // TODO: Implement
             // Adds a comment by pushing relationship onto the model for the page
             // This *WILL* fail if the route's model hook does not contain a comments relationship; consider use case
-            console.log('I have commented!', text);
             // TODO simplify
             var model = this.get('model');
             var commentsRel = this.get('model.comments');
-            var comment = this.store.createRecord('comment', {content: text});
+
+            // FIXME: This will work for projects and replies to comments, but it will not work for files (which don't provide OSF guid fields)
+            var comment = this.store.createRecord('comment', {
+                content: text,
+                targetID: model.id,
+                targetType: Ember.Inflector.inflector.pluralize(model.constructor.modelName)
+            });
             commentsRel.pushObject(comment);
             model.save();
-            console.log('done here');
-
         },
         editComment(comment) {
             comment.save();
@@ -33,7 +35,7 @@ export default Ember.Mixin.create({
             comment.set('deleted', false);
             comment.save();
         },
-        reportComment(comment) {
+        reportComment() {
             // TODO: Implement
             console.log('Consider this comment reported');
         }

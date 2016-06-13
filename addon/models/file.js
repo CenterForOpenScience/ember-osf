@@ -25,6 +25,8 @@ export default OsfModel.extend({
 
     // File attributes
     versions: DS.hasMany('file-version'),
-    comments: DS.hasMany('comment'),
+    comments: DS.hasMany('comment', {
+        updateRequestType: 'POST'
+    }),
     checkout: DS.attr()
 });

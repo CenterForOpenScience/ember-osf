@@ -34,7 +34,9 @@ export default OsfModel.extend({
         inverse: 'nodes',
         serializer: serializeHasMany.bind(null, 'affiliatedInstitutions', 'institution')
     }),
-    comments: DS.hasMany('comments'),
+    comments: DS.hasMany('comments', {
+        updateRequestType: 'POST'
+    }),
     contributors: DS.hasMany('contributors', {
         inverse: null,
         updateRequestType: 'POST'
