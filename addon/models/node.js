@@ -50,7 +50,12 @@ export default OsfModel.extend({
     comments: DS.hasMany('comments'),
     contributors: DS.hasMany('contributors', {
         updateRequest: {
-            requestType: (snapshot, relationship) => snapshot.hasMany(relationship).filter(each => Object.keys(each.changedAttributes()).indexOf('userId') !== -1).length > 0 ? 'POST' : 'PATCH',
+            requestType: (snapshot, relationship) => {
+		if (snapshot.hasMany(relationship).filter(each => each.record.get('isNew')).length) {
+		    return 'POST';		    
+		}
+		return 'PATCH';
+	    },
             isBulk: () => true,
             serialized(serialized) {
                 return {
