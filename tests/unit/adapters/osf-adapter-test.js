@@ -31,19 +31,19 @@ test('it exists', function(assert) {
 });
 
 test('updateRecord formats contributor addition properly', function(assert){
-    $.mockjax({
-        url: '/nodes/*',
-        response: function() {
-        }
-    });
     let node = make('node');
     let contributor = make('contributor');
     contributor.isNew =  () => true;
     let adapter = this.subject();
-    adapter.ajax = function() {
+    adapter.ajax = function(_, requestType, data) {
         //make all assertions
-        debugger;
-        return 'Coolbeans'
+        assert.equal(requestType, 'POST');
+        assert.equal(data.data.data.length, 1);
+        assert.ok(data.isBulk, true);
+        assert.equal(
+            data.data.data[0].relationships.users.data.id, contributor.get('userId')
+        );
+        return new Ember.RSVP.Promise(function(){})
     };
     node.get('contributors').pushObject(contributor);
     node.set('_dirtyRelationships.contributors', true);
