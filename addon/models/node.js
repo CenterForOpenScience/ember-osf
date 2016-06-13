@@ -28,7 +28,9 @@ export default OsfModel.extend({
     }),
     children: DS.hasMany('nodes', {
         inverse: 'parent',
-        updateRequestType: 'POST'
+        updateRequest: {
+            requestType: () => 'POST'
+        }
     }),
     affiliatedInstitutions: DS.hasMany('institutions', {
         inverse: 'nodes',
@@ -36,8 +38,19 @@ export default OsfModel.extend({
     }),
     comments: DS.hasMany('comments'),
     contributors: DS.hasMany('contributors', {
-        inverse: null,
-        updateRequestType: 'POST'
+        updateRequest: {
+            requestType: (snapshot, relationship) => snapshot.hasMany(relationship).filter(each => Object.keys(each.changedAttributes()).indexOf('userId') !== -1).length > 0 ? 'POST' : 'PATCH',
+            isBulk: () => true,
+            serialized(serialized) {
+                return {
+                    data: serialized.map(function(record) {
+                        var data = record.data;
+                        return data;
+                    })
+                };
+            }
+        },
+        inverse: null
     }),
 
     files: DS.hasMany('file-provider'),

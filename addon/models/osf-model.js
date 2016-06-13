@@ -5,52 +5,64 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 
+import arrayItemsAreEqual from 'ember-osf/utils/array-items-are-equal';
+
 export default DS.Model.extend({
     links: DS.attr('links'),
     embeds: DS.attr('embed'),
 
     relationshipLinks: Ember.computed.alias('links.relationships'),
-    _dirtyRelationships: null,
+    _dirtyRelationships: {},
     dirtyRelationships: Ember.computed('_dirtyRelationships', function() {
         var dirtyRelationships = this.get('_dirtyRelationships');
         return Object.keys(dirtyRelationships).filter(k => dirtyRelationships[k]);
     }).volatile(),
+    _peekRelationship(relationship) {
+        var meta = this[relationship].meta();
+        var relation;
+        if (meta.kind === 'hasMany') {
+            relation = this.hasMany(relationship).hasManyRelationship;
+        } else if (meta.kind === 'belongsTo') {
+            relation = this.belongsTo(relationship).belongsToRelationship;
+        }
+        return relation.members.list;
+    },
     clearDirtyRelationship: function(relationship) {
         this.set(`_dirtyRelationships.${relationship}`, false);
         // Also clean the inverse relationship
         var relatedMeta = this[relationship].meta();
-        // A slight hack to get the related record w/o an API call
-        if (relatedMeta.kind === 'hasMany') {
-            this._internalModel._relationships.initializedRelationships[relationship].canonicalState.forEach(internalModel => {
-                internalModel.record.set(`_dirtyRelationships.${relatedMeta.options.inverse}`, false);
-            });
-        }
-        // else {
-        //     // TODO: belongsTo
-        // }
-
-    },
-    ready() {
-        this._super(...arguments);
-        this.set('_dirtyRelationships', Ember.Object.create({}));
-
-        this.eachRelationship((relationship, meta) => {
-            let rel = relationship;
-            this.get(rel).then(() => {
-                var watch = rel;
-                if (meta.kind === 'hasMany') {
-                    watch = `${rel}.[]`;
-                }
-                this.addObserver(rel, () => {
-                    var key = `_dirtyRelationships.${rel}`;
-                    this.set(key, !Ember.isEmpty(this.get(key)));
-                    // Checks is_embedded flag set in osf-serializer.
-                    if (this.get('relationshipLinks') && this.get('relationshipLinks')[rel] && this.get('relationshipLinks')[rel].is_embedded) {
-                        this.set(key, false);
-                        this.get('relationshipLinks')[rel].is_embedded = false;
-                    }
-                });
-            });
+        this._peekRelationship(relationship).forEach(internalModel => {
+            internalModel.record.set(`_dirtyRelationships.${relatedMeta.options.inverse}`, false);
         });
+    },
+    isNewOrDirty() {
+        return this.get('isNew') || Object.keys(this.changedAttributes()).length;
+    },
+    save() {
+        this.eachRelationship((rel, meta) => {
+            var relation;
+            if (meta.kind === 'hasMany') {
+                relation = this.hasMany(rel).hasManyRelationship;
+            } else if (meta.kind === 'belongsTo') {
+                relation = this.belongsTo(rel).belongsToRelationship;
+            }
+            // TODO(samchrisinger): not sure if hasLoaded is a subset if the hasData state
+            if (relation.hasData || relation.hasLoaded) {
+                var canonicalIds = relation.canonicalMembers.list.map(member => member.record.get('id'));
+                var currentIds = relation.members.list.map(member => member.record.get('id'));
+                if (!arrayItemsAreEqual(canonicalIds, currentIds)) {
+                    this.set(`_dirtyRelationships.${rel}`, true);
+                } else {
+                    for (var i = 0; i < relation.members.size; i++) {
+                        let record = relation.members.list[i].record;
+                        if (record && record.isNewOrDirty()) {
+                            this.set(`_dirtyRelationships.${rel}`, true);
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+        this._super(...arguments);
     }
 });
