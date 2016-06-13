@@ -12,7 +12,7 @@ test('it exists', function(assert) {
   assert.ok(controller);
 });
 
-test('add a file tag', function(assert) {
+test('add a node tag', function(assert) {
     var ctrl = this.subject();
     ctrl.set('model', Ember.Object.create({tags: ['one']}));
     ctrl.set('model.save', function() {return;});
@@ -20,7 +20,7 @@ test('add a file tag', function(assert) {
     assert.deepEqual(ctrl.model.get('tags'), ['one', 'new tag']);
 });
 
-test('remove a file tag', function(assert) {
+test('remove a node tag', function(assert) {
     var ctrl = this.subject();
     ctrl.set('model', Ember.Object.create({tags: ['one', 'two']}));
     ctrl.set('model.save', function() {return;});
