@@ -39,10 +39,14 @@
         <h3>Comments</h3>
         <ul>
             {{#each model.comments as |comment|}}
-                {{comment-detail
+                {{
+                comment-detail
                 comment=comment
                 editComment=(action 'editComment')
-                deleteComment=(action 'deleteComment')}}
+                deleteComment=(action 'deleteComment')
+                restoreComment=(action 'restoreComment')
+                reportComment=(action 'reportComment')
+                }}
             {{else}}
                 (none)
             {{/each}}

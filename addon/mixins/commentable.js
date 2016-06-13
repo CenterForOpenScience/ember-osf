@@ -12,6 +12,14 @@ export default Ember.Mixin.create({
             comment.destroyRecord()
                 .then(() => relation.reload())
                 .then(() => relation.reload());
+        },
+        restoreComment(comment) {
+            comment.set('deleted', false);
+            comment.save();
+        },
+        reportComment(comment) {
+            // TODO: Implement
+            console.log('Consider this comment reported');
         }
     }
 });
