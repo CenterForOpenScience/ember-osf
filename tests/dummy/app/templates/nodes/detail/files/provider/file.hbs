@@ -36,26 +36,14 @@
             {{/each}}
         </ul>
         <hr>
-        <h3>Comments</h3>
-        <ul>
-            {{#each model.comments as |comment|}}
-                {{
-                comment-detail
-                comment=comment
-                editComment=(action 'editComment')
-                deleteComment=(action 'deleteComment')
-                restoreComment=(action 'restoreComment')
-                reportComment=(action 'reportComment')
-                }}
-            {{else}}
-                (none)
-            {{/each}}
-        </ul>
 
-        {{
-        comment-form
-        addComment=(action 'addComment')
-        }}
+        {{comment-pane
+        model=model
+        editComment=(action 'editComment')
+        deleteComment=(action 'deleteComment')
+        restoreComment=(action 'restoreComment')
+        reportComment=(action 'reportComment')}}
+
     {{/if}}
     {{#file-renderer download=model.links.download width="1000" height="1000"}}
     {{/file-renderer}}
