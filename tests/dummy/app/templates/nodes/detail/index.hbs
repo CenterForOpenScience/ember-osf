@@ -10,16 +10,14 @@
     <p><label> Tags </label></p>
     {{#tags-widget addATag=(action 'addATag') removeATag=(action 'removeATag') tags=model.tags}}
     {{/tags-widget}}
-
     <hr>
-
     <p>
         <a href="{{model.links.html}}" target="_blank" class="btn btn-primary">
             View on OSF
         </a>
     </p>
 
-    <p><button class="btn btn-danger" {{action "deleteNode" title description category }}>Delete this project</button></p>
+    <p><button class="btn btn-danger" {{action 'deleteNode'}}>Delete this project</button></p>
     <hr>
 
     {{#if propertiesVisible}}
@@ -73,7 +71,7 @@
         </table>
         <h4>Add Institution</h4>
         Institution Id {{input value=instId}}
-        <button {{action "affiliateNode" instId}} class="btn btn-primary">Affiliate Node</button>
+        <button {{action 'affiliateNode' instId}} class="btn btn-primary">Affiliate Node</button>
     </p>
     <h2>Files</h2>
     {{link-to 'View Files' 'nodes.detail.files' model class='btn btn-primary'}}
@@ -82,48 +80,12 @@
     {{log-detail node-logs=model.logs}}
 
     <h2>Contributors</h2>
-    <table class="table">
-        <tr>
-            <th>ID</th>
-            <th> Name </th>
-            <th> Permissions </th>
-            <th>Bibliographic</th>
-            <th> </th>
-        </tr>
-        {{#each model.contributors as |contrib|}}
-            <tr>
-                <td>{{contrib.id}}</td>
-                <td> {{if contrib.unregisteredContributor contrib.unregisteredContributor contrib.users.fullName}} </td>
-                <td>
-                    <select onchange={{action "permissionChange" value="target.value" bubbles=true}}>
-                        <option value="read {{contrib.id}}" selected={{permissionHelper contrib.permission "read"}}> Read </option>
-                        <option value="write {{contrib.id}}" selected={{permissionHelper contrib.permission "write"}}>  Read + Write </option>
-                        <option value="admin {{contrib.id}}" selected={{permissionHelper contrib.permission "admin"}}>  Administrator </option>
-                    </select>
-                </td>
-                <td>
-                    <input onchange={{action "bibliographicChange" value="target"}} checked={{bibliographicHelper contrib.bibliographic}} type="checkbox" name="bibliographic" value="{{contrib.id}}">
-                </td>
-                <td> <button {{action "deleteContributor" contrib}} class="btn btn-danger"> Remove </button> </td>
-            </tr>
-        {{/each}}
-    </table>
-    <button {{action "updateContributors" editedPermissions editedBibliographic}} class="btn btn-primary"> Save changes </button>
-
-    <hr>
-
-    <h2> Add contributor </h2>
-    <p><label> User ID </label> {{input value=contributorID}} </p>
-    <p><label> Permissions </label></p>
-    <p>
-        {{radio-button name="permission" value="read" checked=contributorPermissions}} Read {{radio-button name="permission" value="write" checked=contributorPermissions}} Read + Write {{radio-button name="permission" value="admin" checked=contributorPermissions}} Administrator
-    </p>
-
-    <label> Bibliographic </label>
-    <p>
-        {{radio-button name="bibliographic" value=1 checked=bibliographic}} Bibliographic {{radio-button name="bibliographic" value=0 checked=bibliographic}} Non-Bibliographic
-    </p>
-    <button {{action "addContributor" contributorID contributorPermissions bibliographic}} class="btn btn-primary">Add</button>
+    {{contrib-manager
+    contributors=model.contributors
+    addContributor=(action 'addContributor')
+    removeContributor=(action 'removeContributor')
+    editContributors=(action 'updateContributors')
+    }}
     <hr>
     <h2> Create component </h2>
     <div>
