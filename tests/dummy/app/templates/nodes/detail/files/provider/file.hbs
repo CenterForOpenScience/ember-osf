@@ -51,8 +51,12 @@
                 (none)
             {{/each}}
         </ul>
-    {{/if}}
 
+        {{
+        comment-form
+        addComment=(action 'addComment')
+        }}
+    {{/if}}
     {{#file-renderer download=model.links.download width="1000" height="1000"}}
     {{/file-renderer}}
 </div>
