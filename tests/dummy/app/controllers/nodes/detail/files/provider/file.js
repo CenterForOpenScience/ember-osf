@@ -27,14 +27,5 @@ export default Ember.Controller.extend(TaggableMixin, {
         checkout() {
             // TODO
         },
-
-        download() {
-            let link = this.get('model.links.download');
-            window.open(link);
-        },
-
-        revisions() {
-            // TODO
-        }
     }
 });
