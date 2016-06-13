@@ -1,19 +1,28 @@
+import Ember from 'ember';
+import DS from 'ember-data';
 import { moduleFor, test } from 'ember-qunit';
-import FactoryGuy, {manualSetup, make, mockSetup }  from 'ember-data-factory-guy';
+import FactoryGuy, {manualSetup, build, make, mockSetup }  from 'ember-data-factory-guy';
 
 moduleFor('adapter:osf-adapter', 'Unit | Adapter | osf adapter', {
   // Specify the other units that are required for this test.
   // needs: ['serializer:foo']
   needs: ['model:node', 'model:contributor', 'model:user', 'transform:links', 'transform:embed', 'model:institution',
   'model:comment', 'model:file-version', 'model:file-provider', 'model:file', 'model:collection', 'model:log', 'model:node-link',
-    'model:registration', 'model:comment-report'],
+    'model:registration', 'model:comment-report', 'serializer:contributor'],
 
   beforeEach(){
       manualSetup(this.container);
-      mockSetup();
   }
 });
 
+function callUpdateRecord(adapter, model){
+    let snap = new DS.Snapshot(model._internalModel);
+    return adapter.updateRecord(
+        model.store,
+        snap.type,
+        snap
+    )
+}
 
 // Replace this with your real tests.
 test('it exists', function(assert) {
@@ -21,16 +30,22 @@ test('it exists', function(assert) {
   assert.ok(adapter);
 });
 
-test('contributor addition payload is correctly formatted', function(assert){
+test('updateRecord formats contributor addition properly', function(assert){
+    $.mockjax({
+        url: '/nodes/*',
+        response: function() {
+        }
+    });
     let node = make('node');
-    node.save()
     let contributor = make('contributor');
+    contributor.isNew =  () => true;
     let adapter = this.subject();
-    adapter.ajax = function(){
-        console.log('poo!!!!')
+    adapter.ajax = function() {
+        //make all assertions
+        debugger;
+        return 'Coolbeans'
     };
     node.get('contributors').pushObject(contributor);
-    //node._internalModel.unloadRecord(); //<- flushes all changes, and makes .save() do nothing
-    node.save();
-    assert.ok(true);
+    node.set('_dirtyRelationships.contributors', true);
+    callUpdateRecord(adapter, node);
 })

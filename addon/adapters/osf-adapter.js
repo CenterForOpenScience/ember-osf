@@ -88,6 +88,7 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
                     serialized = relationMeta.options.serializer(snapshot.record);
                 } else {
                     var serializer = store.serializerFor(inflector.singularize(relationMeta.type));
+                    debugger;
                     if (relationMeta.kind === 'hasMany') {
                         return this._handleManyRequest(store, type, snapshot, query, relationship, serializer);
                     }
