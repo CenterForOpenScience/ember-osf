@@ -5,25 +5,7 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 
-function arrayItemsAreEqual(a, b, compareItems) {
-    if (a.length !== b.length) {
-        return false;
-    } else {
-        var length = a.length;
-        for (var i = 0; i < length; i++) {
-            var exists = false;
-            for (var j = 0; j < length; j++) {
-                if ((compareItems || ((a, b) => a === b))(a[i], b[j])) {
-                    exists = true;
-                }
-            }
-            if (!exists) {
-                return false;
-            }
-        }
-        return true;
-    }
-}
+import arrayItemsAreEqual from 'ember-osf/utils/array-items-are-equal';
 
 export default DS.Model.extend({
     links: DS.attr('links'),
