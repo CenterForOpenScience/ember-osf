@@ -5,7 +5,9 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 
-export default DS.Model.extend({
+import HasManyQuery from 'ember-data-has-many-query';
+
+export default DS.Model.extend(HasManyQuery.ModelMixin, {
     links: DS.attr('links'),
     embeds: DS.attr('embed'),
 

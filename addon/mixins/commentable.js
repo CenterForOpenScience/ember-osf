@@ -1,6 +1,20 @@
+/*
+  Support basic commenting functionality for routes. Uses the base model in the route model hook.
+ */
 import Ember from 'ember';
 
 export default Ember.Mixin.create({
+
+    comments: Ember.A(),
+
+    reloadComments: Ember.observer('model', function() {
+        // Uses hasManyQuery to fetch comments whenever model is updated
+        // TODO: Some loading/query bugs?
+        let model = this.get('model');
+        model.query('comments', {filter: {target: model.id}})
+            .then((res) => this.set('comments', res));
+    }),
+
     actions: {
         addComment(text) {
             // Assumes that the page's model hook is the target for the comment; we can make generalize if needed

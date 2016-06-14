@@ -1,7 +1,6 @@
 import DS from 'ember-data';
 
 import OsfModel from './osf-model';
-
 import { serializeHasMany } from '../utils/serialize-relationship';
 
 export default OsfModel.extend({
