@@ -80,7 +80,7 @@ export default Ember.Component.extend({
                 action = this.get('onClickFile');
             } else if (row.get('isNode')) {
                 action = this.get('onClickNode');
-            } 
+            }
             if (action) {
                 action(row.content);
             }

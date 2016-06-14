@@ -17,7 +17,7 @@ export default Ember.Service.extend({
      * Get a URL to download the given file.
      *
      * @method getDownloadUrl
-     * @param {file} file A `file` model 
+     * @param {file} file A `file` model
      * @param {Object} [options] Options hash
      * @param {Object} [options.query] Key-value hash of query parameters to
      * add to the URL.
