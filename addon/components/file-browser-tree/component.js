@@ -69,7 +69,7 @@ export default Ember.Component.extend({
 
     row: Ember.computed('root', 'selectedPath', function() {
         let row = RowProxy.create({ content: this.get('root') });
-        let selectedPath = this.get('selectedPath')
+        let selectedPath = this.get('selectedPath');
         if (selectedPath && selectedPath.length) {
             if (row.get('name') === selectedPath[0]) {
                 row.set('expanded', true);
