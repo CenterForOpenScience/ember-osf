@@ -9,7 +9,7 @@ export default Ember.Mixin.create({
 
     reloadComments: Ember.observer('model', function() {
         // Uses hasManyQuery to fetch comments whenever model is updated
-        // TODO: Some loading/query bugs?
+        // This is required to fetch the relationship with target parameter, since node + file comments on a project live under the same endpoint
         let model = this.get('model');
         model.query('comments', {filter: {target: model.id}})
             .then((res) => this.set('comments', res));
