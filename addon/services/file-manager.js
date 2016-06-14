@@ -56,9 +56,31 @@ export default Ember.Service.extend({
         return p.then(() => this._reloadModel(file));
     },
 
-    checkout(/*file, user*/) {
-        // TODO? Having checkout here makes more sense to me than making it
-        // the only writable attribute on the file model.
+    /**
+     * Check out a file, so only the current user can modify it.
+     *
+     * @method checkOut
+     * @param {file} file `file` model with `isFolder == false`.
+     * @return {Promise} Promise that resolves on success or rejects with an
+     * error message.
+     */
+    checkOut(file) {
+        let userID = this.get('session.data.authenticated.id');
+        file.set('checkout', userID);
+        return file.save();
+    },
+
+    /**
+     * Check in a file, so anyone with permission can modify it.
+     *
+     * @method checkOut
+     * @param {file} file `file` model with `isFolder == false`.
+     * @return {Promise} Promise that resolves on success or rejects with an
+     * error message.
+     */
+    checkIn(file) {
+        file.set('checkout', null);
+        return file.save();
     },
 
     /**
