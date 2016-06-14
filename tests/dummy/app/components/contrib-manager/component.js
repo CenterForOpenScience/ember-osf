@@ -11,25 +11,25 @@ export default Ember.Component.extend({
     permissionChanges: {},
     bibliographicChanges: {},
     actions: {
-	addContributor(userId, permission, isBibliographic) {
-	    this.sendAction('addContributor', userId, permission, isBibliographic);
-	},
-	permissionChange(contributor, permission) {
-	    this.set(`permissionChanges.${contributor.id}`, permission);
-	},
-	bibliographicChange(contributor, isBibliographic) {
-	    this.set(`biliographicChanges.${contributor.id}`, isBibliographic);
-	},
-	updateContributors() {
-	    this.sendAction(
-		'deleteContributor',
-		this.get('contributors'),
-		this.get('permissionChanges'),
-		this.get('bibliographicChanges')
-	    );
-	},
-	deleteContributor(contributor) {
-	    this.sendAction('deleteContributor', contributor);
-	}
+        addContributor(userId, permission, isBibliographic) {
+            this.sendAction('addContributor', userId, permission, isBibliographic);
+        },
+        permissionChange(contributor, permission) {
+            this.set(`permissionChanges.${contributor.id}`, permission);
+        },
+        bibliographicChange(contributor, isBibliographic) {
+            this.set(`biliographicChanges.${contributor.id}`, isBibliographic);
+        },
+        updateContributors() {
+            this.sendAction(
+                'deleteContributor',
+                this.get('contributors'),
+                this.get('permissionChanges'),
+                this.get('bibliographicChanges')
+            );
+        },
+        deleteContributor(contributor) {
+            this.sendAction('deleteContributor', contributor);
+        }
     }
 });

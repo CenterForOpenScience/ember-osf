@@ -2,7 +2,9 @@ import DS from 'ember-data';
 
 import OsfModel from './osf-model';
 
-import { serializeHasMany } from '../utils/serialize-relationship';
+import {
+    serializeHasMany
+} from '../utils/serialize-relationship';
 
 export default OsfModel.extend({
     title: DS.attr('string'),
@@ -40,11 +42,11 @@ export default OsfModel.extend({
     contributors: DS.hasMany('contributors', {
         updateRequest: {
             requestType: (snapshot, relationship) => {
-		if (snapshot.hasMany(relationship).filter(each => each.record.get('isNew')).length) {
-		    return 'POST';		    
-		}
-		return 'PATCH';
-	    },
+                if (snapshot.hasMany(relationship).filter(each => each.record.get('isNew')).length) {
+                    return 'POST';
+                }
+                return 'PATCH';
+            },
             isBulk: () => true,
             serialized(serialized) {
                 return {
