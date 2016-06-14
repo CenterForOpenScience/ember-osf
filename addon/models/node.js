@@ -2,7 +2,9 @@ import DS from 'ember-data';
 
 import OsfModel from './osf-model';
 
-import { serializeHasMany } from '../utils/serialize-relationship';
+import {
+    serializeHasMany
+} from '../utils/serialize-relationship';
 
 /**
  * Model for OSF APIv2 nodes. This model may be used with one of several API endpoints. It may be queried directly,
@@ -51,11 +53,11 @@ export default OsfModel.extend({
     contributors: DS.hasMany('contributors', {
         updateRequest: {
             requestType: (snapshot, relationship) => {
-		if (snapshot.hasMany(relationship).filter(each => each.record.get('isNew')).length) {
-		    return 'POST';		    
-		}
-		return 'PATCH';
-	    },
+                if (snapshot.hasMany(relationship).filter(each => each.record.get('isNew')).length) {
+                    return 'POST';
+                }
+                return 'PATCH';
+            },
             isBulk: () => true,
             serialized(serialized) {
                 return {
