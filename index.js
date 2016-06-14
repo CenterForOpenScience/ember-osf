@@ -65,8 +65,5 @@ module.exports = {
         ENV['ember-simple-auth'] = {
             authorizer: 'authorizer:osf-token'
         };
-    },
-    treeForStyles: function(/*tree*/) {
-        // TODO expose ember-osf styles
     }
 };
