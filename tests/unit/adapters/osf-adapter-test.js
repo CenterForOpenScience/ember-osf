@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 import { moduleFor, test } from 'ember-qunit';
-import FactoryGuy, {manualSetup, build, make, mockSetup }  from 'ember-data-factory-guy';
+import { manualSetup, make }  from 'ember-data-factory-guy';
 
 moduleFor('adapter:osf-adapter', 'Unit | Adapter | osf adapter', {
   // Specify the other units that are required for this test.
@@ -15,13 +15,13 @@ moduleFor('adapter:osf-adapter', 'Unit | Adapter | osf adapter', {
   }
 });
 
-function callUpdateRecord(adapter, model){
+function callUpdateRecord(adapter, model) {
     let snap = new DS.Snapshot(model._internalModel);
     return adapter.updateRecord(
         model.store,
         snap.type,
         snap
-    )
+    );
 }
 
 // Replace this with your real tests.
@@ -30,7 +30,7 @@ test('it exists', function(assert) {
   assert.ok(adapter);
 });
 
-test('updateRecord formats contributor addition properly', function(assert){
+test('updateRecord formats contributor addition properly', function(assert) {
     assert.expect(4);
     let node = make('node');
     let contributor = make('contributor');
@@ -43,14 +43,14 @@ test('updateRecord formats contributor addition properly', function(assert){
         assert.equal(
             data.data.data[0].relationships.users.data.id, contributor.get('userId')
         );
-        return new Ember.RSVP.Promise(function(){})
+        return new Ember.RSVP.Promise(function() {});
     };
     node.get('contributors').pushObject(contributor);
     node.set('_dirtyRelationships.contributors', true);
     callUpdateRecord(adapter, node);
 });
 
-test('updateRecord formats multiple contributor addition properly', function(assert){
+test('updateRecord formats multiple contributor addition properly', function(assert) {
     assert.expect(5);
     let node = make('node');
     let contributor1 = make('contributor');
@@ -62,10 +62,10 @@ test('updateRecord formats multiple contributor addition properly', function(ass
         assert.equal(requestType, 'POST');
         assert.equal(data.data.data.length, 2);
         assert.ok(data.isBulk);
-        var addedContributorIds = data.data.data.map(each => each.relationships.users.data.id)
+        var addedContributorIds = data.data.data.map(each => each.relationships.users.data.id);
         assert.ok(addedContributorIds.indexOf(contributor1.get('userId')) !== -1);
         assert.ok(addedContributorIds.indexOf(contributor2.get('userId')) !== -1);
-        return new Ember.RSVP.Promise(function(){})
+        return new Ember.RSVP.Promise(function() {});
     };
     node.get('contributors').pushObject(contributor1);
     node.get('contributors').pushObject(contributor2);
@@ -73,7 +73,7 @@ test('updateRecord formats multiple contributor addition properly', function(ass
     callUpdateRecord(adapter, node);
 });
 
-test('updateRecord can update a contributor', function(assert){
+test('updateRecord can update a contributor', function(assert) {
     assert.expect(4);
     let node = make('node');
     let contributor = make('contributor');
@@ -88,14 +88,14 @@ test('updateRecord can update a contributor', function(assert){
         assert.equal(
             data.data.data[0].relationships.users.data.id, contributor.get('userId')
         );
-        return new Ember.RSVP.Promise(function(){})
+        return new Ember.RSVP.Promise(function() {});
     };
     node.get('contributors').pushObject(contributor);
     node.set('_dirtyRelationships.contributors', true);
     callUpdateRecord(adapter, node);
 });
 
-test('updateRecord can update multiple contributors', function(assert){
+test('updateRecord can update multiple contributors', function(assert) {
     assert.expect(5);
     let node = make('node');
     let contributor1 = make('contributor');
@@ -109,10 +109,10 @@ test('updateRecord can update multiple contributors', function(assert){
         assert.equal(requestType, 'PATCH');
         assert.equal(data.data.data.length, 2);
         assert.ok(data.isBulk);
-        var addedContributorIds = data.data.data.map(each => each.relationships.users.data.id)
+        var addedContributorIds = data.data.data.map(each => each.relationships.users.data.id);
         assert.ok(addedContributorIds.indexOf(contributor1.get('userId')) !== -1);
         assert.ok(addedContributorIds.indexOf(contributor2.get('userId')) !== -1);
-        return new Ember.RSVP.Promise(function(){})
+        return new Ember.RSVP.Promise(function() {});
     };
     node.get('contributors').pushObject(contributor1);
     node.get('contributors').pushObject(contributor2);
@@ -120,7 +120,7 @@ test('updateRecord can update multiple contributors', function(assert){
     callUpdateRecord(adapter, node);
 });
 
-test('updateRecord does not include unchanged contributors', function(assert){
+test('updateRecord does not include unchanged contributors', function(assert) {
     assert.expect(5);
     let node = make('node');
     let contributor1 = make('contributor');
@@ -133,10 +133,10 @@ test('updateRecord does not include unchanged contributors', function(assert){
         assert.equal(requestType, 'PATCH');
         assert.equal(data.data.data.length, 1);
         assert.ok(data.isBulk);
-        var addedContributorIds = data.data.data.map(each => each.relationships.users.data.id)
+        var addedContributorIds = data.data.data.map(each => each.relationships.users.data.id);
         assert.ok(addedContributorIds.indexOf(contributor1.get('userId')) !== -1);
         assert.ok(addedContributorIds.indexOf(contributor2.get('userId')) === -1);
-        return new Ember.RSVP.Promise(function(){});
+        return new Ember.RSVP.Promise(function() {});
     };
     node.get('contributors').pushObject(contributor1);
     node.get('contributors').pushObject(contributor2);
@@ -144,7 +144,7 @@ test('updateRecord does not include unchanged contributors', function(assert){
     callUpdateRecord(adapter, node);
 });
 
-test('updateRecord handles component creation', function(assert){
+test('updateRecord handles component creation', function(assert) {
     assert.expect(3);
     let node = make('node');
     let component = make('node');
@@ -154,14 +154,14 @@ test('updateRecord handles component creation', function(assert){
         assert.equal(requestType, 'POST');
         assert.equal(data.isBulk, false);
         assert.equal(data.data.data.attributes.title, component.get('title'));
-        return new Ember.RSVP.Promise(function(){});
+        return new Ember.RSVP.Promise(function() {});
     };
     node.get('children').pushObject(component);
     node.set('_dirtyRelationships.children', true);
     callUpdateRecord(adapter, node);
 });
 
-test('updateRecord handles multiple component creation', function(assert){
+test('updateRecord handles multiple component creation', function(assert) {
     let node = make('node');
     let component1 = make('node');
     let component2 = make('node');
@@ -172,10 +172,10 @@ test('updateRecord handles multiple component creation', function(assert){
         assert.equal(requestType, 'POST');
         assert.equal(data.data.data.length, 2);
         assert.ok(data.isBulk);
-        let addedChildrenTitles = data.data.data.map(each => each.attributes.title)
+        let addedChildrenTitles = data.data.data.map(each => each.attributes.title);
         assert.ok(addedChildrenTitles.indexOf(component1.get('title').join()) !== -1);
         assert.ok(addedChildrenTitles.indexOf(component2.get('title').join()) !== -1);
-        return new Ember.RSVP.Promise(function(){});
+        return new Ember.RSVP.Promise(function() {});
     };
     node.get('children').pushObject(component1);
     node.get('children').pushObject(component2);
@@ -183,6 +183,6 @@ test('updateRecord handles multiple component creation', function(assert){
     callUpdateRecord(adapter, node);
 });
 
-test('updateRecord handles institution addition', function(assert){
+test('updateRecord handles institution addition', function(assert) {
     assert.ok(true);
 });
