@@ -154,7 +154,17 @@
         <p>{{radio-button name="category" value="software" checked=category}} Software </p>
         <p>{{radio-button name="category" value="other" checked=category}} Other </p>
         <p>{{radio-button name="category" value="uncategorized" checked=category}} Uncategorized </p>
-        <p><button {{action "addChildren" title description category }}>Create</button></p>
+        <p><button {{action "addChild" title description category }}>Create</button></p>
+    </div>
+    <h2> Create multiple components (bulk) </h2>
+    <div>
+        <h3> First Component </h3>
+        <label>Title:</label>
+        {{input type="text" value=child1 placeholder="Component's title" required=true}}
+        <h3> Second Component </h3>
+        <label>Title:</label>
+        {{input type="text" value=child2 placeholder="Component's title" required=true}}
+        <p><button {{action "addChildren" child1 child2 }}>Create</button></p>
     </div>
 
     <hr>
