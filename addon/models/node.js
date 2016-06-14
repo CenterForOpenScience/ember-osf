@@ -74,6 +74,10 @@ export default OsfModel.extend({
         inverse: 'registeredFrom'
     }),
 
+    draftRegistrations: DS.hasMany('draft-registrations', {
+        inverse: 'branchedFrom'
+    }),
+
     root: DS.belongsTo('node', {
         inverse: null
     }),
