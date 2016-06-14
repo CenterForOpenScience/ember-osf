@@ -20,7 +20,7 @@ export default Ember.Mixin.create({
 
             // FIXME: Known issue: the temp comment ID generated this way results in a brief double-entry in the comment list (which disappears on refresh)
             return model.save()
-                .then(() => commentsRel.reload() );
+                .then(() => commentsRel.reload());
         },
         editComment(comment) {
             comment.save();

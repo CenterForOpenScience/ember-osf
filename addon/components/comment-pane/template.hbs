@@ -1,15 +1,13 @@
 <h3>Comments</h3>
-<ul>
-    {{#each model.comments as |comment|}}
-        {{comment-detail
-        comment=comment
-        editComment=attrs.editComment
-        deleteComment=attrs.deleteComment
-        restoreComment=attrs.restoreComment
-        reportComment=attrs.reportComment}}
-    {{else}}
-        (none)
-    {{/each}}
-</ul>
+{{#each model.comments as |comment|}}
+    {{comment-detail
+    comment=comment
+    editComment=attrs.editComment
+    deleteComment=attrs.deleteComment
+    restoreComment=attrs.restoreComment
+    reportComment=attrs.reportComment}}
+{{else}}
+    (none)
+{{/each}}
 
 {{comment-form addComment=attrs.addComment}}

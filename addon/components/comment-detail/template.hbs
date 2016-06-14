@@ -1,24 +1,24 @@
-<li>
+<div>
     {{#if comment.deleted}}
         <div>
             Comment deleted
             {{# if comment.canEdit}}
-                <button {{action 'restoreComment' comment}} class="btn btn-warning">Restore</button>
+                <button {{action restoreComment comment}} class="btn btn-warning">Restore</button>
             {{/if}}
         </div>
     {{else}}
-    <div>
-        <label>
-            {{comment.dateCreated}}:
-            {{input value=comment.content}}
-        </label>
-        {{# if comment.canEdit}}
-            <button {{action editComment comment}} class="btn btn-success">Edit</button>
-            <button {{action deleteComment comment}} class="btn btn-danger">Delete</button>
-        {{/if}}
-        {{# unless comment.canEdit}}
-            <button {{action reportComment comment}} class="btn btn-warning">Report</button>
-        {{/unless}}
-    </div>
+        <div>
+            <label>
+                {{comment.dateCreated}}:
+                {{input value=comment.content}}
+            </label>
+            {{# if comment.canEdit}}
+                <button {{action editComment comment}} class="btn btn-success">Edit</button>
+                <button {{action deleteComment comment}} class="btn btn-danger">Delete</button>
+            {{/if}}
+            {{# unless comment.canEdit}}
+                <button {{action reportComment comment}} class="btn btn-warning">Report</button>
+            {{/unless}}
+        </div>
     {{/if}}
-</li>
+</div>
