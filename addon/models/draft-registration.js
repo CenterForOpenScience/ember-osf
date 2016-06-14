@@ -6,6 +6,7 @@ export default OsfModel.extend({
     registrationMetadata: DS.attr(),
     datetimeInitiated: DS.attr('date'),
     datetimeUpdated: DS.attr('date'),
+    requiresApproval: DS.attr('boolean'),
     branchedFrom: DS.belongsTo('node', {
         inverse: null
     }),
