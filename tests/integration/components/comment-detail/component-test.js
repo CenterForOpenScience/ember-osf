@@ -6,12 +6,25 @@ moduleForComponent('comment-detail', 'Integration | Component | comment detail',
 });
 
 test('it renders', function(assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
-  this.set('comment', {'dateCreated': '05-19-2016', 'content': 'hello'});
-  this.render(hbs`{{comment-detail model=comment}}`);
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+    let noop = () => {};
+    this.set('comment', {
+        dateCreated: '05-19-2016',
+        content: 'hello'
+    });
 
-  assert.ok(this.$('div:contains("05-19-2016")'));
-  assert.ok(this.$('input[value=hello]'));
+    this.set('noop', noop);
+
+    this.render(
+        hbs`{{comment-detail 
+              model=comment 
+              editComment=(action noop)
+              deleteComment=(action noop)
+              restoreComment=(action noop)
+              reportComment=(action noop)}}`);
+
+    assert.ok(this.$('div:contains("05-19-2016")'));
+    assert.ok(this.$('input[value=hello]'));
 
 });
