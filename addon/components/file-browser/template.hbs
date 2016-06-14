@@ -11,6 +11,10 @@
             <th>Files</th>
         </tr>
     </thead>
-    {{file-browser-tree root=rootNode expanded=true
-    onClickFile=onClickFile onClickNode=onClickNode}}
+    {{file-browser-tree
+    root=rootNode
+    expanded=true
+    selectedPath=selectedPath
+    onClickFile=onClickFile
+    onClickNode=onClickNode}}
 </table>

@@ -1,6 +1,6 @@
 <tr class='file-row'>
     {{! TODO: configurable columns }}
-    <td>
+    <td class="{{if row.selected 'selected'}}">
         {{file-browser-icon row=row}}
         <a {{action 'clickRow' row}}>{{row.name}}</a>
     </td>
@@ -12,7 +12,9 @@
                 <table class='table table-condensed'>
                     {{#each row.childTrees as |child|}}
                         {{file-browser-tree root=child
-                        onClickFile=onClickFile onClickNode=onClickNode}}
+                        selectedPath=nextSelectedPath
+                        onClickFile=onClickFile
+                        onClickNode=onClickNode}}
                     {{/each}}
                 </table>
             {{/if}}

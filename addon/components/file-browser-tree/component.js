@@ -62,8 +62,23 @@ export default Ember.Component.extend({
     tagName: 'tbody',
     expanded: Ember.computed.alias('row.expanded'),
 
-    row: Ember.computed('root', function() {
-        return RowProxy.create({ content: this.get('root') });
+    nextSelectedPath: Ember.computed('selectedPath', function() {
+        let selectedPath = this.get('selectedPath');
+        return selectedPath ? selectedPath.slice(1) : null;
+    }),
+
+    row: Ember.computed('root', 'selectedPath', function() {
+        let row = RowProxy.create({ content: this.get('root') });
+        let selectedPath = this.get('selectedPath')
+        if (selectedPath && selectedPath.length) {
+            if (row.get('name') === selectedPath[0]) {
+                row.set('expanded', true);
+                if (selectedPath.length === 1) {
+                    row.set('selected', true);
+                }
+            }
+        }
+        return row;
     }),
 
     // This observer is part of the loadChildTrees hack in RowProxy

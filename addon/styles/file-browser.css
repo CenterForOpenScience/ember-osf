@@ -17,3 +17,7 @@
 .file-browser .table tbody {
     border: none;
 }
+
+.file-browser .selected {
+    background-color: #eee;
+}
