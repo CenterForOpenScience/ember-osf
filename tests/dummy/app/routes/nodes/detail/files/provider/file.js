@@ -2,6 +2,8 @@ import Ember from 'ember';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
 export default Ember.Route.extend(AuthenticatedRouteMixin, {
+    fileManager: Ember.inject.service(),
+
     model(params) {
         // TODO: verify this file actually belongs to the parent node?
         return this.store.findRecord('file', params.file_id);
@@ -15,12 +17,15 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
 
     actions: {
         download(versionID) {
-            let link = this.modelFor(this.routeName).get('links.download');
-            if (typeof versionID != 'undefined') {
-                versionID = encodeURIComponent(versionID);
-                link = `${link}?version=${versionID}`;
+            let file = this.modelFor(this.routeName);
+            let options = {};
+            if (typeof versionID !== 'undefined') {
+                options.query = {
+                    version: versionID
+                };
             }
-            window.open(link);
+            let url = this.get('fileManager').getDownloadUrl(file, options);
+            window.open(url);
         }
     }
 });
