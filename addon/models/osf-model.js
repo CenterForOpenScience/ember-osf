@@ -28,7 +28,7 @@ export default DS.Model.extend({
         return relation.members.list;
     },
     clearDirtyRelationship: function(relationship) {
-        this.set(`_dirtyRelationships.${relationship}`, false);
+        this.set(`_dirtyRelationships.${relationship.key}`, false);
         // Also clean the inverse relationship
         var relatedMeta = this[relationship].meta();
         this._peekRelationship(relationship).forEach(internalModel => {
@@ -38,7 +38,13 @@ export default DS.Model.extend({
     isNewOrDirty() {
         return this.get('isNew') || Object.keys(this.changedAttributes()).length;
     },
-    save() {
+    save(options = {
+        adapterOptions: {}
+    }) {
+        if (options.adapterOptions.nested) {
+            return this._super(...arguments);
+        }
+
         this.eachRelationship((rel, meta) => {
             var relation;
             if (meta.kind === 'hasMany') {

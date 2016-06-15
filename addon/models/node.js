@@ -29,10 +29,7 @@ export default OsfModel.extend({
         inverse: 'children'
     }),
     children: DS.hasMany('nodes', {
-        inverse: 'parent',
-        updateRequest: {
-            requestType: () => 'POST'
-        }
+        inverse: 'parent'
     }),
     affiliatedInstitutions: DS.hasMany('institutions', {
         inverse: 'nodes',
