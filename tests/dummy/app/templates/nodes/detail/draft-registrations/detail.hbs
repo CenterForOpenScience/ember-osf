@@ -1,1 +1,32 @@
-{{outlet}}
+
+<h2> {{model.registrationSchema.name}} </h2>
+<p> Initiated by: {{model.initiator.fullName}}</p>
+<p> Started: {{moment-format model.datetimeInitiated}} </p>
+<p> Last Updated: {{moment-format model.datetimeUpdated}} </p>
+
+<hr>
+
+<h3> Edit Draft Registration </h3>
+{{#each model.registrationSchema.schema.pages as |page|}}
+
+    {{#each page.questions as |question|}}
+        <p> <label> {{question.title}} </label> </p>
+        {{#if question.description}}
+            <p> {{question.description}} </p>
+        {{/if}}
+        {{#if (eq question.type "choose")}}
+            <p> <em> Please choose </em> </p>
+            <form>
+                {{#each question.options as |option|}}
+                    <p> <input type="radio" name={{question.qid}} value={{option}} checked={{selectedHelper option (draftTextInput model.registrationMetadata question)}}> {{option}} </p>
+                {{/each}}
+            </form>
+        {{else}}
+            {{input value=(draftTextInput model.registrationMetadata question)}}
+        {{/if}}
+        <hr>
+    {{/each}}
+{{/each}}
+
+{{link-to 'Save as draft''nodes.detail.registrations' model.node class='btn btn-primary'}}
+{{link-to 'Register''nodes.detail.registrations' model.node class='btn btn-success'}}
