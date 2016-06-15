@@ -89,8 +89,9 @@ export default Ember.Service.extend({
         return Ember.run(() => {
             let userID = this.get('session.data.authenticated.id');
             file.set('checkout', userID);
-            return file.save().catch(() => {
+            return file.save().catch((error) => {
                 file.rollbackAttributes();
+                throw error;
             });
         });
     },
