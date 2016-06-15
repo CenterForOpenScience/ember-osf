@@ -1,0 +1,7 @@
+These are the nodes:
+<ul>
+    {{#each model as |node|}}
+        <li>{{node.title}}</li>
+    {{/each}}
+</ul>
+<button {{action 'getMore'}}>Load more</button>
