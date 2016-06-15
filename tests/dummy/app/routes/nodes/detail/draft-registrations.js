@@ -25,6 +25,14 @@ export default Ember.Route.extend({
             } else {
                 console.log('You must have admin permission to create a draft.');
             }
+        },
+        deleteDraft(draft) {
+            var node = this.modelFor(this.routeName).node;
+            if (node.get('currentUserPermissions').indexOf(permissions.ADMIN) !== -1) {
+                draft.destroyRecord();
+            } else {
+                console.log('You do not have permissions to delete this draft');
+            }
 
         }
     }
