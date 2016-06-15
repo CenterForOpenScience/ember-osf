@@ -63,6 +63,6 @@ export default DS.Model.extend({
                 }
             }
         });
-        this._super(...arguments);
+        return this._super(...arguments);
     }
 });
