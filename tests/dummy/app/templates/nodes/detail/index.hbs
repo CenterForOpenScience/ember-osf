@@ -99,9 +99,9 @@
                 <td> {{if contrib.unregisteredContributor contrib.unregisteredContributor contrib.users.fullName}} </td>
                 <td>
                     <select onchange={{action "permissionChange" value="target.value" bubbles=true}}>
-                        <option value="read {{contrib.id}}" selected={{permissionHelper contrib.permission "read"}}> Read </option>
-                        <option value="write {{contrib.id}}" selected={{permissionHelper contrib.permission "write"}}>  Read + Write </option>
-                        <option value="admin {{contrib.id}}" selected={{permissionHelper contrib.permission "admin"}}>  Administrator </option>
+                        <option value="read {{contrib.id}}" selected={{selectedHelper contrib.permission "read"}}> Read </option>
+                        <option value="write {{contrib.id}}" selected={{selectedHelper contrib.permission "write"}}>  Read + Write </option>
+                        <option value="admin {{contrib.id}}" selected={{selectedHelper contrib.permission "admin"}}>  Administrator </option>
                     </select>
                 </td>
                 <td>
