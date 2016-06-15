@@ -1,10 +1,11 @@
 import DS from 'ember-data';
 
 import OsfModel from './osf-model';
+import FileBrowserItemMixin from 'ember-osf/mixins/file-browser-item';
 
 import { serializeHasMany } from '../utils/serialize-relationship';
 
-export default OsfModel.extend({
+export default OsfModel.extend(FileBrowserItemMixin, {
     title: DS.attr('string'),
     description: DS.attr('string'),
     category: DS.attr('string'),

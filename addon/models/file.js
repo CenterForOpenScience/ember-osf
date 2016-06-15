@@ -1,9 +1,9 @@
-import Ember from 'ember';
 import DS from 'ember-data';
 
 import OsfModel from './osf-model';
+import FileBrowserItemMixin from 'ember-osf/mixins/file-browser-item';
 
-export default OsfModel.extend({
+export default OsfModel.extend(FileBrowserItemMixin, {
     name: DS.attr('string'),
     kind: DS.attr('string'),
     path: DS.attr('string'),
@@ -17,9 +17,6 @@ export default OsfModel.extend({
     tags: DS.attr(),
 
     parentFolder: DS.belongsTo('file', { inverse: 'files' }),
-    isFolder: Ember.computed.equal('kind', 'folder'),
-    isFile: Ember.computed.equal('kind', 'file'),
-    isProvider: false,
 
     // Folder attributes
     files: DS.hasMany('file', { inverse: 'parentFolder' }),

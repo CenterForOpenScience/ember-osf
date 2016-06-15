@@ -1,21 +1,19 @@
+.file-browser .file-list {
+    position: relative;
+    border: 1px solid black;
+    height: 400px;
+    width: 305px;
+}
+
+.file-browser .file-list .file-browser-item {
+    border: 1px solid black;
+}
+
 .file-browser .file-browser-icon {
     width: 3em;
     display: inline-block;
     cursor: pointer;
     text-align: right;
-}
-
-.file-browser .subtree-wrapper {
-    padding: 0 0 0 20px;
-    border: 0;
-}
-
-.file-browser .table {
-    margin-bottom: 0;
-}
-
-.file-browser .table tbody {
-    border: none;
 }
 
 .file-browser .selected {

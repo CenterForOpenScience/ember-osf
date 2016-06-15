@@ -1,20 +1,23 @@
+<div class='breadcrumbs'>
+    {{#each breadcrumbs as |item|}}
+        <a class='breadcrumb' {{action 'gotoBreadcrumb' item}}>
+            {{item.fileName}}
+        </a>
+    {{/each}}
+</div>
+
 {{#if mutable}}
     {{! TODO: show available actions for selected files }}
 {{/if}}
 
-{{! TODO: filter by name (requires fetching entire file tree?) }}
-
-<table class='table table-condensed'>
-    <thead>
-        {{! TODO: configurable columns, click to sort }}
-        <tr>
-            <th>Files</th>
-        </tr>
-    </thead>
-    {{file-browser-tree
-    root=rootNode
-    expanded=true
-    selectedPath=selectedPath
-    onClickFile=onClickFile
-    onClickNode=onClickNode}}
-</table>
+<div class='file-list'>
+    {{#ember-collection items=items
+        cell-layout=(fixed-grid-layout itemWidth itemHeight)
+        as |item index|}}
+        <div class='file-browser-item' {{action 'select' item}}>
+            {{! TODO: item component, configurable columns }}
+            {{file-browser-icon row=item}}
+            <a {{action 'open' item}}>{{item.fileName}}</a>
+        </div>
+    {{/ember-collection}}
+</div>
