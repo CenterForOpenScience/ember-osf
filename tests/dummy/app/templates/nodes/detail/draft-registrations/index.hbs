@@ -1,0 +1,58 @@
+{{outlet}}
+{{link-to 'Back to node' 'nodes.detail' model.node class='btn btn-default'}}
+
+<h2> Draft Registrations </h2>
+
+{{link-to 'View Registrations' 'nodes.detail.registrations' model.node class='btn btn-primary'}}
+
+{{#if formDisplayed}}
+    <hr>
+    <h3> Register </h3>
+    <p>
+        Registration creates a frozen version of the project that can never be edited or deleted but can be withdrawn. Your original project remains editable but will now have the registration linked to it.
+    </p>
+    <p> Things to know about registration: </p>
+    <ul>
+        <li> Ensure your project is in the state you wish to freeze before registering. </li>
+        <li> Consider turning links into forks. </li>
+        <li>Registrations can have embargo periods for up to four years. If you choose an embargo period, the registration will automatically become public when the embargo expires. </li>
+        <li> Withdrawing a registration removes the contents of the registrations but will leave behind a log showing when the registration was created and withdrawn. </li>
+    </ul>
+    <p> Will create draft of OSF-Standard Pre-Data Collection Registration. </p>
+    <button type="button" {{action "draftForm"}} class="btn btn-default">
+        Cancel
+    </button>
+    <button type="button" {{action "createDraft" '572a6d8163ca2fd4e992e66a'}} class="btn btn-primary">
+        Create Draft
+    </button>
+{{else}}
+    <button type="button" {{action "draftForm"}} class="btn btn-success">
+        New Registration
+    </button>
+{{/if}}
+
+<hr>
+
+{{#each model.drafts as |draft|}}
+    {{#link-to "nodes.detail.draft_registrations.detail" draft.id}}
+        <h3> {{draft.registrationSchema.name}} </h3>
+    {{/link-to}}
+    <p> Initiated by: {{draft.initiator.fullName}}</p>
+    <p> Started: {{moment-format draft.datetimeInitiated}} </p>
+    <p> Last Updated: {{moment-format draft.datetimeUpdated}} </p>
+
+    {{#unless draft.requiresApproval}}
+        <button type="button" class="btn btn-success btn-sm">
+            Register
+        </button>
+    {{/unless}}
+
+    <button type="button" class="btn btn-info btn-sm">
+        <i class="glyphicon glyphicon-pencil"></i>  Edit
+    </button>
+
+    <button type="button" class="btn btn-danger btn-sm">
+        <i class="glyphicon glyphicon-remove"></i>  Delete
+    </button>
+    <hr>
+{{/each}}

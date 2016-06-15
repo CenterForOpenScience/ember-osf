@@ -75,7 +75,10 @@ export default OsfModel.extend({
     }),
 
     draftRegistrations: DS.hasMany('draft-registrations', {
-        inverse: 'branchedFrom'
+        inverse: 'branchedFrom',
+        updateRequest: {
+            requestType: () => 'POST'
+        }
     }),
 
     root: DS.belongsTo('node', {
