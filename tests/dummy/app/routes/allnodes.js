@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-import InfinityRoute from "ember-infinity/mixins/route";
+import InfinityRoute from "ember-osf/mixins/infinity-custom";
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
 export default Ember.Route.extend(AuthenticatedRouteMixin, InfinityRoute, {

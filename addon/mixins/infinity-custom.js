@@ -112,10 +112,10 @@ const RouteMixin = Ember.Mixin.create({
      * The supported findMethod name for
      * the developers Ember Data version.
      * Provided here for backwards compat.
-     * @type {String}
+     * @type {function}
      * @default "query"
      */
-    _storeFindMethod: 'query',
+    _storeFindMethod: null,
 
     _firstPageLoaded: false,
 
@@ -142,7 +142,7 @@ const RouteMixin = Ember.Mixin.create({
     },
 
     _ensureCompatibility() {
-        if (Ember.isEmpty(this.get('store')) || Ember.isEmpty(this.get('store')[this._storeFindMethod])) {
+        if (Ember.isEmpty(this.get('store'))) {
             throw new Ember.Error("Ember Infinity: Ember Data store is not available to infinityModel");
         }
 
@@ -164,7 +164,7 @@ const RouteMixin = Ember.Mixin.create({
     infinityModel(modelName, options, boundParams) {
         this.set('_infinityModelName', modelName);
 
-        this._ensureCompatibility();
+        //this._ensureCompatibility();
 
         options = options ? assign({}, options) : {};
         const startingPage = options.startingPage === undefined ? 0 : options.startingPage - 1;
@@ -172,15 +172,22 @@ const RouteMixin = Ember.Mixin.create({
         const perPage = options.perPage || this.get('_perPage');
         const modelPath = options.modelPath || this.get('_modelPath');
 
+        let store = this.get('store');
+        // Make storeFindMethod configurable, and default to store.query (with appropriate value of `this`)
+        const _storeFindMethod = options._storeFindMethod ? options._storeFindMethod : store.get('query').bind(store);
+        console.log('options!', options, _storeFindMethod);
+
         delete options.startingPage;
         delete options.perPage;
         delete options.modelPath;
+        delete options._storeFindMethod;
 
         this.setProperties({
             currentPage: startingPage,
             _firstPageLoaded: false,
             _perPage: perPage,
             _modelPath: modelPath,
+            _storeFindMethod: _storeFindMethod,
             _extraParams: options
         });
 
@@ -258,7 +265,7 @@ const RouteMixin = Ember.Mixin.create({
         const nextPage = this.incrementProperty('currentPage');
         const params = this._buildParams(nextPage);
 
-        return this.get('store')[this._storeFindMethod](modelName, params).then(
+        return this._storeFindMethod(modelName, params).then(
             this._afterInfinityModel(this));
     },
 
