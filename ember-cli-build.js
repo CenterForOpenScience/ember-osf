@@ -7,7 +7,8 @@ module.exports = function(defaults) {
     var app = new EmberAddon(defaults, {
         sassOptions: {
             includePaths: [
-                'tests/dummy/app/components'
+                'tests/dummy/app/components',
+                'addon/styles'
             ]
         }
     });
