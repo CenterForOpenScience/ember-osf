@@ -1,0 +1,23 @@
+.file-browser {
+    .file-list {
+        position: relative;
+        border: 1px solid gray;
+        height: 400px;
+        width: 305px;
+    }
+
+    .file-list .file-browser-item {
+        height: 30px;
+    }
+
+    .file-browser-icon {
+        width: 3em;
+        display: inline-block;
+        cursor: pointer;
+        text-align: right;
+    }
+
+    .selected {
+        background-color: #eee;
+    }
+}

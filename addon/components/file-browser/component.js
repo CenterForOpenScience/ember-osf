@@ -1,9 +1,10 @@
 import Ember from 'ember';
 import layout from './template';
 
-/* use:
- * {{file-browser rootItems=items selectedFile=file
- *   openFile=(action) openNode=(action)}}
+/*
+ * {{file-browser rootItems=items openFile=(action) openNode=(action)}}
+ * or:
+ * {{file-browser rootItem=item openFile=(action) openNode=(action)}}
  */
 export default Ember.Component.extend({
     layout,
@@ -28,6 +29,12 @@ export default Ember.Component.extend({
     selectedItems: Ember.A(),
     breadcrumbs: Ember.A(),
 
+    init() {
+        this._super(...arguments);
+        this.set('selectedItems', Ember.A());
+        this.set('breadcrumbs', Ember.A());
+    },
+
     didReceiveAttrs() {
         this._super(...arguments);
         const rootItem = this.get('rootItem');
@@ -37,16 +44,31 @@ export default Ember.Component.extend({
     },
 
     actions: {
-        select(item) {
+        selectItem(item) {
             this.get('selectedItems').addObject(item);
         },
 
-        open(item) {
-            if (item.get('canHaveChildren')) {
-                this.get('breadcrumbs').pushObject(item);
-                this.set('currentParent', item);
+        navigateToItem(item) {
+            let breadcrumbs = this.get('breadcrumbs');
+            let index = breadcrumbs.indexOf(item);
+            if (index === -1) {
+                breadcrumbs.pushObject(item);
             } else {
-                this.sendAction('openFile', item);
+                let slicedBread = breadcrumbs.slice(0, index + 1);
+                this.set('breadcrumbs', slicedBread);
+            }
+            this.set('currentParent', item);
+        },
+
+        openItem(item) {
+            if (item.get('isFile')) {
+                if (this.get('openFile')) {
+                    this.sendAction('openFile', item);
+                }
+            } else if (item.get('isNode')) {
+                if (this.get('openFile')) {
+                    this.sendAction('openNode', item);
+                }
             }
         },
 
@@ -54,10 +76,6 @@ export default Ember.Component.extend({
             this.get('breadcrumbs').popObject();
             this.set('items', this.get('breadcrumbs.lastObject.childItems'));
         },
-
-        gotoBreadcrumb(item) {
-
-        }
     }
 
     /*

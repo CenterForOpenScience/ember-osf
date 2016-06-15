@@ -1,23 +1,26 @@
-<div class='breadcrumbs'>
+<ol class='breadcrumb'>
     {{#each breadcrumbs as |item|}}
-        <a class='breadcrumb' {{action 'gotoBreadcrumb' item}}>
-            {{item.fileName}}
-        </a>
+        <li>
+            <a {{action 'navigateToItem' item}}>
+                {{item.fileName}}
+            </a>
+        </li>
     {{/each}}
-</div>
+</ol>
 
-{{#if mutable}}
+{{#if selectedItems}}
     {{! TODO: show available actions for selected files }}
 {{/if}}
 
 <div class='file-list'>
     {{#ember-collection items=items
-        cell-layout=(fixed-grid-layout itemWidth itemHeight)
-        as |item index|}}
-        <div class='file-browser-item' {{action 'select' item}}>
-            {{! TODO: item component, configurable columns }}
-            {{file-browser-icon row=item}}
-            <a {{action 'open' item}}>{{item.fileName}}</a>
-        </div>
+            cell-layout=(fixed-grid-layout itemWidth itemHeight)
+            as |item index|}}
+        {{file-browser-item item=item
+            selectedItems=selectedItems
+            navigateToItem=(action 'navigateToItem')
+            selectItem=(action 'selectItem')
+            openItem=(action 'openItem')
+        }}
     {{/ember-collection}}
 </div>
