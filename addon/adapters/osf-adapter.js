@@ -63,71 +63,113 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
 	    return response;
 	});
     },
-    _handleRelatedRequest(store, type, snapshot, relationship) {
-        var related = snapshot.record._peekRelationship(relationship);
+    _addRelated(store, snapshot, addedSnapshots, relationship, url) {
+        var data = {};
+        var relatedMeta = snapshot.record[relationship].meta();
+
+	var type = singularize(relatedMeta.type);
+        var serializer = store.serializerFor(type);
+        data.data = addedSnapshots.map(addedSnapshot => {
+            return serializer.serializeIntoHash(
+                data,
+                store.modelFor(type),
+                addedSnapshot, {
+                    forRelationship: true
+                });
+        });
+        return this.ajax(url, 'POST', {
+            data: data
+        });
+    },
+    _removeRelated(store, snapshot, addedSnapshots, relationship, url) {
+        var data = {};
+        var relatedMeta = snapshot.record[relationship].meta();
+
+	var type = singularize(relatedMeta.type);
+        var serializer = store.serializerFor(type);
+        data.data = addedSnapshots.map(addedSnapshot => {
+            return serializer.serializeIntoHash(
+                data,
+                store.modelFor(type),
+                addedSnapshot, {
+                    forRelationship: true
+                });
+        });
+        return this.ajax(url, 'DELETE', {
+            data: data
+        });
+    },
+    _handleRelatedRequest(store, type, snapshot, relationship, change) {
+        var related = snapshot.record.get(`_dirtyRelationships.${relationship}.${change}`);
+	if (!related.length) {
+	    return [];
+	}
 	var relatedMeta = snapshot.record[relationship].meta();
 
-	var url = this._buildRelationshipURL(snapshot,  relationship);
+	var url = this._buildRelationshipURL(snapshot, relationship);
 	var promises = [];
 
-	var newRecords = related.filter(related => related.record.get('isNew'));
-        if (newRecords.length) {
-            /* TODO allow bulk create?
-	     if (relatedMeta.options.allowBulkCreate) {
-		console.log(`Warning: Bulk create requests are at best poorly supported.
- We cannot guarentee the store will be updated with the results of these creates, and
- reccommend that you manually reload this relationship if the request succeeds.`);
-		promises.push(this._makeManyRequest(
 
-		    'POST',
-		    serializer.serialize(dirtyRecords),
-		    true
-		).then(() => null));
-	    } else {
-	     */
-            promises.push(...newRecords.map(newSnapshot => {
-		return this._saveRelated(
-		    newSnapshot,
+	var adapter = store.adapterFor(type.modelName);
+	if (change === 'added') {
+	    promises.push(
+		...adapter._addRelated(
+		    store,
+		    snapshot,
+		    related,
 		    relationship,
 		    url
-		);
-	    }));
-	}
-        var dirtyRecords = related.filter(related => related.record.isNewOrDirty() && !related.record.get('isNew'));
-        if (dirtyRecords.length) {
-            if (relatedMeta.options.allowBulkUpdate) {
+		)
+	    );
+	} else if (change === 'removed') {
+	    promises.push(
+		...adapter._removeRelated(
+		    store,
+		    snapshot,
+		    related,
+		    relationship,
+		    url
+		)
+	    );
+	} else {
+            if (relatedMeta.options[`allowBulk${Ember.String.capitalize(change)}`]) {
 		promises.push(
 		    this._saveRelated(
-			dirtyRecords,
+			related,
 			relationship,
 			url,
 			true
 		    )
 		);
             } else {
-                promises.push(...dirtyRecords.map(dirtySnapshot => this._saveRelated(
-		    dirtySnapshot,
+		promises.push(...related.map(relatedSnapshot => this._saveRelated(
+		    relatedSnapshot,
 		    relationship,
 		    url
 		)));
             }
-        }
-	// TODO
+	}
+	return promises;
     },
     updateRecord(store, type, snapshot) {
-        var promises = null;
-        var dirtyRelationships = snapshot.record.get('dirtyRelationships');
-        if (dirtyRelationships.length) {
-            promises = dirtyRelationships.map(relationship => {
-		return this._handleRelatedRequest(store, type, snapshot, relationship);
-            });
-        }
+        var promises = [];
+        var dirtyRelationships = snapshot.record.get('_dirtyRelationships');
+        Object.keys(dirtyRelationships).forEach(relationship => {
+	    var changed = dirtyRelationships[relationship];
+	    Object.keys(changed).forEach(change => {
+		promises = promises.concat(
+		    this._handleRelatedRequest(
+			store, type, snapshot, relationship, change
+		    ) || []
+		);
+	    });
+	});
         if (Object.keys(snapshot.record.changedAttributes()).length) {
-            if (promises) {
+            if (promises.length) {
                 return this._super(...arguments).then(response => Ember.RSVP.allSettled(promises).then(() => response));
             }
             return this._super(...arguments);
-        } else if (promises) {
+        } else if (promises.length) {
             return Ember.RSVP.allSettled(promises).then(() => null);
         } else {
             return new Ember.RSVP.Promise((resolve) => resolve(null));

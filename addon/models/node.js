@@ -2,10 +2,6 @@ import DS from 'ember-data';
 
 import OsfModel from './osf-model';
 
-import {
-    serializeHasMany
-} from '../utils/serialize-relationship';
-
 export default OsfModel.extend({
     title: DS.attr('string'),
     description: DS.attr('string'),
@@ -32,14 +28,13 @@ export default OsfModel.extend({
         inverse: 'parent'
     }),
     affiliatedInstitutions: DS.hasMany('institutions', {
-        inverse: 'nodes',
-        serializer: serializeHasMany.bind(null, 'affiliatedInstitutions', 'institution')
+        inverse: 'nodes'
     }),
     comments: DS.hasMany('comments'),
     contributors: DS.hasMany('contributors', {
         updateRequest: {
-            requestType: (snapshot, relationship) => {
-                if (snapshot.hasMany(relationship).filter(each => each.record.get('isNew')).length) {
+            requestType: (snapshot, contributorsship) => {
+                if (snapshot.hasMany(contributorsship).filter(each => each.record.get('isNew')).length) {
                     return 'POST';
                 }
                 return 'PATCH';
@@ -81,5 +76,18 @@ export default OsfModel.extend({
     root: DS.belongsTo('node', {
         inverse: null
     }),
-    logs: DS.hasMany('logs')
+    logs: DS.hasMany('logs'),
+
+    save() {
+	// Some duplicate logic from osf-model#save needed to support
+	// contributor edits being saved through the node
+        var contributors = this.hasMany('contributors');
+        if (contributors.hasData || contributors.hasLoaded) {
+	    this.set(
+		'_dirtyRelationships.contributors.update',
+		contributors.members.filter(m => Object.key(m.record.changedAttributes()).length)
+	    );
+        }
+	return this._super(...arguments);
+    }
 });
