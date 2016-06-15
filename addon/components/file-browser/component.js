@@ -69,26 +69,15 @@ export default Ember.Component.extend({
                 if (this.get('openFile')) {
                     this.sendAction('openNode', item);
                 }
+            } else if (item.get('isFolder')) {
+                this.send('navigateToItem', item);
             }
         },
 
         back() {
             this.get('breadcrumbs').popObject();
-            this.set('items', this.get('breadcrumbs.lastObject.childItems'));
+            let newParent = this.get('breadcrumbs.lastObject') || this.get('rootItem');
+            this.set('currentParent', newParent);
         },
     }
-
-    /*
-    selectedPath: Ember.computed('selectedFile', function() {
-        let file = this.get('selectedFile');
-        if (!file) {
-            return null;
-        }
-        let pathArray = this.get('selectedFile.materializedPath').split('/');
-        pathArray = pathArray.filter((name) => name !== '');
-        pathArray.unshift(file.get('provider'));
-        pathArray.unshift(this.get('rootNode.title'));
-        return Ember.A(pathArray);
-    }),
-    */
 });

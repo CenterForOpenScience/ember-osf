@@ -6,8 +6,12 @@
         width: 305px;
     }
 
-    .file-list .file-browser-item {
+    .file-browser-item {
         height: 30px;
+    }
+
+    .file-browser-item:hover {
+        background-color: #ddd
     }
 
     .file-browser-icon {
