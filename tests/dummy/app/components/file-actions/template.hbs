@@ -2,7 +2,7 @@
     {{#unless file.isProvider}}
         <tr>
             <td>
-                Rename: 
+                Rename:
             </td>
             <td>
                 {{input value=newName}}
@@ -28,23 +28,23 @@
                 Move to:
             </td>
             <td>
-                <div>Folder ID: {{input value=moveTarget}}</div>
-                <div>Node ID (optional): {{input value=moveNode}}</div>
-                <div>New name (optional): {{input value=moveName}}</div>
+                <div><label for={{elem-id this 'file-actions-input-move-folder'}}>{{t 'eosf.fileActions.labelInputMoveFolder'}}: {{input required=true id=(elem-id this 'file-actions-input-move-folder') value=moveTarget }}</label></div>
+                <div><label for={{elem-id this 'file-actions-input-move-node'}}>{{t 'eosf.fileActions.labelInputMoveNode'}}: {{input id=(elem-id this 'file-actions-input-move-node') value=moveNode}}</label></div>
+                <div><label for={{elem-id this 'file-actions-input-move-name'}}>{{t 'eosf.fileActions.labelInputMoveName'}}: {{input id=(elem-id this 'file-actions-input-move-name') value=moveName}}</label></div>
                 <div>
-                    <label>
-                        Replace {{input type="checkbox" checked=moveReplace}}
+                    <label for={{elem-id this 'file-actions-input-option-replace'}}>
+                        {{t 'eosf.fileActions.labelInputOptionsReplace'}} {{input id=(elem-id this 'file-actions-input-option-replace') type="checkbox" checked=moveReplace}}
                     </label>
                 </div>
                 <div>
-                    <label>
-                        Copy {{input type="checkbox" checked=moveCopy}}
+                    <label for={{elem-id this 'file-actions-input-option-copy'}}>
+                        {{t 'eosf.fileActions.labelInputOptionsCopy'}} {{input id=(elem-id this 'file-actions-input-option-copy') type="checkbox" checked=moveCopy}}
                     </label>
                 </div>
             </td>
             <td>
                 <button {{action "moveFile" moveTarget}} class="btn btn-primary">
-                    Move
+                    {{t 'eosf.fileActions.buttonMoveFile'}}
                 </button>
             </td>
         </tr>
