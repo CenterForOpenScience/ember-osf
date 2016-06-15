@@ -15,12 +15,33 @@
             <p> {{question.description}} </p>
         {{/if}}
         {{#if (eq question.type "choose")}}
-            <p> <em> Please choose </em> </p>
+            {{#unless question.description}}
+                <p> <em> Please choose </em> </p>
+            {{/unless}}
             <form>
                 {{#each question.options as |option|}}
-                    <p> <input type="radio" name={{question.qid}} value={{option}} checked={{selectedHelper option (draftTextInput model.registrationMetadata question)}}> {{option}} </p>
+                    {{#if (eq (checkDataType option) "string")}}
+                        <p> <input type="radio" name={{question.qid}} value={{option}} checked={{selectedHelper option (draftTextInput model.registrationMetadata question)}}> {{option}} </p>
+                    {{else}}
+                        <p> <input type="radio" name={{question.qid}} value={{option.text}} checked={{selectedHelper option.text (draftTextInput model.registrationMetadata question)}}> {{option.text}} </p>
+                    {{/if}}
                 {{/each}}
             </form>
+        {{else if (eq question.type "object")}}
+            {{#each question.properties as |subquestion|}}
+                {{#if (eq subquestion.type "osf-upload")}}
+                    <p>
+                        You may attach up to 5 files to this question.
+                        You may attach files that you already have in this OSF project, or upload a new file from your computer.
+                        Uploaded files will automatically be added to this project so that they can be registered.
+                    </p>
+                    <a href=#> Attach File (not implemented) </a>
+                {{else}}
+                    {{input value=(draftTextInput model.registrationMetadata question true)}}
+                {{/if}}
+
+            {{/each}}
+
         {{else}}
             {{input value=(draftTextInput model.registrationMetadata question)}}
         {{/if}}
