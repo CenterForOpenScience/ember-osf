@@ -65,6 +65,6 @@ export default DS.Model.extend(HasManyQuery.ModelMixin, {
                 }
             }
         });
-        this._super(...arguments);
+        return this._super(...arguments);
     }
 });

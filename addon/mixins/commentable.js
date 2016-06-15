@@ -11,8 +11,11 @@ export default Ember.Mixin.create({
         // Uses hasManyQuery to fetch comments whenever model is updated
         // This is required to fetch the relationship with target parameter, since node + file comments on a project live under the same endpoint
         let model = this.get('model');
-        model.query('comments', {filter: {target: model.id}})
-            .then((res) => this.set('comments', res));
+        model.query('comments', {
+            filter: {
+                target: model.id
+            }
+        }).then((res) => this.set('comments', res));
     }),
 
     actions: {
@@ -40,13 +43,8 @@ export default Ember.Mixin.create({
             comment.save();
         },
         deleteComment(comment) {
-            let relation = this.get('model.comments');
-            // TODO: Deleting comment triggers an update event. Wait for that reload to finish before actual reload can occur
-            //   Dear me, I hope this can be improved
-            // TODO: Delete operation can/will be replaced with patch operation
-            comment.destroyRecord()
-                .then(() => relation.reload())
-                .then(() => relation.reload());
+            comment.set('deleted', true);
+            return comment.save();
         },
         restoreComment(comment) {
             comment.set('deleted', false);
