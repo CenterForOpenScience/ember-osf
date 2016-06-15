@@ -18,11 +18,18 @@
         <li>Registrations can have embargo periods for up to four years. If you choose an embargo period, the registration will automatically become public when the embargo expires. </li>
         <li> Withdrawing a registration removes the contents of the registrations but will leave behind a log showing when the registration was created and withdrawn. </li>
     </ul>
-    <p> Will create draft of OSF-Standard Pre-Data Collection Registration. </p>
+    <p> Continue your registration by selecting a registration form: </p>
+    <p>{{radio-button name="form" value="572a6d8163ca2fd4e992e66f" checked=schema}} Prereg Challenge </p>
+    <p>{{radio-button name="form" value="572a6d8163ca2fd4e992e668" checked=schema}} Open-Ended Registration </p>
+    <p>{{radio-button name="form" value="572a6d8163ca2fd4e992e66a" checked=schema}} OSF-Standard Pre-Data Collection Registration </p>
+    <p>{{radio-button name="form" value="572a6d8163ca2fd4e992e66c" checked=schema}} Replication Recipe (Brandt et al., 2013): Pre-Registration </p>
+    <p>{{radio-button name="form" value="572a6d8163ca2fd4e992e66e" checked=schema}} Replication Recipe (Brandt et al., 2013): Post-Completion </p>
+    <p>{{radio-button name="form" value="572a6d8163ca2fd4e992e672" checked=schema}} Pre-Registration in Social Psychology (van 't Veer & Giner-Sorolla, 2016): Pre-Registration </p>
+
     <button type="button" {{action "draftForm"}} class="btn btn-default">
         Cancel
     </button>
-    <button type="button" {{action "createDraft" '572a6d8163ca2fd4e992e66a'}} class="btn btn-primary">
+    <button type="button" {{action "createDraft" schema}} class="btn btn-primary">
         Create Draft
     </button>
 {{else}}
@@ -33,26 +40,26 @@
 
 <hr>
 
-{{#each model.drafts as |draft|}}
-    {{#link-to "nodes.detail.draft_registrations.detail" draft.id}}
+{{#if model.drafts}}
+    {{#each model.drafts as |draft|}}
         <h3> {{draft.registrationSchema.name}} </h3>
-    {{/link-to}}
-    <p> Initiated by: {{draft.initiator.fullName}}</p>
-    <p> Started: {{moment-format draft.datetimeInitiated}} </p>
-    <p> Last Updated: {{moment-format draft.datetimeUpdated}} </p>
+        <p> Initiated by: {{draft.initiator.fullName}}</p>
+        <p> Started: {{moment-format draft.datetimeInitiated}} </p>
+        <p> Last Updated: {{moment-format draft.datetimeUpdated}} </p>
 
-    {{#unless draft.requiresApproval}}
-        <button type="button" class="btn btn-success btn-sm">
-            Register
+        {{#unless draft.requiresApproval}}
+            <button type="button" class="btn btn-success btn-sm">
+                Register
+            </button>
+        {{/unless}}
+
+        {{#link-to "nodes.detail.draft_registrations.detail" draft.id class="btn btn-info btn-sm"}}
+            <i class="glyphicon glyphicon-pencil"></i>  Edit
+        {{/link-to}}
+
+        <button type="button" class="btn btn-danger btn-sm">
+            <i class="glyphicon glyphicon-remove"></i>  Delete
         </button>
-    {{/unless}}
-
-    <button type="button" class="btn btn-info btn-sm">
-        <i class="glyphicon glyphicon-pencil"></i>  Edit
-    </button>
-
-    <button type="button" class="btn btn-danger btn-sm">
-        <i class="glyphicon glyphicon-remove"></i>  Delete
-    </button>
-    <hr>
-{{/each}}
+        <hr>
+    {{/each}}
+{{/if}}

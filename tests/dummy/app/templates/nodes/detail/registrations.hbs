@@ -3,9 +3,7 @@
 
 <h2> Registrations </h2>
 
-{{#if model.node.draftRegistrations}}
-    {{link-to 'View Drafts' 'nodes.detail.draft_registrations' model.node class='btn btn-primary'}}
-{{/if}}
+{{link-to 'View Drafts' 'nodes.detail.draft_registrations' model.node class='btn btn-primary'}}
 
 <button type="button" class="btn btn-success">
     New Registration
