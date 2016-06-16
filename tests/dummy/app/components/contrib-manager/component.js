@@ -26,6 +26,9 @@ export default Ember.Component.extend({
                 this.get('permissionChanges'),
                 this.get('bibliographicChanges')
             );
-        }      
+        },
+        removeContributor(contrib) {
+            this.attrs.removeContributor(contrib);
+        }
     }
 });

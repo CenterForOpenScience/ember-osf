@@ -11,14 +11,13 @@ export default Ember.Controller.extend(TaggableMixin, NodeActionsMixin, {
             this.toggleProperty('propertiesVisible');
         },
         updateNode() {
-	    this.set('isSaving', true);
+            this.set('isSaving', true);
             return this._super(...arguments)
-		.then(() => {
-		    this.set('isSaving', false);
+                .then(() => {
+                    this.set('isSaving', false);
                     this.get('toast').success('Node updated successfully');
-		})
-		.catch(() => this.set('isSaving', false));
+                })
+                .catch(() => this.set('isSaving', false));
         }
     }
 });
-

@@ -50,23 +50,43 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         }
         return null;
     },
-    _createRelated(store, snapshot, createdSnapshots, relationship, url, isBulk = false) {
-        return this._doRelatedRequest(store, snapshot, createdSnapshots, relationship, url, 'POST', isBulk);
+    _createRelated(store, snapshot, createdSnapshots, relationship, url, isBulk = false) { // jshint ignore:line
+        // TODO support bulk create?
+        // if (isBulk) {
+        //
+        // }
+        if (createdSnapshots.record) {
+            return createdSnapshots.record.save({
+                adapterOptions: {
+                    nested: true,
+                    url: url
+                }
+            });
+        } else {
+            return createdSnapshots.map(s => s.record.save({
+                adapterOptions: {
+                    nested: true,
+                    url: url
+                }
+            }));
+        }
     },
     _updateRelated(store, snapshot, updatedSnapshots, relationship, url, isBulk = false) {
         return this._doRelatedRequest(store, snapshot, updatedSnapshots, relationship, url, 'PATCH', isBulk);
     },
     _addRelated(store, snapshot, addedSnapshots, relationship, url, isBulk = false) {
-        if (isBulk) {
-            // TODO support bulk create?
-        }
-        return addedSnapshots.map(r => r.save({
-            nested: true,
-            url: url
-        }));
+        return this._doRelatedRequest(store, snapshot, addedSnapshots, relationship, url, 'POST', isBulk);
     },
     _removeRelated(store, snapshot, removedSnapshots, relationship, url, isBulk = false) {
         return this._doRelatedRequest(store, snapshot, removedSnapshots, relationship, url, 'DELETE', isBulk);
+    },
+    _deleteRelated(store, snapshot, removedSnapshots) { // jshint ignore:line
+        return this._removeRelated(...arguments).then(() => {
+            if (removedSnapshots.record) {
+                removedSnapshots = [removedSnapshots];
+            }
+            removedSnapshots.forEach(s => s.record.unloadRecord());
+        });
     },
     _doRelatedRequest(store, snapshot, relatedSnapshots, relationship, url, requestMethod, isBulk = false) {
         var data = {};
