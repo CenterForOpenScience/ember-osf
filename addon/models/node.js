@@ -32,41 +32,14 @@ export default OsfModel.extend({
     }),
     comments: DS.hasMany('comments'),
     contributors: DS.hasMany('contributors', {
-        updateRequest: {
-            requestType: (snapshot, contributorsship) => {
-                if (snapshot.hasMany(contributorsship).filter(each => each.record.get('isNew')).length) {
-                    return 'POST';
-                }
-                return 'PATCH';
-            },
-            isBulk: () => true,
-            serialized(serialized) {
-                return {
-                    data: serialized.map(function(record) {
-                        var data = record.data;
-                        return data;
-                    })
-                };
-            }
-        },
+        allowBulkUpdate: true,
+        allowBulkRemove: true,
         inverse: null
     }),
 
     files: DS.hasMany('file-provider'),
     //forkedFrom: DS.belongsTo('node'),
     nodeLinks: DS.hasMany('node-links', {
-        updateRequest: {
-            requestType: () => 'POST',
-            isBulk: () => true,
-            serialized(serialized) {
-                return {
-                    data: serialized.map(function(record) {
-                        var data = record.data;
-                        return data;
-                    })
-                };
-            }
-        },
         inverse: null
     }),
     registrations: DS.hasMany('registrations', {
@@ -79,15 +52,16 @@ export default OsfModel.extend({
     logs: DS.hasMany('logs'),
 
     save() {
-	// Some duplicate logic from osf-model#save needed to support
-	// contributor edits being saved through the node
-        var contributors = this.hasMany('contributors');
+        // Some duplicate logic from osf-model#save needed to support
+        // contributor edits being saved through the node
+        var promise = this._super(...arguments);
+        var contributors = this.hasMany('contributors').hasManyRelationship;
         if (contributors.hasData || contributors.hasLoaded) {
-	    this.set(
-		'_dirtyRelationships.contributors.update',
-		contributors.members.filter(m => Object.key(m.record.changedAttributes()).length)
-	    );
+            this.set(
+                '_dirtyRelationships.contributors.update',
+                contributors.members.list.filter(m => Object.keys(m.record.changedAttributes()).length)
+            );
         }
-	return this._super(...arguments);
+        return promise;
     }
 });

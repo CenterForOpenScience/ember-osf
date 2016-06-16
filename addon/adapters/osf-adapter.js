@@ -19,14 +19,14 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         // Fix issue where CORS request failed on 301s: Ember does not seem to append trailing
         // slash to URLs for single documents, but DRF redirects to force a trailing slash
         var url = this._super(...arguments);
-	var options = snapshot.adapterOptions || {};
+        var options = snapshot.adapterOptions || {};
         if (requestType === 'deleteRecord' || requestType === 'updateRecord' || requestType === 'findRecord') {
             if (snapshot.record.get('links.self')) {
                 url = snapshot.record.get('links.self');
             }
         } else if (options.url) {
-	    url = options.url;
-	}
+            url = options.url;
+        }
 
         if (url.lastIndexOf('/') !== url.length - 1) {
             url += '/';
@@ -34,8 +34,7 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         return url;
     },
     /**
-     * Construct a URL for a relationship create/update/delete. Has the same
-     * signature as buildURL, with the addition of a 'relationship' param
+     * Construct a URL for a relationship create/update/delete.
      *
      * @method _buildRelationshipURL
      * @param {DS.Snapshot} snapshot
@@ -49,121 +48,101 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         if (links && (links.self || links.related)) {
             return links.self ? links.self.href : links.related.href;
         }
-	return null;
+        return null;
     },
-    _saveRelated(snapshot, relationship, url, isBulk=false) {
-	return snapshot.record.save({
-            adapterOptions: {
-		nested: true,
-		url: url,
-		isBulk: isBulk
-            }
-	}).then((response) => {
-	    snapshot.record.clearDirtyRelationship(relationship);
-	    return response;
-	});
+    _createRelated(store, snapshot, createdSnapshots, relationship, url, isBulk = false) {
+        return this._doRelatedRequest(store, snapshot, createdSnapshots, relationship, url, 'POST', isBulk);
     },
-    _addRelated(store, snapshot, addedSnapshots, relationship, url) {
+    _updateRelated(store, snapshot, updatedSnapshots, relationship, url, isBulk = false) {
+        return this._doRelatedRequest(store, snapshot, updatedSnapshots, relationship, url, 'PATCH', isBulk);
+    },
+    _addRelated(store, snapshot, addedSnapshots, relationship, url, isBulk = false) {
+        if (isBulk) {
+            // TODO support bulk create?
+        }
+        return addedSnapshots.map(r => r.save({
+            nested: true,
+            url: url
+        }));
+    },
+    _removeRelated(store, snapshot, removedSnapshots, relationship, url, isBulk = false) {
+        return this._doRelatedRequest(store, snapshot, removedSnapshots, relationship, url, 'DELETE', isBulk);
+    },
+    _doRelatedRequest(store, snapshot, relatedSnapshots, relationship, url, requestMethod, isBulk = false) {
         var data = {};
         var relatedMeta = snapshot.record[relationship].meta();
-
-	var type = singularize(relatedMeta.type);
+        var type = singularize(relatedMeta.type);
         var serializer = store.serializerFor(type);
-        data.data = addedSnapshots.map(addedSnapshot => {
-            return serializer.serializeIntoHash(
+        if (relatedSnapshots.record) {
+            serializer.serializeIntoHash(
                 data,
                 store.modelFor(type),
-                addedSnapshot, {
-                    forRelationship: true
-                });
-        });
-        return this.ajax(url, 'POST', {
-            data: data
-        });
-    },
-    _removeRelated(store, snapshot, addedSnapshots, relationship, url) {
-        var data = {};
-        var relatedMeta = snapshot.record[relationship].meta();
-
-	var type = singularize(relatedMeta.type);
-        var serializer = store.serializerFor(type);
-        data.data = addedSnapshots.map(addedSnapshot => {
-            return serializer.serializeIntoHash(
-                data,
-                store.modelFor(type),
-                addedSnapshot, {
-                    forRelationship: true
-                });
-        });
-        return this.ajax(url, 'DELETE', {
-            data: data
+                relatedSnapshots, {
+                    forRelationship: true,
+                    isBulk: isBulk
+                }
+            );
+        } else {
+            data.data = relatedSnapshots.map(relatedSnapshot => {
+                var item = {};
+                serializer.serializeIntoHash(
+                    item,
+                    store.modelFor(type),
+                    relatedSnapshot, {
+                        forRelationship: true,
+                        isBulk: isBulk
+                    }
+                );
+                return item.data;
+            });
+        }
+        return this.ajax(url, requestMethod, {
+            data: data,
+            isBulk: isBulk
         });
     },
     _handleRelatedRequest(store, type, snapshot, relationship, change) {
-        var related = snapshot.record.get(`_dirtyRelationships.${relationship}.${change}`);
-	if (!related.length) {
-	    return [];
-	}
-	var relatedMeta = snapshot.record[relationship].meta();
-
-	var url = this._buildRelationshipURL(snapshot, relationship);
-	var promises = [];
-
-
-	var adapter = store.adapterFor(type.modelName);
-	if (change === 'added') {
-	    promises.push(
-		...adapter._addRelated(
-		    store,
-		    snapshot,
-		    related,
-		    relationship,
-		    url
-		)
-	    );
-	} else if (change === 'removed') {
-	    promises.push(
-		...adapter._removeRelated(
-		    store,
-		    snapshot,
-		    related,
-		    relationship,
-		    url
-		)
-	    );
-	} else {
-            if (relatedMeta.options[`allowBulk${Ember.String.capitalize(change)}`]) {
-		promises.push(
-		    this._saveRelated(
-			related,
-			relationship,
-			url,
-			true
-		    )
-		);
-            } else {
-		promises.push(...related.map(relatedSnapshot => this._saveRelated(
-		    relatedSnapshot,
-		    relationship,
-		    url
-		)));
-            }
-	}
-	return promises;
+        var related = snapshot.record.get(`_dirtyRelationships.${relationship}.${change}`).map(r => r.createSnapshot());
+        if (!related.length) {
+            return [];
+        }
+        var relatedMeta = snapshot.record[relationship].meta();
+        var url = this._buildRelationshipURL(snapshot, relationship);
+        var adapter = store.adapterFor(type.modelName);
+        var allowBulk = relatedMeta.options[`allowBulk${Ember.String.capitalize(change)}`];
+        if (allowBulk) {
+            return adapter[`_${change}Related`](
+                store,
+                snapshot,
+                related,
+                relationship,
+                url,
+                true
+            );
+        } else {
+            return related.map(relatedSnapshot => adapter[`_${change}Related`](
+                store,
+                snapshot,
+                relatedSnapshot,
+                relationship,
+                url,
+                false
+            ));
+        }
     },
     updateRecord(store, type, snapshot) {
         var promises = [];
         var dirtyRelationships = snapshot.record.get('_dirtyRelationships');
         Object.keys(dirtyRelationships).forEach(relationship => {
-	    var changed = dirtyRelationships[relationship];
-	    Object.keys(changed).forEach(change => {
-		promises = promises.concat(
-		    this._handleRelatedRequest(
-			store, type, snapshot, relationship, change
-		    ) || []
-		);
-	    });
-	});
+            var changed = dirtyRelationships[relationship];
+            Object.keys(changed).forEach(change => {
+                promises = promises.concat(
+                    this._handleRelatedRequest(
+                        store, type, snapshot, relationship, change
+                    ) || []
+                );
+            });
+        });
         if (Object.keys(snapshot.record.changedAttributes()).length) {
             if (promises.length) {
                 return this._super(...arguments).then(response => Ember.RSVP.allSettled(promises).then(() => response));
