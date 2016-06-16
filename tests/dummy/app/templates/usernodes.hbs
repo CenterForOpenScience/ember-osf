@@ -1,1 +1,9 @@
-{{outlet}}
+User: {{model.fullName}}<br>
+Nodes:
+<ul>
+    {{#each nodes as |node|}}
+        <li>{{node}}, {{node.title}}</li>
+    {{/each}}
+</ul>
+
+<button {{action 'getMore'}}>Load more</button>

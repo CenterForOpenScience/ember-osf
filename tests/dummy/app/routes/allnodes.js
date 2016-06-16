@@ -20,6 +20,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, InfinityRoute, {
 
     /**
      * Event listener that fetches more results automatically
+     * As written, this does not handle fetch errors, and will not retry once an error is encountered
      */
     infinityModelUpdated() {
         console.log('event fired');
