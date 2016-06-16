@@ -12,6 +12,10 @@ export default Ember.Mixin.create({
         contributors.forEach(contrib => contribMap[contrib.id] = contrib);
         return contribMap;
     },
+    _affiliateNode(node, institution) {
+        node.get('affiliatedInstitutions').pushObject(institution);
+        return node.save();
+    },
     actions: {
         updateNode(title, description, category, isPublic) {
             var node = this.get('_node');
@@ -33,14 +37,10 @@ export default Ember.Mixin.create({
             var node = this.get('_node');
             return node.destroyRecord();
         },
-        _affiliateNode(institution) {
-            var node = this.get('_node');
-            node.get('affiliatedInstitutions').pushObject(institution);
-            return node.save();
-        },
         affiliateNode(institutionId) {
+            var node = this.get('_node');
             return this.store.findRecord('institution', institutionId)
-                .then(institution => this._affiliateNode(institution));
+                .then(institution => this._affiliateNode(node, institution));
         },
         unaffiliateNode(institution) {
             var node = this.get('_node');
@@ -65,17 +65,13 @@ export default Ember.Mixin.create({
             return contributor.destroyRecord();
         },
         updateContributors(contributors, permissionsChanges, bibliographicChanges) {
-            var node = this.modelFor(this.routeName);
+            var node = this.get('_node');
             var contributorMap = this._generateContributorMap(contributors);
-            for (var contributorId in permissionsChanges) {
-                var props = {};
-                if (permissionsChanges[contributorId]) {
-                    props.permissions = permissionsChanges[contributorId];
-                }
-                if (bibliographicChanges[contributorId]) {
-                    props.bibliographic = bibliographicChanges[contributorId];
-                }
-                contributorMap[contributorId].setProperties(props);
+            for (let contributorId in permissionsChanges) {
+                contributorMap[contributorId].set('permission', permissionsChanges[contributorId]);
+            }
+            for (let contributorId in bibliographicChanges) {
+                contributorMap[contributorId].set('bibliographic', bibliographicChanges[contributorId]);
             }
             return node.save();
         },
