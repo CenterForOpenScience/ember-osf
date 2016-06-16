@@ -2,20 +2,25 @@
     {{#each breadcrumbs as |item|}}
         <li>
             <a {{action 'navigateToItem' item}}>
-                {{item.fileName}}
+                {{item.itemName}}
             </a>
         </li>
     {{/each}}
 </ol>
-<button class='btn btn-default' {{action 'back'}}>
-    {{fa-icon 'arrow-left'}} Back
-</button>
+{{#unless atRoot}}
+    <button class='btn btn-default' {{action 'navigateUp'}}>
+        {{fa-icon 'arrow-left'}} Back
+    </button>
+{{/unless}}
 
 {{#if selectedItems}}
     {{! TODO: show available actions for selected files }}
 {{/if}}
 
 <div class='file-list'>
+    {{#unless itemsLoaded}}
+        {{fa-icon 'spinner' pulse=true size=5}}
+    {{/unless}}
     {{#ember-collection items=items
             cell-layout=(fixed-grid-layout itemWidth itemHeight)
             as |item index|}}

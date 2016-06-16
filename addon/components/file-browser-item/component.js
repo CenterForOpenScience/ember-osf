@@ -35,7 +35,12 @@ export default Ember.Component.extend({
     },
 
     doubleClick() {
-        this.sendAction('navigateToItem', this.get('item'));
+        let item = this.get('item');
+        if (item.get('canHaveChildren')) {
+            this.sendAction('navigateToItem', item);
+        } else {
+            this.sendAction('openItem', item);
+        }
     },
 
     actions: {

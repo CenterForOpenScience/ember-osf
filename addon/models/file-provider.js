@@ -11,7 +11,4 @@ export default OsfModel.extend(FileBrowserItemMixin, {
     provider: DS.attr('string'),
     files: DS.hasMany('file'),
     node: DS.belongsTo('node'),
-
-    isFolder: Ember.computed.equal('kind', 'folder'),
-    isProvider: true
 });

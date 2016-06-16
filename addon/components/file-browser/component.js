@@ -2,9 +2,7 @@ import Ember from 'ember';
 import layout from './template';
 
 /*
- * {{file-browser rootItems=items openFile=(action) openNode=(action)}}
- * or:
- * {{file-browser rootItem=item openFile=(action) openNode=(action)}}
+ * {{file-browser rootItem=item openFile=(action 'openFile') openNode=(action 'openNode')}}
  */
 export default Ember.Component.extend({
     layout,
@@ -12,36 +10,22 @@ export default Ember.Component.extend({
     itemWidth: 300,
     itemHeight: 30,
 
-    rootItem: null,
-    rootItems: null,
+    breadcrumbs: null,
 
-    currentParent: null,
-    items: Ember.computed('currentParent', 'currentParent.childItems.[]',
-                          'rootItems.[]', function() {
-        let parent = this.get('currentParent');
-        if (parent) {
-            return this.get('currentParent.childItems');
-        } else {
-            return this.get('rootItems');
+    rootItem: Ember.computed('breadcrumbs.[]', {
+        get() {
+            return this.get('breadcrumbs.firstObject');
+        },
+        set(_, value) {
+            this.set('breadcrumbs', Ember.A([value]));
         }
     }),
+    currentParent: Ember.computed.alias('breadcrumbs.lastObject'),
+    itemsLoaded: Ember.computed.alias('currentParent.childItemsLoaded'),
+    items: Ember.computed.alias('currentParent.childItems'),
+    atRoot: Ember.computed.equal('breadcrumbs.length', 1),
 
     selectedItems: Ember.A(),
-    breadcrumbs: Ember.A(),
-
-    init() {
-        this._super(...arguments);
-        this.set('selectedItems', Ember.A());
-        this.set('breadcrumbs', Ember.A());
-    },
-
-    didReceiveAttrs() {
-        this._super(...arguments);
-        const rootItem = this.get('rootItem');
-        if (rootItem && !this.get('rootItems')) {
-            this.set('currentParent', rootItem);
-        }
-    },
 
     actions: {
         selectItem(item) {
@@ -52,12 +36,12 @@ export default Ember.Component.extend({
             let breadcrumbs = this.get('breadcrumbs');
             let index = breadcrumbs.indexOf(item);
             if (index === -1) {
+                // TODO: This assumes item is a child of currentParent
                 breadcrumbs.pushObject(item);
             } else {
                 let slicedBread = breadcrumbs.slice(0, index + 1);
-                this.set('breadcrumbs', slicedBread);
+                this.set('breadcrumbs', Ember.A(slicedBread));
             }
-            this.set('currentParent', item);
         },
 
         openItem(item) {
@@ -69,15 +53,17 @@ export default Ember.Component.extend({
                 if (this.get('openFile')) {
                     this.sendAction('openNode', item);
                 }
-            } else if (item.get('isFolder')) {
+            } else if (item.get('canHaveChildren')) {
                 this.send('navigateToItem', item);
             }
         },
 
-        back() {
-            this.get('breadcrumbs').popObject();
-            let newParent = this.get('breadcrumbs.lastObject') || this.get('rootItem');
-            this.set('currentParent', newParent);
-        },
+        navigateUp() {
+            let breadcrumbs = this.get('breadcrumbs');
+            if (breadcrumbs.length === 1) {
+                return;
+            }
+            breadcrumbs.popObject();
+        }
     }
 });
