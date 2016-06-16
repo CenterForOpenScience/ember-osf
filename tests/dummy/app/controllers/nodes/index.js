@@ -5,7 +5,6 @@ export default Ember.Controller.extend({
         var _this = this;
         $('.modal').modal();
         $('.modal').on('hidden.bs.modal', function (e) {
-            debugger;
             comp.defineUrl = _this.get('nodeId') + '/osfstorage/poo.txt'; //file informations
             drop.processFile(file);
         })
