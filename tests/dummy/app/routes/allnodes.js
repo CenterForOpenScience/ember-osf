@@ -1,23 +1,14 @@
 import Ember from 'ember';
 
-import InfinityRoute from 'ember-osf/mixins/infinity-custom';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
+import FetchAllRouteMixin from 'ember-osf/mixins/fetch-all-route';
 
-export default Ember.Route.extend(AuthenticatedRouteMixin, InfinityRoute, {
-    perPageParam: 'page[size]',
-    pageParam: 'page',
-    totalPagesParam: 'meta.total',
 
+export default Ember.Route.extend(AuthenticatedRouteMixin, FetchAllRouteMixin, {
     model() {
         return this.infinityModel('node', {
-            perPage: 3
+            perPage: 100
         });
-    },
-
-    actions: {
-        getMore() {
-            this.send('infinityLoad');
-        }
     },
 
     /**
