@@ -143,11 +143,11 @@ const RouteMixin = Ember.Mixin.create({
 
     _ensureCompatibility() {
         if (Ember.isEmpty(this.get('store'))) {
-            throw new Ember.Error("Ember Infinity: Ember Data store is not available to infinityModel");
+            throw new Ember.Error('Ember Infinity: Ember Data store is not available to infinityModel');
         }
 
         if (this.get('_infinityModelName') === undefined) {
-            throw new Ember.Error("Ember Infinity: You must pass a Model Name to infinityModel");
+            throw new Ember.Error('Ember Infinity: You must pass a Model Name to infinityModel');
         }
     },
 
@@ -243,6 +243,7 @@ const RouteMixin = Ember.Mixin.create({
 
         return this._requestNextPage()
             .then((newObjects) => {
+                console.log('Type of return value:', newObjects.toString());
                 this._nextPageLoaded(newObjects);
 
                 return newObjects;
@@ -326,10 +327,10 @@ const RouteMixin = Ember.Mixin.create({
             if (typeof this.updateInfinityModel === 'function' &&
                 (this.updateInfinityModel !==
                 Ember.Object.extend(RouteMixin).create().updateInfinityModel)) {
-                Ember.deprecate("EmberInfinity.updateInfinityModel is deprecated. " +
-                    "Please use EmberInfinity.afterInfinityModel.",
+                Ember.deprecate('EmberInfinity.updateInfinityModel is deprecated. ' +
+                    'Please use EmberInfinity.afterInfinityModel.',
                     false,
-                    {id: 'ember-infinity.updateInfinityModel', until: '2.1'}
+                    { id: 'ember-infinity.updateInfinityModel', until: '2.1' }
                 );
 
                 infinityModel = this.updateInfinityModel(newObjects);
@@ -381,7 +382,7 @@ const RouteMixin = Ember.Mixin.create({
         }
 
         const totalPages = this.get('_totalPages');
-        Ember.run.scheduleOnce('afterRender', this, 'infinityModelLoaded', {totalPages: totalPages});
+        Ember.run.scheduleOnce('afterRender', this, 'infinityModelLoaded', { totalPages: totalPages });
     }
 });
 
