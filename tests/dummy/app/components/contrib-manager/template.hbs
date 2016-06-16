@@ -36,14 +36,14 @@
                 {{if contrib.unregisteredContributor contrib.unregisteredContributor contrib.users.fullName}}
             </td>
             <td>
-                <select onchange={{action 'permissionChange' contrib value='target.value' }}>
+                <select onchange={{action (action 'permissionChange' contrib) value='target.value'}} >
                     <option value=READ selected={{if (eq contrib.permission READ) true false}}> Read </option>
                     <option value=WRITE selected={{if (eq contrib.permission WRITE) true false}}> Read + Write </option>
                     <option value=ADMIN selected={{if (eq contrib.permission ADMIN) true false}}> Administrator </option>
                 </select>
             </td>
             <td>
-                <input onchange={{action 'bibliographicChange' contrib value='target.value' }} checked=contrib.bibliographic}} type="checkbox" name="bibliographic">
+                <input onchange={{action (action 'bibliographicChange' contrib) value='target.checked'}} checked={{if contrib.bibliographic true false}} type="checkbox" name="bibliographic">
             </td>
             <td>
                 <button {{action 'deleteContributor' contrib}} class="btn btn-danger"> Remove </button>

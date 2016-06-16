@@ -1,5 +1,5 @@
 {{link-to 'Back to list' 'nodes' class="btn btn-default"}}
-<div class="panel">
+<div class="col-md-12">
     <h2>Data</h2>
     <p><label>Title:</label> {{model.title}}</p>
     <p><label>Description: </label> {{model.description}}</p>
@@ -87,6 +87,24 @@
     editContributors=(action 'updateContributors')
     }}
     <hr>
+    <h2> Components </h2>
+    <table class="table table-bordered">
+	<thead>
+            <tr>
+		<th> Id </th>
+		<th> Name </th>
+            </tr>
+	</thead>
+        {{#each model.children as |child|}}
+	    <tbody>
+		<tr>
+                    <td> {{child.id}} </td>
+                    <td> {{link-to child.title 'nodes.detail' child.id}} </td>
+		</tr>
+	    </tbody>
+        {{/each}}
+    </table>
+	
     <h2> Create component </h2>
     <div>
         <label>Title:</label>
