@@ -175,7 +175,6 @@ const RouteMixin = Ember.Mixin.create({
         let store = this.get('store');
         // Make storeFindMethod configurable, and default to store.query (with appropriate value of `this`)
         const _storeFindMethod = options._storeFindMethod ? options._storeFindMethod : store.get('query').bind(store);
-        console.log('options!', options, _storeFindMethod);
 
         delete options.startingPage;
         delete options.perPage;

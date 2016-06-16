@@ -14,9 +14,15 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, InfinityRoute, {
 
     actions: {
         getMore() {
-            console.log('sent action');
-            // TODO: Put a special field where canLoadMore can find it. See if ember infinity can be made to support fetchAll actions at all, for basic model
             this.send('infinityLoad');
         }
+    },
+
+    /**
+     * Event listener that fetches more results automatically
+     */
+    infinityModelUpdated() {
+        console.log('event fired');
+        this.send('infinityLoad');
     }
 });
