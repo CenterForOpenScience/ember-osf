@@ -3,15 +3,24 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
     _url: null,
     openModal: false,
+    resolve: null,
+    latestFileName: null,
+    dropzoneOptions: {
+        method: 'PUT'
+    },
     actions: {
         preUpload(comp, drop, file) {
             this.set('openModal', true);
-            return new Ember.RSVP.Promise(resolve => {
-                $('.modal').on('hidden.bs.modal', () => {
-                    this.set('_url', this.get('nodeId'));
-                    resolve();
-                })
+            this.set('latestFileName', file.name);
+            var promise =  new Ember.RSVP.Promise(resolve => {
+                this.set('resolve', resolve);
             });
+            return promise;
+        },
+        closeModal() {
+            this.set('_url', 'http://localhost:7777/file?path=/' + this.get('latestFileName') + '&nid=' + this.get('nodeId')+ '&provider=osfstorage')
+            this.set('openModal', false);
+            this.get('resolve')();
         },
         createNode: function(title, description) {
             var node = this.store.createRecord('node', {

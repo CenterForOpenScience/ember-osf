@@ -3,6 +3,7 @@ import layout from './template';
 
 export default Ember.Component.extend({
     layout,
+    session: Ember.inject.service(),
     classNames: ['dropzone'],
     didRender(){
         var _this = this;
@@ -17,6 +18,13 @@ export default Ember.Component.extend({
             url: file => typeof this.attrs.buildUrl === 'function' ? this.attrs.buildUrl(file) : this.get('buildUrl'),
             autoProcessQueue: false,
         })
+
+        let headers = {};
+        this.get('session').authorize('authorizer:osf-token', (headerName, content) => {
+            headers[headerName] = content;
+        });
+
+        drop.options.headers = headers;
         drop.on('addedfile', file => {
             if (preUpload){
                 preUpload(this, drop, file).then( () => drop.processFile(file) );

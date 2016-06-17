@@ -1,11 +1,14 @@
 <h4> My Nodes </h4>
 
 <br>
-{{#dropzone-widget preUpload=(action 'preUpload') buildUrl=(action 'buildUrl')}}{{/dropzone-widget}}
-{{#bs-modal open=openModal title="Add file to which node?"}}
+{{#dropzone-widget preUpload=(action 'preUpload') buildUrl=(action 'buildUrl') options=dropzoneOptions}}{{/dropzone-widget}}
+{{#bs-modal open=openModal title="Add file to which node?" footer=false}}
     {{#bs-modal-body}}
         {{input type="text" value=nodeId placeholder="Node's guid" required=true}}
     {{/bs-modal-body}}
+    {{#bs-modal-footer as |footer|}}
+        {{#bs-button action=(action 'closeModal')}}Coobeans!{{/bs-button}}
+   {{/bs-modal-footer}}
 {{/bs-modal}}
 <br>
 
