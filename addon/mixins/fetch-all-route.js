@@ -47,7 +47,7 @@ export default Ember.Mixin.create(InfinityRoute, {
         }
         return this._super(...arguments);
     },
-    
+
     /**
      * Event listener that fetches more results automatically
      * As written, this does not handle fetch errors, and will not retry once an error is encountered
