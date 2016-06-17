@@ -1,7 +1,7 @@
 <h4> My Nodes </h4>
 
 <br>
-{{#dropzone-widget prefileCheck=(action 'prefileCheck') defineUrl=(action 'defineUrl')}}{{/dropzone-widget}}
+{{#dropzone-widget preUpload=(action 'preUpload') buildUrl=(action 'buildUrl')}}{{/dropzone-widget}}
 {{#bs-modal open=openModal title="Add file to which node?"}}
     {{#bs-modal-body}}
         {{input type="text" value=nodeId placeholder="Node's guid" required=true}}

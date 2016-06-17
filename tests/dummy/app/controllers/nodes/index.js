@@ -4,7 +4,7 @@ export default Ember.Controller.extend({
     _url: null,
     openModal: false,
     actions: {
-        prefileCheck(comp, drop, file) {
+        preUpload(comp, drop, file) {
             this.set('openModal', true);
             return new Ember.RSVP.Promise(resolve => {
                 $('.modal').on('hidden.bs.modal', () => {
@@ -21,7 +21,7 @@ export default Ember.Controller.extend({
             });
             node.save();
         },
-        defineUrl () {
+        buildUrl () {
             return this.get('_url');
         }
     }
