@@ -7,36 +7,26 @@ export default Ember.Component.extend({
     didRender(){
         var _this = this;
         this.defineUrl = this.get('defineUrl');
-        /*
-            If defineUrl is not defined, prefileCheck needs to attach a defineUrl
-            to the Component instance passed to it as ` drop `. PrefileCheck, id
-            defined, also needs to handle, at some point, calling one of drop's
-            .process methods.
-        */
-        this.prefileCheck = this.get('prefileCheck');
-        this.dropzoneOptions = this.get('options');
-        this.listeners = this.get('listeners');
-        if (!this.defineUrl && !this.prefileCheck){
+        var prefileCheck = this.get('prefileCheck');
+        var dropzoneOptions = this.get('options');
+        var listeners = this.get('listeners');
+        if (!this.attrs.defineUrl && !prefileCheck){
             console.error('');
         }
-        var drop = new Dropzone('#' + _this.elementId, {
-            url: function(file){
-                return typeof _this.defineUrl === 'function' ? _this.defineUrl(file) : _this.defineUrl;
-            },
+        var drop = new Dropzone('#' + this.elementId, {
+            url: file => typeof this.attrs.defineUrl === 'function' ? this.attrs.defineUrl(file) : this.get('defineUrl'),
             autoProcessQueue: false,
         })
-        drop.on('addedfile', function(file){
-            if (_this.prefileCheck){
-                _this.prefileCheck(_this, drop, file);
+        drop.on('addedfile', file => {
+            if (prefileCheck){
+                prefileCheck(this, drop, file).then( () => drop.processFile(file) );
             } else {
                 drop.processFile(file);
             }
         })
-        drop.options = Ember.$.extend({}, drop.options, _this.dropzoneOptions);
-        if (this.listeners && typeof this.listeners === 'object'){
-            Object.keys(_this.listeners).map(function(each){
-                drop.on(each, _this.listeners[each])
-            })
+        drop.options = Ember.$.extend({}, drop.options, dropzoneOptions);
+        if (listeners && typeof listeners === 'object'){
+            Object.keys(listeners).map( each => drop.on(each, listeners[each]) )
         }
     }
 });

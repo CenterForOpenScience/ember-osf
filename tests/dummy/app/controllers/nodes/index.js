@@ -1,15 +1,19 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-    prefileCheck(comp, drop, file) {
-        var _this = this;
-        $('.modal').modal();
-        $('.modal').on('hidden.bs.modal', function (e) {
-            comp.defineUrl = _this.get('nodeId') + '/osfstorage/poo.txt'; //file informations
-            drop.processFile(file);
-        })
-    },
+    _url: null,
     actions: {
+        prefileCheck(comp, drop, file) {
+            var _this = this;
+            $('.modal').modal();
+            var promise =  new Ember.RSVP.Promise(resolve => {
+                $('.modal').on('hidden.bs.modal', () => {
+                    this.set('_url', '/osfstorage/poo.txt');
+                    resolve();
+                })
+            });
+            return promise
+        },
         createNode: function(title, description) {
             var node = this.store.createRecord('node', {
                 title: title,
@@ -17,6 +21,9 @@ export default Ember.Controller.extend({
                 description: description || null
             });
             node.save();
+        },
+        defineUrl () {
+            return this.get('_url');
         }
     }
 });
