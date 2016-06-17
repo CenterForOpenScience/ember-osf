@@ -2,17 +2,16 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
     _url: null,
+    openModal: false,
     actions: {
         prefileCheck(comp, drop, file) {
-            var _this = this;
-            $('.modal').modal();
-            var promise =  new Ember.RSVP.Promise(resolve => {
+            this.set('openModal', true);
+            return new Ember.RSVP.Promise(resolve => {
                 $('.modal').on('hidden.bs.modal', () => {
-                    this.set('_url', '/osfstorage/poo.txt');
+                    this.set('_url', this.get('nodeId'));
                     resolve();
                 })
             });
-            return promise
         },
         createNode: function(title, description) {
             var node = this.store.createRecord('node', {

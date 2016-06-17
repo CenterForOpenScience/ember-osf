@@ -2,6 +2,11 @@
 
 <br>
 {{#dropzone-widget prefileCheck=(action 'prefileCheck') defineUrl=(action 'defineUrl')}}{{/dropzone-widget}}
+{{#bs-modal open=openModal title="Add file to which node?"}}
+    {{#bs-modal-body}}
+        {{input type="text" value=nodeId placeholder="Node's guid" required=true}}
+    {{/bs-modal-body}}
+{{/bs-modal}}
 <br>
 
 <div>
