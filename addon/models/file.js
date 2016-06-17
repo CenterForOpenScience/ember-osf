@@ -3,6 +3,17 @@ import DS from 'ember-data';
 
 import OsfModel from './osf-model';
 
+/**
+ * Model for OSF APIv2 files. This model may be used with one of several API endpoints. It may be queried directly,
+ *  or (more commonly) accessed via relationship fields.
+ * This model is used for basic file metadata. To interact with file contents directly, see the `file-manager` service.
+ * For field and usage information, see:
+ *    https://api.osf.io/v2/docs/#!/v2/File_Detail_GET
+ *    https://api.osf.io/v2/docs/#!/v2/Node_Files_List_GET
+ *    https://api.osf.io/v2/docs/#!/v2/Node_File_Detail_GET
+ *    https://api.osf.io/v2/docs/#!/v2/Registration_Files_List_GET
+ *    https://api.osf.io/v2/docs/#!/v2/Registration_File_Detail_GET
+ */
 export default OsfModel.extend({
     name: DS.attr('string'),
     kind: DS.attr('string'),
