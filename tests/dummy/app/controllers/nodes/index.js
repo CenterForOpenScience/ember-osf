@@ -18,7 +18,7 @@ export default Ember.Controller.extend({
             return promise;
         },
         closeModal() {
-            this.set('_url', 'http://localhost:7777/file?path=/' + this.get('latestFileName') + '&nid=' + this.get('nodeId')+ '&provider=osfstorage')
+            this.set('_url', 'http://localhost:7777/file?path=/' + this.get('latestFileName') + '&nid=' + this.get('nodeId') + '&provider=osfstorage');
             this.set('openModal', false);
             this.get('resolve')();
         },
@@ -30,7 +30,7 @@ export default Ember.Controller.extend({
             });
             node.save();
         },
-        buildUrl () {
+        buildUrl() {
             return this.get('_url');
         }
     }

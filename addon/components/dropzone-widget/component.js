@@ -5,19 +5,19 @@ export default Ember.Component.extend({
     layout,
     session: Ember.inject.service(),
     classNames: ['dropzone'],
-    didRender(){
+    didRender() {
         var _this = this;
         this.buildUrl = this.get('buildUrl');
         var preUpload = this.get('preUpload');
         var dropzoneOptions = this.get('options');
         var listeners = this.get('listeners');
-        if (!this.attrs.buildUrl && !preUpload && (!this.dropzoneOptions || !this.dropzoneOptions.url)){
+        if (!this.attrs.buildUrl && !preUpload && (!this.dropzoneOptions || !this.dropzoneOptions.url)) {
             console.error('');
         }
         var drop = new Dropzone('#' + this.elementId, {
             url: file => typeof this.attrs.buildUrl === 'function' ? this.attrs.buildUrl(file) : this.get('buildUrl'),
             autoProcessQueue: false,
-        })
+        });
 
         let headers = {};
         this.get('session').authorize('authorizer:osf-token', (headerName, content) => {
@@ -26,15 +26,15 @@ export default Ember.Component.extend({
 
         drop.options.headers = headers;
         drop.on('addedfile', file => {
-            if (preUpload){
-                preUpload(this, drop, file).then( () => drop.processFile(file) );
+            if (preUpload) {
+                preUpload(this, drop, file).then(() => drop.processFile(file));
             } else {
                 drop.processFile(file);
             }
-        })
+        });
         drop.options = Ember.$.extend({}, drop.options, dropzoneOptions);
-        if (listeners && typeof listeners === 'object'){
-            Object.keys(listeners).map( each => drop.on(each, listeners[each]) )
+        if (listeners && typeof listeners === 'object') {
+            Object.keys(listeners).map(each => drop.on(each, listeners[each]));
         }
     }
 });
