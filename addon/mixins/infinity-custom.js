@@ -15,9 +15,7 @@ const assign = Ember.assign || Ember.merge;
  */
 const RouteMixin = Ember.Mixin.create(InfinityRoute, {
     /**
-     * The supported findMethod name for
-     * the developers Ember Data version.
-     * Provided here for backwards compat.
+     * Repurpose an ember-infinity hook to override the method used for queries
      * @type {function}
      * @default this.store.query
      */

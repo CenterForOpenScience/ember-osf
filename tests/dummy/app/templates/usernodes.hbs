@@ -1,9 +1,9 @@
 User: {{model.fullName}}<br>
 Nodes:
-<ul>
+<ol>
     {{#each allRelated as |node|}}
         <li>{{node}}, {{node.title}}</li>
     {{/each}}
-</ul>
+</ol>
 
 <button {{action 'getMore'}}>Load more</button>

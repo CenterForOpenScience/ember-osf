@@ -43,6 +43,10 @@ export default Ember.Mixin.create(InfinityRoute, {
             this.infinityModel(rel, {
                 modelPath: 'controller.allRelated',
                 _storeFindMethod: model.query.bind(model)
+            }).then((newObjects) => {
+                // Relationships use intermediate storage, so we can't assume the first page of query records will be auto-added
+                this._doUpdate(newObjects);
+                return newObjects;
             });
         }
         return this._super(...arguments);
