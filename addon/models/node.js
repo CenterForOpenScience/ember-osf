@@ -2,8 +2,6 @@ import DS from 'ember-data';
 
 import OsfModel from './osf-model';
 
-import { serializeHasMany } from '../utils/serialize-relationship';
-
 export default OsfModel.extend({
     title: DS.attr('string'),
     description: DS.attr('string'),
@@ -27,47 +25,21 @@ export default OsfModel.extend({
         inverse: 'children'
     }),
     children: DS.hasMany('nodes', {
-        inverse: 'parent',
-        updateRequest: {
-            requestType: () => 'POST'
-        }
+        inverse: 'parent'
     }),
     affiliatedInstitutions: DS.hasMany('institutions', {
-        inverse: 'nodes',
-        serializer: serializeHasMany.bind(null, 'affiliatedInstitutions', 'institution')
+        inverse: 'nodes'
     }),
     comments: DS.hasMany('comments'),
     contributors: DS.hasMany('contributors', {
-        updateRequest: {
-            requestType: (snapshot, relationship) => snapshot.hasMany(relationship).filter(each => Object.keys(each.changedAttributes()).indexOf('userId') !== -1).length > 0 ? 'POST' : 'PATCH',
-            isBulk: () => true,
-            serialized(serialized) {
-                return {
-                    data: serialized.map(function(record) {
-                        var data = record.data;
-                        return data;
-                    })
-                };
-            }
-        },
+        allowBulkUpdate: true,
+        allowBulkRemove: true,
         inverse: null
     }),
 
     files: DS.hasMany('file-provider'),
     //forkedFrom: DS.belongsTo('node'),
     nodeLinks: DS.hasMany('node-links', {
-        updateRequest: {
-            requestType: () => 'POST',
-            isBulk: () => true,
-            serialized(serialized) {
-                return {
-                    data: serialized.map(function(record) {
-                        var data = record.data;
-                        return data;
-                    })
-                };
-            }
-        },
         inverse: null
     }),
     registrations: DS.hasMany('registrations', {
@@ -77,5 +49,27 @@ export default OsfModel.extend({
     root: DS.belongsTo('node', {
         inverse: null
     }),
-    logs: DS.hasMany('logs')
+    logs: DS.hasMany('logs'),
+
+    save() {
+        // Some duplicate logic from osf-model#save needed to support
+        // contributor edits being saved through the node
+        var promise = this._super(...arguments);
+        var contributors = this.hasMany('contributors').hasManyRelationship;
+        if (contributors.hasData || contributors.hasLoaded) {
+            this.set(
+                '_dirtyRelationships.contributors.update',
+                contributors.members.list.filter(m => {
+                    return !m.record.get('isNew') && Object.keys(m.record.changedAttributes()).length > 0;
+                })
+            );
+            // Contributors are a 'real' delete, not just a de-reference
+            this.set(
+                '_dirtyRelationships.contributors.delete',
+                this.get('_dirtyRelationships.contributors.remove')
+            );
+            this.set('_dirtyRelationships.contributors.remove', []);
+        }
+        return promise;
+    }
 });
