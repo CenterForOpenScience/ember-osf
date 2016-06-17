@@ -1,7 +1,7 @@
 User: {{model.fullName}}<br>
 Nodes:
 <ul>
-    {{#each nodes as |node|}}
+    {{#each allRelated as |node|}}
         <li>{{node}}, {{node.title}}</li>
     {{/each}}
 </ul>
