@@ -11,14 +11,5 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{dropzone-widget}}`);
 
-  assert.equal(this.$().text().trim(), '');
-
-  // Template block usage:
-  this.render(hbs`
-    {{#dropzone-widget}}
-      template block text
-    {{/dropzone-widget}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
+  assert.equal(this.$().text().trim(), 'Drop files here to upload');
 });
