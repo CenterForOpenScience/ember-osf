@@ -34,7 +34,7 @@ export default Ember.Route.extend({
                 draft.save();
                 draft.one('didUpdate', this, function() {
                     if (resourceType === 'draft') {
-                        this.transitionTo('nodes.detail.registrations');
+                        this.transitionTo('nodes.detail.draft_registrations');
                     }
                 });
             } else {
@@ -46,7 +46,9 @@ export default Ember.Route.extend({
             var draft = this.modelFor(this.routeName).draft;
             if (node.get('currentUserPermissions').indexOf(permissions.ADMIN) !== -1) {
                 // Need to update metdata one last time
-                // this.send('editDraft', updatedMetadata, 'registration')
+                if (Object.keys(updatedMetadata).length !== 0) {
+                    this.send('editDraft', updatedMetadata, 'registration');
+                }
                 var registrationPayload = {
                     draftRegistration: draft.id,
                     registrationChoice: registrationChoice
