@@ -24,7 +24,6 @@ function callModelHook(route) {
     Ember.run(() => {
         route.model().then(result => {
             model = result;
-            route._loadNextPage();
         });
     });
 }
@@ -40,33 +39,36 @@ test('it works', function(assert) {
 sinonTest('Auto-fetches multiple pages of results when expected', function(assert) {
 
     let FetchAllRoute = Ember.Route.extend(FetchAllRouteMixin, {
-        fakeStorage: Ember.A(),
+        fakeStorage: Ember.A([1,2,3,4]), // infinity doesn't start pushing objects until page 2, so mimic page 1 being in storage
 
         model() {
             return this.infinityModel('some_model', {
                 modelPath: 'fakeStorage',
-                _storeFindMethod:
-                    () => {
-                        return Ember.ArrayProxy.create({
+                _storeFindMethod: function() {
+
+                    return Ember.RSVP.resolve(
+                        Ember.ArrayProxy.create({
                             content: [1, 2, 3, 4],
                             meta: {
                                 total: 3
                             }
-                        });
-                    }
+                    }));
+                }
             });
         },
 
-        infinityModelLoaded(lastPageLoaded, totalPages, infinityModel) {
-            console.log('get assertive');
+        infinityModelLoaded({totalPages}) {
+            console.log('get assertive', ...arguments);
+            let storage = this.get('fakeStorage');
+            console.log(storage);
+
             assert.equal(totalPages, 3);
-            assert.equal(infinityModel.length, 3);
+            assert.equal(storage.length, 12);
         }
     });
 
     let subject = FetchAllRoute.create();
     callModelHook(subject);
-
 });
 
 
