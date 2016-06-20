@@ -5,7 +5,11 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 
-export default DS.Model.extend({
+import HasManyQuery from 'ember-data-has-many-query';
+
+import arrayItemsAreEqual from 'ember-osf/utils/array-items-are-equal';
+
+export default DS.Model.extend(HasManyQuery.ModelMixin, {
     links: DS.attr('links'),
     embeds: DS.attr('embed'),
 
@@ -28,6 +32,7 @@ export default DS.Model.extend({
             } else if (meta.kind === 'belongsTo') {
                 relation = this.belongsTo(rel).belongsToRelationship;
             }
+            // TODO(samchrisinger): not sure if hasLoaded is a subset if the hasData state
             if (relation.hasData || relation.hasLoaded) {
                 var canonicalIds = relation.canonicalMembers.list.map(member => member.record.get('id'));
                 var currentIds = relation.members.list.map(member => member.record.get('id'));
