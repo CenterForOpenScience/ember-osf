@@ -28,12 +28,13 @@ module.exports = {
             scope: SETTINGS.OAUTH_SCOPES,
             apiNamespace: 'v2' // URL suffix (after host)
         };
-
+        //TODO define waterbutlerUrl for all other environments
         if (BACKEND === 'local') {
             ENV.OSF.url = 'http://localhost:5000/';
             ENV.OSF.apiUrl = 'http://localhost:8000';
             ENV.OSF.authUrl = 'http://localhost:8080/oauth2/profile';
             ENV.OSF.renderUrl = 'http://localhost:7778/render';
+            ENV.OSF.waterbutlerUrl = 'http://localhost:7777/';
 
             ENV.OSF.accessToken = SETTINGS.PERSONAL_ACCESS_TOKEN;
             ENV.OSF.isLocal = true;

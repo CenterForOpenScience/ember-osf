@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import config from 'ember-get-config';
 
 export default Ember.Controller.extend({
     _url: null,
@@ -18,7 +19,7 @@ export default Ember.Controller.extend({
             return promise;
         },
         closeModal() {
-            this.set('_url', 'http://localhost:7777/file?path=/' + this.get('latestFileName') + '&nid=' + this.get('nodeId') + '&provider=osfstorage');
+            this.set('_url', config.OSF.waterbutlerUrl + 'file?path=/' + this.get('latestFileName') + '&nid=' + this.get('nodeId') + '&provider=osfstorage');
             this.set('openModal', false);
             this.get('resolve')();
         },
