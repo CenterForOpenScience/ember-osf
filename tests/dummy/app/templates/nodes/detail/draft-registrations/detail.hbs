@@ -39,9 +39,7 @@
                 {{else}}
                     <input onchange={{action "buildForm" value="target"}} name="{{question.qid}}:{{subquestion.id}}" value={{draftTextInput model.draft.registrationMetadata question true}}>
                 {{/if}}
-
             {{/each}}
-
         {{else}}
             <input onchange={{action "buildForm" value="target"}} name={{question.qid}} value={{draftTextInput model.draft.registrationMetadata question}}>
         {{/if}}

@@ -23,9 +23,11 @@ export default Ember.Route.extend({
                         if (question.qid in updatedMetadata) {
                             registrationMetadata[question.qid] = updatedMetadata[question.qid];
                         } else {
-                            var currentValue = draft.get('registrationMetadata')[question.qid].value;
-                            if (!(currentValue === '' || typeof (currentValue) === 'object' && currentValue.length === 0)) {
-                                registrationMetadata[question.qid] = draft.get('registrationMetadata')[question.qid];
+                            if (draft.get('registrationMetadata')[question.qid]) {
+                                var currentValue = draft.get('registrationMetadata')[question.qid].value;
+                                if (!(currentValue === '' || typeof (currentValue) === 'object' && currentValue.length === 0)) {
+                                    registrationMetadata[question.qid] = draft.get('registrationMetadata')[question.qid];
+                                }
                             }
                         }
                     }

@@ -47,12 +47,6 @@
         <p> Started: {{moment-format draft.datetimeInitiated}} </p>
         <p> Last Updated: {{moment-format draft.datetimeUpdated}} </p>
 
-        {{#unless draft.requiresApproval}}
-            <button type="button" class="btn btn-success btn-sm">
-                Register
-            </button>
-        {{/unless}}
-
         {{#link-to "nodes.detail.draft_registrations.detail" draft.id class="btn btn-info btn-sm"}}
             <i class="glyphicon glyphicon-pencil"></i>  Edit
         {{/link-to}}
