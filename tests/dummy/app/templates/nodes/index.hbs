@@ -1,7 +1,7 @@
 <h4> My Nodes </h4>
 
 <br>
-{{#file-widget preUpload=(action 'preUpload') buildUrl=(action 'buildUrl') listeners=dropzoneOptions options=dropzoneOptions}}{{/file-widget}}
+{{file-widget preUpload=(action 'preUpload') buildUrl=(action 'buildUrl') listeners=dropzoneOptions options=dropzoneOptions}}
 
 {{#bs-modal open=openModal title="Add file to which node?" footer=false}}
     {{#bs-modal-body}}

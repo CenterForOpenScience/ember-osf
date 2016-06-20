@@ -6,15 +6,14 @@ export default Ember.Component.extend({
     session: Ember.inject.service(),
     classNames: ['dropzone'],
     didRender() {
-        this.buildUrl = this.get('buildUrl');
         var preUpload = this.get('preUpload');
         var dropzoneOptions = this.get('options');
         var listeners = this.get('listeners');
-        if (!this.attrs.buildUrl && !preUpload && (!this.dropzoneOptions || !this.dropzoneOptions.url)) {
+        if (!this.get('buildUrl') && !preUpload && (!dropzoneOptions || !dropzoneOptions.url)) {
             console.error('Need to define url somewhere');
         }
         var drop = new Dropzone('#' + this.elementId, {  // jshint ignore:line
-            url: file => typeof this.attrs.buildUrl === 'function' ? this.attrs.buildUrl(file) : this.get('buildUrl'),
+            url: file => typeof this.get('buildUrl') === 'function' ? this.get('buildUrl')(file) : this.get('buildUrl'),
             autoProcessQueue: false,
         });
 
@@ -31,7 +30,7 @@ export default Ember.Component.extend({
                 drop.processFile(file);
             }
         });
-        drop.options = Ember.$.extend({}, drop.options, dropzoneOptions);
+        drop.options = Ember.merge(drop.options, dropzoneOptions);
         if (listeners && typeof listeners === 'object') {
             Object.keys(listeners).map(each => drop.on(each, listeners[each]));
         }

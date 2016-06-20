@@ -28,7 +28,7 @@ module.exports = {
             scope: SETTINGS.OAUTH_SCOPES,
             apiNamespace: 'v2' // URL suffix (after host)
         };
-        //TODO define waterbutlerUrl for all other environments
+
         if (BACKEND === 'local') {
             ENV.OSF.url = 'http://localhost:5000/';
             ENV.OSF.apiUrl = 'http://localhost:8000';
@@ -43,18 +43,23 @@ module.exports = {
             ENV.OSF.apiUrl = 'https://staging-api.osf.io';
             ENV.OSF.authUrl = 'https://staging-accounts.osf.io/oauth2/authorize';
             ENV.OSF.renderUrl = 'http://staging-mfr.osf.io/render';
+            ENV.OSF.waterbutlerUrl = 'http://staging-files.osf.io/';
+
         }
         if (BACKEND === 'stage2') {
             ENV.OSF.url = 'https://staging2.osf.io/';
             ENV.OSF.apiUrl = 'https://staging2-api.osf.io';
             ENV.OSF.authUrl = 'https://staging2-accounts.osf.io/oauth2/authorize';
             ENV.OSF.renderUrl = 'http://staging2-mfr.osf.io/render';
+            ENV.OSF.waterbutlerUrl = 'http://staging2-files.osf.io/';
+
         }
         if (BACKEND === 'test') {
             ENV.OSF.url = 'https://test.osf.io/';
             ENV.OSF.apiUrl = 'https://test-api.osf.io';
             ENV.OSF.authUrl = 'https://test-accounts.osf.io/oauth2/authorize';
             ENV.OSF.renderUrl = 'http://test-mfr.osf.io/render';
+
         }
         if (BACKEND === 'prod') {
             console.log(`WARNING: you\'ve specified production as a backend. Please do not use production for testing or development purposes`);
@@ -62,6 +67,8 @@ module.exports = {
             ENV.OSF.apiUrl = 'https://api.osf.io';
             ENV.OSF.authUrl = 'https://accounts.osf.io/oauth2/authorize';
             ENV.OSF.renderUrl = 'http://mfr.osf.io/render';
+            ENV.OSF.waterbutlerUrl = 'http://files.osf.io/';
+
         }
         ENV['ember-simple-auth'] = {
             authorizer: 'authorizer:osf-token'
