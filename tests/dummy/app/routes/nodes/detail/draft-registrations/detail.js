@@ -11,7 +11,7 @@ export default Ember.Route.extend({
         });
     },
     actions: {
-        editDraft(updatedMetadata) {
+        editDraft(updatedMetadata, resourceType) {
             var draft = this.modelFor(this.routeName).draft;
             var node = this.modelFor(this.routeName).node;
             if (node.get('currentUserPermissions').indexOf(permissions.ADMIN) !== -1) {
@@ -32,8 +32,36 @@ export default Ember.Route.extend({
                 }
                 draft.set('registrationMetadata', registrationMetadata);
                 draft.save();
+                draft.one('didUpdate', this, function() {
+                    if (resourceType === 'draft') {
+                        this.transitionTo('nodes.detail.registrations');
+                    }
+                });
             } else {
                 console.log('You must have admin permissions to update this draft.');
+            }
+        },
+        registerDraft(updatedMetadata, registrationChoice, liftEmbargo) {
+            var node = this.modelFor(this.routeName).node;
+            var draft = this.modelFor(this.routeName).draft;
+            if (node.get('currentUserPermissions').indexOf(permissions.ADMIN) !== -1) {
+                // Need to update metdata one last time
+                // this.send('editDraft', updatedMetadata, 'registration')
+                var registrationPayload = {
+                    draftRegistration: draft.id,
+                    registrationChoice: registrationChoice
+                };
+                if (registrationChoice === 'embargo') {
+                    registrationPayload.liftEmbargo = liftEmbargo;
+                }
+                var registration = this.store.createRecord('registration', registrationPayload);
+                node.get('registrations').pushObject(registration);
+                node.save();
+                node.one('didUpdate', this, function() {
+                    this.transitionTo('nodes.detail.registrations');
+                });
+            } else {
+                console.log('You must have admin permissions to register this node.');
             }
         }
     }

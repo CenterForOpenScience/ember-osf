@@ -21,6 +21,9 @@ export default Node.extend({
         inverse: null
     }),
     contributors: DS.hasMany('contributors'),
-    comments: DS.hasMany('comments')
+    comments: DS.hasMany('comments'),
+    draftRegistration: DS.attr('string'),
+    registrationChoice: DS.attr('string'),
+    liftEmbargo: DS.attr()
     //more relationship
 });

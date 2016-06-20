@@ -2,9 +2,15 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
     editedMetadata: {},
+    embargoSelected: false,
+    registrationChoice: 'immediate',
+    liftEmbargo: '',
     actions: {
-        draftForm() {
+        regForm() {
             this.toggleProperty('formDisplayed');
+        },
+        registrationChoiceChange() {
+            this.toggleProperty('embargoSelected');
         },
         buildForm(target) {
             let question = target.name;
@@ -22,6 +28,13 @@ export default Ember.Controller.extend({
                     value: target.value
                 };
             }
+        },
+        changeRegistrationChoice(newChoice) {
+            this.toggleProperty('embargoSelected');
+            this.set('registrationChoice', newChoice);
+        },
+        changeEmbargoEndDate(newDate) {
+            this.set('liftEmbargo', newDate + 'T12:00:00');
         },
     }
 });

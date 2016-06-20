@@ -49,5 +49,25 @@
     {{/each}}
 {{/each}}
 
-<button class='btn btn-primary' {{action "editDraft" editedMetadata}}>Save as draft</button>
-{{link-to 'Register''nodes.detail.registrations' model.node class='btn btn-success'}}
+{{#if formDisplayed}}
+    <h3> Before you continue ... </h3>
+    <p><label> Registration Choice </label></p>
+    <select onchange={{action "changeRegistrationChoice" value="target.value"}}>
+        <option value="immediate"> Make registration public immediately </option>
+        <option value="embargo"> Enter registration into embargo </option>
+    </select>
+    {{#if embargoSelected}}
+        <p><label> Embargo End Date </label></p>
+        <input name="liftEmbargo" type="date" value="liftEmbargo" onchange={{action "changeEmbargoEndDate" value="target.value"}}>
+    {{/if}}
+    <br><br>
+    <p>
+        <button class='btn btn-default' {{action "regForm"}}>Cancel</button>
+        <button class='btn btn-success' {{action "registerDraft" editedMetadata registrationChoice liftEmbargo}}>Continue</button>
+    </p>
+{{else}}
+    <p>
+        <button class='btn btn-primary' {{action "editDraft" editedMetadata "draft"}}>Save as draft</button>
+        <button class='btn btn-success' {{action "regForm"}}>Register</button>
+    </p>
+{{/if}}

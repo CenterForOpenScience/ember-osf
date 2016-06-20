@@ -71,7 +71,10 @@ export default OsfModel.extend({
         inverse: null
     }),
     registrations: DS.hasMany('registrations', {
-        inverse: 'registeredFrom'
+        inverse: 'registeredFrom',
+        updateRequest: {
+            requestType: () => 'POST'
+        }
     }),
 
     draftRegistrations: DS.hasMany('draft-registrations', {
