@@ -6,15 +6,14 @@ export default Ember.Component.extend({
     session: Ember.inject.service(),
     classNames: ['dropzone'],
     didRender() {
-        var _this = this;
         this.buildUrl = this.get('buildUrl');
         var preUpload = this.get('preUpload');
         var dropzoneOptions = this.get('options');
         var listeners = this.get('listeners');
         if (!this.attrs.buildUrl && !preUpload && (!this.dropzoneOptions || !this.dropzoneOptions.url)) {
-            console.error('');
+            console.error('Need to define url somewhere');
         }
-        var drop = new Dropzone('#' + this.elementId, {
+        var drop = new Dropzone('#' + this.elementId, {  // jshint ignore:line
             url: file => typeof this.attrs.buildUrl === 'function' ? this.attrs.buildUrl(file) : this.get('buildUrl'),
             autoProcessQueue: false,
         });
