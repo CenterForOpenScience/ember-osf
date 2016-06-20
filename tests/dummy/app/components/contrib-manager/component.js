@@ -26,6 +26,6 @@ export default Ember.Component.extend({
                 this.get('permissionChanges'),
                 this.get('bibliographicChanges')
             );
-        }      
+        }
     }
 });
