@@ -13,23 +13,6 @@ export default Ember.Component.extend({
         return index > -1;
     }),
 
-    iconName: Ember.computed('item', 'item.expanded', function() {
-        // TODO: More icons!
-        if (this.get('item.isNode')) {
-            // TODO node types
-            return 'cube';
-        }
-        if (this.get('item.isProvider')) {
-            // TODO provider-specific icons
-            return 'hdd-o';
-        }
-        if (this.get('item.isFolder')) {
-            return 'folder';
-        }
-        // TODO file types
-        return 'file-o';
-    }),
-
     click() {
         this.sendAction('selectItem', this.get('item'));
     },

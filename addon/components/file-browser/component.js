@@ -6,19 +6,20 @@ import layout from './template';
  */
 let FileItem = Ember.ObjectProxy.extend({
     isSelected: false,
-    isCurrentParent: false,
-    childItemsLoaded: false,
 
     // TODO: update childItems when `children` or `files` changes
-    childItems: Ember.computed('_childItems', function() {
-        let childItems = this.get('_childItems');
-        if (childItems === null) {
+    childItems: Ember.A(),
+
+    childItemsLoaded: Ember.computed('_childItemsLoaded', function() {
+        let loaded = this.get('_childItemsLoaded');
+        if (loaded === null) {
+            this.set('_childItemsLoaded', false);
             loadChildItems(this);
-            return Ember.A();
+            return false;
         }
-        return childItems;
+        return loaded;
     }),
-    _childItems: null,
+    _childItemsLoaded: null
 });
 
 function loadChildItems(item) {
@@ -40,8 +41,8 @@ function loadChildItems(item) {
                 }
             }
         }
-        item.set('_childItems', Ember.A(childItems));
-        item.set('childItemsLoaded', true);
+        item.set('childItems', Ember.A(childItems));
+        item.set('_childItemsLoaded', true);
     });
 }
 
@@ -67,7 +68,6 @@ function unwrapItem(item) {
 export default Ember.Component.extend({
     layout,
     classNames: ['file-browser'],
-    itemWidth: 300,
     itemHeight: 30,
 
     breadcrumbs: null,
@@ -83,10 +83,14 @@ export default Ember.Component.extend({
     }),
     atRoot: Ember.computed.equal('breadcrumbs.length', 1),
     currentParent: Ember.computed.readOnly('breadcrumbs.lastObject'),
-    itemsLoaded: Ember.computed.readOnly('currentParent.childItemsLoaded'),
     items: Ember.computed.readOnly('currentParent.childItems'),
-
+    itemsLoaded: Ember.computed.readOnly('currentParent.childItemsLoaded'),
     selectedItems: Ember.computed.filterBy('items', 'isSelected', true),
+
+    loadedChanged: Ember.observer('itemsLoaded', function() {
+        let containerWidth = this.$().width();
+        this.set('itemWidth', containerWidth);
+    }),
 
     actions: {
         selectItem(item) {

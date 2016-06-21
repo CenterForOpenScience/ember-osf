@@ -1,12 +1,11 @@
-{{#unless atRoot}}
-    <a class='pull-left' {{action 'navigateUp'}}>
-        {{fa-icon 'arrow-left'}}
-    </a>
-{{/unless}}
+<div class='file-browser-header'>
+    <h3>Files</h3>
+</div>
 <ol class='breadcrumb'>
     {{#each breadcrumbs as |item|}}
         <li>
             <a {{action 'navigateToItem' item}}>
+                {{file-browser-icon item=item}}
                 {{item.itemName}}
             </a>
         </li>
@@ -17,19 +16,24 @@
     {{! TODO: show available actions for selected files }}
 {{/if}}
 
-<div class='file-list'>
-    {{!TODO handle errors}}
-    {{#unless itemsLoaded}}
-        <div class='logo-spin logo-lg'></div>
-    {{/unless}}
-    {{#ember-collection items=items
-            cell-layout=(fixed-grid-layout itemWidth itemHeight)
-            as |item index|}}
-        {{file-browser-item item=item
-            selectedItems=selectedItems
-            navigateToItem=(action 'navigateToItem')
-            selectItem=(action 'selectItem')
-            openItem=(action 'openItem')
-        }}
-    {{/ember-collection}}
+<div class='file-browser-list'>
+    {{!TODO handle loading errors}}
+    {{#if itemsLoaded}}
+        {{#if (if items itemWidth)}}
+            {{#ember-collection items=items
+                cell-layout=(fixed-grid-layout itemWidth itemHeight)
+                as |item index|}}
+                {{file-browser-item item=item
+                navigateToItem=(action 'navigateToItem')
+                selectItem=(action 'selectItem')
+                openItem=(action 'openItem')
+                }}
+            {{/ember-collection}}
+        {{else}}
+            (empty)
+        {{/if}}
+    {{else}}
+        {{!<div class='logo-spin logo-lg'></div>}}
+        {{fa-icon 'spinner' size=3 pulse=true}}
+    {{/if}}
 </div>
