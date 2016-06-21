@@ -8,17 +8,17 @@
         </div>
     {{else}}
         <div>
-            <label>
-                {{comment.dateCreated}}:
-                {{input value=comment.content}}
-            </label>
+            <strong>
+                {{comment.dateCreated}}
+            </strong>:
             {{# if comment.canEdit}}
+                {{input value=comment.content}}
                 <button {{action editComment comment}} class="btn btn-success">Edit</button>
                 <button {{action deleteComment comment}} class="btn btn-danger">Delete</button>
-            {{/if}}
-            {{# unless comment.canEdit}}
+            {{else}}
+                <span>{{comment.content}}</span>
                 <button {{action reportComment comment}} class="btn btn-warning">Report</button>
-            {{/unless}}
+            {{/if}}
         </div>
     {{/if}}
 </div>
