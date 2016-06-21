@@ -4,6 +4,17 @@ import OsfModel from './osf-model';
 
 import { serializeHasMany } from '../utils/serialize-relationship';
 
+/**
+ * Model for OSF APIv2 nodes. This model may be used with one of several API endpoints. It may be queried directly,
+ *  or accessed via relationship fields.
+ * For field and usage information, see:
+ *    https://api.osf.io/v2/docs/#!/v2/Node_List_GET
+ *    https://api.osf.io/v2/docs/#!/v2/Node_Detail_GET
+ *    https://api.osf.io/v2/docs/#!/v2/Node_Children_List_GET
+ *    https://api.osf.io/v2/docs/#!/v2/Linked_Nodes_List_GET
+ *    https://api.osf.io/v2/docs/#!/v2/Node_Forks_List_GET
+ *    https://api.osf.io/v2/docs/#!/v2/User_Nodes_GET
+ */
 export default OsfModel.extend({
     title: DS.attr('string'),
     description: DS.attr('string'),
