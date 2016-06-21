@@ -2,8 +2,6 @@ import DS from 'ember-data';
 
 import OsfModel from './osf-model';
 
-import { serializeHasMany } from '../utils/serialize-relationship';
-
 /**
  * Model for OSF APIv2 nodes. This model may be used with one of several API endpoints. It may be queried directly,
  *  or accessed via relationship fields.
