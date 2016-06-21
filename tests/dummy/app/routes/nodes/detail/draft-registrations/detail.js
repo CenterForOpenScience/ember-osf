@@ -3,17 +3,17 @@ import permissions from 'ember-osf/const/permissions';
 
 export default Ember.Route.extend({
     model(params) {
-        let node = this.modelFor('nodes.detail');
         let draft = this.store.peekRecord('draft-registration', params.draft_registration_id);
-        return Ember.RSVP.hash({
-            node: node,
-            draft: draft
-        });
+        return draft;
+    },
+    setupController(controller, model) {
+        this._super(controller, model);
+        controller.set('node', this.modelFor('nodes.detail'));
     },
     actions: {
         editDraft(updatedMetadata, resourceType) {
-            var draft = this.modelFor(this.routeName).draft;
-            var node = this.modelFor(this.routeName).node;
+            var draft = this.modelFor(this.routeName);
+            var node = this.controller.node;
             if (node.get('currentUserPermissions').indexOf(permissions.ADMIN) !== -1) {
                 var registrationMetadata = {};
                 var schema = draft.get('registrationSchema').get('schema');
@@ -44,8 +44,8 @@ export default Ember.Route.extend({
             }
         },
         registerDraft(updatedMetadata, registrationChoice, liftEmbargo) {
-            var node = this.modelFor(this.routeName).node;
-            var draft = this.modelFor(this.routeName).draft;
+            var node = this.controller.node;
+            var draft = this.modelFor(this.routeName);
             if (node.get('currentUserPermissions').indexOf(permissions.ADMIN) !== -1) {
                 // Need to update metdata one last time
                 if (Object.keys(updatedMetadata).length !== 0) {
