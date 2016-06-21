@@ -27,11 +27,18 @@ export default Ember.Service.extend({
     getDownloadUrl(file, options = {}) {
         let url = file.get('links.download');
 
-        if (file.isFolder) {
+        if (!options.query) {
+            options.query = {};
+        }
+        if (file.get('isFolder')) {
             options.query.zip = '';
         }
         let queryString = Ember.$.param(options.query);
-        return `${url}?${queryString}`;
+        if (queryString.length) {
+            return `${url}?${queryString}`;
+        } else {
+            return url;
+        }
     },
 
     /**
