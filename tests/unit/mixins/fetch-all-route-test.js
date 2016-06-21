@@ -71,9 +71,6 @@ test('Auto-fetches multiple pages of results when expected', function(assert) {
     callModelHook(subject);
 });
 
-// TODO: Check that configuration parameters can alter what params are used in URLs?
-// SINONjs spies will be helpful for this- can inspect calledWith
-
 test('Auto-fetches relationships fields from model hook', function(assert) {
     assert.expect(2);
     let subject = this.routeClass.create({

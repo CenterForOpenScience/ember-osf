@@ -32,7 +32,6 @@ export default Ember.Mixin.create(InfinityRoute, {
      */
     allRelated: null,
 
-
     /**
      * Sets up fetch-all query for a relationship field
      * @param controller
