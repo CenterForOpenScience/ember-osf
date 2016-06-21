@@ -14,5 +14,9 @@ module.exports = function(defaults) {
     });
 
     app.import(path.join(app.bowerDirectory, 'osf-style/css/base.css'));
+    app.import(path.join(app.bowerDirectory, 'dropzone/dist/basic.css'));
+    app.import(path.join(app.bowerDirectory, 'dropzone/dist/dropzone.css'));
+    app.import(path.join(app.bowerDirectory, 'dropzone/dist/dropzone.js'));
+
     return app.toTree();
 };

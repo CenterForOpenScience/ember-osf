@@ -57,6 +57,9 @@
         <button {{action "expandProperties"}}> Edit node settings </button>
     {{/if}}
     <hr>
+    <h2>Registrations</h2>
+    {{link-to 'View Registrations' 'nodes.detail.registrations' model class='btn btn-primary'}}
+    <hr>
     <h2>Affiliated Institutions</h2>
     <p>
         <table class="table">
@@ -96,13 +99,13 @@
                 <td> {{if contrib.unregisteredContributor contrib.unregisteredContributor contrib.users.fullName}} </td>
                 <td>
                     <select onchange={{action "permissionChange" value="target.value" bubbles=true}}>
-                        <option value="read {{contrib.id}}" selected={{permissionHelper contrib.permission "read"}}> Read </option>
-                        <option value="write {{contrib.id}}" selected={{permissionHelper contrib.permission "write"}}>  Read + Write </option>
-                        <option value="admin {{contrib.id}}" selected={{permissionHelper contrib.permission "admin"}}>  Administrator </option>
+                        <option value="read {{contrib.id}}" selected={{selected-helper contrib.permission "read"}}> Read </option>
+                        <option value="write {{contrib.id}}" selected={{selected-helper contrib.permission "write"}}>  Read + Write </option>
+                        <option value="admin {{contrib.id}}" selected={{selected-helper contrib.permission "admin"}}>  Administrator </option>
                     </select>
                 </td>
                 <td>
-                    <input onchange={{action "bibliographicChange" value="target"}} checked={{bibliographicHelper contrib.bibliographic}} type="checkbox" name="bibliographic" value="{{contrib.id}}">
+                    <input onchange={{action "bibliographicChange" value="target"}} checked={{bibliographic-helper contrib.bibliographic}} type="checkbox" name="bibliographic" value="{{contrib.id}}">
                 </td>
                 <td> <button {{action "deleteContributor" contrib}} class="btn btn-danger"> Remove </button> </td>
             </tr>
