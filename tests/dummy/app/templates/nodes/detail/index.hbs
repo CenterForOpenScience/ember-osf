@@ -1,5 +1,5 @@
 {{link-to 'Back to list' 'nodes' class="btn btn-default"}}
-<div class="col-md-12">
+<div class="panel">
     <h2>Data</h2>
     <p><label>Title:</label> {{model.title}}</p>
     <p><label>Description: </label> {{model.description}}</p>
@@ -8,7 +8,7 @@
     <p><label>Date Modified:</label> {{moment-format model.dateModified}}</p>
     <p><label>Public </label> {{model.public}} </p>
     <p><label> Tags </label></p>
-    {{#tags-widget addATag=(action 'addATag') removeATag=(action 'removeATag') tags=model.tags}} {{/tags-widget}}
+    {{#tags-widget addATag=(action 'addATag') removeATag=(action 'removeATag') tags=model.tags}}{{/tags-widget}}
     <hr>
     <p>
         <a href="{{model.links.html}}" target="_blank" class="btn btn-primary">
@@ -45,12 +45,16 @@
             <p>{{radio-button name="category" value="uncategorized" checked=editedCategory}} Uncategorized </p>
         </div>
         <p><label> Privacy settings </label></p>
-        {{radio-button name="isPublic" value=1 checked=isPublic}} Public {{radio-button name="isPublic" value=0 checked=isPublic}} Private
+        {{radio-button name="isPublic" value=1 checked=isPublic}} Public
+        {{radio-button name="isPublic" value=0 checked=isPublic}} Private
 
         <button disabled={{isSaving}} {{action 'updateNode' editedTitle editedDescription editedCategory isPublic}} class="btn btn-primary"> Save changes </button>
     {{else}}
         <button {{action 'toggleEditNode'}}> Edit node settings </button>
     {{/if}}
+    <hr>
+    <h2>Registrations</h2>
+    {{link-to 'View Registrations' 'nodes.detail.registrations' model class='btn btn-primary'}}
     <hr>
     <h2>Affiliated Institutions</h2>
     <p>
@@ -69,28 +73,13 @@
         <h4>Add Institution</h4> Institution Id {{input value=instId}}
         <button {{action 'affiliateNode' instId}} class="btn btn-primary">Affiliate Node</button>
     </p>
-    <h2>Files</h2> {{link-to 'View Files' 'nodes.detail.files' model class='btn btn-primary'}}
-    <hr> {{log-detail node-logs=model.logs}}
+    <h2>Files</h2>
+    {{link-to 'View Files' 'nodes.detail.files' model class='btn btn-primary'}}
+    <hr>
+
+    {{log-detail node-logs=model.logs}}
 
     <h2>Contributors</h2> {{contrib-manager contributors=model.contributors addContributor=(action 'addContributor') removeContributor=(action 'removeContributor') editContributors=(action 'updateContributors') }}
-    <hr>
-    <h2> Components </h2>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th> Id </th>
-                <th> Name </th>
-            </tr>
-        </thead>
-        {{#each model.children as |child|}}
-            <tbody>
-                <tr>
-                    <td> {{child.id}} </td>
-                    <td> {{link-to child.title 'nodes.detail' child.id}} </td>
-                </tr>
-            </tbody>
-        {{/each}}
-    </table>
 
     <h2> Create component </h2>
     <div>
