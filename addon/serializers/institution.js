@@ -7,10 +7,11 @@ import {
 export default OsfSerializer.extend({
     serializeIntoHash(hash, typeClass, snapshot, options) {
         if (options.forRelationship) {
-            return {
+            hash.data = [{
                 id: snapshot.record.get('id'),
                 type: pluralize(typeClass.modelName)
-            };
+            }];
+            return hash;
         }
         return this._super(hash, typeClass, snapshot, options);
     }

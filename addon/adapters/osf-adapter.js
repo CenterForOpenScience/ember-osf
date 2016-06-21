@@ -12,6 +12,10 @@ import {
     singularize
 } from 'ember-inflector';
 
+let {
+    camelize
+} = Ember.String;
+
 export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapterMixin, {
     authorizer: 'authorizer:osf-token',
     host: config.OSF.apiUrl,
@@ -20,7 +24,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
         // Fix issue where CORS request failed on 301s: Ember does not seem to append trailing
         // slash to URLs for single documents, but DRF redirects to force a trailing slash
         var url = this._super(...arguments);
-        var options = snapshot.adapterOptions || {};
+        var options = (snapshot ? snapshot.adapterOptions : false) || {};
         if (requestType === 'deleteRecord' || requestType === 'updateRecord' || requestType === 'findRecord') {
             if (snapshot.record.get('links.self')) {
                 url = snapshot.record.get('links.self');
@@ -79,7 +83,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
         return this._doRelatedRequest(store, snapshot, addedSnapshots, relationship, url, 'POST', isBulk);
     },
     _removeRelated(store, snapshot, removedSnapshots, relationship, url, isBulk = false) {
-        return this._doRelatedRequest(store, snapshot, removedSnapshots, relationship, url, 'DELETE', isBulk);
+        return this._doRelatedRequest(store, snapshot, removedSnapshots, relationship, url, 'DELETE', isBulk).then(response => response || []);
     },
     _deleteRelated(store, snapshot, removedSnapshots) { // jshint ignore:line
         return this._removeRelated(...arguments).then(() => {
@@ -120,19 +124,31 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
         return this.ajax(url, requestMethod, {
             data: data,
             isBulk: isBulk
+        }).then(res => {
+            if (!res) {
+                if (requestMethod === 'DELETE') {
+                    res = [];
+                } else {
+                    return null;
+                }
+            }
+            return res;
         });
     },
     _handleRelatedRequest(store, type, snapshot, relationship, change) {
         var related = snapshot.record.get(`_dirtyRelationships.${relationship}.${change}`).map(r => r.createSnapshot());
+        // TODO(samchrisinger): will this have unintented side-effects for deletes/removes?
         if (!related.length) {
             return [];
         }
+
         var relatedMeta = snapshot.record[relationship].meta();
         var url = this._buildRelationshipURL(snapshot, relationship);
         var adapter = store.adapterFor(type.modelName);
         var allowBulk = relatedMeta.options[`allowBulk${Ember.String.capitalize(change)}`];
+        var response;
         if (allowBulk) {
-            return adapter[`_${change}Related`](
+            response = adapter[`_${change}Related`](
                 store,
                 snapshot,
                 related,
@@ -141,20 +157,38 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
                 true
             );
         } else {
-            return related.map(relatedSnapshot => adapter[`_${change}Related`](
-                store,
-                snapshot,
-                relatedSnapshot,
-                relationship,
-                url,
-                false
-            ));
+            response = Ember.RSVP.allSettled(
+                related.map(relatedSnapshot => adapter[`_${change}Related`](
+                    store,
+                    snapshot,
+                    relatedSnapshot,
+                    relationship,
+                    url,
+                    false
+                ))
+            );
         }
+        return response.then(this._combineResults);
+    },
+    _combineResults(results) {
+        var data = [];
+        results.forEach(result => {
+            if (result.state === 'fulfilled') {
+                data.push(...(result.value.data || []));
+            }
+        });
+        return {
+            data: data.map(id => {
+                id.type = camelize(singularize(id.type));
+                return id;
+            })
+        };
     },
     updateRecord(store, type, snapshot) {
-        var promises = [];
+        var relatedRequests = {};
         var dirtyRelationships = snapshot.record.get('_dirtyRelationships');
         Object.keys(dirtyRelationships).forEach(relationship => {
+            var promises = [];
             var changed = dirtyRelationships[relationship];
             Object.keys(changed).forEach(change => {
                 promises = promises.concat(
@@ -163,16 +197,26 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
                     ) || []
                 );
             });
+            if (promises.length) {
+                relatedRequests[relationship] = Ember.RSVP.allSettled(promises).then(this._combineResults);
+            }
+        });
+        var relatedPromise = Ember.RSVP.hashSettled(relatedRequests).then(results => {
+            var updatedData = {};
+            Object.keys(results).forEach(relationship => {
+                let result = results[relationship];
+                if (result.state === 'fulfilled') {
+                    updatedData[relationship] = result.value;
+                }
+            });
+            store._setupRelationships(snapshot.record._internalModel, {
+                relationships: updatedData
+            });
         });
         if (Object.keys(snapshot.record.changedAttributes()).length) {
-            if (promises.length) {
-                return this._super(...arguments).then(response => Ember.RSVP.allSettled(promises).then(() => response));
-            }
-            return this._super(...arguments);
-        } else if (promises.length) {
-            return Ember.RSVP.allSettled(promises).then(() => null);
+            return this._super(...arguments).then(response => relatedPromise.then(() => response));
         } else {
-            return new Ember.RSVP.Promise((resolve) => resolve(null));
+            return relatedPromise.then(() => null);
         }
     },
     ajaxOptions(_, __, options) {
