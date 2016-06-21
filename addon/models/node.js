@@ -70,9 +70,7 @@ export default OsfModel.extend({
         if (contributors.hasData || contributors.hasLoaded) {
             this.set(
                 '_dirtyRelationships.contributors.update',
-                contributors.members.list.filter(m => {
-                    return !m.record.get('isNew') && Object.keys(m.record.changedAttributes()).length > 0;
-                })
+                contributors.members.list.filter(m => !m.record.get('isNew') && Object.keys(m.record.changedAttributes()).length > 0)
             );
             // Contributors are a 'real' delete, not just a de-reference
             this.set(
