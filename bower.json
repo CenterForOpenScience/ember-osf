@@ -10,6 +10,8 @@
     "lodash": "~3.7.0",
     "bootstrap-sass": "^3.3.6",
     "jquery-mockjax": "2.1.1",
+    "dropzone": "~4.3.0",
+    "bootstrap": "~3.3.5",
     "font-awesome": "~4.5.0"
   },
   "devDependencies": {
