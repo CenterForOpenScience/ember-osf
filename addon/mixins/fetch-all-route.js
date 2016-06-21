@@ -32,22 +32,33 @@ export default Ember.Mixin.create(InfinityRoute, {
      */
     allRelated: null,
 
+
+    /**
+     * Sets up fetch-all query for a relationship field
+     * @param controller
+     * @param model
+     * @private
+     */
+    setupRelationshipFetch(controller, model) {
+        // TODO: In the future, provide API for additional relationship query options
+        let storage = this.get('allRelated') || Ember.A();
+        controller.set('allRelated', storage);
+
+        this.infinityModel(this.get('relationshipToFetch'), {
+            modelPath: 'controller.allRelated',
+            _storeFindMethod: model.query.bind(model)
+        }).then((newObjects) => {
+            // Relationships use intermediate storage, so we can't assume the first page of query records will be auto-added
+            this._doUpdate(newObjects);
+            return newObjects;
+        });
+    },
+
     setupController(controller, model) {
         // If a relationship is specified, implicitly and automatically set the infinityModel to the related field of the model
-        let rel = this.get('relationshipToFetch');
-        if (rel) {
-            // TODO: In the future, provide API for additional relationship query options
-            let storage = this.get('allRelated') || Ember.A();
-            controller.set('allRelated', storage);
-
-            this.infinityModel(rel, {
-                modelPath: 'controller.allRelated',
-                _storeFindMethod: model.query.bind(model)
-            }).then((newObjects) => {
-                // Relationships use intermediate storage, so we can't assume the first page of query records will be auto-added
-                this._doUpdate(newObjects);
-                return newObjects;
-            });
+        console.log('called setupController');
+        if (this.get('relationshipToFetch')) {
+            this.setupRelationshipFetch(controller, model);
         }
         return this._super(...arguments);
     },
