@@ -34,7 +34,7 @@ export default DS.JSONAPISerializer.extend({
             resourceHash.embeds[embedded].type = embedded;
             // Merges links returned from embedded object with relationship links, so all returned links are available.
             var embeddedLinks = resourceHash.embeds[embedded].links || {};
-            // resourceHash.embeds[embedded].links = Object.assign(embeddedLinks, resourceHash.relationships[embedded].links);
+            resourceHash.embeds[embedded].links = Object.assign(embeddedLinks, resourceHash.relationships[embedded].links);
             resourceHash.relationships[embedded] = resourceHash.embeds[embedded];
             resourceHash.relationships[embedded].is_embedded = true;
         }
