@@ -14,6 +14,9 @@ export default Ember.Component.extend({
         addContributor(userId, permission, isBibliographic) {
             this.sendAction('addContributor', userId, permission, isBibliographic);
         },
+        removeContributor(contrib) {
+            this.sendAction('removeContributor', contrib);
+        },
         permissionChange(contributor, permission) {
             this.set(`permissionChanges.${contributor.id}`, permission.toLowerCase());
         },
