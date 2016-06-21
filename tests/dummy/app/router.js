@@ -54,6 +54,8 @@ Router.map(function() {
         });
     });
     this.route('prereg');
+    this.route('allnodes');
+    this.route('usernodes');
 });
 
 export default Router;

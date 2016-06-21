@@ -11,33 +11,44 @@ export default Ember.Mixin.create({
         }
     },
 
-    // Configure how pagination query params in the frontend map to the query params expected by the API backend
-    //  (helps support different APIs). Most users will not need to change this.
-    apiArgs: {
-        page: 'page',
-        page_size: 'page[size]'
-    },
+    /**
+     * Allow configuration of the backend URL parameter used for page #
+     * @property pageParam
+     * @type String
+     * @default "page"
+     */
+    pageParam: 'page',
 
     /**
-     * @method queryForPage  Fetch a route-specifed page of results from an external API
+     * Allow configuration of the backend URL parameter for number of results per page
+     * @property perPageParam
+     * @type String
+     * @default "page[size]"
+     */
+    perPageParam: 'page[size]',
+
+    /**
+     * @method queryForPage  Fetch a route-specified page of results from an external API
      * @param modelName The name of the model to query in the store
-     * @param routeParams Parameters gictionary available to the model hook; must be passed in manually
+     * @param routeParams Parameters dictionary available to the model hook; must be passed in manually
      * @param userParams Additional user-specified query parameters
      * @returns {Promise}
      */
     queryForPage(modelName, routeParams, userParams) {
+        userParams = userParams || {};
         let params = Object.assign({}, userParams || {}, routeParams);
 
-        // Rename parameters to match what the API expects, and remove the old param name if necessary
-        let apiArgs = this.get('apiArgs');
-        for (let frontEndParamName of Object.keys(apiArgs)) {
-            let backEndParamName = apiArgs[frontEndParamName];
-            if (params[frontEndParamName]) {
-                params[backEndParamName] = params[frontEndParamName];
-            }
-            if (frontEndParamName !== backEndParamName) {
-                delete params[frontEndParamName];
-            }
+        // Rename the ember-route URL params to what the backend API expects, and remove the old param if necessary
+        const page = params.page;
+        delete params.page;
+
+        const pageSize = params.page_size;
+        delete params.page_size;
+        if (page) {
+            params[this.get('pageParam')] = page;
+        }
+        if (pageSize) {
+            params[this.get('perPageParam')] = pageSize;
         }
         return this.store.query(modelName, params);
     }

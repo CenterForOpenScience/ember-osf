@@ -5,9 +5,11 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 
+import HasManyQuery from 'ember-data-has-many-query';
+
 import arrayItemsAreEqual from 'ember-osf/utils/array-items-are-equal';
 
-export default DS.Model.extend({
+export default DS.Model.extend(HasManyQuery.ModelMixin, {
     links: DS.attr('links'),
     embeds: DS.attr('embed'),
 
