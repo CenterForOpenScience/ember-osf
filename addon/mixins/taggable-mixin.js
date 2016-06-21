@@ -8,7 +8,7 @@ export default Ember.Mixin.create({
             Ember.A(currentTags);
             currentTags.pushObject(tag);
             resource.set('tags', currentTags);
-            resource.save();
+            return resource.save()
         },
         removeATag(tag) {
             var resource = this.get('model');
