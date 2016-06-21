@@ -32,10 +32,10 @@ export default Ember.Mixin.create({
             });
             commentsRel.pushObject(comment);
 
-            // TODO: We save through the model to get correct URL, but then need to reload the comment to get correct state back for the comment
+            // FIXME: Known issue: the temp comment ID generated this way results in a brief double-entry in the comment list
+            // TODO: We save through the model to get correct URL, but then need to reload the comments data to get correct
+            // state (server-generated comment ID and other fields) back for the newly created comment
             //   Is there a more straightforward way?
-
-            // FIXME: Known issue: the temp comment ID generated this way results in a brief double-entry in the comment list (which disappears on refresh)
             return model.save()
                 .then(() => commentsRel.reload());
         },
