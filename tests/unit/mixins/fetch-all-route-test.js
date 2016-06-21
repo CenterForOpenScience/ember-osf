@@ -62,6 +62,7 @@ test('Auto-fetches multiple pages of results when expected', function(assert) {
         },
         infinityModelLoaded({totalPages}) {
             let storage = this.get('fakeStorage');
+            // Tests: Confirm that the expected number of pages is fetched, and results go in the expected place
             assert.equal(totalPages, 3);
             assert.equal(storage.length, 12);
         }
@@ -71,10 +72,10 @@ test('Auto-fetches multiple pages of results when expected', function(assert) {
 });
 
 // TODO: Check that configuration parameters can alter what params are used in URLs?
-
 // SINONjs spies will be helpful for this- can inspect calledWith
 
 test('Auto-fetches relationships fields from model hook', function(assert) {
+    assert.expect(2);
     let subject = this.routeClass.create({
         relationshipToFetch: 'string triggers behavior',
         model() {
@@ -84,8 +85,8 @@ test('Auto-fetches relationships fields from model hook', function(assert) {
             });
         },
         infinityModelLoaded({totalPages}) {
-            console.log('assertive');
             let storage = this.get('controller.allRelated');
+            // Tests: relationship data is fetched into the pre-defined storage spot, using the provided model.query function, and expected number of pages is loaded
             assert.equal(totalPages, 3);
             assert.equal(storage.length, 12);
         }

@@ -56,7 +56,6 @@ export default Ember.Mixin.create(InfinityRoute, {
 
     setupController(controller, model) {
         // If a relationship is specified, implicitly and automatically set the infinityModel to the related field of the model
-        console.log('called setupController');
         if (this.get('relationshipToFetch')) {
             this.setupRelationshipFetch(controller, model);
         }
