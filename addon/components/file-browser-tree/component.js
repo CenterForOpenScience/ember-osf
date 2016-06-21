@@ -15,6 +15,7 @@ let RowProxy = Ember.ObjectProxy.extend({
     name: Ember.computed.or('content.name', 'content.title'),
     isExpandable: Ember.computed.or('isFolder', 'isNode'),
     isNode: Ember.computed.equal('content.constructor.modelName', 'node'),
+    isLinkable: Ember.computed.or('isNode', 'isFile'),
 
     childTrees: null,
 
