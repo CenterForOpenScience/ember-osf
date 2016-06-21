@@ -1,10 +1,9 @@
-import Ember from 'ember';
 import DS from 'ember-data';
 
 import OsfModel from './osf-model';
-import FileBrowserItemMixin from 'ember-osf/mixins/file-browser-item';
+import FileItemMixin from 'ember-osf/mixins/file-item';
 
-export default OsfModel.extend(FileBrowserItemMixin, {
+export default OsfModel.extend(FileItemMixin, {
     name: DS.attr('string'),
     kind: DS.attr('string'),
     path: DS.attr('string'),

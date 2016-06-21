@@ -1,3 +1,8 @@
+{{#unless atRoot}}
+    <a class='pull-left' {{action 'navigateUp'}}>
+        {{fa-icon 'arrow-left'}}
+    </a>
+{{/unless}}
 <ol class='breadcrumb'>
     {{#each breadcrumbs as |item|}}
         <li>
@@ -7,19 +12,15 @@
         </li>
     {{/each}}
 </ol>
-{{#unless atRoot}}
-    <button class='btn btn-default' {{action 'navigateUp'}}>
-        {{fa-icon 'arrow-left'}} Back
-    </button>
-{{/unless}}
 
 {{#if selectedItems}}
     {{! TODO: show available actions for selected files }}
 {{/if}}
 
 <div class='file-list'>
+    {{!TODO handle errors}}
     {{#unless itemsLoaded}}
-        {{fa-icon 'spinner' pulse=true size=5}}
+        <div class='logo-spin logo-lg'></div>
     {{/unless}}
     {{#ember-collection items=items
             cell-layout=(fixed-grid-layout itemWidth itemHeight)

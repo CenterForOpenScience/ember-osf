@@ -1,7 +1,10 @@
 .file-browser {
+    .breadcrumb {
+        margin-bottom: 0;
+    }
+
     .file-list {
         position: relative;
-        border: 1px solid gray;
         height: 400px;
         width: 305px;
     }
@@ -11,7 +14,7 @@
     }
 
     .file-browser-item:hover {
-        background-color: #ddd
+        background-color: $color-hover;
     }
 
     .file-browser-icon {
@@ -22,6 +25,6 @@
     }
 
     .selected {
-        background-color: #eee;
+        background-color: $color-select;
     }
 }
