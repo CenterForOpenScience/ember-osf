@@ -33,10 +33,9 @@ export default Ember.Mixin.create(InfinityRoute, {
     allRelated: null,
 
     /**
-     * Sets up fetch-all query for a relationship field
+     * Sets up fetch-all query for a relationship field.
      * @param controller
      * @param model
-     * @private
      */
     setupRelationshipFetch(controller, model) {
         // TODO: In the future, provide API for additional relationship query options
