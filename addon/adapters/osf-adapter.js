@@ -117,5 +117,9 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
             ret.contentType = 'application/vnd.api+json; ext=bulk';
         }
         return ret;
-    }
+    },
+    pathForType(modelName) {
+        var underscored = Ember.String.underscore(modelName);
+        return Ember.String.pluralize(underscored);
+    },
 });
