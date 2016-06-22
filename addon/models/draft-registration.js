@@ -3,11 +3,7 @@ import OsfModel from './osf-model';
 
 /**
  * Model for OSF APIv2 draft registrations.
- * This model represents draft registration data - the initiator of the draft,
- * the registrationSchema for the draft, and the registrationMetadata field, which is an object
- * containing responses to the supplemental questions described in the
- * registrationSchema.  branchedFrom is the node the user wants to register, and
- * registrationSupplement is the id of the registrationSchema (used on draft registration creation.)
+ * This model represents draft registration data and can be accessed as a relationship of a node.
  * For information on how to interact with a node's draft registrations, see:
  *    https://api.osf.io/v2/docs/#!/v2/Node_Draft_Registrations_List_GET
  *    https://api.osf.io/v2/docs/#!/v2/Node_Draft_Registration_Detail_GET

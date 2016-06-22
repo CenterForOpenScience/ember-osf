@@ -1,13 +1,16 @@
+{{link-to 'Back to node' 'nodes.detail' class='btn btn-default'}}
+{{link-to 'View registrations' 'nodes.detail.registrations' class='btn btn-primary'}}
 
-<h2> {{model.draft.registrationSchema.name}} </h2>
-<p> Initiated by: {{model.draft.initiator.fullName}}</p>
-<p> Started: {{moment-format model.draft.datetimeInitiated}} </p>
-<p> Last Updated: {{moment-format model.draft.datetimeUpdated}} </p>
+
+<h2> {{model.registrationSchema.name}} </h2>
+<p> Initiated by: {{model.initiator.fullName}}</p>
+<p> Started: {{moment-format model.datetimeInitiated}} </p>
+<p> Last Updated: {{moment-format model.datetimeUpdated}} </p>
 
 <hr>
 
 <h3> Edit Draft Registration </h3>
-{{#each model.draft.registrationSchema.schema.pages as |page|}}
+{{#each model.registrationSchema.schema.pages as |page|}}
 
     {{#each page.questions as |question|}}
         <p> <label> {{question.title}} </label> </p>
@@ -21,9 +24,9 @@
             <form>
                 {{#each question.options as |option|}}
                     {{#if (eq (check-data-type option) "string")}}
-                        <p> <input onchange={{action "buildForm" value="target"}} type="radio" name={{question.qid}} value={{option}} checked={{selected-helper option (draft-text-input model.draft.registrationMetadata question)}}> {{option}} </p>
+                        <p> <input onchange={{action "buildForm" value="target"}} type="radio" name={{question.qid}} value={{option}} checked={{selected-helper option (draft-text-input model.registrationMetadata question)}}> {{option}} </p>
                     {{else}}
-                        <p> <input onchange={{action "buildForm" value="target"}} type="radio" name={{question.qid}} value={{option.text}} checked={{selected-helper option.text (draft-text-input model.draft.registrationMetadata question)}}> {{option.text}} </p>
+                        <p> <input onchange={{action "buildForm" value="target"}} type="radio" name={{question.qid}} value={{option.text}} checked={{selected-helper option.text (draft-text-input model.registrationMetadata question)}}> {{option.text}} </p>
                     {{/if}}
                 {{/each}}
             </form>
@@ -37,11 +40,11 @@
                     </p>
                     <a href=#> Attach File (not implemented) </a>
                 {{else}}
-                    <input onchange={{action "buildForm" value="target"}} name="{{question.qid}}:{{subquestion.id}}" value={{draft-text-input model.draft.registrationMetadata question true}}>
+                    <input onchange={{action "buildForm" value="target"}} name="{{question.qid}}:{{subquestion.id}}" value={{draft-text-input model.registrationMetadata question true}}>
                 {{/if}}
             {{/each}}
         {{else}}
-            <input onchange={{action "buildForm" value="target"}} name={{question.qid}} value={{draft-text-input model.draft.registrationMetadata question}}>
+            <input onchange={{action "buildForm" value="target"}} name={{question.qid}} value={{draft-text-input model.registrationMetadata question}}>
         {{/if}}
         <hr>
     {{/each}}

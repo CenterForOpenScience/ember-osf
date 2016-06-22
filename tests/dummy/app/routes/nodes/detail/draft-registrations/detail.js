@@ -3,17 +3,18 @@ import permissions from 'ember-osf/const/permissions';
 
 export default Ember.Route.extend({
     model(params) {
-        let node = this.modelFor('nodes.detail');
         let draft = this.store.peekRecord('draft-registration', params.draft_registration_id);
-        return Ember.RSVP.hash({
-            node: node,
-            draft: draft
-        });
+        return draft;
+    },
+    setupController(controller, model) {
+        this._super(controller, model);
+        controller.set('node', this.modelFor('nodes.detail'));
     },
     actions: {
         editDraft(updatedMetadata, resourceType) {
-            var draft = this.modelFor(this.routeName).draft;
-            var node = this.modelFor(this.routeName).node;
+            var _this = this;
+            var draft = _this.modelFor(this.routeName);
+            var node = _this.controller.node;
             if (node.get('currentUserPermissions').indexOf(permissions.ADMIN) !== -1) {
                 var registrationMetadata = {};
                 var schema = draft.get('registrationSchema').get('schema');
@@ -33,23 +34,24 @@ export default Ember.Route.extend({
                     }
                 }
                 draft.set('registrationMetadata', registrationMetadata);
-                draft.save();
-                draft.one('didUpdate', this, function() {
+                draft.save().then(() => {
                     if (resourceType === 'draft') {
-                        this.transitionTo('nodes.detail.draft_registrations');
+                        _this.transitionTo('nodes.detail.draft_registrations');
                     }
-                });
+                }
+            );
             } else {
                 console.log('You must have admin permissions to update this draft.');
             }
         },
         registerDraft(updatedMetadata, registrationChoice, liftEmbargo) {
-            var node = this.modelFor(this.routeName).node;
-            var draft = this.modelFor(this.routeName).draft;
+            var _this = this;
+            var node = _this.controller.node;
+            var draft = _this.modelFor(this.routeName);
             if (node.get('currentUserPermissions').indexOf(permissions.ADMIN) !== -1) {
                 // Need to update metdata one last time
                 if (Object.keys(updatedMetadata).length !== 0) {
-                    this.send('editDraft', updatedMetadata, 'registration');
+                    _this.send('editDraft', updatedMetadata, 'registration');
                 }
                 var registrationPayload = {
                     draftRegistration: draft.id,
@@ -58,12 +60,9 @@ export default Ember.Route.extend({
                 if (registrationChoice === 'embargo') {
                     registrationPayload.liftEmbargo = liftEmbargo;
                 }
-                var registration = this.store.createRecord('registration', registrationPayload);
+                var registration = _this.store.createRecord('registration', registrationPayload);
                 node.get('registrations').pushObject(registration);
-                node.save();
-                node.one('didUpdate', this, function() {
-                    this.transitionTo('nodes.detail.registrations');
-                });
+                node.save().then(() => _this.transitionTo('nodes.detail.registrations'));
             } else {
                 console.log('You must have admin permissions to register this node.');
             }
