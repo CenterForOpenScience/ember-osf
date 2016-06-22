@@ -1,12 +1,14 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-    model(params) {
-        let draft = this.store.peekRecord('draft-registration', params.draft_registration_id);
-        return draft;
+    model() {
+        let node = this.modelFor('nodes.detail');
+        let drafts = node.get('draftRegistrations');
+        return drafts;
     },
     setupController(controller, model) {
         this._super(controller, model);
         controller.set('node', this.modelFor('nodes.detail'));
     }
+
 });
