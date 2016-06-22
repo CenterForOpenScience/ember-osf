@@ -13,16 +13,14 @@ export default Ember.Route.extend({
     },
     actions: {
         createDraft(schemaId) {
-            var node = this.controller.node;
+            var _this = this;
+            var node = _this.controller.node;
             if (node.get('currentUserPermissions').indexOf(permissions.ADMIN) !== -1) {
-                var draft = this.store.createRecord('draft-registration', {
+                var draft = _this.store.createRecord('draft-registration', {
                     registrationSupplement: schemaId
                 });
                 node.get('draftRegistrations').pushObject(draft);
                 node.save();
-                node.one('didUpdate', this, function() {
-                    this.transitionTo('nodes.detail.draft_registrations.detail');
-                });
             } else {
                 console.log('You must have admin permission to create a draft.');
             }
