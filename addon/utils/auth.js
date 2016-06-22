@@ -1,3 +1,4 @@
+// jscs:disable disallowArrayDestructuringReturn
 import config from 'ember-get-config';
 
 export function getAuthUrl() {
@@ -7,10 +8,10 @@ export function getAuthUrl() {
 export function getTokenFromHash(hash) {
     hash = hash.substring(1).split('&');
     for (let chunk of hash) {
-	var [key, value] = chunk.split('=');
-	if (key === 'access_token') {
-	    return value;
-	}
+        var [key, value] = chunk.split('=');
+        if (key === 'access_token') {
+            return value;
+        }
     }
     return null;
 }

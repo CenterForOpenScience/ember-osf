@@ -1,1 +1,4 @@
-export { default } from 'ember-osf/components/oauth-popup/component';
+export {
+    default
+}
+from 'ember-osf/components/oauth-popup/component';

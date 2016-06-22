@@ -25,9 +25,9 @@ export default Ember.Component.extend({
         },
         updateContributors() {
             this.sendAction(
-		'editContributors',
-		this.get('contributors'),
-		this.get('permissionChanges'),
+                'editContributors',
+                this.get('contributors'),
+                this.get('permissionChanges'),
                 this.get('bibliographicChanges')
             );
         }

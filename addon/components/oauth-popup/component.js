@@ -1,7 +1,9 @@
 import Ember from 'ember';
 import layout from './template';
 
-import { getTokenFromHash } from 'ember-osf/utils/auth';
+import {
+    getTokenFromHash
+} from 'ember-osf/utils/auth';
 
 export default Ember.Component.extend({
     layout,
@@ -37,12 +39,12 @@ export default Ember.Component.extend({
         }
 
         // wait for the popup window to be closed, by the user or completion of authorization redirect.
-        return new Ember.RSVP.Promise((resolve /* , reject */ ) => {
+        return new Ember.RSVP.Promise((resolve /* , reject */) => {
             let timer = window.setInterval(() => {
-		popup = this.get('popup');		
-		if (!popup || (popup.location.origin === window.location.origin)) {
-		    var accessToken = getTokenFromHash(popup.location.hash);
-		    popup.close();
+                popup = this.get('popup');
+                if (!popup || (popup.location.origin === window.location.origin)) {
+                    var accessToken = getTokenFromHash(popup.location.hash);
+                    popup.close();
                     window.clearInterval(timer);
                     resolve(accessToken);
                 }
@@ -50,14 +52,12 @@ export default Ember.Component.extend({
         });
     },
     actions: {
-	login() {
-	    this._openPopup().then((accessToken) => {
-		return this.get('session').authenticate('authenticator:osf-token', accessToken)
-		    .then(
-			() => this.sendAction('loginSuccess'),
-			err => this.sendAction('loginFail', err)
-		    );
-	    });
-	}
+        login() {
+            this._openPopup().then((accessToken) => this.get('session').authenticate('authenticator:osf-token', accessToken)
+                .then(
+                    () => this.sendAction('loginSuccess'),
+                    err => this.sendAction('loginFail', err)
+                ));
+        }
     }
 });

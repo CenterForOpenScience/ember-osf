@@ -6,7 +6,6 @@ import {
     getAuthUrl
 } from 'ember-osf/utils/auth';
 
-
 export default Ember.Controller.extend(OsfLoginControllerMixin, {
     toast: Ember.inject.service(),
     authUrl: getAuthUrl(),
