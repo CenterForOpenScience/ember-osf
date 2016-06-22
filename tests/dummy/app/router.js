@@ -20,6 +20,8 @@ Router.map(function() {
                 }, function() {
                     this.route('file', {
                         path: '/:file_id'
+                    }, function() {
+                        this.route('revisions');
                     });
                 });
             });

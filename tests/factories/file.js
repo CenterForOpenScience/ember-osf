@@ -15,7 +15,7 @@ FactoryGuy.define('file', {
         dateCreated: () => faker.date.past(1),
 
         isProvider: false,
-        checkout: false,
+        checkout: null,
 
         links: {
             upload: '/this/is/an/upload/url',
