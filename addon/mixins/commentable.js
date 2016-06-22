@@ -8,18 +8,15 @@ export default Ember.Mixin.create({
     comments: Ember.A(),
 
     reloadComments: Ember.observer('model', function() {
-        // Uses hasManyQuery to fetch comments whenever model is updated
-        // This is required to fetch the relationship with target parameter, since node + file comments on a project live under the same endpoint
+        // Uses hasManyQuery to fetch comments whenever model is updated. This will allow us to support pagination of
+        //   comments relationships in the future.
         let model = this.get('model');
-        model.query('comments', {
-            filter: {
-                target: model.id
-            }
-        }).then((res) => this.set('comments', res));
+        model.query('comments').then((res) => this.set('comments', res));
     }),
 
     actions: {
-        addComment(text) {
+        addComment(text) {// TODO: Add a guid and handle file comments
+
             // Assumes that the page's model hook is the target for the comment; we can make generalize if needed
             let model = this.get('model');
             var commentsRel = model.get('comments');
