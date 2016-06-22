@@ -24,9 +24,10 @@ export default Ember.Component.extend({
             this.set(`bibliographicChanges.${contributor.id}`, isBibliographic);
         },
         updateContributors() {
-            this.attrs.editContributors(
-                this.get('contributors'),
-                this.get('permissionChanges'),
+            this.sendAction(
+		'editContributors',
+		this.get('contributors'),
+		this.get('permissionChanges'),
                 this.get('bibliographicChanges')
             );
         }
