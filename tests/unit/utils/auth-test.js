@@ -13,6 +13,6 @@ test('getAuthUrl works', function(assert) {
 });
 
 test('getTokenFromHash works', function(assert) {
-    let result = authUtils.getTokenFromHash('access_token=foo');
+    let result = authUtils.getTokenFromHash('#access_token=foo');
     assert.equal(result, 'foo');
 });
