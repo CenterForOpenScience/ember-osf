@@ -46,7 +46,6 @@
     "ember-faker": "^1.1.0",
     "ember-infinity": "0.2.3",
     "ember-load-initializers": "0.5.1",
-    "ember-moment": "6.1.0",
     "ember-resolver": "2.0.3",
     "jscs": "^3.0.3",
     "loader": "2.1.0",
