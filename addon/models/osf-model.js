@@ -12,9 +12,13 @@ export default DS.Model.extend(HasManyQuery.ModelMixin, {
     embeds: DS.attr('embed'),
 
     relationshipLinks: Ember.computed.alias('links.relationships'),
-    _dirtyRelationships: {},
+    _dirtyRelationships: null,
     isNewOrDirty() {
         return this.get('isNew') || Object.keys(this.changedAttributes()).length;
+    },
+    init() {
+        this._super(...arguments);
+        this.set('_dirtyRelationships', Ember.Object.create({}));
     },
     save(options = {
         adapterOptions: {}
