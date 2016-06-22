@@ -10,6 +10,9 @@ module.exports = function(defaults) {
                 'tests/dummy/app/components',
                 'addon/styles'
             ]
+        },
+        babel: {
+            includePolyfill: true
         }
     });
 
