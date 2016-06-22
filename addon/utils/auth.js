@@ -6,7 +6,7 @@ export function getAuthUrl() {
 }
 
 export function getTokenFromHash(hash) {
-    hash = hash.substring(1).split('&');
+    hash = hash.split('&');
     for (let chunk of hash) {
         var [key, value] = chunk.split('=');
         if (key === 'access_token') {

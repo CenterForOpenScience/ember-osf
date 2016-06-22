@@ -11,7 +11,8 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{oauth-popup}}`);
 
-  assert.equal(this.$().text().trim(), '');
+
+  assert.equal(this.$().text().trim(), 'Login');
 
   // Template block usage:
   this.render(hbs`

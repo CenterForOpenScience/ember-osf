@@ -11,9 +11,9 @@ module.exports = function(defaults) {
                 'addon/styles'
             ]
         },
-	babel: {
-	    includePolyfill: true
-	}
+        babel: {
+            includePolyfill: true
+        }
     });
 
     app.import(path.join(app.bowerDirectory, 'osf-style/css/base.css'));

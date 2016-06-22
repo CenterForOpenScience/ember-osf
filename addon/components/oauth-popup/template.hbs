@@ -1,1 +1,5 @@
-<button {{action 'login'}} class="btn btn-warning"> Fancy Login </button>
+{{#if (not hasBlock) }}
+    <button {{action 'login'}} class="btn btn-warning"> Login </button>
+{{else}}
+    {{yield}}
+{{/if}}

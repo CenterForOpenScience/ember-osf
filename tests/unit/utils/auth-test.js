@@ -1,10 +1,18 @@
-import auth from 'dummy/utils/auth';
-import { module, test } from 'qunit';
+import authUtils from 'dummy/utils/auth';
+
+import {
+    module,
+    test
+} from 'qunit';
 
 module('Unit | Utility | auth');
 
-// Replace this with your real tests.
-test('it works', function(assert) {
-  let result = auth();
-  assert.ok(result);
+test('getAuthUrl works', function(assert) {
+    let result = authUtils.getAuthUrl();
+    assert.ok(result);
+});
+
+test('getTokenFromHash works', function(assert) {
+    let result = authUtils.getTokenFromHash('access_token=foo');
+    assert.equal(result, 'foo');
 });
