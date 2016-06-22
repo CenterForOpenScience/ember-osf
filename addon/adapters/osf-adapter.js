@@ -55,6 +55,16 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
         }
         return null;
     },
+    /**
+     * Handle creation of related resources
+     *
+     * @param {DS.Store} store
+     * @param {DS.Snapshot} snapshot snapshot of inverse record
+     * @param {DS.Snapshot[]} createdSnapshots
+     * @param {String} relationship
+     * @param {String} url
+     * @param {Boolean} isBulk
+     **/
     _createRelated(store, snapshot, createdSnapshots, relationship, url, isBulk = false) { // jshint ignore:line
         // TODO support bulk create?
         // if (isBulk) {
@@ -76,23 +86,76 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
             }));
         }
     },
-    _updateRelated(store, snapshot, updatedSnapshots, relationship, url, isBulk = false) {
-        return this._doRelatedRequest(store, snapshot, updatedSnapshots, relationship, url, 'PATCH', isBulk);
-    },
+    /**
+     * Handle add(s) of related resources. This differs from CREATEs in that the related 
+     * record is already saved and is just being associated with the inverse record.
+     *
+     * @param {DS.Store} store
+     * @param {DS.Snapshot} snapshot snapshot of inverse record
+     * @param {DS.Snapshot[]} addedSnapshots
+     * @param {String} relationship
+     * @param {String} url
+     * @param {Boolean} isBulk
+     **/
     _addRelated(store, snapshot, addedSnapshots, relationship, url, isBulk = false) {
         return this._doRelatedRequest(store, snapshot, addedSnapshots, relationship, url, 'POST', isBulk);
     },
+    /**
+     * Handle update(s) of related resources
+     *
+     * @param {DS.Store} store
+     * @param {DS.Snapshot} snapshot snapshot of inverse record
+     * @param {DS.Snapshot[]} updatedSnapshots
+     * @param {String} relationship
+     * @param {String} url
+     * @param {Boolean} isBulk
+     **/
+    _updateRelated(store, snapshot, updatedSnapshots, relationship, url, isBulk = false) {
+        return this._doRelatedRequest(store, snapshot, updatedSnapshots, relationship, url, 'PATCH', isBulk);
+    },
+    /**
+     * Handle removal of related resources. This differs from DELETEs in that the related 
+     * record is not deleted, just dissociated from the inverse record.
+     *
+     * @param {DS.Store} store
+     * @param {DS.Snapshot} snapshot snapshot of inverse record
+     * @param {DS.Snapshot[]} removedSnapshots
+     * @param {String} relationship
+     * @param {String} url
+     * @param {Boolean} isBulk
+     **/
     _removeRelated(store, snapshot, removedSnapshots, relationship, url, isBulk = false) {
         return this._doRelatedRequest(store, snapshot, removedSnapshots, relationship, url, 'DELETE', isBulk).then(response => response || []);
     },
-    _deleteRelated(store, snapshot, removedSnapshots) { // jshint ignore:line
+    /**
+     * Handle deletion of related resources
+     *
+     * @param {DS.Store} store
+     * @param {DS.Snapshot} snapshot snapshot of inverse record
+     * @param {DS.Snapshot[]} deletedSnapshots
+     * @param {String} relationship
+     * @param {String} url
+     * @param {Boolean} isBulk
+     **/
+    _deleteRelated(store, snapshot, deletedSnapshots) { // jshint ignore:line
         return this._removeRelated(...arguments).then(() => {
-            if (removedSnapshots.record) {
-                removedSnapshots = [removedSnapshots];
+            if (deletedSnapshots.record) {
+                deletedSnapshots = [deletedSnapshots];
             }
-            removedSnapshots.forEach(s => s.record.unloadRecord());
+            deletedSnapshots.forEach(s => s.record.unloadRecord());
         });
     },
+    /**
+     * A helper for making _*Related requests
+     *
+     * @param {DS.Store} store
+     * @param {DS.Snapshot} snapshot snapshot of inverse record
+     * @param {DS.Snapshot[]} relatedSnapshots
+     * @param {String} relationship
+     * @param {String} url
+     * @param {String} requestMethod
+     * @param {Boolean} isBulk
+     **/
     _doRelatedRequest(store, snapshot, relatedSnapshots, relationship, url, requestMethod, isBulk = false) {
         var data = {};
         var relatedMeta = snapshot.record[relationship].meta();
@@ -135,6 +198,16 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
             return res;
         });
     },
+    /**
+     * Delegate a series of requests based on a snapshot, relationship, and a change.
+     * The change argument can be 'delete', 'remove', 'update', 'add', 'create'
+     *
+     * @param {DS.Store} store
+     * @param {DS.Model} type
+     * @param {DS.Snapshot} snapshot
+     * @param {String} relationship
+     * @param {String} change
+     **/
     _handleRelatedRequest(store, type, snapshot, relationship, change) {
         var related = snapshot.record.get(`_dirtyRelationships.${relationship}.${change}`).map(r => r.createSnapshot());
         // TODO(samchrisinger): will this have unintented side-effects for deletes/removes?
@@ -170,6 +243,12 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
         }
         return response.then(this._combineResults);
     },
+    /**
+     * Combine a set of results from Ember.RSVP.allSettled into a single list 
+     * see: http://emberjs.com/api/classes/RSVP.html#method_allSettled
+     *
+     * @param {Object} result
+     **/
     _combineResults(results) {
         var data = [];
         results.forEach(result => {
