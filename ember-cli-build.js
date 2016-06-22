@@ -10,7 +10,10 @@ module.exports = function(defaults) {
                 'tests/dummy/app/components',
                 'addon/styles'
             ]
-        }
+        },
+	babel: {
+	    includePolyfill: true
+	}
     });
 
     app.import(path.join(app.bowerDirectory, 'osf-style/css/base.css'));
