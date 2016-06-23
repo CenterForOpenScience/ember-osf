@@ -48,7 +48,7 @@
     "ember-load-initializers": "0.5.1",
     "ember-resolver": "2.0.3",
     "ember-truth-helpers": "1.2.0",
-    "jscs": "^3.0.3",
+    "jscs": "3.0.4",
     "loader": "2.1.0",
     "loader.js": "4.0.3",
     "moment": "^2.13.0",
