@@ -16,6 +16,10 @@ export default Ember.Component.extend({
     actions: {
         toggleSearch() {
             this.toggleProperty('showSearch');
+        },
+        logOut() {
+            window.localStorage.clear();
+            window.location.reload(true);
         }
     }
 });
