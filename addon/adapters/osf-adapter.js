@@ -87,7 +87,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
         }
     },
     /**
-     * Handle add(s) of related resources. This differs from CREATEs in that the related 
+     * Handle add(s) of related resources. This differs from CREATEs in that the related
      * record is already saved and is just being associated with the inverse record.
      *
      * @param {DS.Store} store
@@ -114,7 +114,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
         return this._doRelatedRequest(store, snapshot, updatedSnapshots, relationship, url, 'PATCH', isBulk);
     },
     /**
-     * Handle removal of related resources. This differs from DELETEs in that the related 
+     * Handle removal of related resources. This differs from DELETEs in that the related
      * record is not deleted, just dissociated from the inverse record.
      *
      * @param {DS.Store} store
@@ -244,7 +244,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
         return response.then(this._combineResults);
     },
     /**
-     * Combine a set of results from Ember.RSVP.allSettled into a single list 
+     * Combine a set of results from Ember.RSVP.allSettled into a single list
      * see: http://emberjs.com/api/classes/RSVP.html#method_allSettled
      *
      * @param {Object} result
