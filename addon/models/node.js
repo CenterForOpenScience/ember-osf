@@ -3,7 +3,9 @@ import DS from 'ember-data';
 import OsfModel from './osf-model';
 import FileItemMixin from 'ember-osf/mixins/file-item';
 
-import { serializeHasMany } from '../utils/serialize-relationship';
+import {
+    serializeHasMany
+} from '../utils/serialize-relationship';
 
 /**
  * Model for OSF APIv2 nodes. This model may be used with one of several API endpoints. It may be queried directly,
@@ -51,7 +53,12 @@ export default OsfModel.extend(FileItemMixin, {
     comments: DS.hasMany('comments'),
     contributors: DS.hasMany('contributors', {
         updateRequest: {
-            requestType: (snapshot, relationship) => snapshot.hasMany(relationship).filter(each => Object.keys(each.changedAttributes()).indexOf('userId') !== -1).length > 0 ? 'POST' : 'PATCH',
+            requestType: (snapshot, relationship) => {
+                if (snapshot.hasMany(relationship).filter(each => each.record.get('isNew')).length) {
+                    return 'POST';
+                }
+                return 'PATCH';
+            },
             isBulk: () => true,
             serialized(serialized) {
                 return {
@@ -83,7 +90,17 @@ export default OsfModel.extend(FileItemMixin, {
         inverse: null
     }),
     registrations: DS.hasMany('registrations', {
-        inverse: 'registeredFrom'
+        inverse: 'registeredFrom',
+        updateRequest: {
+            requestType: () => 'POST'
+        }
+    }),
+
+    draftRegistrations: DS.hasMany('draft-registrations', {
+        inverse: 'branchedFrom',
+        updateRequest: {
+            requestType: () => 'POST'
+        }
     }),
 
     root: DS.belongsTo('node', {
