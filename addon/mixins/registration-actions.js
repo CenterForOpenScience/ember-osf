@@ -7,30 +7,20 @@ export default Ember.Mixin.create({
     model: null,
     _node: Ember.computed.or('node'),
     _draft: Ember.computed.or('draft', 'model'),
-
-    _generateRegistrationMetadata(draft, updatedMetadata) {
-        var registrationMetadata = {};
-        var schema = draft.get('registrationSchema').get('schema');
-        var draftMetadata = draft.get('registrationMetadata');
-
-        for (var page = 0; page < schema.pages.length; page++) {
-            for (var q = 0; q < schema.pages[page].questions.length; q++) {
-                var question = schema.pages[page].questions[q];
-                if (question.qid in updatedMetadata) {
-                    registrationMetadata[question.qid] = updatedMetadata[question.qid];
-                } else {
-                    if (draftMetadata[question.qid]) {
-                        var currentValue = draftMetadata[question.qid].value;
-                        if (!(currentValue === '' || typeof (currentValue) === 'object' && currentValue.length === 0)) {
-                            registrationMetadata[question.qid] = draftMetadata[question.qid];
-                        }
-                    }
-                }
+    _updateMetadata(d, u) {
+        var map = new Map(Object.entries(u));
+        for (let items of map.entries()) {
+            var key = items[0];
+            var value = items [1];
+            if (typeof (value) === 'object') {
+                var r = this._updateMetadata(d[key] || {}, value);
+                d[key] = r;
+            } else {
+                d[key] = u[key];
             }
         }
-        return registrationMetadata;
+        return d;
     },
-
     _generateRegistrationPayload(draft, registrationChoice, liftEmbargo) {
         var registrationPayload = {
             draftRegistration: draft.id,
@@ -41,7 +31,6 @@ export default Ember.Mixin.create({
         }
         return registrationPayload;
     },
-
     actions: {
         createDraft(schemaId) {
             var node = this.get('_node');
@@ -56,7 +45,8 @@ export default Ember.Mixin.create({
         },
         editDraft(updatedMetadata) {
             var draft = this.get('_draft');
-            var updatedRegistrationMetadata = this._generateRegistrationMetadata(draft, updatedMetadata);
+            var metadataClone = JSON.parse(JSON.stringify(draft.get('registrationMetadata')));
+            var updatedRegistrationMetadata = this._updateMetadata(metadataClone, updatedMetadata);
             draft.set('registrationMetadata', updatedRegistrationMetadata);
             return draft.save();
         },

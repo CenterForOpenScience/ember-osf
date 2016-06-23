@@ -32,6 +32,9 @@
             </form>
         {{else if (eq question.type "object")}}
             {{#each question.properties as |subquestion|}}
+                {{#if subquestion.description}}
+                    <p>{{subquestion.description}}</p>
+                {{/if}}
                 {{#if (eq subquestion.type "osf-upload")}}
                     <p>
                         You may attach up to 5 files to this question.
@@ -40,7 +43,16 @@
                     </p>
                     <a href=#> Attach File (not implemented) </a>
                 {{else}}
-                    <input onchange={{action "buildForm" value="target"}} name="{{question.qid}}:{{subquestion.id}}" value={{draft-text-input model.registrationMetadata question true}}>
+                    {{#if subquestion.properties}}
+                        {{#each subquestion.properties as |item|}}
+                            {{#if item.description}}
+                                <p>{{item.description}}</p>
+                            {{/if}}
+                            <p><input onchange={{action "buildForm" value="target"}} name="{{question.qid}}:{{subquestion.id}}:{{item.id}}" value={{draft-text-input model.registrationMetadata question subquestion item}}></p>
+                        {{/each}}
+                    {{else}}
+                        <p><input onchange={{action "buildForm" value="target"}} name="{{question.qid}}:{{subquestion.id}}" value={{draft-text-input model.registrationMetadata question subquestion}}></p>
+                    {{/if}}
                 {{/if}}
             {{/each}}
         {{else}}
