@@ -1,165 +1,414 @@
 import Ember from 'ember';
 
+/**
+ * An Ember service for doing things to files.
+ * Essentially a wrapper for the Waterbutler API.
+ * http://waterbutler.readthedocs.io/
+ *
+ * @class file-manager
+ * @extends Ember.Service
+ */
+
 export default Ember.Service.extend({
     session: Ember.inject.service(),
     store: Ember.inject.service(),
 
-    // TODO: After performing a Waterbutler action, it takes a little while
-    // (maybe a minute, depending on caching options) for the OSF API to catch
-    // up and start serving the updated metadata.
-    //
-    // For actions on existing entities, this is fine, and file-manager
-    // uses info from WB to update the Ember store so everything looks right
-    // to the user, right away.
-    //
-    // For actions that create entities (addSubfolder, uploadFile, copy),
-    // this is a problem, because we need the OSF info (guid, WB links)
-    // before letting the user do anything to their new file. At the moment,
-    // after you create a file, you should go get a cup of coffee, come back,
-    // and hard reload.
+    /**
+     * Get a URL to download the given file.
+     *
+     * @method getDownloadUrl
+     * @param {file} file A `file` model
+     * @param {Object} [options] Options hash
+     * @param {Object} [options.query] Key-value hash of query parameters to
+     * add to the URL.
+     * @param {Object} [options.query.version] `file-version` ID
+     * @return {String} Download URL
+     */
+    getDownloadUrl(file, options = {}) {
+        let url = file.get('links.download');
 
-    ///////////////////// File-only actions /////////////////////
-
-    getContents(file) {
-        let url = file.get('links').download;
-        return this._waterbutlerRequest('GET', url);
+        if (!options.query) {
+            options.query = {};
+        }
+        if (file.get('isFolder')) {
+            options.query.zip = '';
+        }
+        let queryString = Ember.$.param(options.query);
+        if (queryString.length) {
+            return `${url}?${queryString}`;
+        } else {
+            return url;
+        }
     },
 
-    updateContents(file, contents) {
+    /**
+     * Download the contents of the given file.
+     *
+     * @method getContents
+     * @param {file} file A `file` model with `isFolder == false`.
+     * @param {Object} [options] Options hash
+     * @param {Object} [options.query] Key-value hash of query parameters to
+     * add to the request URL.
+     * @param {Object} [options.data] Payload to be sent.
+     * @return {Promise} Promise that resolves to the file contents or rejects
+     * with an error message.
+     */
+    getContents(file, options = {}) {
+        let url = file.get('links.download');
+        return this._waterbutlerRequest('GET', url, options);
+    },
+
+    /**
+     * Upload a new version of an existing file.
+     *
+     * @method updateContents
+     * @param {file} file A `file` model with `isFolder == false`.
+     * @param {Object} contents A native `File` object or another appropriate
+     * payload for uploading.
+     * @param {Object} [options] Options hash
+     * @param {Object} [options.query] Key-value hash of query parameters to
+     * add to the request URL.
+     * @param {Object} [options.data] Payload to be sent.
+     * @return {Promise} Promise that resolves to the updated `file` model or
+     * rejects with an error message.
+     */
+    updateContents(file, contents, options = {}) {
         let url = file.get('links').upload;
-        let params = { kind: 'file' };
-        return this._waterbutlerRequest('PUT', url, params, contents);
+        if (!options.query) {
+            options.query = {};
+        }
+        options.query.kind = 'file';
+        options.data = contents;
+
+        let p = this._waterbutlerRequest('PUT', url, options);
+        return p.then(() => this._reloadModel(file));
     },
 
-    checkout(/*file, user*/) {
-        // TODO? Having checkout here makes more sense to me than making it
-        // the only writable attribute on the file model.
+    /**
+     * Check out a file, so only the current user can modify it.
+     *
+     * @method checkOut
+     * @param {file} file `file` model with `isFolder == false`.
+     * @return {Promise} Promise that resolves on success or rejects with an
+     * error message.
+     */
+    checkOut(file) {
+        return Ember.run(() => {
+            let userID = this.get('session.data.authenticated.id');
+            file.set('checkout', userID);
+            return file.save().catch((error) => {
+                file.rollbackAttributes();
+                throw error;
+            });
+        });
     },
 
-    ///////////////////// Folder-only actions /////////////////////
+    /**
+     * Check in a file, so anyone with permission can modify it.
+     *
+     * @method checkOut
+     * @param {file} file `file` model with `isFolder == false`.
+     * @return {Promise} Promise that resolves on success or rejects with an
+     * error message.
+     */
+    checkIn(file) {
+        return Ember.run(() => {
+            file.set('checkout', null);
+            return file.save().catch((error) => {
+                file.rollbackAttributes();
+                throw error;
+            });
+        });
+    },
 
-    addSubfolder(folder, name) {
+    /**
+     * Create a new folder
+     *
+     * @method addSubfolder
+     * @param {file} folder Location of the new folder, a `file` model with
+     * `isFolder == true`.
+     * @param {String} name Name of the folder to create.
+     * @param {Object} [options] Options hash
+     * @param {Object} [options.query] Key-value hash of query parameters to
+     * add to the request URL.
+     * @param {Object} [options.data] Payload to be sent.
+     * @return {Promise} Promise that resolves to the new folder's model or
+     * rejects with an error message.
+     */
+    addSubfolder(folder, name, options = {}) {
         let url = folder.get('links').new_folder;
-        let params = {
-            name,
-            kind: 'folder'
-        };
+        if (!options.query) {
+            options.query = {};
+        }
+        options.query.name = name;
+        options.query.kind = 'folder';
 
         // HACK: This is the only WB link that already has a query string
         let queryStart = url.search(/\?kind=folder$/);
         if (queryStart > -1) {
             url = url.slice(0, queryStart);
         }
-        return this._waterbutlerRequest('PUT', url, params);
+        let p = this._waterbutlerRequest('PUT', url, options);
+        return p.then(() => this._getNewFileInfo(folder, name));
     },
 
-    uploadFile(folder, name, contents) {
+    /**
+     * Upload a file
+     *
+     * @method uploadFile
+     * @param {file} folder Location of the new file, a `file` model with
+     * `isFolder == true`.
+     * @param {String} name Name of the new file.
+     * @param {Object} contents A native `File` object or another appropriate
+     * payload for uploading.
+     * @param {Object} [options] Options hash
+     * @param {Object} [options.query] Key-value hash of query parameters to
+     * add to the request URL.
+     * @param {Object} [options.data] Payload to be sent.
+     * @return {Promise} Promise that resolves to the new file's model or
+     * rejects with an error message.
+     */
+    uploadFile(folder, name, contents, options = {}) {
         let url = folder.get('links').upload;
-        let params = {
-            name,
-            kind: 'file'
-        };
-        return this._waterbutlerRequest('PUT', url, params, contents);
+        options.data = contents;
+        if (!options.query) {
+            options.query = {};
+        }
+        options.query.name = name;
+        options.query.kind = 'file';
+
+        let p = this._waterbutlerRequest('PUT', url, options);
+        return p.then(() => this._getNewFileInfo(folder, name));
     },
 
-    ///////////////////// File and folder actions /////////////////////
-
-    rename(file, newName) {
+    /**
+     * Rename a file or folder
+     *
+     * @method rename
+     * @param {file} file `file` model to rename.
+     * @param {String} newName New name for the file.
+     * @param {Object} [options] Options hash
+     * @param {Object} [options.query] Key-value hash of query parameters to
+     * add to the request URL.
+     * @param {Object} [options.data] Payload to be sent.
+     * @return {Promise} Promise that resolves to the updated `file` model or
+     * rejects with an error message.
+     */
+    rename(file, newName, options = {}) {
         let url = file.get('links').move;
-        let data = JSON.stringify({ action: 'rename', rename: newName });
-        let p = this._waterbutlerRequest('POST', url, null, data);
-        return p.then((data) => this._pushToStore(data, file.get('id')));
+        options.data = JSON.stringify({ action: 'rename', rename: newName });
+
+        let p = this._waterbutlerRequest('POST', url, options);
+        return p.then(() => this._reloadModel(file));
     },
 
+    /**
+     * Move (or copy) a file or folder
+     *
+     * @method move
+     * @param {file} file `file` model to move.
+     * @param {file} targetFolder Where to move the file, a `file` model with
+     * `isFolder == true`.
+     * @param {Object} [options] Options hash
+     * @param {Object} [options.query] Key-value hash of query parameters to
+     * add to the request URL.
+     * @param {Object} [options.data] Payload to be sent.
+     * @param {String} [options.data.rename] If specified, also rename the file
+     * to the given name.
+     * @param {String} [options.data.resource] Optional node ID. If specified,
+     * move the file to that node.
+     * @param {String} [options.data.provider] Optional provider name. If
+     * specified, move the file to that provider.
+     * @param {String} [options.data.action='move'] Either 'move' or 'copy'.
+     * @param {String} [options.data.conflict='replace'] Specifies what to do if
+     * a file of the same name already exists in the target folder. If 'keep',
+     * rename this file to avoid conflict. If replace, the existing file is
+     * destroyed.
+     * @return {Promise} Promise that resolves to the the updated (or newly
+     * created) `file` model or rejects with an error message.
+     */
     move(file, targetFolder, options = {}) {
-        // Default options:
-        // newName: null
-        // replace: true
-        // node: null
-        // provider: null
-        // copy: false
-
         let url = file.get('links').move;
-        let data = {
-            action: options.copy ? 'copy' : 'move',
-            path: targetFolder.get('path'),
-            conflict: options.replace === false ? 'keep' : 'replace'
+        let defaultData = {
+            action: 'move',
+            path: targetFolder.get('path')
         };
-        if (options.newName) {
-            data.rename = options.newName;
-        }
-        if (options.node) {
-            if (typeof options.node === 'string') {
-                data.resource = options.node;
-            } else {
-                data.resource = options.node.get('id');
-            }
-        }
-        if (options.provider) {
-            data.provider = options.provider;
-        }
+        Ember.$.extend(defaultData, options.data);
+        options.data = JSON.stringify(defaultData);
 
-        let p = this._waterbutlerRequest('POST', url, null, JSON.stringify(data));
-        return p.then((data) => {
-            if (!options.copy) {
-                return this._pushToStore(data, file.get('id'), targetFolder);
-            }
+        let p = this._waterbutlerRequest('POST', url, options);
+        return p.then((wbResponse) => {
+            let name = wbResponse.data.attributes.name;
+            return this._getNewFileInfo(targetFolder, name);
         });
     },
 
+    /**
+     * Copy a file or folder.
+     * Convenience method for `move` with `options.copy == true`.
+     *
+     * @method copy
+     * @param {file} file `file` model to copy.
+     * @param {file} targetFolder Where to copy the file, a `file` model with
+     * `isFolder == true`.
+     * @param {Object} [options] Options hash
+     * @param {Object} [options.query] Key-value hash of query parameters to
+     * add to the request URL.
+     * @param {Object} [options.data] Payload to be sent.
+     * @param {String} [options.data.rename] If specified, also rename the file
+     * to the given name.
+     * @param {String} [options.data.resource] Optional node ID. If specified,
+     * move the file to that node.
+     * @param {String} [options.data.provider] Optional provider name. If
+     * specified, move the file to that provider.
+     * @param {String} [options.data.conflict='replace'] Specifies what to do if
+     * a file of the same name already exists in the target folder. If 'keep',
+     * rename this file to avoid conflict. If replace, the existing file is
+     * destroyed.
+     * @return {Promise} Promise that resolves to the the new `file` model or
+     * rejects with an error message.
+     */
     copy(file, targetFolder, options={}) {
-        options.copy = true;
+        if (!options.data) {
+            options.data = {};
+        }
+        options.data.action = 'copy';
         return this.move(file, targetFolder, options);
     },
 
-    deleteFile(file) {
+    /**
+     * Delete a file or folder
+     *
+     * @method deleteFile
+     * @param {file} file `file` model to delete.
+     * @param {Object} [options] Options hash
+     * @param {Object} [options.query] Key-value hash of query parameters to
+     * add to the request URL.
+     * @param {Object} [options.data] Payload to be sent.
+     * @return {Promise} Promise that resolves on success or rejects with an
+     * error message.
+     */
+    deleteFile(file, options = {}) {
         let url = file.get('links').delete;
-        let p = this._waterbutlerRequest('DELETE', url);
-        return p.then(() => {
-            let parentFolder = file.get('parentFolder');
-            if (parentFolder) {
-                parentFolder.get('files').removeObject(file);
+        let p = this._waterbutlerRequest('DELETE', url, options);
+        return p.then(() => file.get('parentFolder').then((parent) => {
+                if (parent) {
+                    return this._reloadModel(parent.get('files'));
+                } else {
+                    this.get('store').unloadRecord(file);
+                    return true;
+                }
+            })
+        );
+    },
+
+    /**
+     * Check whether the given url corresponds to a model that is currently
+     * reloading after a file operation.
+     *
+     * Used by `mixin:file-cache-bypass` to avoid a race condition where the
+     * cache might return stale, inaccurate data.
+     *
+     * @method isReloadingUrl
+     * @param {String} url
+     * @return {Boolean} `true` if `url` corresponds to a pending reload on a
+     * model immediately after a Waterbutler action, otherwise `false`.
+     */
+    isReloadingUrl(url) {
+        return !!this._reloadingUrls[url];
+    },
+
+    /**
+     * Hash set of URLs for `model.reload()` calls that are still pending.
+     *
+     * @property _reloadingUrls
+     * @private
+     */
+    _reloadingUrls: {},
+
+    /**
+     * Force-reload a model from the API.
+     *
+     * @method _reloadModel
+     * @private
+     * @param {Object} model `file` model or a `files` relationship
+     * @return {Promise} Promise that resolves to the reloaded model or
+     * rejects with an error message.
+     */
+    _reloadModel(model) {
+        // If it's a file model, it has its own URL in `links.info`.
+        let reloadUrl = model.get('links.info');
+        if (!reloadUrl) {
+            // If it's not a file model, it must be a relationship.
+            // HACK: Looking at Ember's privates.
+            reloadUrl = model.get('content.relationship.link');
+        }
+        if (reloadUrl) {
+            this._reloadingUrls[reloadUrl] = true;
+        }
+
+        return model.reload().then((freshModel) => {
+            if (reloadUrl) {
+                delete this._reloadingUrls[reloadUrl];
             }
+            return freshModel;
+        }).catch((error) => {
+            if (reloadUrl) {
+                delete this._reloadingUrls[reloadUrl];
+            }
+            throw error;
         });
     },
 
-    ///////////////////// Privates /////////////////////
-
-    _waterbutlerRequest(method, url, queryParams=null, data=null) {
-        if (queryParams) {
-            let queryString = Ember.$.param(queryParams);
+    /**
+     * Make a Waterbutler request
+     *
+     * @method _waterbutlerRequest
+     * @private
+     * @param {String} method HTTP method for the request.
+     * @param {String} url Waterbutler URL.
+     * @param {Object} [options] Options hash
+     * @param {Object} [options.query] Key-value hash of query parameters to
+     * add to the request URL.
+     * @param {Object} [options.data] Payload to be sent.
+     * @return {Promise} Promise that resolves to the data returned from the
+     * server on success, or rejects with an error message.
+     */
+    _waterbutlerRequest(method, url, options = {}) {
+        if (options.query) {
+            let queryString = Ember.$.param(options.query);
             url = `${url}?${queryString}`;
         }
-        let sessionData = this.get('session').get('data').authenticated;
-        let accessToken = sessionData.attributes.accessToken;
+
+        let headers = {};
+        this.get('session').authorize('authorizer:osf-token', (headerName, content) => {
+            headers[headerName] = content;
+        });
 
         return new Ember.RSVP.Promise((resolve, reject) => {
-            Ember.$.ajax(url, {
+            let p = Ember.$.ajax(url, {
                 method,
-                data,
-                processData: false,
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                },
-                success: (data) => resolve(data),
-                error: (_, __, error) => reject(error)
+                headers,
+                data: options.data,
+                processData: false
             });
+            p.done((data) => resolve(data));
+            p.fail((_, __, error) => reject(error));
         });
     },
 
-    _pushToStore(data, id, parentFolder) {
-        // Hack the Waterbutler entity to look like the file Ember expects
-        data.data.id = id;
-        data.data.type = 'file';
-        let attr = data.data.attributes;
-        attr.materializedPath = attr.materialized;
-        attr.dateModified = attr.modified;
-
-        let newFolder = this.get('store').push(data);
-
-        if (parentFolder) {
-            newFolder.set('parentFolder', parentFolder);
-        }
-        return newFolder;
+    /**
+     * Get the `file` model for a newly created file.
+     *
+     * @method _getNewFileInfo
+     * @private
+     * @param {file} parentFolder Model for the new file's parent folder.
+     * @param {String} name Name of the new file.
+     * @return {Promise} Promise that resolves to the new file's model or
+     * rejects with an error message.
+     */
+    _getNewFileInfo(parentFolder, name) {
+        let p = this._reloadModel(parentFolder.get('files'));
+        return p.then((files) => files.findBy('name', name));
     }
 });

@@ -1,6 +1,4 @@
-<div class="panel">
-    <h2>Files</h2>
-    {{#each model as |provider|}}
-        {{file-tree root=provider node=provider.node}}
-    {{/each}}
-</div>
+{{file-browser rootNode=node
+onClickFile=(action 'fileDetail')
+onClickNode=(action 'nodeDetail')
+}}

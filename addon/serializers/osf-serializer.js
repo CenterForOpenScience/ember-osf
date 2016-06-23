@@ -14,14 +14,42 @@ export default DS.JSONAPISerializer.extend({
         }
     },
 
+    _extractEmbeds(resourceHash) {
+        if (!resourceHash.embeds) {
+            return []; // Nothing to do
+        }
+        let included = [];
+        resourceHash.relationships = resourceHash.relationships || {};
+        for (let embedded in resourceHash.embeds) {
+            if (!(embedded || resourceHash.embeds[embedded])) {
+                continue;
+            }
+            //TODO Pagination probably breaks here
+            let data = resourceHash.embeds[embedded].data;
+            if (Array.isArray(data)) {
+                included = included.concat(data);
+            } else {
+                included.push(data);
+            }
+            resourceHash.embeds[embedded].type = embedded;
+            // Merges links returned from embedded object with relationship links, so all returned links are available.
+            var embeddedLinks = resourceHash.embeds[embedded].links || {};
+            resourceHash.embeds[embedded].links = Object.assign(embeddedLinks, resourceHash.relationships[embedded].links);
+            resourceHash.relationships[embedded] = resourceHash.embeds[embedded];
+            resourceHash.relationships[embedded].is_embedded = true;
+        }
+        delete resourceHash.embeds;
+        //Recurse in, includeds are only processed on the top level. Emebeds are nested.
+        return included.concat(included.reduce((acc, include) => acc.concat(this._extractEmbeds(include)), []));
+    },
+
     _mergeFields(resourceHash) {
         // ApiV2 `links` exist outside the attributes field; make them accessible to the data model
         if (resourceHash.links) { // TODO: Should also test whether model class defines a links field
             resourceHash.attributes.links = resourceHash.links;
         }
-        if (resourceHash.embeds) {
-            resourceHash.attributes.embeds = resourceHash.embeds;
-        }
+        this._extractEmbeds(resourceHash);
+
         if (resourceHash.relationships && resourceHash.attributes.links) {
             resourceHash.attributes.links = Ember.$.extend(resourceHash.attributes.links, { relationships: resourceHash.relationships });
         }
@@ -43,6 +71,13 @@ export default DS.JSONAPISerializer.extend({
 
     serialize: function(snapshot, options) {
         var serialized = this._super(snapshot, options);
+        serialized.data.type = Ember.String.underscore(serialized.data.type);
+        // Only send dirty attributes in request
+        for (var attribute in serialized.data.attributes) {
+            if (!(Ember.String.camelize(attribute) in snapshot.record.changedAttributes())) {
+                delete serialized.data.attributes[attribute];
+            }
+        }
         // Don't send relationships to the server; this can lead to 500 errors.
         delete serialized.data.relationships;
         return serialized;
@@ -64,6 +99,7 @@ export default DS.JSONAPISerializer.extend({
         let documentHash = this._super(...arguments);
         documentHash.meta = documentHash.meta || {};
         documentHash.meta.pagination = Ember.get(payload || {}, 'links.meta');
+        documentHash.meta.total = Math.ceil(documentHash.meta.pagination.total / documentHash.meta.pagination.per_page);
         return documentHash;
     }
 });

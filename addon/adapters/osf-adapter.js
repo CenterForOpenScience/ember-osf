@@ -4,51 +4,29 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 
+import HasManyQuery from 'ember-data-has-many-query';
 import config from 'ember-get-config';
 import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
 
-export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
+let inflector = new Ember.Inflector(Ember.Inflector.defaultRules);
+
+export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapterMixin, {
     authorizer: 'authorizer:osf-token',
     host: config.OSF.apiUrl,
     namespace: config.OSF.apiNamespace,
-    buildURL() {
+    buildURL(modelName, id, snapshot, requestType) {
         // Fix issue where CORS request failed on 301s: Ember does not seem to append trailing
         // slash to URLs for single documents, but DRF redirects to force a trailing slash
         var url = this._super(...arguments);
+        if (requestType === 'deleteRecord' || requestType === 'updateRecord' || requestType === 'findRecord') {
+            if (snapshot.record.get('links.self')) {
+                url = snapshot.record.get('links.self');
+            }
+        }
         if (url.lastIndexOf('/') !== url.length - 1) {
             url += '/';
         }
         return url;
-    },
-    /**
-     * Build the request payload for a relationship create/update. We're
-     * using the meta hash of the relationship field to pass an optional
-     * custom serialization method. This bypasses the normal serialization
-     * flow, but is necessary to cooperate with the OSF APIv2.
-     *
-     * @method _buildRelationshipPayload
-     * @param {DS.Store} store
-     * @param {DS.Snapshot} snapshot
-     * @param {String} relationship the relationship to build a payload for
-     * @return {Object} the serialized relationship
-     **/
-    _relationshipPayload(store, snapshot, relationship) {
-        var relationMeta = snapshot.record[relationship].meta();
-        var relationType = relationMeta.type;
-        var serialized;
-        if (relationMeta.options.serializer) {
-            serialized = relationMeta.options.serializer(snapshot.record);
-        } else {
-            var serializer = store.serializerFor(relationType);
-            if (relationMeta.kind === 'hasMany') {
-                // A hack, since we'd have to use a bulk requests to send a list; TODO remove [0]
-                serialized = snapshot.hasMany(relationship).filter(record => record.id === null).map(record => serializer.serialize(record))[0];
-                delete serialized.data.relationships;
-            } else {
-                serialized = serializer.serialize(snapshot.belongsTo(relationship));
-            }
-        }
-        return serialized;
     },
     /**
      * Construct a URL for a relationship create/update/delete. Has the same
@@ -62,21 +40,63 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         var links = relationship ? snapshot.record.get(
             `relationshipLinks.${Ember.String.underscore(relationship)}.links`
         ) : false;
-        if (links) {
+        if (links && (links.self || links.related)) {
             return links.self ? links.self.href : links.related.href;
         } else {
             return this.buildURL(...arguments);
         }
+    },
+    _serializeHasMany(serialized) {
+        if (serialized.length > 1) {
+            serialized = {
+                data: serialized.map(function(record) {
+                    var data = record.data;
+                    return data;
+                })
+            };
+        } else {
+            serialized = serialized[0];
+        }
+        return serialized;
+    },
+    _handleManyRequest(store, type, snapshot, query, relationship, serializer) {
+        var relationMeta = snapshot.record[relationship].meta();
+        var serialized = snapshot.hasMany(relationship)
+            .filter(each => each.record.isNewOrDirty())
+            .map(each => serializer.serialize(each));
+        var options = Ember.merge({
+                requestType: () => 'PATCH',
+                isBulk: serialized => serialized.length > 1,
+                url: this._buildRelationshipURL(type.modelName, snapshot.id, snapshot, 'updateRecord', query, relationship),
+                serialized: this._serializeHasMany
+            },
+            relationMeta.options.updateRequest
+        );
+        return this.ajax(options.url, options.requestType(snapshot, relationship), {
+            data: options.serialized(serialized),
+            isBulk: options.isBulk(serialized)
+        }).then(() => snapshot.record.clearDirtyRelationship(relationMeta));
+
     },
     updateRecord(store, type, snapshot, _, query) {
         var promises = null;
         var dirtyRelationships = snapshot.record.get('dirtyRelationships');
         if (dirtyRelationships.length) {
             promises = dirtyRelationships.map(relationship => {
+                var relationMeta = snapshot.record[relationship].meta();
+                var serialized;
+                if (relationMeta.options.serializer) {
+                    serialized = relationMeta.options.serializer(snapshot.record);
+                } else {
+                    var serializer = store.serializerFor(inflector.singularize(relationMeta.type));
+                    if (relationMeta.kind === 'hasMany') {
+                        return this._handleManyRequest(store, type, snapshot, query, relationship, serializer);
+                    }
+                    serialized = serializer.serialize(snapshot.belongsTo(relationship));
+                }
                 var url = this._buildRelationshipURL(type.modelName, snapshot.id, snapshot, 'updateRecord', query, relationship);
-                var requestType = snapshot.record[relationship].meta().options.updateRequestType;
-                return this.ajax(url, requestType || 'PATCH', {
-                    data: this._relationshipPayload(store, snapshot, relationship)
+                return this.ajax(url, 'PATCH', {
+                    data: serialized
                 }).then(() => snapshot.record.clearDirtyRelationship(relationship));
             });
         }
@@ -90,5 +110,12 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         } else {
             return new Ember.RSVP.Promise((resolve) => resolve(null));
         }
+    },
+    ajaxOptions(_, __, options) {
+        var ret = this._super(...arguments);
+        if (options && options.isBulk) {
+            ret.contentType = 'application/vnd.api+json; ext=bulk';
+        }
+        return ret;
     }
 });

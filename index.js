@@ -34,27 +34,32 @@ module.exports = {
             ENV.OSF.apiUrl = 'http://localhost:8000';
             ENV.OSF.authUrl = 'http://localhost:8080/oauth2/profile';
             ENV.OSF.renderUrl = 'http://localhost:7778/render';
+            ENV.OSF.waterbutlerUrl = 'http://localhost:7777/';
 
             ENV.OSF.accessToken = SETTINGS.PERSONAL_ACCESS_TOKEN;
             ENV.OSF.isLocal = true;
-        }
-        if (BACKEND === 'stage') {
+        } else if (BACKEND === 'stage') {
             ENV.OSF.url = 'https://staging.osf.io/';
             ENV.OSF.apiUrl = 'https://staging-api.osf.io';
             ENV.OSF.authUrl = 'https://staging-accounts.osf.io/oauth2/authorize';
             ENV.OSF.renderUrl = 'http://staging-mfr.osf.io/render';
+            ENV.OSF.waterbutlerUrl = 'http://staging-files.osf.io/';
+
         }
         if (BACKEND === 'stage2') {
             ENV.OSF.url = 'https://staging2.osf.io/';
             ENV.OSF.apiUrl = 'https://staging2-api.osf.io';
             ENV.OSF.authUrl = 'https://staging2-accounts.osf.io/oauth2/authorize';
             ENV.OSF.renderUrl = 'http://staging2-mfr.osf.io/render';
+            ENV.OSF.waterbutlerUrl = 'http://staging2-files.osf.io/';
+
         }
         if (BACKEND === 'test') {
             ENV.OSF.url = 'https://test.osf.io/';
             ENV.OSF.apiUrl = 'https://test-api.osf.io';
             ENV.OSF.authUrl = 'https://test-accounts.osf.io/oauth2/authorize';
             ENV.OSF.renderUrl = 'http://test-mfr.osf.io/render';
+
         }
         if (BACKEND === 'prod') {
             console.log(`WARNING: you\'ve specified production as a backend. Please do not use production for testing or development purposes`);
@@ -62,9 +67,21 @@ module.exports = {
             ENV.OSF.apiUrl = 'https://api.osf.io';
             ENV.OSF.authUrl = 'https://accounts.osf.io/oauth2/authorize';
             ENV.OSF.renderUrl = 'http://mfr.osf.io/render';
+            ENV.OSF.waterbutlerUrl = 'http://files.osf.io/';
+
         }
         ENV['ember-simple-auth'] = {
             authorizer: 'authorizer:osf-token'
+        };
+    },
+    included: function(app) {
+        // Documentation of the `included` hook is mostly in the comment
+        // threads of `ember-cli` issues on github. For example:
+        // https://github.com/ember-cli/ember-cli/issues/3531#issuecomment-81133458
+        this._super.included.apply(this, arguments);
+
+        app.options['ember-font-awesome'] = {
+            useScss: true
         };
     },
     treeForStyles: function(/*tree*/) {
