@@ -2,7 +2,6 @@
 'use strict';
 var path = require('path');
 var config = require('config');
-// var Funnel = require('broccoli-funnel');
 
 module.exports = {
     name: 'ember-osf',
@@ -26,7 +25,8 @@ module.exports = {
         ENV.OSF = {
             clientId: SETTINGS.CLIENT_ID,
             scope: SETTINGS.OAUTH_SCOPES,
-            apiNamespace: 'v2' // URL suffix (after host)
+            apiNamespace: 'v2', // URL suffix (after host)
+            backend: BACKEND
         };
 
         if (BACKEND === 'local') {
@@ -87,8 +87,5 @@ module.exports = {
         app.options['ember-font-awesome'] = {
             useScss: true
         };
-    },
-    treeForStyles: function( /*tree*/ ) {
-        // TODO expose ember-osf styles
     }
 };
