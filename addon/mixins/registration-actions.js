@@ -7,6 +7,8 @@ export default Ember.Mixin.create({
     model: null,
     _node: Ember.computed.or('node'),
     _draft: Ember.computed.or('draft', 'model'),
+    /** Updates current registration metadata with new responses to questions.
+     **/
     _updateMetadata(d, u) {
         var map = new Map(Object.entries(u));
         for (let items of map.entries()) {

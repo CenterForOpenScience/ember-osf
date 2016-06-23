@@ -1,5 +1,6 @@
 {{link-to 'Back to node' 'nodes.detail' class='btn btn-default'}}
 {{link-to 'View registrations' 'nodes.detail.registrations' class='btn btn-primary'}}
+{{link-to 'View draft registrations' 'nodes.detail.draft_registrations' class='btn btn-info'}}
 
 
 <h2> {{model.registrationSchema.name}} </h2>
@@ -48,15 +49,15 @@
                             {{#if item.description}}
                                 <p>{{item.description}}</p>
                             {{/if}}
-                            <p><input onchange={{action "buildForm" value="target"}} name="{{question.qid}}:{{subquestion.id}}:{{item.id}}" value={{draft-text-input model.registrationMetadata question subquestion item}}></p>
+                            <p><textarea onchange={{action "buildForm" value="target"}} name="{{question.qid}}:{{subquestion.id}}:{{item.id}}" value={{draft-text-input model.registrationMetadata question subquestion item}}></textarea></p>
                         {{/each}}
                     {{else}}
-                        <p><input onchange={{action "buildForm" value="target"}} name="{{question.qid}}:{{subquestion.id}}" value={{draft-text-input model.registrationMetadata question subquestion}}></p>
+                        <p><textarea onchange={{action "buildForm" value="target"}} name="{{question.qid}}:{{subquestion.id}}" value={{draft-text-input model.registrationMetadata question subquestion}}></textarea></p>
                     {{/if}}
                 {{/if}}
             {{/each}}
         {{else}}
-            <input onchange={{action "buildForm" value="target"}} name={{question.qid}} value={{draft-text-input model.registrationMetadata question}}>
+            <textarea onchange={{action "buildForm" value="target"}} name={{question.qid}} value={{draft-text-input model.registrationMetadata question}}> </textarea>
         {{/if}}
         <hr>
     {{/each}}
