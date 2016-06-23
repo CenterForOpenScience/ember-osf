@@ -48,7 +48,7 @@
                     {{# if session.isAuthenticated }}
                         {{!-- TODO: Replace display name functionality if possible- for now truncate via CSS at end of label --}}
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle nav-user-dropdown" data-toggle="dropdown" role="button" aria-expanded="false"><span class="osf-gravatar"><img src="${user_gravatar}" alt="User gravatar"> </span> ${display_name} <span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle nav-user-dropdown" data-toggle="dropdown" role="button" aria-expanded="false"><span class="osf-gravatar"><img src={{gravatarUrl}} alt="User gravatar"> </span> {{displayName}} <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li>
                                     <a href="/profile/"><i class="fa fa-user fa-lg p-r-xs"></i> My Profile</a>
