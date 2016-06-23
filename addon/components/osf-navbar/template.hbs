@@ -15,21 +15,21 @@
                         </a>
                     </span>
                 {{/unless}}
-                <a class="navbar-brand hidden-sm hidden-xs" href="/"><img src="/static/img/cos-white2.png" class="osf-navbar-logo" width="27" alt="COS logo"> Open Science Framework</a>
-                <a class="navbar-brand visible-sm visible-xs" href="/"><img src="/static/img/cos-white2.png" class="osf-navbar-logo" width="27" alt="COS logo"> OSF</a>
+                <a class="navbar-brand hidden-sm hidden-xs" href="/"><img src="/assets/images/cos-white2.png" class="osf-navbar-logo" width="27" alt="COS logo"> Open Science Framework</a>
+                <a class="navbar-brand visible-sm visible-xs" href="/"><img src="/assets/images/cos-white2.png" class="osf-navbar-logo" width="27" alt="COS logo"> OSF</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse navbar-right">
                 <ul class="nav navbar-nav">
                     {{#if session.isAuthenticated}}
-                        <li id="osfNavDashboard"><a href="/">Dashboard</a></li>
-                        <li id="osfNavMyProjects"><a href="/myprojects/">My Projects</a></li>
+                        <li id="osfNavDashboard"><a href={{host}}>Dashboard</a></li>
+                        <li id="osfNavMyProjects"><a href="{{host}}myprojects/">My Projects</a></li>
                     {{/if}}
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Browse <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="${domain}explore/activity/">New Projects</a></li>
-                            <li><a href="${domain}search/?q=*&amp;filter=registration">Registry</a></li>
-                            <li><a href="${web_url_for('conference_view', _absolute=True)}">Meetings</a></li>
+                            <li><a href="{{host}}explore/activity/">New Projects</a></li>
+                            <li><a href="{{host}}search/?q=*&amp;filter=registration">Registry</a></li>
+                            <li><a href="{{host}}meetings/">Meetings</a></li>
                         </ul>
                     </li>
                     {{# unless session.isAuthenticated}}
@@ -51,17 +51,18 @@
                             <a href="#" class="dropdown-toggle nav-user-dropdown" data-toggle="dropdown" role="button" aria-expanded="false"><span class="osf-gravatar"><img src={{gravatarUrl}} alt="User gravatar"> </span> {{displayName}} <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li>
-                                    <a href="/profile/"><i class="fa fa-user fa-lg p-r-xs"></i> My Profile</a>
+                                    <a href="{{host}}profile/"><i class="fa fa-user fa-lg p-r-xs"></i> My Profile</a>
                                 </li>
                                 <li>
-                                    <a href="/support/" ><i class="fa fa-life-ring fa-lg p-r-xs"></i> Support</a>
+                                    <a href="{{host}}support/" ><i class="fa fa-life-ring fa-lg p-r-xs"></i> Support</a>
                                 </li>
 
                                 <li>
-                                    <a href="${web_url_for('user_profile')}"><i class="fa fa-cog fa-lg p-r-xs"></i> Settings</a>
+                                    <a href="{{host}}settings/"><i class="fa fa-cog fa-lg p-r-xs"></i> Settings</a>
                                 </li>
                                 <li>
-                                    <a href="${web_url_for('auth_logout')}"><i class="fa fa-sign-out fa-lg p-r-xs"></i> Log out</a>
+                                    {{!-- TODO How to log out? --}}
+                                    <a href="{{host}}"><i class="fa fa-sign-out fa-lg p-r-xs"></i> Log out</a>
                                 </li>
 
                             </ul>
