@@ -39,8 +39,8 @@
                     {{/unless}}
 
                     {{# unless onSearchPage}}
-                        <li class="hidden-xs" data-bind="click : toggleSearch, css: searchCSS">
-                            <a class="" >
+                        <li class="hidden-xs" css: searchCSS>
+                            <a onclick={{action "toggleSearch"}} class="" >
                                 <span rel="tooltip" data-placement="bottom" title="Search OSF" class="fa fa-search fa-lg" ></span>
                             </a>
                         </li>
