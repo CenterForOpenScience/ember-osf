@@ -2,7 +2,6 @@
 'use strict';
 var path = require('path');
 var config = require('config');
-// var Funnel = require('broccoli-funnel');
 
 module.exports = {
     name: 'ember-osf',
@@ -26,7 +25,9 @@ module.exports = {
         ENV.OSF = {
             clientId: SETTINGS.CLIENT_ID,
             scope: SETTINGS.OAUTH_SCOPES,
-            apiNamespace: 'v2' // URL suffix (after host)
+            apiNamespace: 'v2', // URL suffix (after host)
+            backend: BACKEND,
+            redirectUri: SETTINGS.REDIRECT_URI
         };
 
         if (BACKEND === 'local') {
@@ -35,6 +36,7 @@ module.exports = {
             ENV.OSF.authUrl = 'http://localhost:8080/oauth2/profile';
             ENV.OSF.renderUrl = 'http://localhost:7778/render';
             ENV.OSF.waterbutlerUrl = 'http://localhost:7777/';
+            ENV.OSF.helpUrl = 'http://localhost:4200/help';
 
             ENV.OSF.accessToken = SETTINGS.PERSONAL_ACCESS_TOKEN;
             ENV.OSF.isLocal = true;
@@ -44,6 +46,7 @@ module.exports = {
             ENV.OSF.authUrl = 'https://staging-accounts.osf.io/oauth2/authorize';
             ENV.OSF.renderUrl = 'http://staging-mfr.osf.io/render';
             ENV.OSF.waterbutlerUrl = 'http://staging-files.osf.io/';
+            ENV.OSF.helpUrl = 'http://help.osf.io';
 
         }
         if (BACKEND === 'stage2') {
@@ -52,6 +55,7 @@ module.exports = {
             ENV.OSF.authUrl = 'https://staging2-accounts.osf.io/oauth2/authorize';
             ENV.OSF.renderUrl = 'http://staging2-mfr.osf.io/render';
             ENV.OSF.waterbutlerUrl = 'http://staging2-files.osf.io/';
+            ENV.OSF.helpUrl = 'http://help.osf.io';
 
         }
         if (BACKEND === 'test') {
@@ -68,6 +72,7 @@ module.exports = {
             ENV.OSF.authUrl = 'https://accounts.osf.io/oauth2/authorize';
             ENV.OSF.renderUrl = 'http://mfr.osf.io/render';
             ENV.OSF.waterbutlerUrl = 'http://files.osf.io/';
+            ENV.OSF.helpUrl = 'http://help.osf.io';
 
         }
         ENV['ember-simple-auth'] = {
@@ -83,8 +88,5 @@ module.exports = {
         app.options['ember-font-awesome'] = {
             useScss: true
         };
-    },
-    treeForStyles: function(/*tree*/) {
-        // TODO expose ember-osf styles
     }
 };
