@@ -1,50 +1,52 @@
 import Ember from 'ember';
 import layout from './template';
 
+import loadAll from 'ember-osf/utils/load-relationship';
+
 /*
  * Wrapper for file items. Includes state for the item's row.
  */
 let FileItem = Ember.ObjectProxy.extend({
     isSelected: false,
 
-    // TODO: update childItems when `children` or `files` changes
-    childItems: Ember.A(),
+    // TODO (Abram) update childItems when `children` or `files` changes
+    // TODO (Abram) catch and display errors
+    childItems: Ember.computed('_files.[]', '_children.[]', function() {
+        let files = this._setupLoadAll('files', '_files', '_filesLoaded');
+        let children = this._setupLoadAll('children', '_children', '_childrenLoaded');
 
-    childItemsLoaded: Ember.computed('_childItemsLoaded', function() {
-        let loaded = this.get('_childItemsLoaded');
-        if (loaded === null) {
-            this.set('_childItemsLoaded', false);
-            loadChildItems(this);
-            return false;
+        let wrappedItems = Ember.A();
+        if (files) {
+            wrappedItems.addObjects(files.map(wrapItem));
         }
-        return loaded;
+        if (children) {
+            wrappedItems.addObjects(children.map(wrapItem));
+        }
+        return wrappedItems;
     }),
-    _childItemsLoaded: null
-});
+    _files: null,
+    _children: null,
 
-function loadChildItems(item) {
-    let promises = [
-        item.get('files'),
-        item.get('children')
-    ];
+    childItemsLoaded: Ember.computed.and('_filesLoaded', '_childrenLoaded'),
+    _filesLoaded: false,
+    _childrenLoaded: false,
 
-    Ember.RSVP.allSettled(promises).then((results) => {
-        let childItems = [];
-        for (let r of results) {
-            let array = r.value;
-            if (array && array.length) {
-                // These 'arrays' are only slightly array-like, so this is more
-                // long-winded than usual.
-                for (let i = 0; i < array.length; i++) {
-                    let child = array.objectAt(i);
-                    childItems.push(wrapItem(child));
-                }
+    _setupLoadAll(relationship, destName, loaded) {
+        let dest = this.get(destName);
+        if (dest === null) {
+            let model = this.get('content');
+            if (relationship in model) {
+                dest = this.set(destName, Ember.A());
+                loadAll(model, relationship, dest).then(() => {
+                    this.set(loaded, true);
+                });
+            } else {
+                this.set(loaded, true);
             }
         }
-        item.set('childItems', Ember.A(childItems));
-        item.set('_childItemsLoaded', true);
-    });
-}
+        return dest;
+    }
+});
 
 function wrapItem(item) {
     if (item instanceof FileItem) {

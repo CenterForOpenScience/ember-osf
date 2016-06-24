@@ -17,23 +17,16 @@
 {{/if}}
 
 <div class='file-browser-list'>
-    {{!TODO handle loading errors}}
-    {{#if itemsLoaded}}
-        {{#if (if items itemWidth)}}
-            {{#ember-collection items=items
-                cell-layout=(fixed-grid-layout itemWidth itemHeight)
-                as |item index|}}
-                {{file-browser-item item=item
-                navigateToItem=(action 'navigateToItem')
-                selectItem=(action 'selectItem')
-                openItem=(action 'openItem')
-                }}
-            {{/ember-collection}}
-        {{else}}
-            (empty)
-        {{/if}}
-    {{else}}
-        {{!<div class='logo-spin logo-lg'></div>}}
+    {{#ember-collection items=items
+        cell-layout=(fixed-grid-layout itemWidth itemHeight)
+        as |item index|}}
+        {{file-browser-item item=item
+        navigateToItem=(action 'navigateToItem')
+        selectItem=(action 'selectItem')
+        openItem=(action 'openItem')
+        }}
+    {{/ember-collection}}
+    {{#unless itemsLoaded}}
         {{fa-icon 'spinner' size=3 pulse=true}}
-    {{/if}}
+    {{/unless}}
 </div>
