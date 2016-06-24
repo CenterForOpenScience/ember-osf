@@ -15,8 +15,8 @@
                         </a>
                     </span>
                 {{/unless}}
-                <a class="navbar-brand hidden-sm hidden-xs" href="/"><img src="/assets/images/cos-white2.png" class="osf-navbar-logo" width="27" alt="COS logo"> Open Science Framework</a>
-                <a class="navbar-brand visible-sm visible-xs" href="/"><img src="/assets/images/cos-white2.png" class="osf-navbar-logo" width="27" alt="COS logo"> OSF</a>
+                <a class="navbar-brand hidden-sm hidden-xs" href="/"><span class="osf-navbar-logo" width="27"></span> Open Science Framework</a>
+                <a class="navbar-brand visible-sm visible-xs" href="/"><span class="osf-navbar-logo" width="27"></span> OSF</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse navbar-right">
                 <ul class="nav navbar-nav">
@@ -48,7 +48,12 @@
                     {{# if session.isAuthenticated }}
                         {{!-- TODO: Replace display name functionality if possible- for now truncate via CSS at end of label --}}
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle nav-user-dropdown" data-toggle="dropdown" role="button" aria-expanded="false"><span class="osf-gravatar"><img src={{gravatarUrl}} alt="User gravatar"> </span> {{displayName}} <span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle nav-user-dropdown" data-toggle="dropdown" role="button" aria-expanded="false">
+                                <span class="osf-gravatar">
+                                    <img src={{gravatarUrl}} alt="User gravatar">
+                                </span> {{user.fullName}}
+                                <span class="caret"></span>
+                            </a>
                             <ul class="dropdown-menu" role="menu">
                                 <li>
                                     <a href="{{host}}profile/"><i class="fa fa-user fa-lg p-r-xs"></i> My Profile</a>
@@ -61,13 +66,12 @@
                                     <a href="{{host}}settings/"><i class="fa fa-cog fa-lg p-r-xs"></i> Settings</a>
                                 </li>
                                 <li>
-                                    {{!-- TODO How to log out? --}}
-                                    <a onclick={{action "logOut"}}><i class="fa fa-sign-out fa-lg p-r-xs"></i> Log out</a>
+                                    <a onclick={{action 'logout'}}><i class="fa fa-sign-out fa-lg p-r-xs"></i> Log out</a>
                                 </li>
 
                             </ul>
                         </li>
-                    {{else if  allowLogin}}
+                    {{else if allowLogin}}
                         {{#if institution}}  {{!-- TODO: Find a source for this info (eg may only be on node pages? Make work with nested router --}}
                             <li class="dropdown sign-in" data-bind="with: $root.signIn">
                                 <div class="btn-group">
@@ -77,6 +81,16 @@
                                 </div>
                             </li>
                         {{else}}
+                            {{#oauth-popup authUrl=authUrl loginSuccess=(action 'loginSuccess') loginFail=(action 'loginFail') as |popup|}}
+                                <li class="dropdown sign-in">
+                                    <div class="col-sm-12">
+                                        <button class="btn btn-success btn-top-signup m-r-xs" onclick={{action 'login' target=popup}} >
+                                            Login
+                                        </button>
+                                    </div>
+                                </li>
+                            {{/oauth-popup}}
+                            {{!--
                             <li class="dropdown sign-in" data-bind="with: $root.signIn">
                                 <div class="col-sm-12">
                                     <a href="${web_url_for('auth_login')}?sign_up=True" class="btn btn-success btn-top-signup m-r-xs">Sign up</a>
@@ -96,14 +110,11 @@
                                     </ul>
                                 </div>
                             </li>
+                            --}}
                         {{/if}}
                     {{/if}}
                 </ul>
             </div>{{!--/.navbar-collapse --}}
         </div>
     </nav>
-    {{#unless onSearchPage}}
-        {{!-- TODO: Implement modal --}}
-        <%include file='./search_bar.mako' />
-    {{/unless}}
 </div>

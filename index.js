@@ -2,6 +2,7 @@
 'use strict';
 var path = require('path');
 var config = require('config');
+var Funnel = require('broccoli-funnel');
 
 module.exports = {
     name: 'ember-osf',
@@ -88,5 +89,10 @@ module.exports = {
         app.options['ember-font-awesome'] = {
             useScss: true
         };
+    },
+    treeForPublic() {
+        return new Funnel('addon/assets', {
+            destDir: 'assets/'
+        });
     }
 };
