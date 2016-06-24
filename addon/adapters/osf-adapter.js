@@ -12,10 +12,6 @@ import {
     singularize
 } from 'ember-inflector';
 
-let {
-    camelize
-} = Ember.String;
-
 export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapterMixin, {
     authorizer: 'authorizer:osf-token',
     host: config.OSF.apiUrl,
@@ -70,21 +66,15 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
         // if (isBulk) {
         //
         // }
-        if (createdSnapshots.record) {
-            return createdSnapshots.record.save({
-                adapterOptions: {
-                    nested: true,
-                    url: url
-                }
-            });
-        } else {
-            return createdSnapshots.map(s => s.record.save({
-                adapterOptions: {
-                    nested: true,
-                    url: url
-                }
-            }));
-        }
+        return createdSnapshots.map(s => s.record.save({
+            adapterOptions: {
+                nested: true,
+                url: url
+            }
+        })).then(res => {
+            createdSnapshots.forEach(s => snapshot.record[relationship].addCanonicalRecord(s.record));
+            return res;
+        });
     },
     /**
      * Handle add(s) of related resources. This differs from CREATEs in that the related
@@ -98,7 +88,10 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
      * @param {Boolean} isBulk
      **/
     _addRelated(store, snapshot, addedSnapshots, relationship, url, isBulk = false) {
-        return this._doRelatedRequest(store, snapshot, addedSnapshots, relationship, url, 'POST', isBulk);
+        return this._doRelatedRequest(store, snapshot, addedSnapshots, relationship, url, 'POST', isBulk).then(res => {
+            addedSnapshots.forEach(s => snapshot.record[relationship].addCanonicalRecord(s.record));
+            return res;
+        });
     },
     /**
      * Handle update(s) of related resources
@@ -111,7 +104,14 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
      * @param {Boolean} isBulk
      **/
     _updateRelated(store, snapshot, updatedSnapshots, relationship, url, isBulk = false) {
-        return this._doRelatedRequest(store, snapshot, updatedSnapshots, relationship, url, 'PATCH', isBulk);
+        return this._doRelatedRequest(store, snapshot, updatedSnapshots, relationship, url, 'PATCH', isBulk).then(res => {
+            var relatedType = singularize(snapshot.record[relationship].meta().type);
+            res.data.forEach(item => {
+                var record = store.push(store.normalize(relatedType, item));
+                snapshot.record[relationship].addCanonicalRecord(record);
+            });
+            return res;
+        });
     },
     /**
      * Handle removal of related resources. This differs from DELETEs in that the related
@@ -125,7 +125,10 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
      * @param {Boolean} isBulk
      **/
     _removeRelated(store, snapshot, removedSnapshots, relationship, url, isBulk = false) {
-        return this._doRelatedRequest(store, snapshot, removedSnapshots, relationship, url, 'DELETE', isBulk).then(response => response || []);
+        return this._doRelatedRequest(store, snapshot, removedSnapshots, relationship, url, 'DELETE', isBulk).then(res => {
+            removedSnapshots.forEach(s => snapshot.record[relationship].removeCanonicalRecord(s.record));
+            return res || [];
+        });
     },
     /**
      * Handle deletion of related resources
@@ -137,13 +140,14 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
      * @param {String} url
      * @param {Boolean} isBulk
      **/
-    _deleteRelated(store, snapshot, deletedSnapshots) { // jshint ignore:line
-        return this._removeRelated(...arguments).then(() => {
-            if (deletedSnapshots.record) {
-                deletedSnapshots = [deletedSnapshots];
-            }
-            deletedSnapshots.forEach(s => s.record.unloadRecord());
-        });
+    _deleteRelated(store, snapshot, deletedSnapshots, relationship, url, isBulk = false) { // jshint ignore:line
+        if (isBulk) {
+            return this._removeRelated(...arguments).then(() => {
+                deletedSnapshots.forEach(s => s.record.unloadRecord());
+            });
+        } else {
+            return Ember.RSVP.allSettled(deletedSnapshots.map(r => r.destroyRecord()));
+        }
     },
     /**
      * A helper for making _*Related requests
@@ -161,7 +165,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
         var relatedMeta = snapshot.record[relationship].meta();
         var type = singularize(relatedMeta.type);
         var serializer = store.serializerFor(type);
-        if (relatedSnapshots.record) {
+        if (relatedSnapshots.length > 1) {
             serializer.serializeIntoHash(
                 data,
                 store.modelFor(type),
@@ -188,12 +192,8 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
             data: data,
             isBulk: isBulk
         }).then(res => {
-            if (!res) {
-                if (requestMethod === 'DELETE') {
-                    res = [];
-                } else {
-                    return null;
-                }
+            if (!Ember.$.isArray(res.data)) {
+                res.data = [res.data];
             }
             return res;
         });
@@ -219,6 +219,11 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
         var url = this._buildRelationshipURL(snapshot, relationship);
         var adapter = store.adapterFor(type.modelName);
         var allowBulk = relatedMeta.options[`allowBulk${Ember.String.capitalize(change)}`];
+
+        if (related.record) {
+            related = [related];
+        }
+
         var response;
         if (allowBulk) {
             response = adapter[`_${change}Related`](
@@ -241,27 +246,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
                 ))
             );
         }
-        return response.then(this._combineResults);
-    },
-    /**
-     * Combine a set of results from Ember.RSVP.allSettled into a single list
-     * see: http://emberjs.com/api/classes/RSVP.html#method_allSettled
-     *
-     * @param {Object} result
-     **/
-    _combineResults(results) {
-        var data = [];
-        results.forEach(result => {
-            if (result.state === 'fulfilled') {
-                data.push(...(result.value.data || []));
-            }
-        });
-        return {
-            data: data.map(id => {
-                id.type = camelize(singularize(id.type));
-                return id;
-            })
-        };
+        return response;
     },
     updateRecord(store, type, snapshot) {
         var relatedRequests = {};
@@ -277,21 +262,10 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
                 );
             });
             if (promises.length) {
-                relatedRequests[relationship] = Ember.RSVP.allSettled(promises).then(this._combineResults);
+                relatedRequests[relationship] = Ember.RSVP.allSettled(promises);
             }
         });
-        var relatedPromise = Ember.RSVP.hashSettled(relatedRequests).then(results => {
-            var updatedData = {};
-            Object.keys(results).forEach(relationship => {
-                let result = results[relationship];
-                if (result.state === 'fulfilled') {
-                    updatedData[relationship] = result.value;
-                }
-            });
-            store._setupRelationships(snapshot.record._internalModel, {
-                relationships: updatedData
-            });
-        });
+        var relatedPromise = Ember.RSVP.hashSettled(relatedRequests);
         if (Object.keys(snapshot.record.changedAttributes()).length) {
             return this._super(...arguments).then(response => relatedPromise.then(() => response));
         } else {
