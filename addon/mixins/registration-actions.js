@@ -8,19 +8,19 @@ export default Ember.Mixin.create({
     _draft: Ember.computed.or('draft', 'model'),
     /** Updates current registration metadata with new responses to questions.
      **/
-    _updateMetadata(d, u) {
-        var map = new Map(Object.entries(u));
+    _updateMetadata(currentMetadata, newMetadata) {
+        var map = new Map(Object.entries(newMetadata));
         for (let items of map.entries()) {
             var key = items[0];
             var value = items [1];
             if (typeof (value) === 'object') {
-                var r = this._updateMetadata(d[key] || {}, value);
-                d[key] = r;
+                var newValue = this._updateMetadata(currentMetadata[key] || {}, value);
+                currentMetadata[key] = newValue;
             } else {
-                d[key] = u[key];
+                currentMetadata[key] = newMetadata[key];
             }
         }
-        return d;
+        return currentMetadata;
     },
     _generateRegistrationPayload(draft, registrationChoice, liftEmbargo) {
         var registrationPayload = {
