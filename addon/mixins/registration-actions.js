@@ -5,7 +5,6 @@ export default Ember.Mixin.create({
     node: null,
     draft: null,
     model: null,
-    _node: Ember.computed.or('node'),
     _draft: Ember.computed.or('draft', 'model'),
     /** Updates current registration metadata with new responses to questions.
      **/
@@ -35,7 +34,7 @@ export default Ember.Mixin.create({
     },
     actions: {
         createDraft(schemaId) {
-            var node = this.get('_node');
+            var node = this.get('node');
             var draft = this.store.createRecord('draft-registration', {
                 registrationSupplement: schemaId
             });
@@ -53,7 +52,7 @@ export default Ember.Mixin.create({
             return draft.save();
         },
         registerDraft(updatedMetadata, registrationChoice, liftEmbargo) {
-            var node = this.get('_node');
+            var node = this.get('node');
             var draft = this.get('_draft');
             // May need to update metdata one last time
             if (Object.keys(updatedMetadata).length !== 0) {
