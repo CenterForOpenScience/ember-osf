@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { moduleFor, test } from 'ember-qunit';
-import FactoryGuy, { manualSetup, mockSetup,
+import FactoryGuy, { manualSetup, mockSetup, mockUpdate,
     mockTeardown, mockFind, mockReload } from 'ember-data-factory-guy';
 
 /*
@@ -30,7 +30,7 @@ function mockWaterbutler(assert, expectedRequest, response) {
     });
 }
 
-// assert once for the path and once for each expected query param
+// assert once for the path and once if queryParams is specified
 function assertURL(assert, actual, expected, queryParams) {
     if (!queryParams) {
         assert.equal(actual, expected, 'correct request URL');
@@ -72,9 +72,15 @@ function assertSettings(assert, actual, expected) {
 }
 
 let fakeAccessToken = 'thisisafakeaccesstoken';
+let fakeUserID = 'thisisafakeuseridbanana';
 let sessionStub = Ember.Service.extend({
     authorize(_, setHeader) {
         setHeader('Authorization', `Bearer ${fakeAccessToken}`);
+    },
+    data: {
+        authenticated: {
+            id: fakeUserID
+        }
     }
 });
 
@@ -575,6 +581,49 @@ test('deleteFile passes along error', function(assert) {
         done();
     }).catch(function() {
         assert.ok(true, 'promise rejects on error');
+        done();
+    });
+});
+
+test('checkOut checks out', function(assert) {
+    assert.expect(2);
+    let service = this.subject();
+    let file = FactoryGuy.make('file');
+    let done = assert.async();
+
+    assert.equal(file.get('checkout'), null, 'file starts with null checkout');
+
+    mockUpdate(file);
+    service.checkOut(file).then(() => {
+        assert.equal(file.get('checkout'), fakeUserID, 'file.checkout set');
+        done();
+    });
+});
+
+test('checkIn checks in', function(assert) {
+    assert.expect(2);
+    let service = this.subject();
+    let file = FactoryGuy.make('file', { checkout: fakeUserID });
+    let done = assert.async();
+
+    assert.equal(file.get('checkout'), fakeUserID, 'file.checkout already set');
+
+    mockUpdate(file);
+    service.checkIn(file).then(() => {
+        assert.equal(file.get('checkout'), null, 'file.checkout null after check-in');
+        done();
+    });
+});
+
+test('checkOut fails on checked-out file', function(assert) {
+    assert.expect(1);
+    let service = this.subject();
+    let file = FactoryGuy.make('file', { checkout: 'someoneelse' });
+    let done = assert.async();
+
+    mockUpdate(file).fails({ status: 403 });
+    service.checkIn(file).catch(() => {
+        assert.equal(file.get('checkout'), 'someoneelse', 'file.checkout unaffected by failure');
         done();
     });
 });

@@ -7,6 +7,7 @@ import {
 
 export default Ember.Component.extend({
     layout,
+    tagName: '',
     session: Ember.inject.service(),
     popupHeight: 550,
     popupWidth: 500,

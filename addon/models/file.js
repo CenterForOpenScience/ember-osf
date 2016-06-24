@@ -29,6 +29,7 @@ export default OsfModel.extend({
 
     parentFolder: DS.belongsTo('file', { inverse: 'files' }),
     isFolder: Ember.computed.equal('kind', 'folder'),
+    isFile: Ember.computed.equal('kind', 'file'),
     isProvider: false,
 
     // Folder attributes
@@ -37,5 +38,5 @@ export default OsfModel.extend({
     // File attributes
     versions: DS.hasMany('file-version'),
     comments: DS.hasMany('comment'),
-    checkout: DS.attr()
+    checkout: DS.attr('string')
 });

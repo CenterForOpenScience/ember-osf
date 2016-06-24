@@ -1,3 +1,8 @@
+{{#if model.parent}}
+    {{#link-to 'nodes.detail' model.parent class="btn btn-primary"}}
+        ↑ {{model.parent.title}}
+    {{/link-to}}
+{{/if}}
 {{link-to 'Back to list' 'nodes' class="btn btn-default"}}
 <div class="panel">
     <h2>Data</h2>
@@ -81,7 +86,28 @@
 
     <h2>Contributors</h2> {{contrib-manager contributors=model.contributors addContributor=(action 'addContributor') removeContributor=(action 'removeContributor') editContributors=(action 'updateContributors') }}
 
-    <h2> Create component </h2>
+    <hr>
+
+    <h2> Add contributor </h2>
+    <p><label> User ID </label> {{input value=contributorID}} </p>
+    <p><label> Permissions </label></p>
+    <p>
+        {{radio-button name="permission" value="read" checked=contributorPermissions}} Read {{radio-button name="permission" value="write" checked=contributorPermissions}} Read + Write {{radio-button name="permission" value="admin" checked=contributorPermissions}} Administrator
+    </p>
+
+    <label> Bibliographic </label>
+    <p>
+        {{radio-button name="bibliographic" value=1 checked=bibliographic}} Bibliographic {{radio-button name="bibliographic" value=0 checked=bibliographic}} Non-Bibliographic
+    </p>
+    <button {{action "addContributor" contributorID contributorPermissions bibliographic}} class="btn btn-primary">Add</button>
+    <hr>
+    <h2>Components</h2>
+    <ul>
+        {{#each model.children as |child|}}
+            <li>{{link-to child.title 'nodes.detail' child}}</li>
+        {{/each}}
+    </ul>
+    <h3> Create component </h3>
     <div>
         <label>Title:</label> {{input type="text" value=title placeholder="Component's title" required=true}}
         <label>Description (optional):</label> {{input type="text" value=description placeholder="Component's description"}}
