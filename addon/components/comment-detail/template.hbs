@@ -1,0 +1,12 @@
+<li>
+    {{#if model.deleted}}
+        <div>Comment deleted</div>
+    {{else}}
+    <div>
+        <label>{{model.dateCreated}}:</label>
+        {{input value=model.content}} <button {{action "editedComment" model model.content}} class="btn btn-default"> Edit</button>
+        <button {{action "deletedComment" model}} class="btn btn-danger"> Delete</button>
+    </div>
+    {{/if}}
+</li>
+{{yield}}
