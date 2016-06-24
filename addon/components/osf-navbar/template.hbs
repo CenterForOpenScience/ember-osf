@@ -117,4 +117,8 @@
             </div>{{!--/.navbar-collapse --}}
         </div>
     </nav>
+    {{#if showSearch}}
+        {{#search-dropdown action='toggleSearch'}}
+        {{/search-dropdown}}
+    {{/if}}
 </div>
