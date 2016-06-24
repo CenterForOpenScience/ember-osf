@@ -1,12 +1,30 @@
-<div class='file-widget-box'>
+<div class="eosf-file-widget-box">
     <div class="row">
-        <div class="col-sm-6">
-            <div class="dropzone-box">
-                {{dropzone-widget preUpload=preUpload buildUrl=buildUrl listeners=dropzoneListeners options=dropzoneOptions}}
+	{{#if (not selectedNode)}}
+            <div class="col-sm-6">
+		<div class="dropzone-box">
+                    {{dropzone-widget preUpload=attrs.preUpload buildUrl=buildUrl listeners=dropzoneListeners options=dropzoneOptions}}
+		</div>
             </div>
-        </div>
-        <div class="col-sm-6">
-            FILE SELECTOR
-        </div>
+            <div class="col-sm-6">
+		{{#if (not session.isAuthenticated)}}
+		    {{#oauth-popup authUrl=authUrl loginSuccess=(action 'loginSuccess') loginFail=(action 'loginFail') as |popup|}}
+			<button class="btn btn-default login-button" onclick={{action 'login' target=popup}} >
+			    Login to OSF
+			</button>
+		    {{/oauth-popup}}
+		{{else}}
+		    <label>Choose an OSF project:</label>
+		    {{#power-select options=userNodes closeOnSelect=false searchField='title' selected=selectedNode onchange=(action (mut selectedNode)) as |node|}}
+	 		<img src="{{country.flagUrl}}" class="icon-flag"> <strong>{{node.title}}</strong>
+		    {{/power-select}}
+               {{/if}}
+           </div>
+       {{else}}
+           <p> {{selectedNode.title}} <button class="btn btn-default" {{action 'deselectNode'}}>Back</button> </p>
+	   {{file-browser rootNode=selectedNode
+	   onClickFile=(action 'selectNodeFile')
+	   }}
+       {{/if}}
     </div>
 </div>

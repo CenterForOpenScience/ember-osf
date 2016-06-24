@@ -7,6 +7,8 @@ export default Ember.Mixin.create({
     actions: {
         login() {
             window.location = getAuthUrl();
-        }
+        },
+	loginSuccess() {},
+	loginFail() {}
     }
 });
