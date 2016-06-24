@@ -19,7 +19,7 @@ export default Ember.Service.extend({
                 if (currentUser) {
                     resolve(currentUser);
                 } else {
-                    this.store.findRecord('user', currentUserId).then((user) => resolve(user), reject);
+                    this.get('store').findRecord('user', currentUserId).then((user) => resolve(user), reject);
                 }
             } else {
                 reject();
