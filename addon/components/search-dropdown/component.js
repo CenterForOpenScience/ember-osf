@@ -5,13 +5,17 @@ import config from 'ember-get-config';
 export default Ember.Component.extend({
     layout,
     host: config.OSF.url,
+    query: null,
     actions: {
         // Runs toggleSearch in parent component, osf-navbar
         toggleSearch() {
             this.sendAction('action');
         },
+        updateQuery(event) {
+            this.set('query', event.target.value);
+        },
         search() {
-            var query = Ember.$(searchPageFullBar)[0].value;
+            var query = this.get('query');
             if (query) {
                 window.location.href = this.host + 'search/?q=' + query;
             }
