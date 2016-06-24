@@ -35,7 +35,7 @@ export default DS.Model.extend(HasManyQuery.ModelMixin, {
                 relation = this.belongsTo(rel).belongsToRelationship;
             }
             // TODO(samchrisinger): not sure if hasLoaded is a subset if the hasData state
-            if (relation.hasData || relation.hasLoaded) {
+            if (relation.hasData && relation.hasLoaded) {
                 var canonicalIds = relation.canonicalMembers.list.map(member => member.record.get('id'));
                 var currentIds = relation.members.list.map(member => member.record.get('id'));
                 var changes = {

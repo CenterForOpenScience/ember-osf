@@ -77,7 +77,7 @@ export default OsfModel.extend({
         // contributor edits being saved through the node
         var promise = this._super(...arguments);
         var contributors = this.hasMany('contributors').hasManyRelationship;
-        if (contributors.hasData || contributors.hasLoaded) {
+        if (contributors.hasData && contributors.hasLoaded) {
             this.set(
                 '_dirtyRelationships.contributors.update',
                 contributors.members.list.filter(m => !m.record.get('isNew') && Object.keys(m.record.changedAttributes()).length > 0)
