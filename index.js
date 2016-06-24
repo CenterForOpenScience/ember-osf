@@ -9,7 +9,7 @@ module.exports = {
         return path.join(__dirname, 'blueprints');
     },
     config: function(environment, ENV) {
-        let BACKEND = process.env.BACKEND || 'local';	
+        let BACKEND = process.env.BACKEND || 'local';
         let SETTINGS = {};
         try {
             SETTINGS = config.get(BACKEND);
@@ -27,7 +27,7 @@ module.exports = {
             scope: SETTINGS.OAUTH_SCOPES,
             apiNamespace: 'v2', // URL suffix (after host)
             backend: BACKEND,
-	    redirectUri: SETTINGS.REDIRECT_URI
+            redirectUri: SETTINGS.REDIRECT_URI
         };
 
         if (BACKEND === 'local') {

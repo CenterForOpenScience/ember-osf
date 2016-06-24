@@ -1,6 +1,8 @@
 import Ember from 'ember';
 
-import { getAuthUrl } from 'ember-osf/utils/auth';
+import {
+    getAuthUrl
+} from 'ember-osf/utils/auth';
 
 export default Ember.Mixin.create({
     session: Ember.inject.service(),
@@ -8,7 +10,7 @@ export default Ember.Mixin.create({
         login() {
             window.location = getAuthUrl();
         },
-	loginSuccess() {},
-	loginFail() {}
+        loginSuccess() {},
+        loginFail() {}
     }
 });

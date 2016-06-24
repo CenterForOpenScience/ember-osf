@@ -40,22 +40,22 @@ export default Ember.Component.extend({
             this._setCurrentUser();
         },
         loginFail() {
-	    // TODO
+            // TODO
         },
-	deselectNode() {
-	    this.set('selectedNode', null);
-	},
-	selectNodeFile(file) {
-	    this.send('selectFile', file.get('links.download'));
-	},
-	selectNode(node) {
-	    console.log(node);
-	},
-	selectFile(url) {
-	    console.log(url);
-	},
-	preUpload() {
-	    return new Ember.RSVP.Promise((resolve) => resolve());
-	}
+        deselectNode() {
+            this.set('selectedNode', null);
+        },
+        selectNodeFile(file) {
+            this.send('selectFile', file.get('links.download'));
+        },
+        selectNode(node) {
+            console.log(node);
+        },
+        selectFile(url) {
+            console.log(url);
+        },
+        preUpload() {
+            return new Ember.RSVP.Promise((resolve) => resolve());
+        }
     }
 });

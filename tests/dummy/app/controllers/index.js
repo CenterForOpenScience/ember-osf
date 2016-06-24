@@ -7,13 +7,13 @@ export default Ember.Controller.extend(OsfLoginControllerMixin, {
         method: 'PUT'
     },
     actions: {
-	buildUrl() {
+        buildUrl() {
             return this.get('_url');
-	},
+        },
         preUpload(comp, drop, file) {
             this.set('openModal', true);
             this.set('latestFileName', file.name);
-            var promise =  new Ember.RSVP.Promise(resolve => {
+            var promise = new Ember.RSVP.Promise(resolve => {
                 this.set('resolve', resolve);
             });
             return promise;
