@@ -1,9 +1,10 @@
 import Ember from 'ember';
+import config from 'ember-get-config';
 
 export default Ember.Route.extend({
     model(params) {
         let node = this.modelFor('nodes.detail');
-        this.store.adapterFor('draft-registration').set('namespace', 'v2/nodes/' + node.id);
+        this.store.adapterFor('draft-registration').set('namespace', config.OSF.apiNamespace + '/nodes/' + node.id);
         var draft = this.store.findRecord('draft-registration', params.draft_registration_id);
         return draft;
     },
