@@ -10,7 +10,7 @@
                 </button>
                 {{# unless onSearchPage}}
                     <span class="visible-xs" data-bind="click : toggleSearch, css: searchCSS">
-                        <a class="osf-xs-search pull-right" style="padding-top: 12px" >
+                        <a class="osf-xs-search pull-right" {{action "toggleSearch"}} style="padding-top: 12px" >
                             <span rel="tooltip" data-placement="bottom" title="Search OSF" class="fa fa-search fa-lg fa-inverse" ></span>
                         </a>
                     </span>
