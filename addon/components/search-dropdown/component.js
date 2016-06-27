@@ -11,8 +11,8 @@ export default Ember.Component.extend({
         toggleSearch() {
             this.sendAction('action');
         },
-        updateQuery(event) {
-            this.set('query', event.target.value);
+        updateQuery(value) {
+            this.set('query', value);
         },
         search() {
             var query = this.get('query');
