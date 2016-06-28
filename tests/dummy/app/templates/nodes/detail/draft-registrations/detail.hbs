@@ -1,13 +1,17 @@
+{{link-to 'Back to node' 'nodes.detail' class='btn btn-default'}}
+{{link-to 'View registrations' 'nodes.detail.registrations' class='btn btn-primary'}}
+{{link-to 'View draft registrations' 'nodes.detail.draft_registrations' class='btn btn-info'}}
 
-<h2> {{model.draft.registrationSchema.name}} </h2>
-<p> Initiated by: {{model.draft.initiator.fullName}}</p>
-<p> Started: {{moment-format model.draft.datetimeInitiated}} </p>
-<p> Last Updated: {{moment-format model.draft.datetimeUpdated}} </p>
+
+<h2> {{model.registrationSchema.name}} </h2>
+<p> Initiated by: {{model.initiator.fullName}}</p>
+<p> Started: {{moment-format model.datetimeInitiated}} </p>
+<p> Last Updated: {{moment-format model.datetimeUpdated}} </p>
 
 <hr>
 
 <h3> Edit Draft Registration </h3>
-{{#each model.draft.registrationSchema.schema.pages as |page|}}
+{{#each model.registrationSchema.schema.pages as |page|}}
 
     {{#each page.questions as |question|}}
         <p> <label> {{question.title}} </label> </p>
@@ -21,14 +25,17 @@
             <form>
                 {{#each question.options as |option|}}
                     {{#if (eq (check-data-type option) "string")}}
-                        <p> <input onchange={{action "buildForm" value="target"}} type="radio" name={{question.qid}} value={{option}} checked={{selected-helper option (draft-text-input model.draft.registrationMetadata question)}}> {{option}} </p>
+                        <p> <input onchange={{action "buildForm" value="target"}} type="radio" name={{question.qid}} value={{option}} checked={{selected-helper option (draft-text-input model.registrationMetadata question)}}> {{option}} </p>
                     {{else}}
-                        <p> <input onchange={{action "buildForm" value="target"}} type="radio" name={{question.qid}} value={{option.text}} checked={{selected-helper option.text (draft-text-input model.draft.registrationMetadata question)}}> {{option.text}} </p>
+                        <p> <input onchange={{action "buildForm" value="target"}} type="radio" name={{question.qid}} value={{option.text}} checked={{selected-helper option.text (draft-text-input model.registrationMetadata question)}}> {{option.text}} </p>
                     {{/if}}
                 {{/each}}
             </form>
         {{else if (eq question.type "object")}}
             {{#each question.properties as |subquestion|}}
+                {{#if subquestion.description}}
+                    <p>{{subquestion.description}}</p>
+                {{/if}}
                 {{#if (eq subquestion.type "osf-upload")}}
                     <p>
                         You may attach up to 5 files to this question.
@@ -37,11 +44,20 @@
                     </p>
                     <a href=#> Attach File (not implemented) </a>
                 {{else}}
-                    <input onchange={{action "buildForm" value="target"}} name="{{question.qid}}:{{subquestion.id}}" value={{draft-text-input model.draft.registrationMetadata question true}}>
+                    {{#if subquestion.properties}}
+                        {{#each subquestion.properties as |item|}}
+                            {{#if item.description}}
+                                <p>{{item.description}}</p>
+                            {{/if}}
+                            <p><textarea onchange={{action "buildForm" value="target"}} name="{{question.qid}}:{{subquestion.id}}:{{item.id}}" value={{draft-text-input model.registrationMetadata question subquestion item}}></textarea></p>
+                        {{/each}}
+                    {{else}}
+                        <p><textarea onchange={{action "buildForm" value="target"}} name="{{question.qid}}:{{subquestion.id}}" value={{draft-text-input model.registrationMetadata question subquestion}}></textarea></p>
+                    {{/if}}
                 {{/if}}
             {{/each}}
         {{else}}
-            <input onchange={{action "buildForm" value="target"}} name={{question.qid}} value={{draft-text-input model.draft.registrationMetadata question}}>
+            <textarea onchange={{action "buildForm" value="target"}} name={{question.qid}} value={{draft-text-input model.registrationMetadata question}}> </textarea>
         {{/if}}
         <hr>
     {{/each}}
