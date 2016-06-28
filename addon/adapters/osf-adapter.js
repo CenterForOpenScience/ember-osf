@@ -71,10 +71,10 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
                 nested: true,
                 url: url
             }
-        })).then(res => {
+        }).then(res => {
             createdSnapshots.forEach(s => snapshot.record[relationship].addCanonicalRecord(s.record));
             return res;
-        });
+        }));
     },
     /**
      * Handle add(s) of related resources. This differs from CREATEs in that the related
@@ -225,27 +225,14 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
         }
 
         var response;
-        if (allowBulk) {
-            response = adapter[`_${change}Related`](
-                store,
-                snapshot,
-                related,
-                relationship,
-                url,
-                true
-            );
-        } else {
-            response = Ember.RSVP.allSettled(
-                related.map(relatedSnapshot => adapter[`_${change}Related`](
+        response = adapter[`_${change}Related`](
                     store,
                     snapshot,
-                    relatedSnapshot,
+                    related,
                     relationship,
                     url,
-                    false
-                ))
-            );
-        }
+                    allowBulk
+        );
         return response;
     },
     updateRecord(store, type, snapshot) {
