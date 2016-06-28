@@ -1,0 +1,23 @@
+.file-browser .file-browser-icon {
+    width: 3em;
+    display: inline-block;
+    cursor: pointer;
+    text-align: right;
+}
+
+.file-browser .subtree-wrapper {
+    padding: 0 0 0 20px;
+    border: 0;
+}
+
+.file-browser .table {
+    margin-bottom: 0;
+}
+
+.file-browser .table tbody {
+    border: none;
+}
+
+.file-browser .selected {
+    background-color: #eee;
+}

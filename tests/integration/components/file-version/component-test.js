@@ -21,7 +21,7 @@ test('it renders', function(assert) {
 
     assert.equal(
         this.$('.file-version').children().eq(1).text(),
-        `Size: ${fileVersion.get('size')}`,
+        `${fileVersion.get('size')}`,
         'Second list element should be a label with file size'
     );
 });

@@ -5,14 +5,20 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 
-export default DS.Model.extend({
+import HasManyQuery from 'ember-data-has-many-query';
+
+export default DS.Model.extend(HasManyQuery.ModelMixin, {
     links: DS.attr('links'),
     embeds: DS.attr('embed'),
 
     relationshipLinks: Ember.computed.alias('links.relationships'),
-    _dirtyRelationships: {},
+    _dirtyRelationships: null,
     isNewOrDirty() {
         return this.get('isNew') || Object.keys(this.changedAttributes()).length;
+    },
+    init() {
+        this._super(...arguments);
+        this.set('_dirtyRelationships', Ember.Object.create({}));
     },
     save(options = {
         adapterOptions: {}
@@ -28,7 +34,8 @@ export default DS.Model.extend({
             } else if (meta.kind === 'belongsTo') {
                 relation = this.belongsTo(rel).belongsToRelationship;
             }
-            if (relation.hasData || relation.hasLoaded) {
+            // TODO(samchrisinger): not sure if hasLoaded is a subset if the hasData state
+            if (relation.hasData && relation.hasLoaded) {
                 var canonicalIds = relation.canonicalMembers.list.map(member => member.record.get('id'));
                 var currentIds = relation.members.list.map(member => member.record.get('id'));
                 var changes = {

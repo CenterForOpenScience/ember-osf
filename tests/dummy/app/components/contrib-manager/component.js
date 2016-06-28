@@ -14,6 +14,9 @@ export default Ember.Component.extend({
         addContributor(userId, permission, isBibliographic) {
             this.sendAction('addContributor', userId, permission, isBibliographic);
         },
+        removeContributor(contrib) {
+            this.sendAction('removeContributor', contrib);
+        },
         permissionChange(contributor, permission) {
             this.set(`permissionChanges.${contributor.id}`, permission.toLowerCase());
         },
@@ -21,14 +24,12 @@ export default Ember.Component.extend({
             this.set(`bibliographicChanges.${contributor.id}`, isBibliographic);
         },
         updateContributors() {
-            this.attrs.editContributors(
+            this.sendAction(
+                'editContributors',
                 this.get('contributors'),
                 this.get('permissionChanges'),
                 this.get('bibliographicChanges')
             );
-        },
-        removeContributor(contrib) {
-            this.attrs.removeContributor(contrib);
         }
     }
 });

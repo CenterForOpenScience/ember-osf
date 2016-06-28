@@ -1,5 +1,10 @@
+{{#if model.parent}}
+    {{#link-to 'nodes.detail' model.parent class="btn btn-primary"}}
+        ↑ {{model.parent.title}}
+    {{/link-to}}
+{{/if}}
 {{link-to 'Back to list' 'nodes' class="btn btn-default"}}
-<div class="col-md-12">
+<div class="panel">
     <h2>Data</h2>
     <p><label>Title:</label> {{model.title}}</p>
     <p><label>Description: </label> {{model.description}}</p>
@@ -8,8 +13,7 @@
     <p><label>Date Modified:</label> {{moment-format model.dateModified}}</p>
     <p><label>Public </label> {{model.public}} </p>
     <p><label> Tags </label></p>
-    {{#tags-widget addATag=(action 'addATag') removeATag=(action 'removeATag') tags=model.tags}}
-    {{/tags-widget}}
+    {{#tags-widget addATag=(action 'addATag') removeATag=(action 'removeATag') tags=model.tags}}{{/tags-widget}}
     <hr>
     <p>
         <a href="{{model.links.html}}" target="_blank" class="btn btn-primary">
@@ -19,7 +23,6 @@
 
     <p><button class="btn btn-danger" {{action 'deleteNode'}}>Delete this project</button></p>
     <hr>
-
     {{#if propertiesVisible}}
         <button {{action 'toggleEditNode'}}> Close Node Settings </button>
         <table>
@@ -55,6 +58,9 @@
         <button {{action 'toggleEditNode'}}> Edit node settings </button>
     {{/if}}
     <hr>
+    <h2>Registrations</h2>
+    {{link-to 'View Registrations' 'nodes.detail.registrations' model class='btn btn-primary'}}
+    <hr>
     <h2>Affiliated Institutions</h2>
     <p>
         <table class="table">
@@ -69,8 +75,7 @@
                 </tr>
             {{/each}}
         </table>
-        <h4>Add Institution</h4>
-        Institution Id {{input value=instId}}
+        <h4>Add Institution</h4> Institution Id {{input value=instId}}
         <button {{action 'affiliateNode' instId}} class="btn btn-primary">Affiliate Node</button>
     </p>
     <h2>Files</h2>
@@ -79,38 +84,33 @@
 
     {{log-detail node-logs=model.logs}}
 
-    <h2>Contributors</h2>
-    {{contrib-manager
-    contributors=model.contributors
-    addContributor=(action 'addContributor')
-    removeContributor=(action 'removeContributor')
-    editContributors=(action 'updateContributors')
-    }}
+    <h2>Contributors</h2> {{contrib-manager contributors=model.contributors addContributor=(action 'addContributor') removeContributor=(action 'removeContributor') editContributors=(action 'updateContributors') }}
+
     <hr>
-    <h2> Components </h2>
-    <table class="table table-bordered">
-	<thead>
-            <tr>
-		<th> Id </th>
-		<th> Name </th>
-            </tr>
-	</thead>
+
+    <h2> Add contributor </h2>
+    <p><label> User ID </label> {{input value=contributorID}} </p>
+    <p><label> Permissions </label></p>
+    <p>
+        {{radio-button name="permission" value="read" checked=contributorPermissions}} Read {{radio-button name="permission" value="write" checked=contributorPermissions}} Read + Write {{radio-button name="permission" value="admin" checked=contributorPermissions}} Administrator
+    </p>
+
+    <label> Bibliographic </label>
+    <p>
+        {{radio-button name="bibliographic" value=1 checked=bibliographic}} Bibliographic {{radio-button name="bibliographic" value=0 checked=bibliographic}} Non-Bibliographic
+    </p>
+    <button {{action "addContributor" contributorID contributorPermissions bibliographic}} class="btn btn-primary">Add</button>
+    <hr>
+    <h2>Components</h2>
+    <ul>
         {{#each model.children as |child|}}
-	    <tbody>
-		<tr>
-                    <td> {{child.id}} </td>
-                    <td> {{link-to child.title 'nodes.detail' child.id}} </td>
-		</tr>
-	    </tbody>
+            <li>{{link-to child.title 'nodes.detail' child}}</li>
         {{/each}}
-    </table>
-	
-    <h2> Create component </h2>
+    </ul>
+    <h3> Create component </h3>
     <div>
-        <label>Title:</label>
-        {{input type="text" value=title placeholder="Component's title" required=true}}
-        <label>Description (optional):</label>
-        {{input type="text" value=description placeholder="Component's description"}}
+        <label>Title:</label> {{input type="text" value=title placeholder="Component's title" required=true}}
+        <label>Description (optional):</label> {{input type="text" value=description placeholder="Component's description"}}
         <p><label>Category (optional):</label></p>
         <p>{{radio-button name="category" value="analysis" checked=category}} Analysis </p>
         <p>{{radio-button name="category" value="communication" checked=category}} Communication </p>
@@ -125,17 +125,6 @@
         <p>{{radio-button name="category" value="uncategorized" checked=category}} Uncategorized </p>
         <p><button {{action "addChild" title description category }}>Create</button></p>
     </div>
-    <h2> Create multiple components (bulk) </h2>
-    <div>
-        <h3> First Component </h3>
-        <label>Title:</label>
-        {{input type="text" value=child1 placeholder="Component's title" required=true}}
-        <h3> Second Component </h3>
-        <label>Title:</label>
-        {{input type="text" value=child2 placeholder="Component's title" required=true}}
-        <p><button {{action "addChildren" child1 child2 }}>Create</button></p>
-    </div>
-
     <hr>
 
     <h2>Node links </h2>
@@ -153,9 +142,7 @@
             </tr>
         {{/each}}
     </table>
-
     <hr>
-
     <h3>Add link</h3>
     <label> Target node id </label> {{input value=targetNodeId}}
     <button {{action "addNodeLink" targetNodeId}} class="btn btn-primary">Add</button>

@@ -2,6 +2,17 @@ import DS from 'ember-data';
 
 import OsfModel from './osf-model';
 
+/**
+ * Model for OSF APIv2 nodes. This model may be used with one of several API endpoints. It may be queried directly,
+ *  or accessed via relationship fields.
+ * For field and usage information, see:
+ *    https://api.osf.io/v2/docs/#!/v2/Node_List_GET
+ *    https://api.osf.io/v2/docs/#!/v2/Node_Detail_GET
+ *    https://api.osf.io/v2/docs/#!/v2/Node_Children_List_GET
+ *    https://api.osf.io/v2/docs/#!/v2/Linked_Nodes_List_GET
+ *    https://api.osf.io/v2/docs/#!/v2/Node_Forks_List_GET
+ *    https://api.osf.io/v2/docs/#!/v2/User_Nodes_GET
+ */
 export default OsfModel.extend({
     title: DS.attr('string'),
     description: DS.attr('string'),
@@ -43,7 +54,17 @@ export default OsfModel.extend({
         inverse: null
     }),
     registrations: DS.hasMany('registrations', {
-        inverse: 'registeredFrom'
+        inverse: 'registeredFrom',
+        updateRequest: {
+            requestType: () => 'POST'
+        }
+    }),
+
+    draftRegistrations: DS.hasMany('draft-registrations', {
+        inverse: 'branchedFrom',
+        updateRequest: {
+            requestType: () => 'POST'
+        }
     }),
 
     root: DS.belongsTo('node', {
@@ -56,12 +77,10 @@ export default OsfModel.extend({
         // contributor edits being saved through the node
         var promise = this._super(...arguments);
         var contributors = this.hasMany('contributors').hasManyRelationship;
-        if (contributors.hasData || contributors.hasLoaded) {
+        if (contributors.hasData && contributors.hasLoaded) {
             this.set(
                 '_dirtyRelationships.contributors.update',
-                contributors.members.list.filter(m => {
-                    return !m.record.get('isNew') && Object.keys(m.record.changedAttributes()).length > 0;
-                })
+                contributors.members.list.filter(m => !m.record.get('isNew') && Object.keys(m.record.changedAttributes()).length > 0)
             );
             // Contributors are a 'real' delete, not just a de-reference
             this.set(

@@ -14,6 +14,34 @@ export default Ember.Service.extend({
     store: Ember.inject.service(),
 
     /**
+     * Get a URL to download the given file.
+     *
+     * @method getDownloadUrl
+     * @param {file} file A `file` model
+     * @param {Object} [options] Options hash
+     * @param {Object} [options.query] Key-value hash of query parameters to
+     * add to the URL.
+     * @param {Object} [options.query.version] `file-version` ID
+     * @return {String} Download URL
+     */
+    getDownloadUrl(file, options = {}) {
+        let url = file.get('links.download');
+
+        if (!options.query) {
+            options.query = {};
+        }
+        if (file.get('isFolder')) {
+            options.query.zip = '';
+        }
+        let queryString = Ember.$.param(options.query);
+        if (queryString.length) {
+            return `${url}?${queryString}`;
+        } else {
+            return url;
+        }
+    },
+
+    /**
      * Download the contents of the given file.
      *
      * @method getContents
@@ -26,7 +54,7 @@ export default Ember.Service.extend({
      * with an error message.
      */
     getContents(file, options = {}) {
-        let url = file.get('links').download;
+        let url = file.get('links.download');
         return this._waterbutlerRequest('GET', url, options);
     },
 
@@ -56,9 +84,41 @@ export default Ember.Service.extend({
         return p.then(() => this._reloadModel(file));
     },
 
-    checkout(/*file, user*/) {
-        // TODO? Having checkout here makes more sense to me than making it
-        // the only writable attribute on the file model.
+    /**
+     * Check out a file, so only the current user can modify it.
+     *
+     * @method checkOut
+     * @param {file} file `file` model with `isFolder == false`.
+     * @return {Promise} Promise that resolves on success or rejects with an
+     * error message.
+     */
+    checkOut(file) {
+        return Ember.run(() => {
+            let userID = this.get('session.data.authenticated.id');
+            file.set('checkout', userID);
+            return file.save().catch((error) => {
+                file.rollbackAttributes();
+                throw error;
+            });
+        });
+    },
+
+    /**
+     * Check in a file, so anyone with permission can modify it.
+     *
+     * @method checkOut
+     * @param {file} file `file` model with `isFolder == false`.
+     * @return {Promise} Promise that resolves on success or rejects with an
+     * error message.
+     */
+    checkIn(file) {
+        return Ember.run(() => {
+            file.set('checkout', null);
+            return file.save().catch((error) => {
+                file.rollbackAttributes();
+                throw error;
+            });
+        });
     },
 
     /**

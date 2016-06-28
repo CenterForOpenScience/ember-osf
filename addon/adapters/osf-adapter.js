@@ -4,6 +4,7 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 
+import HasManyQuery from 'ember-data-has-many-query';
 import config from 'ember-get-config';
 import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
 
@@ -11,7 +12,7 @@ import {
     singularize
 } from 'ember-inflector';
 
-export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
+export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapterMixin, {
     authorizer: 'authorizer:osf-token',
     host: config.OSF.apiUrl,
     namespace: config.OSF.apiNamespace,
@@ -19,7 +20,7 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         // Fix issue where CORS request failed on 301s: Ember does not seem to append trailing
         // slash to URLs for single documents, but DRF redirects to force a trailing slash
         var url = this._super(...arguments);
-        var options = snapshot.adapterOptions || {};
+        var options = (snapshot ? snapshot.adapterOptions : false) || {};
         if (requestType === 'deleteRecord' || requestType === 'updateRecord' || requestType === 'findRecord') {
             if (snapshot.record.get('links.self')) {
                 url = snapshot.record.get('links.self');
@@ -50,50 +51,121 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         }
         return null;
     },
+    /**
+     * Handle creation of related resources
+     *
+     * @param {DS.Store} store
+     * @param {DS.Snapshot} snapshot snapshot of inverse record
+     * @param {DS.Snapshot[]} createdSnapshots
+     * @param {String} relationship
+     * @param {String} url
+     * @param {Boolean} isBulk
+     **/
     _createRelated(store, snapshot, createdSnapshots, relationship, url, isBulk = false) { // jshint ignore:line
         // TODO support bulk create?
         // if (isBulk) {
         //
         // }
-        if (createdSnapshots.record) {
-            return createdSnapshots.record.save({
-                adapterOptions: {
-                    nested: true,
-                    url: url
-                }
-            });
-        } else {
-            return createdSnapshots.map(s => s.record.save({
-                adapterOptions: {
-                    nested: true,
-                    url: url
-                }
-            }));
-        }
-    },
-    _updateRelated(store, snapshot, updatedSnapshots, relationship, url, isBulk = false) {
-        return this._doRelatedRequest(store, snapshot, updatedSnapshots, relationship, url, 'PATCH', isBulk);
-    },
-    _addRelated(store, snapshot, addedSnapshots, relationship, url, isBulk = false) {
-        return this._doRelatedRequest(store, snapshot, addedSnapshots, relationship, url, 'POST', isBulk);
-    },
-    _removeRelated(store, snapshot, removedSnapshots, relationship, url, isBulk = false) {
-        return this._doRelatedRequest(store, snapshot, removedSnapshots, relationship, url, 'DELETE', isBulk);
-    },
-    _deleteRelated(store, snapshot, removedSnapshots) { // jshint ignore:line
-        return this._removeRelated(...arguments).then(() => {
-            if (removedSnapshots.record) {
-                removedSnapshots = [removedSnapshots];
+        return createdSnapshots.map(s => s.record.save({
+            adapterOptions: {
+                nested: true,
+                url: url
             }
-            removedSnapshots.forEach(s => s.record.unloadRecord());
+        })).then(res => {
+            createdSnapshots.forEach(s => snapshot.record[relationship].addCanonicalRecord(s.record));
+            return res;
         });
     },
+    /**
+     * Handle add(s) of related resources. This differs from CREATEs in that the related
+     * record is already saved and is just being associated with the inverse record.
+     *
+     * @param {DS.Store} store
+     * @param {DS.Snapshot} snapshot snapshot of inverse record
+     * @param {DS.Snapshot[]} addedSnapshots
+     * @param {String} relationship
+     * @param {String} url
+     * @param {Boolean} isBulk
+     **/
+    _addRelated(store, snapshot, addedSnapshots, relationship, url, isBulk = false) {
+        return this._doRelatedRequest(store, snapshot, addedSnapshots, relationship, url, 'POST', isBulk).then(res => {
+            addedSnapshots.forEach(s => snapshot.record[relationship].addCanonicalRecord(s.record));
+            return res;
+        });
+    },
+    /**
+     * Handle update(s) of related resources
+     *
+     * @param {DS.Store} store
+     * @param {DS.Snapshot} snapshot snapshot of inverse record
+     * @param {DS.Snapshot[]} updatedSnapshots
+     * @param {String} relationship
+     * @param {String} url
+     * @param {Boolean} isBulk
+     **/
+    _updateRelated(store, snapshot, updatedSnapshots, relationship, url, isBulk = false) {
+        return this._doRelatedRequest(store, snapshot, updatedSnapshots, relationship, url, 'PATCH', isBulk).then(res => {
+            var relatedType = singularize(snapshot.record[relationship].meta().type);
+            res.data.forEach(item => {
+                var record = store.push(store.normalize(relatedType, item));
+                snapshot.record[relationship].addCanonicalRecord(record);
+            });
+            return res;
+        });
+    },
+    /**
+     * Handle removal of related resources. This differs from DELETEs in that the related
+     * record is not deleted, just dissociated from the inverse record.
+     *
+     * @param {DS.Store} store
+     * @param {DS.Snapshot} snapshot snapshot of inverse record
+     * @param {DS.Snapshot[]} removedSnapshots
+     * @param {String} relationship
+     * @param {String} url
+     * @param {Boolean} isBulk
+     **/
+    _removeRelated(store, snapshot, removedSnapshots, relationship, url, isBulk = false) {
+        return this._doRelatedRequest(store, snapshot, removedSnapshots, relationship, url, 'DELETE', isBulk).then(res => {
+            removedSnapshots.forEach(s => snapshot.record[relationship].removeCanonicalRecord(s.record));
+            return res || [];
+        });
+    },
+    /**
+     * Handle deletion of related resources
+     *
+     * @param {DS.Store} store
+     * @param {DS.Snapshot} snapshot snapshot of inverse record
+     * @param {DS.Snapshot[]} deletedSnapshots
+     * @param {String} relationship
+     * @param {String} url
+     * @param {Boolean} isBulk
+     **/
+    _deleteRelated(store, snapshot, deletedSnapshots, relationship, url, isBulk = false) { // jshint ignore:line
+        if (isBulk) {
+            return this._removeRelated(...arguments).then(() => {
+                deletedSnapshots.forEach(s => s.record.unloadRecord());
+            });
+        } else {
+            return Ember.RSVP.allSettled(deletedSnapshots.map(r => r.destroyRecord()));
+        }
+    },
+    /**
+     * A helper for making _*Related requests
+     *
+     * @param {DS.Store} store
+     * @param {DS.Snapshot} snapshot snapshot of inverse record
+     * @param {DS.Snapshot[]} relatedSnapshots
+     * @param {String} relationship
+     * @param {String} url
+     * @param {String} requestMethod
+     * @param {Boolean} isBulk
+     **/
     _doRelatedRequest(store, snapshot, relatedSnapshots, relationship, url, requestMethod, isBulk = false) {
         var data = {};
         var relatedMeta = snapshot.record[relationship].meta();
         var type = singularize(relatedMeta.type);
         var serializer = store.serializerFor(type);
-        if (relatedSnapshots.record) {
+        if (relatedSnapshots.length > 1) {
             serializer.serializeIntoHash(
                 data,
                 store.modelFor(type),
@@ -119,19 +191,42 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
         return this.ajax(url, requestMethod, {
             data: data,
             isBulk: isBulk
+        }).then(res => {
+            if (!Ember.$.isArray(res.data)) {
+                res.data = [res.data];
+            }
+            return res;
         });
     },
+    /**
+     * Delegate a series of requests based on a snapshot, relationship, and a change.
+     * The change argument can be 'delete', 'remove', 'update', 'add', 'create'
+     *
+     * @param {DS.Store} store
+     * @param {DS.Model} type
+     * @param {DS.Snapshot} snapshot
+     * @param {String} relationship
+     * @param {String} change
+     **/
     _handleRelatedRequest(store, type, snapshot, relationship, change) {
         var related = snapshot.record.get(`_dirtyRelationships.${relationship}.${change}`).map(r => r.createSnapshot());
+        // TODO(samchrisinger): will this have unintented side-effects for deletes/removes?
         if (!related.length) {
             return [];
         }
+
         var relatedMeta = snapshot.record[relationship].meta();
         var url = this._buildRelationshipURL(snapshot, relationship);
         var adapter = store.adapterFor(type.modelName);
         var allowBulk = relatedMeta.options[`allowBulk${Ember.String.capitalize(change)}`];
+
+        if (related.record) {
+            related = [related];
+        }
+
+        var response;
         if (allowBulk) {
-            return adapter[`_${change}Related`](
+            response = adapter[`_${change}Related`](
                 store,
                 snapshot,
                 related,
@@ -140,20 +235,24 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
                 true
             );
         } else {
-            return related.map(relatedSnapshot => adapter[`_${change}Related`](
-                store,
-                snapshot,
-                relatedSnapshot,
-                relationship,
-                url,
-                false
-            ));
+            response = Ember.RSVP.allSettled(
+                related.map(relatedSnapshot => adapter[`_${change}Related`](
+                    store,
+                    snapshot,
+                    relatedSnapshot,
+                    relationship,
+                    url,
+                    false
+                ))
+            );
         }
+        return response;
     },
     updateRecord(store, type, snapshot) {
-        var promises = [];
+        var relatedRequests = {};
         var dirtyRelationships = snapshot.record.get('_dirtyRelationships');
         Object.keys(dirtyRelationships).forEach(relationship => {
+            var promises = [];
             var changed = dirtyRelationships[relationship];
             Object.keys(changed).forEach(change => {
                 promises = promises.concat(
@@ -162,16 +261,15 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
                     ) || []
                 );
             });
-        });
-        if (Object.keys(snapshot.record.changedAttributes()).length) {
             if (promises.length) {
-                return this._super(...arguments).then(response => Ember.RSVP.allSettled(promises).then(() => response));
+                relatedRequests[relationship] = Ember.RSVP.allSettled(promises);
             }
-            return this._super(...arguments);
-        } else if (promises.length) {
-            return Ember.RSVP.allSettled(promises).then(() => null);
+        });
+        var relatedPromise = Ember.RSVP.hashSettled(relatedRequests);
+        if (Object.keys(snapshot.record.changedAttributes()).length) {
+            return this._super(...arguments).then(response => relatedPromise.then(() => response));
         } else {
-            return new Ember.RSVP.Promise((resolve) => resolve(null));
+            return relatedPromise.then(() => null);
         }
     },
     ajaxOptions(_, __, options) {
