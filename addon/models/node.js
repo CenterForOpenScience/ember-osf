@@ -7,6 +7,8 @@ import {
     serializeHasMany
 } from '../utils/serialize-relationship';
 
+import {paginatedHasMany} from 'ember-osf/mixins/paginated-has-many';
+
 /**
  * Model for OSF APIv2 nodes. This model may be used with one of several API endpoints. It may be queried directly,
  *  or accessed via relationship fields.
@@ -40,7 +42,7 @@ export default OsfModel.extend(FileItemMixin, {
     parent: DS.belongsTo('node', {
         inverse: 'children'
     }),
-    children: DS.hasMany('nodes', {
+    children: paginatedHasMany('nodes', {
         inverse: 'parent',
         updateRequest: {
             requestType: () => 'POST'
