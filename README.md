@@ -43,6 +43,7 @@ This file is structured like:
   CLIENT_ID: null
   PERSONAL_ACCESS_TOKEN: null
   OAUTH_SCOPES: osf.full_read osf.full_write
+  REDIRECT_URI: http://localhost:4200/login
 ```
 
 You will need to fill out options for each backend you want to use (see 'Running' below).
@@ -53,6 +54,8 @@ uri is correct.  If it needs a trailing slash, be sure to include a trailing sla
 Edit the new file (installed in the config directory) and set:
 - `CLIENT_ID` to the client id of your developer application
 - `PERSONAL_ACCESS_TOKEN` to the newly generated token (if applicable, optional for staging development)
+- REDIRECT_URI: Must exactly match the redirect URI used to register the OAuth developer application. 
+Default value is appropriate for local development using `ember server`, with a login page at `/login` 
 
 #### Using the Test API
 

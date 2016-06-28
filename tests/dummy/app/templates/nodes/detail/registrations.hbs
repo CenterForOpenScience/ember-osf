@@ -1,14 +1,14 @@
 {{outlet}}
-{{link-to 'Back to node' 'nodes.detail' model.node class='btn btn-default'}}
+{{link-to 'Back to node' 'nodes.detail' class='btn btn-default'}}
 
 <h2> Registrations </h2>
 
-{{link-to 'View Drafts' 'nodes.detail.draft_registrations' model.node class='btn btn-primary'}}
+{{link-to 'View Drafts' 'nodes.detail.draft_registrations' class='btn btn-primary'}}
 
 <hr>
 
-{{#if model.registrations}}
-    {{#each model.registrations as |registration|}}
+{{#if model}}
+    {{#each model as |registration|}}
         <p>
             {{#if registration.pendingRegistrationApproval}}
                 <strong> Pending Registration </strong>
