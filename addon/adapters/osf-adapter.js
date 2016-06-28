@@ -165,16 +165,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
         var relatedMeta = snapshot.record[relationship].meta();
         var type = singularize(relatedMeta.type);
         var serializer = store.serializerFor(type);
-        if (relatedSnapshots.length > 1) {
-            serializer.serializeIntoHash(
-                data,
-                store.modelFor(type),
-                relatedSnapshots, {
-                    forRelationship: true,
-                    isBulk: isBulk
-                }
-            );
-        } else {
+        if (Ember.isArray(relatedSnapshots)) {
             data.data = relatedSnapshots.map(relatedSnapshot => {
                 var item = {};
                 serializer.serializeIntoHash(
@@ -185,8 +176,20 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
                         isBulk: isBulk
                     }
                 );
+                if (Ember.isArray(item.data) && item.data.length === 1) {
+                    return item.data[0];
+                }
                 return item.data;
             });
+        } else {
+            serializer.serializeIntoHash(
+                data,
+                store.modelFor(type),
+                relatedSnapshots, {
+                    forRelationship: true,
+                    isBulk: isBulk
+                }
+            );
         }
         return this.ajax(url, requestMethod, {
             data: data,
