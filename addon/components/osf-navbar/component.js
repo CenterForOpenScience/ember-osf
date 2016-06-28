@@ -16,6 +16,7 @@ export default Ember.Component.extend({
     host: config.OSF.url,
     authUrl: getAuthUrl(),
     user: null,
+    showSearch: false,
     _loadCurrentUser() {
         this.get('currentUser').load().then((user) => this.set('user', user));
     },
