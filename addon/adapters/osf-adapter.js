@@ -165,6 +165,9 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
         var relatedMeta = snapshot.record[relationship].meta();
         var type = singularize(relatedMeta.type);
         var serializer = store.serializerFor(type);
+        if (relatedMeta.options.serializerType) {
+            serializer = store.serializerFor(relatedMeta.options.serializerType);
+        }
         if (Ember.isArray(relatedSnapshots)) {
             data.data = relatedSnapshots.map(relatedSnapshot => {
                 var item = {};
