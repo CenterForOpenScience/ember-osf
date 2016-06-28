@@ -1,5 +1,15 @@
 import Ember from 'ember';
 
+/**
+ * This is an experimental technology demonstration. It detects when a route is a child of a GUID route, and rewrites
+ * the URL in the address bar to be a GUID URL, while preserving state internally for transitions/ movement between routes.
+ *
+ * There are some known bugs when, eg, moving between two routes at the same level
+ *
+ * It makes livereload annoying to use, though.
+ *
+ * There will probably be other bugs.
+ */
 export default Ember.Mixin.create({
     _isGuidItem(model) {
         // TODO: Hard-coded assumptions about guid item by model type- make this nice if we see it works
@@ -62,6 +72,9 @@ export default Ember.Mixin.create({
 
     /**
      * Detect the nearest GUID parent, and rewrite the URL accordingly
+     *
+     * This doesn't *have* to happen here, but it does have to happen sometime after finalizeTransition if we want
+     * to avoid overwriting our new url
      */
     setupController() {
         let guidParentRoute = this.findGuidParent(this.routeName);

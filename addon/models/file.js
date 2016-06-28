@@ -17,6 +17,7 @@ import OsfModel from './osf-model';
 export default OsfModel.extend({
     name: DS.attr('string'),
     kind: DS.attr('string'),
+    guid: DS.attr('string'),
     path: DS.attr('string'),
     size: DS.attr('number'),
     provider: DS.attr('string'),
