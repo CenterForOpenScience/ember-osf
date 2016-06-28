@@ -129,11 +129,13 @@
 
     <h2>Node links </h2>
     <table class="table">
-        <tr>
-            <th> Id </th>
-            <th> Name </th>
-            <th> </th>
-        </tr>
+        {{#if model.nodeLinks}}
+            <tr>
+                <th> Id </th>
+                <th> Name </th>
+                <th> </th>
+            </tr>
+        {{/if}}
         {{#each model.nodeLinks as |nodelink|}}
             <tr>
                 <td> {{nodelink.targetNode.id}} </td>
