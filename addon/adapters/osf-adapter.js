@@ -121,5 +121,5 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
     pathForType(modelName) {
         var underscored = Ember.String.underscore(modelName);
         return Ember.String.pluralize(underscored);
-    },
+    }
 });
