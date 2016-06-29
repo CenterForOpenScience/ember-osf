@@ -1,9 +1,9 @@
 {{outlet}}
-{{link-to 'Back to node' 'nodes.detail' model.node class='btn btn-default'}}
+{{link-to 'Back to node' 'nodes.detail' class='btn btn-default'}}
 
 <h2> Draft Registrations </h2>
 
-{{link-to 'View Registrations' 'nodes.detail.registrations' model.node class='btn btn-primary'}}
+{{link-to 'View Registrations' 'nodes.detail.registrations' class='btn btn-primary'}}
 
 {{#if formDisplayed}}
     <hr>
@@ -40,8 +40,8 @@
 
 <hr>
 
-{{#if model.drafts}}
-    {{#each model.drafts as |draft|}}
+{{#if model}}
+    {{#each model as |draft|}}
         <h3> {{draft.registrationSchema.name}} </h3>
         <p> Initiated by: {{draft.initiator.fullName}}</p>
         <p> Started: {{moment-format draft.datetimeInitiated}} </p>
