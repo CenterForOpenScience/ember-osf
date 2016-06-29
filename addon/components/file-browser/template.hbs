@@ -26,4 +26,7 @@
         openItem=(action 'openItem')
         }}
     {{/ember-collection}}
+    {{#unless itemsLoaded}}
+        {{fa-icon 'spinner' size=3 pulse=true}}
+    {{/unless}}
 </div>

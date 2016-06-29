@@ -5,7 +5,7 @@ export default Ember.Component.extend({
     layout,
     tagName: 'span',
 
-    iconName: Ember.computed('item', function() {
+    iconName: Ember.computed('item', 'item.expanded', function() {
         // TODO: More icons!
         if (this.get('item.isNode')) {
             // TODO node types

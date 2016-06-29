@@ -9,7 +9,6 @@ let PaginatedSet = Ember.Object.extend(Ember.Enumerable, {
     key: null,
 
     init() {
-        this.set('_cachedItems', Ember.A());
         this.getNextPage();
     },
 
@@ -58,7 +57,7 @@ let PaginatedSet = Ember.Object.extend(Ember.Enumerable, {
         return this.set('_pendingPromise', promise);
     },
 
-    _cachedItems: null,
+    _cachedItems: Ember.A(),
     _lastPage: null,
     _lastPageIndex: null,
     _pendingPromise: null
@@ -68,7 +67,7 @@ function paginatedSetAttr(key) {
     return `__${key}_paginatedSet`;
 }
 
-export default function paginatedHasMany() {
+function paginatedHasMany() {
     let hasMany = DS.hasMany(...arguments);
 
     return Ember.computed({
@@ -102,3 +101,7 @@ export default function paginatedHasMany() {
         }
     }).meta(hasMany.meta());
 }
+
+export {paginatedHasMany};
+export default Ember.Mixin.create({
+});

@@ -7,7 +7,7 @@ import {
     serializeHasMany
 } from '../utils/serialize-relationship';
 
-import paginatedHasMany from '../utils/paginated-has-many';
+import {paginatedHasMany} from 'ember-osf/mixins/paginated-has-many';
 
 /**
  * Model for OSF APIv2 nodes. This model may be used with one of several API endpoints. It may be queried directly,
@@ -74,7 +74,7 @@ export default OsfModel.extend(FileItemMixin, {
         inverse: null
     }),
 
-    files: paginatedHasMany('file-provider'),
+    files: DS.hasMany('file-provider'),
     //forkedFrom: DS.belongsTo('node'),
     nodeLinks: DS.hasMany('node-links', {
         updateRequest: {

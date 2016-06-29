@@ -3,8 +3,6 @@ import DS from 'ember-data';
 import OsfModel from './osf-model';
 import FileItemMixin from 'ember-osf/mixins/file-item';
 
-import paginatedHasMany from '../utils/paginated-has-many';
-
 /**
  * Model for OSF APIv2 files. This model may be used with one of several API endpoints. It may be queried directly,
  *  or (more commonly) accessed via relationship fields.
@@ -32,7 +30,7 @@ export default OsfModel.extend(FileItemMixin, {
     parentFolder: DS.belongsTo('file', { inverse: 'files' }),
 
     // Folder attributes
-    files: paginatedHasMany('file', { inverse: 'parentFolder' }),
+    files: DS.hasMany('file', { inverse: 'parentFolder' }),
 
     // File attributes
     versions: DS.hasMany('file-version'),
