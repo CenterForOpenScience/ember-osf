@@ -86,6 +86,7 @@
       "package.json",
       "bower_components",
       "dist",
+      "docs",
       "tmp",
       "vendor",
       "app/locales",
