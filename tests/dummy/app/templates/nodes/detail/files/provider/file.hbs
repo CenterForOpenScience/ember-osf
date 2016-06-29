@@ -1,51 +1,58 @@
-<div class="panel">
-    <div>
-        {{#link-to 'nodes.detail.files.provider' node model.provider class='btn'}}
-            Back to {{model.provider}}
-        {{/link-to}}
+<div class='row'>
+    <div class='col-sm-5'>
+        <h2>{{model.name}}</h2>
     </div>
-    <h2>{{model.kind}} detail: {{model.name}}</h2>
-    <p><label>ID: </label>{{model.id}}</p>
-    <p><label>Provider: </label>{{model.provider}}</p>
-    <p><label>Path: </label>{{model.path}}</p>
-    <p><label>Materialized path: </label>{{model.materializedPath}}</p>
-    <p><label>Last touched: </label>{{model.lastTouched}}</p>
-    <p><label>Date modified: </label>{{model.dateModified}}</p>
-    <p><label>Date created: </label>{{model.dateCreated}}</p>
-    <p><label>Checkout: </label>{{model.checkout}}</p>
-
-    <hr>
-
-    <h3>Actions</h3>
-    {{file-actions file=model onChange=(action 'reloadFiles')}}
-
-    <hr>
-    {{#if model.isFolder}}
-        <h3>Files</h3>
-        {{file-tree root=model node=node}}
-    {{else}}
-        <h3>Versions</h3>
-        <ul>
-            {{#each model.versions as |version|}}
-                {{file-version version=version}}
-            {{else}}
-                (none)
-            {{/each}}
-        </ul>
-        <hr>
-        <h3>Comments</h3>
-        <ul>
-            {{#each model.comments as |comment|}}
-                <li>
-                    <label>{{comment.dateCreated}}: </label>
-                    {{comment.content}}
-                </li>
-            {{else}}
-                (none)
-            {{/each}}
-        </ul>
-    {{/if}}
-
-    {{#file-renderer download=model.links.download width="1000" height="1000"}}
-    {{/file-renderer}}
+    <div class='col-sm-7'>
+        {{#unless canEdit}}
+            <p class='bg-warning'>
+                This file is checked out by a
+                {{link-to 'collaborator' 'users.detail' model.checkout}}.
+            </p>
+        {{/unless}}
+        <div class='pull-right'>
+            {{#if canEdit}}
+                {{#if canCheckIn}}
+                    <button {{action 'checkIn'}} class='btn btn-sm btn-warning'>
+                        Check in
+                    </button>
+                {{else}}
+                    <button {{action 'delete'}} class='btn btn-sm btn-danger'>
+                        Delete
+                    </button>
+                    <button {{action 'checkOut'}} class='btn btn-sm btn-warning'>
+                        Check out
+                    </button>
+                {{/if}}
+            {{/if}}
+            <button {{action 'download'}} class='btn btn-sm btn-primary'>
+                Download
+            </button>
+            {{link-to 'View'
+                'nodes.detail.files.provider.file.index' 
+                node model.provider model
+                class='btn btn-sm btn-primary'}}
+            {{link-to 'Revisions'
+                'nodes.detail.files.provider.file.revisions' 
+                node model.provider model
+                class='btn btn-sm btn-primary'}}
+        </div>
+    </div>
+</div>
+<hr>
+<div class='row'>
+    <div class='col-md-3'>
+        {{file-browser rootNode=node
+        selectedFile=model
+        onClickFile=(action 'fileDetail')
+        onClickNode=(action 'nodeDetail')
+        }}
+        <div>
+            <p><label> Tags </label></p>
+            {{#tags-widget addATag=(action 'addATag') removeATag=(action 'removeATag') tags=model.tags}}
+            {{/tags-widget}}
+        </div>
+    </div>
+    <div class='col-md-9'>
+        {{outlet}}
+    </div>
 </div>

@@ -8,11 +8,12 @@ export default OsfSerializer.extend({
         serialized.data.relationships = {
             users: {
                 data: {
-                    id: snapshot.record.id,
+                    // TODO changeme when https://github.com/CenterForOpenScience/osf.io/pull/5824 goes in
+                    id: snapshot.record.get('id') || snapshot.record.get('userId') || snapshot.record.id.split('-')[1],
                     type: 'users'
                 }
             }
         };
         return serialized;
-    },
+    }
 });

@@ -2,6 +2,15 @@ import DS from 'ember-data';
 
 import Node from './node';
 
+/**
+ * Model for OSF APIv2 registrations. This model may be used with one of several API endpoints. It may be queried directly,
+ *  or accessed via relationship fields.
+ * For field and usage information, see:
+ *    https://api.osf.io/v2/docs/#!/v2/Registration_List_GET
+ *    https://api.osf.io/v2/docs/#!/v2/Registration_Detail_GET
+ *    https://api.osf.io/v2/docs/#!/v2/Registration_Children_List_GET
+ *    https://api.osf.io/v2/docs/#!/v2/User_Registrations_GET
+ */
 export default Node.extend({
     dateRegistered: DS.attr('date'),
     pendingRegistrationApproval: DS.attr('boolean'),
@@ -21,6 +30,9 @@ export default Node.extend({
         inverse: null
     }),
     contributors: DS.hasMany('contributors'),
-    comments: DS.hasMany('comments')
+    comments: DS.hasMany('comments'),
+    draftRegistration: DS.attr('string'),
+    registrationChoice: DS.attr('string'),
+    liftEmbargo: DS.attr()
     //more relationship
 });

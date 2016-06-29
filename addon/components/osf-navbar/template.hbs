@@ -1,0 +1,124 @@
+<div class="osf-nav-wrapper">
+    <nav class="navbar navbar-inverse navbar-fixed-top" id="navbarScope" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                {{# unless onSearchPage}}
+                    <span class="visible-xs" data-bind="click : toggleSearch, css: searchCSS">
+                        <a class="osf-xs-search pull-right" {{action "toggleSearch"}} style="padding-top: 12px" >
+                            <span rel="tooltip" data-placement="bottom" title="Search OSF" class="fa fa-search fa-lg fa-inverse" ></span>
+                        </a>
+                    </span>
+                {{/unless}}
+                <a class="navbar-brand hidden-sm hidden-xs" href="/"><span class="osf-navbar-logo" width="27"></span> Open Science Framework</a>
+                <a class="navbar-brand visible-sm visible-xs" href="/"><span class="osf-navbar-logo" width="27"></span> OSF</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse navbar-right">
+                <ul class="nav navbar-nav">
+                    {{#if session.isAuthenticated}}
+                        <li id="osfNavDashboard"><a href={{host}}>Dashboard</a></li>
+                        <li id="osfNavMyProjects"><a href="{{host}}myprojects/">My Projects</a></li>
+                    {{/if}}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Browse <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{{host}}explore/activity/">New Projects</a></li>
+                            <li><a href="{{host}}search/?q=*&amp;filter=registration">Registry</a></li>
+                            <li><a href="{{host}}meetings/">Meetings</a></li>
+                        </ul>
+                    </li>
+                    {{# unless session.isAuthenticated}}
+                        <li class="dropdown">
+                            <a href="${domain}support/" >Support</a>
+                        </li>
+                    {{/unless}}
+
+                    {{# unless onSearchPage}}
+                        <li class="hidden-xs" css: searchCSS>
+                            <a onclick={{action "toggleSearch"}} class="" >
+                                <span rel="tooltip" data-placement="bottom" title="Search OSF" class="fa fa-search fa-lg" ></span>
+                            </a>
+                        </li>
+                    {{/unless}}
+                    {{# if session.isAuthenticated }}
+                        {{!-- TODO: Replace display name functionality if possible- for now truncate via CSS at end of label --}}
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle nav-user-dropdown" data-toggle="dropdown" role="button" aria-expanded="false">
+                                <span class="osf-gravatar">
+                                    <img src={{gravatarUrl}} alt="User gravatar">
+                                </span> {{user.fullName}}
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="{{host}}profile/"><i class="fa fa-user fa-lg p-r-xs"></i> My Profile</a>
+                                </li>
+                                <li>
+                                    <a href="{{host}}support/" ><i class="fa fa-life-ring fa-lg p-r-xs"></i> Support</a>
+                                </li>
+
+                                <li>
+                                    <a href="{{host}}settings/"><i class="fa fa-cog fa-lg p-r-xs"></i> Settings</a>
+                                </li>
+                                <li>
+                                    <a onclick={{action 'logout'}}><i class="fa fa-sign-out fa-lg p-r-xs"></i> Log out</a>
+                                </li>
+
+                            </ul>
+                        </li>
+                    {{else if allowLogin}}
+                        {{#if institution}}  {{!-- TODO: Find a source for this info (eg may only be on node pages? Make work with nested router --}}
+                            <li class="dropdown sign-in" data-bind="with: $root.signIn">
+                                <div class="btn-group">
+                                    <a href="${domain}login/?campaign=institution&redirect_url=${redirect_url}" class="btn btn-info btn-top-login">
+                                        Sign in <span class="hidden-xs"><i class="fa fa-arrow-right"></i></span>
+                                    </a>
+                                </div>
+                            </li>
+                        {{else}}
+                            {{#oauth-popup authUrl=authUrl loginSuccess=(action 'loginSuccess') loginFail=(action 'loginFail') as |popup|}}
+                                <li class="dropdown sign-in">
+                                    <div class="col-sm-12">
+                                        <button class="btn btn-success btn-top-signup m-r-xs" onclick={{action 'login' target=popup}} >
+                                            Login
+                                        </button>
+                                    </div>
+                                </li>
+                            {{/oauth-popup}}
+                            {{!--
+                            <li class="dropdown sign-in" data-bind="with: $root.signIn">
+                                <div class="col-sm-12">
+                                    <a href="${web_url_for('auth_login')}?sign_up=True" class="btn btn-success btn-top-signup m-r-xs">Sign up</a>
+                                    <button type="button" class="btn btn-info btn-top-login p-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                        Sign in <span class="caret hidden-xs"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" id="menuLogin" role="menu">
+                                        <form class="form" id="signInForm" data-bind="submit: submit" action="${login_url}" method="POST">
+                                            <div class="form-group"><input id="email" class="form-control" type="email" data-bind="value: username" name="username" placeholder="Email" aria-label="Username"></div>
+                                            <div class="form-group"><input name="password" id="password" class="form-control" type="password" placeholder="Password" data-bind="value: password" aria-label="Password"></div>
+                                            <div class="form-group"><button type="submit" id="btnLogin" class="btn btn-block btn-primary">Login</button></div>
+                                            {{#if enableInstitutions}}
+                                                <div class="text-center m-b-sm"> <a href="/login/?campaign=institution">Login through your institution  <i class="fa fa-arrow-right"></i></a></div>
+                                            {{/if}}
+                                            <div class="text-center m-b-sm"> <a href="/forgotpassword">Forgot password?</a></div>
+                                        </form>
+                                    </ul>
+                                </div>
+                            </li>
+                            --}}
+                        {{/if}}
+                    {{/if}}
+                </ul>
+            </div>{{!--/.navbar-collapse --}}
+        </div>
+    </nav>
+    {{#if showSearch}}
+        {{#search-dropdown action='toggleSearch'}}
+        {{/search-dropdown}}
+    {{/if}}
+</div>

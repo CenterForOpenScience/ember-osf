@@ -1,0 +1,54 @@
+{{outlet}}
+{{link-to 'Back to node' 'nodes.detail' class='btn btn-default'}}
+
+<h2> Registrations </h2>
+
+{{link-to 'View Drafts' 'nodes.detail.draft_registrations' class='btn btn-primary'}}
+
+<hr>
+
+{{#if model}}
+    {{#each model as |registration|}}
+        <p>
+            {{#if registration.pendingRegistrationApproval}}
+                <strong> Pending Registration </strong>
+            {{/if}}
+            {{#if registration.pendingEmbargoApproval}}
+                <strong> Pending Embargo </strong>
+            {{/if}}
+            {{#if registration.pendingWithdrawal}}
+                <strong> Pending Withdrawal </strong>
+            {{/if}}
+            {{#if registration.withdrawn}}
+                <strong> Withdrawn </strong>
+            {{/if}}
+            {{#link-to "registrations.detail" registration.id}}
+                {{registration.title}}
+            {{/link-to}} | Registered: {{moment-format registration.dateRegistered}}
+        </p>
+        <p>
+            {{#each registration.contributors as |contrib|}}
+                <span>
+                    {{#if contrib.users.familyName}}
+                        {{#link-to "users.detail" contrib.users.id}}
+                            {{contrib.users.familyName}},
+                        {{/link-to}}
+                    {{else}}
+                        {{#link-to "users.detail" contrib.users.id}}
+                            {{contrib.users.fullName}},
+                        {{/link-to}}
+                    {{/if}}
+                </span>
+            {{/each}}
+        </p>
+        <a href="{{registration.links.html}}" target="_blank" class="btn btn-default">
+            View on OSF
+        </a>
+        <hr>
+    {{/each}}
+{{else}}
+    <p>
+        There have been no completed registrations of this project. You can start a new registration by clicking the
+        New registration” button, and you have the option of saving as a draft registration before submission.
+    </p>
+{{/if}}

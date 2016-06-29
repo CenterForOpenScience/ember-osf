@@ -2,8 +2,21 @@ import DS from 'ember-data';
 
 import OsfModel from './osf-model';
 
-import { serializeHasMany } from '../utils/serialize-relationship';
+import {
+    serializeHasMany
+} from '../utils/serialize-relationship';
 
+/**
+ * Model for OSF APIv2 nodes. This model may be used with one of several API endpoints. It may be queried directly,
+ *  or accessed via relationship fields.
+ * For field and usage information, see:
+ *    https://api.osf.io/v2/docs/#!/v2/Node_List_GET
+ *    https://api.osf.io/v2/docs/#!/v2/Node_Detail_GET
+ *    https://api.osf.io/v2/docs/#!/v2/Node_Children_List_GET
+ *    https://api.osf.io/v2/docs/#!/v2/Linked_Nodes_List_GET
+ *    https://api.osf.io/v2/docs/#!/v2/Node_Forks_List_GET
+ *    https://api.osf.io/v2/docs/#!/v2/User_Nodes_GET
+ */
 export default OsfModel.extend({
     title: DS.attr('string'),
     description: DS.attr('string'),
@@ -28,7 +41,9 @@ export default OsfModel.extend({
     }),
     children: DS.hasMany('nodes', {
         inverse: 'parent',
-        updateRequestType: 'POST'
+        updateRequest: {
+            requestType: () => 'POST'
+        }
     }),
     affiliatedInstitutions: DS.hasMany('institutions', {
         inverse: 'nodes',
@@ -36,18 +51,55 @@ export default OsfModel.extend({
     }),
     comments: DS.hasMany('comments'),
     contributors: DS.hasMany('contributors', {
-        inverse: null,
-        updateRequestType: 'POST'
+        updateRequest: {
+            requestType: (snapshot, relationship) => {
+                if (snapshot.hasMany(relationship).filter(each => each.record.get('isNew')).length) {
+                    return 'POST';
+                }
+                return 'PATCH';
+            },
+            isBulk: () => true,
+            serialized(serialized) {
+                return {
+                    data: serialized.map(function(record) {
+                        var data = record.data;
+                        return data;
+                    })
+                };
+            }
+        },
+        inverse: null
     }),
 
     files: DS.hasMany('file-provider'),
     //forkedFrom: DS.belongsTo('node'),
     nodeLinks: DS.hasMany('node-links', {
-        inverse: null,
-        updateRequestType: 'POST'
+        updateRequest: {
+            requestType: () => 'POST',
+            isBulk: () => true,
+            serialized(serialized) {
+                return {
+                    data: serialized.map(function(record) {
+                        var data = record.data;
+                        return data;
+                    })
+                };
+            }
+        },
+        inverse: null
     }),
     registrations: DS.hasMany('registrations', {
-        inverse: 'registeredFrom'
+        inverse: 'registeredFrom',
+        updateRequest: {
+            requestType: () => 'POST'
+        }
+    }),
+
+    draftRegistrations: DS.hasMany('draft-registrations', {
+        inverse: 'branchedFrom',
+        updateRequest: {
+            requestType: () => 'POST'
+        }
     }),
 
     root: DS.belongsTo('node', {

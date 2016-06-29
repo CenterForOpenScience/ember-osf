@@ -3,6 +3,14 @@ import DS from 'ember-data';
 
 import OsfModel from './osf-model';
 
+/**
+ * Model for OSF APIv2 file providers. Primarily used in relationship fields.
+ * This model is used for basic file provider metadata. To interact with file contents directly, see the `file-manager` service.
+ * For field and usage information, see:
+ *    https://api.osf.io/v2/docs/#!/v2/Node_Providers_List_GET
+ *    https://api.osf.io/v2/docs/#!/v2/Node_Provider_Detail_GET
+ *    https://api.osf.io/v2/docs/#!/v2/Registration_Providers_List_GET
+*/
 export default OsfModel.extend({
     name: DS.attr('string'),
     kind: DS.attr('string'),

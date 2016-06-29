@@ -4,7 +4,7 @@
     {{input type="text" value=title placeholder="Node's title" required=true}}
     <label>Description (optional):</label>
     {{input type="text" value=description placeholder="Node's description"}}
-    <p><button {{action "createNode" title description}}>Create Node</button></p>
+    <p><button onclick={{action 'createNode' title description}}>Create Node</button></p>
 </div>
 {{#each model as |node|}}
     <hr>

@@ -1,2 +1,10 @@
 @import "bootstrap";
-@import "pod-styles";
+@import "ember-power-select";
+@import 'ember-osf';
+
+@import "log-detail/style";
+
+#main {
+    padding-top: 20px;
+    min-height: 500px;
+}
