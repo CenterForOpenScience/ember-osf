@@ -12,13 +12,4 @@ test('it renders', function(assert) {
   this.render(hbs`{{file-browser-icon}}`);
 
   assert.equal(this.$().text().trim(), '');
-
-  // Template block usage:
-  this.render(hbs`
-    {{#file-browser-icon}}
-      template block text
-    {{/file-browser-icon}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
 });
