@@ -1,5 +1,7 @@
 import OsfSerializer from './osf-serializer';
 
+// TODO Dawn - a linked-node serializer is actually using the node model - Ember doesn't like this.
+// Need to figure out a better place to create the request.
 export default OsfSerializer.extend({
     serializeIntoHash(hash, typeClass, snapshot, options) {
         if (options.forRelationship) {

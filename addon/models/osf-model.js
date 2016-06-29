@@ -20,6 +20,16 @@ export default DS.Model.extend(HasManyQuery.ModelMixin, {
         this._super(...arguments);
         this.set('_dirtyRelationships', Ember.Object.create({}));
     },
+    resolveRelationship(rel) {
+        var relation;
+        var meta = this[rel].meta();
+        if (meta.kind === 'hasMany') {
+            relation = this.hasMany(rel).hasManyRelationship;
+        } else if (meta.kind === 'belongsTo') {
+            relation = this.belongsTo(rel).belongsToRelationship;
+        }
+        return relation;
+    },
     save(options = {
         adapterOptions: {}
     }) {
@@ -27,13 +37,8 @@ export default DS.Model.extend(HasManyQuery.ModelMixin, {
             return this._super(...arguments);
         }
 
-        this.eachRelationship((rel, meta) => {
-            var relation;
-            if (meta.kind === 'hasMany') {
-                relation = this.hasMany(rel).hasManyRelationship;
-            } else if (meta.kind === 'belongsTo') {
-                relation = this.belongsTo(rel).belongsToRelationship;
-            }
+        this.eachRelationship((rel) => {
+            var relation = this.resolveRelationship(rel);
             // TODO(samchrisinger): not sure if hasLoaded is a subset if the hasData state
             if (relation.hasData && relation.hasLoaded) {
                 var canonicalIds = relation.canonicalMembers.list.map(member => member.record.get('id'));

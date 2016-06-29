@@ -72,7 +72,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
                 url: url
             }
         }).then(res => {
-            createdSnapshots.forEach(s => snapshot.record[relationship].addCanonicalRecord(s.record));
+            createdSnapshots.forEach(s => snapshot.record.resolveRelationship(relationship).addCanonicalRecord(s));
             return res;
         }));
     },
@@ -89,7 +89,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
      **/
     _addRelated(store, snapshot, addedSnapshots, relationship, url, isBulk = false) {
         return this._doRelatedRequest(store, snapshot, addedSnapshots, relationship, url, 'POST', isBulk).then(res => {
-            addedSnapshots.forEach(s => snapshot.record[relationship].addCanonicalRecord(s.record));
+            addedSnapshots.forEach(s => snapshot.record.resolveRelationship(relationship).addCanonicalRecord(s));
             return res;
         });
     },
@@ -108,7 +108,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
             var relatedType = singularize(snapshot.record[relationship].meta().type);
             res.data.forEach(item => {
                 var record = store.push(store.normalize(relatedType, item));
-                snapshot.record[relationship].addCanonicalRecord(record);
+                snapshot.record.resolveRelationship(relationship).addCanonicalRecord(record._internalModel);
             });
             return res;
         });
@@ -126,7 +126,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
      **/
     _removeRelated(store, snapshot, removedSnapshots, relationship, url, isBulk = false) {
         return this._doRelatedRequest(store, snapshot, removedSnapshots, relationship, url, 'DELETE', isBulk).then(res => {
-            removedSnapshots.forEach(s => snapshot.record[relationship].removeCanonicalRecord(s.record));
+            removedSnapshots.forEach(s => snapshot.record.resolveRelationship(relationship).removeCanonicalRecord(s));
             return res || [];
         });
     },
