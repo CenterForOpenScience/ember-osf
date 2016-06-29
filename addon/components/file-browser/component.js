@@ -1,75 +1,12 @@
 import Ember from 'ember';
 import layout from './template';
 
-import loadAll from 'ember-osf/utils/load-relationship';
-
 /*
  * Wrapper for file items. Includes state for the item's row.
  */
 let ItemWrapper = Ember.ObjectProxy.extend({
     isSelected: false,
 
-    // TODO (Abram) update childItems when `children` or `files` changes
-    // TODO (Abram) catch and display errors
-    childItems: Ember.computed('_files.[]', '_children.[]', function() {
-        let files = this._setupLoadAll('files', '_files', '_filesLoaded');
-        let children = this._setupLoadAll('children', '_children', '_childrenLoaded');
-
-        let wrappedItems = Ember.A();
-        let wrapItem = this.get('_wrapItem').bind(this);
-        if (files) {
-            wrappedItems.addObjects(files.map(wrapItem));
-        }
-        if (children) {
-            wrappedItems.addObjects(children.map(wrapItem));
-        }
-        return wrappedItems;
-    }),
-    _files: null,
-    _children: null,
-
-    _setupLoadAll(relationship, destName, loaded) {
-        let dest = this.get(destName);
-        if (dest === null) {
-            let model = this.get('content');
-            if (relationship in model) {
-                dest = this.set(destName, Ember.A());
-                loadAll(model, relationship, dest).then(() => {
-                    this.set(loaded, true);
-                });
-            } else {
-                this.set(loaded, true);
-            }
-        }
-        return dest;
-    },
-
-    childItemsLoaded: Ember.computed.and('_filesLoaded', '_childrenLoaded'),
-    _filesLoaded: false,
-    _childrenLoaded: false,
-
-    unwrap() {
-        return this.get('content');
-    },
-    _wrappedItems: {},
-    _wrapItem(item) {
-        if (item instanceof ItemWrapper) {
-            return item;
-        }
-        let id = item.get('id');
-        let wrappedItems = this.get('_wrappedItems');
-        if (id in wrappedItems) {
-            let wrapped = wrappedItems[id];
-            wrapped.set('content', item);
-            return wrapped;
-        }
-
-        let wrapped = ItemWrapper.create({
-            content: item
-        });
-        wrappedItems[item.get('id')] = wrapped;
-        return wrapped;
-    }
 });
 
 /*
@@ -78,6 +15,9 @@ let ItemWrapper = Ember.ObjectProxy.extend({
 export default Ember.Component.extend({
     layout,
     classNames: ['file-browser'],
+
+    // TODO: set itemWidth on container resize
+    itemWidth: 500,
     itemHeight: 30,
 
     breadcrumbs: null,
@@ -95,33 +35,32 @@ export default Ember.Component.extend({
     }),
     atRoot: Ember.computed.equal('breadcrumbs.length', 1),
     currentParent: Ember.computed.readOnly('breadcrumbs.lastObject'),
-    items: Ember.computed.readOnly('currentParent.childItems'),
-    itemsLoaded: Ember.computed.readOnly('currentParent.childItemsLoaded'),
     selectedItems: Ember.computed.filterBy('items', 'isSelected', true),
 
-    // TODO better way of setting/updating itemWidth
-    loadedChanged: Ember.observer('itemsLoaded', function() {
-        let containerWidth = this.$().width();
-        this.set('itemWidth', containerWidth);
+    items: Ember.computed('currentParent.files.[]', 'currentParent.children.[]', function() {
+        let childItems = Ember.A();
+        childItems.addObjects(this.get('currentParent.files') || []);
+        childItems.addObjects(this.get('currentParent.children') || []);
+        return childItems;
     }),
 
     actions: {
         selectItem(item) {
             item.set('isSelected', true);
             if (item.get('isFile') && this.get('selectFile')) {
-                this.sendAction('selectFile', item.unwrap());
+                this.sendAction('selectFile', item);
             }
             if (item.get('isNode') && this.get('selectNode')) {
-                this.sendAction('selectNode', item.unwrap());
+                this.sendAction('selectNode', item);
             }
         },
 
         openItem(item) {
             if (item.get('isFile') && this.get('openFile')) {
-                this.sendAction('openFile', item.unwrap());
+                this.sendAction('openFile', item);
             }
             if (item.get('isNode') && this.get('openNode')) {
-                this.sendAction('openNode', item.unwrap());
+                this.sendAction('openNode', item);
             }
             if (item.get('canHaveChildren')) {
                 this.send('navigateToItem', item);
@@ -138,10 +77,6 @@ export default Ember.Component.extend({
                 let slicedBread = breadcrumbs.slice(0, index + 1);
                 this.set('breadcrumbs', Ember.A(slicedBread));
             }
-
-            let newPath = breadcrumbs.mapBy('itemName').join('/');
-            this.set('path', newPath);
-            this.sendAction('pathChanged', newPath);
         }
     }
 });

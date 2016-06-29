@@ -1,1 +1,5 @@
-{{fa-icon iconName fixedWidth=true}}
+{{#if item.isPending}}
+    {{fa-icon 'spinner' pulse=true}}
+{{else}}
+    {{fa-icon iconName fixedWidth=true}}
+{{/if}}
