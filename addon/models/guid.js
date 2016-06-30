@@ -1,5 +1,7 @@
 import DS from 'ember-data';
 
 export default DS.Model.extend({
-    referent: DS.belongsTo('guid-referent', {polymorphic: true})
+    referent: DS.belongsTo('guid-referent', {
+        polymorphic: true
+    })
 });

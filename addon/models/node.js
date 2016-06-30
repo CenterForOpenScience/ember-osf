@@ -1,6 +1,7 @@
 import DS from 'ember-data';
 
 import GuidReferent from './guid-referent';
+import FileItemMixin from 'ember-osf/mixins/file-item';
 
 import {
     serializeHasMany
@@ -17,7 +18,7 @@ import {
  *    https://api.osf.io/v2/docs/#!/v2/Node_Forks_List_GET
  *    https://api.osf.io/v2/docs/#!/v2/User_Nodes_GET
  */
-export default GuidReferent.extend({
+export default GuidReferent.extend(FileItemMixin, {
     title: DS.attr('string'),
     description: DS.attr('string'),
     category: DS.attr('string'),
