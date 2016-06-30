@@ -90,9 +90,6 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
     _addRelated(store, snapshot, addedSnapshots, relationship, url, isBulk = false) {
         return this._doRelatedRequest(store, snapshot, addedSnapshots, relationship, url, 'POST', isBulk).then(res => {
             addedSnapshots.forEach(function(s) {
-                if (s._internalModel) {
-                    s = s._internalModel;
-                }
                 snapshot.record.resolveRelationship(relationship).addCanonicalRecord(s);
             });
             return res;
@@ -113,7 +110,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
             var relatedType = singularize(snapshot.record[relationship].meta().type);
             res.data.forEach(item => {
                 var record = store.push(store.normalize(relatedType, item));
-                snapshot.record.resolveRelationship(relationship).addCanonicalRecord(record._internalModel);
+                snapshot.record.resolveRelationship(relationship).addCanonicalRecord(record._internalModel.createSnapshot());
             });
             return res;
         });
@@ -151,7 +148,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
                 deletedSnapshots.forEach(s => s.record.unloadRecord());
             });
         } else {
-            return Ember.RSVP.allSettled(deletedSnapshots.map(r => r.destroyRecord()));
+            return Ember.RSVP.allSettled(deletedSnapshots.map(r => r.record.unloadRecord()));
         }
     },
     /**
@@ -220,8 +217,12 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
      * @param {String} change
      **/
     _handleRelatedRequest(store, type, snapshot, relationship, change) {
-        var related = snapshot.record.get(`_dirtyRelationships.${relationship}.${change}`).map(r => r.createSnapshot());
-        // TODO(samchrisinger): will this have unintented side-effects for deletes/removes?
+        var related = snapshot.record.get(`_dirtyRelationships.${relationship}.${change}`).map(function(r) {
+            if (r._internalModel) {
+                return r;
+            }
+            return r.createSnapshot();
+        });
         if (!related.length) {
             return [];
         }
