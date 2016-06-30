@@ -14,11 +14,12 @@ function getOAuthUrl() {
 /**
  * Retrieve the correct URL for cookie-based in the OSF, including any additional configurable parameters
  * @private
+ * @param {string} redirectUri Where to send the browser after a successful login request
  * @returns {string}
  */
-function getCookieAuthUrl() {
-    // TODO: jigger redirectURI to cookielogin, then consolidate the two login forms to one shared behavior set
-    return `${config.OSF.cookieLoginUrl}?service=${config.OSF.redirectUri}&auto=true`;
+function getCookieAuthUrl(redirectUri) {
+    redirectUri = redirectUri || config.OSF.url;
+    return `${config.OSF.cookieLoginUrl}?service=${redirectUri}&auto=true`;
 }
 
 /**
@@ -29,11 +30,10 @@ function getCookieAuthUrl() {
  */
 function getAuthUrl() {
     let authType = config.authorizationType;
-    console.log('selecting authorizer!');
     if (authType === 'token') {
-        return getOAuthUrl();
+        return getOAuthUrl(...arguments);
     } else if (authType === 'cookie') {
-        return getCookieAuthUrl();
+        return getCookieAuthUrl(...arguments);
     } else {
         throw new Ember.Error(`Unrecognized authorization type: ${authType}`);
     }

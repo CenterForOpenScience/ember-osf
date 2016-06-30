@@ -35,11 +35,10 @@ module.exports = {
             ENV.OSF.url = 'http://localhost:5000/';
             ENV.OSF.apiUrl = 'http://localhost:8000';
 
-            // If using cookie authentication, where should this app go to exchange the token for a cookie?
-            // TODO: For now this will only be supported on localhost as proof of concept
-            ENV.OSF.cookieAuthUrl = '/api/authendpoint';
+            // Where to direct the user for cookie-based authentication
+            // TODO: The CAS server won't allow cookie auth to staging from a local machine. Hence currently this is local-only.
             ENV.OSF.cookieLoginUrl = 'http://localhost:8080/login';
-
+            // Where to direct the user for oauth2-based authentication
             ENV.OSF.oauthUrl = 'http://localhost:8080/oauth2/profile';
             ENV.OSF.renderUrl = 'http://localhost:7778/render';
             ENV.OSF.waterbutlerUrl = 'http://localhost:7777/';

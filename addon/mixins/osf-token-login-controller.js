@@ -6,7 +6,7 @@ export default Ember.Mixin.create({
     session: Ember.inject.service(),
     actions: {
         login() {
-            window.location = getAuthUrl();
+            window.location = getAuthUrl(window.location);
         },
         loginSuccess() {},
         loginFail() {}
