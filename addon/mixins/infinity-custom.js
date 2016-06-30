@@ -8,12 +8,12 @@ const assign = Ember.assign || Ember.merge;
  * For the most part, the API and semantics are identical to ember infinity, except that the means of configuring the store find method is more flexible
  *  (supporting relationship queries that do not operate via store methods)
 
- @class RouteMixin
+ @class InfinityCustomMixin
  @namespace EmberOSF
  @module ember-osf/mixins/infinity-custom
  @extends Ember.Mixin, InfinityRoute
  */
-const RouteMixin = Ember.Mixin.create(InfinityRoute, {
+export default Ember.Mixin.create(InfinityRoute, {
     /**
      * Repurpose an ember-infinity hook to override the method used for queries
      * @type {function}
@@ -81,5 +81,3 @@ const RouteMixin = Ember.Mixin.create(InfinityRoute, {
             this._afterInfinityModel(this));
     }
 });
-
-export default RouteMixin;
