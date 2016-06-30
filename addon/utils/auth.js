@@ -18,7 +18,7 @@ function getOAuthUrl() {
  * @returns {string}
  */
 function getCookieAuthUrl(redirectUri) {
-    redirectUri = redirectUri || config.OSF.url;
+    redirectUri = redirectUri || config.OSF.redirectUri;
     return `${config.OSF.cookieLoginUrl}?service=${redirectUri}&auto=true`;
 }
 

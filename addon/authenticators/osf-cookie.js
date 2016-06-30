@@ -25,13 +25,8 @@ export default Base.extend({
      * @method invalidate
      */
     invalidate() {
-        return Ember.$.ajax({
-            method: 'GET',
-            url: `${config.OSF.url}logout/`,
-            xhrFields: {  // TODO: Possibly unnecessary?
-                withCredentials: true
-            }
-        });
+        // Can't do this via AJAX request because it redirects to CAS, and AJAX + redirect = CORS issue
+        window.location = `${config.OSF.url}logout/`;
     },
     /**
      * For now, simply verify that a token is present and can be used
