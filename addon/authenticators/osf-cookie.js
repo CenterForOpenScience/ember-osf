@@ -21,15 +21,25 @@ export default Base.extend({
     },
 
     /**
-     * Present the provided ticket code to the OSF server. If backend validates the ticket, response should set a cookie.
+     * Send a request to the flask application to trigger invalidation of session remotely
+     * @method invalidate
+     */
+    invalidate() {
+        return Ember.$.ajax({
+            method: 'GET',
+            url: `${config.OSF.url}logout/`,
+            xhrFields: {  // TODO: Possibly unnecessary?
+                withCredentials: true
+            }
+        });
+    },
+    /**
+     * For now, simply verify that a token is present and can be used
      * @method authenticate
      * @param code
      * @returns {*|Promise}
      */
     authenticate(code) {
-        return Ember.$.ajax({
-            method: 'GET',
-            url: `${config.OSF.url}?ticket=${code}`
-        });
+        return this._test(code);
     }
 });
