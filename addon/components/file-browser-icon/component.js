@@ -4,28 +4,21 @@ import layout from './template';
 export default Ember.Component.extend({
     layout,
     tagName: 'span',
-    classNames: ['file-browser-icon'],
 
-    click() {
-        if (this.get('row.isExpandable')) {
-            this.toggleProperty('row.expanded');
-        }
-    },
-
-    iconName: Ember.computed('row', 'row.expanded', function() {
+    iconName: Ember.computed('item', 'item.expanded', function() {
         // TODO: More icons!
-        if (this.get('row.isNode')) {
-            // TODO type of node
+        if (this.get('item.isNode')) {
+            // TODO node types
             return 'cube';
         }
-        if (this.get('row.isProvider')) {
-            // TODO provider-specific
+        if (this.get('item.isProvider')) {
+            // TODO provider-specific icons
             return 'hdd-o';
         }
-        if (this.get('row.isFolder')) {
-            return this.get('row.expanded') ? 'folder-open' : 'folder';
+        if (this.get('item.isFolder')) {
+            return 'folder';
         }
         // TODO file types
         return 'file-o';
-    })
+    }),
 });

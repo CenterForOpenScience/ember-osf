@@ -41,10 +41,10 @@
 <hr>
 <div class='row'>
     <div class='col-md-3'>
-        {{file-browser rootNode=node
+        {{file-browser rootItem=node
         selectedFile=model
-        onClickFile=(action 'fileDetail')
-        onClickNode=(action 'nodeDetail')
+        openFile=(action 'fileDetail')
+        openNode=(action 'nodeDetail')
         }}
         <div>
             <p><label> Tags </label></p>
