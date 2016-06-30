@@ -12,6 +12,6 @@ export default JSONAPIAdapter.extend(DataAdapterMixin, {
 	if (url.lastIndexOf('/') !== url.length - 1) {
             url += '/';
         }
-        return url;
+        return `${url}?resolve=false`;
     }
 });
