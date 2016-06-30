@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 
-import OsfModel from './osf-model';
+import GuidReferent from './guid-referent';
 
 /**
  * Model for OSF APIv2 files. This model may be used with one of several API endpoints. It may be queried directly,
@@ -14,7 +14,7 @@ import OsfModel from './osf-model';
  *    https://api.osf.io/v2/docs/#!/v2/Registration_Files_List_GET
  *    https://api.osf.io/v2/docs/#!/v2/Registration_File_Detail_GET
  */
-export default OsfModel.extend({
+export default GuidReferent.extend({
     name: DS.attr('string'),
     kind: DS.attr('string'),
     path: DS.attr('string'),

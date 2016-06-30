@@ -1,6 +1,6 @@
 import DS from 'ember-data';
 
-import OsfModel from './osf-model';
+import GuidReferent from './guid-referent';
 
 import {
     serializeHasMany
@@ -17,7 +17,7 @@ import {
  *    https://api.osf.io/v2/docs/#!/v2/Node_Forks_List_GET
  *    https://api.osf.io/v2/docs/#!/v2/User_Nodes_GET
  */
-export default OsfModel.extend({
+export default GuidReferent.extend({
     title: DS.attr('string'),
     description: DS.attr('string'),
     category: DS.attr('string'),
