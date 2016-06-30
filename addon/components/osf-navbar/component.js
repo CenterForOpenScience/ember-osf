@@ -2,9 +2,7 @@ import Ember from 'ember';
 import layout from './template';
 import config from 'ember-get-config';
 
-import {
-    getAuthUrl
-} from 'ember-osf/utils/auth';
+import { getAuthUrl } from 'ember-osf/utils/auth';
 
 export default Ember.Component.extend({
     layout,

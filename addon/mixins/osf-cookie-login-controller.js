@@ -6,7 +6,8 @@
  */
 
 import Ember from 'ember';
-import config from 'ember-get-config';
+
+import { getAuthUrl } from 'ember-osf/utils/auth';
 
 export default Ember.Mixin.create({
     session: Ember.inject.service('session'),
@@ -15,5 +16,5 @@ export default Ember.Mixin.create({
     ticket: null,
 
     // Form submission URL:
-    submitUrl: `${config.OSF.cookieLoginUrl}?service=${window.location.href}&auto=true`
+    submitUrl: getAuthUrl()
 });

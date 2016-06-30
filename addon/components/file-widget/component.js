@@ -1,9 +1,7 @@
 import Ember from 'ember';
 import layout from './template';
 
-import {
-    getAuthUrl
-} from 'ember-osf/utils/auth';
+import { getAuthUrl } from 'ember-osf/utils/auth';
 
 import loadAll from 'ember-osf/utils/load-relationship';
 

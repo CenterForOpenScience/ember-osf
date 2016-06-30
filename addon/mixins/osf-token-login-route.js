@@ -3,9 +3,7 @@ import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-
 
 import config from 'ember-get-config';
 
-import {
-    getTokenFromHash
-} from 'ember-osf/utils/auth';
+import { getTokenFromHash } from 'ember-osf/utils/auth';
 
 export default Ember.Mixin.create(UnauthenticatedRouteMixin, {
     session: Ember.inject.service(),

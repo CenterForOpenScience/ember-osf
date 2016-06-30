@@ -30,6 +30,7 @@ module.exports = function(environment) {
             // when it is created
         },
 
+        authorizationType: AUTHORIZER,
         'ember-simple-auth': authConfig, // TODO: Does this override any default behaviors?
         i18n: {
             defaultLocale: 'en-US'
