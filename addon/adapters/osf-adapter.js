@@ -89,7 +89,12 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
      **/
     _addRelated(store, snapshot, addedSnapshots, relationship, url, isBulk = false) {
         return this._doRelatedRequest(store, snapshot, addedSnapshots, relationship, url, 'POST', isBulk).then(res => {
-            addedSnapshots.forEach(s => snapshot.record.resolveRelationship(relationship).addCanonicalRecord(s));
+            addedSnapshots.forEach(function(s) {
+                if (s._internalModel) {
+                    s = s._internalModel;
+                }
+                snapshot.record.resolveRelationship(relationship).addCanonicalRecord(s);
+            });
             return res;
         });
     },
