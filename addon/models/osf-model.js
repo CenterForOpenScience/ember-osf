@@ -20,6 +20,12 @@ export default DS.Model.extend(HasManyQuery.ModelMixin, {
         this._super(...arguments);
         this.set('_dirtyRelationships', Ember.Object.create({}));
     },
+    /**
+     * Looks up relationship on model and returns hasManyRelationship
+     * or belongsToRelationship object.
+     *
+     * @param {String} rel, relationship on the model
+     **/
     resolveRelationship(rel) {
         var relation;
         var meta = this[rel].meta();

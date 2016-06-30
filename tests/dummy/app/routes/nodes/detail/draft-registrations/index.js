@@ -8,7 +8,7 @@ export default Ember.Route.extend({
     },
     setupController(controller, model) {
         this._super(controller, model);
-        this.store.findAll('metaschema').then(function(metaschemas){
+        this.store.findAll('metaschema').then(function(metaschemas) {
             controller.set('metaschemas', metaschemas);
         });
         controller.set('node', this.modelFor('nodes.detail'));
