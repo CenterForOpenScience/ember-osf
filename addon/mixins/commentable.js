@@ -15,26 +15,20 @@ export default Ember.Mixin.create({
     }),
 
     actions: {
-        addComment(text) {// TODO: Add a guid and handle file comments
+        addComment(text) {
 
             // Assumes that the page's model hook is the target for the comment; we can make generalize if needed
             let model = this.get('model');
             var commentsRel = model.get('comments');
 
-            // FIXME: This will work for projects and replies to comments, but it will not work for files (which don't provide OSF guid fields)
             var comment = this.store.createRecord('comment', {
                 content: text,
                 targetID: model.get('guid') || model.id,
                 targetType: Ember.Inflector.inflector.pluralize(model.constructor.modelName)
             });
             commentsRel.pushObject(comment);
-
-            // FIXME: Known issue: the temp comment ID generated this way results in a brief double-entry in the comment list
-            // TODO: We save through the model to get correct URL, but then need to reload the comments data to get correct
-            // state (server-generated comment ID and other fields) back for the newly created comment
-            //   Is there a more straightforward way?
-            return model.save()
-                .then(() => commentsRel.reload());
+            
+            return model.save();
         },
         editComment(comment) {
             comment.save();
