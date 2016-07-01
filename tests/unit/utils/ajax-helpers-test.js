@@ -1,4 +1,4 @@
-import { ajaxAuth } from 'dummy/utils/ajax-helpers';
+import { ajaxAuth } from 'ember-osf/utils/ajax-helpers';
 import { module, test } from 'qunit';
 
 module('Unit | Utility | ajax helpers');

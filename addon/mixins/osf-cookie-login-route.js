@@ -11,7 +11,9 @@ import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-
 export default Ember.Mixin.create(UnauthenticatedRouteMixin, {
     session: Ember.inject.service(),
     beforeModel() {
-        this.get('session').authenticate('authenticator:osf-cookie')
-            .then(()=> this.transitionTo('nodes'));
+        // Determine whether the user is logged in by making a test request. This is quite a crude way of
+        // determining whether the user has a cookie and should be improved in the future.
+        this.get('session').authenticate('authenticator:osf-cookie');
+        return this._super(...arguments);
     }
 });

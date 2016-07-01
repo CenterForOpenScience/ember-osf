@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import config from 'ember-get-config';
 
-import { ajaxAuth } from 'ember-osf/util/ajax-helpers';
+import { ajaxAuth } from 'ember-osf/utils/ajax-helpers';
 
 /**
  * An Ember service for doing things to files.

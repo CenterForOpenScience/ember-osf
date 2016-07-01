@@ -1,6 +1,5 @@
-import Ember from 'Ember';
+import Ember from 'ember';
 import config from 'ember-get-config';
-
 
 /**
  * Helper functions for asynchronous behavior

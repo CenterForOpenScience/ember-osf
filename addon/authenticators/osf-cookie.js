@@ -1,8 +1,7 @@
-import Ember from 'ember';
 import Base from 'ember-simple-auth/authenticators/base';
 import config from 'ember-get-config';
 
-import { ajaxAuth } from 'ember-osf/util/ajax-helpers';
+import { ajaxAuth } from 'ember-osf/utils/ajax-helpers';
 
 export default Base.extend({
     _test() {
