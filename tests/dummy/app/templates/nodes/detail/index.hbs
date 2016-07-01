@@ -129,18 +129,20 @@
 
     <h2>Node links </h2>
     <table class="table">
-        <tr>
-            <th> Id </th>
-            <th> Name </th>
-            <th> </th>
-        </tr>
-        {{#each model.nodeLinks as |nodelink|}}
+        {{#if model.nodeLinks}}
             <tr>
-                <td> {{nodelink.targetNode.id}} </td>
-                <td> {{link-to nodelink.targetNode.title 'nodes.detail' nodelink.targetNode.id}} </td>
-                <td> <button {{action "removeNodeLink" nodelink}} class="btn btn-danger"> Remove </button> </td>
+                <th> Id </th>
+                <th> Name </th>
+                <th> </th>
             </tr>
-        {{/each}}
+            {{#each model.nodeLinks as |nodelink|}}
+                <tr>
+                    <td> {{nodelink.targetNode.id}} </td>
+                    <td> {{link-to nodelink.targetNode.title 'nodes.detail' nodelink.targetNode.id}} </td>
+                    <td> <button {{action "removeNodeLink" nodelink}} class="btn btn-danger"> Remove </button> </td>
+                </tr>
+            {{/each}}
+        {{/if}}
     </table>
     <hr>
     <h3>Add link</h3>
