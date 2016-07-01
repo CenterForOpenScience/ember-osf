@@ -1,6 +1,8 @@
 import Ember from 'ember';
 import config from 'ember-get-config';
 
+import { ajaxAuth } from 'ember-osf/util/ajax-helpers';
+
 /**
  * An Ember service for doing things to files.
  * Essentially a wrapper for the Waterbutler API.
@@ -387,22 +389,14 @@ export default Ember.Service.extend({
             headers[headerName] = content;
         });
 
-        let ajaxOptions = {
-            method,
-            headers,
-            data: options.data,
-            processData: false
-        };
-
-        // TODO: Temporary hack to ensure that cookies are sent (if cookie authorizer is selected)
-        if (config.authorizationType === 'authorizer:osf-cookie') {
-            ajaxOptions.xhrFields =  {
-                withCredentials: true
-            };
-        }
-
         return new Ember.RSVP.Promise((resolve, reject) => {
-            let p = Ember.$.ajax(url, ajaxOptions);
+            let p = ajaxAuth({
+                url,
+                method,
+                headers,
+                data: options.data,
+                processData: false
+            });
             p.done((data) => resolve(data));
             p.fail((_, __, error) => reject(error));
         });
