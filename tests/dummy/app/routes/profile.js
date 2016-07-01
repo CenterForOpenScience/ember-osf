@@ -14,6 +14,13 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
     },
 
     actions: {
+        /**
+        * Edit user name
+        *
+        * @method editExisting
+        * @param {String} value User fullName
+        * @return {Promise} Returns a promise that resolves to the updated user
+        */
         editExisting(value) {
             // TODO: Should test PUT or PATCH
             var user = this.modelFor(this.routeName);

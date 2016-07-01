@@ -7,15 +7,22 @@ export default Ember.Controller.extend(RegistrationActionsMixin, {
     registrationChoice: 'immediate',
     liftEmbargo: '',
     actions: {
+        /**
+        * Toggle whether registration form is displayed.
+        *
+        * @method regForm
+        */
         regForm() {
             this.toggleProperty('formDisplayed');
         },
-        registrationChoiceChange() {
-            this.toggleProperty('embargoSelected');
-        },
-        /** Builds new registration metadata in format that server is expecting.  Different
-            schemas will have different levels of nesting.
-         **/
+        /**
+        * Build new registration metadata in format that server is expecting.  Different
+        * schemas will have different levels of nesting.  Each time a question is
+        * answered on a draft registration, the response will be added to the editedMetadata object.
+        *
+        * @method buildForm
+        * @param {Object} target Response to draft question
+        */
         buildForm(target) {
             let response = '';
             let question = target.name;
@@ -48,10 +55,24 @@ export default Ember.Controller.extend(RegistrationActionsMixin, {
                 };
             }
         },
+        /**
+        * Update registrationChoice (either "immediate" or "embargo") and toggles whether
+        * embargo end date is displayed in the UI
+        *
+        * @method changeRegistrationChoice
+        * @param {String} newChoice New registration choice (either "immediate"/"embargo")
+        */
         changeRegistrationChoice(newChoice) {
             this.toggleProperty('embargoSelected');
             this.set('registrationChoice', newChoice);
         },
+        /**
+        * Update embargoEndDate.  Takes calendar date and appends time info onto the end,
+        * in the format that the APIv2 is expecting
+        *
+        * @method changeEmbargoEndDate
+        * @param {Date} newDate Date to lift the embargo
+        */
         changeEmbargoEndDate(newDate) {
             this.set('liftEmbargo', newDate + 'T12:00:00');
         },
