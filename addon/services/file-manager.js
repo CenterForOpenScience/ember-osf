@@ -395,7 +395,7 @@ export default Ember.Service.extend({
         };
 
         // TODO: Temporary hack to ensure that cookies are sent (if cookie authorizer is selected)
-        if (authType === 'authorizer:osf-cookie') {
+        if (config.authorizationType === 'authorizer:osf-cookie') {
             ajaxOptions.xhrFields =  {
                 withCredentials: true
             };

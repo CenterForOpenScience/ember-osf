@@ -14,7 +14,7 @@ export default Ember.Mixin.create(DataAdapterMixin, {
 
         // TODO: This mechanism is quite ugly, and will require manual ajax requests (such as the file manager) to set fields separately;
         //  getting requests to send cookies without triggering cross-origin rules would be strongly preferable
-        if (config['ember-simple-auth'].authenticator === 'authenticator:osf-cookie') {
+        if (config.authorizationType === 'cookie') {
             Ember.$.extend(hash, {
                 xhrFields: {
                     withCredentials: true
