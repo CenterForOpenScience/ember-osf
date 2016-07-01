@@ -16,7 +16,7 @@ export default OsfModel.extend({
     page: DS.attr('string'),
 
     // Placeholder for comment creation: allow specifying attributes that are sent to the server, but not as attributes
-    // and both type and ID will be serialized into relationships field
+    // Both type and ID will be serialized into relationships field
     targetID: DS.attr('string'),
     targetType: DS.attr('string'),
 

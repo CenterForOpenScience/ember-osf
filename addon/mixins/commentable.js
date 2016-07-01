@@ -22,8 +22,7 @@ export default Ember.Mixin.create({
 
     actions: {
         addComment(text) {
-
-            // Assumes that the page's model hook is the target for the comment; we can make generalize if needed
+            // Assumes that the page's model hook is the target for the comment
             let model = this.get('model');
             var commentsRel = model.get('comments');
 
