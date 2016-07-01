@@ -18,9 +18,10 @@ module.exports = function(defaults) {
         // This is really for building the application. It's a hack so we can use the dummy app inside the OSF to test development.
         // It's for production builds, and we may want to comment it out when needed. Usage:
         //   ember build --output-path ../osf.io/website/static/ember/ --environment=production --watch
-        fingerprint: {
-            prepend: 'static/ember/'
-        },
+        //////// Uncomment the lines below to test!
+        // fingerprint: {
+        //     prepend: 'static/ember/'
+        // },
 
         babel: {
             includePolyfill: true
