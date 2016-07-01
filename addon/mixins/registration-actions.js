@@ -7,7 +7,7 @@ export default Ember.Mixin.create({
     model: null,
     _draft: Ember.computed.or('draft', 'model'),
     /**
-    * Updates the current registration metadata with new responses. Takes the
+    * Update the current registration metadata with new responses. Takes the
     * currentMetadata and recursively merges in the newMetadata.
     *
     * @method _updateMetadata
@@ -30,7 +30,7 @@ export default Ember.Mixin.create({
         return currentMetadata;
     },
     /**
-    * Builds the request payload used when creating a registration from a draft.
+    * Build the request payload used when creating a registration from a draft.
     *
     * @method _generateRegistrationPayload
     * @param {String} draft ID of the draft registration
@@ -76,7 +76,7 @@ export default Ember.Mixin.create({
             return draft.destroyRecord();
         },
         /**
-        * Edits a draft registration of the node
+        * Edit a draft registration of the node
         *
         * @method editDraft
         * @param {Object} updatedMetadata Responses to questions in the registration
@@ -92,7 +92,7 @@ export default Ember.Mixin.create({
             return draft.save();
         },
         /**
-        * Registers a draft (creates a registration from a draft)
+        * Register a draft (creates a registration from a draft)
         *
         * @method registerDraft
         * @param {Object} updatedMetadata esponses to questions in the registration
@@ -104,7 +104,7 @@ export default Ember.Mixin.create({
         registerDraft(updatedMetadata, registrationChoice, liftEmbargo) {
             var node = this.get('node');
             var draft = this.get('_draft');
-            // Updates metadata one last time if changes have been made since last save.
+            // Update metadata one last time if changes have been made since last save.
             if (Object.keys(updatedMetadata).length !== 0) {
                 this.send('editDraft', updatedMetadata, 'registration');
             }
