@@ -17,6 +17,7 @@ import FileItemMixin from 'ember-osf/mixins/file-item';
 export default OsfModel.extend(FileItemMixin, {
     name: DS.attr('string'),
     kind: DS.attr('string'),
+    guid: DS.attr('string'),
     path: DS.attr('string'),
     size: DS.attr('number'),
     provider: DS.attr('string'),

@@ -1,6 +1,7 @@
 import DS from 'ember-data';
 
 import OsfModel from './osf-model';
+
 import FileItemMixin from 'ember-osf/mixins/file-item';
 
 /**
@@ -55,17 +56,11 @@ export default OsfModel.extend(FileItemMixin, {
         inverse: null
     }),
     registrations: DS.hasMany('registrations', {
-        inverse: 'registeredFrom',
-        updateRequest: {
-            requestType: () => 'POST'
-        }
+        inverse: 'registeredFrom'
     }),
 
     draftRegistrations: DS.hasMany('draft-registrations', {
-        inverse: 'branchedFrom',
-        updateRequest: {
-            requestType: () => 'POST'
-        }
+        inverse: 'branchedFrom'
     }),
 
     root: DS.belongsTo('node', {

@@ -1,7 +1,9 @@
 import Ember from 'ember';
+
+import CommentableMixin from 'ember-osf/mixins/commentable';
 import TaggableMixin from 'ember-osf/mixins/taggable-mixin';
 
-export default Ember.Controller.extend(TaggableMixin, {
+export default Ember.Controller.extend(CommentableMixin, TaggableMixin, {
     fileManager: Ember.inject.service(),
     session: Ember.inject.service(),
 

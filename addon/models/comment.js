@@ -15,8 +15,12 @@ export default OsfModel.extend({
     content: DS.attr('string'),
     page: DS.attr('string'),
 
+    // Placeholder for comment creation: allow specifying attributes that are sent to the server, but not as attributes
+    // Both type and ID will be serialized into relationships field
+    targetID: DS.attr('string'),
+    targetType: DS.attr('string'),
+
     // TODO dynamic belongsTo
-    //target TargetField(link_type='related', meta={'type': 'get_target_type'})
     user: DS.belongsTo('user'),
     node: DS.belongsTo('node'),
     replies: DS.hasMany('comment', {
