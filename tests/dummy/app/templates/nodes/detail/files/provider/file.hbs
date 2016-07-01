@@ -24,14 +24,6 @@
                     </button>
                 {{/if}}
 
-
-                {{comment-pane
-                comments=comments
-                addComment=(action 'addComment')
-                editComment=(action 'editComment')
-                deleteComment=(action 'deleteComment')
-                restoreComment=(action 'restoreComment')
-                reportComment=(action 'reportComment')}}
             {{/if}}
             <button {{action 'download'}} class='btn btn-sm btn-primary'>
                 Download
@@ -64,4 +56,14 @@
     <div class='col-md-9'>
         {{outlet}}
     </div>
+</div>
+
+<div class="row">
+    {{comment-pane
+    comments=comments
+    addComment=(action 'addComment')
+    editComment=(action 'editComment')
+    deleteComment=(action 'deleteComment')
+    restoreComment=(action 'restoreComment')
+    reportComment=(action 'reportComment')}}
 </div>

@@ -24,7 +24,7 @@ export default Ember.Mixin.create({
             // FIXME: This will work for projects and replies to comments, but it will not work for files (which don't provide OSF guid fields)
             var comment = this.store.createRecord('comment', {
                 content: text,
-                targetID: model.id,
+                targetID: model.get('guid') || model.id,
                 targetType: Ember.Inflector.inflector.pluralize(model.constructor.modelName)
             });
             commentsRel.pushObject(comment);
