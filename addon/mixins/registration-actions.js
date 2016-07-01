@@ -35,7 +35,7 @@ export default Ember.Mixin.create({
     * @method _generateRegistrationPayload
     * @param {String} draft ID of the draft registration
     * @param {String} registrationChoice Either "immediate" or "embargo".
-    * @param {Date} liftEmbargo, if registrationChoice === "embargo". liftEmbargo should be the date to lift the embargo.
+    * @param {Date} liftEmbargo if registrationChoice === "embargo", liftEmbargo should be the date to lift the embargo.
     * @return {Object} Returns the attributes portion of the payload for creating a registration.
     */
     _generateRegistrationPayload(draft, registrationChoice, liftEmbargo) {
@@ -98,7 +98,7 @@ export default Ember.Mixin.create({
         * @param {Object} updatedMetadata esponses to questions in the registration
         * schema, nested in the format the registration schema expects
         * @param {String} registrationChoice Either "immediate" or "embargo".
-        * @param {Date} liftEmbargo, if registrationChoice === "embargo", liftEmbargo should be the date to lift the embargo.
+        * @param {Date} liftEmbargo if registrationChoice === "embargo", liftEmbargo should be the date to lift the embargo.
         * @return {Promise} Returns a promise that resolves to the updated node with the newly created registration relationship
         */
         registerDraft(updatedMetadata, registrationChoice, liftEmbargo) {

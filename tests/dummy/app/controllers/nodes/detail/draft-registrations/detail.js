@@ -8,7 +8,7 @@ export default Ember.Controller.extend(RegistrationActionsMixin, {
     liftEmbargo: '',
     actions: {
         /**
-        * Toggles whether registration form is displayed.
+        * Toggle whether registration form is displayed.
         *
         * @method regForm
         */
@@ -16,7 +16,7 @@ export default Ember.Controller.extend(RegistrationActionsMixin, {
             this.toggleProperty('formDisplayed');
         },
         /**
-        * Builds new registration metadata in format that server is expecting.  Different
+        * Build new registration metadata in format that server is expecting.  Different
         * schemas will have different levels of nesting.  Each time a question is
         * answered on a draft registration, the response will be added to the editedMetadata object.
         *
@@ -56,7 +56,7 @@ export default Ember.Controller.extend(RegistrationActionsMixin, {
             }
         },
         /**
-        * Updates registrationChoice (either "immediate" or "embargo") and toggles whether
+        * Update registrationChoice (either "immediate" or "embargo") and toggles whether
         * embargo end date is displayed in the UI
         *
         * @method changeRegistrationChoice
@@ -67,7 +67,7 @@ export default Ember.Controller.extend(RegistrationActionsMixin, {
             this.set('registrationChoice', newChoice);
         },
         /**
-        * Updates embargoEndDate.  Takes calendar date and appends time info onto the end,
+        * Update embargoEndDate.  Takes calendar date and appends time info onto the end,
         * in the format that the APIv2 is expecting
         *
         * @method changeEmbargoEndDate

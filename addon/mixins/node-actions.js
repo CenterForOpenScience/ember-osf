@@ -8,7 +8,7 @@ export default Ember.Mixin.create({
     * Helper method that maps all node contributors to format {contribId: Contributor}
     *
     * @method _generateContributorMap
-    * @param {Object} contributors All contributor relationships on the node
+    * @param {Array} contributors All contributor relationships on the node
     * @return {Object} Returns a contributor map of the id to the contributor record
     */
     _generateContributorMap(contributors) {
@@ -130,7 +130,7 @@ export default Ember.Mixin.create({
         * Update contributors of a node. Makes a bulk request to the APIv2.
         *
         * @method updateContributors
-        * @param {Object} contributors Contributor relationships on the node.
+        * @param {Array} contributors Contributor relationships on the node.
         * @param {Object} permissionChanges Dictionary mapping contributor ids to desired permissions.
         * @param {Object} bibliographicChanges Dictionary mapping contributor ids to desired bibliographic statuses
         * @return {Promise} Returns a promise that resolves to the updated node
