@@ -6,15 +6,15 @@ export default Ember.Mixin.create({
     draft: null,
     model: null,
     _draft: Ember.computed.or('draft', 'model'),
-     /**
-     * Updates the current registration metadata with new responses. Takes the
-     * currentMetadata and recursively merges in the newMetadata.
-     *
-     * @method _updateMetadata
-     * @param {Object} currentMetadata The registration metadata at last save.
-     * @param {Object} newMetadata New registration metadata.
-     * @return {Object} Returns merge of currentMetadata and newMetadata
-     */
+    /**
+    * Updates the current registration metadata with new responses. Takes the
+    * currentMetadata and recursively merges in the newMetadata.
+    *
+    * @method _updateMetadata
+    * @param {Object} currentMetadata The registration metadata at last save.
+    * @param {Object} newMetadata New registration metadata.
+    * @return {Object} Returns merge of currentMetadata and newMetadata
+    */
     _updateMetadata(currentMetadata, newMetadata) {
         var map = new Map(Object.entries(newMetadata));
         for (let items of map.entries()) {
@@ -104,7 +104,7 @@ export default Ember.Mixin.create({
         registerDraft(updatedMetadata, registrationChoice, liftEmbargo) {
             var node = this.get('node');
             var draft = this.get('_draft');
-            // May need to update metdata one last time
+            // Updates metadata one last time if changes have been made since last save.
             if (Object.keys(updatedMetadata).length !== 0) {
                 this.send('editDraft', updatedMetadata, 'registration');
             }
