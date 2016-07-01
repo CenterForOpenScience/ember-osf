@@ -8,6 +8,8 @@
   },
   "scripts": {
     "build": "ember build",
+    "docs": "yuidoc",
+    "docs-deploy": "yuidoc && ghp-import -r origin -p -b gh-pages docs/",
     "start": "ember server",
     "test": "ember test",
     "check-style": "./node_modules/jscs/bin/jscs ."
@@ -37,16 +39,19 @@
     "ember-cli-sri": "^2.0.0",
     "ember-cli-template-lint": "0.4.7",
     "ember-cli-uglify": "^1.2.0",
+    "ember-collection": "1.0.0-alpha.5",
     "ember-data": "^2.3.0",
     "ember-data-factory-guy": "^2.6.1",
     "ember-disable-prototype-extensions": "^1.0.0",
     "ember-disable-proxy-controllers": "^1.0.1",
     "ember-export-application-global": "^1.0.4",
     "ember-faker": "^1.1.0",
+    "ember-font-awesome": "2.1.1",
     "ember-infinity": "0.2.3",
     "ember-load-initializers": "0.5.1",
+    "ember-power-select": "1.0.0-alpha.5",
     "ember-resolver": "2.0.3",
-    "jscs": "^3.0.3",
+    "jscs": "3.0.4",
     "loader": "2.1.0",
     "loader.js": "4.0.3",
     "moment": "^2.13.0",
@@ -56,6 +61,8 @@
     "ember-addon"
   ],
   "dependencies": {
+    "broccoli-funnel": "^1.0.1",
+    "broccoli-merge-trees": "^1.1.1",
     "config": "^1.20.1",
     "ember-cli-babel": "^5.1.5",
     "ember-cli-htmlbars": "^1.0.1",
@@ -68,6 +75,8 @@
     "ember-moment": "6.1.0",
     "ember-radio-buttons": "^4.0.1",
     "ember-simple-auth": "1.1.0-beta.5",
+    "ember-truth-helpers": "1.2.0",
+    "ember-toastr": "1.4.1",
     "js-yaml": "^3.6.0"
   },
   "ember-addon": {
@@ -79,6 +88,7 @@
       "package.json",
       "bower_components",
       "dist",
+      "docs",
       "tmp",
       "vendor",
       "app/locales",

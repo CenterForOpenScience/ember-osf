@@ -11,7 +11,10 @@
     "bootstrap-sass": "^3.3.6",
     "jquery-mockjax": "2.1.1",
     "dropzone": "~4.3.0",
-    "bootstrap": "~3.3.5"
+    "bootstrap": "~3.3.5",
+    "toastr": "^2.1.2",
+    "font-awesome": "~4.5.0",
+    "typeahead.js": "^0.11.1"
   },
   "devDependencies": {
     "bootstrap": "^3.3.6",

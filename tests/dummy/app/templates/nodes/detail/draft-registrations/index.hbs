@@ -1,9 +1,9 @@
 {{outlet}}
-{{link-to 'Back to node' 'nodes.detail' model.node class='btn btn-default'}}
+{{link-to 'Back to node' 'nodes.detail' class='btn btn-default'}}
 
 <h2> Draft Registrations </h2>
 
-{{link-to 'View Registrations' 'nodes.detail.registrations' model.node class='btn btn-primary'}}
+{{link-to 'View Registrations' 'nodes.detail.registrations' class='btn btn-primary'}}
 
 {{#if formDisplayed}}
     <hr>
@@ -19,12 +19,9 @@
         <li> Withdrawing a registration removes the contents of the registrations but will leave behind a log showing when the registration was created and withdrawn. </li>
     </ul>
     <p> <strong> Continue your registration by selecting a registration form: </strong> </p>
-    <p>{{radio-button name="form" value="572a6d8163ca2fd4e992e66f" checked=schema}} Prereg Challenge </p>
-    <p>{{radio-button name="form" value="572a6d8163ca2fd4e992e668" checked=schema}} Open-Ended Registration </p>
-    <p>{{radio-button name="form" value="572a6d8163ca2fd4e992e66a" checked=schema}} OSF-Standard Pre-Data Collection Registration </p>
-    <p>{{radio-button name="form" value="572a6d8163ca2fd4e992e66c" checked=schema}} Replication Recipe (Brandt et al., 2013): Pre-Registration </p>
-    <p>{{radio-button name="form" value="572a6d8163ca2fd4e992e66e" checked=schema}} Replication Recipe (Brandt et al., 2013): Post-Completion </p>
-    <p>{{radio-button name="form" value="572a6d8163ca2fd4e992e672" checked=schema}} Pre-Registration in Social Psychology (van 't Veer & Giner-Sorolla, 2016): Pre-Registration </p>
+    {{#each metaschemas as |metaschema|}}
+        <p>{{radio-button name="form" value=metaschema.id checked=schema}} {{metaschema.name}} </p>
+    {{/each}}
 
     <button type="button" {{action "draftForm"}} class="btn btn-default">
         Cancel
@@ -40,8 +37,8 @@
 
 <hr>
 
-{{#if model.drafts}}
-    {{#each model.drafts as |draft|}}
+{{#if model}}
+    {{#each model as |draft|}}
         <h3> {{draft.registrationSchema.name}} </h3>
         <p> Initiated by: {{draft.initiator.fullName}}</p>
         <p> Started: {{moment-format draft.datetimeInitiated}} </p>

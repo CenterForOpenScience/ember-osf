@@ -1,11 +1,11 @@
-<div class="container-fluid">
-    <div role="banner">
-        {{link-to 'Home' 'index' class="btn btn-default"}}
-        <h1 id="title">Welcome to OSF Ember Example App</h1>
-    </div>
+{{osf-navbar}}
+<div id="main" class="container-fluid">    
     <div class="row">
         <div class="col-md-12" role="main">
             {{outlet}}
         </div>
     </div>
 </div>
+{{osf-footer}}
+{{osf-copyright}}
+{{osf-mode-footer}}

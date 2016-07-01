@@ -1,24 +1,10 @@
 <h4> My Nodes </h4>
-
-<br>
-{{file-widget preUpload=(action 'preUpload') buildUrl=(action 'buildUrl') listeners=dropzoneOptions options=dropzoneOptions}}
-
-{{#bs-modal open=openModal title="Add file to which node?" footer=false}}
-    {{#bs-modal-body}}
-        {{input type="text" value=nodeId placeholder="Node's guid" required=true}}
-    {{/bs-modal-body}}
-    {{#bs-modal-footer as |footer|}}
-        {{#bs-button action=(action 'closeModal')}} Coolbeans! {{/bs-button}}
-    {{/bs-modal-footer}}
-{{/bs-modal}}
-<br>
-
 <div>
     <label>Title:</label>
     {{input type="text" value=title placeholder="Node's title" required=true}}
     <label>Description (optional):</label>
     {{input type="text" value=description placeholder="Node's description"}}
-    <p><button {{action "createNode" title description}}>Create Node</button></p>
+    <p><button onclick={{action 'createNode' title description}}>Create Node</button></p>
 </div>
 {{#each model as |node|}}
     <hr>

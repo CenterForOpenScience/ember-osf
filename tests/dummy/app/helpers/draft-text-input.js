@@ -1,10 +1,16 @@
 import Ember from 'ember';
 
-export function draftTextInput([metadata, question, deepNest]) {
+export function draftTextInput([metadata, question, subquestion, subsubquestion]) {
     var response = '';
-    if (deepNest) {
-        if (metadata && metadata[question.qid]) {
-            response = metadata[question.qid].value.question.value;
+    if (subquestion) {
+        if (metadata && metadata[question.qid] && metadata[question.qid].value[subquestion.id]) {
+            if (subsubquestion) {
+                if (metadata[question.qid].value[subquestion.id].value[subsubquestion.id]) {
+                    response = metadata[question.qid].value[subquestion.id].value[subsubquestion.id].value;
+                }
+            } else {
+                response = metadata[question.qid].value[subquestion.id].value;
+            }
         }
     } else {
         if (metadata && metadata[question.qid]) {
