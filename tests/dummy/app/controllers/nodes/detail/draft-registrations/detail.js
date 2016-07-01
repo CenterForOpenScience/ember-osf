@@ -70,7 +70,7 @@ export default Ember.Controller.extend(RegistrationActionsMixin, {
         * Updates embargoEndDate.  Takes calendar date and appends time info onto the end,
         * in the format that the APIv2 is expecting
         *
-        * @method changeRegistrationChoice
+        * @method changeEmbargoEndDate
         * @param {Date} newDate Date to lift the embargo
         */
         changeEmbargoEndDate(newDate) {
