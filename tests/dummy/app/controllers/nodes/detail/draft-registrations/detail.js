@@ -10,9 +10,6 @@ export default Ember.Controller.extend(RegistrationActionsMixin, {
         regForm() {
             this.toggleProperty('formDisplayed');
         },
-        registrationChoiceChange() {
-            this.toggleProperty('embargoSelected');
-        },
         /** Builds new registration metadata in format that server is expecting.  Different
             schemas will have different levels of nesting.
          **/
