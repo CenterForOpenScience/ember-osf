@@ -1,20 +1,32 @@
-{{#if mutable}}
+<div class='file-browser-header'>
+    <h3>Files</h3>
+</div>
+<ol class='breadcrumb'>
+    {{#each breadcrumbs as |item|}}
+        <li>
+            <a {{action 'navigateToItem' item}}>
+                {{file-browser-icon item=item}}
+                {{item.itemName}}
+            </a>
+        </li>
+    {{/each}}
+</ol>
+
+{{#if selectedItems}}
     {{! TODO: show available actions for selected files }}
 {{/if}}
 
-{{! TODO: filter by name (requires fetching entire file tree?) }}
-
-<table class='table table-condensed'>
-    <thead>
-        {{! TODO: configurable columns, click to sort }}
-        <tr>
-            <th>Files</th>
-        </tr>
-    </thead>
-    {{file-browser-tree
-    root=rootNode
-    expanded=true
-    selectedPath=selectedPath
-    onClickFile=onClickFile
-    onClickNode=onClickNode}}
-</table>
+<div class='file-browser-list'>
+    {{#ember-collection items=items
+        cell-layout=(fixed-grid-layout itemWidth itemHeight)
+        as |item index|}}
+        {{file-browser-item item=item
+        navigateToItem=(action 'navigateToItem')
+        selectItem=(action 'selectItem')
+        openItem=(action 'openItem')
+        }}
+    {{/ember-collection}}
+    {{#unless itemsLoaded}}
+        {{fa-icon 'spinner' size=3 pulse=true}}
+    {{/unless}}
+</div>

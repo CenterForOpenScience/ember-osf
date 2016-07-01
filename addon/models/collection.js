@@ -1,7 +1,6 @@
 import DS from 'ember-data';
 
 import OsfModel from './osf-model';
-import { serializeHasMany } from '../utils/serialize-relationship';
 
 /**
  * Model for OSF APIv2 collections
@@ -18,7 +17,7 @@ export default OsfModel.extend({
     // }),
     linkedNodes: DS.hasMany('nodes', {
         inverse: null,
-        serializer: serializeHasMany.bind(null, 'linkedNodes', 'linked_node')
+        serializerType: 'linked-node'
     })
 
 });
