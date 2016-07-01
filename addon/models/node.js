@@ -43,11 +43,7 @@ export default OsfModel.extend(FileItemMixin, {
     affiliatedInstitutions: DS.hasMany('institutions', {
         inverse: 'nodes'
     }),
-    comments: DS.hasMany('comments', {
-        updateRequest: {
-            requestType: () => 'POST'
-        }
-    }),
+    comments: DS.hasMany('comments'),
     contributors: DS.hasMany('contributors', {
         allowBulkUpdate: true,
         allowBulkRemove: true,
@@ -60,17 +56,11 @@ export default OsfModel.extend(FileItemMixin, {
         inverse: null
     }),
     registrations: DS.hasMany('registrations', {
-        inverse: 'registeredFrom',
-        updateRequest: {
-            requestType: () => 'POST'
-        }
+        inverse: 'registeredFrom'
     }),
 
     draftRegistrations: DS.hasMany('draft-registrations', {
-        inverse: 'branchedFrom',
-        updateRequest: {
-            requestType: () => 'POST'
-        }
+        inverse: 'branchedFrom'
     }),
 
     root: DS.belongsTo('node', {

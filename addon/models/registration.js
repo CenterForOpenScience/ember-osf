@@ -30,11 +30,7 @@ export default Node.extend({
         inverse: null
     }),
     contributors: DS.hasMany('contributors'),
-    comments: DS.hasMany('comments', {
-        updateRequest: {
-            requestType: () => 'POST'
-        }
-    }),
+    comments: DS.hasMany('comments'),
     draftRegistration: DS.attr('string'),
     registrationChoice: DS.attr('string'),
     liftEmbargo: DS.attr()

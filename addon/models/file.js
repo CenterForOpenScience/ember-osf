@@ -35,10 +35,6 @@ export default OsfModel.extend(FileItemMixin, {
 
     // File attributes
     versions: DS.hasMany('file-version'),
-    comments: DS.hasMany('comment', {
-        updateRequest: {
-            requestType: () => 'POST'
-        }
-    }),
+    comments: DS.hasMany('comment'),
     checkout: DS.attr('string')
 });
