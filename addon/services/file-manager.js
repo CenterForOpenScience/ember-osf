@@ -1,6 +1,11 @@
 import Ember from 'ember';
 
 /**
+ * @module ember-osf
+ * @submodule services
+ */
+
+/**
  * An Ember service for doing things to files.
  * Essentially a wrapper for the Waterbutler API.
  * http://waterbutler.readthedocs.io/

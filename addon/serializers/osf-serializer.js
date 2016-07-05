@@ -1,9 +1,16 @@
-/*
-  Base serializer class for all OSF APIv2 endpoints
- */
 import Ember from 'ember';
 import DS from 'ember-data';
 
+/**
+ * @module ember-osf
+ * @submodule serializers
+ */
+
+/**
+ * Base serializer class for all OSF APIv2 endpoints. Provides custom behaviors for embeds, relationships, and pagination.
+ * @class OsfSerializer
+ * @extends DS.JSONAPISerializer
+ */
 export default DS.JSONAPISerializer.extend({
     attrs: {
         links: {
@@ -14,6 +21,13 @@ export default DS.JSONAPISerializer.extend({
         }
     },
 
+    /**
+     * Extract information about records embedded inside this request
+     * @method _extractEmbeds
+     * @param {Object} resourceHash
+     * @returns {Array}
+     * @private
+     */
     _extractEmbeds(resourceHash) {
         if (!resourceHash.embeds) {
             return []; // Nothing to do

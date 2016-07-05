@@ -8,6 +8,11 @@ import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
 import { singularize } from 'ember-inflector';
 
 /**
+ * @module ember-osf
+ * @submodule adapters
+ */
+
+/**
  * Base adapter class for all OSF APIv2 endpoints
  *
  * @class OsfAdapter
