@@ -4,6 +4,11 @@ import DS from 'ember-data';
 import HasManyQuery from 'ember-data-has-many-query';
 
 /**
+ * @module ember-osf
+ * @submodule models
+ */
+
+/**
  * Common properties and behaviors shared by all OSF APIv2 models
  *
  * @class OsfModel

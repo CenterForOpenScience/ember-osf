@@ -2,6 +2,11 @@ import DS from 'ember-data';
 import OsfModel from './osf-model';
 
 /**
+ * @module ember-osf
+ * @submodule models
+ */
+
+/**
  * Model for OSF APIv2 draft registrations.
  * This model represents draft registration data and can be accessed as a relationship of a node.
  * For information on how to interact with a node's draft registrations, see:

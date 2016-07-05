@@ -1,6 +1,11 @@
 import Ember from 'ember';
 
 /**
+ * @module ember-osf
+ * @submodule mixins
+ */
+
+/**
  * This is a hack to resolve a server-side race condition.
  * After creating/modifying/deleting a file through Waterbutler, it can take
  * a fraction of a second for the API's cache to properly update, and

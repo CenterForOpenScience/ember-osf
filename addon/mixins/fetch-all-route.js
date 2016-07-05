@@ -2,6 +2,11 @@ import Ember from 'ember';
 import InfinityRoute from 'ember-osf/mixins/infinity-custom';
 
 /**
+ * @module ember-osf
+ * @submodule mixins
+ */
+
+/**
  * The FetchAllRouteMixin supports loading *all* records from a specified model or relationship.
  * Essentially, it un-paginates an API
  *

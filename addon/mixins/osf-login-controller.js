@@ -3,6 +3,11 @@ import Ember from 'ember';
 import { getAuthUrl } from 'ember-osf/utils/auth';
 
 /**
+ * @module ember-osf
+ * @submodule mixins
+ */
+
+/**
  * Controller mixin to add support for OAuth2 token based authentication
  *
  * Intended to be used in tandem with OsfLoginRouteMixin

@@ -5,6 +5,11 @@ import OsfModel from './osf-model';
 import FileItemMixin from 'ember-osf/mixins/file-item';
 
 /**
+ * @module ember-osf
+ * @submodule models
+ */
+
+/**
  * Model for OSF APIv2 nodes. This model may be used with one of several API endpoints. It may be queried directly,
  *  or accessed via relationship fields.
  * For field and usage information, see:

@@ -6,6 +6,11 @@ import config from 'ember-get-config';
 import { getTokenFromHash } from 'ember-osf/utils/auth';
 
 /**
+ * @module ember-osf
+ * @submodule mixins
+ */
+
+/**
  * Route mixin to add support for OAuth2 token based authentication
  * @class OsfLoginRouteMixin
  * @extends Ember.Mixin

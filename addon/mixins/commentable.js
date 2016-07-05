@@ -1,7 +1,12 @@
 import Ember from 'ember';
 
 /**
- * Support basic commenting functionality for routes. Uses the base model in the route model hook.
+ * @module ember-osf
+ * @submodule mixins
+ */
+
+/**
+ * Controller mixin that implements basic commenting functionality. Uses the base model in the route model hook.
  * @class CommentableMixin
  * @extends Ember.Mixin
  */

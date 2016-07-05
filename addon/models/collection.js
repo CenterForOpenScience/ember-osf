@@ -3,11 +3,16 @@ import DS from 'ember-data';
 import OsfModel from './osf-model';
 
 /**
+ * @module ember-osf
+ * @submodule models
+ */
+
+/**
  * Model for OSF APIv2 collections
  * For field and usage information, see:
  * * https://api.osf.io/v2/docs/#!/v2/Collection_List_GET
  *
- *  @class Collection
+ * @class Collection
  */
 export default OsfModel.extend({
     title: DS.attr('string'),

@@ -8,7 +8,6 @@ import Ember from 'ember';
  * @class file-manager
  * @extends Ember.Service
  */
-
 export default Ember.Service.extend({
     session: Ember.inject.service(),
     store: Ember.inject.service(),

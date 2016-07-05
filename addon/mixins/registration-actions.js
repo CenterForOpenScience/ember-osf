@@ -1,6 +1,11 @@
 import Ember from 'ember';
 
 /**
+ * @module ember-osf
+ * @submodule mixins
+ */
+
+/**
  * Controller mixin that implements common actions performed on registrations (and registration drafts).
  * @class RegistrationActionsMixin
  * @extends Ember.Mixin
@@ -8,7 +13,7 @@ import Ember from 'ember';
 export default Ember.Mixin.create({
     /**
      * TODO: Document this parameter
-     * @param node
+     * @property node
      * @type DS.Model
      */
     node: null,

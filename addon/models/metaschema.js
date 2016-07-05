@@ -1,6 +1,12 @@
 import DS from 'ember-data';
 
 import OsfModel from './osf-model';
+
+/**
+ * @module ember-osf
+ * @submodule models
+ */
+
 /**
  * Model for OSF APIv2 metaschemas.
  * This model describes metaschemas and can be directly queried.

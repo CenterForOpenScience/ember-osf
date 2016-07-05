@@ -1,6 +1,11 @@
 import Ember from 'ember';
 
 /**
+ * @module ember-osf
+ * @submodule mixins
+ */
+
+/**
  * Route mixin to support fetching paginated results
  *
  * Because this uses query parameters, it should be used in tandem with PaginatedControllerMixin

@@ -3,6 +3,11 @@ import DS from 'ember-data';
 import Node from './node';
 
 /**
+ * @module ember-osf
+ * @submodule models
+ */
+
+/**
  * Model for OSF APIv2 registrations. This model may be used with one of several API endpoints. It may be queried directly,
  *  or accessed via relationship fields.
  * For field and usage information, see:

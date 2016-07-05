@@ -1,6 +1,11 @@
 import Ember from 'ember';
 
 /**
+ * @module ember-osf
+ * @submodule mixins
+ */
+
+/**
  * File-like models are `node`, `file-provider`, and `file`/folder.
  * This mixin provides a polymorphic interface for file-like items, and is intended to be used with models.
  *

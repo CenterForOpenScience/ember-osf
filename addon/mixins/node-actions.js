@@ -1,6 +1,11 @@
 import Ember from 'ember';
 
 /**
+ * @module ember-osf
+ * @submodule mixins
+ */
+
+/**
  * Controller mixin that implements common actions performed on nodes.
  * @class NodeActionsMixin
  * @extends Ember.Mixin

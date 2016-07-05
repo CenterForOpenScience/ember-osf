@@ -4,12 +4,16 @@ import InfinityRoute from 'ember-infinity/mixins/route';
 const assign = Ember.assign || Ember.merge;
 
 /**
+ * @module ember-osf
+ * @submodule mixins
+ */
+
+/**
  * A custom overlay on ember-infinity that supports loading infinite and paginated relationships
  * For the most part, the API and semantics are identical to ember infinity, except that the means of configuring the store find method is more flexible
  *  (supporting relationship queries that do not operate via store methods)
 
  * @class InfinityCustomMixin
- * @module ember-osf/mixins/infinity-custom
  * @extends Ember.Mixin
  * @uses InfinityRoute
  */
