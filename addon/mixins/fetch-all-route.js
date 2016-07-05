@@ -1,18 +1,38 @@
+import Ember from 'ember';
+import InfinityRoute from 'ember-osf/mixins/infinity-custom';
+
 /**
  * The FetchAllRouteMixin supports loading *all* records from a specified model or relationship.
  * Essentially, it un-paginates an API
  *
  * This may be useful for select applications (such as frontend-powered search boxes), but is strongly discouraged
  * for most applications. Consider using available pagination functionality instead.
+ *
+ * @class FetchAllRouteMixin
+ * @public
+ * @extends Ember.Mixin
+ * @uses InfinityCustom
  */
-import Ember from 'ember';
-import InfinityRoute from 'ember-osf/mixins/infinity-custom';
-
 export default Ember.Mixin.create(InfinityRoute, {
-    // Ember-infinity configuration (defaults map to OSF APIv2 settings)
+    /**
+     * The name of the URL parameter used by the API to control number of results per page
+     * @property {String} perPageParam
+     * @default page[size]
+     */
     perPageParam: 'page[size]',
+     /**
+     * The name of the URL parameter used by the API to control the page requested
+     * @property {String} pageParam
+     * @default page
+     */
     pageParam: 'page',
-    totalPagesParam: 'meta.total',  // For OSF APIv2, this calculated field is added by serializer
+    /**
+     * The name of the payload field that specifies how many pages are to be loaded. For OSF APIv2, this calculated field is added by serializer.
+     *
+     * @property {String} totalPagesParam
+     * @default meta.total
+     */
+    totalPagesParam: 'meta.total',
 
     /**
      * If a string is provided, will set infinite fetch on the relationship with the specified name,
@@ -34,6 +54,8 @@ export default Ember.Mixin.create(InfinityRoute, {
 
     /**
      * Sets up fetch-all query for a relationship field.
+     * @public
+     * @method setupRelationshipFetch
      * @param controller
      * @param model
      */
@@ -63,6 +85,8 @@ export default Ember.Mixin.create(InfinityRoute, {
     /**
      * Event listener that fetches more results automatically
      * As written, this does not handle fetch errors, and will not retry once an error is encountered
+     *
+     * @method infinityModelUpdated
      */
     infinityModelUpdated() {
         this.send('infinityLoad');
@@ -75,7 +99,7 @@ export default Ember.Mixin.create(InfinityRoute, {
      *
      * @method afterInfinityModel
      * @param infinityModelPromiseResult
-     * @returns {*}
+     * @return {*}
      */
     afterInfinityModel(infinityModelPromiseResult) {
         let rel = this.get('relationshipToFetch');
@@ -92,7 +116,8 @@ export default Ember.Mixin.create(InfinityRoute, {
     // TODO: Add a "forceReload" action that flushes the stored results and refetches (for use with relationships)
     actions: {
         /**
-         * Convenience method for clickable buttons, mainly for use with debugging
+         * Convenience action for clickable buttons, mainly for use with debugging
+         * @method getMore
          */
         getMore() {
             this.send('infinityLoad');

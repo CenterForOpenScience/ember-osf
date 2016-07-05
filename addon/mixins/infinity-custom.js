@@ -70,7 +70,7 @@ export default Ember.Mixin.create(InfinityRoute, {
 
      @private
      @method _requestNextPage
-     @returns {Ember.RSVP.Promise} A Promise that resolves the next page of objects
+     @return {Ember.RSVP.Promise} A Promise that resolves the next page of objects
      */
     _requestNextPage() {
         const modelName = this.get('_infinityModelName');

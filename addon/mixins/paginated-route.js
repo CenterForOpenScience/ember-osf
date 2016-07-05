@@ -32,7 +32,7 @@ export default Ember.Mixin.create({
      * @param modelName The name of the model to query in the store
      * @param routeParams Parameters dictionary available to the model hook; must be passed in manually
      * @param userParams Additional user-specified query parameters
-     * @returns {Promise}
+     * @return {Promise}
      */
     queryForPage(modelName, routeParams, userParams) {
         userParams = userParams || {};
