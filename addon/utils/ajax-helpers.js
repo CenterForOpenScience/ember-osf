@@ -4,8 +4,13 @@ import config from 'ember-get-config';
 /**
  * Helper functions for asynchronous behavior
  *
- * @module AjaxHelpers
- *
+ * @module ember-osf
+ * @module utils
+ */
+
+/**
+ * Helper functions to support AJAX requests
+ * @class ajax-helpers
  */
 
 /**
@@ -13,8 +18,7 @@ import config from 'ember-get-config';
  * Allows manual AJAX requests to be authorization-agnostic.
  *
  * Primarily used to set XHR flags on manual AJAX requests, for cookie based authorization.
- *
- * @public
+ * @method ajaxAuth
  * @param {Object} options
  * @returns {Promise}
  */

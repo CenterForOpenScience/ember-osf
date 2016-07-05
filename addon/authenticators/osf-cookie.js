@@ -3,6 +3,19 @@ import config from 'ember-get-config';
 
 import { ajaxAuth } from 'ember-osf/utils/ajax-helpers';
 
+/**
+ * @module ember-osf
+ * @submodule authenticators
+ */
+
+/**
+ * Ember-simple-auth compatible authenticator based on session cookie.
+ *
+ * Intended to be used with the authorizer of the same name.
+ *
+ * @class OsfCookieAuthenticator
+ * @extends ember-simple-auth/BaseAuthenticator
+ */
 export default Base.extend({
     _test() {
         return ajaxAuth({

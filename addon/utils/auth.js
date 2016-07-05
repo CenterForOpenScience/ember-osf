@@ -3,9 +3,19 @@ import Ember from 'ember';
 import config from 'ember-get-config';
 
 /**
+ * @module ember-osf
+ * @submodule utils
+ */
+
+/**
+ * @class auth
+ */
+
+/**
  * Retrieve the correct URL for OAuth 2.0 authentication in the OSF, including any additional configurable parameters
  * @private
- * @returns {string}
+ * @method getOAuthUrl
+ * @return {string}
  */
 function getOAuthUrl() {
     return `${config.OSF.oauthUrl}?response_type=token&scope=${config.OSF.scope}&client_id=${config.OSF.clientId}&redirect_uri=${encodeURI(config.OSF.redirectUri)}`;
@@ -14,8 +24,9 @@ function getOAuthUrl() {
 /**
  * Retrieve the correct URL for cookie-based in the OSF, including any additional configurable parameters
  * @private
+ * @method getCookieAuthUrl
  * @param {string} redirectUri Where to send the browser after a successful login request
- * @returns {string}
+ * @return {string}
  */
 function getCookieAuthUrl(redirectUri) {
     redirectUri = redirectUri || config.OSF.redirectUri;
@@ -26,7 +37,8 @@ function getCookieAuthUrl(redirectUri) {
  * Return the appropriate auth URL for the specified authorization mechanism (as specified in application configuration)
  * Currently supports `token` and `cookie` based authorization
  * @public
- * @returns {string}
+ * @method getAuthUrl
+ * @return {string}
  */
 function getAuthUrl() {
     let authType = config.authorizationType;

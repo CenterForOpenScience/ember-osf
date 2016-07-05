@@ -1,13 +1,16 @@
-/*
-  Extend the Ember-Simple-Auth adapter to provide cookie support (when necessary)
-
-  This particularly applies to local development, as without it cookies are not sent from the ember app to the api domain
- */
 import Ember from 'ember';
 import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
 
 import config from 'ember-get-config';
 
+/**
+ * Extend the Ember-Simple-Auth adapter to provide cookie support (when necessary).
+ * This allows the same addon to define an adapter that works with two authentication types.
+ *
+ * This particularly applies to local development, as without it cookies are not sent from the ember app to the api domain
+ *
+ * @class GenericDataADapter
+ */
 export default Ember.Mixin.create(DataAdapterMixin, {
     ajaxOptions() {
         var hash = this._super(...arguments);

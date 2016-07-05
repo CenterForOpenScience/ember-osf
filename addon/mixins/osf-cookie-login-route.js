@@ -3,10 +3,12 @@ import Ember from 'ember';
 import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-route-mixin';
 
 /**
- * Controller configuration mixin for a login route based on OSF OAuth2 token-based authorization
+ * Route mixin for login based on OSF cookie authentication. Intended to be used in tandem with OsfCookieLoginController mixin.
  * This is the preferred login method for third-party applications
  *
-  @class OsfTokenLoginRoute
+ * @class OsfCookieLoginRoute
+ * @extends Ember.Mixin
+ * @uses ember-simple-auth/UnauthenticatedRouteMixin
  */
 export default Ember.Mixin.create(UnauthenticatedRouteMixin, {
     session: Ember.inject.service(),
