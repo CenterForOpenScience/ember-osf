@@ -2,9 +2,10 @@ import Ember from 'ember';
 
 /**
  * File-like models are `node`, `file-provider`, and `file`/folder.
- * This mixin provides a polymorphic interface for file-like items.
+ * This mixin provides a polymorphic interface for file-like items, and is intended to be used with models.
  *
  * @class FileItemMixin
+ * @extends Ember.Mixin
  */
 export default Ember.Mixin.create({
     itemName: Ember.computed.or('name', 'title'),

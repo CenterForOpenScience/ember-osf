@@ -1,5 +1,13 @@
 import Ember from 'ember';
 
+/**
+ * Controller mixin to support fetching paginated results
+ *
+ * Because this uses query parameters, it should be used in tandem with PaginatedRouteMixin
+ *
+ * @class PaginatedControllerMixin
+ * @extends Ember.Mixin
+ */
 export default Ember.Mixin.create({
     queryParams: ['page', 'page_size'],
     page: 1,  // Current page

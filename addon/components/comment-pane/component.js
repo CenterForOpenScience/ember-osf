@@ -8,11 +8,11 @@ import layout from './template';
  * @method
  * @public
  * @param {Array} comments An array of comments to be displayed
- * @param {action} addComment The action to fire when adding a new comment to the discussion. Returns a promise.
- * @param {action} editComment The action to fire when editing a comment. Returns a promise.
- * @param {action} deleteComment The action to fire when deleting a comment. Returns a promise.
- * @param {action} restoreComment The action to fire when the original comment author un-deletes a comment. Returns a promise.
- * @param {action} reportComment The action to fire to report a comment that violates terms of service. Returns a promise.
+ * @param {action} addComment
+ * @param {action} editComment
+ * @param {action} deleteComment
+ * @param {action} restoreComment
+ * @param {action} reportComment
  */
 export default Ember.Component.extend({
     layout,
