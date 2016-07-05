@@ -8,6 +8,9 @@ import Ember from 'ember';
  *
  * This adapter mixin appends a nonce to requests that are likely to run into
  * that race condition, forcing a cache miss.
+ *
+ * @class FileCacheBypassMixin
+ * @extends Ember.Mixin
  */
 export default Ember.Mixin.create({
     fileManager: Ember.inject.service(),

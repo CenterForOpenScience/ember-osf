@@ -8,11 +8,12 @@ import FileItemMixin from 'ember-osf/mixins/file-item';
  *  or (more commonly) accessed via relationship fields.
  * This model is used for basic file metadata. To interact with file contents directly, see the `file-manager` service.
  * For field and usage information, see:
- *    https://api.osf.io/v2/docs/#!/v2/File_Detail_GET
- *    https://api.osf.io/v2/docs/#!/v2/Node_Files_List_GET
- *    https://api.osf.io/v2/docs/#!/v2/Node_File_Detail_GET
- *    https://api.osf.io/v2/docs/#!/v2/Registration_Files_List_GET
- *    https://api.osf.io/v2/docs/#!/v2/Registration_File_Detail_GET
+ * * https://api.osf.io/v2/docs/#!/v2/File_Detail_GET
+ * * https://api.osf.io/v2/docs/#!/v2/Node_Files_List_GET
+ * * https://api.osf.io/v2/docs/#!/v2/Node_File_Detail_GET
+ * * https://api.osf.io/v2/docs/#!/v2/Registration_Files_List_GET
+ * * https://api.osf.io/v2/docs/#!/v2/Registration_File_Detail_GET
+ * @class File 
  */
 export default OsfModel.extend(FileItemMixin, {
     name: DS.attr('string'),

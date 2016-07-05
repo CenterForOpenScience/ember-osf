@@ -5,7 +5,9 @@ import OsfModel from './osf-model';
 /**
  * Model for OSF APIv2 collections
  * For field and usage information, see:
- *  https://api.osf.io/v2/docs/#!/v2/Collection_List_GET
+ * * https://api.osf.io/v2/docs/#!/v2/Collection_List_GET
+ *
+ *  @class Collection
  */
 export default OsfModel.extend({
     title: DS.attr('string'),

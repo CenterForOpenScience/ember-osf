@@ -6,9 +6,11 @@ import OsfModel from './osf-model';
  * Model for OSF APIv2 comments. This model may be used with one of several API endpoints. It may be queried directly,
  *  or accessed via relationship fields.
  * For field and usage information, see:
- *    https://api.osf.io/v2/docs/#!/v2/Comment_Detail_GET
- *    https://api.osf.io/v2/docs/#!/v2/Node_Comments_List_GET
- *    https://api.osf.io/v2/docs/#!/v2/Registration_Comments_List_GET
+ * * https://api.osf.io/v2/docs/#!/v2/Comment_Detail_GET
+ * * https://api.osf.io/v2/docs/#!/v2/Node_Comments_List_GET
+ * * https://api.osf.io/v2/docs/#!/v2/Registration_Comments_List_GET
+ *
+ * @class Comment
  */
 export default OsfModel.extend({
     // TODO validation: maxLength
