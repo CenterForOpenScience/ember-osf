@@ -5,7 +5,7 @@ import HasManyQuery from 'ember-data-has-many-query';
 
 /**
  * Common properties and behaviors shared by all OSF APIv2 models
- * 
+ *
  * @class OsfModel
  * @public
  */

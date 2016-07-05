@@ -16,7 +16,7 @@ const assign = Ember.assign || Ember.merge;
 export default Ember.Mixin.create(InfinityRoute, {
     /**
      * Repurpose an ember-infinity hook to override the method used for queries
-     * @property
+     * @property _storeFindMethod
      * @type {function}
      * @default this.store.query
      */

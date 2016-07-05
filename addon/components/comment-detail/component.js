@@ -19,5 +19,4 @@ export default Ember.Component.extend({
     comment: null
 });
 
-
 // TODO: Crosslink

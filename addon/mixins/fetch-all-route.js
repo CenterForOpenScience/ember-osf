@@ -20,7 +20,7 @@ export default Ember.Mixin.create(InfinityRoute, {
      * @default page[size]
      */
     perPageParam: 'page[size]',
-     /**
+    /**
      * The name of the URL parameter used by the API to control the page requested
      * @property {String} pageParam
      * @default page

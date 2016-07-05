@@ -13,7 +13,7 @@ import FileItemMixin from 'ember-osf/mixins/file-item';
  * * https://api.osf.io/v2/docs/#!/v2/Node_File_Detail_GET
  * * https://api.osf.io/v2/docs/#!/v2/Registration_Files_List_GET
  * * https://api.osf.io/v2/docs/#!/v2/Registration_File_Detail_GET
- * @class File 
+ * @class File
  */
 export default OsfModel.extend(FileItemMixin, {
     name: DS.attr('string'),
