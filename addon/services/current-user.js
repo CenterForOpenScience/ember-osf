@@ -30,7 +30,8 @@ export default Ember.Service.extend({
     }),
     /**
      * Fetch information about the currently logged in user. If no user is logged in, this method returns a rejected promise.
-     * @returns {Ember.RSVP.Promise}
+     * @method load
+     * @return {Ember.RSVP.Promise}
      */
     load() {
         // TODO: Verify documentation is correct for this method @samchrisinger

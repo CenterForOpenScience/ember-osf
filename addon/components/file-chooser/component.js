@@ -36,7 +36,7 @@ import layout from './template';
  *  - While the user is holding dragged files over this component, it
  *    has the `drop-zone-ready` class
  *
- * @class file-chooser component  
+ * @class file-chooser component
  */
 export default Ember.Component.extend({
     layout,

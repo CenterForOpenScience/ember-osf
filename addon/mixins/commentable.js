@@ -33,7 +33,7 @@ export default Ember.Mixin.create({
          * Action that adds a new comment targeting the model by GUID.
          * @method addComment
          * @param {String} text The text of the new comment
-         * @returns {Promise}
+         * @return {Promise}
          */
         addComment(text) {
             // Assumes that the page's model hook is the target for the comment
@@ -52,7 +52,7 @@ export default Ember.Mixin.create({
          * Action that edits an existing comment.
          * @method editComment
          * @param {DS.Model} comment A comment model
-         * @returns {Promise}
+         * @return {Promise}
          */
         editComment(comment) {
             return comment.save();
@@ -61,7 +61,7 @@ export default Ember.Mixin.create({
          * Action that handles deletion of an existing comment.
          * @method deleteComment
          * @param comment
-         * @returns {Promise}
+         * @return {Promise}
          */
         deleteComment(comment) {
             comment.set('deleted', true);
@@ -71,7 +71,7 @@ export default Ember.Mixin.create({
          * Action that restores a deleted comment.
          * @method restoreComment
          * @param comment
-         * @returns {Promise}
+         * @return {Promise}
          */
         restoreComment(comment) {
             comment.set('deleted', false);
@@ -80,7 +80,7 @@ export default Ember.Mixin.create({
         /**
          * Action that reports a comment for administrative review
          * @method reportComment
-         * @returns {Promise}
+         * @return {Promise}
          */
         reportComment() {
             // TODO: Implement

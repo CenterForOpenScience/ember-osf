@@ -12,7 +12,7 @@ import config from 'ember-get-config';
  * Ember-simple-auth compatible authenticator based on OAuth2 bearer tokens.
  *
  * Intended to be used with the authenticator of the same name.
- * 
+ *
  * @class OsfTokenAuthenticator
  * @extends ember-simple-auth/BaseAuthenticator
  */

@@ -3,19 +3,17 @@ import layout from './template';
 
 import { getTokenFromHash } from 'ember-osf/utils/auth';
 
-
 /**
  * @module ember-osf
  * @submodule components
  */
-
 
 /**
  * Log a user in via OAuth2 in a popup window, without requiring a redirect
  *
  * Sample usage:
  * ```javascript
- * {{#oauth-popup 
+ * {{#oauth-popup
  *   authUrl=authUrl
  *   loginSuccess=(action 'loginSuccess')
  *   loginFail=(action 'loginFail') as |popup|}}

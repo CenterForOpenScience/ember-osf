@@ -3,7 +3,6 @@ import layout from './template';
 
 import loadAll from 'ember-osf/utils/load-relationship';
 
-
 /**
  * @module ember-osf
  * @submodule components
@@ -77,9 +76,9 @@ function unwrapItem(item) {
  * Sample usage:
  * ```javascript
  * {{file-browser
- * rootItem=item
-  * openFile=(action 'openFile')
-   * openNode=(action 'openNode')}}
+ *  rootItem=item
+ *  openFile=(action 'openFile')
+ *  openNode=(action 'openNode')}}
  * ```
  * @class file-browser
  */

@@ -25,7 +25,7 @@ export default DS.JSONAPISerializer.extend({
      * Extract information about records embedded inside this request
      * @method _extractEmbeds
      * @param {Object} resourceHash
-     * @returns {Array}
+     * @return {Array}
      * @private
      */
     _extractEmbeds(resourceHash) {
