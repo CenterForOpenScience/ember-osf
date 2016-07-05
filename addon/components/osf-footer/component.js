@@ -3,6 +3,15 @@ import layout from './template';
 
 import config from 'ember-get-config';
 
+/**
+ * @module ember-osf
+ * @submodule components
+ */
+
+/**
+ * Display the OSF footer
+ * @class osf-footer
+ */
 export default Ember.Component.extend({
     layout,
     helpUrl: config.OSF.helpUrl,

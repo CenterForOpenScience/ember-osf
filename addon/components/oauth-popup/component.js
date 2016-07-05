@@ -1,10 +1,31 @@
 import Ember from 'ember';
 import layout from './template';
 
-import {
-    getTokenFromHash
-} from 'ember-osf/utils/auth';
+import { getTokenFromHash } from 'ember-osf/utils/auth';
 
+
+/**
+ * @module ember-osf
+ * @submodule components
+ */
+
+
+/**
+ * Log a user in via OAuth2 in a popup window, without requiring a redirect
+ *
+ * Sample usage:
+ * ```javascript
+ * {{#oauth-popup 
+ *   authUrl=authUrl
+ *   loginSuccess=(action 'loginSuccess')
+ *   loginFail=(action 'loginFail') as |popup|}}
+ *    <button class="btn btn-default login-button" onclick={{action 'login' target=popup}} >
+ *       Login to OSF
+ *    </button>
+ * {{/oauth-popup}}
+ * ```
+ * @class oauth-popup
+ */
 export default Ember.Component.extend({
     layout,
     tagName: '',

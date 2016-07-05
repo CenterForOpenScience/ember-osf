@@ -1,6 +1,21 @@
 import Ember from 'ember';
 import layout from './template';
 
+/**
+ * @module ember-osf
+ * @submodule components
+ */
+
+/**
+ * Display the correct file tree icon for on the item to be displayed
+ *
+ * Sample usage:
+ * ```javascript
+ * {{file-browser-icon
+ * item=item}}
+ * ```
+ * @class file-browser-icon
+ */
 export default Ember.Component.extend({
     layout,
     tagName: 'span',
@@ -20,5 +35,5 @@ export default Ember.Component.extend({
         }
         // TODO file types
         return 'file-o';
-    }),
+    })
 });

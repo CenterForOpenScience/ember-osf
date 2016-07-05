@@ -1,6 +1,11 @@
 import Ember from 'ember';
 import layout from './template';
 
+/**
+ * @module ember-osf
+ * @submodule components
+ */
+
 export default Ember.Component.extend({
     layout,
     classNames: ['file-browser-item'],

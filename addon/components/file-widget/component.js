@@ -1,12 +1,26 @@
 import Ember from 'ember';
 import layout from './template';
 
-import {
-    getAuthUrl
-} from 'ember-osf/utils/auth';
+import { getAuthUrl } from 'ember-osf/utils/auth';
 
 import loadAll from 'ember-osf/utils/load-relationship';
 
+/**
+ * @module ember-osf
+ * @submodule components
+ */
+
+/**
+ * Widget to quickly upload a file to a selected project
+ * ```javascript
+ * {{file-widget
+ *  preUpload=(action 'preUpload')
+ *  buildUrl=(action 'buildUrl')
+ *  listeners=dropzoneOptions
+ *  options=dropzoneOptions}}
+ * ```
+ * @class file-widget
+ */
 export default Ember.Component.extend({
     layout,
     authUrl: getAuthUrl(),

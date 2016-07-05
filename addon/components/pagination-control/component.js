@@ -1,6 +1,15 @@
 import Ember from 'ember';
 import layout from './template';
 
+/**
+ * @module ember-osf
+ * @submodule components
+ */
+
+/**
+ * Display a simple pagination control that advances the page. Intended for use with PaginatedRouteMixin.
+ * @class pagination-control
+ */
 export default Ember.Component.extend({
     layout,
     currentPage: null,
