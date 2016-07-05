@@ -1,6 +1,3 @@
-/*
-  Base adapter class for all OSF APIv2 endpoints
- */
 import Ember from 'ember';
 import DS from 'ember-data';
 
@@ -8,10 +5,17 @@ import HasManyQuery from 'ember-data-has-many-query';
 import config from 'ember-get-config';
 import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
 
-import {
-    singularize
-} from 'ember-inflector';
+import { singularize } from 'ember-inflector';
 
+
+/**
+ * Base adapter class for all OSF APIv2 endpoints
+ *
+ * @class OsfAdapter
+ * @extends DS.JSONAPIAdapter
+ * @uses HasManyQuery.RESTAdapterMixin
+ * @uses DataAdapterMixin
+ */
 export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapterMixin, {
     authorizer: 'authorizer:osf-token',
     host: config.OSF.apiUrl,
@@ -38,6 +42,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
      * Construct a URL for a relationship create/update/delete.
      *
      * @method _buildRelationshipURL
+     * @private
      * @param {DS.Snapshot} snapshot
      * @param {String} relationship the relationship to build a url for
      * @return {String} a URL
@@ -54,6 +59,8 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
     /**
      * Handle creation of related resources
      *
+     * @method _createRelated
+     * @private
      * @param {DS.Store} store
      * @param {DS.Snapshot} snapshot snapshot of inverse record
      * @param {DS.Snapshot[]} createdSnapshots
@@ -80,6 +87,8 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
      * Handle add(s) of related resources. This differs from CREATEs in that the related
      * record is already saved and is just being associated with the inverse record.
      *
+     * @method _addRelated
+     * @private
      * @param {DS.Store} store
      * @param {DS.Snapshot} snapshot snapshot of inverse record
      * @param {DS.Snapshot[]} addedSnapshots
@@ -98,6 +107,8 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
     /**
      * Handle update(s) of related resources
      *
+     * @method _updateRelated
+     * @private
      * @param {DS.Store} store
      * @param {DS.Snapshot} snapshot snapshot of inverse record
      * @param {DS.Snapshot[]} updatedSnapshots
@@ -119,6 +130,8 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
      * Handle removal of related resources. This differs from DELETEs in that the related
      * record is not deleted, just dissociated from the inverse record.
      *
+     * @method _removeRelated
+     * @private
      * @param {DS.Store} store
      * @param {DS.Snapshot} snapshot snapshot of inverse record
      * @param {DS.Snapshot[]} removedSnapshots
@@ -135,6 +148,8 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
     /**
      * Handle deletion of related resources
      *
+     * @method _deleteRelated
+     * @private
      * @param {DS.Store} store
      * @param {DS.Snapshot} snapshot snapshot of inverse record
      * @param {DS.Snapshot[]} deletedSnapshots
@@ -154,6 +169,8 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
     /**
      * A helper for making _*Related requests
      *
+     * @method _doRelatedRequest
+     * @private
      * @param {DS.Store} store
      * @param {DS.Snapshot} snapshot snapshot of inverse record
      * @param {DS.Snapshot[]} relatedSnapshots
@@ -210,6 +227,8 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
      * Delegate a series of requests based on a snapshot, relationship, and a change.
      * The change argument can be 'delete', 'remove', 'update', 'add', 'create'
      *
+     * @method _handleRelatedRequest
+     * @private
      * @param {DS.Store} store
      * @param {DS.Model} type
      * @param {DS.Snapshot} snapshot
@@ -281,5 +300,5 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapt
     pathForType(modelName) {
         var underscored = Ember.String.underscore(modelName);
         return Ember.String.pluralize(underscored);
-    },
+    }
 });
