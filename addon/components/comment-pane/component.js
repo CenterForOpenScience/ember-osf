@@ -21,7 +21,7 @@ import layout from './template';
  *   reportComment=(action 'reportComment')}}
  * ```
  * @class comment-pane
- * @param {Array} comments An array of comments to be displayed
+ * @param {Comment[]} comments An array of comments to be displayed
  * @param {action} addComment
  * @param {action} editComment
  * @param {action} deleteComment

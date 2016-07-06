@@ -18,7 +18,7 @@ export default Ember.Mixin.create({
      *
      * @public
      * @property comments
-     * @type Array
+     * @type Comment[]
      */
     comments: Ember.computed.sort('model.comments', function(a, b) {
         // As new records are added, they do not necessarily respect the newest-first ordering used by the API. Enforce.

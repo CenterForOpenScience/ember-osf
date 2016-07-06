@@ -34,7 +34,7 @@ export default Ember.Mixin.create(InfinityRoute, {
      @param {String} modelName The name of the model.
      @param {Object} options Optional, the perPage and startingPage to load from.
      @param {Object} boundParams Optional, any route properties to be included as additional params.
-     @return {Ember.RSVP.Promise}
+     @return {Promise}
      */
     infinityModel(modelName, options, boundParams) {
         this.set('_infinityModelName', modelName);
@@ -75,7 +75,7 @@ export default Ember.Mixin.create(InfinityRoute, {
 
      @private
      @method _requestNextPage
-     @return {Ember.RSVP.Promise} A Promise that resolves the next page of objects
+     @return {Promise} A Promise that resolves the next page of objects
      */
     _requestNextPage() {
         const modelName = this.get('_infinityModelName');
