@@ -3,7 +3,7 @@ import DS from 'ember-data';
 
 import HasManyQuery from 'ember-data-has-many-query';
 import config from 'ember-get-config';
-import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
+import GenericDataAdapterMixin from 'ember-osf/mixins/generic-data-adapter';
 
 import { singularize } from 'ember-inflector';
 
@@ -18,10 +18,10 @@ import { singularize } from 'ember-inflector';
  * @class OsfAdapter
  * @extends DS.JSONAPIAdapter
  * @uses HasManyQuery.RESTAdapterMixin
- * @uses DataAdapterMixin
+ * @uses GenericDataAdapterMixin
  */
-export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, DataAdapterMixin, {
-    authorizer: 'authorizer:osf-token',
+export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDataAdapterMixin, {
+    authorizer: config['ember-simple-auth'].authorizer,
     host: config.OSF.apiUrl,
     namespace: config.OSF.apiNamespace,
     buildURL(modelName, id, snapshot, requestType) {

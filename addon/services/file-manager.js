@@ -1,4 +1,7 @@
 import Ember from 'ember';
+import config from 'ember-get-config';
+
+import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
 
 /**
  * @module ember-osf
@@ -385,12 +388,14 @@ export default Ember.Service.extend({
         }
 
         let headers = {};
-        this.get('session').authorize('authorizer:osf-token', (headerName, content) => {
+        let authType = config['ember-simple-auth'].authorizer;
+        this.get('session').authorize(authType, (headerName, content) => {
             headers[headerName] = content;
         });
 
         return new Ember.RSVP.Promise((resolve, reject) => {
-            let p = Ember.$.ajax(url, {
+            let p = authenticatedAJAX({
+                url,
                 method,
                 headers,
                 data: options.data,
