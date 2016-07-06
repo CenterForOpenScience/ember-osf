@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import config from 'ember-get-config';
 
-import { ajaxAuth } from 'ember-osf/utils/ajax-helpers';
+import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
 
 /**
  * @module ember-osf
@@ -394,7 +394,7 @@ export default Ember.Service.extend({
         });
 
         return new Ember.RSVP.Promise((resolve, reject) => {
-            let p = ajaxAuth({
+            let p = authenticatedAJAX({
                 url,
                 method,
                 headers,

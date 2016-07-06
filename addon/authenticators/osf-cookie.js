@@ -1,7 +1,7 @@
 import Base from 'ember-simple-auth/authenticators/base';
 import config from 'ember-get-config';
 
-import { ajaxAuth } from 'ember-osf/utils/ajax-helpers';
+import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
 
 /**
  * @module ember-osf
@@ -18,7 +18,7 @@ import { ajaxAuth } from 'ember-osf/utils/ajax-helpers';
  */
 export default Base.extend({
     _test() {
-        return ajaxAuth({
+        return authenticatedAJAX({
             method: 'GET',
             url: `${config.OSF.apiUrl}/${config.OSF.apiNamespace}/users/me/`,
             dataType: 'json',

@@ -1,1 +1,1 @@
-export { default, ajaxAuth } from 'ember-osf/utils/ajax-helper';
+export { default, authenticatedAJAX } from 'ember-osf/utils/ajax-helper';

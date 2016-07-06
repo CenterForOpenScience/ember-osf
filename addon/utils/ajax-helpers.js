@@ -14,15 +14,15 @@ import config from 'ember-get-config';
  */
 
 /**
- * Performs any additional authorization config required, for the configured authorization type.
- * Allows manual AJAX requests to be authorization-agnostic.
+ * Performs an AJAX request with any additional authorization config as needed for the configured authorization type.
+ * Allows manual AJAX requests to be authorization-agnostic when using this addon.
  *
  * Primarily used to set XHR flags on manual AJAX requests, for cookie based authorization.
- * @method ajaxAuth
+ * @method authenticatedAJAX
  * @param {Object} options
  * @return {Promise}
  */
-function ajaxAuth(options) {
+function authenticatedAJAX(options) {
     if (config.authorizationType === 'cookie') {
         Ember.merge(options, {
             xhrFields: {
@@ -33,5 +33,5 @@ function ajaxAuth(options) {
     return Ember.$.ajax(options);
 
 }
-export { ajaxAuth };
+export { authenticatedAJAX };
 
