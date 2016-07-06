@@ -1,8 +1,16 @@
 import Ember from 'ember';
 
 /**
+ * @module ember-osf
+ * @submodule mixins
+ */
+
+/**
  * File-like models are `node`, `file-provider`, and `file`/folder.
- * This mixin provides a polymorphic interface for file-like items.
+ * This mixin provides a polymorphic interface for file-like items, and is intended to be used with models.
+ *
+ * @class FileItemMixin
+ * @extends Ember.Mixin
  */
 export default Ember.Mixin.create({
     itemName: Ember.computed.or('name', 'title'),
@@ -14,5 +22,5 @@ export default Ember.Mixin.create({
 
     _isFileModel: Ember.computed.equal('constructor.modelName', 'file'),
     _isFolder: Ember.computed.equal('kind', 'folder'),
-    _isFile: Ember.computed.equal('kind', 'file'),
+    _isFile: Ember.computed.equal('kind', 'file')
 });

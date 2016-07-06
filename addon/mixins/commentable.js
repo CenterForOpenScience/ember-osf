@@ -1,16 +1,24 @@
-/*
-  Support basic commenting functionality for routes. Uses the base model in the route model hook.
- */
 import Ember from 'ember';
 
+/**
+ * @module ember-osf
+ * @submodule mixins
+ */
+
+/**
+ * Controller mixin that implements basic commenting functionality. Uses the base model in the route model hook.
+ * @class CommentableMixin
+ * @extends Ember.Mixin
+ */
 export default Ember.Mixin.create({
 
     /**
-     * The list of comments associated with a model. Defaults to using the model hook and ensures that new comments
+     * The list of comments associated with a model. Defaults to using the model hook, and ensures that new comments
      * are shown first (to match API convention)
      *
      * @public
-     * @property
+     * @property comments
+     * @type Comment[]
      */
     comments: Ember.computed.sort('model.comments', function(a, b) {
         // As new records are added, they do not necessarily respect the newest-first ordering used by the API. Enforce.
@@ -21,6 +29,12 @@ export default Ember.Mixin.create({
     }),
 
     actions: {
+        /**
+         * Action that adds a new comment targeting the model by GUID.
+         * @method addComment
+         * @param {String} text The text of the new comment
+         * @return {Promise}
+         */
         addComment(text) {
             // Assumes that the page's model hook is the target for the comment
             let model = this.get('model');
@@ -34,17 +48,40 @@ export default Ember.Mixin.create({
             commentsRel.pushObject(comment);
             return model.save();
         },
+        /**
+         * Action that edits an existing comment.
+         * @method editComment
+         * @param {DS.Model} comment A comment model
+         * @return {Promise}
+         */
         editComment(comment) {
-            comment.save();
+            return comment.save();
         },
+        /**
+         * Action that handles deletion of an existing comment.
+         * @method deleteComment
+         * @param comment
+         * @return {Promise}
+         */
         deleteComment(comment) {
             comment.set('deleted', true);
             return comment.save();
         },
+        /**
+         * Action that restores a deleted comment.
+         * @method restoreComment
+         * @param comment
+         * @return {Promise}
+         */
         restoreComment(comment) {
             comment.set('deleted', false);
-            comment.save();
+            return comment.save();
         },
+        /**
+         * Action that reports a comment for administrative review
+         * @method reportComment
+         * @return {Promise}
+         */
         reportComment() {
             // TODO: Implement
             console.log('Consider this comment reported');

@@ -4,18 +4,23 @@ import InfinityRoute from 'ember-infinity/mixins/route';
 const assign = Ember.assign || Ember.merge;
 
 /**
+ * @module ember-osf
+ * @submodule mixins
+ */
+
+/**
  * A custom overlay on ember-infinity that supports loading infinite and paginated relationships
  * For the most part, the API and semantics are identical to ember infinity, except that the means of configuring the store find method is more flexible
  *  (supporting relationship queries that do not operate via store methods)
 
- @class InfinityCustomMixin
- @namespace EmberOSF
- @module ember-osf/mixins/infinity-custom
- @extends Ember.Mixin, InfinityRoute
+ * @class InfinityCustomMixin
+ * @extends Ember.Mixin
+ * @uses InfinityRoute
  */
 export default Ember.Mixin.create(InfinityRoute, {
     /**
      * Repurpose an ember-infinity hook to override the method used for queries
+     * @property _storeFindMethod
      * @type {function}
      * @default this.store.query
      */
@@ -29,7 +34,7 @@ export default Ember.Mixin.create(InfinityRoute, {
      @param {String} modelName The name of the model.
      @param {Object} options Optional, the perPage and startingPage to load from.
      @param {Object} boundParams Optional, any route properties to be included as additional params.
-     @return {Ember.RSVP.Promise}
+     @return {Promise}
      */
     infinityModel(modelName, options, boundParams) {
         this.set('_infinityModelName', modelName);
@@ -70,7 +75,7 @@ export default Ember.Mixin.create(InfinityRoute, {
 
      @private
      @method _requestNextPage
-     @returns {Ember.RSVP.Promise} A Promise that resolves the next page of objects
+     @return {Promise} A Promise that resolves the next page of objects
      */
     _requestNextPage() {
         const modelName = this.get('_infinityModelName');

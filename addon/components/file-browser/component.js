@@ -3,8 +3,14 @@ import layout from './template';
 
 import loadAll from 'ember-osf/utils/load-relationship';
 
+/**
+ * @module ember-osf
+ * @submodule components
+ */
+
 /*
  * Wrapper for file items. Includes state for the item's row.
+ *
  */
 let FileItem = Ember.ObjectProxy.extend({
     isSelected: false,
@@ -64,10 +70,20 @@ function unwrapItem(item) {
     return item;
 }
 
-/*
- * {{file-browser rootItem=item openFile=(action 'openFile') openNode=(action 'openNode')}}
+/**
+ * File browser widget
+ *
+ * Sample usage:
+ * ```handlebars
+ * {{file-browser
+ *  rootItem=item
+ *  openFile=(action 'openFile')
+ *  openNode=(action 'openNode')}}
+ * ```
+ * @class file-browser
  */
 export default Ember.Component.extend({
+    // TODO: Improve documentation in the future
     layout,
     classNames: ['file-browser'],
     itemHeight: 30,

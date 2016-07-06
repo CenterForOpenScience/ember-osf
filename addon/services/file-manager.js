@@ -1,6 +1,11 @@
 import Ember from 'ember';
 
 /**
+ * @module ember-osf
+ * @submodule services
+ */
+
+/**
  * An Ember service for doing things to files.
  * Essentially a wrapper for the Waterbutler API.
  * http://waterbutler.readthedocs.io/
@@ -8,7 +13,6 @@ import Ember from 'ember';
  * @class file-manager
  * @extends Ember.Service
  */
-
 export default Ember.Service.extend({
     session: Ember.inject.service(),
     store: Ember.inject.service(),
