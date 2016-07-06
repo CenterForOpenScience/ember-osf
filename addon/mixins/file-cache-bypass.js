@@ -1,6 +1,11 @@
 import Ember from 'ember';
 
 /**
+ * @module ember-osf
+ * @submodule mixins
+ */
+
+/**
  * This is a hack to resolve a server-side race condition.
  * After creating/modifying/deleting a file through Waterbutler, it can take
  * a fraction of a second for the API's cache to properly update, and
@@ -8,6 +13,9 @@ import Ember from 'ember';
  *
  * This adapter mixin appends a nonce to requests that are likely to run into
  * that race condition, forcing a cache miss.
+ *
+ * @class FileCacheBypassMixin
+ * @extends Ember.Mixin
  */
 export default Ember.Mixin.create({
     fileManager: Ember.inject.service(),

@@ -1,12 +1,19 @@
-/*
-  Common properties and behaviors shared by all OSF APIv2 models
- */
-
 import Ember from 'ember';
 import DS from 'ember-data';
 
 import HasManyQuery from 'ember-data-has-many-query';
 
+/**
+ * @module ember-osf
+ * @submodule models
+ */
+
+/**
+ * Common properties and behaviors shared by all OSF APIv2 models
+ *
+ * @class OsfModel
+ * @public
+ */
 export default DS.Model.extend(HasManyQuery.ModelMixin, {
     links: DS.attr('links'),
     embeds: DS.attr('embed'),
@@ -24,7 +31,9 @@ export default DS.Model.extend(HasManyQuery.ModelMixin, {
      * Looks up relationship on model and returns hasManyRelationship
      * or belongsToRelationship object.
      *
-     * @param {String} rel, relationship on the model
+     * @method resolveRelationship
+     * @private
+     * @param {String} rel Name of the relationship on the model
      **/
     resolveRelationship(rel) {
         var relation;

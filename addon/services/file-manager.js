@@ -4,6 +4,11 @@ import config from 'ember-get-config';
 import { ajaxAuth } from 'ember-osf/utils/ajax-helpers';
 
 /**
+ * @module ember-osf
+ * @submodule services
+ */
+
+/**
  * An Ember service for doing things to files.
  * Essentially a wrapper for the Waterbutler API.
  * http://waterbutler.readthedocs.io/
@@ -11,7 +16,6 @@ import { ajaxAuth } from 'ember-osf/utils/ajax-helpers';
  * @class file-manager
  * @extends Ember.Service
  */
-
 export default Ember.Service.extend({
     session: Ember.inject.service(),
     store: Ember.inject.service(),

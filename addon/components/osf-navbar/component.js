@@ -4,6 +4,15 @@ import config from 'ember-get-config';
 
 import { getAuthUrl } from 'ember-osf/utils/auth';
 
+/**
+ * @module ember-osf
+ * @submodule components
+ */
+
+/**
+ * Display the OSF navbar
+ * @class osf-navbar
+ */
 export default Ember.Component.extend({
     layout,
     session: Ember.inject.service(),

@@ -1,6 +1,25 @@
 import Ember from 'ember';
 import layout from './template';
 
+/**
+ * @module ember-osf
+ * @submodule components
+ */
+
+/**
+ * Support file uploads via dropzone.
+ *
+ * Sample usage:
+ * ```handlebars
+ * {{dropzone-widget
+ *   preUpload=attrs.preUpload
+ *   buildUrl=buildUrl
+ *   listeners=dropzoneListeners
+ *   options=dropzoneOptions}}
+ * ```
+ *
+ * @class dropzone-widget
+ */
 export default Ember.Component.extend({
     layout,
     session: Ember.inject.service(),

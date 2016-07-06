@@ -1,18 +1,25 @@
 import DS from 'ember-data';
 
 import OsfModel from './osf-model';
+
 import FileItemMixin from 'ember-osf/mixins/file-item';
+
+/**
+ * @module ember-osf
+ * @submodule models
+ */
 
 /**
  * Model for OSF APIv2 nodes. This model may be used with one of several API endpoints. It may be queried directly,
  *  or accessed via relationship fields.
  * For field and usage information, see:
- *    https://api.osf.io/v2/docs/#!/v2/Node_List_GET
- *    https://api.osf.io/v2/docs/#!/v2/Node_Detail_GET
- *    https://api.osf.io/v2/docs/#!/v2/Node_Children_List_GET
- *    https://api.osf.io/v2/docs/#!/v2/Linked_Nodes_List_GET
- *    https://api.osf.io/v2/docs/#!/v2/Node_Forks_List_GET
- *    https://api.osf.io/v2/docs/#!/v2/User_Nodes_GET
+ * * https://api.osf.io/v2/docs/#!/v2/Node_List_GET
+ * * https://api.osf.io/v2/docs/#!/v2/Node_Detail_GET
+ * * https://api.osf.io/v2/docs/#!/v2/Node_Children_List_GET
+ * * https://api.osf.io/v2/docs/#!/v2/Linked_Nodes_List_GET
+ * * https://api.osf.io/v2/docs/#!/v2/Node_Forks_List_GET
+ * * https://api.osf.io/v2/docs/#!/v2/User_Nodes_GET
+ * @class Node
  */
 export default OsfModel.extend(FileItemMixin, {
     title: DS.attr('string'),
@@ -55,17 +62,11 @@ export default OsfModel.extend(FileItemMixin, {
         inverse: null
     }),
     registrations: DS.hasMany('registrations', {
-        inverse: 'registeredFrom',
-        updateRequest: {
-            requestType: () => 'POST'
-        }
+        inverse: 'registeredFrom'
     }),
 
     draftRegistrations: DS.hasMany('draft-registrations', {
-        inverse: 'branchedFrom',
-        updateRequest: {
-            requestType: () => 'POST'
-        }
+        inverse: 'branchedFrom'
     }),
 
     root: DS.belongsTo('node', {

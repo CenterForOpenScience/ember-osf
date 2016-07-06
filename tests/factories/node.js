@@ -46,6 +46,9 @@ FactoryGuy.define('node', {
         },
         hasLogs: {
             logs: () => FactoryGuy.hasMany('log', 5)
+        },
+        hasTags: {
+            tags: () => [faker.lorem.words(1), faker.lorem.words(1), faker.lorem.words(1)]
         }
     }
 });
