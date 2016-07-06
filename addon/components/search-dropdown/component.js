@@ -11,7 +11,7 @@ import config from 'ember-get-config';
  * Display a search dropdown as used in the OSF navbar
  *
  * Sample usage:
- * ```javascript
+ * ```handlebars
  *   {{#search-dropdown action='toggleSearch'}}
  * ```
  * @class search-dropdown

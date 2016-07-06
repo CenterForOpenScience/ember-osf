@@ -12,7 +12,7 @@ import { getTokenFromHash } from 'ember-osf/utils/auth';
  * Log a user in via OAuth2 in a popup window, without requiring a redirect
  *
  * Sample usage:
- * ```javascript
+ * ```handlebars
  * {{#oauth-popup
  *   authUrl=authUrl
  *   loginSuccess=(action 'loginSuccess')

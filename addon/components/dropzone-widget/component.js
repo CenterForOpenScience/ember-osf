@@ -10,7 +10,7 @@ import layout from './template';
  * Support file uploads via dropzone.
  *
  * Sample usage:
- * ```javascript
+ * ```handlebars
  * {{dropzone-widget
  *   preUpload=attrs.preUpload
  *   buildUrl=buildUrl

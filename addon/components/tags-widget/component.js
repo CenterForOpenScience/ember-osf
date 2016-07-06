@@ -9,7 +9,7 @@ import layout from './template';
 /**
  * Allow the user to view and manage tags.
  * See TaggableMixin for controller actions that can be used with this component.
- * ```javascript
+ * ```handlebars
  * {{tags-widget
  *   addATag=(action 'addATag')
  *   removeATag=(action 'removeATag')

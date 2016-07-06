@@ -11,7 +11,7 @@ import config from 'ember-get-config';
  * Render the provided url in an iframe via MFR
  *
  * Sample usage:
- * ```javascript
+ * ```handlebars
  * {{file-renderer
  *   download=model.links.download
  *     width="800" height="1000"}}

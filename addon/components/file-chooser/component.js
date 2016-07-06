@@ -20,7 +20,7 @@ import layout from './template';
  * Exposed to block context
  *  - `this`: the component object itself, so the block can invoke actions
  *      example:
- *      ```javascript
+ *      ```handlebars
  *          {{#file-chooser files=fileList as |component|}}
  *              {{input type='file'
  *                  change=(action 'onFileInputChange' target=component)}}

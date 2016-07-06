@@ -74,7 +74,7 @@ function unwrapItem(item) {
  * File browser widget
  *
  * Sample usage:
- * ```javascript
+ * ```handlebars
  * {{file-browser
  *  rootItem=item
  *  openFile=(action 'openFile')

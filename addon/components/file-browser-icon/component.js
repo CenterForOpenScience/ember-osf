@@ -10,7 +10,7 @@ import layout from './template';
  * Display the correct file tree icon for on the item to be displayed
  *
  * Sample usage:
- * ```javascript
+ * ```handlebars
  * {{file-browser-icon
  * item=item}}
  * ```

@@ -10,7 +10,7 @@ import layout from './template';
  * Display information about one revision of a file
  *
  * Sample usage:
- * ```javascript
+ * ```handlebars
  * {{file-version
  * version=version
  * download='download'}}

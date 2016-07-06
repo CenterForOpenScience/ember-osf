@@ -12,12 +12,12 @@ import loadAll from 'ember-osf/utils/load-relationship';
 
 /**
  * Widget to quickly upload a file to a selected project
- * ```javascript
+ * ```handlebars
  * {{file-widget
- *  preUpload=(action 'preUpload')
- *  buildUrl=(action 'buildUrl')
- *  listeners=dropzoneOptions
- *  options=dropzoneOptions}}
+ *   preUpload=(action 'preUpload')
+ *   buildUrl=(action 'buildUrl')
+ *   listeners=dropzoneOptions
+ *   options=dropzoneOptions}}
  * ```
  * @class file-widget
  */

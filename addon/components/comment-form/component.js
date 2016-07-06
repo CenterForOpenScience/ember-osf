@@ -11,7 +11,7 @@ import layout from './template';
  *
  * This component is typically used as part of the `comment-pane` component; see that component for further information.
  * Sample usage:
- * ```javascript
+ * ```handlebars
  * {{comment-form addComment=attrs.addComment}}
  * ```
  *
