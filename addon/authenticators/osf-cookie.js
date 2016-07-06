@@ -46,7 +46,7 @@ export default Base.extend({
      * For now, simply verify that a token is present and can be used
      * @method authenticate
      * @param code
-     * @returns {*|Promise}
+     * @return {Promise}
      */
     authenticate(code) {
         return this._test(code);

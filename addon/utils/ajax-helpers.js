@@ -20,7 +20,7 @@ import config from 'ember-get-config';
  * Primarily used to set XHR flags on manual AJAX requests, for cookie based authorization.
  * @method ajaxAuth
  * @param {Object} options
- * @returns {Promise}
+ * @return {Promise}
  */
 function ajaxAuth(options) {
     if (config.authorizationType === 'cookie') {

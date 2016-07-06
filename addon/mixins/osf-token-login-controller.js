@@ -10,9 +10,9 @@ import { getAuthUrl } from 'ember-osf/utils/auth';
 /**
  * Controller mixin to add support for OAuth2 token based authentication
  *
- * Intended to be used in tandem with OsfLoginRouteMixin
+ * Intended to be used in tandem with OsfTokenLoginRouteMixin
  *
- * @class OsfLoginControllerMixin
+ * @class OsfTokenLoginControllerMixin
  * @extends Ember.Mixin
  */
 export default Ember.Mixin.create({

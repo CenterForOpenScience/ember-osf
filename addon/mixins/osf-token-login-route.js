@@ -12,7 +12,10 @@ import { getTokenFromHash } from 'ember-osf/utils/auth';
 
 /**
  * Route mixin to add support for OAuth2 token based authentication
- * @class OsfLoginRouteMixin
+ *
+ * Intended to be used in tandem with OsfTokenLoginControllerMixin
+ *
+ * @class OsfTokenLoginRouteMixin
  * @extends Ember.Mixin
  */
 export default Ember.Mixin.create(UnauthenticatedRouteMixin, {

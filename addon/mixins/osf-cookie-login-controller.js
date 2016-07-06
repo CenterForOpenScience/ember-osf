@@ -9,8 +9,8 @@ import { getAuthUrl } from 'ember-osf/utils/auth';
 
 /**
  * Controller mixin for login based on OSF cookie authentication. Intended to be used in tandem with OsfCookieLoginRoute mixin.
- *
  * This auth method is not available to third-party applications.
+ *
  * @class OsfCookieLoginController
  * @extends Ember.Mixin
  */
