@@ -26,7 +26,7 @@ Please read the [CONTRIBUTING.md](https://github.com/CenterForOpenScience/ember-
   - Import code from ember-osf like:
   ```javascript
   import Ember from 'ember';
-  import OsfLoginRouteMixin from 'ember-osf/mixins/osf-login-route';
+  import OsfTokenLoginRouteMixin from 'ember-osf/mixins/osf-token-login-route';
 
   export default Ember.Route.extend(OsfLoginRouteMixin);
   ```

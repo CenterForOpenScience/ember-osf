@@ -1,9 +1,16 @@
-/*
-  Base serializer class for all OSF APIv2 endpoints
- */
 import Ember from 'ember';
 import DS from 'ember-data';
 
+/**
+ * @module ember-osf
+ * @submodule serializers
+ */
+
+/**
+ * Base serializer class for all OSF APIv2 endpoints. Provides custom behaviors for embeds, relationships, and pagination.
+ * @class OsfSerializer
+ * @extends DS.JSONAPISerializer
+ */
 export default DS.JSONAPISerializer.extend({
     attrs: {
         links: {
@@ -14,6 +21,13 @@ export default DS.JSONAPISerializer.extend({
         }
     },
 
+    /**
+     * Extract information about records embedded inside this request
+     * @method _extractEmbeds
+     * @param {Object} resourceHash
+     * @return {Array}
+     * @private
+     */
     _extractEmbeds(resourceHash) {
         if (!resourceHash.embeds) {
             return []; // Nothing to do
@@ -51,7 +65,9 @@ export default DS.JSONAPISerializer.extend({
         this._extractEmbeds(resourceHash);
 
         if (resourceHash.relationships && resourceHash.attributes.links) {
-            resourceHash.attributes.links = Ember.$.extend(resourceHash.attributes.links, { relationships: resourceHash.relationships });
+            resourceHash.attributes.links = Ember.$.extend(resourceHash.attributes.links, {
+                relationships: resourceHash.relationships
+            });
         }
         return resourceHash;
     },
@@ -73,9 +89,11 @@ export default DS.JSONAPISerializer.extend({
         var serialized = this._super(snapshot, options);
         serialized.data.type = Ember.String.underscore(serialized.data.type);
         // Only send dirty attributes in request
-        for (var attribute in serialized.data.attributes) {
-            if (!(Ember.String.camelize(attribute) in snapshot.record.changedAttributes())) {
-                delete serialized.data.attributes[attribute];
+        if (!snapshot.record.get('isNew')) {
+            for (var attribute in serialized.data.attributes) {
+                if (!(Ember.String.camelize(attribute) in snapshot.record.changedAttributes())) {
+                    delete serialized.data.attributes[attribute];
+                }
             }
         }
         // Don't send relationships to the server; this can lead to 500 errors.
@@ -83,7 +101,7 @@ export default DS.JSONAPISerializer.extend({
         return serialized;
     },
 
-    serializeAttribute(snapshot, json, key, attribute) {  // jshint ignore:line
+    serializeAttribute(snapshot, json, key, attribute) { // jshint ignore:line
         // In certain cases, a field may be omitted from the server payload, but have a value (undefined)
         // when serialized from the model. (eg node.template_from)
         // Omit fields with a value of undefined before sending to the server. (but still allow null to be sent)
@@ -93,7 +111,7 @@ export default DS.JSONAPISerializer.extend({
         }
     },
 
-    normalizeArrayResponse(store, primaryModelClass, payload, id, requestType) {  // jshint ignore:line
+    normalizeArrayResponse(store, primaryModelClass, payload, id, requestType) { // jshint ignore:line
         // Ember data does not yet support pagination. For any request that returns more than one result, extract
         //  links.meta from the payload links section, and add to the model metadata manually.
         let documentHash = this._super(...arguments);

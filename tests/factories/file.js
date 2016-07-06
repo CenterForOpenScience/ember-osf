@@ -40,6 +40,10 @@ FactoryGuy.define('file', {
         hasComments: {
             kind: 'file',
             comments: () => FactoryGuy.hasMany('comment', 3)
+        },
+        hasTags: {
+            kind: 'file',
+            tags: () => [faker.lorem.words(1), faker.lorem.words(1), faker.lorem.words(1)]
         }
     }
 });

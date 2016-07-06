@@ -23,16 +23,17 @@
                         Check out
                     </button>
                 {{/if}}
+
             {{/if}}
             <button {{action 'download'}} class='btn btn-sm btn-primary'>
                 Download
             </button>
             {{link-to 'View'
-                'nodes.detail.files.provider.file.index' 
+                'nodes.detail.files.provider.file.index'
                 node model.provider model
                 class='btn btn-sm btn-primary'}}
             {{link-to 'Revisions'
-                'nodes.detail.files.provider.file.revisions' 
+                'nodes.detail.files.provider.file.revisions'
                 node model.provider model
                 class='btn btn-sm btn-primary'}}
         </div>
@@ -55,4 +56,14 @@
     <div class='col-md-9'>
         {{outlet}}
     </div>
+</div>
+
+<div class="row">
+    {{comment-pane
+    comments=comments
+    addComment=(action 'addComment')
+    editComment=(action 'editComment')
+    deleteComment=(action 'deleteComment')
+    restoreComment=(action 'restoreComment')
+    reportComment=(action 'reportComment')}}
 </div>

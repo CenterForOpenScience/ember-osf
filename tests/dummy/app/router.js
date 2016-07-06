@@ -9,6 +9,8 @@ Router.map(function() {
     this.route('index', {
         path: '/'
     });
+    this.route('login');
+    this.route('cookielogin');
     this.route('nodes', function() {
         this.route('detail', {
             path: '/:node_id'
@@ -33,7 +35,6 @@ Router.map(function() {
             });
         });
     });
-    this.route('login');
     this.route('signup');
     this.route('institutions', function() {
         this.route('detail', {

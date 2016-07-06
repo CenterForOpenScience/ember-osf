@@ -1,9 +1,12 @@
 import Ember from 'ember';
 import layout from './template';
 
-/*
- * file-chooser component
- *
+/**
+ * @module ember-osf
+ * @submodule components
+ */
+
+/**
  * This component lets the user choose a list of files from their computer, by
  * drag-and-drop, a file browser, or whatever method the developer wants.
  *
@@ -17,10 +20,12 @@ import layout from './template';
  * Exposed to block context
  *  - `this`: the component object itself, so the block can invoke actions
  *      example:
+ *      ```handlebars
  *          {{#file-chooser files=fileList as |component|}}
  *              {{input type='file'
  *                  change=(action 'onFileInputChange' target=component)}}
  *          {{/file-chooser}}
+ *      ```
  *
  * Actions
  *  - `onFileInputChange`: handle the `change` event on a file input
@@ -30,8 +35,9 @@ import layout from './template';
  *  - This component's element has the `drop-zone` class
  *  - While the user is holding dragged files over this component, it
  *    has the `drop-zone-ready` class
+ *
+ * @class file-chooser component
  */
-
 export default Ember.Component.extend({
     layout,
     classNames: ['drop-zone'],

@@ -1,22 +1,25 @@
 import DS from 'ember-data';
 
-import GuidReferent from './guid-referent';
+import OsfModel from './osf-model';
+
 import FileItemMixin from 'ember-osf/mixins/file-item';
 
-import {
-    serializeHasMany
-} from '../utils/serialize-relationship';
+/**
+ * @module ember-osf
+ * @submodule models
+ */
 
 /**
  * Model for OSF APIv2 nodes. This model may be used with one of several API endpoints. It may be queried directly,
  *  or accessed via relationship fields.
  * For field and usage information, see:
- *    https://api.osf.io/v2/docs/#!/v2/Node_List_GET
- *    https://api.osf.io/v2/docs/#!/v2/Node_Detail_GET
- *    https://api.osf.io/v2/docs/#!/v2/Node_Children_List_GET
- *    https://api.osf.io/v2/docs/#!/v2/Linked_Nodes_List_GET
- *    https://api.osf.io/v2/docs/#!/v2/Node_Forks_List_GET
- *    https://api.osf.io/v2/docs/#!/v2/User_Nodes_GET
+ * * https://api.osf.io/v2/docs/#!/v2/Node_List_GET
+ * * https://api.osf.io/v2/docs/#!/v2/Node_Detail_GET
+ * * https://api.osf.io/v2/docs/#!/v2/Node_Children_List_GET
+ * * https://api.osf.io/v2/docs/#!/v2/Linked_Nodes_List_GET
+ * * https://api.osf.io/v2/docs/#!/v2/Node_Forks_List_GET
+ * * https://api.osf.io/v2/docs/#!/v2/User_Nodes_GET
+ * @class Node
  */
 export default GuidReferent.extend(FileItemMixin, {
     title: DS.attr('string'),
@@ -41,70 +44,53 @@ export default GuidReferent.extend(FileItemMixin, {
         inverse: 'children'
     }),
     children: DS.hasMany('nodes', {
-        inverse: 'parent',
-        updateRequest: {
-            requestType: () => 'POST'
-        }
+        inverse: 'parent'
     }),
     affiliatedInstitutions: DS.hasMany('institutions', {
-        inverse: 'nodes',
-        serializer: serializeHasMany.bind(null, 'affiliatedInstitutions', 'institution')
+        inverse: 'nodes'
     }),
     comments: DS.hasMany('comments'),
     contributors: DS.hasMany('contributors', {
-        updateRequest: {
-            requestType: (snapshot, relationship) => {
-                if (snapshot.hasMany(relationship).filter(each => each.record.get('isNew')).length) {
-                    return 'POST';
-                }
-                return 'PATCH';
-            },
-            isBulk: () => true,
-            serialized(serialized) {
-                return {
-                    data: serialized.map(function(record) {
-                        var data = record.data;
-                        return data;
-                    })
-                };
-            }
-        },
+        allowBulkUpdate: true,
+        allowBulkRemove: true,
         inverse: null
     }),
 
     files: DS.hasMany('file-provider'),
     //forkedFrom: DS.belongsTo('node'),
     nodeLinks: DS.hasMany('node-links', {
-        updateRequest: {
-            requestType: () => 'POST',
-            isBulk: () => true,
-            serialized(serialized) {
-                return {
-                    data: serialized.map(function(record) {
-                        var data = record.data;
-                        return data;
-                    })
-                };
-            }
-        },
         inverse: null
     }),
     registrations: DS.hasMany('registrations', {
-        inverse: 'registeredFrom',
-        updateRequest: {
-            requestType: () => 'POST'
-        }
+        inverse: 'registeredFrom'
     }),
 
     draftRegistrations: DS.hasMany('draft-registrations', {
-        inverse: 'branchedFrom',
-        updateRequest: {
-            requestType: () => 'POST'
-        }
+        inverse: 'branchedFrom'
     }),
 
     root: DS.belongsTo('node', {
         inverse: null
     }),
-    logs: DS.hasMany('logs')
+    logs: DS.hasMany('logs'),
+
+    save() {
+        // Some duplicate logic from osf-model#save needed to support
+        // contributor edits being saved through the node
+        var promise = this._super(...arguments);
+        var contributors = this.hasMany('contributors').hasManyRelationship;
+        if (contributors.hasData && contributors.hasLoaded) {
+            this.set(
+                '_dirtyRelationships.contributors.update',
+                contributors.members.list.filter(m => !m.record.get('isNew') && Object.keys(m.record.changedAttributes()).length > 0)
+            );
+            // Contributors are a 'real' delete, not just a de-reference
+            this.set(
+                '_dirtyRelationships.contributors.delete',
+                this.get('_dirtyRelationships.contributors.remove')
+            );
+            this.set('_dirtyRelationships.contributors.remove', []);
+        }
+        return promise;
+    }
 });

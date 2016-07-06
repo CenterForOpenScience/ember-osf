@@ -4,19 +4,26 @@ import GuidReferent from './guid-referent';
 import FileItemMixin from 'ember-osf/mixins/file-item';
 
 /**
+ * @module ember-osf
+ * @submodule models
+ */
+
+/**
  * Model for OSF APIv2 files. This model may be used with one of several API endpoints. It may be queried directly,
  *  or (more commonly) accessed via relationship fields.
  * This model is used for basic file metadata. To interact with file contents directly, see the `file-manager` service.
  * For field and usage information, see:
- *    https://api.osf.io/v2/docs/#!/v2/File_Detail_GET
- *    https://api.osf.io/v2/docs/#!/v2/Node_Files_List_GET
- *    https://api.osf.io/v2/docs/#!/v2/Node_File_Detail_GET
- *    https://api.osf.io/v2/docs/#!/v2/Registration_Files_List_GET
- *    https://api.osf.io/v2/docs/#!/v2/Registration_File_Detail_GET
+ * * https://api.osf.io/v2/docs/#!/v2/File_Detail_GET
+ * * https://api.osf.io/v2/docs/#!/v2/Node_Files_List_GET
+ * * https://api.osf.io/v2/docs/#!/v2/Node_File_Detail_GET
+ * * https://api.osf.io/v2/docs/#!/v2/Registration_Files_List_GET
+ * * https://api.osf.io/v2/docs/#!/v2/Registration_File_Detail_GET
+ * @class File
  */
 export default GuidReferent.extend(FileItemMixin, {
     name: DS.attr('string'),
     kind: DS.attr('string'),
+    guid: DS.attr('string'),
     path: DS.attr('string'),
     size: DS.attr('number'),
     provider: DS.attr('string'),

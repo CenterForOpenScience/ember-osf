@@ -1,4 +1,4 @@
 import Ember from 'ember';
-import OsfLoginRouteMixin from 'ember-osf/mixins/osf-login-route';
+import OsfTokenLoginRouteMixin from 'ember-osf/mixins/osf-token-login-route';
 
-export default Ember.Route.extend(OsfLoginRouteMixin);
+export default Ember.Route.extend(OsfTokenLoginRouteMixin);

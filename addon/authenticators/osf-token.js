@@ -3,9 +3,20 @@ import BaseAuthenticator from 'ember-simple-auth/authenticators/base';
 
 import config from 'ember-get-config';
 
+/**
+ * @module ember-osf
+ * @submodule authenticators
+ */
+
+/**
+ * Ember-simple-auth compatible authenticator based on OAuth2 bearer tokens.
+ *
+ * Intended to be used with the authorizer of the same name.
+ *
+ * @class OsfTokenAuthenticator
+ * @extends ember-simple-auth/BaseAuthenticator
+ */
 export default BaseAuthenticator.extend({
-    store: Ember.inject.service(),
-    authUrl: `${config.OSF.authUrl}/`,
     _test(accessToken) {
         return Ember.$.ajax({
             method: 'GET',
@@ -28,6 +39,7 @@ export default BaseAuthenticator.extend({
         return this._test(accessToken).fail(this.invalidate);
     },
     authenticate(accessToken) {
+        // Adds the entire API user endpoint record to the session store as given
         return this._test(accessToken);
     }
 });
