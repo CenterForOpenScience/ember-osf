@@ -20,5 +20,8 @@
   "devDependencies": {
     "bootstrap": "^3.3.6",
     "osf-style": "https://github.com/CenterForOpenScience/osf-style.git#^0.1.0"
+  },
+  "resolutions": {
+    "jquery": "~2.1.3"
   }
 }
