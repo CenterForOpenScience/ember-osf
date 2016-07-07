@@ -69,6 +69,7 @@ module.exports = {
             ENV.OSF.apiUrl = 'https://test-api.osf.io';
             ENV.OSF.oauthUrl = 'https://test-accounts.osf.io/oauth2/authorize';
             ENV.OSF.renderUrl = 'http://test-mfr.osf.io/render';
+            ENV.OSF.waterbutlerUrl = 'http://test-files.osf.io/';
 
         }
         if (BACKEND === 'prod') {
