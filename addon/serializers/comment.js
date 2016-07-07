@@ -1,7 +1,8 @@
+import Ember from 'ember';
 import OsfSerializer from './osf-serializer';
 
 export default OsfSerializer.extend({
-    serialize(snapshot, options) {  // jshint ignore:line
+    serialize(snapshot, options) { // jshint ignore:line
         // Add relationships field to identify comment target
         let serialized = this._super(...arguments);
 
@@ -23,5 +24,11 @@ export default OsfSerializer.extend({
             };
         }
         return serialized;
+    },
+    extractRelationships(modelClass, resourceHash) {
+        // TODO: remove when https://openscience.atlassian.net/browse/OSF-6646 is done
+        resourceHash = this._super(modelClass, resourceHash);
+        resourceHash.replies.links.related = Ember.copy(resourceHash.replies.links.self);
+        return resourceHash;
     }
 });
