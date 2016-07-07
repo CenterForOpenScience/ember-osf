@@ -53,7 +53,6 @@ module.exports = {
             ENV.OSF.renderUrl = 'http://staging-mfr.osf.io/render';
             ENV.OSF.waterbutlerUrl = 'http://staging-files.osf.io/';
             ENV.OSF.helpUrl = 'http://help.osf.io';
-
         }
         if (BACKEND === 'stage2') {
             ENV.OSF.url = 'https://staging2.osf.io/';
@@ -62,7 +61,6 @@ module.exports = {
             ENV.OSF.renderUrl = 'http://staging2-mfr.osf.io/render';
             ENV.OSF.waterbutlerUrl = 'http://staging2-files.osf.io/';
             ENV.OSF.helpUrl = 'http://help.osf.io';
-
         }
         if (BACKEND === 'test') {
             ENV.OSF.url = 'https://test.osf.io/';
@@ -70,7 +68,7 @@ module.exports = {
             ENV.OSF.oauthUrl = 'https://test-accounts.osf.io/oauth2/authorize';
             ENV.OSF.renderUrl = 'http://test-mfr.osf.io/render';
             ENV.OSF.waterbutlerUrl = 'http://test-files.osf.io/';
-
+            ENV.OSF.helpUrl = 'http://help.osf.io';
         }
         if (BACKEND === 'prod') {
             console.log(`WARNING: you\'ve specified production as a backend. Please do not use production for testing or development purposes`);
