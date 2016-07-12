@@ -18,8 +18,12 @@ export default Ember.Component.extend({
     session: Ember.inject.service(),
     currentUser: Ember.inject.service(),
     onSearchPage: false,
-    gravatarUrl: Ember.computed('user.links.profile_image', function() {
-        return this.get('user.links.profile_image') + '&s=25';
+    gravatarUrl: Ember.computed('user', function() {
+        let imgLink = this.get('user.links.profile_image');
+        if (imgLink) {
+            imgLink += '&s=25';
+        }
+        return imgLink;
     }),
     fullName: null,
     host: config.OSF.url,
