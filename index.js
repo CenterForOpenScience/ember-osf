@@ -3,6 +3,8 @@
 var path = require('path');
 var config = require('config');
 var Funnel = require('broccoli-funnel');
+var mergeTrees = require('broccoli-merge-trees');
+var compileSass = require('broccoli-sass-source-maps');
 
 module.exports = {
     name: 'ember-osf',
@@ -101,6 +103,18 @@ module.exports = {
             };
         }
         return app;
+    },
+    treeForAddon: function(tree) {
+	this.addonTree = tree;
+	return this._super.treeForAddon.apply(this, arguments);
+    },
+    treeForVendor: function(tree) {
+	var addonStyleTree = this._treeFor('addon-styles');
+	var addonPodStyles = new Funnel(this.addonTree, {
+	    include: ['components/**/*css']
+	});
+	var addonCss = compileSass([addonStyleTree, addonPodStyles], 'addon.scss', 'assets/ember-osf.css', {annotation: 'EmberOsf Sass Tree'});
+        return mergeTrees([tree, addonCss].filter(Boolean));
     },
     treeForPublic() {
         var assetDir = path.join(path.resolve(this.root, ''), 'addon/assets');
