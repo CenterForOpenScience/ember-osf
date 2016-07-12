@@ -18,7 +18,9 @@ export default Ember.Component.extend({
     session: Ember.inject.service(),
     currentUser: Ember.inject.service(),
     onSearchPage: false,
-    gravatarUrl: Ember.computed.alias('user.links.profile_image'),
+    gravatarUrl: Ember.computed('user.links.profile_image', function() {
+        return this.get('user.links.profile_image') + '&s=25';
+    }),
     fullName: null,
     host: config.OSF.url,
     authUrl: getAuthUrl(),
