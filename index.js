@@ -105,15 +105,23 @@ module.exports = {
         return app;
     },
     treeForAddon: function(tree) {
-	this.addonTree = tree;
-	return this._super.treeForAddon.apply(this, arguments);
+        this.addonTree = tree;
+        return this._super.treeForAddon.apply(this, arguments);
     },
     treeForVendor: function(tree) {
-	var addonStyleTree = this._treeFor('addon-styles');
-	var addonPodStyles = new Funnel(this.addonTree, {
-	    include: ['components/**/*css']
-	});
-	var addonCss = compileSass([addonStyleTree, addonPodStyles], 'addon.scss', 'assets/ember-osf.css', {annotation: 'EmberOsf Sass Tree'});
+        var addonStyleTree = this._treeFor('addon-styles');
+        var addonPodStyles = new Funnel(this.addonTree, {
+            include: [
+                'components/**/*css'
+            ]
+        });
+        var addonCss = compileSass(
+            [addonStyleTree, addonPodStyles],
+            'addon.scss',
+            'assets/ember-osf.css',
+            {
+                annotation: 'EmberOsf Sass Tree'
+            });
         return mergeTrees([tree, addonCss].filter(Boolean));
     },
     treeForPublic() {
