@@ -65,6 +65,7 @@
   "dependencies": {
     "broccoli-funnel": "^1.0.1",
     "broccoli-merge-trees": "^1.1.1",
+    "broccoli-sass-source-maps": "^1.6.0",
     "config": "^1.20.1",
     "ember-cli-babel": "^5.1.5",
     "ember-cli-htmlbars": "^1.0.1",
