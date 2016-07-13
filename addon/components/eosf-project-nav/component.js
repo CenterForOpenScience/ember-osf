@@ -11,14 +11,12 @@ import layout from './template';
  * @class eosf-project-nav
  */
 // TODO: Fill in usage example
-
+// TODO: Some of these fields should live on node, and others shouldn't even exist.
 export default Ember.Component.extend({
     layout,
     node: null,
-    // TODO: Verify type field is accessible to component node model
+    // TODO: can't access type field; consider alternatives
     isProject: Ember.computed.equal('node.type', 'nodes'),
-    // TODO: Parent is a relationship. No idea what happens when parent is null.
-    isTopLevel: Ember.computed.empty('node.parent'),
 
     // This is common enough that we may want a helper somewhere else
     projectLabel: Ember.computed('node.category', function() {

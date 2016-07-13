@@ -4,7 +4,6 @@
     <header class="subhead" id="overview">
         <nav id="projectSubnav" class="navbar osf-project-navbar" role="navigation">
             <div class="container">
-
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".project-nav">
                         <span class="sr-only">Toggle navigation</span>
@@ -20,48 +19,48 @@
                         {{# if node.parent}}
                             <!--% if parent_node['can_view'] or parent_node['is_public'] or parent_node['is_contributor']:-->
                                 <li>
-                                    <a href="${parent_node['url']}" data-toggle="tooltip" title={{model.parent.title}} data-placement="bottom"
-                                       style="padding: 12px 17px;"> <i class="fa fa-level-down fa-rotate-180"></i>  </a><
-                                    /li>
+                                    <a href="{{node.parent.links.html}}" data-toggle="tooltip" title={{node.parent.title}} data-placement="bottom"
+                                       style="padding: 12px 17px;"> <i class="fa fa-level-down fa-rotate-180"></i>  </a>
+                                </li>
 
                             <!--% else:-->
                                 <li><a href="#" data-toggle="tooltip" title="Parent project is private" data-placement="bottom" style="cursor: default"> <i class="fa fa-level-down fa-rotate-180 text-muted"></i>  </a></li>
                             <!--% endif-->
                         {{/if}}
                         <li>
-                            <a href="${node['url']}"  class="project-title">
+                            <a href="{{node.links.html}}" class="project-title">
                                 {{node.title}}
                             </a>
                         </li>
-                    <!--% if not node['is_retracted']:-->
+                    <!--% if not node['is_retracted']:-->  {{!-- TODO: Under what conditions can a retracted node be seen in a SPA, from APIv2? --}}
                         <li id="projectNavFiles">
-                            <a href="${node['url']}files/">
+                            <a href="{{node.links.html}}files/">
                                 Files
                             </a>
                         </li>
                         <li>
-                            <a href="${SOME_WIKI_LINK}">Wiki</a>
+                            <a href="{{node.links.html}}wiki/">Wiki</a>
                         </li>
 
 
-                        <!--% if node['is_public'] or user['is_contributor']:-->
-                            <li><a href="${node['url']}analytics/">Analytics</a></li>
+                        <!--% if node['is_public'] or user['is_contributor']:-->  {{!-- TODO: Edge case: view only link. How do we handle this? --}}
+                            <li><a href="{{node.links.html}}analytics/">Analytics</a></li>
                         <!--% endif-->
 
                         <!--% if not node['is_registration'] and not node['anonymous']:-->
-                            <li><a href="${node['url']}registrations/">Registrations</a></li>
+                            <li><a href="{{node.links.html}}registrations/">Registrations</a></li>
                         <!--% endif-->
 
                         <!--% if not node['anonymous']:-->
-                            <li><a href="${node['url']}forks/">Forks</a></li>
+                            <li><a href="{{node.links.html}}forks/">Forks</a></li>
                         <!--%endif-->
 
                         <!--% if user['is_contributor']:-->
-                            <li><a href="${node['url']}contributors/">Contributors</a></li>
+                            <li><a href="{{node.links.html}}contributors/">Contributors</a></li>
                         <!--% endif-->
 
                         <!--% if user['has_read_permissions'] and not node['is_registration'] or (node['is_registration'] and 'admin' in user['permissions']):-->
-                            <li><a href="${node['url']}settings/">Settings</a></li>
+                            <li><a href="{{node.links.html}}settings/">Settings</a></li>
                         <!--% endif-->
                     <!--% endif-->
                     <!--% if user['can_comment'] or node['has_comments']:-->
