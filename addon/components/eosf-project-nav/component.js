@@ -16,7 +16,8 @@ export default Ember.Component.extend({
     layout,
     node: null,
     // TODO: can't access type field; consider alternatives
-    isProject: Ember.computed.equal('node.type', 'nodes'),
+    isProject: Ember.computed.equal('node.constructor.modelName', 'node'),
+    isRegistration: Ember.computed.equal('node.constructor.modelName', 'registration'),
 
     // This is common enough that we may want a helper somewhere else
     projectLabel: Ember.computed('node.category', function() {

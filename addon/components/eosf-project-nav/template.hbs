@@ -1,5 +1,3 @@
-
-
 <div id="projectBanner" >
     <header class="subhead" id="overview">
         <nav id="projectSubnav" class="navbar osf-project-navbar" role="navigation">
@@ -17,14 +15,17 @@
                     <ul class="nav navbar-nav">
 
                         {{# if node.parent}}
-                            <!--% if parent_node['can_view'] or parent_node['is_public'] or parent_node['is_contributor']:-->
+                            <!--% if parent_node['can_view'] or {{node.parent.public}} or parent_node['is_contributor']:-->
                                 <li>
                                     <a href="{{node.parent.links.html}}" data-toggle="tooltip" title={{node.parent.title}} data-placement="bottom"
                                        style="padding: 12px 17px;"> <i class="fa fa-level-down fa-rotate-180"></i>  </a>
+                                    TYPE: {{node.constructor.modelName}}
                                 </li>
 
                             <!--% else:-->
-                                <li><a href="#" data-toggle="tooltip" title="Parent project is private" data-placement="bottom" style="cursor: default"> <i class="fa fa-level-down fa-rotate-180 text-muted"></i>  </a></li>
+                                {{!-- FIXME This link goes to homepage which isn't ideal. Possible ref https://github.com/emberjs/ember.js/issues/12997 --}}
+                                {{!-- TODO: Private project detection in OSF dashboard relies on embeds : private parent is listed in api endpoint, but the page is not visible --}}
+                                <li><a data-toggle="tooltip" title="Parent project is private" data-placement="bottom" style="cursor: default"> <i class="fa fa-level-down fa-rotate-180 text-muted"></i>  </a></li>
                             <!--% endif-->
                         {{/if}}
                         <li>
@@ -43,17 +44,18 @@
                         </li>
 
 
-                        <!--% if node['is_public'] or user['is_contributor']:-->  {{!-- TODO: Edge case: view only link. How do we handle this? --}}
+                        <!--% if {{node.public}} or user['is_contributor']:-->  {{!-- TODO: Edge case: view only link perhaps. How do we handle this? --}}
                             <li><a href="{{node.links.html}}analytics/">Analytics</a></li>
                         <!--% endif-->
 
-                        <!--% if not node['is_registration'] and not node['anonymous']:-->
+                        {{!-- TODO: Need way of getting type (isRegistration, isNode, etc). Many pages will be expected to need this. --}}
+                        <!--% if not node['is_registration'] and not {{node.meta.anonymous}}:--> {{!-- TODO: Anonymized view only link --}}
                             <li><a href="{{node.links.html}}registrations/">Registrations</a></li>
                         <!--% endif-->
 
-                        <!--% if not node['anonymous']:-->
+                        {{#unless node.meta.anonymous}} {{!-- TODO: Test this --}}
                             <li><a href="{{node.links.html}}forks/">Forks</a></li>
-                        <!--%endif-->
+                        {{/unless}}
 
                         <!--% if user['is_contributor']:-->
                             <li><a href="{{node.links.html}}contributors/">Contributors</a></li>
@@ -65,7 +67,7 @@
                     <!--% endif-->
                     <!--% if user['can_comment'] or node['has_comments']:-->
                         <li id="commentsLink">
-                            {{!-- TODO: Convert usages of knockout--}}
+                            {{!-- TODO: Convert usages of knockout. How can API tell us if user can comment? --}}
                             <a href="" class="visible-xs cp-handle" data-bind="click:removeCount" data-toggle="collapse" data-target="#projectSubnav .navbar-collapse">
                                 Comments
                                 <span data-bind="if: unreadComments() !== 0">
