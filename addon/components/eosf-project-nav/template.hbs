@@ -13,12 +13,11 @@
                 </div>
                 <div class="collapse navbar-collapse project-nav">
                     <ul class="nav navbar-nav">
-
-                        {{# if node.parent}}
+                        {{#if node.parent}} {{!-- This might be an error --}}
                             {{#if showParentProjectLink}}
                                 <li>
                                     {{!-- TODO: Really? We were hardcoding styles in the template?? Move hardcoded styles to CSS --}}
-                                    <a href="{{node.parent.links.html}}" data-toggle="tooltip" title={{node.parent.title}} data-placement="bottom"
+                                    <a href="{{node.parent.links.html}}" data-toggle="tooltip" title="{{node.parent.title}}" data-placement="bottom"
                                        style="padding: 12px 17px;"> <i class="fa fa-level-down fa-rotate-180"></i>  </a>
                                 </li>
                             {{else}}
@@ -31,7 +30,7 @@
                                 {{node.title}}
                             </a>
                         </li>
-                    {{#unless (and node.isRegistration node.withdrawn)}}
+                    {{#unless minimalRegistrationView}}
                         <li id="projectNavFiles">
                             <a href="{{node.links.html}}files/">
                                 Files
@@ -45,9 +44,9 @@
                         {{/if}}
 
                         {{!-- TODO: Need way of getting type (isRegistration, isNode, etc). Many pages will be expected to need this. --}}
-                        <!--% if
+                        {{#if showRegistrationsTab}}
                             <li><a href="{{node.links.html}}registrations/">Registrations</a></li>
-                        <!--% endif-->
+                        {{/if}}
 
                         {{#if showForksTab}} {{!-- TODO: Test this --}}
                             <li><a href="{{node.links.html}}forks/">Forks</a></li>

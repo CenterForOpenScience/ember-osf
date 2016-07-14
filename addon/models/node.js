@@ -89,6 +89,14 @@ export default OsfModel.extend(FileItemMixin, {
      * @type boolean
      */
     isRegistration: Ember.computed.equal('constructor.modelName', 'registration'),
+
+    /**
+     * Is this node being viewed through an anonymized, view-only link?
+     * @property isAnonymous
+     * @type boolean
+     */
+    isAnonymous: Ember.computed.bool('meta.anonymous'),
+
     /**
      * Determine whether the specified user ID is a contributor on this node
      * @method isContributor

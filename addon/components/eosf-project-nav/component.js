@@ -8,15 +8,19 @@ import layout from './template';
 
 /**
  * Project header navigation bar, with links to various sub-pages within a project
+ * Sample usage:
+ * ```handlebars
+ * {{eosf-project-nav
+ *   node=node
+ *   user=user}}
+ * ```
  * @class eosf-project-nav
  */
-// TODO: Fill in usage example
-// TODO: Some of these fields should live on node, and others shouldn't even exist.
 export default Ember.Component.extend({
     layout,
     node: null,
+    user: null,
 
-    // This is common enough that we may want a helper somewhere else
     projectLabel: Ember.computed('node.category', function() {
         let category = this.get('node.category');
         return category === 'project'? 'Project' : 'Component';
@@ -26,44 +30,34 @@ export default Ember.Component.extend({
      * @property isProjectContributor
      */
     isProjectContributor: Ember.computed('user', 'node', function() {
+        // TODO: Finish implementing
         let node = this.get('node');
         let user = this.get('user.id');
         return node.isContributor(user);
     }),
     // TODO: May also need a parent-contributor check??
 
-
-
-    // TODO: Implement. This tests whether most of the buttons should be hidden because this is a registration.
-    minimalRegistrationView: false,
     /**
-     * If the parent node is not visible to the contributor, it will be identified in the API response, but not accessible.
-     * @property canViewParent
-     * @type boolean
+     * If this is a withdrawn registration, hide a block of buttons.
+     * @property minimalRegistrationView
      */
-    canViewParent: Ember.computed('node', function(){
-        // TODO: Implement. Check for errors in parent fetch operation.
-        // TODO: Consider replacing this with an embed in the future
-        return true;
-    }),
+    minimalRegistrationView: Ember.computed.and('node.isRegistration', 'node.withdrawn'),
 
-    showParentProjectLink: Ember.computed(function() {
+    showParentProjectLink: Ember.computed('node.parent', function() {
         // TODO: Implement
+        // If the parent node is not visible to the contributor, it will be identified in the API response, but not accessible.
+        let parent = this.get('node.parent');
         // (or canViewParent node.parent.public parent_node['is_contributor'])
-        return true;
+        if (parent) {
+        }
+        return false;
     }),
-    showAnalyticsTab: Ember.computed('node', 'isProjectContributor', function() {
-        // TODO: Implement
-        // (or node.public isProjectContributor)
-        return true;
+    showAnalyticsTab: Ember.computed.or('node.public', 'isProjectContributor'),
+    showRegistrationsTab: Ember.computed('node.isRegistration', 'node.isAnonymous', function() {
+        // Do not show registrations tab for view-only links
+        return !this.get('node.isRegistration') && !this.get('node.meta.isAnonymous');
     }),
-
-    showRegistrationsTab: true,   // TODO: Implement
-    // not node.isRegistration and not {{node.meta.anonymous}}:--> {{!-- TODO: Anonymized view only link --}}
-    
-    
-    
-    showForksTab: Ember.computed.not('node.meta.anonymous'),
+    showForksTab: Ember.computed.not('node.isAnonymous'),
     showContributorsTab: Ember.computed.alias('isProjectContributor'),
     showSettingsTab: Ember.computed('user', 'node', function() {
         // TODO: Implement
@@ -72,7 +66,7 @@ export default Ember.Component.extend({
     }),
 
     showCommentsButton: Ember.computed('user', 'node', function() {
-        // TODO: Implement
+        // TODO: Implement. Identify source for this data.
         // <!--% if user['can_comment'] or node['has_comments']:-->
         return true;
     })
