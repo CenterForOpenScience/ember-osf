@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import DS from 'ember-data';
 
 import OsfModel from './osf-model';
@@ -16,8 +17,12 @@ import OsfModel from './osf-model';
 export default OsfModel.extend({
     bibliographic: DS.attr('boolean'),
     permission: DS.attr('string'),
-    userId: DS.attr('string'),
+    userId: Ember.computed('id', function() {
+	return this.get('id').split('-').pop();
+    }),
+    nodeId: Ember.computed('id', function() {
+	return this.get('id').split('-').shift();
+    }),
     users: DS.belongsTo('user'),
-    nodeId: DS.attr('string'),
     unregisteredContributor: DS.attr('string')
 });
