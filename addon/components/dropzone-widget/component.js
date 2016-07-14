@@ -8,6 +8,7 @@ import layout from './template';
 
 /**
  * Support file uploads via dropzone.
+ * Accepts dropzone event listeners as parameters (e.g. success, error, addedfile)
  *
  * Sample usage:
  * ```handlebars
