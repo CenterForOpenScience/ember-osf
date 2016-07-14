@@ -16,13 +16,13 @@
                         {{#if node.parent}} {{!-- This might be an error --}}
                             {{#if showParentProjectLink}}
                                 <li>
-                                    {{!-- TODO: Really? We were hardcoding styles in the template?? Move hardcoded styles to CSS --}}
-                                    <a href="{{node.parent.links.html}}" data-toggle="tooltip" title="{{node.parent.title}}" data-placement="bottom"
-                                       style="padding: 12px 17px;"> <i class="fa fa-level-down fa-rotate-180"></i>  </a>
+                                    <a href="{{node.parent.links.html}}" data-toggle="tooltip" title="{{node.parent.title}}" data-placement="bottom" class="eosf-project-nav-parent">
+                                        <i class="fa fa-level-down fa-rotate-180"></i>
+                                    </a>
                                 </li>
                             {{else}}
                                 {{!-- TODO: Private project detection in OSF dashboard relies on embeds : private parent is listed in api endpoint, but the page is not visible --}}
-                                <li><a data-toggle="tooltip" title="Parent project is private" data-placement="bottom" style="cursor: default"> <i class="fa fa-level-down fa-rotate-180 text-muted"></i>  </a></li>
+                                <li><a data-toggle="tooltip" title="Parent project is private" data-placement="bottom" class="eosf-project-nav-private-parent"> <i class="fa fa-level-down fa-rotate-180 text-muted"></i>  </a></li>
                             {{/if}}
                         {{/if}}
                         <li>
@@ -30,44 +30,44 @@
                                 {{node.title}}
                             </a>
                         </li>
-                    {{#unless minimalRegistrationView}}
-                        <li id="projectNavFiles">
-                            <a href="{{node.links.html}}files/">
-                                Files
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{node.links.html}}wiki/">Wiki</a>
-                        </li>
-                        {{#if showAnalyticsTab}}
-                            <li><a href="{{node.links.html}}analytics/">Analytics</a></li>
-                        {{/if}}
-                        {{#if showRegistrationsTab}}
-                            <li><a href="{{node.links.html}}registrations/">Registrations</a></li>
-                        {{/if}}
-                        {{#if showForksTab}}
-                            <li><a href="{{node.links.html}}forks/">Forks</a></li>
-                        {{/if}}
+                        {{#unless minimalRegistrationView}}
+                            <li id="projectNavFiles">
+                                <a href="{{node.links.html}}files/">
+                                    Files
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{node.links.html}}wiki/">Wiki</a>
+                            </li>
+                            {{#if showAnalyticsTab}}
+                                <li><a href="{{node.links.html}}analytics/">Analytics</a></li>
+                            {{/if}}
+                            {{#if showRegistrationsTab}}
+                                <li><a href="{{node.links.html}}registrations/">Registrations</a></li>
+                            {{/if}}
+                            {{#if showForksTab}}
+                                <li><a href="{{node.links.html}}forks/">Forks</a></li>
+                            {{/if}}
 
-                        {{#if showContributorsTab}}
-                            <li><a href="{{node.links.html}}contributors/">Contributors</a></li>
-                        {{/if}}
+                            {{#if showContributorsTab}}
+                                <li><a href="{{node.links.html}}contributors/">Contributors</a></li>
+                            {{/if}}
 
-                        {{#if showSettingsTab}}
-                            <li><a href="{{node.links.html}}settings/">Settings</a></li>
+                            {{#if showSettingsTab}}
+                                <li><a href="{{node.links.html}}settings/">Settings</a></li>
+                            {{/if}}
+                        {{/unless}}
+                        {{#if showCommentsButton}}
+                            <li id="commentsLink">
+                                {{!-- TODO: Convert usages of knockout. How can API tell us if user can comment? --}}
+                                <a href="" class="visible-xs cp-handle" data-bind="click:removeCount" data-toggle="collapse" data-target="#projectSubnav .navbar-collapse">
+                                    Comments
+                                    <span data-bind="if: unreadComments() !== 0">
+                                        <span data-bind="text: displayCount" class="badge"></span>
+                                    </span>
+                                </a>
+                            </li>
                         {{/if}}
-                    {{/unless}}
-                    {{#if showCommentsButton}}
-                        <li id="commentsLink">
-                            {{!-- TODO: Convert usages of knockout. How can API tell us if user can comment? --}}
-                            <a href="" class="visible-xs cp-handle" data-bind="click:removeCount" data-toggle="collapse" data-target="#projectSubnav .navbar-collapse">
-                                Comments
-                                <span data-bind="if: unreadComments() !== 0">
-                                    <span data-bind="text: displayCount" class="badge"></span>
-                                </span>
-                           </a>
-                       </li>
-                    {{/if}}
                     </ul>
                 </div>
             </div>

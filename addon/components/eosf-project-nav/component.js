@@ -3,7 +3,6 @@ import layout from './template';
 
 import permissions from '../../const/permissions';
 
-
 /**
  * @module ember-osf
  * @submodule components
@@ -26,7 +25,7 @@ export default Ember.Component.extend({
 
     projectLabel: Ember.computed('node.category', function() {
         let category = this.get('node.category');
-        return category === 'project'? 'Project' : 'Component';
+        return category === 'project' ? 'Project' : 'Component';
     }),
     /**
      * Is the user a contributor on this node? (returns false if the user is not logged in)

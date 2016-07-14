@@ -75,7 +75,6 @@ export default OsfModel.extend(FileItemMixin, {
     }),
     logs: DS.hasMany('logs'),
 
-
     // These are only computeds because maintaining separate flag values on different classes would be a headache TODO: Improve.
     /**
      * Is this a project? Flag can be used to provide template-specific behavior for different resource types.
