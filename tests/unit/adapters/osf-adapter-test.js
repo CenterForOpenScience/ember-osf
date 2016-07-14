@@ -3,7 +3,6 @@ import {
     moduleFor
 } from 'ember-qunit';
 import test from 'dummy/tests/ember-sinon-qunit/test';
-import sinon from 'sinon';
 import FactoryGuy, {
     manualSetup
 } from 'ember-data-factory-guy';
@@ -26,7 +25,7 @@ moduleFor('adapter:osf-adapter', 'Unit | Adapter | osf adapter', {
 
 test('#buildURL appends a trailing slash if missing', function(assert) {
     var url = 'https://api.osf.io/v2/users/me';
-    sinon.stub(
+    this.stub(
         DS.JSONAPIAdapter.prototype,
         'buildURL',
         function() {
@@ -128,12 +127,12 @@ test('#_createRelated maps over each createdSnapshots and adds records to the pa
     ];
     Ember.run.end();
     node.get('contributors').pushObjects(contributors);
-    let saveStubs = contributors.map(c => sinon.stub(c, 'save', () => {
+    let saveStubs = contributors.map(c => this.stub(c, 'save', () => {
         return new Ember.RSVP.Promise((resolve) => resolve());
     }));
 
-    var addCanonicalStub = sinon.stub();
-    sinon.stub(node, 'resolveRelationship', () => {
+    var addCanonicalStub = this.stub();
+    this.stub(node, 'resolveRelationship', () => {
         return {
             addCanonicalRecord: addCanonicalStub
         };
@@ -159,18 +158,58 @@ test('#_addRelated defers to _doRelatedRequest and adds records to the parent\'s
     let institution = FactoryGuy.make('institution');
     node.get('affiliatedInstitutions').pushObject(institution);
 
-    var doRelatedStub = sinon.stub(OsfAdapter.prototype, '_doRelatedRequest', () => {
+    var doRelatedStub = this.stub(OsfAdapter.prototype, '_doRelatedRequest', () => {
         return new Ember.RSVP.Promise(resolve => resolve());
     });
     var relation = node.resolveRelationship('affiliatedInstitutions');
     relation.hasLoaded = true;
-    var addCanonicalStub = sinon.stub(relation, 'addCanonicalRecord');
+    var addCanonicalStub = this.stub(relation, 'addCanonicalRecord');
 
     Ember.run(() => {
         node.save().then(() => {
             assert.ok(doRelatedStub.called);
             assert.ok(addCanonicalStub.calledOnce);
             assert.ok(addCanonicalStub.calledWith(institution));
+        }, () => {
+            // Fail
+            assert.ok(false);
+        });
+    });
+});
+
+test('#_updateRelated defers to _doRelatedRequest, pushes the update response into the store, and updates the parent\'s canonicalState', function(assert) {
+    this.inject.service('store');
+    let store = this.store;
+
+    let node = FactoryGuy.make('node', 'hasContributors');
+    var contribs = node.get('contributors');
+    var contrib = contribs.objectAt(1);
+
+    contrib.set('bibliographic', true);
+
+    var doRelatedStub = this.stub(OsfAdapter.prototype, '_doRelatedRequest', () => {
+        return new Ember.RSVP.Promise(resolve => resolve({
+            data: [
+                // A slight hack-- ingore the value returned from _doRelatedRequest
+                true
+            ]
+        }));
+    });
+    var addCanonicalStub = this.stub();
+    this.stub(node, 'resolveRelationship', () => {
+        return {
+            addCanonicalRecord: addCanonicalStub
+        };
+    });
+    var pushStub = this.stub(store, 'push', () => contrib);
+    var normalizeStub = this.stub(store, 'normalize');
+
+    Ember.run(() => {
+        node.save().then(() => {
+            assert.ok(doRelatedStub.calledOnce);
+            assert.ok(addCanonicalStub.calledOnce);
+            assert.ok(pushStub.calledOnce);
+            assert.ok(normalizeStub.calledOnce);
         }, () => {
             // Fail
             assert.ok(false);
