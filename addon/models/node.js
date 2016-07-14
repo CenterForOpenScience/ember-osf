@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import DS from 'ember-data';
 
 import OsfModel from './osf-model';
@@ -73,6 +74,31 @@ export default OsfModel.extend(FileItemMixin, {
         inverse: null
     }),
     logs: DS.hasMany('logs'),
+
+
+    // These are only computeds because maintaining separate flag values on different classes would be a headache TODO: Improve.
+    /**
+     * Is this a project? Flag can be used to provide template-specific behavior for different resource types.
+     * @property isProject
+     * @type boolean
+     */
+    isProject: Ember.computed.equal('constructor.modelName', 'node'),
+    /**
+     * Is this a registration? Flag can be used to provide template-specific behavior for different resource types.
+     * @property isRegistration
+     * @type boolean
+     */
+    isRegistration: Ember.computed.equal('constructor.modelName', 'registration'),
+    /**
+     * Determine whether the specified user ID is a contributor on this node
+     * @method isContributor
+     * @param {String} userID
+     * @returns {boolean} Whether the specified user is a contributor on this node
+     */
+    isContributor(userID) {
+        // TODO: Implement!
+        return true;
+    },
 
     save() {
         // Some duplicate logic from osf-model#save needed to support

@@ -7,7 +7,7 @@
                         <span class="sr-only">Toggle navigation</span>
                         <span class="fa fa-bars fa-lg"></span>
                     </button>
-                    <a class="navbar-brand visible-xs" href="${node['url']}">
+                    <a class="navbar-brand visible-xs" href="{{node.links.html}}">
                         {{projectLabel}} Navigation
                     </a>
                 </div>
@@ -15,25 +15,23 @@
                     <ul class="nav navbar-nav">
 
                         {{# if node.parent}}
-                            <!--% if parent_node['can_view'] or {{node.parent.public}} or parent_node['is_contributor']:-->
+                            {{#if showParentProjectLink}}
                                 <li>
+                                    {{!-- TODO: Really? We were hardcoding styles in the template?? Move hardcoded styles to CSS --}}
                                     <a href="{{node.parent.links.html}}" data-toggle="tooltip" title={{node.parent.title}} data-placement="bottom"
                                        style="padding: 12px 17px;"> <i class="fa fa-level-down fa-rotate-180"></i>  </a>
-                                    TYPE: {{node.constructor.modelName}}
                                 </li>
-
-                            <!--% else:-->
-                                {{!-- FIXME This link goes to homepage which isn't ideal. Possible ref https://github.com/emberjs/ember.js/issues/12997 --}}
+                            {{else}}
                                 {{!-- TODO: Private project detection in OSF dashboard relies on embeds : private parent is listed in api endpoint, but the page is not visible --}}
                                 <li><a data-toggle="tooltip" title="Parent project is private" data-placement="bottom" style="cursor: default"> <i class="fa fa-level-down fa-rotate-180 text-muted"></i>  </a></li>
-                            <!--% endif-->
+                            {{/if}}
                         {{/if}}
                         <li>
                             <a href="{{node.links.html}}" class="project-title">
                                 {{node.title}}
                             </a>
                         </li>
-                    <!--% if not node['is_retracted']:-->  {{!-- TODO: Under what conditions can a retracted node be seen in a SPA, from APIv2? --}}
+                    {{#unless (and node.isRegistration node.withdrawn)}}
                         <li id="projectNavFiles">
                             <a href="{{node.links.html}}files/">
                                 Files
@@ -42,30 +40,28 @@
                         <li>
                             <a href="{{node.links.html}}wiki/">Wiki</a>
                         </li>
-
-
-                        <!--% if {{node.public}} or user['is_contributor']:-->  {{!-- TODO: Edge case: view only link perhaps. How do we handle this? --}}
+                        {{#if showAnalyticsTab}}{{!-- TODO: Edge case: view only link perhaps. How do we handle this? --}}
                             <li><a href="{{node.links.html}}analytics/">Analytics</a></li>
-                        <!--% endif-->
+                        {{/if}}
 
                         {{!-- TODO: Need way of getting type (isRegistration, isNode, etc). Many pages will be expected to need this. --}}
-                        <!--% if not node['is_registration'] and not {{node.meta.anonymous}}:--> {{!-- TODO: Anonymized view only link --}}
+                        <!--% if
                             <li><a href="{{node.links.html}}registrations/">Registrations</a></li>
                         <!--% endif-->
 
-                        {{#unless node.meta.anonymous}} {{!-- TODO: Test this --}}
+                        {{#if showForksTab}} {{!-- TODO: Test this --}}
                             <li><a href="{{node.links.html}}forks/">Forks</a></li>
-                        {{/unless}}
+                        {{/if}}
 
-                        <!--% if user['is_contributor']:-->
+                        {{#if showContributorsTab}}
                             <li><a href="{{node.links.html}}contributors/">Contributors</a></li>
-                        <!--% endif-->
+                        {{/if}}
 
-                        <!--% if user['has_read_permissions'] and not node['is_registration'] or (node['is_registration'] and 'admin' in user['permissions']):-->
+                        {{#if showSettingsTab}}
                             <li><a href="{{node.links.html}}settings/">Settings</a></li>
-                        <!--% endif-->
-                    <!--% endif-->
-                    <!--% if user['can_comment'] or node['has_comments']:-->
+                        {{/if}}
+                    {{/unless}}
+                    {{#if showCommentsButton}}
                         <li id="commentsLink">
                             {{!-- TODO: Convert usages of knockout. How can API tell us if user can comment? --}}
                             <a href="" class="visible-xs cp-handle" data-bind="click:removeCount" data-toggle="collapse" data-target="#projectSubnav .navbar-collapse">
@@ -75,7 +71,7 @@
                                 </span>
                            </a>
                        </li>
-                    <!--% endif-->
+                    {{/if}}
                     </ul>
                 </div>
             </div>
