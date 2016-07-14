@@ -9,6 +9,7 @@ import FactoryGuy, {
 } from 'ember-data-factory-guy';
 
 import DS from 'ember-data';
+import OsfAdapter from 'ember-osf/adapters/osf-adapter';
 
 moduleFor('adapter:osf-adapter', 'Unit | Adapter | osf adapter', {
     needs: [
@@ -146,6 +147,30 @@ test('#_createRelated maps over each createdSnapshots and adds records to the pa
             // infinite recursive calls when comparing the Ember DS.Models
             assert.equal(addCanonicalStub.args[0][0], contributors[0]);
             assert.equal(addCanonicalStub.args[1][0], contributors[1]);
+        }, () => {
+            // Fail
+            assert.ok(false);
+        });
+    });
+});
+
+test('#_addRelated defers to _doRelatedRequest and adds records to the parent\'s canonical state', function(assert) {
+    let node = FactoryGuy.make('node');
+    let institution = FactoryGuy.make('institution');
+    node.get('affiliatedInstitutions').pushObject(institution);
+
+    var doRelatedStub = sinon.stub(OsfAdapter.prototype, '_doRelatedRequest', () => {
+        return new Ember.RSVP.Promise(resolve => resolve());
+    });
+    var relation = node.resolveRelationship('affiliatedInstitutions');
+    relation.hasLoaded = true;
+    var addCanonicalStub = sinon.stub(relation, 'addCanonicalRecord');
+
+    Ember.run(() => {
+        node.save().then(() => {
+            assert.ok(doRelatedStub.called);
+            assert.ok(addCanonicalStub.calledOnce);
+            assert.ok(addCanonicalStub.calledWith(institution));
         }, () => {
             // Fail
             assert.ok(false);

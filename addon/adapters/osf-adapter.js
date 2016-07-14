@@ -103,7 +103,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
     _addRelated(store, snapshot, addedSnapshots, relationship, url, isBulk = false) {
         return this._doRelatedRequest(store, snapshot, addedSnapshots, relationship, url, 'POST', isBulk).then(res => {
             addedSnapshots.forEach(function(s) {
-                snapshot.record.resolveRelationship(relationship).addCanonicalRecord(s);
+                snapshot.record.resolveRelationship(relationship).addCanonicalRecord(s.record);
             });
             return res;
         });

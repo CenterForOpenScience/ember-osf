@@ -89,7 +89,7 @@ export default OsfModel.extend(FileItemMixin, {
             contributors.members.list.filter(m => !m.record.get('isNew') && Object.keys(m.record.changedAttributes()).length > 0)
         );
         // Need to included created contributors even in relationship
-        // isLoaded is false
+        // hasLoaded is false
         this.set(
             '_dirtyRelationships.contributors.create',
             contributors.members.list.filter(m => m.record.get('isNew'))
