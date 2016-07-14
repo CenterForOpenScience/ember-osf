@@ -25,8 +25,8 @@ export default Ember.Component.extend({
     session: Ember.inject.service(),
     classNames: ['dropzone'],
     didInsertElement() {
-        let preUpload = this.get('preUpload'),
-            dropzoneOptions = this.get('options');
+        let preUpload = this.get('preUpload');
+        let dropzoneOptions = this.get('options');
 
         if (!this.get('buildUrl') && !preUpload && (!dropzoneOptions || !dropzoneOptions.url)) {
             console.error('Need to define url somewhere');
