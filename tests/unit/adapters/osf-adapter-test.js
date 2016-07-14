@@ -216,3 +216,29 @@ test('#_updateRelated defers to _doRelatedRequest, pushes the update response in
         });
     });
 });
+
+
+test('#_removeRelated defers to _doRelatedRequest, and removes the records from the parent\'s canonicalState', function(assert) {
+    let node = FactoryGuy.make('node', 'hasInstitution');
+    var inst = node.get('affiliatedInstitutions').objectAt(0);
+    node.get('affiliatedInstitutions').removeObject(inst);
+
+    var doRelatedStub = this.stub(OsfAdapter.prototype, '_doRelatedRequest', () => {
+        return new Ember.RSVP.Promise(resolve => resolve());
+    });
+
+    var rel = node.resolveRelationship('affiliatedInstitutions');
+    var removeCanonicalStub = this.stub(rel, 'removeCanonicalRecord', removeCanonicalStub);
+    rel.hasLoaded = true;
+
+    Ember.run(() => {
+        node.save().then(() => {
+            assert.ok(doRelatedStub.calledOnce);
+            assert.ok(removeCanonicalStub.calledOnce);
+	    assert.ok(removeCanonicalStub.calledWith(inst));
+        }, () => {
+            // Fail
+            assert.ok(false);
+        });
+    });
+});
