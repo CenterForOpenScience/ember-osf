@@ -14,7 +14,7 @@ import layout from './template';
  * {{dropzone-widget
  *   preUpload=attrs.preUpload
  *   buildUrl=buildUrl
- *   listeners=dropzoneListeners
+ *   success=attrs.success
  *   options=dropzoneOptions}}
  * ```
  *
@@ -24,24 +24,26 @@ export default Ember.Component.extend({
     layout,
     session: Ember.inject.service(),
     classNames: ['dropzone'],
-    didRender() {
-        var preUpload = this.get('preUpload');
-        var dropzoneOptions = this.get('options');
-        var listeners = this.get('listeners');
+    didInsertElement() {
+        let preUpload = this.get('preUpload'),
+            dropzoneOptions = this.get('options');
+
         if (!this.get('buildUrl') && !preUpload && (!dropzoneOptions || !dropzoneOptions.url)) {
             console.error('Need to define url somewhere');
         }
-        var drop = new Dropzone('#' + this.elementId, {  // jshint ignore:line
+        let drop = new Dropzone(`#${this.elementId}`, {  // jshint ignore:line
             url: file => typeof this.get('buildUrl') === 'function' ? this.get('buildUrl')(file) : this.get('buildUrl'),
             autoProcessQueue: false,
         });
 
+        // Set osf session header
         let headers = {};
         this.get('session').authorize('authorizer:osf-token', (headerName, content) => {
             headers[headerName] = content;
         });
-
         drop.options.headers = headers;
+
+        // Attach preUpload to addedfile event
         drop.on('addedfile', file => {
             if (preUpload) {
                 preUpload(this, drop, file).then(() => drop.processFile(file));
@@ -49,9 +51,15 @@ export default Ember.Component.extend({
                 drop.processFile(file);
             }
         });
-        drop.options = Ember.merge(drop.options, dropzoneOptions);
-        if (listeners && typeof listeners === 'object') {
-            Object.keys(listeners).map(each => drop.on(each, listeners[each]));
+
+        // Set dropzone options
+        drop.options = Ember.assign(drop.options, dropzoneOptions);
+
+        // Attach dropzone event listeners
+        for (let event of drop.events) {
+            if (typeof this.get(event) === 'function') {
+                drop.on(event, (...args) => this.get(event)(this, drop, ...args));
+            }
         }
     }
 });
