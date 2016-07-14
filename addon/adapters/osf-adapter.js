@@ -83,7 +83,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
                 url: url
             }
         }).then(res => {
-            createdSnapshots.forEach(s => snapshot.record.resolveRelationship(relationship).addCanonicalRecord(s));
+            snapshot.record.resolveRelationship(relationship).addCanonicalRecord(s.record);
             return res;
         }));
     },
@@ -261,12 +261,12 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
 
         var response;
         response = adapter[`_${change}Related`](
-                    store,
-                    snapshot,
-                    related,
-                    relationship,
-                    url,
-                    allowBulk
+            store,
+            snapshot,
+            related,
+            relationship,
+            url,
+            allowBulk
         );
         return response;
     },
