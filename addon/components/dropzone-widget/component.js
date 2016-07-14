@@ -27,9 +27,9 @@ export default Ember.Component.extend({
     classNames: ['dropzone'],
     didInsertElement() {
         let preUpload = this.get('preUpload');
-        let dropzoneOptions = this.get('options');
+        let dropzoneOptions = this.get('options') || {};
 
-        if (!this.get('buildUrl') && !preUpload && (!dropzoneOptions || !dropzoneOptions.url)) {
+        if (!this.get('buildUrl') && !preUpload && !dropzoneOptions.url) {
             console.error('Need to define url somewhere');
         }
         let drop = new Dropzone(`#${this.elementId}`, {  // jshint ignore:line
@@ -42,7 +42,7 @@ export default Ember.Component.extend({
         this.get('session').authorize('authorizer:osf-token', (headerName, content) => {
             headers[headerName] = content;
         });
-        drop.options.headers = headers;
+        dropzoneOptions.headers = headers;
 
         // Attach preUpload to addedfile event
         drop.on('addedfile', file => {
@@ -54,13 +54,13 @@ export default Ember.Component.extend({
         });
 
         // Set dropzone options
-        drop.options = Ember.assign(drop.options, dropzoneOptions);
+        drop.options = Ember.merge(drop.options, dropzoneOptions);
 
         // Attach dropzone event listeners
-        for (let event of drop.events) {
+        drop.events.forEach(event => {
             if (typeof this.get(event) === 'function') {
                 drop.on(event, (...args) => this.get(event)(this, drop, ...args));
             }
-        }
+        });
     }
 });
