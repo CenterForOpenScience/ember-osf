@@ -242,3 +242,24 @@ test('#_removeRelated defers to _doRelatedRequest, and removes the records from 
         });
     });
 });
+
+test('#_deleteRelated defers to _doRelatedRequest, and unloads the deleted records', function(assert) {
+    let node = FactoryGuy.make('node', 'hasContributors');
+    let contrib = node.get('contributors').objectAt(1);
+    node.get('contributors').removeObject(contrib);
+
+    var unloadStub = this.stub(contrib, 'unloadRecord');
+    var doRelatedStub = this.stub(OsfAdapter.prototype, '_doRelatedRequest', () => {
+        return new Ember.RSVP.Promise(resolve => resolve());
+    });
+
+    Ember.run(() => {
+        node.save().then(() => {
+            assert.ok(doRelatedStub.calledOnce);
+	    assert.ok(unloadStub.calledOnce);
+        }, () => {
+            // Fail
+            assert.ok(false);
+        });
+    });
+});

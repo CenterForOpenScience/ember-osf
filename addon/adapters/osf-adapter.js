@@ -162,13 +162,9 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
      * @param {Boolean} isBulk
      **/
     _deleteRelated(store, snapshot, deletedSnapshots, relationship, url, isBulk = false) { // jshint ignore:line
-        if (isBulk) {
-            return this._removeRelated(...arguments).then(() => {
-                deletedSnapshots.forEach(s => s.record.unloadRecord());
-            });
-        } else {
-            return Ember.RSVP.allSettled(deletedSnapshots.map(r => r.record.unloadRecord()));
-        }
+        return this._removeRelated(...arguments).then(() => {
+            deletedSnapshots.forEach(s => s.record.unloadRecord());
+        });
     },
     /**
      * A helper for making _*Related requests
