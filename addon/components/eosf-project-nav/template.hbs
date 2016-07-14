@@ -39,16 +39,13 @@
                         <li>
                             <a href="{{node.links.html}}wiki/">Wiki</a>
                         </li>
-                        {{#if showAnalyticsTab}}{{!-- TODO: Edge case: view only link perhaps. How do we handle this? --}}
+                        {{#if showAnalyticsTab}}
                             <li><a href="{{node.links.html}}analytics/">Analytics</a></li>
                         {{/if}}
-
-                        {{!-- TODO: Need way of getting type (isRegistration, isNode, etc). Many pages will be expected to need this. --}}
                         {{#if showRegistrationsTab}}
                             <li><a href="{{node.links.html}}registrations/">Registrations</a></li>
                         {{/if}}
-
-                        {{#if showForksTab}} {{!-- TODO: Test this --}}
+                        {{#if showForksTab}}
                             <li><a href="{{node.links.html}}forks/">Forks</a></li>
                         {{/if}}
 

@@ -1,6 +1,9 @@
 import Ember from 'ember';
 import layout from './template';
 
+import permissions from '../../const/permissions';
+
+
 /**
  * @module ember-osf
  * @submodule components
@@ -60,9 +63,13 @@ export default Ember.Component.extend({
     showForksTab: Ember.computed.not('node.isAnonymous'),
     showContributorsTab: Ember.computed.alias('isProjectContributor'),
     showSettingsTab: Ember.computed('user', 'node', function() {
-        // TODO: Implement
-        // if user['has_read_permissions'] and not {{isRegistration}} or (node['is_registration'] and 'admin' in user['permissions']):
-        return true;
+        let node = this.get('node');
+        if (node.get('isProject')) {
+            return node.get('currentUserPermissions').indexOf(permissions.READ) !== -1;
+        } else if (node.get('isRegistration')) {
+            return node.get('currentUserPermissions').indexOf(permissions.ADMIN) !== -1;
+        }
+        return false;  // No idea what this resource is, so don't show tab
     }),
 
     showCommentsButton: Ember.computed('user', 'node', function() {
