@@ -103,8 +103,8 @@ export default OsfModel.extend(FileItemMixin, {
      * @returns {boolean} Whether the specified user is a contributor on this node
      */
     isContributor(userID) {
-        // TODO: Implement!
-        return true;
+        // TODO: Test. This may depend on OSF-6702 due to known API issues.
+        return this.query('contributors', {'filter[id]': userID});
     },
 
     save() {

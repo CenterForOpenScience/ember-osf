@@ -32,12 +32,11 @@ export default Ember.Component.extend({
      * @property isProjectContributor
      */
     isProjectContributor: Ember.computed('user', 'node', function() {
-        // TODO: Finish implementing
+        // FIXME: This depends on OSF-6702, a known bug.
         let node = this.get('node');
-        let user = this.get('user.id');
-        return node.isContributor(user);
+        let userID = this.get('user.id');
+        return node.isContributor(userID);
     }),
-    // TODO: May also need a parent-contributor check??
 
     /**
      * If this is a withdrawn registration, hide a block of buttons.
@@ -46,11 +45,12 @@ export default Ember.Component.extend({
     minimalRegistrationView: Ember.computed.and('node.isRegistration', 'node.withdrawn'),
 
     showParentProjectLink: Ember.computed('node.parent', function() {
-        // TODO: Implement
         // If the parent node is not visible to the contributor, it will be identified in the API response, but not accessible.
+        // Only show the parent link if the relationship resolves to a successful response.
         let parent = this.get('node.parent');
-        // (or canViewParent node.parent.public parent_node['is_contributor'])
         if (parent) {
+            // TODO: Implement check that response resolves to a non-error. In future, implement an embed query.
+            return true;
         }
         return false;
     }),
@@ -71,9 +71,9 @@ export default Ember.Component.extend({
         return false;  // No idea what this resource is, so don't show tab
     }),
 
-    showCommentsButton: Ember.computed('user', 'node', function() {
-        // TODO: Implement. Identify source for this data.
+    showCommentsButton: Ember.computed('node', function() {
+        // TODO: Implement. Depends on resolution of https://openscience.atlassian.net/browse/OSF-6701
         // <!--% if user['can_comment'] or node['has_comments']:-->
-        return true;
+        return false;
     })
 });
