@@ -1,4 +1,6 @@
 import Ember from 'ember';
+import DS from 'ember-data';
+
 import layout from './template';
 
 import permissions from '../../const/permissions';
@@ -27,11 +29,9 @@ export default Ember.Component.extend({
         let category = this.get('node.category');
         return category === 'project' ? 'Project' : 'Component';
     }),
-    /**
-     * Is the user a contributor on this node? (returns false if the user is not logged in)
-     * @property isProjectContributor
-     */
+
     isProjectContributor: Ember.computed('user', 'node', function() {
+        // Is the user a contributor on this node? (returns false if the user is not logged in)
         // FIXME: This depends on OSF-6702, a known bug.
         // let node = this.get('node');
         // let userID = this.get('user.id');
@@ -46,14 +46,25 @@ export default Ember.Component.extend({
      */
     minimalRegistrationView: Ember.computed.and('node.isRegistration', 'node.withdrawn'),
 
+    parentExists: Ember.computed('node', function() {
+        // Determine if a parent exists (field not empty), without trying to fetch it.
+        // This provides a way to use conditionals without errors that hang the page
+        let node = this.get('node');
+        return !!node.belongsTo('parent').link();
+    }),
     showParentProjectLink: Ember.computed('node.parent', function() {
+        // TODO: Rewrite this to rely on embeds, which are more efficient
         // If the parent node is not visible to the contributor, it will be identified in the API response, but not accessible.
         // Only show the parent link if the relationship resolves to a successful response.
         let parent = this.get('node.parent');
         if (parent) {
-            // TODO: Implement check that response resolves to a non-error. In future, implement an embed query.
-            return true;
+            // Report whether the parent relationship request failed.
+            let response = parent.then(()=> true).catch(()=> false);
+            return DS.PromiseObject.create({
+                promise: response
+            });
         }
+        // If no parent, don't show parent link.
         return false;
     }),
     showAnalyticsTab: Ember.computed.or('node.public', 'isProjectContributor'),

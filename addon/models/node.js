@@ -104,7 +104,9 @@ export default OsfModel.extend(FileItemMixin, {
      */
     isContributor(userID) {
         // TODO: Test. This may depend on OSF-6702 due to known API issues.
-        return this.query('contributors', {'filter[id]': userID});
+        return this.query('contributors', {
+            'filter[id]': userID
+        });
     },
 
     save() {
