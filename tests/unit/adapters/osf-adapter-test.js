@@ -185,7 +185,7 @@ test('#_updateRelated defers to _doRelatedRequest, pushes the update response in
     var contribs = node.get('contributors');
     var contrib = contribs.objectAt(1);
 
-    contrib.set('bibliographic', true);
+    contrib.set('bibliographic', !contrib.get('bibliographic'));
 
     var doRelatedStub = this.stub(OsfAdapter.prototype, '_doRelatedRequest', () => {
         return new Ember.RSVP.Promise(resolve => resolve({
@@ -235,7 +235,7 @@ test('#_removeRelated defers to _doRelatedRequest, and removes the records from 
         node.save().then(() => {
             assert.ok(doRelatedStub.calledOnce);
             assert.ok(removeCanonicalStub.calledOnce);
-	    assert.ok(removeCanonicalStub.calledWith(inst));
+            assert.ok(removeCanonicalStub.calledWith(inst));
         }, () => {
             // Fail
             assert.ok(false);
@@ -256,10 +256,146 @@ test('#_deleteRelated defers to _doRelatedRequest, and unloads the deleted recor
     Ember.run(() => {
         node.save().then(() => {
             assert.ok(doRelatedStub.calledOnce);
-	    assert.ok(unloadStub.calledOnce);
+            assert.ok(unloadStub.calledOnce);
         }, () => {
             // Fail
             assert.ok(false);
         });
     });
+});
+
+test('#_doRelatedRequest with array', function(assert) {
+    let adapter = this.subject();
+
+    this.inject.service('store');
+    let store = this.store;
+
+    let node = FactoryGuy.make('node');
+    Ember.run.begin();
+    let children = FactoryGuy.buildList('node', 3).data.map(json => {
+        return store.createRecord('node', store.normalize('node', json).data.attributes);
+    });
+    Ember.run.end();
+
+    var mockAjax = this.stub(adapter, 'ajax', () => {
+        return new Ember.RSVP.Promise(resolve => resolve({}));
+    });
+    adapter._doRelatedRequest(
+        store,
+        node._internalModel.createSnapshot(),
+        children.map(c => c._internalModel.createSnapshot()),
+        'children',
+        'https://api.osf.io/v2/nodes/foobar/children/',
+        'POST'
+    );
+    var data = mockAjax.args[0][2].data.data;
+    assert.equal(data[0].attributes.title, children[0].get('title'));
+    assert.equal(data[1].attributes.title, children[1].get('title'));
+    assert.equal(data[2].attributes.title, children[2].get('title'));
+});
+
+test('#_doRelatedRequest with single snapshot', function(assert) {
+    let adapter = this.subject();
+
+    this.inject.service('store');
+    let store = this.store;
+
+    let node = FactoryGuy.make('node');
+    Ember.run.begin();
+    let child = store.createRecord(
+        'node',
+        store.normalize('node', FactoryGuy.build('node').data).data.attributes
+    );
+    Ember.run.end();
+
+    var mockAjax = this.stub(adapter, 'ajax', () => {
+        return new Ember.RSVP.Promise(resolve => resolve({}));
+    });
+    adapter._doRelatedRequest(
+        store,
+        node._internalModel.createSnapshot(),
+        child._internalModel.createSnapshot(),
+        'children',
+        'https://api.osf.io/v2/nodes/foobar/children/',
+        'POST'
+    );
+    var data = mockAjax.args[0][2].data.data;
+    assert.equal(data.attributes.title, child.get('title'));
+});
+
+test('#_handleRelatedRequest makes correct calls for each change argument', function(assert) {
+    let adapter = this.subject();
+
+    this.inject.service('store');
+    let store = this.store;
+
+    let node = FactoryGuy.make('node');
+    let changes = {
+        delete: FactoryGuy.makeList('node', 2),
+        remove: FactoryGuy.makeList('node', 2),
+        update: FactoryGuy.makeList('node', 2),
+        add: FactoryGuy.makeList('node', 2),
+        create: FactoryGuy.makeList('node', 2)
+    };
+    node.set('_dirtyRelationships', {
+        children: changes
+    });
+
+    for (let verb of['delete', 'remove', 'update', 'add', 'create']) {
+        let NodeAdapter = store.adapterFor('node');
+        let relatedStub = this.stub(NodeAdapter, `_${verb}Related`);
+        adapter._handleRelatedRequest(
+            store,
+            store.modelFor('node'),
+            node._internalModel.createSnapshot(),
+            'children',
+            verb
+        );
+        assert.ok(relatedStub.called);
+        assert.deepEqual(
+            relatedStub.args[0][2].map(s => s.id),
+            changes[verb].map(r => r.get('id'))
+        );
+    }
+});
+
+test('#_handleRelatedRequest checks if relationship supports bulk', function(assert) {
+    let adapter = this.subject();
+
+    this.inject.service('store');
+    let store = this.store;
+
+    let node = FactoryGuy.make('node');
+    let changes = {
+        update: FactoryGuy.makeList('node', 2),
+        add: FactoryGuy.makeList('node', 2),
+        create: FactoryGuy.makeList('node', 2)
+    };
+    node.set('_dirtyRelationships', {
+        children: changes
+    });
+    let rel = node.resolveRelationship('children');
+    var opts = {
+        allowBulkUpdate: true,
+        allowBulkCreate: false,
+        allowBulkAdd: true
+    };
+    this.stub(rel, 'meta', () => opts);
+
+    for (let verb of['update', 'add', 'create']) {
+        let NodeAdapter = store.adapterFor('node');
+        let relatedStub = this.stub(NodeAdapter, `_${verb}Related`);
+        adapter._handleRelatedRequest(
+            store,
+            store.modelFor('node'),
+            node._internalModel.createSnapshot(),
+            'children',
+            verb
+        );
+        assert.ok(relatedStub.called);
+        assert.equal(
+            opts[verb],
+            relatedStub.args[0].pop()
+        );
+    }
 });

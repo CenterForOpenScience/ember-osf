@@ -238,7 +238,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
     _handleRelatedRequest(store, type, snapshot, relationship, change) {
         var related = snapshot.record.get(`_dirtyRelationships.${relationship}.${change}`).map(function(r) {
             if (r._internalModel) {
-                return r;
+                return r._internalModel.createSnapshot();
             }
             return r.createSnapshot();
         });
