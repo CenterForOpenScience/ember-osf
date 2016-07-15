@@ -86,8 +86,10 @@ let sessionStub = Ember.Service.extend({
 
 moduleFor('service:file-manager', 'Unit | Service | file manager', {
     unit: true,
-    needs: ['model:file', 'model:file-version', 'model:comment',
-        'transform:links', 'transform:embed'],
+    needs: [
+        'model:file', 'model:file-version', 'model:comment', 'model:node',
+        'transform:links', 'transform:embed'
+    ],
     beforeEach() {
         this.register('service:session', sessionStub);
 
@@ -332,7 +334,7 @@ test('move sends valid waterbutler request', function(assert) {
     let service = this.subject();
     let done = assert.async();
     let file = FactoryGuy.make('file');
-    let folder = FactoryGuy.make('file', 'isFolder', 
+    let folder = FactoryGuy.make('file', 'isFolder',
                                  { path: '/path/path/this/is/a/path/' });
     let request = {
         url: file.get('links').move,
@@ -375,7 +377,7 @@ test('move passes along error', function(assert) {
     let service = this.subject();
     let done = assert.async();
     let file = FactoryGuy.make('file');
-    let folder = FactoryGuy.make('file', 'isFolder', 
+    let folder = FactoryGuy.make('file', 'isFolder',
                                  { path: '/path/path/this/is/a/path/' });
 
     let request = {
@@ -406,7 +408,7 @@ test('copy sends valid waterbutler request', function(assert) {
     let service = this.subject();
     let done = assert.async();
     let file = FactoryGuy.make('file');
-    let folder = FactoryGuy.make('file', 'isFolder', 
+    let folder = FactoryGuy.make('file', 'isFolder',
                                  { path: '/path/path/this/is/a/path/' });
 
     let request = {
@@ -451,7 +453,7 @@ test('copy passes along error', function(assert) {
     let service = this.subject();
     let done = assert.async();
     let file = FactoryGuy.make('file');
-    let folder = FactoryGuy.make('file', 'isFolder', 
+    let folder = FactoryGuy.make('file', 'isFolder',
                                  { path: '/path/path/this/is/a/path/' });
 
     let request = {
