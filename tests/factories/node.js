@@ -1,6 +1,8 @@
 import FactoryGuy from 'ember-data-factory-guy';
 import faker from 'faker';
 
+import permissions from 'ember-osf/const/permissions';
+
 FactoryGuy.define('node', {
     default: {
         title: () => faker.lorem.words(4),
@@ -14,7 +16,7 @@ FactoryGuy.define('node', {
             ]
         ),
 
-        currentUserPermissions: () => faker.random.arrayElement(['read', 'write', 'admin']),
+        currentUserPermissions: () => faker.random.arrayElement([permissions.READ, permissions.WRITE, permissions.ADMIN]),
 
         fork: false,
         collection: false,
@@ -22,9 +24,12 @@ FactoryGuy.define('node', {
         public: () => faker.random.boolean(),
 
         dateCreated: () => faker.date.past(1),
-        dateModified: () => faker.date.recent(1),
+        dateModified: () => faker.date.recent(1)
     },
     traits: {
+        hasParent: { // Is a child of a public node
+            parent: () => FactoryGuy.belongsTo('node')
+        },
         hasChildren: {  // Has one layer of child projects
             children: () => FactoryGuy.hasMany('node', 3)
         },
