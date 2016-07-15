@@ -70,7 +70,7 @@ export default Ember.Component.extend({
     showAnalyticsTab: Ember.computed.or('node.public', 'isProjectContributor'),
     showRegistrationsTab: Ember.computed('node.isRegistration', 'node.isAnonymous', function() {
         // Do not show registrations tab for view-only links
-        return !this.get('node.isRegistration') && !this.get('node.meta.isAnonymous');
+        return !this.get('node.isRegistration') && !this.get('node.isAnonymous');
     }),
     showForksTab: Ember.computed.not('node.isAnonymous'),
     showContributorsTab: Ember.computed.alias('isProjectContributor'),
