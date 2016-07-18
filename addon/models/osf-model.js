@@ -20,9 +20,6 @@ export default DS.Model.extend(HasManyQuery.ModelMixin, {
 
     relationshipLinks: Ember.computed.alias('links.relationships'),
     _dirtyRelationships: null,
-    isNewOrDirty() {
-        return this.get('isNew') || Object.keys(this.changedAttributes()).length;
-    },
     init() {
         this._super(...arguments);
         this.set('_dirtyRelationships', Ember.Object.create({}));
