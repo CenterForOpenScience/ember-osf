@@ -505,6 +505,7 @@ test('#updateRecord handles both dirtyRelationships and the parent record', func
 
     var ss = node._internalModel.createSnapshot();
     adapter.updateRecord(store, node, ss).then(res => {
+	// Note: 42 comes from promise resolution of stubbed updateRecord above
         assert.equal(res, 42);
         assert.ok(handleRelatedStub.calledWith(
             store,
