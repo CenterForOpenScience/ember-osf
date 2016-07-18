@@ -8,6 +8,7 @@ import FactoryGuy, {
 } from 'ember-data-factory-guy';
 
 import DS from 'ember-data';
+import JSONAPIAdapter from 'ember-data/adapters/json-api';
 import OsfAdapter from 'ember-osf/adapters/osf-adapter';
 
 moduleFor('adapter:osf-adapter', 'Unit | Adapter | osf adapter', {
@@ -24,7 +25,7 @@ moduleFor('adapter:osf-adapter', 'Unit | Adapter | osf adapter', {
 });
 
 test('#buildURL appends a trailing slash if missing', function(assert) {
-    var url = 'https://api.osf.io/v2/users/me';
+    var url = 'http://localhost:8000/v2/users/me';
     this.stub(
         DS.JSONAPIAdapter.prototype,
         'buildURL',
@@ -44,8 +45,28 @@ test('#buildURL appends a trailing slash if missing', function(assert) {
     assert.equal(result.slice(-1), '/');
 });
 
+test('#buildURL _only_ appends a trailing slash if missing', function(assert) {
+    var url = 'http://localhost:8000/v2/users/me/';
+    this.stub(
+        DS.JSONAPIAdapter.prototype,
+        'buildURL',
+        function() {
+            return url;
+        }
+    );
+    let adapter = this.subject();
+    let user = FactoryGuy.make('user');
+    let result = adapter.buildURL(
+        'user',
+        'me',
+        user._internalModel.createSnapshot(),
+        'findRecord'
+    );
+    assert.equal(url, result);
+});
+
 test('#buildURL uses relationship links if available for delete, update, and find', function(assert) {
-    let url = 'https://api.osf.io/v2/users/me/rel/';
+    let url = 'http://localhost:8000/v2/users/me/rel/';
     let adapter = this.subject();
     let user = FactoryGuy.make('user', {
         links: {
@@ -64,7 +85,27 @@ test('#buildURL uses relationship links if available for delete, update, and fin
 });
 
 test('#buildURL uses snapshot.adapterOptions.url if available', function(assert) {
-    let url = 'https://api.osf.io/v2/users/me/rel/';
+    let url = 'http://localhost:8000/v2/users/me/rel/';
+    let adapter = this.subject();
+    let user = FactoryGuy.make('user', {
+        links: null
+    });
+
+    let result = adapter.buildURL(
+        'user',
+        'me',
+        user._internalModel.createSnapshot({
+            adapterOptions: {
+                url: url
+            }
+        }),
+        'createRecord'
+    );
+    assert.equal(url, result);
+});
+
+test('#buildURL uses snapshot.adapterOptions.url if available', function(assert) {
+    let url = 'http://localhost:8000/v2/users/me/rel/';
     let adapter = this.subject();
     let user = FactoryGuy.make('user', {
         links: null
@@ -84,7 +125,7 @@ test('#buildURL uses snapshot.adapterOptions.url if available', function(assert)
 });
 
 test('#_buildRelationshipURL uses relationshipLinks', function(assert) {
-    let url = 'https://api.osf.io/v2/users/me/nodes/';
+    let url = 'http://localhost:8000/v2/users/me/foo-bar-baz/';
     let adapter = this.subject();
     let user = FactoryGuy.make('user', {
         links: {
@@ -116,16 +157,17 @@ test('#_createRelated maps over each createdSnapshots and adds records to the pa
     let store = this.store;
 
     let node = FactoryGuy.make('node');
-    Ember.run.begin();
-    let contributors = [
-        store.createRecord('contributor', {
-            title: 'Foo'
-        }),
-        store.createRecord('contributor', {
-            title: 'Bar'
-        })
-    ];
-    Ember.run.end();
+    var contributors;
+    Ember.run(() => {
+        contributors = [
+            store.createRecord('contributor', {
+                title: 'Foo'
+            }),
+            store.createRecord('contributor', {
+                title: 'Bar'
+            })
+        ];
+    });
     node.get('contributors').pushObjects(contributors);
     let saveStubs = contributors.map(c => this.stub(c, 'save', () => {
         return new Ember.RSVP.Promise((resolve) => resolve());
@@ -146,6 +188,47 @@ test('#_createRelated maps over each createdSnapshots and adds records to the pa
             // infinite recursive calls when comparing the Ember DS.Models
             assert.equal(addCanonicalStub.args[0][0], contributors[0]);
             assert.equal(addCanonicalStub.args[1][0], contributors[1]);
+        }, () => {
+            // Fail
+            assert.ok(false);
+        });
+    });
+});
+
+test('#_createRelated passes the nested:true as an adapterOption to save', function(assert) {
+    this.inject.service('store');
+    let store = this.store;
+
+    let node = FactoryGuy.make('node');
+    Ember.run.begin();
+    let contributors = [
+        store.createRecord('contributor', {
+            title: 'Foo'
+        }),
+        store.createRecord('contributor', {
+            title: 'Bar'
+        })
+    ];
+    Ember.run.end();
+    node.get('contributors').pushObjects(contributors);
+    let saveStubs = contributors.map(c => this.stub(c, 'save', () => {
+        return new Ember.RSVP.Promise((resolve) => resolve());
+    }));
+    this.stub(node, 'resolveRelationship', () => {
+        return {
+            addCanonicalRecord: this.stub()
+        };
+    });
+
+    Ember.run(() => {
+        node.save().then(() => {
+            saveStubs.forEach(s => assert.ok(s.called));
+            saveStubs.forEach(s => assert.ok(s.calledWith({
+                adapterOptions: {
+                    url: null,
+                    nested: true
+                }
+            })));
         }, () => {
             // Fail
             assert.ok(false);
@@ -285,7 +368,7 @@ test('#_doRelatedRequest with array', function(assert) {
         node._internalModel.createSnapshot(),
         children.map(c => c._internalModel.createSnapshot()),
         'children',
-        'https://api.osf.io/v2/nodes/foobar/children/',
+        'http://localhost:8000/v2/nodes/foobar/children/',
         'POST'
     );
     var data = mockAjax.args[0][2].data.data;
@@ -316,7 +399,7 @@ test('#_doRelatedRequest with single snapshot', function(assert) {
         node._internalModel.createSnapshot(),
         child._internalModel.createSnapshot(),
         'children',
-        'https://api.osf.io/v2/nodes/foobar/children/',
+        'http://localhost:8000/v2/nodes/foobar/children/',
         'POST'
     );
     var data = mockAjax.args[0][2].data.data;
@@ -398,4 +481,45 @@ test('#_handleRelatedRequest checks if relationship supports bulk', function(ass
             relatedStub.args[0].pop()
         );
     }
+});
+
+test('#updateRecord handles both dirtyRelationships and the parent record', function(assert) {
+    let adapter = this.subject();
+
+    this.inject.service('store');
+    let store = this.store;
+
+    let node = FactoryGuy.make('node');
+    Ember.run(() => node.set('title', 'The meaning of life'));
+    node.set('_dirtyRelationships', {
+        children: {
+            update: null
+        }
+    });
+
+    var handleRelatedStub = this.stub(adapter, '_handleRelatedRequest', () => []);
+    // Have to stub apply due to ...arguments usage
+    this.stub(JSONAPIAdapter.prototype.updateRecord, 'apply', () => {
+        return new Ember.RSVP.Promise((resolve) => resolve(42));
+    });
+
+    var ss = node._internalModel.createSnapshot();
+    adapter.updateRecord(store, node, ss).then(res => {
+        assert.equal(res, 42);
+        assert.ok(handleRelatedStub.calledWith(
+            store,
+            node,
+            ss,
+            'children',
+            'update'
+        ));
+    });
+});
+
+test('#ajaxOptions adds bulk contentType if request is bulk', function(assert) {
+    let adapter = this.subject();
+    var opts = adapter.ajaxOptions(null, null, {
+        isBulk: true
+    });
+    assert.equal(opts.contentType, 'application/vnd.api+json; ext=bulk');
 });
