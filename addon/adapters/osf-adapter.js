@@ -83,7 +83,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
                 url: url
             }
         }).then(res => {
-            createdSnapshots.forEach(s => snapshot.record.resolveRelationship(relationship).addCanonicalRecord(s));
+            snapshot.record.resolveRelationship(relationship).addCanonicalRecord(s.record);
             return res;
         }));
     },
@@ -103,7 +103,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
     _addRelated(store, snapshot, addedSnapshots, relationship, url, isBulk = false) {
         return this._doRelatedRequest(store, snapshot, addedSnapshots, relationship, url, 'POST', isBulk).then(res => {
             addedSnapshots.forEach(function(s) {
-                snapshot.record.resolveRelationship(relationship).addCanonicalRecord(s);
+                snapshot.record.resolveRelationship(relationship).addCanonicalRecord(s.record);
             });
             return res;
         });
@@ -125,7 +125,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
             var relatedType = singularize(snapshot.record[relationship].meta().type);
             res.data.forEach(item => {
                 var record = store.push(store.normalize(relatedType, item));
-                snapshot.record.resolveRelationship(relationship).addCanonicalRecord(record._internalModel.createSnapshot());
+                snapshot.record.resolveRelationship(relationship).addCanonicalRecord(record);
             });
             return res;
         });
@@ -145,7 +145,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
      **/
     _removeRelated(store, snapshot, removedSnapshots, relationship, url, isBulk = false) {
         return this._doRelatedRequest(store, snapshot, removedSnapshots, relationship, url, 'DELETE', isBulk).then(res => {
-            removedSnapshots.forEach(s => snapshot.record.resolveRelationship(relationship).removeCanonicalRecord(s));
+            removedSnapshots.forEach(s => snapshot.record.resolveRelationship(relationship).removeCanonicalRecord(s.record));
             return res || [];
         });
     },
@@ -162,13 +162,9 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
      * @param {Boolean} isBulk
      **/
     _deleteRelated(store, snapshot, deletedSnapshots, relationship, url, isBulk = false) { // jshint ignore:line
-        if (isBulk) {
-            return this._removeRelated(...arguments).then(() => {
-                deletedSnapshots.forEach(s => s.record.unloadRecord());
-            });
-        } else {
-            return Ember.RSVP.allSettled(deletedSnapshots.map(r => r.record.unloadRecord()));
-        }
+        return this._removeRelated(...arguments).then(() => {
+            deletedSnapshots.forEach(s => s.record.unloadRecord());
+        });
     },
     /**
      * A helper for making _*Related requests
@@ -242,7 +238,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
     _handleRelatedRequest(store, type, snapshot, relationship, change) {
         var related = snapshot.record.get(`_dirtyRelationships.${relationship}.${change}`).map(function(r) {
             if (r._internalModel) {
-                return r;
+                return r._internalModel.createSnapshot();
             }
             return r.createSnapshot();
         });
@@ -261,12 +257,12 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
 
         var response;
         response = adapter[`_${change}Related`](
-                    store,
-                    snapshot,
-                    related,
-                    relationship,
-                    url,
-                    allowBulk
+            store,
+            snapshot,
+            related,
+            relationship,
+            url,
+            allowBulk
         );
         return response;
     },
