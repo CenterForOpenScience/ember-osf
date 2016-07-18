@@ -33,11 +33,12 @@ export default Ember.Component.extend({
     isProjectContributor: Ember.computed('user', 'node', function() {
         // Is the user a contributor on this node? (returns false if the user is not logged in)
         // FIXME: This depends on OSF-6702, a known bug.
-        // let node = this.get('node');
-        // let userID = this.get('user.id');
-        //return node.isContributor(userID);
-        // FIXME: Hardcoded value to enable testing while bug is resolved.
-        return true;
+        let node = this.get('node');
+        let userID = this.get('user.id');
+
+        return DS.PromiseObject.create({
+            promise: node.isContributor(userID)
+        });
     }),
 
     /**
@@ -74,10 +75,10 @@ export default Ember.Component.extend({
     }),
     showForksTab: Ember.computed.not('node.isAnonymous'),
     showContributorsTab: Ember.computed.alias('isProjectContributor'),
-    showSettingsTab: Ember.computed('user', 'node', function() {
+    showSettingsTab: Ember.computed('node', function() {
         let node = this.get('node');
         if (node.get('isProject')) {
-            return node.get('currentUserPermissions').indexOf(permissions.READ) !== -1;
+            return node.get('currentUserPermissions').indexOf(permissions.WRITE) !== -1;
         } else if (node.get('isRegistration')) {
             return node.get('currentUserPermissions').indexOf(permissions.ADMIN) !== -1;
         }

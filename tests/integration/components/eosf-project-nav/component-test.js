@@ -1,3 +1,5 @@
+import Ember from 'ember';
+
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -12,21 +14,6 @@ moduleForComponent('eosf-project-nav', 'Integration | Component | eosf project n
     }
 });
 
-test('it renders', function(assert) {
-    assert.expect(1);
-
-    var user = FactoryGuy.make('user');
-    var node = FactoryGuy.make('node', {
-        currentUserPermissions: [permissions.WRITE],
-        contributors: [user]
-    });
-    this.set('user', user);
-    this.set('node', node);
-    this.render(hbs`{{eosf-project-nav node=node user=user}}`);
-
-    // TOOD: Test more combinations of node, registration, pub/private; verify buttons show when expected
-    assert.ok(this.$().text().indexOf('Component Navigation') !== -1);
-});
 
 test('buttons for logged in non-contributor on public project', function(assert) {
     var user = FactoryGuy.make('user');
@@ -35,8 +22,12 @@ test('buttons for logged in non-contributor on public project', function(assert)
         currentUserPermissions: [permissions.READ]
     });
 
+    // Hack: bypass the computed value to avoid an unnecessary server call
+    node.isContributor = () => new Ember.RSVP.Promise((resolve) => resolve(false));
+
     this.set('user', user);
     this.set('node', node);
+
     this.render(hbs`{{eosf-project-nav node=node user=user}}`);
 
     let visible = ['Files', 'Wiki', 'Analytics', 'Registrations', 'Forks'];
@@ -54,12 +45,15 @@ test('buttons for logged-in contributor on private project', function(assert) {
     var user = FactoryGuy.make('user');
     var node = FactoryGuy.make('node', {
         public: false,
-        currentUserPermissions: [permissions.WRITE],
-        contributors: [user]
+        currentUserPermissions: [permissions.WRITE]
     });
+
+    // Hack: bypass the computed value to avoid an unnecessary server call
+    node.isContributor = () => new Ember.RSVP.Promise((resolve) => resolve(true));
 
     this.set('user', user);
     this.set('node', node);
+
     this.render(hbs`{{eosf-project-nav node=node user=user}}`);
 
     let visible = ['Files', 'Wiki', 'Analytics', 'Registrations', 'Forks', 'Contributors', 'Settings'];
@@ -71,8 +65,7 @@ test('buttons for logged-in contributor on private project', function(assert) {
 test('hides parent button for top level node', function(assert) {
     var user = FactoryGuy.make('user');
     var node = FactoryGuy.make('node', {
-        currentUserPermissions: [permissions.WRITE],
-        contributors: [user]
+        currentUserPermissions: [permissions.WRITE]
     });
 
     this.set('user', user);

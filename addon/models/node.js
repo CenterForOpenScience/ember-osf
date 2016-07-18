@@ -103,10 +103,13 @@ export default OsfModel.extend(FileItemMixin, {
      * @returns {boolean} Whether the specified user is a contributor on this node
      */
     isContributor(userID) {
-        // TODO: Test. This may depend on OSF-6702 due to known API issues.
+        // Return true if there is at least one matching contributor for this user ID
+        if (!userID) {
+            return new Ember.RSVP.Promise((resolve) => resolve(false));
+        }
         return this.query('contributors', {
             'filter[id]': userID
-        });
+        }).then(res => res.length > 0);
     },
 
     save() {
