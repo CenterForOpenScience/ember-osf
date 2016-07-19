@@ -136,3 +136,25 @@ test('#_findDirtyRelationships finds dirtyRelationships for removed records', fu
     );
     assert.deepEqual(dirtyRelationships.belongs.remove[0].id, data.relationships.belongs.data.id);
 });
+
+test('#save skips #_findDirtyRelationships for nested calls', function(assert) {
+    this.stub(DS.Model.prototype.save, 'apply');
+    var findDirtyStub = this.stub(this.model, '_findDirtyRelationships');
+    Ember.run(() => {
+	this.model.save({
+	    adapterOptions: {
+		nested: false
+	    }
+	});
+    });
+    assert.ok(findDirtyStub.called);
+    findDirtyStub.reset();
+    Ember.run(() => {
+	this.model.save({
+	    adapterOptions: {
+		nested: true
+	    }
+	});
+    });
+    assert.notOk(findDirtyStub.called);
+});

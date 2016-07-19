@@ -47,16 +47,9 @@ export default DS.Model.extend(HasManyQuery.ModelMixin, {
      *
      * @method _findDirtyRelationships
      * @private
-     * @param {Object} adapterOptions
-     * @param {Boolean} adapterOptions.nested whether or not this is a save on a related resource;
-     * this happens on creates of related resources and we need this flag to prevent recursive
-     * relationship saving
      * @return {Object} a set of <action>: DS.InternalModel[] pairs that is interpreted by the OsfAdapter
      **/
-    _findDirtyRelationships(adapterOptions) {
-        if (adapterOptions.nested) {
-            return {};
-        }
+    _findDirtyRelationships() {
         let dirtyRelationships = {};
         this.eachRelationship((rel) => {
             var relation = this.resolveRelationship(rel);
@@ -77,10 +70,17 @@ export default DS.Model.extend(HasManyQuery.ModelMixin, {
         });
         return dirtyRelationships;
     },
+    /**
+     * @param {Boolean} options.adapterOptions.nested whether or not this is a save on a related resource;
+     * this happens on creates of related resources and we need this flag to prevent recursive
+     * relationship saving
+     **/
     save(options = {
         adapterOptions: {}
     }) {
-        this.set('_dirtyRelationships', this._findDirtyRelationships(options.adapterOptions));
+        if (!options.adapterOptions.nested) {
+            this.set('_dirtyRelationships', this._findDirtyRelationships(options.adapterOptions));
+        }
         return this._super(...arguments);
     }
 });
