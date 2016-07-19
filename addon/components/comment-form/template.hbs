@@ -1,6 +1,13 @@
 <div>
+    {{!-- TODO: Add validators (MAXLENGTH) for parity with comment functionality --}}
     {{textarea class="form-control" maxlength="500" placeholder="Add a comment" value=_commentText}}
-    <button {{action 'addComment' _commentText}} class="btn btn-success" disabled={{if (not _commentText) true}}>
-        Add comment
-    </button>
+
+    {{#if _commentText}}
+        <div class="form-group">
+            {{!-- TODO: Support submittingReply check --}}
+            <button {{action 'cancelComment'}} class="btn btn-default btn-sm">Cancel</button>
+            <button {{action 'addComment' _commentText}} class="btn btn-success btn-sm">{{if submitInProgress 'Commenting' 'Comment'}}</button>
+            {{#if errorMessage}}<span class="text-danger">{{errorMessage}}</span>{{/if}}
+        </div>
+    {{/if}}
 </div>

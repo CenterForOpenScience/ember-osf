@@ -1,4 +1,7 @@
 <h3>Comments</h3>
+
+{{comment-form addComment=attrs.addComment}}
+
 {{#each comments as |comment|}}
     {{comment-detail
     comment=comment
@@ -10,4 +13,4 @@
     (none)
 {{/each}}
 
-{{comment-form addComment=attrs.addComment}}
+

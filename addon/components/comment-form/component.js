@@ -21,6 +21,15 @@ import layout from './template';
 export default Ember.Component.extend({
     layout,
     _commentText: null,
+    errorMessage: null,
+    submitInProgress: false,
+    /**
+     * Maximum comment length for validation
+     * @property maxLength
+     * @type Integer
+     */
+    // TODO: Implement validation
+    maxLength: 500,
 
     actions: {
         /**
@@ -29,8 +38,21 @@ export default Ember.Component.extend({
          * @param {String} text The text of the comment to create
          */
         addComment(text) {
+            if (!text) {
+                this.set('errorMessage', 'Please enter a comment');
+                return;
+            }
+            this.set('submitInProgress', true);
             let res = this.attrs.addComment(text);
-            res.then(() => this.set('_commentText', ''));
+            res.then(() => this.send('resetForm'));
+        },
+        cancelComment() {
+            this.send('resetForm');
+        },
+        resetForm() {
+            this.set('_commentText', '');
+            this.set('submitInProgress', false);
+            this.set('errorMessage', '');
         }
     }
 });
