@@ -28,5 +28,27 @@ import layout from './template';
  */
 export default Ember.Component.extend({
     layout,
-    comment: null
+    comment: null,
+    node: null, // TODO: Track whether the node is being viewed in "anonymous" mode and change how authors are displayed
+
+    // Conditionals that control display of template sections
+    showChildren: false,
+
+    isDeletedAbuse: Ember.computed('comment.deleted', 'comment.isAbuse', function() {
+        return this.get('comment.deleted') && this.get('comment.isAbuse');
+    }),
+    isDeletedNotAbuse: Ember.computed('comment.deleted', 'comment.isAbuse', function() {
+        return this.get('comment.deleted') && !this.get('comment.isAbuse');
+    }),
+    isAbuseNotDeleted: Ember.computed('comment.deleted', 'comment.isAbuse', function() {
+        return !this.get('comment.deleted') && this.get('comment.isAbuse');
+    }),
+
+    actions: {
+        toggleChildren() {
+            // TODO: Implement toggling of children widgets
+            this.toggleProperty('showChildren');
+            // TODO: Fetch children as needed
+        }
+    }
 });

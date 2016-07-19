@@ -4,7 +4,6 @@
 
     {{#if _commentText}}
         <div class="form-group">
-            {{!-- TODO: Support submittingReply check --}}
             <button {{action 'cancelComment'}} class="btn btn-default btn-sm">Cancel</button>
             <button {{action 'addComment' _commentText}} class="btn btn-success btn-sm">{{if submitInProgress 'Commenting' 'Comment'}}</button>
             {{#if errorMessage}}<span class="text-danger">{{errorMessage}}</span>{{/if}}

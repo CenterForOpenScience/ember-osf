@@ -1,3 +1,4 @@
+// TODO: This contains styles for comment pane, form, and detail. Break this into separate files in the future.
 .comment-pane {
     position: fixed;
     z-index: 999; /* Note: Must be lower than Bootstrap modals, BlockUI */
