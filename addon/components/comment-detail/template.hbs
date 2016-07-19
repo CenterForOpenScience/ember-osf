@@ -5,8 +5,8 @@
          <!-- div data-bind="visible: loading">
             <i class="fa fa-spinner fa-spin"></i>
          </div -->
-
-        {{#unless comment.loading}}
+        {{!-- TODO: Check on, and implement, loading indicator for comments --}}
+        {{#unless comment.isPending}}
             {{#if isDeletedAbuse}}
                 <div>
                     <span class="text-muted">
@@ -34,43 +34,50 @@
                         </span>
                     {{/if}}
                 </div>
-                <div data-bind="if: canEdit">
-                    <a data-bind="click: submitUndelete">Restore</a>
-                </div>
+                {{#if comment.canEdit}}
+                    <a {{action restoreComment}}>Restore</a>
+                {{/if}}
             {{/if}}
 
-            <div data-bind="if: isAbuseNotDeleted">
+            {{#if isAbuseNotDeleted}}
                 <div>
                     <span class="text-muted">
                         <em>Comment reported.</em>
                     </span>
-                    <span data-bind="if: hasChildren()" class="comment-actions pull-right">
-                        <i data-bind="css: toggleIcon, click: toggle"></i>
-                    </span>
+                    {{#if comment.hasChildren}}
+                        <span class="comment-actions pull-right">
+                            <button {{action toggleChildren}}>
+                                <i class="fa {{if showChildren 'fa-minus' 'fa-plus'}}"></i>
+                            </button>
+                        </span>
+                    {{/if}}
                 </div>
-                <div data-bind="if: hasReport">
+                {{#if comment.hasReport}}
+                    {{!-- TODO: Implement this with EOSF-76 --}}
                     <a data-bind="click: submitUnreportAbuse">Not abuse</a>
-                </div>
-            </div>
+                {{/if}}
+            {{/if}}}
 
-            <div data-bind="if: isVisible">
+            {{#if isVisible}}
 
                 <div class="comment-info">
+                    {{!-- TODO: Why is there a form here? --}}
                     <form class="form-inline">
-                        <span data-bind="if: author.gravatarUrl">
-                            <img data-bind="css: {'comment-gravatar': author.gravatarUrl}, attr: {src: author.gravatarUrl}"/>
-                        </span>
-                        <span data-bind="if: author.id">
-                            <a class="comment-author" data-bind="text: author.fullname, attr: {href: author.urls.profile}"></a>
-                        </span>
-                        <span data-bind="ifnot: author.id">
-                            <span class="comment-author" data-bind="text: author.fullname"></span>
-                        </span>
+                        {{#if comment.user.profileImage}}
+                            <img class="comment-gravatar" src="{{comment.user.profileImage}}"/>
+                        {{/if}}
+                        {{#if comment.user}}
+                            <a class="comment-author" href="{{comment.user.profileURL}}">{{comment.user.fullName}}</a>
+                        {{/if}}
+                        {{!-- TODO: Under what circumstances does this ever happen? In theory all user data should be accessible... deleted account maybe??? --}}
+                        <!--<span data-bind="ifnot: author.id">-->
+                            <!--<span class="comment-author" data-bind="text: author.fullname"></span>-->
+                        <!--</span>-->
                         <span class="comment-date pull-right">
-                            <span data-bind="template: {if: modified, afterRender: setupToolTips}">
-                                <a data-toggle="tooltip" data-bind="attr: {title: prettyDateModified()}">*</a>
-                            </span>
-                            <span data-bind="text: prettyDateCreated"></span>
+                            {{#if comment.modified}}
+                                <a title="Modified {{moment-from-now comment.dateModified}}">*</a>
+                            {{/if}}
+                            {{moment-from-now comment.dateCreated}}
                             &nbsp;
                         </span>
                     </form>
@@ -157,7 +164,7 @@
                     </div>
                 </div>
 
-            </div>
+            {{/if}}
         {{/unless}}
 
 

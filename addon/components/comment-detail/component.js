@@ -32,6 +32,7 @@ export default Ember.Component.extend({
     node: null, // TODO: Track whether the node is being viewed in "anonymous" mode and change how authors are displayed
 
     // Conditionals that control display of template sections
+    editMode: false,
     showChildren: false,
 
     isDeletedAbuse: Ember.computed('comment.deleted', 'comment.isAbuse', function() {
@@ -42,6 +43,10 @@ export default Ember.Component.extend({
     }),
     isAbuseNotDeleted: Ember.computed('comment.deleted', 'comment.isAbuse', function() {
         return !this.get('comment.deleted') && this.get('comment.isAbuse');
+    }),
+
+    isVisible: Ember.computed('comment.deleted', 'comment.isAbuse', function() {
+        return !this.get('comment.deleted') && !this.get('comment.isAbuse');
     }),
 
     actions: {

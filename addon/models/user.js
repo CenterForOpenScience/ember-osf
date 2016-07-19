@@ -29,5 +29,9 @@ export default OsfModel.extend({
 
     affiliatedInstitutions: DS.hasMany('institutions', {
         inverse: 'users'
-    })
+    }),
+
+    // Calculated fields
+    profileURL: Ember.computed.alias('links.html')
+    profileImage: Ember.computed.alias('links.profile_image')
 });
