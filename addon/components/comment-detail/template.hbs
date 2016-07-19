@@ -1,7 +1,7 @@
 {{!-- TODO: This template does not currently implement Comment abuse reporting functionality, #EOSF-76 --}}
 
 <div class="comment-container" data-bind="attr:{id: id}">
-    < class="comment-body m-b-sm p-sm osf-box">
+    <div class="comment-body m-b-sm p-sm osf-box">
          <!-- div data-bind="visible: loading">
             <i class="fa fa-spinner fa-spin"></i>
          </div -->
@@ -56,7 +56,7 @@
                     {{!-- TODO: Implement this with EOSF-76 --}}
                     <a data-bind="click: submitUnreportAbuse">Not abuse</a>
                 {{/if}}
-            {{/if}}}
+            {{/if}}
 
             {{#if isVisible}}
 
@@ -85,34 +85,37 @@
 
                 <div class="comment-content">
 
-                    <div data-bind="ifnot: editing">
-                        <span class="component-overflow" data-bind="html: contentDisplay"></span>
-                        <span class="pull-right comment-actions" data-bind="if: hasChildren()">
-                            <i data-bind="css: toggleIcon, click: toggle"></i>
-                        </span>
-                    </div>
+
+                    {{#unless editMode}}
+                        {{!-- TODO: Will need to test this with comments that include HTML. (because apparently that was an option??) --}}
+                        {{!-- TODO: The OSF spec calls for comments to be stored as markdown, then linkified and rendered frontend into HTML --}}
+                        {{!-- This will be mandatory for new feature like @mentions and is not yet supported here --}}
+                        <span class="component-overflow">{{comment.content}}</span>
+                        {{#if comment.hasChildren}}
+                            <span class="comment-actions pull-right">
+                                <button {{action toggleChildren}}>
+                                    <i class="fa {{if showChildren 'fa-minus' 'fa-plus'}}"></i>
+                                </button>
+                            </span>
+                        {{/if}}
+                    {{/unless}}
 
                     <!--
                         Hack: Use template binding with if rather than vanilla if
                         binding to get access to afterRender
                     -->
-                    <div data-bind="template {if: editing, afterRender: autosizeText}">
-                        <div class="form-group" style="padding-top: 10px">
-                            <textarea class="form-control" data-bind="value: content, valueUpdate: 'input', attr: {maxlength: $root.MAXLENGTH}"></textarea>
-                        </div>
-                        <div class="clearfix">
-                            <div class="form-inline pull-right">
-                                <a class="btn btn-default btn-sm" data-bind="click: cancelEdit">Cancel</a>
-                                <a class="btn btn-success btn-sm" data-bind="click: submitEdit, visible: editNotEmpty">Save</a>
-                                <span data-bind="text: editErrorMessage" class="text-danger"></span>
-                            </div>
-                        </div>
+                    {{!-- TODO: support autosizetext behavior when form loads --}}
+                    {{!-- TODO: Support configurable text for comment form (edit vs commenting) --}}
+                    {{!-- TODO: May need to add back class=clearfix markup around buttons --}}
+                    <div style="padding-top: 10px">
+                        {{!-- TODO: Replace addComment with editComment --}}
+                        {{comment-form addComment=attrs.addComment}}
                     </div>
                 </div>
 
                 <div>
-
-                    <span class="text-danger" data-bind="text: errorMessage"></span>
+                    {{!-- TODO: Revisit error display mechanism to differentiate between validation and saving errors (do we need two fields?) --}}
+                    <!--<span class="text-danger" data-bind="text: errorMessage"></span>-->
 
                     <span>&nbsp;</span>
 
@@ -174,28 +177,21 @@
 
         <!-- ko if: replying -->
 
-            <div>
-                <div class="form-group" style="padding-top: 10px">
-                    <textarea class="form-control" placeholder="Add a comment" data-bind="value: replyContent, valueUpdate: 'input', attr: {maxlength: $root.MAXLENGTH}"></textarea>
-                </div>
-                <div class="clearfix">
-                    <div class="pull-right">
-                        <a class="btn btn-default btn-sm" data-bind="click: cancelReply, css: {disabled: submittingReply}"> Cancel</a>
-                        <a class="btn btn-success btn-sm" data-bind="click: submitReply, visible: replyNotEmpty, css: {disabled: submittingReply}, text: commentButtonText"></a>
-                        <span data-bind="text: replyErrorMessage" class="text-danger"></span>
-                    </div>
-                </div>
+            <div style="padding-top: 10px">
+                {{!-- TODO: Replace addComment with a custom addReply action --}}
+                {{comment-form addComment=attrs.addComment}}
             </div>
 
         <!-- /ko -->
 
+        {{!-- TODO: Implement the fetch more functionality below --}}
         <!-- ko if: showChildren() -->
             <!-- ko template: {name:  'commentTemplate', foreach: comments} -->
             <!-- /ko -->
             <!-- ko if: urlForNext() -->
-            <div class="row">
-                <button class="btn btn-link pull-right more-replies" type="button" data-bind="click: getMoreComments">More replies</button>
-            </div>
+                        <!--<div class="row">-->
+                            <!--<button class="btn btn-link pull-right more-replies" type="button" data-bind="click: getMoreComments">More replies</button>-->
+                        <!--</div>-->
             <!-- /ko -->
         <!-- /ko -->
 
@@ -214,26 +210,26 @@
 
 
 
-    {{#if comment.deleted}}
-        <div>
-            Comment deleted
-            {{# if comment.canEdit}}
-                <button {{action restoreComment comment}} class="btn btn-warning">Restore</button>
-            {{/if}}
-        </div>
-    {{else}}
-        <div>
-            <strong>
-                {{comment.dateCreated}}
-            </strong>:
-            {{# if comment.canEdit}}
-                {{input value=comment.content}}
-                <button {{action editComment comment}} class="btn btn-success">Edit</button>
-                <button {{action deleteComment comment}} class="btn btn-danger">Delete</button>
-            {{else}}
-                <span>{{comment.content}}</span>
-                <button {{action reportComment comment}} class="btn btn-warning">Report</button>
-            {{/if}}
-        </div>
-    {{/if}}
-</div>
+    <!--{{#if comment.deleted}}-->
+        <!--<div>-->
+            <!--Comment deleted-->
+            <!--{{# if comment.canEdit}}-->
+                <!--<button {{action restoreComment comment}} class="btn btn-warning">Restore</button>-->
+            <!--{{/if}}-->
+        <!--</div>-->
+    <!--{{else}}-->
+        <!--<div>-->
+            <!--<strong>-->
+                <!--{{comment.dateCreated}}-->
+            <!--</strong>:-->
+            <!--{{# if comment.canEdit}}-->
+                <!--{{input value=comment.content}}-->
+                <!--<button {{action editComment comment}} class="btn btn-success">Edit</button>-->
+                <!--<button {{action deleteComment comment}} class="btn btn-danger">Delete</button>-->
+            <!--{{else}}-->
+                <!--<span>{{comment.content}}</span>-->
+                <!--<button {{action reportComment comment}} class="btn btn-warning">Report</button>-->
+            <!--{{/if}}-->
+        <!--</div>-->
+    <!--{{/if}}-->
+<!--</div>-->
