@@ -26,6 +26,7 @@ export default OsfModel.extend(FileItemMixin, {
     description: DS.attr('string'),
     category: DS.attr('string'),
 
+    currentUserCanComment: DS.attr('boolean'),
     currentUserPermissions: DS.attr('string'),
 
     fork: DS.attr('boolean'),

@@ -14,7 +14,7 @@
                     </span>
                     {{#if comment.hasChildren}}
                         <span class="comment-actions pull-right">
-                            <button {{action toggleChildren}}>
+                            <button {{action 'toggleChildren'}}>
                                 <i class="fa {{if showChildren 'fa-minus' 'fa-plus'}}"></i>
                             </button>
                         </span>
@@ -28,7 +28,7 @@
                     </span>
                     {{#if comment.hasChildren}}
                         <span class="comment-actions pull-right">
-                            <button {{action toggleChildren}}>
+                            <button {{action 'toggleChildren'}}>
                                 <i class="fa {{if showChildren 'fa-minus' 'fa-plus'}}"></i>
                             </button>
                         </span>
@@ -46,7 +46,7 @@
                     </span>
                     {{#if comment.hasChildren}}
                         <span class="comment-actions pull-right">
-                            <button {{action toggleChildren}}>
+                            <button {{action 'toggleChildren'}}>
                                 <i class="fa {{if showChildren 'fa-minus' 'fa-plus'}}"></i>
                             </button>
                         </span>
@@ -93,7 +93,7 @@
                         <span class="component-overflow">{{comment.content}}</span>
                         {{#if comment.hasChildren}}
                             <span class="comment-actions pull-right">
-                                <button {{action toggleChildren}}>
+                                <button {{action 'toggleChildren'}}>
                                     <i class="fa {{if showChildren 'fa-minus' 'fa-plus'}}"></i>
                                 </button>
                             </span>
@@ -121,55 +121,72 @@
 
                     <!-- Action bar -->
                     <div style="display: inline">
-                        <div data-bind="ifnot: editing" class="comment-actions pull-right">
-                            <span data-bind="ifnot: isHam">
-                                <span data-bind="if: canEdit, click: edit">
-                                    <i class="fa fa-pencil"></i>
-                                </span>
-                                <span data-bind="if: $root.canComment, click: showReply">
-                                    <i class="fa fa-reply"></i>
-                                </span>
-                                <span data-bind="if: canReport, click: reportAbuse">
-                                    <i class="fa fa-warning"></i>
-                                </span>
-                                <span data-bind="if: canEdit, click: startDelete">
-                                    <i class="fa fa-trash-o"></i>
-                                </span>
-                            </span>
-                            <span data-bind="if: isHam">
-                                <span data-bind="if: $root.canComment, click: showReply">
-                                    <i class="fa fa-reply"></i>
-                                </span>
-                                <span>
-                                    <i class="text-success fa fa-check-circle-o"></i>
-                                </span>
-                            </span>
+
+                        {{#unless editMode}}
+                            <div class="comment-actions pull-right">
+                                {{!- TODO: Logic convoluted- unless/else --}}
+                                {{#unless comment.isHam}}
+                                    {{!-- If there are no outstanding/unresolved spam reports, show a full set of buttons, including for reporting --}}
+                                    {{#if comment.canEdit}}
+                                        <button {{action 'toggleEditMode'}}><i class="fa fa-pencil"></i></button>
+                                    {{/if}}
+
+                                    {{#if node.currentUserCanComment}}
+                                        <button {{action 'toggleReplyMode'}}>
+                                            <i class="fa fa-reply"></i>
+                                        </button>
+                                    {{/if}}
+                                    {{#if canReport}}
+                                        <button {{action reportComment}}>
+                                            {{!-- TODO: Bare fontawesome icons are an accessibility issue. See http://fontawesome.io/accessibility/ --}}
+                                            <i class="fa fa-warning"></i>
+                                        </button>
+                                    {{/if}}
+                                    {{#if comment.canEdit}}
+                                        <button {{action 'toggleDeleteMode'}}>
+                                            <i class="fa fa-trash-o"></i>
+                                        </button>
+                                    {{/if}}
+                                {{else}}
+                                        {{!-- TODO: DRY this code up and avoid redundant button definitions --}}
+                                    {{!-- Why don't we show the delete button for comments confirmed not spam? --}}
+                                    {{#if node.currentUserCanComment}}
+                                        <button {{action 'toggleReplyMode'}}>
+                                            <i class="fa fa-reply"></i>
+                                        </button>
+                                    {{/if}}
+                                    <span>
+                                        <i class="text-success fa fa-check-circle-o"></i>
+                                    </span>
+                                {{/unless}}
+                            </div>
+                        {{/unless}}
+                    </div>
+
+                </div>
+                {{#if reportMode}}
+                    {{!-- TODO: Implement comment abuse reporting in separate ticket, EOSF-76 --}}
+                    <!--<div class="comment-report clearfix">-->
+                        <!--<form class="form-inline" data-bind="submit: submitAbuse">-->
+                            <!--<select class="form-control" data-bind="options: abuseOptions, optionsText: abuseLabel, value: abuseCategory"></select>-->
+                            <!--<input class="form-control" data-bind="value: abuseText" placeholder="Describe abuse" />-->
+                        <!--</form>-->
+                        <!--<div class="pull-right m-t-xs">-->
+                            <!--<a class="btn btn-default btn-sm" data-bind="click: cancelAbuse"> Cancel</a>-->
+                            <!--<a class="btn btn-danger btn-sm" data-bind="click: submitAbuse"> Report</a>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                {{/if}}
+                {{#if deleteMode}}
+                    <div class="comment-delete clearfix m-t-xs">
+                        <div class="pull-right">
+                            <button class="btn btn-default btn-sm" {{action 'toggleDeleteMode'}}>Cancel</button>
+                            <button class="btn btn-danger btn-sm" {{action deleteComment}}>Delete</button>
                         </div>
                     </div>
-
-                </div>
-
-                <div class="comment-report clearfix" data-bind="if: reporting">
-                    <form class="form-inline" data-bind="submit: submitAbuse">
-                        <select class="form-control" data-bind="options: abuseOptions, optionsText: abuseLabel, value: abuseCategory"></select>
-                        <input class="form-control" data-bind="value: abuseText" placeholder="Describe abuse" />
-                    </form>
-                    <div class="pull-right m-t-xs">
-                        <a class="btn btn-default btn-sm" data-bind="click: cancelAbuse"> Cancel</a>
-                        <a class="btn btn-danger btn-sm" data-bind="click: submitAbuse"> Report</a>
-                    </div>
-                </div>
-
-                <div class="comment-delete clearfix m-t-xs" data-bind="if: deleting">
-                    <div class="pull-right">
-                        <a class="btn btn-default btn-sm" data-bind="click: cancelDelete">Cancel</a>
-                        <a class="btn btn-danger btn-sm" data-bind="click: submitDelete">Delete</a>
-                    </div>
-                </div>
-
+                {{/if}}
             {{/if}}
         {{/unless}}
-
 
     </div>
 
@@ -178,7 +195,7 @@
         <!-- ko if: replying -->
 
             <div style="padding-top: 10px">
-                {{!-- TODO: Replace addComment with a custom addReply action --}}
+                {{!-- TODO: Replace addComment with a custom addReply action (referencing the comment as target) --}}
                 {{comment-form addComment=attrs.addComment}}
             </div>
 
@@ -198,38 +215,3 @@
     </ul>
 
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-    <!--{{#if comment.deleted}}-->
-        <!--<div>-->
-            <!--Comment deleted-->
-            <!--{{# if comment.canEdit}}-->
-                <!--<button {{action restoreComment comment}} class="btn btn-warning">Restore</button>-->
-            <!--{{/if}}-->
-        <!--</div>-->
-    <!--{{else}}-->
-        <!--<div>-->
-            <!--<strong>-->
-                <!--{{comment.dateCreated}}-->
-            <!--</strong>:-->
-            <!--{{# if comment.canEdit}}-->
-                <!--{{input value=comment.content}}-->
-                <!--<button {{action editComment comment}} class="btn btn-success">Edit</button>-->
-                <!--<button {{action deleteComment comment}} class="btn btn-danger">Delete</button>-->
-            <!--{{else}}-->
-                <!--<span>{{comment.content}}</span>-->
-                <!--<button {{action reportComment comment}} class="btn btn-warning">Report</button>-->
-            <!--{{/if}}-->
-        <!--</div>-->
-    <!--{{/if}}-->
-<!--</div>-->
