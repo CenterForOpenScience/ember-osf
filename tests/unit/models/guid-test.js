@@ -2,7 +2,7 @@ import { moduleForModel, test } from 'ember-qunit';
 
 moduleForModel('guid', 'Unit | Model | guid', {
   // Specify the other units that are required for this test.
-  needs: []
+  needs: ['model:guid-referent']
 });
 
 test('it exists', function(assert) {

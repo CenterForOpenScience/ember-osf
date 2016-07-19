@@ -8,8 +8,8 @@ export default JSONAPIAdapter.extend(DataAdapterMixin, {
     host: config.OSF.apiUrl,
     namespace: config.OSF.apiNamespace,
     buildURL() {
-	var url = this._super(...arguments);
-	if (url.lastIndexOf('/') !== url.length - 1) {
+        var url = this._super(...arguments);
+        if (url.lastIndexOf('/') !== url.length - 1) {
             url += '/';
         }
         return `${url}?resolve=false`;

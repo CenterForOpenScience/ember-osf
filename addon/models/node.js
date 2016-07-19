@@ -1,6 +1,6 @@
 import DS from 'ember-data';
 
-import OsfModel from './osf-model';
+import GuidReferent from './guid-referent';
 
 import FileItemMixin from 'ember-osf/mixins/file-item';
 
