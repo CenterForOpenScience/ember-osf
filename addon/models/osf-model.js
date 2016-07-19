@@ -42,14 +42,22 @@ export default DS.Model.extend(HasManyQuery.ModelMixin, {
         }
         return relation;
     },
-    save(options = {
-        adapterOptions: {}
-    }) {
-        if (options.adapterOptions.nested) {
-            return this._super(...arguments);
+    /**
+     * Finds which relationships of the model are dirty
+     *
+     * @method _findDirtyRelationships
+     * @private
+     * @param {Object} adapterOptions
+     * @param {Boolean} adapterOptions.nested whether or not this is a save on a related resource;
+     * this happens on creates of related resources and we need this flag to prevent recursive
+     * relationship saving
+     * @return {Object} a set of <action>: DS.InternalModel[] pairs that is interpreted by the OsfAdapter
+     **/
+    _findDirtyRelationships(adapterOptions) {
+        if (adapterOptions.nested) {
+            return {};
         }
-
-        this.set('_dirtyRelationships', {});
+        let dirtyRelationships = {};
         this.eachRelationship((rel) => {
             var relation = this.resolveRelationship(rel);
             // TODO(samchrisinger): not sure if hasLoaded is a subset if the hasData state
@@ -64,9 +72,15 @@ export default DS.Model.extend(HasManyQuery.ModelMixin, {
 
                 var other = this.get('_dirtyRelationships.${rel}') || {};
                 Ember.merge(other, changes);
-                this.set(`_dirtyRelationships.${rel}`, other);
+                Ember.set(dirtyRelationships, rel, other);
             }
         });
+        return dirtyRelationships;
+    },
+    save(options = {
+        adapterOptions: {}
+    }) {
+        this.set('_dirtyRelationships', this._findDirtyRelationships(options.adapterOptions));
         return this._super(...arguments);
     }
 });
