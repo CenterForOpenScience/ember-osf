@@ -1,17 +1,8 @@
-import JSONAPIAdapter from 'ember-data/adapters/json-api';
+import OsfAdapter from './osf-adapter';
 
-import config from 'ember-get-config';
-import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
-
-export default JSONAPIAdapter.extend(DataAdapterMixin, {
-    authorizer: 'authorizer:osf-token',
-    host: config.OSF.apiUrl,
-    namespace: config.OSF.apiNamespace,
+export default OsfAdapter.extend({
     buildURL() {
         var url = this._super(...arguments);
-        if (url.lastIndexOf('/') !== url.length - 1) {
-            url += '/';
-        }
         return `${url}?resolve=false`;
     }
 });
