@@ -137,7 +137,7 @@ export default Ember.Component.extend({
         editComment(text) {
             // Edit the comment owned by this component.
             return this.attrs.editComment(text, this.get('comment'))
-                .then((res) => this.send('toggleEditMode'));
+                .then(() => this.send('toggleEditMode'));
         }
     }
 });

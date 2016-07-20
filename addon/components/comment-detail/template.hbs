@@ -63,15 +63,15 @@
                     {{!-- TODO: Why is there a form here? --}}
                     <form class="form-inline">
                         {{#if comment.user.profileImage}}
-                            <img class="comment-gravatar" src="{{comment.user.profileImage}}"/>
+                            <img class="comment-gravatar" src="{{comment.user.profileImage}}">
                         {{/if}}
                         {{#if comment.user}}
                             <a class="comment-author" href="{{comment.user.profileURL}}">{{comment.user.fullName}}</a>
                         {{/if}}
                         {{!-- TODO: Support anonymous views throughout this template, eg anon view-only links. EOSF-112 --}}
-                        <!--<span data-bind="ifnot: author.id">-->
-                            <!--<span class="comment-author" data-bind="text: author.fullname"></span>-->
-                        <!--</span>-->
+                        {{!--<span data-bind="ifnot: author.id">--}}
+                        {{!--<span class="comment-author" data-bind="text: author.fullname"></span>--}}
+                        {{!--</span>--}}
                         <span class="comment-date pull-right">
                             {{#if comment.modified}}
                                 <a title="Modified {{moment-from-now comment.dateModified}}">*</a>
@@ -112,11 +112,11 @@
 
                 <div>
                     {{!-- TODO: Revisit error display mechanism to differentiate between validation and saving errors (do we need two fields?) --}}
-                    <!--<span class="text-danger" data-bind="text: errorMessage"></span>-->
+                    {{!--<span class="text-danger" data-bind="text: errorMessage"></span>--}}
 
                     <span>&nbsp;</span>
 
-                    <!-- Action bar -->
+                    {{!-- Action bar --}}
                     <div style="display: inline">
 
                         {{#unless editMode}}
@@ -162,16 +162,16 @@
                 </div>
                 {{#if reportMode}}
                     {{!-- TODO: Implement comment abuse reporting in separate ticket, EOSF-76 --}}
-                    <!--<div class="comment-report clearfix">-->
-                        <!--<form class="form-inline" data-bind="submit: submitAbuse">-->
-                            <!--<select class="form-control" data-bind="options: abuseOptions, optionsText: abuseLabel, value: abuseCategory"></select>-->
-                            <!--<input class="form-control" data-bind="value: abuseText" placeholder="Describe abuse" />-->
-                        <!--</form>-->
-                        <!--<div class="pull-right m-t-xs">-->
-                            <!--<a class="btn btn-default btn-sm" data-bind="click: cancelAbuse"> Cancel</a>-->
-                            <!--<a class="btn btn-danger btn-sm" data-bind="click: submitAbuse"> Report</a>-->
-                        <!--</div>-->
-                    <!--</div>-->
+                    {{!--<div class="comment-report clearfix">--}}
+                    {{!--<form class="form-inline" data-bind="submit: submitAbuse">--}}
+                    {{!--<select class="form-control" data-bind="options: abuseOptions, optionsText: abuseLabel, value: abuseCategory"></select>--}}
+                    {{!--<input class="form-control" data-bind="value: abuseText" placeholder="Describe abuse" />--}}
+                    {{!--</form>--}}
+                    {{!--<div class="pull-right m-t-xs">--}}
+                    {{!--<a class="btn btn-default btn-sm" data-bind="click: cancelAbuse"> Cancel</a>--}}
+                    {{!--<a class="btn btn-danger btn-sm" data-bind="click: submitAbuse"> Report</a>--}}
+                    {{!--</div>--}}
+                    {{!--</div>--}}
                 {{/if}}
                 {{#if deleteMode}}
                     <div class="comment-delete clearfix m-t-xs">
@@ -210,7 +210,7 @@
         {{/if}}
 
         {{!-- TODO: Implement the fetch more functionality below --}}
-        <!--<button class="btn btn-link pull-right more-replies" type="button" data-bind="click: getMoreComments">More replies</button>-->
+        {{!--<button class="btn btn-link pull-right more-replies" type="button" data-bind="click: getMoreComments">More replies</button>--}}
 
 
     </ul>

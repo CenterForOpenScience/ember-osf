@@ -8,8 +8,6 @@ import layout from './template';
  * @submodule components
  */
 
-
-
 const Validations = buildValidations({
     _commentText: validator('length', {
         max: 500,
