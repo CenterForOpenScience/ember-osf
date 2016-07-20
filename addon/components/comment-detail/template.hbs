@@ -99,18 +99,17 @@
                         {{/if}}
                     {{/unless}}
 
-                    <!--
-                        Hack: Use template binding with if rather than vanilla if
-                        binding to get access to afterRender
-                    -->
+
                     {{!-- TODO: support autosizetext behavior when form loads --}}
                     {{!-- TODO: Support configurable text for comment form (edit vs commenting) --}}
-                    {{!-- TODO: May need to add back class=clearfix markup around buttons --}}
                     {{#if editMode}}
                         <div style="padding-top: 10px">
                             {{!-- TODO: Support editing functionality for a form? Original comment text, different button labels--}}
                             {{!-- TODO: Replace addComment with editComment --}}
-                            {{comment-form addComment=attrs.addComment}}
+                            {{comment-form addComment=attrs.addComment
+                              showButtons=true
+                              initialText=comment.content
+                              cancelComment=(action 'toggleEditMode')}}
                         </div>
                     {{/if}}
                 </div>
@@ -197,7 +196,7 @@
 
             <div style="padding-top: 10px">
                 {{!-- TODO: Replace addComment with a custom addReply action (referencing the comment as target) --}}
-                {{comment-form addComment=attrs.addComment}}
+                {{comment-form addComment=attrs.addComment showButton=true}}
             </div>
 
         {{/if}}

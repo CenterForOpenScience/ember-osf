@@ -18,12 +18,14 @@ const Validations = buildValidations({
 });
 
 /**
- * Allow users to add comments to a page.
+ * Allow users to add comments to a page, or edit an existing comment if initialText is provided..
  *
  * This component is typically used as part of the `comment-pane` component; see that component for further information.
  * Sample usage:
  * ```handlebars
- * {{comment-form addComment=attrs.addComment}}
+ * {{comment-form
+ *   addComment=attrs.addComment
+ *   showButtons=false}}
  * ```
  *
  * @class comment-form
@@ -31,7 +33,22 @@ const Validations = buildValidations({
  */
 export default Ember.Component.extend(Validations, {
     layout,
-    _commentText: null,
+    /**
+     * The default text for the comment. If passed in, this component acts as an edit widget instead of creation.
+     * @property initialText
+     * @type String|null
+     */
+    initialText: null,
+
+    /**
+     * Control whether buttons should be displayed by default
+     * @property showButtons
+     * @type boolean
+     */
+
+    // Track internal state
+    _commentText: Ember.computed.oneWay('initialText'),
+    editMode: Ember.computed.bool('initialText'),
     errorMessage: null,
     submitInProgress: false,
 
@@ -52,7 +69,12 @@ export default Ember.Component.extend(Validations, {
             res.then(() => this.send('resetForm'));
         },
         cancelComment() {
-            this.send('resetForm');
+            // User can pass in their own cancelComment function, eg to exit reply mode
+            if (this.attrs.cancelComment) {
+                this.attrs.cancelComment();
+            } else {
+                this.send('resetForm');
+            }
         },
         resetForm() {
             this.set('_commentText', '');
