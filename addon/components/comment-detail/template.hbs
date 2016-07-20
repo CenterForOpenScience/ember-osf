@@ -14,9 +14,9 @@
                     </span>
                     {{#if comment.hasChildren}}
                         <span class="comment-actions pull-right">
-                            <button {{action 'toggleChildren'}}>
+                            <span {{action 'toggleChildren'}}>
                                 <i class="fa {{if showChildren 'fa-minus' 'fa-plus'}}"></i>
-                            </button>
+                            </span>
                         </span>
                     {{/if}}
                 </div>
@@ -28,9 +28,9 @@
                     </span>
                     {{#if comment.hasChildren}}
                         <span class="comment-actions pull-right">
-                            <button {{action 'toggleChildren'}}>
+                            <span {{action 'toggleChildren'}}>
                                 <i class="fa {{if showChildren 'fa-minus' 'fa-plus'}}"></i>
-                            </button>
+                            </span>
                         </span>
                     {{/if}}
                 </div>
@@ -46,9 +46,9 @@
                     </span>
                     {{#if comment.hasChildren}}
                         <span class="comment-actions pull-right">
-                            <button {{action 'toggleChildren'}}>
+                            <span {{action 'toggleChildren'}}>
                                 <i class="fa {{if showChildren 'fa-minus' 'fa-plus'}}"></i>
-                            </button>
+                            </span>
                         </span>
                     {{/if}}
                 </div>
@@ -93,9 +93,9 @@
                         <span class="component-overflow">{{comment.content}}</span>
                         {{#if comment.hasChildren}}
                             <span class="comment-actions pull-right">
-                                <button {{action 'toggleChildren'}}>
+                                <span {{action 'toggleChildren'}}>
                                     <i class="fa {{if showChildren 'fa-minus' 'fa-plus'}}"></i>
-                                </button>
+                                </span>
                             </span>
                         {{/if}}
                     {{/unless}}
@@ -107,10 +107,13 @@
                     {{!-- TODO: support autosizetext behavior when form loads --}}
                     {{!-- TODO: Support configurable text for comment form (edit vs commenting) --}}
                     {{!-- TODO: May need to add back class=clearfix markup around buttons --}}
-                    <div style="padding-top: 10px">
-                        {{!-- TODO: Replace addComment with editComment --}}
-                        {{comment-form addComment=attrs.addComment}}
-                    </div>
+                    {{#if editMode}}
+                        <div style="padding-top: 10px">
+                            {{!-- TODO: Support editing functionality for a form? Original comment text, different button labels--}}
+                            {{!-- TODO: Replace addComment with editComment --}}
+                            {{comment-form addComment=attrs.addComment}}
+                        </div>
+                    {{/if}}
                 </div>
 
                 <div>
@@ -128,32 +131,31 @@
                                 {{#unless comment.isHam}}
                                     {{!-- If there are no outstanding/unresolved spam reports, show a full set of buttons, including for reporting --}}
                                     {{#if comment.canEdit}}
-                                        <button {{action 'toggleEditMode'}}><i class="fa fa-pencil"></i></button>
+                                        {{!-- TODO: Restyle. Avoid using spans for clickable elements for accessibility reasons --}}
+                                        <span {{action 'toggleEditMode'}}><i class="fa fa-pencil"></i></span>
                                     {{/if}}
 
-                                    {{#if node.currentUserCanComment}}
-                                        <button {{action 'toggleReplyMode'}}>
-                                            <i class="fa fa-reply"></i>
-                                        </button>
+                                    {{#if canComment}}
+                                        <span {{action 'toggleReplyMode'}}><i class="fa fa-reply"></i></span>
                                     {{/if}}
                                     {{#if canReport}}
-                                        <button {{action reportComment}}>
+                                        <span {{action reportComment}}>
                                             {{!-- TODO: Bare fontawesome icons are an accessibility issue. See http://fontawesome.io/accessibility/ --}}
                                             <i class="fa fa-warning"></i>
-                                        </button>
+                                        </span>
                                     {{/if}}
                                     {{#if comment.canEdit}}
-                                        <button {{action 'toggleDeleteMode'}}>
+                                        <span {{action 'toggleDeleteMode'}}>
                                             <i class="fa fa-trash-o"></i>
-                                        </button>
+                                        </span>
                                     {{/if}}
                                 {{else}}
                                         {{!-- TODO: DRY this code up and avoid redundant button definitions --}}
                                     {{!-- Why don't we show the delete button for comments confirmed not spam? --}}
-                                    {{#if node.currentUserCanComment}}
-                                        <button {{action 'toggleReplyMode'}}>
+                                    {{#if canComment}}
+                                        <span {{action 'toggleReplyMode'}}>
                                             <i class="fa fa-reply"></i>
-                                        </button>
+                                        </span>
                                     {{/if}}
                                     <span>
                                         <i class="text-success fa fa-check-circle-o"></i>
@@ -192,14 +194,14 @@
 
     <ul class="comment-list">
 
-        <!-- ko if: replying -->
+        {{#if replyMode}}
 
             <div style="padding-top: 10px">
                 {{!-- TODO: Replace addComment with a custom addReply action (referencing the comment as target) --}}
                 {{comment-form addComment=attrs.addComment}}
             </div>
 
-        <!-- /ko -->
+        {{/if}}
 
         {{!-- TODO: Implement the fetch more functionality below --}}
         <!-- ko if: showChildren() -->

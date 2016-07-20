@@ -14,6 +14,7 @@ import layout from './template';
  * ```handlebars
  * {{comment-detail
  *   comment=comment
+ *   resource=node
  *   editComment=attrs.editComment
  *   deleteComment=attrs.deleteComment
  *   restoreComment=attrs.restoreComment
@@ -29,14 +30,19 @@ import layout from './template';
 export default Ember.Component.extend({
     layout,
     comment: null,
-    node: null, // TODO: Track whether the node is being viewed in "anonymous" mode and change how authors are displayed
+    /**
+     * The parent resource to which comments are attached.
+     * @property resource
+     * @type Node|File|Wiki|Comment
+     */
+    resource: null, // TODO: Track whether the node is being viewed in "anonymous" mode and change how authors are displayed
 
     // Conditionals that control display of template sections
     replyMode: false,
     editMode: false,
     deleteMode: false,
     reportMode: false,
-    
+
     showChildren: false,
 
     // Conditionals that track actions in progress
@@ -55,8 +61,10 @@ export default Ember.Component.extend({
     isVisible: Ember.computed('comment.deleted', 'comment.isAbuse', function() {
         return !this.get('comment.deleted') && !this.get('comment.isAbuse');
     }),
-    canReport: Ember.computed('node.currentUserCanComment', 'comment.canEdit', function() {
-        return this.get('node.currentUserCanComment') && !this.get('comment.canEdit');
+    
+    canComment: Ember.computed.alias('resource.currentUserCanComment'),
+    canReport: Ember.computed('canComment', 'comment.canEdit', function() {
+        return this.get('canComment') && !this.get('comment.canEdit');
     }),
 
     actions: {
