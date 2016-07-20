@@ -64,13 +64,12 @@ export default Ember.Component.extend(Validations, {
                 return;
             }
             this.set('submitInProgress', true);
-            if (this.get('editMode')) {
-                this.sendAction('submitComment', text);
-            } else {
-                let res = this.attrs.submitComment(text);
-                // If adding a comment, clear the box for another comment
-                res.then(() => this.send('resetForm'));
-            }
+
+            let res = this.attrs.submitComment(text);
+            // If adding a comment, clear the box for another comment
+            res.then(() => this.send('resetForm'))
+                .catch(() => this.set('errorMessage', 'Could not submit comment'));
+
         },
         cancelComment() {
             // User can pass in their own cancelComment function, eg to exit reply mode

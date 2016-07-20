@@ -122,19 +122,21 @@ export default Ember.Component.extend({
             let comment = this.get('comment');
             return this.attrs.addComment(text, this.get('comment'))
                 .then((res) => {
+                    this.send('toggleReplyMode');
                     // When a new comment is filed, we don't refetch data about the parent- and therefore it doesn't realize that it now has replies.
                     // Since this is a read-only field, we can't save the record like this...
                     // Hack: when a comment is saved, tell the comment it has children, but don't save
                     // FIXME: leaving the store in a dirty state is something we'll probably regret- revisit
                     comment.set('hasChildren', true);
-                    this.send('toggleReplyMode');
-                    this.send('toggleChildren');
+
+                    // Always show children when request succeeds
+                    this.set('showChildren', true);
                     return res;
                 });
         },
         editComment(text) {
-            // Edit the comment owned by this component. Don't return anything, as form should disappear when editing is done.
-            this.attrs.editComment(text, this.get('comment'))
+            // Edit the comment owned by this component.
+            return this.attrs.editComment(text, this.get('comment'))
                 .then((res) => this.send('toggleEditMode'));
         }
     }
