@@ -15,6 +15,7 @@ import layout from './template';
  * {{comment-detail
  *   comment=comment
  *   resource=node
+ *   addComment=attrs.addComment
  *   editComment=attrs.editComment
  *   deleteComment=attrs.deleteComment
  *   restoreComment=attrs.restoreComment
@@ -23,6 +24,7 @@ import layout from './template';
  * @class comment-detail
  * @param {DS.Model} comment The comment to display
  * @param {DS.Model} resource The parent resource that owns the comment
+ * @param {action} addComment
  * @param {action} editComment
  * @param {action} deleteComment
  * @param {action} restoreComment
@@ -110,6 +112,21 @@ export default Ember.Component.extend({
             // 2. Handle additional query params, embeds, viewonly behaviors, related counts etc
             // 3. Ensure that children are rendered.
             // 4. Ensure that when a reply is added, it's added to the list of known children.
+        },
+
+        replyComment(text) {
+            // Reply to the comment owned by this component
+            return this.attrs.addComment(text, this.get('comment'))
+                .then((res) => {
+                    this.send('toggleReplyMode');
+                    return res;
+                });
+        },
+        editComment(text) {
+            // TODO: Max call stack size exceeded is never a good error...
+            // Edit the comment owned by this component. Don't return anything, as form should disappear when editing is done.
+            this.attrs.editComment(text, this.get('comment'))
+                .then((res) => this.set('toggleEditMode'));
         }
     }
 });

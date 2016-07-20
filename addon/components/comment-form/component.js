@@ -24,12 +24,12 @@ const Validations = buildValidations({
  * Sample usage:
  * ```handlebars
  * {{comment-form
- *   addComment=attrs.addComment
+ *   submitComment=attrs.addComment
  *   showButtons=false}}
  * ```
  *
  * @class comment-form
- * @param {action} addComment The action to fire when adding a new comment to the discussion. Returns a promise.
+ * @param {action} submitComment The action to fire when adding a new comment to the discussion. Returns a promise.
  */
 export default Ember.Component.extend(Validations, {
     layout,
@@ -55,18 +55,22 @@ export default Ember.Component.extend(Validations, {
     actions: {
         /**
          * Call a passed-in closure action to handle submitting a comment. Reset the form if save succeeds.
-         * @method addComment
+         * @method submitComment
          * @param {String} text The text of the comment to create
          */
-        addComment(text) {
-            // TODO: Rename to submitComment (edit or save as appropriate)
+        submitComment(text) {
             if (!text) {
                 this.set('errorMessage', 'Please enter a comment');
                 return;
             }
-            this.set('submitInProgress', true);
-            let res = this.attrs.addComment(text);
-            res.then(() => this.send('resetForm'));
+            if (this.get('editMode')) {
+                this.sendAction('submitComment', text);
+            } else {
+                this.set('submitInProgress', true);
+                let res = this.attrs.submitComment(text);
+                // If adding a comment, clear the box for another comment
+                res.then(() => this.send('resetForm'));
+            }
         },
         cancelComment() {
             // User can pass in their own cancelComment function, eg to exit reply mode

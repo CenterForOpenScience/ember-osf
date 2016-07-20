@@ -35,26 +35,27 @@ export default Ember.Mixin.create({
          * @param {String} text The text of the new comment
          * @return {Promise}
          */
-        addComment(text) {
-            // Assumes that the page's model hook is the target for the comment
-            let model = this.get('model');
-            var commentsRel = model.get('comments');
+        addComment(text, parent) {
+            let target = parent || this.get('model');
+            var commentsRel = target.get('comments') || target.get('replies');
 
             var comment = this.store.createRecord('comment', {
                 content: text,
-                targetID: model.get('guid') || model.id,
-                targetType: Ember.Inflector.inflector.pluralize(model.constructor.modelName)
+                targetID: target.get('guid') || target.id,
+                targetType: Ember.Inflector.inflector.pluralize(target.constructor.modelName)
             });
             commentsRel.pushObject(comment);
-            return model.save();
+            return target.save();
         },
         /**
          * Action that edits an existing comment.
          * @method editComment
+         * @param {String} text The text of the comment to save
          * @param {DS.Model} comment A comment model
          * @return {Promise}
          */
-        editComment(comment) {
+        editComment(text, comment) {
+            comment.set('content', text);
             return comment.save();
         },
         /**
