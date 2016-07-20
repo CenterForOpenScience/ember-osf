@@ -33,7 +33,7 @@ export default Ember.Mixin.create({
          * Action that adds a new comment targeting the model by GUID.
          * @method addComment
          * @param {String} text The text of the new comment
-         * @return {Promise}
+         * @return {Promise} The newly created comment
          */
         addComment(text, parent) {
             // TODO: Known issue: if you add a comment, then delete without refreshing, you get a 409 error. This is because the target fields are still there in the store and haven't been cleared of placeholder values.
@@ -46,7 +46,7 @@ export default Ember.Mixin.create({
                 targetType: Ember.Inflector.inflector.pluralize(target.constructor.modelName)
             });
             commentsRel.pushObject(comment);
-            return target.save();
+            return target.save().then(()=> comment);
         },
         /**
          * Action that edits an existing comment.

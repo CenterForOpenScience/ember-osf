@@ -2,13 +2,19 @@
 
 {{comment-form submitComment=attrs.addComment}}
 
-{{#each comments as |comment|}}
-    {{comment-detail
-    comment=comment
-    resource=resource
-    addComment=attrs.addComment
-    editComment=attrs.editComment
-    deleteComment=attrs.deleteComment
-    restoreComment=attrs.restoreComment
-    reportComment=attrs.reportComment}}
-{{/each}}
+{{#if comments.isPending}}
+    {{!-- TODO: Get loading indicator working correctly --}}
+    <i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Loading...
+{{else}}
+    {{#each comments as |comment|}}
+        {{comment-detail
+        comment=comment
+        resource=resource
+        addComment=attrs.addComment
+        editComment=attrs.editComment
+        deleteComment=attrs.deleteComment
+        restoreComment=attrs.restoreComment
+        reportComment=attrs.reportComment}}
+    {{/each}}
+{{/if}}
+

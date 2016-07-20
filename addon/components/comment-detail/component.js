@@ -75,7 +75,9 @@ export default Ember.Component.extend({
 
     canComment: Ember.computed.alias('resource.currentUserCanComment'),
     canReport: Ember.computed('canComment', 'comment.canEdit', function() {
-        return this.get('canComment') && !this.get('comment.canEdit');
+        // TODO: Implement this in EOSF-76, a separate ticket. Until then, hardcode return value to disable buttons.
+        //return this.get('canComment') && !this.get('comment.canEdit');
+        return false;
     }),
 
     actions: {
@@ -106,24 +108,31 @@ export default Ember.Component.extend({
 
         fetchChildren() {
             // Fetch child comments (replies)
-
             // TODO:
             // 1. track what page of results to fetch
             // 2. Handle additional query params, embeds, viewonly behaviors, related counts etc
             // 3. Ensure that children are rendered.
             // 4. Ensure that when a reply is added, it's added to the list of known children.
+            // TODO: For now we will just use comment.replies, which is limited in number of results available
+
         },
 
         replyComment(text) {
             // Reply to the comment owned by this component
+            let comment = this.get('comment');
             return this.attrs.addComment(text, this.get('comment'))
                 .then((res) => {
+                    // When a new comment is filed, we don't refetch data about the parent- and therefore it doesn't realize that it now has replies.
+                    // Since this is a read-only field, we can't save the record like this...
+                    // Hack: when a comment is saved, tell the comment it has children, but don't save
+                    // FIXME: leaving the store in a dirty state is something we'll probably regret- revisit
+                    comment.set('hasChildren', true);
                     this.send('toggleReplyMode');
+                    this.send('toggleChildren');
                     return res;
                 });
         },
         editComment(text) {
-            // TODO: Max call stack size exceeded is never a good error...
             // Edit the comment owned by this component. Don't return anything, as form should disappear when editing is done.
             this.attrs.editComment(text, this.get('comment'))
                 .then((res) => this.send('toggleEditMode'));

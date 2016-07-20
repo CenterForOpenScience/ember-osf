@@ -2,17 +2,16 @@
 
 <div class="comment-container">
     <div class="comment-body m-b-sm p-sm osf-box">
-         <!-- div data-bind="visible: loading">
-            <i class="fa fa-spinner fa-spin"></i>
-         </div -->
-        {{!-- TODO: Check on, and implement, loading indicator for comments --}}
-        {{#unless comment.isPending}}
+        {{#if comment.isPending}}
+            <i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Loading...
+        {{else}}
             {{#if isDeletedAbuse}}
                 <div>
                     <span class="text-muted">
                         <em>Comment confirmed as spam.</em>
                     </span>
                     {{#if comment.hasChildren}}
+                        {{!-- TODO: When making a reply, the template does not getting the new hasChildren value correctly  until comment is reloaded --}}
                         <span class="comment-actions pull-right">
                             <span {{action 'toggleChildren'}}>
                                 <i class="fa {{if showChildren 'fa-minus' 'fa-plus'}}"></i>
@@ -53,7 +52,7 @@
                     {{/if}}
                 </div>
                 {{#if comment.hasReport}}
-                    {{!-- TODO: Implement this with EOSF-76 --}}
+                    {{!-- TODO: Implement reporting functionality, EOSF-76 . May be lower priority if we don't expose reporting features to external api consumers --}}
                     <a data-bind="click: submitUnreportAbuse">Not abuse</a>
                 {{/if}}
             {{/if}}
@@ -69,7 +68,7 @@
                         {{#if comment.user}}
                             <a class="comment-author" href="{{comment.user.profileURL}}">{{comment.user.fullName}}</a>
                         {{/if}}
-                        {{!-- TODO: Under what circumstances does this ever happen? In theory all user data should be accessible... deleted account maybe??? --}}
+                        {{!-- TODO: Support anonymous views throughout this template, eg anon view-only links. EOSF-112 --}}
                         <!--<span data-bind="ifnot: author.id">-->
                             <!--<span class="comment-author" data-bind="text: author.fullname"></span>-->
                         <!--</span>-->
@@ -101,7 +100,6 @@
 
 
                     {{!-- TODO: support autosizetext behavior when form loads --}}
-                    {{!-- TODO: Support configurable text for comment form (edit vs commenting) --}}
                     {{#if editMode}}
                         <div style="padding-top: 10px">
                             {{comment-form submitComment=(action 'editComment')
@@ -184,30 +182,36 @@
                     </div>
                 {{/if}}
             {{/if}}
-        {{/unless}}
+        {{/if}}
 
     </div>
 
     <ul class="comment-list">
 
         {{#if replyMode}}
-
             <div style="padding-top: 10px">
-                {{comment-form submitComment=(action 'replyComment') showButton=true}}
+                {{comment-form submitComment=(action 'replyComment') showButtons=true}}
             </div>
+        {{/if}}
 
+
+        {{#if showChildren}}
+            {{!-- TODO: Get this to work with more than first page of replies --}}
+            {{#each comment.replies as |reply|}}
+                {{comment-detail
+                  comment=reply
+                  resource=resource
+                  addComment=attrs.addComment
+                  editComment=attrs.editComment
+                  deleteComment=attrs.deleteComment
+                  restoreComment=attrs.restoreComment
+                  reportComment=attrs.reportComment}}
+            {{/each}}
         {{/if}}
 
         {{!-- TODO: Implement the fetch more functionality below --}}
-        <!-- ko if: showChildren() -->
-            <!-- ko template: {name:  'commentTemplate', foreach: comments} -->
-            <!-- /ko -->
-            <!-- ko if: urlForNext() -->
-                        <!--<div class="row">-->
-                            <!--<button class="btn btn-link pull-right more-replies" type="button" data-bind="click: getMoreComments">More replies</button>-->
-                        <!--</div>-->
-            <!-- /ko -->
-        <!-- /ko -->
+        <!--<button class="btn btn-link pull-right more-replies" type="button" data-bind="click: getMoreComments">More replies</button>-->
+
 
     </ul>
 
