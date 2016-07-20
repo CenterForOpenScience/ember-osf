@@ -135,15 +135,6 @@
     <label> Target node id </label> {{input value=targetNodeId}}
     <button {{action "addNodeLink" targetNodeId}} class="btn btn-primary">Add</button>
 
-    {{comment-pane
-    comments=comments
-    resource=model
-    addComment=(action 'addComment')
-    editComment=(action 'editComment')
-    deleteComment=(action 'deleteComment')
-    restoreComment=(action 'restoreComment')
-    reportComment=(action 'reportComment')}}
-
 </div>
 
 {{outlet}}
