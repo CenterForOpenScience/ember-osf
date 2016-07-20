@@ -1,10 +1,21 @@
 import Ember from 'ember';
+import { validator, buildValidations } from 'ember-cp-validations';
+
 import layout from './template';
 
 /**
  * @module ember-osf
  * @submodule components
  */
+
+
+
+const Validations = buildValidations({
+    _commentText: validator('length', {
+        max: 500,
+        message: 'Comment should not be more than 500 characters'
+    })
+});
 
 /**
  * Allow users to add comments to a page.
@@ -18,18 +29,11 @@ import layout from './template';
  * @class comment-form
  * @param {action} addComment The action to fire when adding a new comment to the discussion. Returns a promise.
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend(Validations, {
     layout,
     _commentText: null,
     errorMessage: null,
     submitInProgress: false,
-    /**
-     * Maximum comment length for validation
-     * @property maxLength
-     * @type Integer
-     */
-    // TODO: Implement validation
-    maxLength: 500,
 
     actions: {
         /**
@@ -38,6 +42,7 @@ export default Ember.Component.extend({
          * @param {String} text The text of the comment to create
          */
         addComment(text) {
+            // TODO: Rename to submitComment (edit or save as appropriate)
             if (!text) {
                 this.set('errorMessage', 'Please enter a comment');
                 return;

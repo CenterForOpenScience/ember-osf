@@ -87,9 +87,8 @@
 
 
                     {{#unless editMode}}
-                        {{!-- TODO: Will need to test this with comments that include HTML. (because apparently that was an option??) --}}
                         {{!-- TODO: The OSF spec calls for comments to be stored as markdown, then linkified and rendered frontend into HTML --}}
-                        {{!-- This will be mandatory for new feature like @mentions and is not yet supported here --}}
+                        {{!-- This will be mandatory for new feature like @mentions and is not yet supported here. May need to review HTML safety for these fields. --}}
                         <span class="component-overflow">{{comment.content}}</span>
                         {{#if comment.hasChildren}}
                             <span class="comment-actions pull-right">
