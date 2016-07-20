@@ -126,7 +126,7 @@ export default Ember.Component.extend({
             // TODO: Max call stack size exceeded is never a good error...
             // Edit the comment owned by this component. Don't return anything, as form should disappear when editing is done.
             this.attrs.editComment(text, this.get('comment'))
-                .then((res) => this.set('toggleEditMode'));
+                .then((res) => this.send('toggleEditMode'));
         }
     }
 });

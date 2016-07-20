@@ -63,10 +63,10 @@ export default Ember.Component.extend(Validations, {
                 this.set('errorMessage', 'Please enter a comment');
                 return;
             }
+            this.set('submitInProgress', true);
             if (this.get('editMode')) {
                 this.sendAction('submitComment', text);
             } else {
-                this.set('submitInProgress', true);
                 let res = this.attrs.submitComment(text);
                 // If adding a comment, clear the box for another comment
                 res.then(() => this.send('resetForm'));

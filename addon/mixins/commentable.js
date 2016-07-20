@@ -36,6 +36,7 @@ export default Ember.Mixin.create({
          * @return {Promise}
          */
         addComment(text, parent) {
+            // TODO: Known issue: if you add a comment, then delete without refreshing, you get a 409 error. This is because the target fields are still there in the store and haven't been cleared of placeholder values.
             let target = parent || this.get('model');
             var commentsRel = target.get('comments') || target.get('replies');
 
