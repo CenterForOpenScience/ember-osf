@@ -14,6 +14,7 @@ import layout from './template';
  * ```handlebars
  * {{comment-pane
  *   comments=comments
+ *   resource=model
  *   addComment=(action 'addComment')
  *   editComment=(action 'editComment')
  *   deleteComment=(action 'deleteComment')

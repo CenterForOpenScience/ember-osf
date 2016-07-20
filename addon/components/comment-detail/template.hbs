@@ -139,7 +139,7 @@
                                         <span {{action 'toggleReplyMode'}}><i class="fa fa-reply"></i></span>
                                     {{/if}}
                                     {{#if canReport}}
-                                        <span {{action reportComment}}>
+                                        <span {{action reportComment comment}}>
                                             {{!-- TODO: Bare fontawesome icons are an accessibility issue. See http://fontawesome.io/accessibility/ --}}
                                             <i class="fa fa-warning"></i>
                                         </span>
@@ -183,7 +183,7 @@
                     <div class="comment-delete clearfix m-t-xs">
                         <div class="pull-right">
                             <button class="btn btn-default btn-sm" {{action 'toggleDeleteMode'}}>Cancel</button>
-                            <button class="btn btn-danger btn-sm" {{action deleteComment}}>Delete</button>
+                            <button class="btn btn-danger btn-sm" {{action deleteComment comment}}>Delete</button>
                         </div>
                     </div>
                 {{/if}}
