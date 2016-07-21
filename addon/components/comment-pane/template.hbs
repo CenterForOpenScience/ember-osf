@@ -1,9 +1,9 @@
-<h3>Comments</h3>
+<h3>{{title}} | Discussion</h3>
 
 {{comment-form submitComment=attrs.addComment}}
 
 {{#if comments.isPending}}
-    {{!-- TODO: Get loading indicator working correctly --}}
+    {{!-- TODO: Get loading indicator working correctly. Should be watching comments.isLoaded (on a DS.ManyArray)- get oage load  --}}
     <i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Loading...
 {{else}}
     {{#each comments as |comment|}}

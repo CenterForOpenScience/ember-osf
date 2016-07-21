@@ -3,6 +3,7 @@
 <div class="comment-container">
     <div class="comment-body m-b-sm p-sm osf-box">
         {{#if comment.isPending}}
+            {{!-- TODO: Get loading indicator working correctly via isLoaded--}}
             <i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Loading...
         {{else}}
             {{#if isDeletedAbuse}}

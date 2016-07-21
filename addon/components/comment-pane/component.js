@@ -14,6 +14,7 @@ import layout from './template';
  * ```handlebars
  * {{comment-pane
  *   comments=comments
+ *   title=model.title
  *   resource=model
  *   addComment=(action 'addComment')
  *   editComment=(action 'editComment')
@@ -23,6 +24,8 @@ import layout from './template';
  * ```
  * @class comment-pane
  * @param {Comment[]} comments An array of comments to be displayed
+ * @param {String} title The title of the resource
+ * @param {DS.Model} resource The parent resource that owns the comment
  * @param {action} addComment
  * @param {action} editComment
  * @param {action} deleteComment
