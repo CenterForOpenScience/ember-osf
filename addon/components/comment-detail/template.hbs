@@ -1,5 +1,4 @@
 {{!-- TODO: This template does not currently implement Comment abuse reporting functionality, #EOSF-76 --}}
-
 <div class="comment-container">
     <div class="comment-body m-b-sm p-sm osf-box">
         {{#if comment.isPending}}
@@ -12,7 +11,6 @@
                         <em>Comment confirmed as spam.</em>
                     </span>
                     {{#if comment.hasChildren}}
-                        {{!-- TODO: When making a reply, the template does not getting the new hasChildren value correctly  until comment is reloaded --}}
                         <span class="comment-actions pull-right">
                             <span {{action 'toggleChildren'}}>
                                 <i class="fa {{if showChildren 'fa-minus' 'fa-plus'}}"></i>
@@ -100,13 +98,15 @@
                     {{/unless}}
 
 
-                    {{!-- TODO: support autosizetext behavior when form loads --}}
+                    {{!-- TODO: Once in pane, examine whether autosizing is needed --}}
                     {{#if editMode}}
                         <div style="padding-top: 10px">
-                            {{comment-form submitComment=(action 'editComment')
+                            {{comment-form
+                              cancelComment=(action 'toggleEditMode')
+                              submitComment=(action 'editComment')
                               showButtons=true
-                              initialText=comment.content
-                              cancelComment=(action 'toggleEditMode')}}
+                              initialText=comment.content}}
+
                         </div>
                     {{/if}}
                 </div>
@@ -122,7 +122,6 @@
 
                         {{#unless editMode}}
                             <div class="comment-actions pull-right">
-                                {{!- TODO: Logic convoluted- unless/else --}}
                                 {{#unless comment.isHam}}
                                     {{!-- If there are no outstanding/unresolved spam reports, show a full set of buttons, including for reporting --}}
                                     {{#if comment.canEdit}}
@@ -145,8 +144,7 @@
                                         </span>
                                     {{/if}}
                                 {{else}}
-                                        {{!-- TODO: DRY this code up and avoid redundant button definitions --}}
-                                    {{!-- Why don't we show the delete button for comments confirmed not spam? --}}
+                                    {{!-- TODO: DRY this code up and avoid redundant button definitions --}}
                                     {{#if canComment}}
                                         <span {{action 'toggleReplyMode'}}>
                                             <i class="fa fa-reply"></i>
@@ -191,7 +189,10 @@
 
         {{#if replyMode}}
             <div style="padding-top: 10px">
-                {{comment-form submitComment=(action 'replyComment') showButtons=true}}
+                {{comment-form
+                  cancelComment=(action 'toggleReplyMode')
+                  submitComment=(action 'replyComment')
+                  showButtons=true}}
             </div>
         {{/if}}
 
