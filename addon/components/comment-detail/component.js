@@ -95,7 +95,27 @@ export default Ember.Component.extend({
         },
         toggleReplyMode() {
             // Allow new replies to a parent comment
-            this.toggleProperty('replyMode');
+            // TODO: We need a mechanism to indicate that replies failed to load for that user. (explain why button didn't bring a reply box it request fails)
+            let replyMode = this.get('replyMode');
+            if (!this.get('comment.hasChildren')) {
+                this.toggleProperty('replyMode');
+            } else if (replyMode) {
+                this.set('replyMode', false);
+            } else {
+                // If the comment has children, do not show the reply box until child comments are loaded.
+                // This makes sense for the UI, but it also addresses issue where the adapter would fail to track dirty
+                //   state for new comments on a relationship that had not yet loaded
+                let children = this.get('comment.replies');
+                // TODO: Improve error reporting UI here; throw error for now
+                children.then(() => {
+                    this.set('showChildren', true);
+                    this.set('replyMode', true);
+                }).catch(() => {
+                    throw new Ember.Error('Failed to load comments');
+                });
+            }
+
+
         },
         toggleDeleteMode() {
             // Show buttons relevant to comment deletion
