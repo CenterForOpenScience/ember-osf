@@ -13,7 +13,7 @@
     <p><label>Date Modified:</label> {{moment-format model.dateModified}}</p>
     <p><label>Public </label> {{model.public}} </p>
     <p><label> Tags </label></p>
-    {{tags-widget addATag=(action 'addATag') removeATag=(action 'removeATag') tags=model.tags}}
+    {{tags-widget addTag=(action 'addTag') removeTag=(action 'removeTag') tags=model.tags}}
     <hr>
     <p>
         <a href="{{model.links.html}}" target="_blank" class="btn btn-primary">

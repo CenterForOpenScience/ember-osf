@@ -23,7 +23,7 @@ test('add a node tag', function(assert) {
     ctrl.set('model', model);
     ctrl.set('model.save', function() {return;});
     Ember.run(function() {
-        ctrl.send('addATag', 'new tag');
+        ctrl.send('addTag', 'new tag');
     });
     assert.deepEqual(ctrl.model.get('tags'), ['one', 'new tag']);
 });
@@ -34,7 +34,7 @@ test('remove a node tag', function(assert) {
     ctrl.set('model', model);
     ctrl.set('model.save', function() {return;});
     Ember.run(function() {
-        ctrl.send('removeATag', 'one');
+        ctrl.send('removeTag', 'one');
     });
     assert.deepEqual(ctrl.model.get('tags'), ['two']);
 });
