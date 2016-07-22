@@ -43,9 +43,9 @@ export default Ember.Component.extend({
 
     /**
      * If this is a withdrawn registration, hide a block of buttons.
-     * @property minimalRegistrationView
+     * @property isWithdrawnRegistration
      */
-    minimalRegistrationView: Ember.computed.and('node.isRegistration', 'node.withdrawn'),
+    isWithdrawnRegistration: Ember.computed.and('node.isRegistration', 'node.withdrawn'),
 
     parentExists: Ember.computed('node', function() {
         // Determine if a parent exists (field not empty), without trying to fetch it.
