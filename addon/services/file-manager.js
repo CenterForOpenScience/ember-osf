@@ -417,7 +417,15 @@ export default Ember.Service.extend({
      * rejects with an error message.
      */
     _getNewFileInfo(parentFolder, name) {
-        let p = this._reloadModel(parentFolder.get('files'));
-        return p.then((files) => files.findBy('name', name));
+        let p = parentFolder.query('files', {
+            'filter[name]': name
+        });
+        return p.then((files) => {
+            let file = files.findBy('name', name);
+            if (!file) {
+                throw 'Cannot load metadata for uploaded file.';
+            }
+            return file;
+        });
     }
 });

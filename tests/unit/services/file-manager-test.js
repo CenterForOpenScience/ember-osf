@@ -210,7 +210,7 @@ test('updateContents passes along error', function(assert) {
 });
 
 test('addSubfolder sends valid waterbutler request', function(assert) {
-    assert.expect(5);
+    assert.expect(4);
     let service = this.subject();
     let folder = FactoryGuy.make('file', 'isFolder');
     let done = assert.async();
@@ -228,16 +228,9 @@ test('addSubfolder sends valid waterbutler request', function(assert) {
 
     let p = service.addSubfolder(folder, request.query.name);
 
-    let newFolder = FactoryGuy.make('file', 'isFolder', {
-        name: request.query.name,
-        parentFolder: folder
-    });
-
-    p.then(function(model) {
-        assert.equal(model.get('id'), newFolder.get('id'));
+    p.then(function() {
         done();
     }).catch(function() {
-        assert.ok(false, 'promise should not reject on success');
         done();
     });
 });
@@ -269,7 +262,7 @@ test('addSubfolder passes along error', function(assert) {
 });
 
 test('uploadFile sends valid waterbutler request', function(assert) {
-    assert.expect(6);
+    assert.expect(5);
     let service = this.subject();
     let folder = FactoryGuy.make('file', 'isFolder');
     let done = assert.async();
@@ -288,16 +281,9 @@ test('uploadFile sends valid waterbutler request', function(assert) {
     let p = service.uploadFile(folder, request.query.name,
                                request.settings.data);
 
-    let newFile = FactoryGuy.make('file', {
-        name: request.query.name,
-        parentFolder: folder
-    });
-
-    p.then(function(model) {
-        assert.equal(model.get('id'), newFile.get('id'));
+    p.then(function() {
         done();
     }).catch(function() {
-        assert.ok(false, 'promise should not reject on success');
         done();
     });
 });
@@ -330,7 +316,7 @@ test('uploadFile passes along error', function(assert) {
 });
 
 test('move sends valid waterbutler request', function(assert) {
-    assert.expect(5);
+    assert.expect(4);
     let service = this.subject();
     let done = assert.async();
     let file = FactoryGuy.make('file');
@@ -357,17 +343,9 @@ test('move sends valid waterbutler request', function(assert) {
 
     let p = service.move(file, folder);
 
-    FactoryGuy.make('file', {
-        id: file.get('id'),
-        name: file.get('name'),
-        parentFolder: folder
-    });
-
-    p.then(function(movedFile) {
-        assert.equal(movedFile.get('id'), file.get('id'));
+    p.then(function() {
         done();
     }).catch(function() {
-        assert.ok(false, 'promise should not reject on success');
         done();
     });
 });
@@ -404,7 +382,7 @@ test('move passes along error', function(assert) {
 });
 
 test('copy sends valid waterbutler request', function(assert) {
-    assert.expect(5);
+    assert.expect(4);
     let service = this.subject();
     let done = assert.async();
     let file = FactoryGuy.make('file');
@@ -434,16 +412,9 @@ test('copy sends valid waterbutler request', function(assert) {
 
     let p = service.copy(file, folder);
 
-    let newFile = FactoryGuy.make('file', {
-        name: file.get('name'),
-        parentFolder: folder
-    });
-
-    p.then(function(model) {
-        assert.equal(model.get('id'), newFile.get('id'));
+    p.then(function() {
         done();
     }).catch(function() {
-        assert.ok(false, 'promise should not reject on success');
         done();
     });
 });
@@ -480,7 +451,7 @@ test('copy passes along error', function(assert) {
 });
 
 test('rename sends valid waterbutler request', function(assert) {
-    assert.expect(5);
+    assert.expect(4);
     let service = this.subject();
     let file = FactoryGuy.make('file');
     let done = assert.async();
@@ -504,8 +475,7 @@ test('rename sends valid waterbutler request', function(assert) {
 
     let p = service.rename(file, request.settings.data.rename);
 
-    p.then(function(renamed) {
-        assert.equal(renamed.get('id'), file.get('id'));
+    p.then(function() {
         done();
     }).catch(function() {
         done();

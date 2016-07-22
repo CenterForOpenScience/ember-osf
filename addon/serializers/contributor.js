@@ -8,8 +8,7 @@ export default OsfSerializer.extend({
         serialized.data.relationships = {
             users: {
                 data: {
-                    // TODO changeme when https://github.com/CenterForOpenScience/osf.io/pull/5824 goes in
-                    id: snapshot.record.get('id') || snapshot.record.get('userId') || snapshot.record.id.split('-')[1],
+                    id: snapshot.record.get('userId'),
                     type: 'users'
                 }
             }

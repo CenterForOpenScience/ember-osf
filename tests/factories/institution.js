@@ -4,7 +4,7 @@ import faker from 'faker';
 FactoryGuy.define('institution', {
     default: {
         name: () => faker.lorem.words(3),
-        description: () => faker.lorem.description(3),
+        description: () => faker.lorem.sentences(3),
         logoPath: '/img.jpg',
         authUrl: () => faker.internet.url()
     },

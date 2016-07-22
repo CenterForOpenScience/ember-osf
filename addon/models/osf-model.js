@@ -52,6 +52,7 @@ export default DS.Model.extend(HasManyQuery.ModelMixin, {
             return this._super(...arguments);
         }
 
+        this.set('_dirtyRelationships', {});
         this.eachRelationship((rel) => {
             var relation = this.resolveRelationship(rel);
             // TODO(samchrisinger): not sure if hasLoaded is a subset if the hasData state

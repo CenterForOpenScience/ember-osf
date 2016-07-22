@@ -121,7 +121,7 @@ export default Ember.Mixin.create({
         addContributor(userId, permission, isBibliographic) {
             var node = this.get('_node');
             var contributor = this.store.createRecord('contributor', {
-                id: userId,
+                id: `${node.get('id')}-${userId}`,
                 permission: permission,
                 bibliographic: isBibliographic
             });

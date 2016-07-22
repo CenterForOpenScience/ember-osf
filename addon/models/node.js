@@ -115,20 +115,29 @@ export default OsfModel.extend(FileItemMixin, {
     save() {
         // Some duplicate logic from osf-model#save needed to support
         // contributor edits being saved through the node
+        // Note: order is important here so _dirtyRelationships gets set by the _super call
         var promise = this._super(...arguments);
-        var contributors = this.hasMany('contributors').hasManyRelationship;
-        if (contributors.hasData && contributors.hasLoaded) {
-            this.set(
-                '_dirtyRelationships.contributors.update',
-                contributors.members.list.filter(m => !m.record.get('isNew') && Object.keys(m.record.changedAttributes()).length > 0)
-            );
-            // Contributors are a 'real' delete, not just a de-reference
-            this.set(
-                '_dirtyRelationships.contributors.delete',
-                this.get('_dirtyRelationships.contributors.remove')
-            );
-            this.set('_dirtyRelationships.contributors.remove', []);
+        if (!this.get('_dirtyRelationships.contributors')) {
+            this.set('_dirtyRelationships.contributors', {});
         }
+
+        var contributors = this.hasMany('contributors').hasManyRelationship;
+        this.set(
+            '_dirtyRelationships.contributors.update',
+            contributors.members.list.filter(m => !m.record.get('isNew') && Object.keys(m.record.changedAttributes()).length > 0)
+        );
+        // Need to included created contributors even in relationship
+        // hasLoaded is false
+        this.set(
+            '_dirtyRelationships.contributors.create',
+            contributors.members.list.filter(m => m.record.get('isNew'))
+        );
+        // Contributors are a 'real' delete, not just a de-reference
+        this.set(
+            '_dirtyRelationships.contributors.delete',
+            this.get('_dirtyRelationships.contributors.remove') || []
+        );
+        this.set('_dirtyRelationships.contributors.remove', []);
         return promise;
     }
 });
