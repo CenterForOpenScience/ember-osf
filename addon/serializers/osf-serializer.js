@@ -53,7 +53,7 @@ export default DS.JSONAPISerializer.extend({
             resourceHash.relationships[embedded].is_embedded = true;
         }
         delete resourceHash.embeds;
-        //Recurse in, includeds are only processed on the top level. Emebeds are nested.
+        //Recurse in, includeds are only processed on the top level. Embeds are nested.
         return included.concat(included.reduce((acc, include) => acc.concat(this._extractEmbeds(include)), []));
     },
 
