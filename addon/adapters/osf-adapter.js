@@ -80,7 +80,8 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
         return createdSnapshots.map(s => s.record.save({
             adapterOptions: {
                 nested: true,
-                url: url
+                url: url,
+                requestType: 'create'
             }
         }).then(res => {
             snapshot.record.resolveRelationship(relationship).addCanonicalRecord(s.record);
