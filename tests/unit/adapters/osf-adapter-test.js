@@ -226,7 +226,8 @@ test('#_createRelated passes the nested:true as an adapterOption to save', funct
             saveStubs.forEach(s => assert.ok(s.calledWith({
                 adapterOptions: {
                     url: null,
-                    nested: true
+                    nested: true,
+                    requestType: 'create'
                 }
             })));
         }, () => {
