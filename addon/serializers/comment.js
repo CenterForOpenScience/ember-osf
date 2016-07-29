@@ -2,26 +2,24 @@ import Ember from 'ember';
 import OsfSerializer from './osf-serializer';
 
 export default OsfSerializer.extend({
-    serializeIntoHash(hash, typeClass, snapshot, options) {  // jshint ignore:line
-        if (options.forRelationship) {
+    serialize(snapshot, options) {  // jshint ignore:line
+        let res = this._super(...arguments);
+        if (Ember.get(snapshot, 'adapterOptions.forRelationship')) {  // TODO: Next iteration: would be nice for createRelated to pass fields directly, to avoid placeholder fields.
             // New comments must identify their target as part of a relationship field
-            // TODO: pop off record when done so these dummy fields don't persist? Do they matter?
-            // TODO: This breaks commenting atm
             let targetID = snapshot.record.get('targetID');
             let targetType = snapshot.record.get('targetType');
             Ember.assert('Must provide target ID', targetID);
             Ember.assert('Must provide target type', targetType);
-
-            hash.data.relationships = {
+            res.data.relationships = {
                 target: {
                     data: {
                         id: targetID,
                         type: targetType
                     }
                 }
-            }
+            };
         }
-        return this._super(hash, typeClass, snapshot, options);
+        return res;
     },
     extractRelationships(modelClass, resourceHash) {
         // TODO: remove when https://openscience.atlassian.net/browse/OSF-6646 is done
