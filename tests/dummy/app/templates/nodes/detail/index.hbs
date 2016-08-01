@@ -1,6 +1,6 @@
-{{eosf-project-nav node=model user=user}}
+{{!-- {{eosf-project-nav node=model user=user}} --}}
 
-{{#if model.parent}}
+{{!-- {{#if model.parent}}
     {{#link-to 'nodes.detail' model.parent class="btn btn-primary"}}
         ↑ {{model.parent.title}}
     {{/link-to}}
@@ -86,9 +86,10 @@
 
     {{log-detail node-logs=model.logs}}
 
-    <h2>Contributors</h2> {{contrib-manager contributors=model.contributors addContributor=(action 'addContributor') removeContributor=(action 'removeContributor') editContributors=(action 'updateContributors') }}
+    <h2>Contributors</h2>  --}}
+    {{preprint-form-authors contributors=model.contributors addContributor=(action 'addContributor') removeContributor=(action 'removeContributor') editContributors=(action 'updateContributors') }}
 
-    <hr>
+    {{!-- <hr>
     <h2>Components</h2>
     <ul>
         {{#each model.children as |child|}}
@@ -145,6 +146,6 @@
     restoreComment=(action 'restoreComment')
     reportComment=(action 'reportComment')}}
 
-</div>
+</div> --}}
 
 {{outlet}}
