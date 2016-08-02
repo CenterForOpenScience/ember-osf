@@ -7,7 +7,12 @@ export default Ember.Controller.extend(CommentableMixin, TaggableMixin, NodeActi
     toast: Ember.inject.service(),
     propertiesVisible: false,
     isSaving: false,
-
+    canEdit: Ember.computed('isAdmin', 'isRegistration', function() {
+        return this.get('isAdmin') && !(this.get('model').get('registration'));
+    }),
+    isAdmin: Ember.computed(function() {
+        return this.get('model').get('currentUserPermissions').indexOf('admin') >= 0;
+    }),
     actions: {
         toggleEditNode() {
             this.toggleProperty('propertiesVisible');

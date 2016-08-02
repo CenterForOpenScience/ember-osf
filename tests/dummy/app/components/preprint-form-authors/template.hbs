@@ -49,11 +49,15 @@
                         </td>
                         <td class="vert-align">
                             <div class="form-group">
-                                <select class="form-control" onchange={{action (action 'updatePermissions' contrib) value='target.value'}}>
-                                    <option value=READ selected={{eq contrib.permission 'read'}}> Read </option>
-                                    <option value=WRITE selected={{eq contrib.permission 'write'}}> Read + Write </option>
-                                    <option value=ADMIN selected={{eq contrib.permission 'admin'}}> Administrator </option>
-                                </select>
+                                {{#if (and canEdit (minAdmins contrib contributors permissionToggle))}}
+                                    <select class="form-control" onchange={{action (action 'updatePermissions' contrib) value='target.value'}}>
+                                        <option value=READ selected={{eq contrib.permission 'read'}}> Read </option>
+                                        <option value=WRITE selected={{eq contrib.permission 'write'}}> Read + Write </option>
+                                        <option value=ADMIN selected={{eq contrib.permission 'admin'}}> Administrator </option>
+                                    </select>
+                                {{else}}
+                                    <span> {{permissionMap contrib.permission}} </span>
+                                {{/if}}
                             </div>
                         </td>
                         <td class="bib-padding">
@@ -68,37 +72,3 @@
         </div>
     </div>
 </div>
-
-{{!-- <table class="table">
-    <tr>
-        <th>ID</th>
-        <th> Name </th>
-        <th> Permissions </th>
-        <th> Bibliographic </th>
-        <th> </th>
-    </tr>
-    {{#each contributors as |contrib|}}
-        <tr>
-            <td>
-                {{contrib.id}}
-            </td>
-            <td>
-                {{if contrib.unregisteredContributor contrib.unregisteredContributor contrib.users.fullName}}
-            </td>
-            <td>
-                <select onchange={{action (action 'permissionChange' contrib) value='target.value'}} >
-                    <option value=READ selected={{if (eq contrib.permission READ) true false}}> Read </option>
-                    <option value=WRITE selected={{if (eq contrib.permission WRITE) true false}}> Read + Write </option>
-                    <option value=ADMIN selected={{if (eq contrib.permission ADMIN) true false}}> Administrator </option>
-                </select>
-            </td>
-            <td>
-                <input onchange={{action (action 'bibliographicChange' contrib) value='target.checked'}} checked={{if contrib.bibliographic true false}} type="checkbox" name="bibliographic">
-            </td>
-            <td>
-                <button {{action 'removeContributor' contrib}} class="btn btn-danger"> Remove </button>
-            </td>
-        </tr>
-    {{/each}}
-</table>
-<button {{action 'updateContributors'}} class="btn btn-primary"> Save changes </button> --}}

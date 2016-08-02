@@ -10,6 +10,7 @@ export default Ember.Component.extend({
     layout: layout,
     permissionChanges: {},
     bibliographicChanges: {},
+    permissionToggle: false,
     actions: {
         addContributor(userId, permission, isBibliographic) {
             this.sendAction('addContributor', userId, permission, isBibliographic);
@@ -26,7 +27,7 @@ export default Ember.Component.extend({
                 {}
             );
             this.set('permissionChanges', {});
-
+            this.toggleProperty('permissionToggle');
         },
         updateBibliographic(contributor, isBibliographic) {
             this.set(`bibliographicChanges.${contributor.id}`, isBibliographic);
