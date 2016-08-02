@@ -61,7 +61,7 @@
                             </div>
                         </td>
                         <td class="bib-padding">
-                            <input onchange={{action (action 'updateBibliographic' contrib) value='target.checked'}} checked={{eq contrib.bibliographic true}} type="checkbox" name="bibliographic">
+                            <input disabled={{if (and canEdit (minBibliographic contrib contributors bibliographicToggle)) false true}} onchange={{action (action 'updateBibliographic' contrib) value='target.checked'}} checked={{eq contrib.bibliographic true}} type="checkbox" name="bibliographic">
                         </td>
                         <td>
                             <button {{action 'removeContributor' contrib}} class="btn btn-danger btn-sm"> Remove </button>
