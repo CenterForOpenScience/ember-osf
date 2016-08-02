@@ -54,7 +54,7 @@
                         </td>
                         <td class="vert-align">
                             <div class="form-group">
-                                {{#if (and canEdit (minAdmins contrib contributors permissionToggle))}}
+                                {{#if (and stillAdmin (and canEdit (minAdmins contrib contributors permissionToggle)))}}
                                     <select class="form-control" onchange={{action (action 'updatePermissions' contrib) value='target.value'}}>
                                         <option value=READ selected={{eq contrib.permission 'read'}}> Read </option>
                                         <option value=WRITE selected={{eq contrib.permission 'write'}}> Read + Write </option>
@@ -66,10 +66,10 @@
                             </div>
                         </td>
                         <td class="bib-padding">
-                            <input disabled={{if (and canEdit (minBibliographic contrib contributors bibliographicToggle)) false true}} onchange={{action (action 'updateBibliographic' contrib) value='target.checked'}} checked={{eq contrib.bibliographic true}} type="checkbox" name="bibliographic">
+                            <input disabled={{if (and stillAdmin (and canEdit (minBibliographic contrib contributors bibliographicToggle))) false true}} onchange={{action (action 'updateBibliographic' contrib) value='target.checked'}} checked={{eq contrib.bibliographic true}} type="checkbox" name="bibliographic">
                         </td>
                         <td>
-                            {{#if (and (permissionToRemoveContributor contrib currentUser isAdmin node) (conditionsForContribRemoval contrib contributors removalToggle))}}
+                            {{#if (and stillAdmin (and (permissionToRemoveContributor contrib currentUser isAdmin node) (conditionsForContribRemoval contrib contributors removalToggle)))}}
                                 <button {{action 'removeContributor' contrib}} class="btn btn-danger btn-sm"> Remove </button>
                             {{/if}}
                         </td>

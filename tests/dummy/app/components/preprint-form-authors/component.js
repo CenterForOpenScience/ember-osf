@@ -13,12 +13,15 @@ export default Ember.Component.extend({
     permissionToggle: false,
     bibliographicToggle: false,
     removalToggle: false,
+    stillAdmin: true,
     actions: {
         addContributor(userId, permission, isBibliographic) {
             this.sendAction('addContributor', userId, permission, isBibliographic);
         },
         removeContributor(contrib) {
             this.sendAction('removeContributor', contrib);
+            this.toggleProperty('removalToggle');
+            this.removedSelfAsAdmin(contrib, contrib.get('permission'));
         },
         updatePermissions(contributor, permission) {
             this.set(`permissionChanges.${contributor.id}`, permission.toLowerCase());
@@ -31,6 +34,8 @@ export default Ember.Component.extend({
             this.set('permissionChanges', {});
             this.toggleProperty('permissionToggle');
             this.toggleProperty('removalToggle');
+            this.removedSelfAsAdmin(contributor, permission);
+
         },
         updateBibliographic(contributor, isBibliographic) {
             this.set(`bibliographicChanges.${contributor.id}`, isBibliographic);
@@ -43,6 +48,11 @@ export default Ember.Component.extend({
             this.set('bibliographicChanges', {});
             this.toggleProperty('bibliographicToggle');
             this.toggleProperty('removalToggle');
+        }
+    },
+    removedSelfAsAdmin(contributor, permission) {
+        if (this.get('currentUser').id === contributor.id.split('-')[1] && permission !== 'ADMIN') {
+            this.set('stillAdmin', false);
         }
     }
 });
