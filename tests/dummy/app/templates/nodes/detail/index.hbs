@@ -87,7 +87,7 @@
     {{log-detail node-logs=model.logs}}
 
     <h2>Contributors</h2>  --}}
-    {{preprint-form-authors contributors=model.contributors node=model isAdmin=isAdmin canEdit=canEdit addContributor=(action 'addContributor') removeContributor=(action 'removeContributor') editContributors=(action 'updateContributors') }}
+    {{preprint-form-authors contributors=model.contributors node=model isAdmin=isAdmin canEdit=canEdit currentUser=user addContributor=(action 'addContributor') removeContributor=(action 'removeContributor') editContributors=(action 'updateContributors') }}
 
     {{!-- <hr>
     <h2>Components</h2>

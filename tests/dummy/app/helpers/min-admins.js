@@ -10,13 +10,13 @@ export function minAdmins(params/*, hash*/) {
     var contrib = params[0];
     var contributors = params[1];
     if (contributors) {
-        var numAdmins = 0;
+        var registeredAdmins = 0;
         contributors.forEach(function(contributor) {
-            if (contributor.get('permission') === 'admin') {
-                numAdmins++;
+            if (contributor.get('permission') === 'admin' && contributor.get('unregisteredContributor') === null) {
+                registeredAdmins++;
             }
         });
-        if (numAdmins === 1 && contrib.get('permission') === 'admin') {
+        if (registeredAdmins === 1 && contrib.get('permission') === 'admin' && contrib.get('unregisteredContributor') === null) {
             return false;
         } else {
             return true;

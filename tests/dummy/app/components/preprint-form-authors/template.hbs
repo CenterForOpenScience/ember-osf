@@ -31,13 +31,14 @@
     </div>
     <div class="col-xs-12 col-sm-6 col-division">
         <h2> Authors </h2>
+        <p class="small"> Must have at least one registered administrator on the preprint and one author included in the citation. </p>
         <div class="panel-body">
             <table class="table">
                 <tr>
                     <th> </th>
                     <th> Name </th>
                     <th> Permissions </th>
-                    <th class="bib-padding"> Author? </th>
+                    <th class="bib-padding"> In Citation </th>
                     <th> </th>
                 </tr>
                 {{#each contributors as |contrib|}}
@@ -68,7 +69,9 @@
                             <input disabled={{if (and canEdit (minBibliographic contrib contributors bibliographicToggle)) false true}} onchange={{action (action 'updateBibliographic' contrib) value='target.checked'}} checked={{eq contrib.bibliographic true}} type="checkbox" name="bibliographic">
                         </td>
                         <td>
-                            <button {{action 'removeContributor' contrib}} class="btn btn-danger btn-sm"> Remove </button>
+                            {{#if (and (permissionToRemoveContributor contrib currentUser isAdmin node) (conditionsForContribRemoval contrib contributors removalToggle))}}
+                                <button {{action 'removeContributor' contrib}} class="btn btn-danger btn-sm"> Remove </button>
+                            {{/if}}
                         </td>
                     </tr>
                 {{/each}}
