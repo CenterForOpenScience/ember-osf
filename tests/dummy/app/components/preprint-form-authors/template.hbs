@@ -35,6 +35,10 @@
         {{#if searchResults}}
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2">
+                    <div class="unregisteredUsers">
+                        <p> Can't find the user you're looking for? </p>
+                        <button class="btn btn-primary btn-small"> Add an unregistered user </button>
+                    </div>
                     <h3> Results </h3>
                     <table class="table">
                         {{#each searchResults as |result|}}
