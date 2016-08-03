@@ -69,7 +69,7 @@
                             <input disabled={{if (and stillAdmin (and canEdit (minBibliographic contrib contributors bibliographicToggle))) false true}} onchange={{action (action 'updateBibliographic' contrib) value='target.checked'}} checked={{eq contrib.bibliographic true}} type="checkbox" name="bibliographic">
                         </td>
                         <td>
-                            {{#if (and stillAdmin (and (permissionToRemoveContributor contrib currentUser isAdmin node) (conditionsForContribRemoval contrib contributors removalToggle)))}}
+                            {{#if (and (permissionToRemoveContributor contrib currentUser stillAdmin node) (conditionsForContribRemoval contrib contributors removalToggle))}}
                                 <button {{action 'removeContributor' contrib}} class="btn btn-danger btn-sm"> Remove </button>
                             {{else}}
                                 <button class="btn btn-danger btn-sm disabled"> Remove </button>

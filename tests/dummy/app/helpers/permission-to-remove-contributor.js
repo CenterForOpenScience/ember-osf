@@ -8,13 +8,13 @@ import Ember from 'ember';
 export function permissionToRemoveContributor(params/*, hash*/) {
     var contributor = params[0];
     var currentUser = params[1];
-    var isAdmin = params[2];
+    var stillAdmin = params[2];
     var node = params[3];
     if (currentUser) {
         var currentUserId = currentUser.get('currentUserId') || currentUser.get('id');
         var removeSelf = contributor.id.split('-')[1] === currentUserId;
         var isRegistration = node.get('registration');
-        return ((removeSelf || isAdmin) && !isRegistration);
+        return ((removeSelf || stillAdmin) && !isRegistration);
     } else {
         return params;
     }

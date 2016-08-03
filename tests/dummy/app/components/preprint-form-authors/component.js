@@ -13,7 +13,9 @@ export default Ember.Component.extend({
     permissionToggle: false,
     bibliographicToggle: false,
     removalToggle: false,
-    stillAdmin: true,
+    stillAdmin: Ember.computed('isAdmin', function() {
+        return this.get('isAdmin');
+    }),
     actions: {
         addContributor(userId, permission, isBibliographic) {
             this.sendAction('addContributor', userId, permission, isBibliographic);
