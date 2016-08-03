@@ -16,9 +16,18 @@ export default Ember.Component.extend({
     stillAdmin: Ember.computed('isAdmin', function() {
         return this.get('isAdmin');
     }),
+    query: null,
     actions: {
-        addContributor(userId, permission, isBibliographic) {
-            this.sendAction('addContributor', userId, permission, isBibliographic);
+        addContributor(user, permission, isBibliographic) {
+            this.sendAction('addContributor', user.id, permission, isBibliographic);
+            this.get('searchResults').removeObject(user);
+        },
+        updateQuery(value) {
+            this.set('query', value);
+        },
+        findContributors() {
+            var query = this.get('query');
+            this.sendAction('findContributors', query);
         },
         removeContributor(contrib) {
             this.sendAction('removeContributor', contrib);
