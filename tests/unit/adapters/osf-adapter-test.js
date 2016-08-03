@@ -153,6 +153,7 @@ test('#_buildRelationshipURL uses relationshipLinks', function(assert) {
 });
 
 test('#_createRelated maps over each createdSnapshots and adds records to the parent\'s canonical state', function(assert) {
+    assert.expect(4);
     this.inject.service('store');
     let store = this.store;
 
@@ -188,9 +189,8 @@ test('#_createRelated maps over each createdSnapshots and adds records to the pa
             // infinite recursive calls when comparing the Ember DS.Models
             assert.equal(addCanonicalStub.args[0][0], contributors[0]);
             assert.equal(addCanonicalStub.args[1][0], contributors[1]);
-        }, () => {
-            // Fail
-            assert.ok(false);
+        }).catch((err) => {
+            assert.ok(false, 'An error occurred while running this test: ' + err);
         });
     });
 });
@@ -230,14 +230,15 @@ test('#_createRelated passes the nested:true as an adapterOption to save', funct
                     requestType: 'create'
                 }
             })));
-        }, () => {
-            // Fail
-            assert.ok(false);
+        }).catch((err) => {
+            assert.ok(false, 'An error occurred while running this test: ' + err);
         });
     });
 });
 
 test('#_addRelated defers to _doRelatedRequest and adds records to the parent\'s canonical state', function(assert) {
+    assert.expect(3);
+
     let node = FactoryGuy.make('node');
     let institution = FactoryGuy.make('institution');
     node.get('affiliatedInstitutions').pushObject(institution);
@@ -251,12 +252,11 @@ test('#_addRelated defers to _doRelatedRequest and adds records to the parent\'s
 
     Ember.run(() => {
         node.save().then(() => {
-            assert.ok(doRelatedStub.called);
-            assert.ok(addCanonicalStub.calledOnce);
-            assert.ok(addCanonicalStub.calledWith(institution));
-        }, () => {
-            // Fail
-            assert.ok(false);
+            assert.ok(doRelatedStub.called, 'doRelated should be called');
+            assert.ok(addCanonicalStub.calledOnce, 'addCanonical should be called');
+            assert.ok(addCanonicalStub.calledWith(institution), 'addCanonical should be called with the institution');
+        }).catch((err) => {
+            assert.ok(false, 'An error occurred while running this test: ' + err);
         });
     });
 });
@@ -294,15 +294,16 @@ test('#_updateRelated defers to _doRelatedRequest, pushes the update response in
             assert.ok(addCanonicalStub.calledOnce);
             assert.ok(pushStub.calledOnce);
             assert.ok(normalizeStub.calledOnce);
-        }, () => {
-            // Fail
-            assert.ok(false);
+        }).catch((err) => {
+            assert.ok(false, 'An error occurred while running this test: ' + err);
         });
     });
 });
 
 
 test('#_removeRelated defers to _doRelatedRequest, and removes the records from the parent\'s canonicalState', function(assert) {
+    assert.expect(3);
+
     let node = FactoryGuy.make('node', 'hasInstitution');
     var inst = node.get('affiliatedInstitutions').objectAt(0);
     node.get('affiliatedInstitutions').removeObject(inst);
@@ -317,17 +318,17 @@ test('#_removeRelated defers to _doRelatedRequest, and removes the records from 
 
     Ember.run(() => {
         node.save().then(() => {
-            assert.ok(doRelatedStub.calledOnce);
-            assert.ok(removeCanonicalStub.calledOnce);
-            assert.ok(removeCanonicalStub.calledWith(inst));
-        }, () => {
-            // Fail
-            assert.ok(false);
+            assert.ok(doRelatedStub.calledOnce, 'doRelated should be called');
+            assert.ok(removeCanonicalStub.calledOnce, 'removeCanonical should be called');
+            assert.ok(removeCanonicalStub.calledWith(inst), 'removeCanonical should be called with institution as an argument');
+        }).catch((err) => {
+            assert.ok(false, 'An error occurred while running this test: ' + err);
         });
     });
 });
 
 test('#_deleteRelated defers to _doRelatedRequest, and unloads the deleted records', function(assert) {
+    assert.expect(2);
     let node = FactoryGuy.make('node', 'hasContributors');
     let contrib = node.get('contributors').objectAt(1);
     node.get('contributors').removeObject(contrib);
@@ -341,9 +342,8 @@ test('#_deleteRelated defers to _doRelatedRequest, and unloads the deleted recor
         node.save().then(() => {
             assert.ok(doRelatedStub.calledOnce);
             assert.ok(unloadStub.calledOnce);
-        }, () => {
-            // Fail
-            assert.ok(false);
+        }).catch((err) => {
+            assert.ok(false, 'An error occurred while running this test: ' + err);
         });
     });
 });
