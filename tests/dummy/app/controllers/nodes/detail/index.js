@@ -33,6 +33,18 @@ export default Ember.Controller.extend(CommentableMixin, TaggableMixin, NodeActi
                 _this.set('searchResults', contributors);
                 return contributors;
             });
+        },
+        addContributor(userId, permission, isBibliographic) {
+            var node = this.get('_node');
+            var contributor = this.store.createRecord('contributor', {
+                id: `${node.get('id')}-${userId}`,
+                permission: permission,
+                bibliographic: isBibliographic
+            });
+            node.get('contributors').pushObject(contributor);
+            this.get('contributors').pushObject(contributor);
+            return node.save();
+
         }
     }
 });

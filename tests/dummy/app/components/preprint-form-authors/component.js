@@ -40,6 +40,7 @@ export default Ember.Component.extend({
             this.toggleProperty('removalToggle');
             this.removedSelfAsAdmin(contrib, contrib.get('permission'));
             var recentlyAddedIndex = this.get('newlyAdded').map(function(contrib) {return contrib.id;}).indexOf(contrib.id.split('-')[1]);
+            this.get('contributors').removeObject(contrib);
             if (this.get('query') && recentlyAddedIndex > -1) {
                 var restoredUser = this.get('newlyAdded')[recentlyAddedIndex];
                 this.get('searchResults').pushObject(restoredUser._internalModel);
