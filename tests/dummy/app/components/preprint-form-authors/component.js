@@ -16,6 +16,7 @@ export default Ember.Component.extend({
     stillAdmin: Ember.computed('isAdmin', function() {
         return this.get('isAdmin');
     }),
+    searched: false,
     query: null,
     actions: {
         addContributor(user, permission, isBibliographic) {
@@ -24,8 +25,10 @@ export default Ember.Component.extend({
         },
         updateQuery(value) {
             this.set('query', value);
+            this.set('searched', false);
         },
         findContributors() {
+            this.set('searched', true);
             var query = this.get('query');
             this.sendAction('findContributors', query);
         },
