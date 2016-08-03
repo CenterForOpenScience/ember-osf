@@ -20,6 +20,8 @@ export default Ember.Mixin.create(UnauthenticatedRouteMixin, {
     beforeModel() {
         // Determine whether the user is logged in by making a test request. This is quite a crude way of
         // determining whether the user has a cookie and should be improved in the future.
-        return this.get('session').authenticate('authenticator:osf-cookie');
+
+        // Block transition until auth attempt resolves. If auth fails, let the page load normally.
+        return this.get('session').authenticate('authenticator:osf-cookie').catch(err => console.log('Authentication failed: ', err));
     }
 });
