@@ -81,15 +81,22 @@
                                 </div>
                             </li>
                         {{else}}
-                            {{#oauth-popup authUrl=authUrl loginSuccess=(action 'loginSuccess') loginFail=(action 'loginFail') as |popup|}}
-                                <li class="dropdown sign-in">
-                                    <div class="col-sm-12">
-                                        <button class="btn btn-success btn-top-signup m-r-xs" onclick={{action 'login' target=popup}} >
-                                            Login
-                                        </button>
-                                    </div>
-                                </li>
-                            {{/oauth-popup}}
+                            {{!-- Very ugly hack until we can refactor navbar to support pluggable auth types: Navbar users can override the login button (for consuming apps based on cookie or other auth) --}}
+                            {{!-- The cookie/token login mixins should eventually control the default login functionality and then we can pass in when using component in application template --}}
+                            {{#if hasBlock}}
+                                {{yield this}}
+                            {{else}}
+                                {{#oauth-popup authUrl=authUrl loginSuccess=(action 'loginSuccess') loginFail=(action 'loginFail') as |popup|}}
+                                    <li class="dropdown sign-in">
+                                        <div class="col-sm-12">
+                                            <button class="btn btn-success btn-top-signup m-r-xs" onclick={{action 'login' target=popup}} >
+                                                Login
+                                            </button>
+                                        </div>
+                                    </li>
+                                {{/oauth-popup}}
+                            {{/if}}
+
                             {{!--
                             <li class="dropdown sign-in" data-bind="with: $root.signIn">
                                 <div class="col-sm-12">
