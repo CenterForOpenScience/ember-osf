@@ -50,6 +50,11 @@ export default Ember.Component.extend({
             this.toggleProperty('removalToggle');
         }
     },
+    /**
+    * If user removes their own admin permissions, many things on the page must become
+    * disabled.  Changing the stillAdmin flag to false will remove many of the options
+    * on the page.
+    */
     removedSelfAsAdmin(contributor, permission) {
         if (this.get('currentUser').id === contributor.id.split('-')[1] && permission !== 'ADMIN') {
             this.set('stillAdmin', false);

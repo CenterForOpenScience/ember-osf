@@ -71,6 +71,8 @@
                         <td>
                             {{#if (and stillAdmin (and (permissionToRemoveContributor contrib currentUser isAdmin node) (conditionsForContribRemoval contrib contributors removalToggle)))}}
                                 <button {{action 'removeContributor' contrib}} class="btn btn-danger btn-sm"> Remove </button>
+                            {{else}}
+                                <button class="btn btn-danger btn-sm disabled"> Remove </button>
                             {{/if}}
                         </td>
                     </tr>
