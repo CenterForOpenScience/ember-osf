@@ -25,16 +25,17 @@ export default Ember.Component.extend({
     layout,
     classNameBindings: ['invalid:has-error'],
     pattern: /^.{1,128}$/,
-    tags: [],
+    tags: Ember.A(),
     value: '',
     didReceiveAttrs() {
         this._super(...arguments);
         // Initialize attributes
-        const tags = this.get('tags');
+        let tags = this.get('tags');
         const pattern = this.get('pattern');
         if (!Ember.isArray(tags)) {
-            this.set('tags', tags ? [tags] : []);
+            tags = tags ? [tags] : [];
         }
+        this.set('tags', Ember.A(tags));
         if (typeof pattern === 'string') {
             this.set('pattern', new RegExp(pattern));
         }
