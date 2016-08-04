@@ -129,6 +129,26 @@ export default Ember.Mixin.create({
             return node.save();
         },
         /**
+         * Add unregistered contributor to a node.  Creates a user and then adds that user as a contributor.
+         *
+         * @method addUnregisteredContributor
+         * @param {String} fullName Full name of user
+         * @param {String} email User's email
+         * @return {Promise} Returns a promise that resolves to the updated node
+         * with the new contributor relationship.
+         */
+        addUnregisteredContributor(fullName, email) {
+            var _this = this;
+            var user = this.store.createRecord('user', {
+                fullName: fullName,
+                username: email
+            });
+            // After user has been saved, add user as a contributor
+            user.save().then(function(user) {
+                _this.send('addContributor', user.id);
+            });
+        },
+        /**
          * Remove a contributor from a node
          *
          * @method removeContributor

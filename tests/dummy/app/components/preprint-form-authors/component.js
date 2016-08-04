@@ -28,6 +28,9 @@ export default Ember.Component.extend({
         addContributor(user, permission, isBibliographic) {
             this.sendAction('addContributor', user.id, permission, isBibliographic);
         },
+        addUnregisteredContributor(fullName, email) {
+            this.sendAction('addUnregisteredContributor', fullName, email);
+        },
         updateQuery(value) {
             this.set('query', value);
         },
