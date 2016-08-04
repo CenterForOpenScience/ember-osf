@@ -16,9 +16,9 @@ export default Ember.Component.extend({
     stillAdmin: Ember.computed('isAdmin', function() {
         return this.get('isAdmin');
     }),
-    searched: false,
+    addState: 'emptyView',
     query: null,
-    newSearchResults: Ember.computed('searchResults.[]', 'contributors.[]', 'searched', function() {
+    newSearchResults: Ember.computed('searchResults.[]', 'contributors.[]', 'addState', function() {
         let searchResults = this.get('searchResults');
         let contributors = this.get('contributors');
         let userIds = contributors.map((contrib) => contrib.id.split('-')[1]);
@@ -35,7 +35,7 @@ export default Ember.Component.extend({
             var query = this.get('query');
             var _this = this;
             _this.sendAction('findContributors', query);
-            this.set('searched', true);
+            this.set('addState', 'searchView');
         },
         removeContributor(contrib) {
             this.sendAction('removeContributor', contrib);
@@ -68,6 +68,12 @@ export default Ember.Component.extend({
             this.set('bibliographicChanges', {});
             this.toggleProperty('bibliographicToggle');
             this.toggleProperty('removalToggle');
+        },
+        unregisteredView() {
+            this.set('addState', 'unregisteredView');
+        },
+        searchView() {
+            this.set('addState', 'searchView');
         }
     },
     /**

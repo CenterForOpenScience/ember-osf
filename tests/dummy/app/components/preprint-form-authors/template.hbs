@@ -16,27 +16,48 @@
         </div>
         <div class="row">
             <div class="col-xs-8 col-xs-offset-2">
-                {{#if searched}}
-                    <div class="unregisteredUsers">
-                        <p> Can't find the user you're looking for? </p>
-                        <button class="btn btn-primary btn-small"> Add an unregistered user </button>
-                    </div>
-                    <h3> Results </h3>
-                    {{#if newSearchResults}}
-                        <table class="table">
-                            {{#each newSearchResults as |result|}}
-                                    <tr>
-                                        <td>
-                                            <img class="m-l-xs" src={{result.links.profile_image}} height=40 width=40>
-                                            <a href={{result.links.html}}> {{result.fullName}} </a>
+                {{#if (not (eq addState 'emptyView'))}}
+                    {{#if (eq addState 'searchView')}}
+                        <div class="unregisteredUsers">
+                            <p> Can't find the user you're looking for? </p>
+                            <button class="btn btn-primary btn-small" {{action "unregisteredView"}}> Add an unregistered user </button>
+                        </div>
+                        <h3> Results </h3>
+                        {{#if newSearchResults}}
+                            <table class="table">
+                                {{#each newSearchResults as |result|}}
+                                        <tr>
+                                            <td>
+                                                <img class="m-l-xs" src={{result.links.profile_image}} height=40 width=40>
+                                                <a href={{result.links.html}}> {{result.fullName}} </a>
 
-                                        </td>
-                                        <td> <button class="btn btn-success btn-small" {{action "addContributor" result}}> Add </button> </td>
-                                    </tr>
-                            {{/each}}
-                        </table>
-                    {{else}}
-                        No results found.
+                                            </td>
+                                            <td> <button class="btn btn-success btn-small" {{action "addContributor" result}}> Add </button> </td>
+                                        </tr>
+                                {{/each}}
+                            </table>
+                        {{else}}
+                            No results found.
+                        {{/if}}
+                    {{/if}}
+                    {{#if (eq addState 'unregisteredView')}}
+                        <h3> Add Unregistered User </h3>
+                        <div>
+                            <div class='unregistered-name'>
+                                <label>Full Name</label>
+                                <input type="text" class="form-control input" onchange={{action "updateQuery" value="target.value"}}>
+                            </div>
+                            <div class='unregistered-email'>
+                                <label>Email</label>
+                                <input type="text" class="form-control input" onchange={{action "updateQuery" value="target.value"}}>
+                            </div>
+                        </div>
+
+                        <p class="text-muted"> We will notifiy the user that they have been added to your preprint. </p>
+                        <div class="pull-right unregistered-submit">
+                            <button {{action "searchView"}} class="btn btn-default btn-small"> Cancel </button>
+                            <button class="btn btn-success btn-small"> Add </button>
+                        </div>
                     {{/if}}
                 {{/if}}
             </div>
