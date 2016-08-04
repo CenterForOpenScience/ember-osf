@@ -254,7 +254,7 @@ test('#_addRelated defers to _doRelatedRequest and adds records to the parent\'s
         node.save().then(() => {
             assert.ok(doRelatedStub.called, 'doRelated should be called');
             assert.ok(addCanonicalStub.calledOnce, 'addCanonical should be called');
-            assert.ok(addCanonicalStub.calledWith(institution), 'addCanonical should be called with the institution');
+            assert.ok(addCanonicalStub.calledWith(institution._internalModel), 'addCanonical should be called with the institution');
         }).catch((err) => {
             assert.ok(false, 'An error occurred while running this test: ' + err);
         });
@@ -320,7 +320,7 @@ test('#_removeRelated defers to _doRelatedRequest, and removes the records from 
         node.save().then(() => {
             assert.ok(doRelatedStub.calledOnce, 'doRelated should be called');
             assert.ok(removeCanonicalStub.calledOnce, 'removeCanonical should be called');
-            assert.ok(removeCanonicalStub.calledWith(inst), 'removeCanonical should be called with institution as an argument');
+            assert.ok(removeCanonicalStub.calledWith(inst._internalModel), 'removeCanonical should be called with institution as an argument');
         }).catch((err) => {
             assert.ok(false, 'An error occurred while running this test: ' + err);
         });
