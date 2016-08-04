@@ -171,7 +171,7 @@ test('#_createRelated maps over each createdSnapshots and adds records to the pa
     });
     node.get('contributors').pushObjects(contributors);
     let saveStubs = contributors.map(c => this.stub(c, 'save', () => {
-        return new Ember.RSVP.Promise((resolve) => resolve());
+        return Ember.RSVP.resolve();
     }));
 
     var addCanonicalStub = this.stub();
@@ -212,7 +212,7 @@ test('#_createRelated passes the nested:true as an adapterOption to save', funct
     Ember.run.end();
     node.get('contributors').pushObjects(contributors);
     let saveStubs = contributors.map(c => this.stub(c, 'save', () => {
-        return new Ember.RSVP.Promise((resolve) => resolve());
+        return Ember.RSVP.resolve();
     }));
     this.stub(node, 'resolveRelationship', () => {
         return {
@@ -244,7 +244,7 @@ test('#_addRelated defers to _doRelatedRequest and adds records to the parent\'s
     node.get('affiliatedInstitutions').pushObject(institution);
 
     var doRelatedStub = this.stub(OsfAdapter.prototype, '_doRelatedRequest', () => {
-        return new Ember.RSVP.Promise(resolve => resolve());
+        return Ember.RSVP.resolve();
     });
     var relation = node.resolveRelationship('affiliatedInstitutions');
     relation.hasLoaded = true;
@@ -272,12 +272,12 @@ test('#_updateRelated defers to _doRelatedRequest, pushes the update response in
     contrib.set('bibliographic', !contrib.get('bibliographic'));
 
     var doRelatedStub = this.stub(OsfAdapter.prototype, '_doRelatedRequest', () => {
-        return new Ember.RSVP.Promise(resolve => resolve({
+        return Ember.RSVP.resolve({
             data: [
                 // A slight hack-- ingore the value returned from _doRelatedRequest
                 true
             ]
-        }));
+        });
     });
     var addCanonicalStub = this.stub();
     this.stub(node, 'resolveRelationship', () => {
@@ -309,7 +309,7 @@ test('#_removeRelated defers to _doRelatedRequest, and removes the records from 
     node.get('affiliatedInstitutions').removeObject(inst);
 
     var doRelatedStub = this.stub(OsfAdapter.prototype, '_doRelatedRequest', () => {
-        return new Ember.RSVP.Promise(resolve => resolve());
+        return Ember.RSVP.resolve();
     });
 
     var rel = node.resolveRelationship('affiliatedInstitutions');
@@ -335,7 +335,7 @@ test('#_deleteRelated defers to _doRelatedRequest, and unloads the deleted recor
 
     var unloadStub = this.stub(contrib, 'unloadRecord');
     var doRelatedStub = this.stub(OsfAdapter.prototype, '_doRelatedRequest', () => {
-        return new Ember.RSVP.Promise(resolve => resolve());
+        return Ember.RSVP.resolve();
     });
 
     Ember.run(() => {
@@ -362,7 +362,7 @@ test('#_doRelatedRequest with array', function(assert) {
     Ember.run.end();
 
     var mockAjax = this.stub(adapter, 'ajax', () => {
-        return new Ember.RSVP.Promise(resolve => resolve({}));
+        return Ember.RSVP.resolve({});
     });
     adapter._doRelatedRequest(
         store,
@@ -393,7 +393,7 @@ test('#_doRelatedRequest with single snapshot', function(assert) {
     Ember.run.end();
 
     var mockAjax = this.stub(adapter, 'ajax', () => {
-        return new Ember.RSVP.Promise(resolve => resolve({}));
+        return Ember.RSVP.resolve({});
     });
     adapter._doRelatedRequest(
         store,
@@ -501,7 +501,7 @@ test('#updateRecord handles both dirtyRelationships and the parent record', func
     var handleRelatedStub = this.stub(adapter, '_handleRelatedRequest', () => []);
     // Have to stub apply due to ...arguments usage
     this.stub(JSONAPIAdapter.prototype.updateRecord, 'apply', () => {
-        return new Ember.RSVP.Promise((resolve) => resolve(42));
+        return Ember.RSVP.resolve(42);
     });
 
     var ss = node._internalModel.createSnapshot();
