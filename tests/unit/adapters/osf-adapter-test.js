@@ -153,7 +153,7 @@ test('#_buildRelationshipURL uses relationshipLinks', function(assert) {
 });
 
 test('#_createRelated maps over each createdSnapshots and adds records to the parent\'s canonical state', function(assert) {
-    assert.expect(4);
+    assert.expect(5);
     this.inject.service('store');
     let store = this.store;
 
@@ -187,8 +187,8 @@ test('#_createRelated maps over each createdSnapshots and adds records to the pa
             assert.ok(addCanonicalStub.calledTwice);
             // Can't use calledWith because sinon's deepEqual creates
             // infinite recursive calls when comparing the Ember DS.Models
-            assert.equal(addCanonicalStub.args[0][0], contributors[0]);
-            assert.equal(addCanonicalStub.args[1][0], contributors[1]);
+            assert.equal(addCanonicalStub.args[0][0], contributors[0]._internalModel, 'First contributor did not match');
+            assert.equal(addCanonicalStub.args[1][0], contributors[1]._internalModel, 'Second contributor did not match');
         }).catch((err) => {
             assert.ok(false, 'An error occurred while running this test: ' + err);
         });
