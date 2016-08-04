@@ -18,34 +18,30 @@ export default Ember.Component.extend({
     }),
     searched: false,
     query: null,
-    newlyAdded: Ember.A([]),
+    newSearchResults: Ember.computed('searchResults.[]', 'contributors.[]', 'searched', function() {
+        let searchResults = this.get('searchResults');
+        let contributors = this.get('contributors');
+        let userIds = contributors.map((contrib) => contrib.id.split('-')[1]);
+        return searchResults.filter((result) => !Ember.A(userIds).contains(result.id));
+    }),
     actions: {
         addContributor(user, permission, isBibliographic) {
             this.sendAction('addContributor', user.id, permission, isBibliographic);
-            this.get('searchResults').removeObject(user);
-            this.get('newlyAdded').addObject(user);
         },
         updateQuery(value) {
             this.set('query', value);
-            this.set('searched', false);
-            this.set('newlyAdded', Ember.A([]));
         },
         findContributors() {
-            this.set('searched', true);
             var query = this.get('query');
-            this.sendAction('findContributors', query);
+            var _this = this;
+            _this.sendAction('findContributors', query);
+            this.set('searched', true);
         },
         removeContributor(contrib) {
             this.sendAction('removeContributor', contrib);
             this.toggleProperty('removalToggle');
             this.removedSelfAsAdmin(contrib, contrib.get('permission'));
-            var recentlyAddedIndex = this.get('newlyAdded').map(function(contrib) {return contrib.id;}).indexOf(contrib.id.split('-')[1]);
             this.get('contributors').removeObject(contrib);
-            if (this.get('query') && recentlyAddedIndex > -1) {
-                var restoredUser = this.get('newlyAdded')[recentlyAddedIndex];
-                this.get('searchResults').pushObject(restoredUser._internalModel);
-                this.get('newlyAdded').removeObject(restoredUser);
-            }
         },
         updatePermissions(contributor, permission) {
             this.set(`permissionChanges.${contributor.id}`, permission.toLowerCase());
