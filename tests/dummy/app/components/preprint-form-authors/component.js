@@ -30,6 +30,9 @@ export default Ember.Component.extend({
         },
         addUnregisteredContributor(fullName, email) {
             this.sendAction('addUnregisteredContributor', fullName, email);
+            this.set('addState', 'searchView');
+            this.set('fullName', '');
+            this.set('email', '');
         },
         updateQuery(value) {
             this.set('query', value);
@@ -77,6 +80,8 @@ export default Ember.Component.extend({
         },
         searchView() {
             this.set('addState', 'searchView');
+            this.set('fullName', '');
+            this.set('email', '');
         }
     },
     /**
