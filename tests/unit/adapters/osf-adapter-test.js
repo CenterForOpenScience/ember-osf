@@ -8,14 +8,13 @@ import DS from 'ember-data';
 import JSONAPIAdapter from 'ember-data/adapters/json-api';
 
 import OsfAdapter from 'ember-osf/adapters/osf-adapter';
-import permissions from 'ember-osf/const/permissions';
 
 moduleFor('adapter:osf-adapter', 'Unit | Adapter | osf adapter', {
     needs: [
         'model:comment', 'model:contributor', 'model:draft-registration', 'model:file-provider',
         'model:institution', 'model:log', 'model:node', 'model:node-link', 'model:registration', 'model:user',
-        'adapter:osf-adapter', 'adapter:contributor', 'adapter:node', 'adapter:user',
-        'serializer:contributor', 'serializer:node',
+        'adapter:osf-adapter', 'adapter:node', 'adapter:user',
+        'serializer:node',
         'service:session',
         'transform:links', 'transform:embed'
     ],
@@ -524,52 +523,4 @@ test('#ajaxOptions adds bulk contentType if request is bulk', function(assert) {
         isBulk: true
     });
     assert.equal(opts.contentType, 'application/vnd.api+json; ext=bulk');
-});
-
-test('Can add, then update, a contributor without reloading', function(assert) {
-    // Regression test for issue discovered on contribs page, caused by incorrect canonical state. Manifested as errors
-    // when making several kinds of changes in succession without reloading the page.
-    assert.expect(5);
-
-    let done = assert.async();
-    this.inject.service('store');
-    let store = this.store;
-
-    let node = FactoryGuy.make('node');
-    var contributor;
-    Ember.run(() => contributor = store.createRecord('contributor', { title: 'Foo' }));
-
-    node.get('contributors').pushObject(contributor);
-    //let contribSaveStub = this.stub(contributor, 'save', () => Ember.RSVP.resolve());
-    let contribSaveStub = this.spy(contributor, 'save'); // TODO: use spy earlier?
-
-    var addCanonicalStub = this.stub();
-    this.stub(node, 'resolveRelationship', () => {
-        return {
-            addCanonicalRecord: addCanonicalStub
-        };
-    });
-
-    // First add the contributor...
-    Ember.run(() => {
-        node.save().then(() => {
-            assert.ok(contribSaveStub.called, 'Contributor save stub should be called when adding contributor');
-            assert.ok(addCanonicalStub.called);
-            // Can't use calledWith because sinon's deepEqual creates
-            // infinite recursive calls when comparing the Ember DS.Models
-
-            assert.equal(addCanonicalStub.args[0][0], contributor._internalModel, 'Should call addCanonical with contributor');
-        }).catch((err) => {
-            assert.ok(false, 'An error occurred while running this test: ' + err);
-            done();
-        }).then(() => {
-            contributor.set('permission', permissions.READ);
-            contributor.save().then(() => {
-                assert.ok(contribSaveStub.called, 'Contributor save stub should be called for update');
-                assert.equal(contributor.get('permission'), permissions.READ);
-            }).catch((err) => assert.ok(false, 'An error occurred while running this test: ' + err));
-        });
-
-        done();
-    });
 });
