@@ -2,11 +2,11 @@
     <div class="col-xs-12 col-sm-6">
         <div class="row">
             <div class="col-xs-8 col-xs-offset-2">
-                <form {{action 'findContributors' on='submit'}}>
+                <form {{action 'findContributors' 1 on='submit'}}>
                     <div class="input-group search-box">
                         <input type="text" class="form-control input-lg" onchange={{action "updateQuery" value="target.value"}} placeholder="Search by name">
                         <span class="input-group-btn">
-                            <button class="btn btn-default btn-lg" type="button" {{action 'findContributors'}} >
+                            <button class="btn btn-default btn-lg" type="button" {{action 'findContributors' 1}} >
                                 <i class="glyphicon glyphicon-search"></i>
                             </button>
                         </span>
@@ -26,18 +26,25 @@
                         {{#if newSearchResults}}
                             <table class="table">
                                 {{#each newSearchResults as |result|}}
-                                        <tr>
-                                            <td>
-                                                <img class="m-l-xs" src={{result.links.profile_image}} height=40 width=40>
-                                                <a href={{result.links.html}}> {{result.fullName}} </a>
+                                    <tr>
+                                        <td>
+                                            <img class="m-l-xs" src={{result.links.profile_image}} height=40 width=40>
+                                            <a href={{result.links.html}}> {{result.fullName}} </a>
 
-                                            </td>
-                                            <td> <button class="btn btn-success btn-small" {{action "addContributor" result}}> Add </button> </td>
-                                        </tr>
+                                        </td>
+                                        <td> <button class="btn btn-success btn-small" {{action "addContributor" result}}> Add </button> </td>
+                                    </tr>
                                 {{/each}}
                             </table>
                         {{else}}
                             No results found.
+                        {{/if}}
+                        {{#if searchResults}}
+                            <ul class="pagination pull-right">
+                                {{#each searchPages as |page|}}
+                                    <li><a href="#" {{action "findContributors" page}} >{{page}}</a></li>
+                                {{/each}}
+                            </ul>
                         {{/if}}
                     {{/if}}
                     {{#if (eq addState 'unregisteredView')}}

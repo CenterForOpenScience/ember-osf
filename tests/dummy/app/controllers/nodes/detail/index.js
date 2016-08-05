@@ -27,9 +27,9 @@ export default Ember.Controller.extend(CommentableMixin, TaggableMixin, NodeActi
                 })
                 .catch(() => this.set('isSaving', false));
         },
-        findContributors(query) {
+        findContributors(query, page) {
             var _this = this;
-            _this.store.query('user', { filter: { full_name: query } }).then(function(contributors) {
+            _this.store.query('user', { filter: { full_name: query }, page: page }).then(function(contributors) {
                 _this.set('searchResults', contributors);
                 return contributors;
             });

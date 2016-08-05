@@ -18,6 +18,27 @@ export default Ember.Component.extend({
     }),
     addState: 'emptyView',
     query: null,
+    totalSearchResults: Ember.computed('searchResults.[]', function() {
+        let searchResults = this.get('searchResults');
+        if (searchResults && searchResults.links) {
+            return Math.ceil(searchResults.links.meta.total);
+        } else {
+            return;
+        }
+    }),
+    searchPages: Ember.computed('totalSearchResults', function() {
+        let total = this.get('totalSearchResults');
+        if (total) {
+            var pages = Math.ceil(total / 10);
+            if (pages > 1) {
+                return [...Array(pages + 1).keys()].slice(1);
+            }
+
+        } else {
+            return;
+        }
+
+    }),
     newSearchResults: Ember.computed('searchResults.[]', 'contributors.[]', 'addState', function() {
         let searchResults = this.get('searchResults');
         let contributors = this.get('contributors');
@@ -37,11 +58,13 @@ export default Ember.Component.extend({
         updateQuery(value) {
             this.set('query', value);
         },
-        findContributors() {
+        findContributors(page) {
             var query = this.get('query');
             var _this = this;
-            _this.sendAction('findContributors', query);
-            this.set('addState', 'searchView');
+            if (query) {
+                _this.sendAction('findContributors', query, page);
+                this.set('addState', 'searchView');
+            }
         },
         removeContributor(contrib) {
             this.sendAction('removeContributor', contrib);
