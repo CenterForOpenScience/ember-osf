@@ -1,3 +1,5 @@
+import Ember from 'ember';
+
 import Base from 'ember-simple-auth/authenticators/base';
 import config from 'ember-get-config';
 
@@ -49,6 +51,11 @@ export default Base.extend({
      * @return {Promise}
      */
     authenticate(code) {
-        return this._test(code);
+        let jqDeferred = this._test(code);
+        return new Ember.RSVP.Promise((resolve, reject) => {
+            // TODO: Improve param capture
+            jqDeferred.done((value) => resolve(value));
+            jqDeferred.fail((reason) => reject(reason));
+        });
     }
 });
