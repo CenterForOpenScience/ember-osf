@@ -1,19 +1,18 @@
 import Ember from 'ember';
-import {
-    moduleFor
-} from 'ember-qunit';
+
+import { moduleFor } from 'ember-qunit';
 import test from 'dummy/tests/ember-sinon-qunit/test';
-import FactoryGuy, {
-    manualSetup
-} from 'ember-data-factory-guy';
+import FactoryGuy, { manualSetup } from 'ember-data-factory-guy';
 
 import DS from 'ember-data';
 import JSONAPIAdapter from 'ember-data/adapters/json-api';
+
 import OsfAdapter from 'ember-osf/adapters/osf-adapter';
 
 moduleFor('adapter:osf-adapter', 'Unit | Adapter | osf adapter', {
     needs: [
-        'model:user', 'model:node', 'model:institution', 'model:registration', 'model:log', 'model:comment', 'model:contributor', 'model:file-provider', 'model:node-link', 'model:draft-registration',
+        'model:comment', 'model:contributor', 'model:draft-registration', 'model:file-provider',
+        'model:institution', 'model:log', 'model:node', 'model:node-link', 'model:registration', 'model:user',
         'adapter:osf-adapter', 'adapter:node', 'adapter:user',
         'serializer:node',
         'service:session',
@@ -153,6 +152,7 @@ test('#_buildRelationshipURL uses relationshipLinks', function(assert) {
 });
 
 test('#_createRelated maps over each createdSnapshots and adds records to the parent\'s canonical state', function(assert) {
+    assert.expect(5);
     this.inject.service('store');
     let store = this.store;
 
@@ -170,7 +170,7 @@ test('#_createRelated maps over each createdSnapshots and adds records to the pa
     });
     node.get('contributors').pushObjects(contributors);
     let saveStubs = contributors.map(c => this.stub(c, 'save', () => {
-        return new Ember.RSVP.Promise((resolve) => resolve());
+        return Ember.RSVP.resolve();
     }));
 
     var addCanonicalStub = this.stub();
@@ -186,11 +186,10 @@ test('#_createRelated maps over each createdSnapshots and adds records to the pa
             assert.ok(addCanonicalStub.calledTwice);
             // Can't use calledWith because sinon's deepEqual creates
             // infinite recursive calls when comparing the Ember DS.Models
-            assert.equal(addCanonicalStub.args[0][0], contributors[0]);
-            assert.equal(addCanonicalStub.args[1][0], contributors[1]);
-        }, () => {
-            // Fail
-            assert.ok(false);
+            assert.equal(addCanonicalStub.args[0][0], contributors[0]._internalModel, 'First contributor did not match');
+            assert.equal(addCanonicalStub.args[1][0], contributors[1]._internalModel, 'Second contributor did not match');
+        }).catch((err) => {
+            assert.ok(false, 'An error occurred while running this test: ' + err);
         });
     });
 });
@@ -212,7 +211,7 @@ test('#_createRelated passes the nested:true as an adapterOption to save', funct
     Ember.run.end();
     node.get('contributors').pushObjects(contributors);
     let saveStubs = contributors.map(c => this.stub(c, 'save', () => {
-        return new Ember.RSVP.Promise((resolve) => resolve());
+        return Ember.RSVP.resolve();
     }));
     this.stub(node, 'resolveRelationship', () => {
         return {
@@ -230,20 +229,21 @@ test('#_createRelated passes the nested:true as an adapterOption to save', funct
                     requestType: 'create'
                 }
             })));
-        }, () => {
-            // Fail
-            assert.ok(false);
+        }).catch((err) => {
+            assert.ok(false, 'An error occurred while running this test: ' + err);
         });
     });
 });
 
 test('#_addRelated defers to _doRelatedRequest and adds records to the parent\'s canonical state', function(assert) {
+    assert.expect(3);
+
     let node = FactoryGuy.make('node');
     let institution = FactoryGuy.make('institution');
     node.get('affiliatedInstitutions').pushObject(institution);
 
     var doRelatedStub = this.stub(OsfAdapter.prototype, '_doRelatedRequest', () => {
-        return new Ember.RSVP.Promise(resolve => resolve());
+        return Ember.RSVP.resolve();
     });
     var relation = node.resolveRelationship('affiliatedInstitutions');
     relation.hasLoaded = true;
@@ -251,12 +251,11 @@ test('#_addRelated defers to _doRelatedRequest and adds records to the parent\'s
 
     Ember.run(() => {
         node.save().then(() => {
-            assert.ok(doRelatedStub.called);
-            assert.ok(addCanonicalStub.calledOnce);
-            assert.ok(addCanonicalStub.calledWith(institution));
-        }, () => {
-            // Fail
-            assert.ok(false);
+            assert.ok(doRelatedStub.called, 'doRelated should be called');
+            assert.ok(addCanonicalStub.calledOnce, 'addCanonical should be called');
+            assert.ok(addCanonicalStub.calledWith(institution._internalModel), 'addCanonical should be called with the institution');
+        }).catch((err) => {
+            assert.ok(false, 'An error occurred while running this test: ' + err);
         });
     });
 });
@@ -272,12 +271,12 @@ test('#_updateRelated defers to _doRelatedRequest, pushes the update response in
     contrib.set('bibliographic', !contrib.get('bibliographic'));
 
     var doRelatedStub = this.stub(OsfAdapter.prototype, '_doRelatedRequest', () => {
-        return new Ember.RSVP.Promise(resolve => resolve({
+        return Ember.RSVP.resolve({
             data: [
                 // A slight hack-- ingore the value returned from _doRelatedRequest
                 true
             ]
-        }));
+        });
     });
     var addCanonicalStub = this.stub();
     this.stub(node, 'resolveRelationship', () => {
@@ -294,21 +293,22 @@ test('#_updateRelated defers to _doRelatedRequest, pushes the update response in
             assert.ok(addCanonicalStub.calledOnce);
             assert.ok(pushStub.calledOnce);
             assert.ok(normalizeStub.calledOnce);
-        }, () => {
-            // Fail
-            assert.ok(false);
+        }).catch((err) => {
+            assert.ok(false, 'An error occurred while running this test: ' + err);
         });
     });
 });
 
 
 test('#_removeRelated defers to _doRelatedRequest, and removes the records from the parent\'s canonicalState', function(assert) {
+    assert.expect(3);
+
     let node = FactoryGuy.make('node', 'hasInstitution');
     var inst = node.get('affiliatedInstitutions').objectAt(0);
     node.get('affiliatedInstitutions').removeObject(inst);
 
     var doRelatedStub = this.stub(OsfAdapter.prototype, '_doRelatedRequest', () => {
-        return new Ember.RSVP.Promise(resolve => resolve());
+        return Ember.RSVP.resolve();
     });
 
     var rel = node.resolveRelationship('affiliatedInstitutions');
@@ -317,33 +317,32 @@ test('#_removeRelated defers to _doRelatedRequest, and removes the records from 
 
     Ember.run(() => {
         node.save().then(() => {
-            assert.ok(doRelatedStub.calledOnce);
-            assert.ok(removeCanonicalStub.calledOnce);
-            assert.ok(removeCanonicalStub.calledWith(inst));
-        }, () => {
-            // Fail
-            assert.ok(false);
+            assert.ok(doRelatedStub.calledOnce, 'doRelated should be called');
+            assert.ok(removeCanonicalStub.calledOnce, 'removeCanonical should be called');
+            assert.ok(removeCanonicalStub.calledWith(inst._internalModel), 'removeCanonical should be called with institution as an argument');
+        }).catch((err) => {
+            assert.ok(false, 'An error occurred while running this test: ' + err);
         });
     });
 });
 
 test('#_deleteRelated defers to _doRelatedRequest, and unloads the deleted records', function(assert) {
+    assert.expect(2);
     let node = FactoryGuy.make('node', 'hasContributors');
     let contrib = node.get('contributors').objectAt(1);
     node.get('contributors').removeObject(contrib);
 
     var unloadStub = this.stub(contrib, 'unloadRecord');
     var doRelatedStub = this.stub(OsfAdapter.prototype, '_doRelatedRequest', () => {
-        return new Ember.RSVP.Promise(resolve => resolve());
+        return Ember.RSVP.resolve();
     });
 
     Ember.run(() => {
         node.save().then(() => {
             assert.ok(doRelatedStub.calledOnce);
             assert.ok(unloadStub.calledOnce);
-        }, () => {
-            // Fail
-            assert.ok(false);
+        }).catch((err) => {
+            assert.ok(false, 'An error occurred while running this test: ' + err);
         });
     });
 });
@@ -362,7 +361,7 @@ test('#_doRelatedRequest with array', function(assert) {
     Ember.run.end();
 
     var mockAjax = this.stub(adapter, 'ajax', () => {
-        return new Ember.RSVP.Promise(resolve => resolve({}));
+        return Ember.RSVP.resolve({});
     });
     adapter._doRelatedRequest(
         store,
@@ -393,7 +392,7 @@ test('#_doRelatedRequest with single snapshot', function(assert) {
     Ember.run.end();
 
     var mockAjax = this.stub(adapter, 'ajax', () => {
-        return new Ember.RSVP.Promise(resolve => resolve({}));
+        return Ember.RSVP.resolve({});
     });
     adapter._doRelatedRequest(
         store,
@@ -501,7 +500,7 @@ test('#updateRecord handles both dirtyRelationships and the parent record', func
     var handleRelatedStub = this.stub(adapter, '_handleRelatedRequest', () => []);
     // Have to stub apply due to ...arguments usage
     this.stub(JSONAPIAdapter.prototype.updateRecord, 'apply', () => {
-        return new Ember.RSVP.Promise((resolve) => resolve(42));
+        return Ember.RSVP.resolve(42);
     });
 
     var ss = node._internalModel.createSnapshot();
