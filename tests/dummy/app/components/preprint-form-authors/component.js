@@ -34,7 +34,10 @@ export default Ember.Component.extend({
     }),
     actions: {
         addContributor(user, permission, isBibliographic) {
-            this.sendAction('addContributor', user.id, permission, isBibliographic);
+            this.sendAction('addContributor', user.id, 'write', true);
+            this.toggleProperty('permissionToggle');
+            this.toggleProperty('bibliographicToggle');
+            this.toggleProperty('removalToggle');
         },
         addUnregisteredContributor(fullName, email) {
             this.sendAction('addUnregisteredContributor', fullName, email);
@@ -56,6 +59,8 @@ export default Ember.Component.extend({
         removeContributor(contrib) {
             this.sendAction('removeContributor', contrib);
             this.toggleProperty('removalToggle');
+            this.toggleProperty('permissionToggle');
+            this.toggleProperty('bibliographicToggle');
             this.removedSelfAsAdmin(contrib, contrib.get('permission'));
             this.get('contributors').removeObject(contrib);
         },
