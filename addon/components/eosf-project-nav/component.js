@@ -32,7 +32,6 @@ export default Ember.Component.extend({
 
     isProjectContributor: Ember.computed('user', 'node', function() {
         // Is the user a contributor on this node? (returns false if the user is not logged in)
-        // FIXME: This depends on OSF-6702, a known bug.
         let node = this.get('node');
         let userID = this.get('user.id');
 

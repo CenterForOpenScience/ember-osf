@@ -80,10 +80,11 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
         return createdSnapshots.map(s => s.record.save({
             adapterOptions: {
                 nested: true,
-                url: url
+                url: url,
+                requestType: 'create'
             }
         }).then(res => {
-            snapshot.record.resolveRelationship(relationship).addCanonicalRecord(s.record);
+            snapshot.record.resolveRelationship(relationship).addCanonicalRecord(s.record._internalModel);
             return res;
         }));
     },
@@ -103,7 +104,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
     _addRelated(store, snapshot, addedSnapshots, relationship, url, isBulk = false) {
         return this._doRelatedRequest(store, snapshot, addedSnapshots, relationship, url, 'POST', isBulk).then(res => {
             addedSnapshots.forEach(function(s) {
-                snapshot.record.resolveRelationship(relationship).addCanonicalRecord(s.record);
+                snapshot.record.resolveRelationship(relationship).addCanonicalRecord(s.record._internalModel);
             });
             return res;
         });
@@ -125,7 +126,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
             var relatedType = singularize(snapshot.record[relationship].meta().type);
             res.data.forEach(item => {
                 var record = store.push(store.normalize(relatedType, item));
-                snapshot.record.resolveRelationship(relationship).addCanonicalRecord(record);
+                snapshot.record.resolveRelationship(relationship).addCanonicalRecord(record._internalModel);
             });
             return res;
         });
@@ -145,7 +146,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
      **/
     _removeRelated(store, snapshot, removedSnapshots, relationship, url, isBulk = false) {
         return this._doRelatedRequest(store, snapshot, removedSnapshots, relationship, url, 'DELETE', isBulk).then(res => {
-            removedSnapshots.forEach(s => snapshot.record.resolveRelationship(relationship).removeCanonicalRecord(s.record));
+            removedSnapshots.forEach(s => snapshot.record.resolveRelationship(relationship).removeCanonicalRecord(s.record._internalModel));
             return res || [];
         });
     },
