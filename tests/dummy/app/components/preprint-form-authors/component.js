@@ -105,6 +105,30 @@ export default Ember.Component.extend({
             this.set('email', '');
         }
     },
+    didInsertElement: function() {
+        $('#permissions-popover').popover({
+            content: '<dl>' +
+                '<dt>Read</dt>' +
+                    '<dd><ul><li>View preprint</li></ul></dd>' +
+                '<dt>Read + Write</dt>' +
+                    '<dd><ul><li>Read privileges</li> ' +
+                        '<li>Add and configure preprint</li> ' +
+                        '<li>Add and edit content</li></ul></dd>' +
+                '<dt>Administrator</dt><dd><ul>' +
+                    '<li>Read and write privileges</li>' +
+                    '<li>Manage authors</li>' +
+                    '<li>Public-private settings</li></ul></dd>' +
+                '</dl>'
+        });
+        $('#bibliographic-popover').popover({
+            content: 'Only checked authors will be included in preprint citations. ' +
+            'Authors not in the citation can read and modify the preprint as normal.'
+        });
+        $('#author-popover').popover({
+            content: 'Preprints must have at least one registered administrator and one author showing in the citation at all times.  ' +
+            'A registered administrator is a user who has both confirmed their account and has administrator privileges.'
+        });
+    },
     /**
     * If user removes their own admin permissions, many things on the page must become
     * disabled.  Changing the stillAdmin flag to false will remove many of the options
