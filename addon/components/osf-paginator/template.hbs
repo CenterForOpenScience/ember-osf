@@ -1,6 +1,5 @@
 <ul class="pagination pull-right">
     {{#each paginators as |page|}}
-        {{debugger}}
         {{#if (eq page '<')}}
             <li class={{if (eq currentPage 1) 'disabled'}}><a href="#" {{action "previousPage" query}} >{{page}}</a></li>
         {{else if (eq page '>')}}

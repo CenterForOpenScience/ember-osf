@@ -137,15 +137,15 @@ export default Ember.Mixin.create({
          * @return {Promise} Returns a promise that resolves to the updated node
          * with the new contributor relationship.
          */
-        addUnregisteredContributor(fullName, email) {
+        addUnregisteredContributor(fullName, email, permission, isBibliographic) {
             var _this = this;
             var user = this.store.createRecord('user', {
                 fullName: fullName,
                 username: email
             });
             // After user has been saved, add user as a contributor
-            user.save().then(function(user) {
-                _this.send('addContributor', user.id);
+            return user.save().then(function(user) {
+                _this.send('addContributor', user.id, permission, isBibliographic);
             });
         },
         /**

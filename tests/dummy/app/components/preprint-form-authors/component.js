@@ -40,7 +40,13 @@ export default Ember.Component.extend({
             this.toggleProperty('removalToggle');
         },
         addUnregisteredContributor(fullName, email) {
-            this.sendAction('addUnregisteredContributor', fullName, email);
+            let res = this.attrs.addUnregisteredContributor(fullName, email, 'write', true);
+            var _this = this;
+            res.then(function() {
+                _this.toggleProperty('bibliographicToggle');
+                _this.toggleProperty('permissionToggle');
+                _this.toggleProperty('removalToggle');
+            });
             this.set('addState', 'searchView');
             this.set('fullName', '');
             this.set('email', '');
