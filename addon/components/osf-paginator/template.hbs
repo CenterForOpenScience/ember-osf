@@ -1,5 +1,5 @@
 <ul class="pagination pull-right">
     {{#each paginators as |page|}}
-        <li><a href="#" {{action findResults query page}} >{{page}}</a></li>
+        <li><a href="#" {{action "findResults" query page}} >{{page}}</a></li>
     {{/each}}
 </ul>
