@@ -26,19 +26,6 @@ export default Ember.Component.extend({
             return;
         }
     }),
-    searchPages: Ember.computed('totalSearchResults', function() {
-        let total = this.get('totalSearchResults');
-        if (total) {
-            var pages = Math.ceil(total / 10);
-            if (pages > 1) {
-                return [...Array(pages + 1).keys()].slice(1);
-            }
-
-        } else {
-            return;
-        }
-
-    }),
     newSearchResults: Ember.computed('searchResults.[]', 'contributors.[]', 'addState', function() {
         let searchResults = this.get('searchResults');
         let contributors = this.get('contributors');

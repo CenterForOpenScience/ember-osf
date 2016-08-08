@@ -40,11 +40,7 @@
                             No results found.
                         {{/if}}
                         {{#if searchResults}}
-                            <ul class="pagination pull-right">
-                                {{#each searchPages as |page|}}
-                                    <li><a href="#" {{action "findContributors" page}} >{{page}}</a></li>
-                                {{/each}}
-                            </ul>
+                            {{osf-paginator totalSearchResults=totalSearchResults maxPages=5 findResults=findContributors query=query}}
                         {{/if}}
                     {{/if}}
                     {{#if (eq addState 'unregisteredView')}}
