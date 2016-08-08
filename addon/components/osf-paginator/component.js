@@ -4,17 +4,21 @@ import layout from './template';
 export default Ember.Component.extend({
     layout,
     currentPage: 1,
+    pages: Ember.computed('totalSearchResults', function() {
+        let totalSearchResults = this.get('totalSearchResults');
+        return Math.ceil(totalSearchResults / 10);
+    }),
     paginators: Ember.computed('currentPage', 'maxPages', 'totalSearchResults', function() {
         let currentPage = this.get('currentPage') - 1;
         var MAX_PAGES_ON_PAGINATOR = 7;
         var MAX_PAGES_ON_PAGINATOR_SIDE = 5;
         let totalSearchResults = this.get('totalSearchResults');
-        var pages = Math.ceil(totalSearchResults / 10);
+        var pages = this.get('pages');
         var paginator = Ember.A();
 
         if (pages > 1) {
             paginator.pushObject('<');
-            paginator.pushObject('1');
+            paginator.pushObject(1);
         }
 
         if (pages <= MAX_PAGES_ON_PAGINATOR) {
@@ -48,5 +52,17 @@ export default Ember.Component.extend({
             this.sendAction('fetchResults', query, page);
             this.set('currentPage', page);
         },
+        nextPage(query) {
+            var page = this.get('currentPage');
+            if (page < this.get('pages')) {
+                this.send('findResults', query, page + 1);
+            }
+        },
+        previousPage(query) {
+            var page = this.get('currentPage');
+            if (page > 1) {
+                this.send('findResults', query, page - 1);
+            }
+        }
     }
 });

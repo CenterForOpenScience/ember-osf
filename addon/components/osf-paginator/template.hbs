@@ -1,5 +1,14 @@
 <ul class="pagination pull-right">
     {{#each paginators as |page|}}
-        <li><a href="#" {{action "findResults" query page}} >{{page}}</a></li>
+        {{debugger}}
+        {{#if (eq page '<')}}
+            <li class={{if (eq currentPage 1) 'disabled'}}><a href="#" {{action "previousPage" query}} >{{page}}</a></li>
+        {{else if (eq page '>')}}
+            <li class={{if (eq currentPage pages) 'disabled'}} ><a href="#" {{action "nextPage" query}} >{{page}}</a></li>
+        {{else if (eq page '...')}}
+            <li class='disabled'><a>{{page}}</a></li>
+        {{else}}
+            <li class={{if (eq page currentPage) 'active'}} ><a href="#" {{action "findResults" query page}} >{{page}}</a></li>
+        {{/if}}
     {{/each}}
 </ul>
