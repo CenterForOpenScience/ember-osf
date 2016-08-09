@@ -45,42 +45,53 @@
                     {{/if}}
                     {{#if (eq addState 'unregisteredView')}}
                         <h3> Add Unregistered User </h3>
-                            <div class="user-validation">
-                                {{user-validation searchView=(action 'searchView') addUnregisteredContributor=(action 'addUnregisteredContributor')}}
-                            </div>
+                        <div class="user-validation">
+                            {{user-validation searchView=(action 'searchView') addUnregisteredContributor=(action 'addUnregisteredContributor')}}
+                        </div>
                     {{/if}}
                 {{/if}}
             </div>
         </div>
     </div>
     <div class="col-xs-12 col-sm-6">
-        <h2 class="header-inline"> Authors </h2> <span>  <i class="fa fa-question-circle permission-info"
-                                    data-toggle="popover"
-                                    data-title="Author Information"
-                                    data-trigger="hover"
-                                    data-html="true"
-                                    id="author-popover"
-                                ></i> </span>
+        <h2 class="header-inline"> Authors </h2>
+        <span>
+            <i class="fa fa-question-circle permission-info"
+                data-toggle="popover"
+                data-title="Author Information"
+                data-trigger="hover"
+                data-html="true"
+                id="author-popover">
+            </i>
+        </span>
         <p class="drag-drop"> Drag and drop authors to change listing order. </p>
         <div class="panel-body">
             <table class="table">
                 <tr>
                     <th> </th>
                     <th> Name </th>
-                    <th> Permissions <span>  <i class="fa fa-question-circle permission-info"
-                                                data-toggle="popover"
-                                                data-title="Permission Information"
-                                                data-trigger="hover"
-                                                data-html="true"
-                                                id="permissions-popover"
-                                            ></i> </span> </th>
-                    <th class="bib-padding"> In Citation
-                        <span>  <i class="fa fa-question-circle permission-info"
+                    <th>
+                        Permissions
+                        <span>
+                            <i class="fa fa-question-circle permission-info"
+                                data-toggle="popover"
+                                data-title="Permission Information"
+                                data-trigger="hover"
+                                data-html="true"
+                                id="permissions-popover">
+                            </i>
+                        </span>
+                    </th>
+                    <th class="bib-padding">
+                        In Citation
+                        <span>
+                            <i class="fa fa-question-circle permission-info"
                                 data-toggle="popover"
                                 data-title="Citation Information"
                                 data-trigger="hover"
                                 data-html="true"
-                                id="bibliographic-popover"></i>
+                                id="bibliographic-popover">
+                            </i>
                         </span>
                     </th>
                     <th> </th>

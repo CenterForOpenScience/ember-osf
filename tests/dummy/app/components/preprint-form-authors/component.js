@@ -37,7 +37,7 @@ export default Ember.Component.extend({
         return searchResults.filter((result) => !Ember.A(userIds).contains(result.id));
     }),
     actions: {
-        addContributor(user, permission, isBibliographic) {
+        addContributor(user) {
             this.sendAction('addContributor', user.id, 'write', true);
             this.toggleProperty('permissionToggle');
             this.toggleProperty('bibliographicToggle');
