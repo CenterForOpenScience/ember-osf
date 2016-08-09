@@ -7,6 +7,7 @@ export default Ember.Controller.extend(CommentableMixin, TaggableMixin, NodeActi
     toast: Ember.inject.service(),
     propertiesVisible: false,
     isSaving: false,
+
     actions: {
         toggleEditNode() {
             this.toggleProperty('propertiesVisible');

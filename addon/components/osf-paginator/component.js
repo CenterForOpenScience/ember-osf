@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import layout from './template';
 
+// Ember component that is very similar to osf/website/static/js/paginator.js
 export default Ember.Component.extend({
     layout,
     currentPage: 1,
@@ -8,7 +9,7 @@ export default Ember.Component.extend({
         let totalSearchResults = this.get('totalSearchResults');
         return Math.ceil(totalSearchResults / 10);
     }),
-    paginators: Ember.computed('currentPage', 'maxPages', 'pages', function() {
+    paginators: Ember.computed('currentPage', 'pages', function() {
         let currentPage = this.get('currentPage') - 1;
         var MAX_PAGES_ON_PAGINATOR = 7;
         var MAX_PAGES_ON_PAGINATOR_SIDE = 5;
@@ -25,19 +26,19 @@ export default Ember.Component.extend({
                 paginator.pushObject(i + 1);
             }
         } else if (currentPage < MAX_PAGES_ON_PAGINATOR_SIDE - 1) {
-            for (var i = 1; i < MAX_PAGES_ON_PAGINATOR_SIDE; i++) {
-                paginator.pushObject(i + 1);
+            for (var j = 1; j < MAX_PAGES_ON_PAGINATOR_SIDE; j++) {
+                paginator.pushObject(j + 1);
             }
             paginator.pushObject('...');
         } else if (currentPage > pages - MAX_PAGES_ON_PAGINATOR_SIDE) {
             paginator.pushObject('...');
-            for (var i = pages - MAX_PAGES_ON_PAGINATOR_SIDE; i < pages - 1; i++) {
-                paginator.pushObject(i + 1);
+            for (var k = pages - MAX_PAGES_ON_PAGINATOR_SIDE; k < pages - 1; k++) {
+                paginator.pushObject(k + 1);
             }
         } else {
             paginator.pushObject('...');
-            for (var i = currentPage - 1; i <= currentPage + 1; i++) {
-                paginator.pushObject(i + 1);
+            for (var l = currentPage - 1; l <= currentPage + 1; l++) {
+                paginator.pushObject(l + 1);
             }
             paginator.pushObject('...');
         }

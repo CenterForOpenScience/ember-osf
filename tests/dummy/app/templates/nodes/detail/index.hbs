@@ -86,8 +86,8 @@
 
     {{log-detail node-logs=model.logs}}
 
-    <h2>Contributors</h2>
-    <br>
+    <h2>Contributors</h2> {{contrib-manager contributors=model.contributors addContributor=(action 'addContributor') removeContributor=(action 'removeContributor') editContributors=(action 'updateContributors') }}
+
 
     <hr>
     <h2>Components</h2>
