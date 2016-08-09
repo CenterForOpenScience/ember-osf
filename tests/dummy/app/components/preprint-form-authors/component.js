@@ -39,9 +39,7 @@ export default Ember.Component.extend({
             this.toggleProperty('bibliographicToggle');
             this.toggleProperty('removalToggle');
         },
-        addUnregisteredContributor() {
-            var fullName = $('.user-validation input')[0].value;
-            var email = $('.user-validation input')[1].value;
+        addUnregisteredContributor(fullName, email) {
             let res = this.attrs.addUnregisteredContributor(fullName, email, 'write', true);
             var _this = this;
             res.then(function() {

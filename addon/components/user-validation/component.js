@@ -29,5 +29,15 @@ const Validations = buildValidations({
 export default Ember.Component.extend(Validations, {
     layout,
     fullName: null,
-    username: null
+    username: null,
+    isFormValid: Ember.computed.alias('validations.isValid'),
+    actions: {
+        searchView() {
+            this.sendAction('searchView');
+        },
+        addUnregisteredContributor(fullName, email) {
+            this.sendAction('addUnregisteredContributor', fullName, email);
+
+        }
+    }
 });
