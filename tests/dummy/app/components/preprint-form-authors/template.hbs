@@ -45,21 +45,13 @@
                     {{/if}}
                     {{#if (eq addState 'unregisteredView')}}
                         <h3> Add Unregistered User </h3>
-                        <div>
-                            <div class='unregistered-name'>
-                                <label>Full Name</label>
-                                {{input class="form-control input" value=fullName}}
+                            <div class="user-validation">
+                                {{user-validation}}
                             </div>
-                            <div class='unregistered-email'>
-                                <label>Email</label>
-                                {{input class="form-control input" value=email}}
-                            </div>
-                        </div>
-
                         <p class="text-muted"> We will notifiy the user that they have been added to your preprint. </p>
                         <div class="pull-right unregistered-submit">
                             <button {{action "searchView"}} class="btn btn-default btn-small"> Cancel </button>
-                            <button {{action 'addUnregisteredContributor' fullName email}} class="btn btn-success btn-small"> Add </button>
+                            <button {{action 'addUnregisteredContributor'}} class="btn btn-success btn-small"> Add </button>
                         </div>
                     {{/if}}
                 {{/if}}
