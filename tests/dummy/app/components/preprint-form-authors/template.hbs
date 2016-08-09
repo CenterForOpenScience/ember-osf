@@ -39,7 +39,7 @@
                         {{else}}
                             No results found.
                         {{/if}}
-                        {{#if searchResults}}
+                        {{#if (gt pages 1)}}
                             {{osf-paginator totalSearchResults=totalSearchResults maxPages=5 fetchResults=findContributors query=query}}
                         {{/if}}
                     {{/if}}
