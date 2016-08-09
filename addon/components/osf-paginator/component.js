@@ -8,7 +8,7 @@ export default Ember.Component.extend({
         let totalSearchResults = this.get('totalSearchResults');
         return Math.ceil(totalSearchResults / 10);
     }),
-    paginators: Ember.computed('currentPage', 'maxPages', function() {
+    paginators: Ember.computed('currentPage', 'maxPages', 'pages', function() {
         let currentPage = this.get('currentPage') - 1;
         var MAX_PAGES_ON_PAGINATOR = 7;
         var MAX_PAGES_ON_PAGINATOR_SIDE = 5;
