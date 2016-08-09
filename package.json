@@ -40,7 +40,6 @@
     "ember-cli-template-lint": "0.4.7",
     "ember-cli-uglify": "^1.2.0",
     "ember-collection": "1.0.0-alpha.5",
-    "ember-cp-validations": "2.9.3",
     "ember-data": "^2.3.0",
     "ember-data-factory-guy": "^2.6.1",
     "ember-disable-prototype-extensions": "^1.0.0",

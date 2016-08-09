@@ -7,13 +7,6 @@ export default Ember.Controller.extend(CommentableMixin, TaggableMixin, NodeActi
     toast: Ember.inject.service(),
     propertiesVisible: false,
     isSaving: false,
-    canEdit: Ember.computed('isAdmin', 'isRegistration', function() {
-        return this.get('isAdmin') && !(this.get('model').get('registration'));
-    }),
-    isAdmin: Ember.computed(function() {
-        return this.get('model').get('currentUserPermissions').indexOf('admin') >= 0;
-    }),
-    searchResults: [],
     actions: {
         toggleEditNode() {
             this.toggleProperty('propertiesVisible');
@@ -26,25 +19,6 @@ export default Ember.Controller.extend(CommentableMixin, TaggableMixin, NodeActi
                     this.get('toast').success('Node updated successfully');
                 })
                 .catch(() => this.set('isSaving', false));
-        },
-        findContributors(query, page) {
-            var _this = this;
-            _this.store.query('user', { filter: { full_name: query }, page: page }).then(function(contributors) {
-                _this.set('searchResults', contributors);
-                return contributors;
-            });
-        },
-        addContributor(userId, permission, isBibliographic) {
-            var node = this.get('_node');
-            var contributor = this.store.createRecord('contributor', {
-                id: `${node.get('id')}-${userId}`,
-                permission: permission,
-                bibliographic: isBibliographic
-            });
-            node.get('contributors').pushObject(contributor);
-            this.get('contributors').pushObject(contributor);
-            return node.save();
-
         }
     }
 });
