@@ -138,14 +138,13 @@ export default Ember.Mixin.create({
          * with the new contributor relationship.
          */
         addUnregisteredContributor(fullName, email, permission, isBibliographic) {
-            var _this = this;
             var user = this.store.createRecord('user', {
                 fullName: fullName,
                 username: email
             });
             // After user has been saved, add user as a contributor
-            return user.save().then(function(user) {
-                _this.send('addContributor', user.id, permission, isBibliographic);
+            return user.save().then(user => {
+                this.send('addContributor', user.id, permission, isBibliographic);
             });
         },
         /**
