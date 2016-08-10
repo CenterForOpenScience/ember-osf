@@ -1,7 +1,26 @@
 import Ember from 'ember';
 import layout from './template';
 
-// Ember component that is very similar to osf/website/static/js/paginator.js
+/**
+ * @module ember-osf
+ * @submodule components
+ */
+
+/**
+ * OSF Paginator adapted from osf/website/static/js/paginator.js
+ *
+ * Sample usage:
+ * ```handlebars
+ * {{osf-paginator
+ *   totalSearchResults=totalSearchResults
+ *   fetchResults=(action 'fetchResults')
+ *   query=query}}
+ * ```
+ * @class osf-paginator
+ * @param {integer} totalSearchResults Number of total search results to be paginated
+ * @param {action} fetchResults - action for fetching other pages of results
+ * @param {string} query - Query needed for fetchResults action.
+ */
 export default Ember.Component.extend({
     layout,
     currentPage: 1,
