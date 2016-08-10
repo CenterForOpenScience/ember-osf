@@ -49,8 +49,10 @@ export default Ember.Component.extend({
     }),
     actions: {
         findResults(query, page) {
-            this.sendAction('fetchResults', query, page);
-            this.set('currentPage', page);
+            this.attrs.fetchResults(query, page).then(() => {
+                this.set('currentPage', page);
+            });
+
         },
         nextPage(query) {
             var page = this.get('currentPage');
