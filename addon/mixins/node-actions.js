@@ -126,9 +126,7 @@ export default Ember.Mixin.create({
                 bibliographic: isBibliographic
             });
             node.get('contributors').pushObject(contributor);
-            return node.save().then(() => {
-                return contributor;
-            });
+            return node.save().then(() => contributor);
         },
         /**
          * Add unregistered contributor to a node.  Creates a user and then adds that user as a contributor.
