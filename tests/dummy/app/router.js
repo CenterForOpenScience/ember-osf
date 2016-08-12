@@ -63,6 +63,9 @@ Router.map(function() {
     this.route('prereg');
     this.route('allnodes');
     this.route('usernodes');
+    this.route('guid', {
+        path: '/:guid'
+    });
 });
 
 export default Router;

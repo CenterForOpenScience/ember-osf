@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 
-import OsfModel from './osf-model';
+import GuidReferent from './guid-referent';
 
 /**
  * @module ember-osf
@@ -17,7 +17,7 @@ import OsfModel from './osf-model';
  * * https://api.osf.io/v2/docs/#!/v2/Institution_User_List_GET
  * @class User
  */
-export default OsfModel.extend({
+export default GuidReferent.extend({
     fullName: DS.attr('string'),
     givenName: DS.attr('string'),
     middleNames: DS.attr(),

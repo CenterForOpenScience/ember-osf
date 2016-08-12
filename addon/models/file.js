@@ -1,6 +1,6 @@
 import DS from 'ember-data';
 
-import OsfModel from './osf-model';
+import GuidReferent from './guid-referent';
 import FileItemMixin from 'ember-osf/mixins/file-item';
 
 /**
@@ -20,7 +20,7 @@ import FileItemMixin from 'ember-osf/mixins/file-item';
  * * https://api.osf.io/v2/docs/#!/v2/Registration_File_Detail_GET
  * @class File
  */
-export default OsfModel.extend(FileItemMixin, {
+export default GuidReferent.extend(FileItemMixin, {
     name: DS.attr('string'),
     kind: DS.attr('string'),
     guid: DS.attr('string'),

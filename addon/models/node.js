@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 
-import OsfModel from './osf-model';
+import GuidReferent from './guid-referent';
 
 import FileItemMixin from 'ember-osf/mixins/file-item';
 
@@ -22,7 +22,7 @@ import FileItemMixin from 'ember-osf/mixins/file-item';
  * * https://api.osf.io/v2/docs/#!/v2/User_Nodes_GET
  * @class Node
  */
-export default OsfModel.extend(FileItemMixin, {
+export default GuidReferent.extend(FileItemMixin, {
     title: DS.attr('string'),
     description: DS.attr('string'),
     category: DS.attr('string'),
