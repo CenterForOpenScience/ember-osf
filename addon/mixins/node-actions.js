@@ -115,8 +115,7 @@ export default Ember.Mixin.create({
          * @param {String} userId ID of user that will be a contributor on the node
          * @param {String} permission User permission level. One of "read", "write", or "admin". Default: "write".
          * @param {Boolean} isBibliographic Whether user will be included in citations for the node. "default: true"
-         * @return {Promise} Returns a promise that resolves to the updated node
-         * with the new contributor relationship.
+         * @return {Promise} Returns a promise that resolves to created contributor
          */
         addContributor(userId, permission, isBibliographic) {
             var node = this.get('_node');
@@ -134,8 +133,7 @@ export default Ember.Mixin.create({
          * @method addUnregisteredContributor
          * @param {String} fullName Full name of user
          * @param {String} email User's email
-         * @return {Promise} Returns a promise that resolves to the updated node
-         * with the new contributor relationship.
+         * @return {Promise} Returns a promise that resolves to the created contributor
          */
         addUnregisteredContributor(fullName, email, permission, isBibliographic) {
             var user = this.store.createRecord('user', {
@@ -144,7 +142,14 @@ export default Ember.Mixin.create({
             });
             // After user has been saved, add user as a contributor
             return user.save().then(user => {
-                this.send('addContributor', user.id, permission, isBibliographic);
+                var node = this.get('_node');
+                var contributor = this.store.createRecord('contributor', {
+                    id: `${node.get('id')}-${user.id}`,
+                    permission: permission,
+                    bibliographic: isBibliographic
+                });
+                node.get('contributors').pushObject(contributor);
+                return node.save().then(() => contributor);
             });
         },
         /**
