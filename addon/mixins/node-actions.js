@@ -197,9 +197,10 @@ export default Ember.Mixin.create({
          * @return {Promise} Returns a promise that resolves to the updated contributor.
          */
         reorderContributors(contributor, newIndex) {
-            var node = this.get('_node');
             contributor.set('index', newIndex);
-            return node.save();
+            //Node.save() or contributor.save(). Contributor.save() allows us to catch potential
+            // errors thrown and prevents flashing in the UI.
+            return contributor.save();
         },
         /**
          * Add a child (component) to a node.
