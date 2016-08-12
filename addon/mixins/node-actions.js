@@ -198,7 +198,6 @@ export default Ember.Mixin.create({
          * @return {Promise} Returns a promise that resolves to the updated contributor.
          */
         updateContributor(contributor, newPermission, newBibliographic) {
-            var node = this.get('_node');
             if (newPermission !== '') {
                 contributor.set('permission', newPermission);
             }
