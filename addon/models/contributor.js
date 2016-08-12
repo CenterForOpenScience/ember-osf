@@ -24,5 +24,6 @@ export default OsfModel.extend({
         return this.get('id').split('-').shift();
     }),
     users: DS.belongsTo('user'),
-    unregisteredContributor: DS.attr('string')
+    unregisteredContributor: DS.attr('string'),
+    index: DS.attr('number')
 });

@@ -189,6 +189,19 @@ export default Ember.Mixin.create({
             return node.save();
         },
         /**
+         * Reorder contributors on a node
+         *
+         * @method reorderContributors
+         * @param {Object} contributor Contributor record to be modified
+         * @param {Integer} newIndex Contributor's new position in the list
+         * @return {Promise} Returns a promise that resolves to the updated contributor.
+         */
+        reorderContributors(contributor, newIndex) {
+            var node = this.get('_node');
+            contributor.set('index', newIndex);
+            return node.save();
+        },
+        /**
          * Add a child (component) to a node.
          *
          * @method addChild
