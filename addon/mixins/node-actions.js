@@ -126,7 +126,7 @@ export default Ember.Mixin.create({
                 bibliographic: isBibliographic
             });
             node.get('contributors').pushObject(contributor);
-            return node.save();
+            return node.save(() => contributor);
         },
         /**
          * Remove a contributor from a node
@@ -181,7 +181,7 @@ export default Ember.Mixin.create({
                 description: description || null
             });
             node.get('children').pushObject(child);
-            return node.save();
+            return node.save(() => child);
         },
         /**
          * Add a node link (pointer) to another node
@@ -197,7 +197,7 @@ export default Ember.Mixin.create({
                 target: targetNodeId
             });
             node.get('nodeLinks').pushObject(nodeLink);
-            return node.save();
+            return node.save(() => nodeLink);
         },
         /**
          * Remove a node link (pointer) to another node
