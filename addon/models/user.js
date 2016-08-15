@@ -24,6 +24,8 @@ export default OsfModel.extend({
     familyName: DS.attr('string'),
 
     dateRegistered: DS.attr('date'),
+    // email
+    username: DS.attr('string'),
 
     nodes: DS.hasMany('nodes'),
     registrations: DS.hasMany('registrations'),

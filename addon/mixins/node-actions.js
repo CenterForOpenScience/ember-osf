@@ -128,6 +128,31 @@ export default Ember.Mixin.create({
             return node.save().then(() => contributor);
         },
         /**
+         * Add unregistered contributor to a node.  Creates a user and then adds that user as a contributor.
+         *
+         * @method addUnregisteredContributor
+         * @param {String} fullName Full name of user
+         * @param {String} email User's email
+         * @return {Promise} Returns a promise that resolves to the created contributor
+         */
+        addUnregisteredContributor(fullName, email, permission, isBibliographic) {
+            var user = this.store.createRecord('user', {
+                fullName: fullName,
+                username: email
+            });
+            // After user has been saved, add user as a contributor
+            return user.save().then(user => {
+                var node = this.get('_node');
+                var contributor = this.store.createRecord('contributor', {
+                    id: `${node.get('id')}-${user.id}`,
+                    permission: permission,
+                    bibliographic: isBibliographic
+                });
+                node.get('contributors').pushObject(contributor);
+                return node.save().then(() => contributor);
+            });
+        },
+        /**
          * Remove a contributor from a node
          *
          * @method removeContributor
@@ -162,6 +187,19 @@ export default Ember.Mixin.create({
                 contributorMap[contributorId].set('bibliographic', bibliographicChanges[contributorId]);
             }
             return node.save();
+        },
+        /**
+         * Reorder contributors on a node
+         *
+         * @method reorderContributors
+         * @param {Object} contributor Contributor record to be modified
+         * @param {Integer} newIndex Contributor's new position in the list
+         * @return {Promise} Returns a promise that resolves to the updated contributor.
+         */
+        reorderContributors(contributor, newIndex) {
+            contributor.set('index', newIndex);
+            //Node.save() or contributor.save(). Contributor.save() allows us to catch potential errors thrown.
+            return contributor.save();
         },
         /**
          * Add a child (component) to a node.
