@@ -113,9 +113,9 @@ export default Ember.Mixin.create({
          *
          * @method addContributor
          * @param {String} userId ID of user that will be a contributor on the node
-         * @param {String} permission User permission level. One of 'read', 'write', or 'admin'. Default: 'write'.
-         * @param {Boolean} isBibliographic Whether user will be included in citations for the node. 'default: true'
-         * @return {Promise} Returns a promise that resolves to created contributor
+         * @param {String} permission User permission level. One of "read", "write", or "admin". Default: "write".
+         * @param {Boolean} isBibliographic Whether user will be included in citations for the node. "default: true"
+         * @return {Promise} Returns a promise that resolves to the newly created contributor object.
          */
         addContributor(userId, permission, isBibliographic) {
             var node = this.get('_node');
@@ -207,13 +207,26 @@ export default Ember.Mixin.create({
             return contributor.save();
         },
         /**
+         * Reorder contributors on a node
+         *
+         * @method reorderContributors
+         * @param {Object} contributor Contributor record to be modified
+         * @param {Integer} newIndex Contributor's new position in the list
+         * @return {Promise} Returns a promise that resolves to the updated contributor.
+         */
+        reorderContributors(contributor, newIndex) {
+            contributor.set('index', newIndex);
+            //Node.save() or contributor.save(). Contributor.save() allows us to catch potential errors thrown.
+            return contributor.save();
+        },
+        /**
          * Add a child (component) to a node.
          *
          * @method addChild
          * @param {String} title Title for the child
          * @param {String} description Description for the child
          * @param {String} category Category for the child
-         * @return {Promise} Returns a promise that resolves to the updated node with the new child relationship.
+         * @return {Promise} Returns a promise that resolves to the newly created child node.
          */
         addChild(title, description, category) {
             var node = this.get('_node');
@@ -223,15 +236,14 @@ export default Ember.Mixin.create({
                 description: description || null
             });
             node.get('children').pushObject(child);
-            return node.save();
+            return node.save().then(() => child);
         },
         /**
          * Add a node link (pointer) to another node
          *
          * @method addNodeLink
          * @param {String} targetNodeId ID of the node for which you wish to create a pointer
-         * @return {Promise} Returns a promise that resolves to the updated node with the
-         * newly added nodeLink relationship
+         * @return {Promise} Returns a promise that resolves to model for the newly created NodeLink
          */
         addNodeLink(targetNodeId) {
             var node = this.get('_node');
@@ -239,7 +251,7 @@ export default Ember.Mixin.create({
                 target: targetNodeId
             });
             node.get('nodeLinks').pushObject(nodeLink);
-            return node.save();
+            return node.save().then(() => nodeLink);
         },
         /**
          * Remove a node link (pointer) to another node
