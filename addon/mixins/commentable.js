@@ -33,7 +33,7 @@ export default Ember.Mixin.create({
          * Action that adds a new comment targeting the model by GUID.
          * @method addComment
          * @param {String} text The text of the new comment
-         * @return {Promise}
+         * @return {Promise} The newly created comment
          */
         addComment(text) {
             // Assumes that the page's model hook is the target for the comment
@@ -46,7 +46,7 @@ export default Ember.Mixin.create({
                 targetType: Ember.Inflector.inflector.pluralize(model.constructor.modelName)
             });
             commentsRel.pushObject(comment);
-            return model.save();
+            return model.save().then(() => comment);
         },
         /**
          * Action that edits an existing comment.
