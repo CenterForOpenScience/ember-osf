@@ -125,7 +125,7 @@ export default Ember.Mixin.create({
                 bibliographic: isBibliographic
             });
             node.get('contributors').pushObject(contributor);
-            return node.save().then(() => contributor);
+            return node.save().then(() => contributor.save());
         },
         /**
          * Add unregistered contributor to a node.  Creates a user and then adds that user as a contributor.
@@ -149,7 +149,7 @@ export default Ember.Mixin.create({
                     bibliographic: isBibliographic
                 });
                 node.get('contributors').pushObject(contributor);
-                return node.save().then(() => contributor);
+                return node.save().then(() => contributor.save());
             });
         },
         /**
@@ -187,6 +187,24 @@ export default Ember.Mixin.create({
                 contributorMap[contributorId].set('bibliographic', bibliographicChanges[contributorId]);
             }
             return node.save();
+        },
+        /**
+         * Update a single contributor on a node.
+         *
+         * @method updateContributor
+         * @param {Contributor[]} contributor Contributor record to be modified
+         * @param {Object} newPermission New contributor permission
+         * @param {Object} newBibliographic New contributor bibliographic status
+         * @return {Promise} Returns a promise that resolves to the updated contributor.
+         */
+        updateContributor(contributor, newPermission, newBibliographic) {
+            if (newPermission !== '') {
+                contributor.set('permission', newPermission);
+            }
+            if (newBibliographic !== '') {
+                contributor.set('bibliographic', newBibliographic);
+            }
+            return contributor.save();
         },
         /**
          * Reorder contributors on a node
