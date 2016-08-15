@@ -198,8 +198,7 @@ export default Ember.Mixin.create({
          */
         reorderContributors(contributor, newIndex) {
             contributor.set('index', newIndex);
-            //Node.save() or contributor.save(). Contributor.save() allows us to catch potential
-            // errors thrown and prevents flashing in the UI.
+            //Node.save() or contributor.save(). Contributor.save() allows us to catch potential errors thrown.
             return contributor.save();
         },
         /**
