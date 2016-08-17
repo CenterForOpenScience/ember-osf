@@ -33,6 +33,6 @@ export default Ember.Mixin.create(UnauthenticatedRouteMixin, {
         }
 
         return this.get('session').authenticate('authenticator:osf-token', accessToken)
-            .then(() => this.transitionTo('index'));
+            .catch(err => console.log('Authentication failed: ', err));
     }
 });
