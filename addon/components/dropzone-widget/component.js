@@ -61,7 +61,7 @@ export default Ember.Component.extend({
         // Set dropzone options
         drop.options = Ember.merge(drop.options, dropzoneOptions);
 
-        // Attach dropzone event listeners
+        // Attach dropzone event listeners: http://www.dropzonejs.com/#events
         drop.events.forEach(event => {
             if (typeof this.get(event) === 'function') {
                 drop.on(event, (...args) => this.get(event)(this, drop, ...args));
