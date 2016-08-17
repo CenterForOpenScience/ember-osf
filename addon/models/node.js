@@ -139,5 +139,87 @@ export default OsfModel.extend(FileItemMixin, {
         );
         this.set('_dirtyRelationships.contributors.remove', []);
         return promise;
-    }
+    },
+
+    addChild(title, description, category) {
+        let child = this.store.createRecord('node', {
+            title: title,
+            category: category || 'project',
+            description: description || null
+        });
+
+        return this.store.adapterFor('node').ajax(this.get('links.relationships.children.links.related.href'), 'POST', {
+            data: child.serialize(),
+        }).then(resp => {
+            child.unloadRecord();
+            this.store.pushPayload(resp);
+            let created = this.store.peekRecord('node', resp.data.id);
+            this.get('children').pushObject(created);
+            return created;
+        });
+    },
+
+    addUnregisteredContributor(fullName, email, permission, isBibliographic, index=Number.MAX_SAFE_INTEGER) {
+        let user = this.store.createRecord('user', {
+            fullName: fullName,
+            username: email
+        });
+        // After user has been saved, add user as a contributor
+        return user.save().then(user => this.addContributor(user.id, permission, isBibliographic, index));
+
+    },
+
+    addContributor(userId, permission, isBibliographic, index=Number.MAX_SAFE_INTEGER) {
+        let contrib = this.store.createRecord('contributor', {
+            // Original code used the line below.
+            // Serialize does something weird I guess
+            // id: `${this.get('id')}-${userId}`,
+            id: userId,
+            index: index,
+            permission: permission,
+            bibliographic: isBibliographic,
+        });
+
+        return this.store.adapterFor('contributor').ajax(this.get('links.relationships.contributors.links.related.href'), 'POST', {
+            data: contrib.serialize()
+        }).then(resp => {
+            contrib.unloadRecord();
+            this.store.pushPayload(resp);
+            let created = this.store.peekRecord('contributor', resp.data.id);
+            this.get('contributors').pushObject(created);
+            return created;
+        });
+    },
+
+    updateContributor(contributor, permissions, bibliographic) {
+        if (permissions === '')
+            contributor.set('permission', permissions);
+        if (bibliographic === '')
+            contributor.set('bibliographic', bibliographic);
+
+        return contributor.save();
+    },
+
+    updateContributors(contributors, permissionsChanges, bibliographicChanges) {
+        let payload = contributors
+            .filter(contrib => contrib.id in permissionsChanges || contrib.id in bibliographicChanges)
+            .map(contrib => {
+                if (contrib.id in permissionsChanges)
+                    contrib.set('permission', permissionsChanges[contrib.id]);
+
+                if (contrib.id in bibliographicChanges)
+                    contrib.set('bibliographic', bibliographicChanges[contrib.id]);
+
+                return contrib.serialize().data;
+            });
+
+        return this.store.adapterFor('contributor').ajax(this.get('links.relationships.contributors.links.related.href'), 'PATCH', {
+            data: {data: payload},
+            isBulk: true,
+        }).then(resp => {
+            this.store.pushPayload(resp);
+            return contributors;
+        });
+    },
+
 });
