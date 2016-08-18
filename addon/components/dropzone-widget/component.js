@@ -1,4 +1,6 @@
 import Ember from 'ember';
+import config from 'ember-get-config';
+
 import layout from './template';
 
 /**
@@ -39,10 +41,13 @@ export default Ember.Component.extend({
 
         // Set osf session header
         let headers = {};
-        this.get('session').authorize('authorizer:osf-token', (headerName, content) => {
+
+        let authType = config['ember-simple-auth'].authorizer;
+        this.get('session').authorize(authType, (headerName, content) => {
             headers[headerName] = content;
         });
         dropzoneOptions.headers = headers;
+        dropzoneOptions.withCredentials = (config.authorizationType === 'cookie');
 
         // Attach preUpload to addedfile event
         drop.on('addedfile', file => {
@@ -56,7 +61,7 @@ export default Ember.Component.extend({
         // Set dropzone options
         drop.options = Ember.merge(drop.options, dropzoneOptions);
 
-        // Attach dropzone event listeners
+        // Attach dropzone event listeners: http://www.dropzonejs.com/#events
         drop.events.forEach(event => {
             if (typeof this.get(event) === 'function') {
                 drop.on(event, (...args) => this.get(event)(this, drop, ...args));
