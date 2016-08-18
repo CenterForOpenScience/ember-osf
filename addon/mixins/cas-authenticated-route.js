@@ -7,7 +7,7 @@ import { getAuthUrl } from 'ember-osf/utils/auth';
  */
 
 /**
- * Replacement for Ember-simple-auth route mixin. Instead of redirecting to an internal route,
+ * Replacement for Ember-simple-auth AuthenticatedRouteMixin. Instead of redirecting to an internal route,
  *   this mixin redirects to CAS login URL, and brings the user back to the last requested page afterwards
  *
  * For OAuth this is done via the state parameter, and for cookies this is done via the service parameter. (TODO: Need a mixin that detects this!)

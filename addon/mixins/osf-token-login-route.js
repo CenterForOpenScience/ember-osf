@@ -20,6 +20,9 @@ import { getTokenFromHash } from 'ember-osf/utils/auth';
 export default Ember.Mixin.create({
     session: Ember.inject.service(),
     beforeModel() {
+        // TODO: Should this check for resolution of a promise?
+        this._super(...arguments);
+
         var accessToken;
         if (config.OSF.isLocal) {
             accessToken = config.OSF.accessToken;
@@ -30,9 +33,6 @@ export default Ember.Mixin.create({
             }
             window.location.hash = '';
         }
-
-        // TODO: Should this check for resolution of a promise?
-        this._super(...arguments);
 
         return this.get('session').authenticate('authenticator:osf-token', accessToken)
             .catch(err => console.log('Authentication failed: ', err));
