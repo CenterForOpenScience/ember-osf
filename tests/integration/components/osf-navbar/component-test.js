@@ -12,16 +12,6 @@ test('it renders', function(assert) {
     this.render(hbs`{{osf-navbar}}`);
 
     //assert.equal(this.$().text().trim(), '');
-
-
-    // Template block usage:
-    this.render(hbs`
-        {{#osf-navbar}}
-            template block text
-        {{/osf-navbar}}
-    `);
-
-    //assert.equal(this.$().text().trim(), 'template block text');
     // TODO: Implement tests that check a variety of different conditionals used by navbar to control what is displayed
     assert.ok(true);
 });
