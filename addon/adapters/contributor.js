@@ -19,10 +19,10 @@ export default OsfAdapter.extend({
                     node._internalModel.createSnapshot(),
                     'contributors'
                 );
-		// Needed for Ember Data to update the inverse record's (the node's) relationship
+                // Needed for Ember Data to update the inverse record's (the node's) relationship
                 return `${base}?embed=node`;
             } else {
-                // fail?
+                throw new Error('Trying to add a contributor to a Node that hasn\'t been loaded into the store');
             }
         }
         return this._super(...arguments);

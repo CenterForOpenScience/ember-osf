@@ -28,6 +28,6 @@ export default OsfModel.extend({
     index: DS.attr('number'),
 
     node: DS.belongsTo('node', {
-	inverse: 'contributors'
+        inverse: 'contributors'
     })
 });
