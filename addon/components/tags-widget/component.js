@@ -52,13 +52,13 @@ export default Ember.Component.extend({
         });
     }),
 
-    _doPopulateTags: Ember.observer('tags', function() {
+    didRender() {
         // Rerender the list of tags whenever the node model changes. Useful if node.tags is not defined when page loads.
         // Provide a default value in case tags weren't defined when component first rendered
         this.$().importTags('');
         let tags = this.get('tags') || [];
         this.$().importTags(tags.join(', '));
-    }),
+    },
 
     actions: {
         addATag(tag) {
