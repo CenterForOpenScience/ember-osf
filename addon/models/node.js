@@ -163,10 +163,11 @@ export default OsfModel.extend(FileItemMixin, {
 
     addContributor(userId, permission, isBibliographic, index = Number.MAX_SAFE_INTEGER) {
         let contrib = this.store.createRecord('contributor', {
-            id: `${this.get('id')}-${userId}`,
             index: index,
             permission: permission,
-            bibliographic: isBibliographic
+            bibliographic: isBibliographic,
+            nodeId: this.get('id'),
+            userId: userId
         });
         return contrib.save();
     },
