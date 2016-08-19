@@ -36,7 +36,7 @@ export default Ember.Component.extend({
         let userID = this.get('user.id');
 
         return DS.PromiseObject.create({
-            promise: node.isContributor(userID).then(() => true, () => false)
+            promise: node.isContributor(userID)
         });
     }),
 

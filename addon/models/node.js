@@ -108,7 +108,7 @@ export default OsfModel.extend(FileItemMixin, {
             return new Ember.RSVP.Promise((resolve) => resolve(false));
         }
         var contribId = `${this.get('id')}-${userId}`;
-        return this.store.findRecord('contributor', contribId);
+        return this.store.findRecord('contributor', contribId).then(() => true, () => false);
     },
 
     save() {
