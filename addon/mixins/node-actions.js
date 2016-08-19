@@ -104,7 +104,7 @@ export default Ember.Mixin.create({
          * @param {Boolean} isBibliographic Whether user will be included in citations for the node. "default: true"
          * @return {Promise} Returns a promise that resolves to the newly created contributor object.
          */
-        addContributor(userId, permission, isBibliographic) {
+        addContributor(userId, permission, isBibliographic) { // jshint ignore:line
             return this.get('_node').addContributor(...arguments);
         },
         /**
@@ -115,7 +115,7 @@ export default Ember.Mixin.create({
          * @param {String} email User's email
          * @return {Promise} Returns a promise that resolves to the created contributor
          */
-        addUnregisteredContributor(fullName, email, permission, isBibliographic) {
+        addUnregisteredContributor(fullName, email, permission, isBibliographic) {  // jshint ignore:line
             return this.get('_node').addUnregisteredContributor(...arguments);
         },
         /**
@@ -128,10 +128,7 @@ export default Ember.Mixin.create({
          */
         removeContributor(contributor) {
             var node = this.get('_node');
-            contributor.setProperties({
-                nodeId: node.id
-            });
-            return contributor.destroyRecord();
+            return node.removeContributor(contributor);
         },
         /**
          * Update contributors of a node. Makes a bulk request to the APIv2.
@@ -143,7 +140,7 @@ export default Ember.Mixin.create({
          * @return {Promise} Returns a promise that resolves to the updated node
          * with edited contributor relationships.
          */
-        updateContributors(contributors, permissionsChanges, bibliographicChanges) {
+        updateContributors(contributors, permissionsChanges, bibliographicChanges) {  // jshint ignore:line
             return this.get('_node').updateContributors(...arguments);
         },
 

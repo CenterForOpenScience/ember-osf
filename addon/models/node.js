@@ -174,6 +174,10 @@ export default OsfModel.extend(FileItemMixin, {
         return contrib.save();
     },
 
+    removeContributor(contributor) {
+	return contributor.destroyRecord();
+    },
+
     updateContributor(contributor, permissions, bibliographic) {
         if (Ember.isEmpty(permissions)) {
             contributor.set('permission', permissions);

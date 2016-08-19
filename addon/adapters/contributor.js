@@ -5,7 +5,7 @@ export default OsfAdapter.extend({
         return inputProperties.nodeId + '-' + inputProperties.userId;
     },
     buildURL(modelName, id, snapshot, requestType) { // jshint ignore:line
-        if (requestType === 'createRecord') {
+        if (requestType === 'createRecord' || requestType === 'findRecord') {
             var nodeId;
             if (snapshot) {
                 nodeId = snapshot.record.get('nodeId');
@@ -19,6 +19,11 @@ export default OsfAdapter.extend({
                     node._internalModel.createSnapshot(),
                     'contributors'
                 );
+
+                if (requestType === 'findRecord') {
+                    return `${base}${id.split('-').pop()}/`;
+                }
+
                 // Needed for Ember Data to update the inverse record's (the node's) relationship
                 return `${base}?embed=node`;
             } else {
