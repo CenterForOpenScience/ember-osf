@@ -154,7 +154,7 @@ export default Ember.Mixin.create({
          * @return {Promise} Returns a promise that resolves to the updated node
          * with edited contributor relationships.
          */
-        updateContributor(contributor, permissions, bibliographic) {
+        updateContributor(contributor, permissions, bibliographic) { // jshint ignore:line
             return this.get('_node').updateContributor(...arguments);
         },
         /**

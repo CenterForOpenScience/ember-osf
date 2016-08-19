@@ -107,7 +107,7 @@ export default OsfModel.extend(FileItemMixin, {
         if (!userId) {
             return new Ember.RSVP.Promise((resolve) => resolve(false));
         }
-	var contribId = `${this.get('id')}-${userId}`;
+        var contribId = `${this.get('id')}-${userId}`;
         return this.store.findRecord('contributor', contribId);
     },
 
@@ -175,7 +175,7 @@ export default OsfModel.extend(FileItemMixin, {
     },
 
     removeContributor(contributor) {
-	return contributor.destroyRecord();
+        return contributor.destroyRecord();
     },
 
     updateContributor(contributor, permissions, bibliographic) {
@@ -192,24 +192,28 @@ export default OsfModel.extend(FileItemMixin, {
         let payload = contributors
             .filter(contrib => contrib.id in permissionsChanges || contrib.id in bibliographicChanges)
             .map(contrib => {
-                if (contrib.id in permissionsChanges)
+                if (contrib.id in permissionsChanges) {
                     contrib.set('permission', permissionsChanges[contrib.id]);
+                }
 
-                if (contrib.id in bibliographicChanges)
+                if (contrib.id in bibliographicChanges) {
                     contrib.set('bibliographic', bibliographicChanges[contrib.id]);
+                }
 
-                return contrib.serialize().data;
+                return contrib.serialize({
+                    includeId: true,
+                    includeUser: false
+                }).data;
             });
 
         return this.store.adapterFor('contributor').ajax(this.get('links.relationships.contributors.links.related.href'), 'PATCH', {
             data: {
                 data: payload
             },
-            isBulk: true,
+            isBulk: true
         }).then(resp => {
             this.store.pushPayload(resp);
             return contributors;
         });
-    },
-
+    }
 });
