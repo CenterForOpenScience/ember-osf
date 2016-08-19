@@ -163,9 +163,6 @@ export default OsfModel.extend(FileItemMixin, {
 
     addContributor(userId, permission, isBibliographic, index = Number.MAX_SAFE_INTEGER) {
         let contrib = this.store.createRecord('contributor', {
-            // Original code used the line below.
-            // Serialize does something weird I guess
-            // id: `${this.get('id')}-${userId}`,
             id: `${this.get('id')}-${userId}`,
             index: index,
             permission: permission,
