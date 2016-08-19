@@ -14,8 +14,8 @@ import layout from './template';
  *
  * ```handlebars
  * {{tags-widget
- *   addATag=(action 'addATag')
- *   removeATag=(action 'removeATag')
+ *   addATag=(action 'addATag' model)
+ *   removeATag=(action 'removeATag' model)
  *   tags=model.tags}}
  * ```
  * @class tags-widget
@@ -57,6 +57,7 @@ export default Ember.Component.extend({
 
     actions: {
         addATag(tag) {
+            //Calls a curried closure action which was provided the model
             this.attrs.addATag(tag);
         },
         removeATag(tag) {
