@@ -25,5 +25,9 @@ export default OsfModel.extend({
     }),
     users: DS.belongsTo('user'),
     unregisteredContributor: DS.attr('string'),
-    index: DS.attr('number')
+    index: DS.attr('number'),
+
+    node: DS.belongsTo('node', {
+	inverse: 'contributors'
+    })
 });

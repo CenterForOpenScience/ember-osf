@@ -54,7 +54,7 @@ export default OsfModel.extend(FileItemMixin, {
     contributors: DS.hasMany('contributors', {
         allowBulkUpdate: true,
         allowBulkRemove: true,
-        inverse: null
+        inverse: 'node'
     }),
 
     files: DS.hasMany('file-provider'),
@@ -169,34 +169,26 @@ export default OsfModel.extend(FileItemMixin, {
 
     },
 
-    addContributor(userId, permission, isBibliographic, index=Number.MAX_SAFE_INTEGER) {
+    addContributor(userId, permission, isBibliographic, index = Number.MAX_SAFE_INTEGER) {
         let contrib = this.store.createRecord('contributor', {
             // Original code used the line below.
             // Serialize does something weird I guess
             // id: `${this.get('id')}-${userId}`,
-            id: userId,
+            id: `${this.get('id')}-${userId}`,
             index: index,
             permission: permission,
-            bibliographic: isBibliographic,
+            bibliographic: isBibliographic
         });
-
-        return this.store.adapterFor('contributor').ajax(this.get('links.relationships.contributors.links.related.href'), 'POST', {
-            data: contrib.serialize()
-        }).then(resp => {
-            contrib.unloadRecord();
-            this.store.pushPayload(resp);
-            let created = this.store.peekRecord('contributor', resp.data.id);
-            this.get('contributors').pushObject(created);
-            return created;
-        });
+        return contrib.save();
     },
 
     updateContributor(contributor, permissions, bibliographic) {
-        if (permissions === '')
+        if (Ember.isEmpty(permissions)) {
             contributor.set('permission', permissions);
-        if (bibliographic === '')
+        }
+        if (Ember.isEmpty(bibliographic)) {
             contributor.set('bibliographic', bibliographic);
-
+        }
         return contributor.save();
     },
 
