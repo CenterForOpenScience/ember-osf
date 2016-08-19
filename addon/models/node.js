@@ -23,6 +23,8 @@ import FileItemMixin from 'ember-osf/mixins/file-item';
  * @class Node
  */
 export default OsfModel.extend(FileItemMixin, {
+    isNode: true,
+
     title: DS.attr('string'),
     description: DS.attr('string'),
     category: DS.attr('string'),
