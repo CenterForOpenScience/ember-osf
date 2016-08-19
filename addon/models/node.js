@@ -177,12 +177,10 @@ export default OsfModel.extend(FileItemMixin, {
     },
 
     updateContributor(contributor, permissions, bibliographic) {
-        if (Ember.isEmpty(permissions)) {
+        if (!Ember.isEmpty(permissions))
             contributor.set('permission', permissions);
-        }
-        if (Ember.isEmpty(bibliographic)) {
+        if (!Ember.isEmpty(bibliographic))
             contributor.set('bibliographic', bibliographic);
-        }
         return contributor.save();
     },
 
