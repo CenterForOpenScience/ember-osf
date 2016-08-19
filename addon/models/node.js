@@ -99,17 +99,16 @@ export default OsfModel.extend(FileItemMixin, {
     /**
      * Determine whether the specified user ID is a contributor on this node
      * @method isContributor
-     * @param {String} userID
+     * @param {String} userId
      * @returns {boolean} Whether the specified user is a contributor on this node
      */
-    isContributor(userID) {
+    isContributor(userId) {
         // Return true if there is at least one matching contributor for this user ID
-        if (!userID) {
+        if (!userId) {
             return new Ember.RSVP.Promise((resolve) => resolve(false));
         }
-        return this.query('contributors', {
-            'filter[id]': userID
-        }).then(res => res.length > 0);
+	var contribId = `${this.get('id')}-${userId}`;
+        return this.store.findRecord('contributor', contribId);
     },
 
     save() {
