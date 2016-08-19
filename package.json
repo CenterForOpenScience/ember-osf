@@ -108,6 +108,7 @@
     "validateIndentation": 4,
     "requirePaddingNewLinesBeforeLineComments": false,
     "maximumLineLength": false,
-    "disallowSpaceBeforeComma": false
+    "disallowSpaceBeforeComma": false,
+    "requireSpacesInsideObjectBrackets": "all"
   }
 }
