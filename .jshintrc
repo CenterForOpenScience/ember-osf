@@ -29,6 +29,5 @@
   "white": false,
   "eqnull": true,
   "esnext": true,
-  "unused": true,
-  "requireSpacesInsideObjectBrackets": false
+  "unused": true
 }
