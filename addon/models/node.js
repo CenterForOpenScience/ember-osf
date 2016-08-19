@@ -145,21 +145,14 @@ export default OsfModel.extend(FileItemMixin, {
         let child = this.store.createRecord('node', {
             title: title,
             category: category || 'project',
-            description: description || null
+            description: description || null,
+            parent: this
         });
 
-        return this.store.adapterFor('node').ajax(this.get('links.relationships.children.links.related.href'), 'POST', {
-            data: child.serialize(),
-        }).then(resp => {
-            child.unloadRecord();
-            this.store.pushPayload(resp);
-            let created = this.store.peekRecord('node', resp.data.id);
-            this.get('children').pushObject(created);
-            return created;
-        });
+        return child.save();
     },
 
-    addUnregisteredContributor(fullName, email, permission, isBibliographic, index=Number.MAX_SAFE_INTEGER) {
+    addUnregisteredContributor(fullName, email, permission, isBibliographic, index = Number.MAX_SAFE_INTEGER) {
         let user = this.store.createRecord('user', {
             fullName: fullName,
             username: email
@@ -206,7 +199,9 @@ export default OsfModel.extend(FileItemMixin, {
             });
 
         return this.store.adapterFor('contributor').ajax(this.get('links.relationships.contributors.links.related.href'), 'PATCH', {
-            data: {data: payload},
+            data: {
+                data: payload
+            },
             isBulk: true,
         }).then(resp => {
             this.store.pushPayload(resp);
