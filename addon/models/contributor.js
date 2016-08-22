@@ -17,13 +17,41 @@ import OsfModel from './osf-model';
 export default OsfModel.extend({
     bibliographic: DS.attr('boolean'),
     permission: DS.attr('string'),
-    userId: Ember.computed('id', function() {
-        return this.get('id').split('-').pop();
-    }),
-    nodeId: Ember.computed('id', function() {
-        return this.get('id').split('-').shift();
-    }),
+
+    _userId: null,
+    userId: Ember.computed('_userId', {
+        get: function() {
+            if (this.get('isNew')) {
+                return this.get('_userId');
+            } else {
+                return this.get('id').split('-').pop();
+            }
+        },
+        set: function(_, userId) {
+            this.set('_userId', userId);
+        }
+    }).volatile(),
+    _nodeId: null,
+    nodeId: Ember.computed('_nodeId', {
+        get: function() {
+            if (this.get('isNew')) {
+                return this.get('_nodeId');
+            } else {
+                return this.get('id').split('-').shift();
+            }
+        },
+        set: function(_, nodeId) {
+            this.set('_nodeId', nodeId);
+        }
+    }).volatile(),
+
     users: DS.belongsTo('user'),
     unregisteredContributor: DS.attr('string'),
-    index: DS.attr('number')
+    index: DS.attr('number'),
+    fullName: DS.attr('string'),
+    email: DS.attr('string'),
+
+    node: DS.belongsTo('node', {
+        inverse: 'contributors'
+    })
 });

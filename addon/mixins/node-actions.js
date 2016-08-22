@@ -20,19 +20,6 @@ export default Ember.Mixin.create({
     model: null,
     _node: Ember.computed.or('node', 'model'),
     /**
-     * Helper method that maps all node contributors to format {contribId: Contributor}
-     *
-     * @method _generateContributorMap
-     * @private
-     * @param {Contributor[]} contributors A list of contributors to be included in the map
-     * @return {Object} Returns a contributor map of the id to the contributor record
-     */
-    _generateContributorMap(contributors) {
-        var contribMap = {};
-        contributors.forEach(contrib => contribMap[contrib.id] = contrib);
-        return contribMap;
-    },
-    /**
      * Helper method that affiliates an institution with a node.
      *
      * @method _affiliateNode
@@ -117,40 +104,8 @@ export default Ember.Mixin.create({
          * @param {Boolean} isBibliographic Whether user will be included in citations for the node. "default: true"
          * @return {Promise} Returns a promise that resolves to the newly created contributor object.
          */
-        addContributor(userId, permission, isBibliographic) {
-            var node = this.get('_node');
-            var contributor = this.store.createRecord('contributor', {
-                id: `${node.get('id')}-${userId}`,
-                permission: permission,
-                bibliographic: isBibliographic
-            });
-            node.get('contributors').pushObject(contributor);
-            return node.save().then(() => contributor);
-        },
-        /**
-         * Add unregistered contributor to a node.  Creates a user and then adds that user as a contributor.
-         *
-         * @method addUnregisteredContributor
-         * @param {String} fullName Full name of user
-         * @param {String} email User's email
-         * @return {Promise} Returns a promise that resolves to the created contributor
-         */
-        addUnregisteredContributor(fullName, email, permission, isBibliographic) {
-            var user = this.store.createRecord('user', {
-                fullName: fullName,
-                username: email
-            });
-            // After user has been saved, add user as a contributor
-            return user.save().then(user => {
-                var node = this.get('_node');
-                var contributor = this.store.createRecord('contributor', {
-                    id: `${node.get('id')}-${user.id}`,
-                    permission: permission,
-                    bibliographic: isBibliographic
-                });
-                node.get('contributors').pushObject(contributor);
-                return node.save().then(() => contributor);
-            });
+        addContributor(userId, permission, isBibliographic) { // jshint ignore:line
+            return this.get('_node').addContributor(...arguments);
         },
         /**
          * Remove a contributor from a node
@@ -162,10 +117,7 @@ export default Ember.Mixin.create({
          */
         removeContributor(contributor) {
             var node = this.get('_node');
-            contributor.setProperties({
-                nodeId: node.id
-            });
-            return contributor.destroyRecord();
+            return node.removeContributor(contributor);
         },
         /**
          * Update contributors of a node. Makes a bulk request to the APIv2.
@@ -177,16 +129,22 @@ export default Ember.Mixin.create({
          * @return {Promise} Returns a promise that resolves to the updated node
          * with edited contributor relationships.
          */
-        updateContributors(contributors, permissionsChanges, bibliographicChanges) {
-            var node = this.get('_node');
-            var contributorMap = this._generateContributorMap(contributors);
-            for (let contributorId in permissionsChanges) {
-                contributorMap[contributorId].set('permission', permissionsChanges[contributorId]);
-            }
-            for (let contributorId in bibliographicChanges) {
-                contributorMap[contributorId].set('bibliographic', bibliographicChanges[contributorId]);
-            }
-            return node.save();
+        updateContributors(contributors, permissionsChanges, bibliographicChanges) {  // jshint ignore:line
+            return this.get('_node').updateContributors(...arguments);
+        },
+
+        /**
+         * Update contributors of a node. Makes a bulk request to the APIv2.
+         *
+         * @method updateContributor
+         * @param {Contributor} contributor relationship on the node.
+         * @param {string} permissions desired permissions.
+         * @param {boolean} bibliographic desired bibliographic statuses
+         * @return {Promise} Returns a promise that resolves to the updated node
+         * with edited contributor relationships.
+         */
+        updateContributor(contributor, permissions, bibliographic) { // jshint ignore:line
+            return this.get('_node').updateContributor(...arguments);
         },
         /**
          * Reorder contributors on a node
@@ -198,7 +156,6 @@ export default Ember.Mixin.create({
          */
         reorderContributors(contributor, newIndex) {
             contributor.set('index', newIndex);
-            //Node.save() or contributor.save(). Contributor.save() allows us to catch potential errors thrown.
             return contributor.save();
         },
         /**
@@ -211,14 +168,7 @@ export default Ember.Mixin.create({
          * @return {Promise} Returns a promise that resolves to the newly created child node.
          */
         addChild(title, description, category) {
-            var node = this.get('_node');
-            var child = this.store.createRecord('node', {
-                title: title,
-                category: category || 'project',
-                description: description || null
-            });
-            node.get('children').pushObject(child);
-            return node.save().then(() => child);
+            return this.get('_node').addChild(title, description, category);
         },
         /**
          * Add a node link (pointer) to another node

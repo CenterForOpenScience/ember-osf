@@ -1,22 +1,31 @@
+import Ember from 'ember';
 import OsfSerializer from './osf-serializer';
 
 export default OsfSerializer.extend({
-    serialize: function(snapshot, options) {
+    serialize: function(snapshot, options = {}) {
         // Restore relationships to serialized data
         var serialized = this._super(snapshot, options);
-        // APIv2 expects contributor information to be nested under relationships.
-        var id = snapshot.record.get('id');
-        if (snapshot.adapterOptions && snapshot.adapterOptions.requestType === 'create') {
-            id = snapshot.record.get('userId');
+
+        var opts = {};
+
+        if (snapshot.record.get('isNew')) {
+            opts = {
+                includeUser: true
+            };
         }
-        serialized.data.relationships = {
-            users: {
-                data: {
-                    id: id,
-                    type: 'users'
+        Ember.merge(opts, options);
+
+        // APIv2 expects contributor information to be nested under relationships.
+        if (opts.includeUser) {
+            serialized.data.relationships = {
+                users: {
+                    data: {
+                        id: snapshot.record.get('userId'),
+                        type: 'users'
+                    }
                 }
-            }
-        };
+            };
+        }
         return serialized;
     }
 });
