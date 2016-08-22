@@ -6,9 +6,13 @@ export default OsfSerializer.extend({
         // Restore relationships to serialized data
         var serialized = this._super(snapshot, options);
 
-        var opts = {
-            includeUser: true
-        };
+        var opts = {};
+
+        if (snapshot.record.get('isNew')) {
+            opts = {
+                includeUser: true
+            };
+        }
         Ember.merge(opts, options);
 
         // APIv2 expects contributor information to be nested under relationships.

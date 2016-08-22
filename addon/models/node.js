@@ -153,24 +153,17 @@ export default OsfModel.extend(FileItemMixin, {
         return child.save();
     },
 
-    addUnregisteredContributor(fullName, email, permission, isBibliographic, index = Number.MAX_SAFE_INTEGER) {
-        let user = this.store.createRecord('user', {
-            fullName: fullName,
-            username: email
-        });
-        // After user has been saved, add user as a contributor
-        return user.save().then(user => this.addContributor(user.id, permission, isBibliographic, index));
-
-    },
-
-    addContributor(userId, permission, isBibliographic, index = Number.MAX_SAFE_INTEGER) {
+    addContributor(userId, permission, isBibliographic, fullName, email, index = Number.MAX_SAFE_INTEGER) {
         let contrib = this.store.createRecord('contributor', {
             index: index,
             permission: permission,
             bibliographic: isBibliographic,
             nodeId: this.get('id'),
-            userId: userId
+            userId: userId,
+            fullName: fullName,
+            email: email
         });
+
         return contrib.save();
     },
 
