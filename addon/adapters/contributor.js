@@ -1,9 +1,6 @@
 import OsfAdapter from './osf-adapter';
 
 export default OsfAdapter.extend({
-    generateIdForRecord: function(_, __, inputProperties) {
-        return inputProperties.nodeId + '-' + inputProperties.userId;
-    },
     buildURL(modelName, id, snapshot, requestType) { // jshint ignore:line
         if (requestType === 'createRecord' || requestType === 'findRecord') {
             var nodeId;
