@@ -1,0 +1,7 @@
+<div class="tags-widget form-control {{if focused 'focus'}}">
+    {{#each tags as |tag index|}}
+        <span class="tag">{{tag}}<b {{action "removeAt" index}} title="Remove tag">x</b></span>
+    {{/each}}
+    {{! Expanding input }}
+    <label>{{value}}{{input value=value type=type name=name placeholder=placeholder}}</label>
+</div>

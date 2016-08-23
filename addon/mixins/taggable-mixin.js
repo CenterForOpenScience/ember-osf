@@ -17,10 +17,10 @@ export default Ember.Mixin.create({
          * list of tags, appends new tag to copy, and then sets tags on the resource
          * as the modified copy.
          *
-         * @method addATag
+         * @method addTag
          * @param {String} tag New tag to be added to list.
          */
-        addATag(tag) {
+        addTag(tag) {
             var resource = this.get('model');
             var currentTags = resource.get('tags').slice(0);
             Ember.A(currentTags);
@@ -31,10 +31,10 @@ export default Ember.Mixin.create({
         /**
          * Removes a tag from the current array of tags on the resource.
          *
-         * @method removeATag
+         * @method removeTag
          * @param {String} tag Tag to be removed from list.
          */
-        removeATag(tag) {
+        removeTag(tag) {
             var resource = this.get('model');
             var currentTags = resource.get('tags').slice(0);
             currentTags.splice(currentTags.indexOf(tag), 1);

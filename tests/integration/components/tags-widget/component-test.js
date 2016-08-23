@@ -11,5 +11,6 @@ test('it renders a tag', function(assert) {
     this.set('tags', ['hello']);
 
     this.render(hbs`{{tags-widget tags=tags}}`);
-    assert.ok(this.$('input[type="text"]').tagExist('hello'));
+    // Check text node against tag text
+    assert.ok(this.$('span.tag').contents().filter((ignore, el) => el.nodeType === 3)[0].nodeValue === 'hello');
 });
