@@ -52,7 +52,7 @@ module.exports = {
             ENV.OSF.url = 'https://staging.osf.io/';
             ENV.OSF.apiUrl = 'https://staging-api.osf.io';
             ENV.OSF.oauthUrl = 'https://staging-accounts.osf.io/oauth2/authorize';
-            ENV.OSF.renderUrl = 'http://staging-mfr.osf.io/render';
+            ENV.OSF.renderUrl = 'https://staging-mfr.osf.io/render';
             ENV.OSF.waterbutlerUrl = 'http://staging-files.osf.io/';
             ENV.OSF.helpUrl = 'http://help.osf.io';
         }
@@ -60,7 +60,7 @@ module.exports = {
             ENV.OSF.url = 'https://staging2.osf.io/';
             ENV.OSF.apiUrl = 'https://staging2-api.osf.io';
             ENV.OSF.oauthUrl = 'https://staging2-accounts.osf.io/oauth2/authorize';
-            ENV.OSF.renderUrl = 'http://staging2-mfr.osf.io/render';
+            ENV.OSF.renderUrl = 'https://staging2-mfr.osf.io/render';
             ENV.OSF.waterbutlerUrl = 'http://staging2-files.osf.io/';
             ENV.OSF.helpUrl = 'http://help.osf.io';
         }
@@ -68,7 +68,7 @@ module.exports = {
             ENV.OSF.url = 'https://test.osf.io/';
             ENV.OSF.apiUrl = 'https://test-api.osf.io';
             ENV.OSF.oauthUrl = 'https://test-accounts.osf.io/oauth2/authorize';
-            ENV.OSF.renderUrl = 'http://test-mfr.osf.io/render';
+            ENV.OSF.renderUrl = 'https://test-mfr.osf.io/render';
             ENV.OSF.waterbutlerUrl = 'http://test-files.osf.io/';
             ENV.OSF.helpUrl = 'http://help.osf.io';
         }
@@ -77,7 +77,7 @@ module.exports = {
             ENV.OSF.url = 'https://osf.io/';
             ENV.OSF.apiUrl = 'https://api.osf.io';
             ENV.OSF.oauthUrl = 'https://accounts.osf.io/oauth2/authorize';
-            ENV.OSF.renderUrl = 'http://mfr.osf.io/render';
+            ENV.OSF.renderUrl = 'https://mfr.osf.io/render';
             ENV.OSF.waterbutlerUrl = 'http://files.osf.io/';
             ENV.OSF.helpUrl = 'http://help.osf.io';
 
