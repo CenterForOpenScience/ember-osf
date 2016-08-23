@@ -23,7 +23,7 @@ test('add a file tag', function(assert) {
     ctrl.set('model', model);
     ctrl.set('model.save', function() {return;});
     Ember.run(function() {
-        ctrl.send('addATag', 'new tag');
+        ctrl.send('addATag', model, 'new tag');
     });
     assert.deepEqual(ctrl.model.get('tags'), ['one', 'new tag']);
 });
@@ -33,6 +33,6 @@ test('remove a file tag', function(assert) {
     let model = FactoryGuy.make('file', {tags: ['one', 'two']});
     ctrl.set('model', model);
     ctrl.set('model.save', function() {return;});
-    Ember.run(function() {ctrl.send('removeATag', 'one');});
+    Ember.run(function() {ctrl.send('removeATag', model, 'one');});
     assert.deepEqual(ctrl.model.get('tags'), ['two']);
 });
