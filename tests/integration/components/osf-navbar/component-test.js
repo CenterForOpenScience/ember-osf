@@ -9,9 +9,9 @@ test('it renders', function(assert) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
 
-    this.render(hbs`{{osf-navbar}}`);
+    this.set('loginAction', ()=>{});
+    this.render(hbs`{{osf-navbar loginAction=loginAction}}`);
 
-    //assert.equal(this.$().text().trim(), '');
+    assert.notEqual(this.$().text().trim(), '');
     // TODO: Implement tests that check a variety of different conditionals used by navbar to control what is displayed
-    assert.ok(true);
 });
