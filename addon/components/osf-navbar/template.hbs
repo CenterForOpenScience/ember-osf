@@ -18,6 +18,9 @@
                 {{/unless}}
                 <a class="navbar-brand hidden-sm hidden-xs" href="/"><span class="osf-navbar-logo" width="27"></span> Open Science Framework</a>
                 <a class="navbar-brand visible-sm visible-xs" href="/"><span class="osf-navbar-logo" width="27"></span> OSF</a>
+                {{#if service}}
+                    <a class="navbar-brand navbar-service" href="{{serviceUrl}}"> {{service}}</a>
+                {{/if}}
             </div>
             <div id="navbar" class="navbar-collapse collapse navbar-right">
                 <ul class="nav navbar-nav">
@@ -31,6 +34,7 @@
                             <li><a href="{{host}}explore/activity/">New Projects</a></li>
                             <li><a href="{{host}}search/?q=*&amp;filter=registration">Registry</a></li>
                             <li><a href="{{host}}meetings/">Meetings</a></li>
+                            <li><a href="{{host}}preprints/">Preprints</a></li>
                         </ul>
                     </li>
                     {{# unless session.isAuthenticated}}
