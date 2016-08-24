@@ -3,3 +3,9 @@
     border-radius: 13px;
     margin-right: 5px;
 }
+
+a.navbar-service::before {
+    content: "/";
+    padding-right: 8px;
+    color: #ccc;
+}
