@@ -153,10 +153,11 @@ export default OsfModel.extend(FileItemMixin, {
         return child.save();
     },
 
-    addContributor(userId, permission, isBibliographic, fullName, email) {
+    addContributor(userId, permission, isBibliographic, sendEmail, fullName, email) {
         let contrib = this.store.createRecord('contributor', {
             permission: permission,
             bibliographic: isBibliographic,
+            sendEmail: sendEmail,
             nodeId: this.get('id'),
             userId: userId,
             fullName: fullName,
