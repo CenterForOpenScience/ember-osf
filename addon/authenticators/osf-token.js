@@ -40,6 +40,11 @@ export default BaseAuthenticator.extend({
     },
     authenticate(accessToken) {
         // Adds the entire API user endpoint record to the session store as given
-        return this._test(accessToken);
+        let jqDeferred = this._test(accessToken);
+        return new Ember.RSVP.Promise((resolve, reject) => {
+            // TODO: Improve param capture
+            jqDeferred.done((value) => resolve(value));
+            jqDeferred.fail((reason) => reject(reason));
+        });
     }
 });

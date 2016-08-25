@@ -15,22 +15,32 @@ import config from 'ember-get-config';
  * Retrieve the correct URL for OAuth 2.0 authentication in the OSF, including any additional configurable parameters
  * @private
  * @method getOAuthUrl
+ * @param {string} nextUri Where to send the browser after a successful login request
  * @return {string}
  */
-function getOAuthUrl() {
-    return `${config.OSF.oauthUrl}?response_type=token&scope=${config.OSF.scope}&client_id=${config.OSF.clientId}&redirect_uri=${encodeURI(config.OSF.redirectUri)}`;
+function getOAuthUrl(nextUri) {
+    // OAuth requires that redirect URI match what was registered, exactly. We may need a parameter to signify next
+    //   transition, if the user wants to return to ember at the point where they left off before needing to log in.
+    // For now, we will put this in the `state` parameter (always returned unchanged) and implement that functionality in ember later.
+    // To avoid abuse, the application should forcibly truncate state, eg make it relative to the application rootURL
+    //   (should not be possible to use the ember app as just an external redirect service)
+    let uri = `${config.OSF.oauthUrl}?response_type=token&scope=${config.OSF.scope}&client_id=${config.OSF.clientId}&redirect_uri=${encodeURI(config.OSF.redirectUri)}`;
+    if (nextUri) {
+        uri += `&state=${encodeURI(nextUri)}`;
+    }
+    return uri;
 }
 
 /**
  * Retrieve the correct URL for cookie-based in the OSF, including any additional configurable parameters
  * @private
  * @method getCookieAuthUrl
- * @param {string} redirectUri Where to send the browser after a successful login request
+ * @param {string} nextUri Where to send the browser after a successful login request
  * @return {string}
  */
-function getCookieAuthUrl(redirectUri) {
-    redirectUri = redirectUri || config.OSF.redirectUri;
-    return `${config.OSF.cookieLoginUrl}?service=${redirectUri}&auto=true`;
+function getCookieAuthUrl(nextUri) {
+    nextUri = nextUri || config.OSF.redirectUri;
+    return `${config.OSF.cookieLoginUrl}?service=${encodeURI(nextUri)}&auto=true`;
 }
 
 /**

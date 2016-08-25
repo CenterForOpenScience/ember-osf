@@ -2,8 +2,6 @@ import Ember from 'ember';
 import layout from './template';
 import config from 'ember-get-config';
 
-import { getAuthUrl } from 'ember-osf/utils/auth';
-
 /**
  * @module ember-osf
  * @submodule components
@@ -11,6 +9,10 @@ import { getAuthUrl } from 'ember-osf/utils/auth';
 
 /**
  * Display the OSF navbar
+ *
+ * Sample usage:
+ * {{osf-navbar loginAction=loginAction}}
+ *
  * @class osf-navbar
  * Sample usage:
  * ```handlebars
@@ -39,7 +41,6 @@ export default Ember.Component.extend({
     }),
     fullName: null,
     host: config.OSF.url,
-    authUrl: getAuthUrl(),
     user: null,
     showSearch: false,
     _loadCurrentUser() {
@@ -47,11 +48,12 @@ export default Ember.Component.extend({
     },
     init() {
         this._super(...arguments);
+        // TODO: React to changes in service/ event?
         if (this.get('session.isAuthenticated')) {
             this._loadCurrentUser();
         }
     },
-    // TODO: Make these parameters configurable from... somewhere. (currently set by OSF settings module)
+    // TODO: These parameters are defined in osf settings.py; make sure ember config matches.
     allowLogin: true,
     enableInstitutions: true,
     actions: {
@@ -59,14 +61,8 @@ export default Ember.Component.extend({
             this.toggleProperty('showSearch');
         },
         logout() {
+            // TODO: May not work well if logging out from page that requires login- check?
             this.get('session').invalidate().then(() => window.location.reload(true));
         },
-        loginSuccess() {
-            this._loadCurrentUser();
-            this.sendAction('loginSuccess');
-        },
-        loginFail() {
-            this.sendAction('loginFail');
-        }
     }
 });
