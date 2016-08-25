@@ -14,12 +14,24 @@ import config from 'ember-get-config';
  * {{osf-navbar loginAction=loginAction}}
  *
  * @class osf-navbar
+ * Sample usage:
+ * ```handlebars
+ * {{osf-navbar
+ *   hideSearch=true
+ *  }}
+ * ```
  */
 export default Ember.Component.extend({
     layout,
     session: Ember.inject.service(),
     currentUser: Ember.inject.service(),
     onSearchPage: false,
+    /**
+     * Whether search icons and functionality show up
+     * @property hideSearch
+     * @type {Boolean}
+     */
+    hideSearch: false,
     gravatarUrl: Ember.computed('user', function() {
         let imgLink = this.get('user.links.profile_image');
         if (imgLink) {
