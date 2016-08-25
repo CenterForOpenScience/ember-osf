@@ -40,9 +40,15 @@ export default Base.extend({
      * Send a request to the flask application to trigger invalidation of session remotely
      * @method invalidate
      */
-    invalidate() {
-        // Can't do this via AJAX request because it redirects to CAS, and AJAX + redirect = CORS issue
-        window.location = `${config.OSF.url}logout/`;
+    invalidate(data) {
+        // If the user is logged in and data is not a response with the status unauthorized
+        // Actually log them out
+        if (data.id && data.status !== 401) {
+            // Can't do this via AJAX request because it redirects to CAS, and AJAX + redirect = CORS issue
+            window.location = `${config.OSF.url}logout/`;
+        }
+
+        return Ember.RSVP.resolve();
     },
     /**
      * For now, simply verify that a token is present and can be used
