@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-route-mixin';
 
 import config from 'ember-get-config';
 
@@ -18,9 +17,12 @@ import { getTokenFromHash } from 'ember-osf/utils/auth';
  * @class OsfTokenLoginRouteMixin
  * @extends Ember.Mixin
  */
-export default Ember.Mixin.create(UnauthenticatedRouteMixin, {
+export default Ember.Mixin.create({
     session: Ember.inject.service(),
     beforeModel() {
+        // TODO: Should this check for resolution of a promise?
+        this._super(...arguments);
+
         var accessToken;
         if (config.OSF.isLocal) {
             accessToken = config.OSF.accessToken;
@@ -33,6 +35,6 @@ export default Ember.Mixin.create(UnauthenticatedRouteMixin, {
         }
 
         return this.get('session').authenticate('authenticator:osf-token', accessToken)
-            .then(() => this.transitionTo('index'));
+            .catch(err => console.log('Authentication failed: ', err));
     }
 });

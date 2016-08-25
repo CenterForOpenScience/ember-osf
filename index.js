@@ -38,7 +38,6 @@ module.exports = {
             ENV.OSF.apiUrl = 'http://localhost:8000';
 
             // Where to direct the user for cookie-based authentication
-            // TODO: The CAS server won't allow cookie auth to staging from a local machine.
             ENV.OSF.cookieLoginUrl = 'http://localhost:8080/login';
             // Where to direct the user for oauth2-based authentication
             ENV.OSF.oauthUrl = 'http://localhost:8080/oauth2/profile';
