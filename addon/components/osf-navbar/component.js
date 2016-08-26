@@ -11,15 +11,13 @@ import config from 'ember-get-config';
  * Display the OSF navbar
  *
  * Sample usage:
- * {{osf-navbar loginAction=loginAction}}
- *
- * @class osf-navbar
- * Sample usage:
  * ```handlebars
  * {{osf-navbar
- *   hideSearch=true
- *  }}
+ *   loginAction=loginAction
+ *   hideSearch=true}}
  * ```
+ *
+ * @class osf-navbar
  */
 export default Ember.Component.extend({
     layout,
@@ -32,6 +30,15 @@ export default Ember.Component.extend({
      * @type {Boolean}
      */
     hideSearch: false,
+
+    /**
+     * The URL to use for signup. May be overridden, eg for special campaign pages
+     *
+     * @property signupUrl
+     * @type {String}
+     */
+    signupUrl: config.OSF.url + 'register',
+
     gravatarUrl: Ember.computed('user', function() {
         let imgLink = this.get('user.links.profile_image');
         if (imgLink) {
