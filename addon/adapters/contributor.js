@@ -7,7 +7,7 @@ export default OsfAdapter.extend({
             var sendEmail = true;
             if (snapshot) {
                 nodeId = snapshot.record.get('nodeId');
-                sendEmail = snapshot.record.get('sendEmail')
+                sendEmail = snapshot.record.get('sendEmail');
             } else {
                 nodeId = id.split('-').shift();
             }
