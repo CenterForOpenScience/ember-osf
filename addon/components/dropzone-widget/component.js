@@ -18,6 +18,7 @@ import layout from './template';
  *   preUpload=attrs.preUpload
  *   buildUrl=buildUrl
  *   success=attrs.success
+ *   defaultMessage=defaultMessage
  *   options=dropzoneOptions}}
  * ```
  *
@@ -37,6 +38,7 @@ export default Ember.Component.extend({
         let drop = new Dropzone(`#${this.elementId}`, {  // jshint ignore:line
             url: file => typeof this.get('buildUrl') === 'function' ? this.get('buildUrl')(file) : this.get('buildUrl'),
             autoProcessQueue: false,
+            dictDefaultMessage: this.get('defaultMessage') || "Drop files here to upload"
         });
 
         // Set osf session header
