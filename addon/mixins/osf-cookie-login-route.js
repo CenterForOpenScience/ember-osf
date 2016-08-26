@@ -22,6 +22,8 @@ export default Ember.Mixin.create({
         // TODO: Should this check for resolution of a promise?
         this._super(...arguments);
 
+        if (this.get('session.isAuthenticated')) return;
+
         // Block transition until auth attempt resolves. If auth fails, let the page load normally.
         return this.get('session').authenticate('authenticator:osf-cookie')
             .catch(err => console.log('Authentication failed: ', err));
