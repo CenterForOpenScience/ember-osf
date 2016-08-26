@@ -102,9 +102,10 @@ export default Ember.Mixin.create({
          * @param {String} userId ID of user that will be a contributor on the node
          * @param {String} permission User permission level. One of "read", "write", or "admin". Default: "write".
          * @param {Boolean} isBibliographic Whether user will be included in citations for the node. "default: true"
+         * @param {Boolean} sendEmail Whether user will receive an email when added. "default: true"
          * @return {Promise} Returns a promise that resolves to the newly created contributor object.
          */
-        addContributor(userId, permission, isBibliographic) { // jshint ignore:line
+        addContributor(userId, permission, isBibliographic, sendEmail) { // jshint ignore:line
             return this.get('_node').addContributor(...arguments);
         },
         /**

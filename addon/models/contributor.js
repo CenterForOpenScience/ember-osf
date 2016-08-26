@@ -50,6 +50,7 @@ export default OsfModel.extend({
     index: DS.attr('number'),
     fullName: DS.attr('string'),
     email: DS.attr('string'),
+    sendEmail: DS.attr('boolean'),
 
     node: DS.belongsTo('node', {
         inverse: 'contributors'
