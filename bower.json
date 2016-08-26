@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "bootstrap": "~3.3.5",
-    "osf-style": "https://github.com/CenterForOpenScience/osf-style.git#5dcf5997ad2808ffc7c8564f94cde102bf7a4a96"
+    "osf-style": "https://github.com/CenterForOpenScience/osf-style.git#48197d234baf07c321c56edfd9f48b5624374453"
   },
   "resolutions": {
     "jquery": "~2.1.3"
