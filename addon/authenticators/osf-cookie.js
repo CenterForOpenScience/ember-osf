@@ -19,6 +19,9 @@ import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
  * @extends ember-simple-auth/BaseAuthenticator
  */
 export default Base.extend({
+    // HACK: Lets us clear session manually, rather than after .invalidate method resolves
+    session: Ember.inject.service('session'),
+
     _test() {
         return authenticatedAJAX({
             method: 'GET',
@@ -46,12 +49,14 @@ export default Base.extend({
             // But if invalidate is called without arguments, or for any other reason, interpret this as a straight logout request
             //   (and let the session get invalidated next time at the start of first page load)
             // Can't do this via AJAX request because it redirects to CAS, and AJAX + redirect = CORS issue
-            window.location = `${config.OSF.url}logout/`;
+
+            // Manually clear session before user leaves the page, since we aren't sticking around for ESA to do so later
+            this.get('session.session')._clear(true)
+                .then(() => window.location = `${config.OSF.url}logout/`);
         } else {
             // This branch is expected to be called when a test request reveals the user to lack permissions... so session should be wiped
             return Ember.RSVP.resolve();
         }
-        // FIXME: Possible race condition where returning resolved promise after window.location change calls logout to fail
     },
     /**
      * For now, simply verify that a token is present and can be used
