@@ -24,7 +24,7 @@ function getOAuthUrl(nextUri) {
     // For now, we will put this in the `state` parameter (always returned unchanged) and implement that functionality in ember later.
     // To avoid abuse, the application should forcibly truncate state, eg make it relative to the application rootURL
     //   (should not be possible to use the ember app as just an external redirect service)
-    let uri = `${config.OSF.oauthUrl}?response_type=token&scope=${config.OSF.scope}&client_id=${config.OSF.clientId}&redirect_uri=${encodeURI(config.OSF.redirectUri)}`;
+    let uri = `${config.OSF.oauthUrl}?response_type=token&scope=${config.OSF.scope}&client_id=${config.OSF.clientId}&redirect_uri=${encodeURIComponent(config.OSF.redirectUri)}`;
     if (nextUri) {
         uri += `&state=${encodeURIComponent(nextUri)}`;
     }
