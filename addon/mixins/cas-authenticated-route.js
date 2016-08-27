@@ -34,7 +34,7 @@ export default Ember.Mixin.create({
       @method beforeModel
       @public
     */
-    beforeModel() {
+    beforeModel(transition) {
         if (!this.get('session.isAuthenticated')) {
             // Reference: http://stackoverflow.com/a/39054607/414097
             let routing = this.get('routing');
