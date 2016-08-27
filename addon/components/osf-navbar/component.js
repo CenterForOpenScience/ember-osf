@@ -69,7 +69,7 @@ export default Ember.Component.extend({
         },
         logout() {
             // TODO: May not work well if logging out from page that requires login- check?
-            this.get('session').invalidate().then(() => window.location.reload(true));
+            this.get('session').invalidate();
         },
     }
 });
