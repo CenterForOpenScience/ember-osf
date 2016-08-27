@@ -26,7 +26,7 @@ function getOAuthUrl(nextUri) {
     //   (should not be possible to use the ember app as just an external redirect service)
     let uri = `${config.OSF.oauthUrl}?response_type=token&scope=${config.OSF.scope}&client_id=${config.OSF.clientId}&redirect_uri=${encodeURI(config.OSF.redirectUri)}`;
     if (nextUri) {
-        uri += `&state=${encodeURI(nextUri)}`;
+        uri += `&state=${encodeURIComponent(nextUri)}`;
     }
     return uri;
 }
@@ -40,8 +40,8 @@ function getOAuthUrl(nextUri) {
  */
 function getCookieAuthUrl(nextUri) {
     nextUri = nextUri || config.OSF.redirectUri;
-    let loginUri = `${config.OSF.url}login?next=${encodeURI(nextUri)}`
-    return `${config.OSF.cookieLoginUrl}?service=${encodeURI(loginUri)}`;
+    let loginUri = `${config.OSF.url}login?next=${encodeURIComponent(nextUri)}`
+    return `${config.OSF.cookieLoginUrl}?service=${encodeURIComponent(loginUri)}`;
 }
 
 /**
