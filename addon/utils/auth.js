@@ -40,7 +40,8 @@ function getOAuthUrl(nextUri) {
  */
 function getCookieAuthUrl(nextUri) {
     nextUri = nextUri || config.OSF.redirectUri;
-    return `${config.OSF.cookieLoginUrl}?service=${encodeURI(nextUri)}`;
+    let loginUri = `${config.OSF.url}login?next=${encodeURI(nextUri)}`
+    return `${config.OSF.cookieLoginUrl}?service=${encodeURI(loginUri)}`;
 }
 
 /**
