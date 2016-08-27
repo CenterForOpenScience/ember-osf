@@ -23,6 +23,7 @@ export default Ember.Mixin.create({
       @public
     */
     session: Ember.inject.service('session'),
+    routing: Ember.inject.service('-routing'),
 
     /**
       Checks whether the session is authenticated, and if it is not, redirects to the login URL. (Sending back to this page after a successful transition)
@@ -35,7 +36,13 @@ export default Ember.Mixin.create({
     */
     beforeModel() {
         if (!this.get('session.isAuthenticated')) {
-            window.location = getAuthUrl(window.location);
+            // Reference: http://stackoverflow.com/a/39054607/414097
+            let routing = this.get('routing');
+            let params = Object.values(transition.params).filter(param => {
+                return Object.values(param).length;
+            });
+            let url = routing.generateURL(transition.targetName, params, transition.queryParams);
+            window.location = getAuthUrl(url);
         } else {
             return this._super(...arguments);
         }
