@@ -166,7 +166,7 @@ export default Ember.Mixin.create({
                             permission: contrib.get('permission'),
                             bibliographic: contrib.get('bibliographic'),
                             index: index
-                        }
+                        };
                         payload.data.id = contrib.get('id');
                         this.store.pushPayload(payload);
                     }
