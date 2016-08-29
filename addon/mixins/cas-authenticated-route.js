@@ -38,9 +38,7 @@ export default Ember.Mixin.create({
         if (!this.get('session.isAuthenticated')) {
             // Reference: http://stackoverflow.com/a/39054607/414097
             let routing = this.get('routing');
-            let params = Object.values(transition.params).filter(param => {
-                return Object.values(param).length;
-            });
+            let params = Object.values(transition.params).filter(param => Object.values(param).length);
             let url = routing.generateURL(transition.targetName, params, transition.queryParams);
             window.location = getAuthUrl(url);
         } else {
