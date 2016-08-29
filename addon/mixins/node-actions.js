@@ -148,16 +148,30 @@ export default Ember.Mixin.create({
             return this.get('_node').updateContributor(...arguments);
         },
         /**
-         * Reorder contributors on a node
+         * Reorder contributors on a node, and manually updates store.
          *
          * @method reorderContributors
          * @param {Object} contributor Contributor record to be modified
          * @param {Integer} newIndex Contributor's new position in the list
+         * @param {Array} contributors New contributor list in correct order
          * @return {Promise} Returns a promise that resolves to the updated contributor.
          */
-        reorderContributors(contributor, newIndex) {
+        reorderContributors(contributor, newIndex, contributors) {
             contributor.set('index', newIndex);
-            return contributor.save();
+            return contributor.save().then(() => {
+                contributors.forEach((contrib, index) => {
+                    if (contrib.id !== contributor.id) {
+                        var payload = contrib.serialize();
+                        payload.data.attributes = {
+                            permission: contrib.get('permission'),
+                            bibliographic: contrib.get('bibliographic'),
+                            index: index
+                        }
+                        payload.data.id = contrib.get('id');
+                        this.store.pushPayload(payload);
+                    }
+                });
+            });
         },
         /**
          * Add a child (component) to a node.
