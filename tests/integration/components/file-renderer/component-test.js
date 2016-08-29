@@ -25,14 +25,16 @@ test('it renders', function(assert) {
 
 test('file rendering defaults', function(assert) {
 
+    let download = 'someTruthyValue';
+    this.set('download', download);
   this.render(hbs`
-    {{#file-renderer}}
+    {{#file-renderer download=download}}
     {{/file-renderer}}
   `);
 
   assert.equal(this.$('iframe').attr('height'), '100%');
   assert.equal(this.$('iframe').attr('width'), '100%');
-  assert.equal(this.$('iframe').attr('src'), config.OSF.renderUrl + "?url=" + encodeURIComponent(null + '?direct&mode=render&initialWidth=766'));
+  assert.equal(this.$('iframe').attr('src'), config.OSF.renderUrl + "?url=" + encodeURIComponent(download + '?direct&mode=render&initialWidth=766'));
 });
 
 test('specify file rendering parameters', function(assert) {
