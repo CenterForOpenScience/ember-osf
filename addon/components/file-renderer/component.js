@@ -30,8 +30,12 @@ export default Ember.Component.extend({
         return renderUrl;
     }),
     didRender() {
-        $('iframe').remove();
+        var createdIframe = $('#file-renderer-id > iframe')[0];
+        if (createdIframe) {
+            createdIframe.remove();
+        }
         var url = this.get('mfrUrl');
-        new pym.Parent('file-renderer-id', url, {})
+        var pymParent = new pym.Parent('file-renderer-id', url, {});
+        pymParent._onHeightMessage('1000');
     }
 });
