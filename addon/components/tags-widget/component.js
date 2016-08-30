@@ -14,8 +14,8 @@ import layout from './template';
  *
  * ```handlebars
  * {{tags-widget
- *   addATag=(action 'addATag')
- *   removeATag=(action 'removeATag')
+ *   addATag=(action 'addATag' model)
+ *   removeATag=(action 'removeATag' model)
  *   tags=model.tags}}
  * ```
  * @class tags-widget
@@ -49,14 +49,20 @@ export default Ember.Component.extend({
                     this.send('removeATag', tag);
                 }
             });
-            // Populate the widget with the default tags passed in
-            let tags = this.get('tags');
-            this.$().importTags(tags.join(', '));
         });
     }),
 
+    didRender() {
+        // Rerender the list of tags whenever the node model changes. Useful if node.tags is not defined when page loads.
+        // Provide a default value in case tags weren't defined when component first rendered
+        let tags = this.get('tags') || [];
+        // Reset & replace existing tag list with new items
+        this.$().importTags(tags.join(', '));
+    },
+
     actions: {
         addATag(tag) {
+            // Calls a curried closure action which was provided the model
             this.attrs.addATag(tag);
         },
         removeATag(tag) {
@@ -64,7 +70,7 @@ export default Ember.Component.extend({
             if (!tag) {
                 return false;
             }
-            this.sendAction('removeATag', tag);
+            this.attrs.removeATag(tag);
         }
     }
 });

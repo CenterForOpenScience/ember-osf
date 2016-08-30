@@ -5,7 +5,9 @@ import HasManyQuery from 'ember-data-has-many-query';
 import config from 'ember-get-config';
 import GenericDataAdapterMixin from 'ember-osf/mixins/generic-data-adapter';
 
-import { singularize } from 'ember-inflector';
+import {
+    singularize
+} from 'ember-inflector';
 
 /**
  * @module ember-osf
@@ -25,8 +27,6 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
     host: config.OSF.apiUrl,
     namespace: config.OSF.apiNamespace,
     buildURL(modelName, id, snapshot, requestType) {
-        // Fix issue where CORS request failed on 301s: Ember does not seem to append trailing
-        // slash to URLs for single documents, but DRF redirects to force a trailing slash
         var url = this._super(...arguments);
         var options = (snapshot ? snapshot.adapterOptions : false) || {};
         if (requestType === 'deleteRecord' || requestType === 'updateRecord' || requestType === 'findRecord') {
@@ -37,6 +37,8 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
             url = options.url;
         }
 
+        // Fix issue where CORS request failed on 301s: Ember does not seem to append trailing
+        // slash to URLs for single documents, but DRF redirects to force a trailing slash
         if (url.lastIndexOf('/') !== url.length - 1) {
             url += '/';
         }
@@ -81,10 +83,10 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
             adapterOptions: {
                 nested: true,
                 url: url,
-                forRelationship: true  // TODO(abought): Is this necessary? (what is meaning of "nested" param?)
+                requestType: 'create'
             }
         }).then(res => {
-            snapshot.record.resolveRelationship(relationship).addCanonicalRecord(s.record);
+            snapshot.record.resolveRelationship(relationship).addCanonicalRecord(s.record._internalModel);
             return res;
         }));
     },
@@ -104,7 +106,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
     _addRelated(store, snapshot, addedSnapshots, relationship, url, isBulk = false) {
         return this._doRelatedRequest(store, snapshot, addedSnapshots, relationship, url, 'POST', isBulk).then(res => {
             addedSnapshots.forEach(function(s) {
-                snapshot.record.resolveRelationship(relationship).addCanonicalRecord(s.record);
+                snapshot.record.resolveRelationship(relationship).addCanonicalRecord(s.record._internalModel);
             });
             return res;
         });
@@ -126,7 +128,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
             var relatedType = singularize(snapshot.record[relationship].meta().type);
             res.data.forEach(item => {
                 var record = store.push(store.normalize(relatedType, item));
-                snapshot.record.resolveRelationship(relationship).addCanonicalRecord(record);
+                snapshot.record.resolveRelationship(relationship).addCanonicalRecord(record._internalModel);
             });
             return res;
         });
@@ -146,7 +148,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
      **/
     _removeRelated(store, snapshot, removedSnapshots, relationship, url, isBulk = false) {
         return this._doRelatedRequest(store, snapshot, removedSnapshots, relationship, url, 'DELETE', isBulk).then(res => {
-            removedSnapshots.forEach(s => snapshot.record.resolveRelationship(relationship).removeCanonicalRecord(s.record));
+            removedSnapshots.forEach(s => snapshot.record.resolveRelationship(relationship).removeCanonicalRecord(s.record._internalModel));
             return res || [];
         });
     },

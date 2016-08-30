@@ -11,5 +11,7 @@ test('it renders a tag', function(assert) {
     this.set('tags', ['hello']);
 
     this.render(hbs`{{tags-widget tags=tags}}`);
-    assert.ok(this.$('input[type="text"]').tagExist('hello'));
+
+    assert.ok(this.$('input[type="text"]').tagExist('hello'),
+        'Tag was not correctly rendered');
 });

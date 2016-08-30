@@ -1,3 +1,5 @@
+{{eosf-project-nav node=model user=user}}
+
 {{#if model.parent}}
     {{#link-to 'nodes.detail' model.parent class="btn btn-primary"}}
         ↑ {{model.parent.title}}
@@ -13,7 +15,7 @@
     <p><label>Date Modified:</label> {{moment-format model.dateModified}}</p>
     <p><label>Public </label> {{model.public}} </p>
     <p><label> Tags </label></p>
-    {{tags-widget addATag=(action 'addATag') removeATag=(action 'removeATag') tags=model.tags}}
+    {{tags-widget addATag=(action 'addATag' model) removeATag=(action 'removeATag' model) tags=model.tags}}
     <hr>
     <p>
         <a href="{{model.links.html}}" target="_blank" class="btn btn-primary">
@@ -85,6 +87,7 @@
     {{log-detail node-logs=model.logs}}
 
     <h2>Contributors</h2> {{contrib-manager contributors=model.contributors addContributor=(action 'addContributor') removeContributor=(action 'removeContributor') editContributors=(action 'updateContributors') }}
+
 
     <hr>
     <h2>Components</h2>

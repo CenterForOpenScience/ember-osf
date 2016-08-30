@@ -2,8 +2,6 @@ import Ember from 'ember';
 import layout from './template';
 import config from 'ember-get-config';
 
-import { getAuthUrl } from 'ember-osf/utils/auth';
-
 /**
  * @module ember-osf
  * @submodule components
@@ -11,6 +9,14 @@ import { getAuthUrl } from 'ember-osf/utils/auth';
 
 /**
  * Display the OSF navbar
+ *
+ * Sample usage:
+ * ```handlebars
+ * {{osf-navbar
+ *   loginAction=loginAction
+ *   hideSearch=true}}
+ * ```
+ *
  * @class osf-navbar
  */
 export default Ember.Component.extend({
@@ -18,6 +24,21 @@ export default Ember.Component.extend({
     session: Ember.inject.service(),
     currentUser: Ember.inject.service(),
     onSearchPage: false,
+    /**
+     * Whether search icons and functionality show up
+     * @property hideSearch
+     * @type {Boolean}
+     */
+    hideSearch: false,
+
+    /**
+     * The URL to use for signup. May be overridden, eg for special campaign pages
+     *
+     * @property signupUrl
+     * @type {String}
+     */
+    signupUrl: config.OSF.url + 'register',
+
     gravatarUrl: Ember.computed('user', function() {
         let imgLink = this.get('user.links.profile_image');
         if (imgLink) {
@@ -27,7 +48,6 @@ export default Ember.Component.extend({
     }),
     fullName: null,
     host: config.OSF.url,
-    authUrl: getAuthUrl(),
     user: null,
     showSearch: false,
     _loadCurrentUser() {
@@ -35,11 +55,12 @@ export default Ember.Component.extend({
     },
     init() {
         this._super(...arguments);
+        // TODO: React to changes in service/ event?
         if (this.get('session.isAuthenticated')) {
             this._loadCurrentUser();
         }
     },
-    // TODO: Make these parameters configurable from... somewhere. (currently set by OSF settings module)
+    // TODO: These parameters are defined in osf settings.py; make sure ember config matches.
     allowLogin: true,
     enableInstitutions: true,
     actions: {
@@ -47,14 +68,8 @@ export default Ember.Component.extend({
             this.toggleProperty('showSearch');
         },
         logout() {
-            this.get('session').invalidate().then(() => window.location.reload(true));
+            // TODO: May not work well if logging out from page that requires login- check?
+            this.get('session').invalidate();
         },
-        loginSuccess() {
-            this._loadCurrentUser();
-            this.sendAction('loginSuccess');
-        },
-        loginFail() {
-            this.sendAction('loginFail');
-        }
     }
 });

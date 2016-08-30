@@ -20,11 +20,11 @@ export default Ember.Mixin.create({
     queryParams: ['ticket'],
     ticket: null,
 
-    /**
-     * The authorization
-     * @property authUrl
-     * @type String
-     * @public
-     */
-    authUrl: getAuthUrl()
+    actions: {
+        login() {
+            window.location = getAuthUrl(window.location);
+        },
+        loginSuccess() {},
+        loginFail() {}
+    }
 });
