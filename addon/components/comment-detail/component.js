@@ -114,8 +114,6 @@ export default Ember.Component.extend({
                     throw new Ember.Error('Failed to load comments');
                 });
             }
-
-
         },
         toggleDeleteMode() {
             // Show buttons relevant to comment deletion
@@ -125,7 +123,6 @@ export default Ember.Component.extend({
             // Show buttons relevant to reporting a comment
             this.toggleProperty('reportMode');
         },
-
         fetchChildren() {
             // Fetch child comments (replies)
             // TODO:
@@ -136,7 +133,6 @@ export default Ember.Component.extend({
             // TODO: For now we will just use comment.replies, which is limited in number of results available
 
         },
-
         replyComment(text) {
             // Reply to the comment owned by this component
             let comment = this.get('comment');
