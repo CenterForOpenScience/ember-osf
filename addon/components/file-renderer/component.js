@@ -29,8 +29,9 @@ export default Ember.Component.extend({
         var renderUrl = base + '?url=' + encodeURIComponent(download + '?direct&mode=render&initialWidth=766');
         return renderUrl;
     }),
-    didInsertElement() {
+    didRender() {
+        $('iframe').remove();
         var url = this.get('mfrUrl');
-        var pymParent = new pym.Parent('file-renderer-id', url, {});
+        new pym.Parent('file-renderer-id', url, {})
     }
 });
