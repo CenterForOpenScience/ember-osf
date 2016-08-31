@@ -4,20 +4,19 @@ import OsfSerializer from './osf-serializer';
 export default OsfSerializer.extend({
     serialize(snapshot, options) {  // jshint ignore:line
         let res = this._super(...arguments);
-        if (Ember.get(snapshot, 'adapterOptions.forRelationship')) {  // TODO: Next iteration: would be nice for createRelated to pass fields directly, to avoid placeholder fields.
-            // New comments must identify their target as part of a relationship field
-            let targetID = snapshot.record.get('targetID');
-            let targetType = snapshot.record.get('targetType');
-            Ember.assert('Must provide target ID', targetID);
-            Ember.assert('Must provide target type', targetType);
+
+        let adapterOptions = snapshot.adapterOptions;
+        if (adapterOptions.operation === 'create') {
+            // New comments must explicitly identify their target, passed here via fields on .save({adapterOptions: {...}})
+            Ember.assert('Must provide target ID', adapterOptions.targetID);
+            Ember.assert('Must provide target type', adapterOptions.targetType);
+
             res.data.relationships = {
                 target: {
                     data: {
-                        id: targetID,
-                        type: targetType
-                    }
-                }
-            };
+                        id: adapterOptions.targetID,
+                        type: adapterOptions.targetType
+                    }}};
         }
         return res;
     },
