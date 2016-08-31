@@ -38,13 +38,13 @@ export default Ember.Mixin.create({
          */
         addComment(text, parent) {
             // FIXME: Known issue: if you add a comment, then delete without refreshing, you get a 409 error. This is because the target fields are still there in the store and haven't been cleared of placeholder values.
-            // Solution will involve only serializing those if adapterOptions indicates we're saving a new (not updated) comment
+            // TODO: Test to see if adapterOptions changes resolve the above error.
 
-            // TODO: Rework signature so parent/ target argument is always required in all usages
+            // TODO: Rework method signature so parent/ target argument is always required in all usages
             let target = parent || this.get('model');
 
             let targetID = target.get('guid') || target.id;
-            let targetType = Ember.Inflector.inflector.pluralize(target.constructor.modelName);
+            let targetType = target.constructor.modelName;
 
             var comment = this.store.createRecord('comment', {
                 content: text,
@@ -69,6 +69,7 @@ export default Ember.Mixin.create({
          * @return {Promise}
          */
         editComment(text, comment) {
+            // TODO: Change argument order in all usages to support currying
             comment.set('content', text);
             return comment.save();
         },
