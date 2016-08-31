@@ -36,6 +36,5 @@ export default Ember.Component.extend({
         }
         var url = this.get('mfrUrl');
         var pymParent = new pym.Parent('file-renderer-id', url, {});
-        pymParent._onHeightMessage('1000');
     }
 });
