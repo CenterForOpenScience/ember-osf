@@ -40,7 +40,7 @@ export default Ember.Component.extend({
     /**
      * The parent resource to which comments are attached.
      * @property resource
-     * @type Node|File|Wiki|Comment
+     * @type Comment|File|Node|Preprint|Wiki
      */
     resource: null, // TODO: Track whether the node is being viewed in "anonymous" mode and change how authors are displayed
 

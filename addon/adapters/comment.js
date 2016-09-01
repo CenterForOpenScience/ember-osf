@@ -6,16 +6,14 @@ export default OsfAdapter.extend({
             // Create operations must get URL from the parent. Otherwise, all comments will be fetched via relationship fields.
             let targetType = snapshot.adapterOptions.targetType;
 
-            // if (targetType === 'preprint') {
-            //     // Preprint comments are made through the nodes endpoint
-            //     targetType = 'node';
-            // }
             let parent = this.store.peekRecord(targetType, snapshot.adapterOptions.targetID);
 
             if (parent) {
+                // Get the relationship URL from the appropriately named field, based on the target type
+                const relTarget = (targetType === 'comment') ? 'replies' : 'comments';
                 return this._buildRelationshipURL(
                     parent._internalModel.createSnapshot(),
-                    'comments'
+                    relTarget
                 );
             } else {
                 throw new Error('Trying to add a comment to a record that hasn\'t been loaded into the store');
