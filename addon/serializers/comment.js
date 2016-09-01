@@ -6,7 +6,7 @@ export default OsfSerializer.extend({
         let res = this._super(...arguments);
 
         let adapterOptions = snapshot.adapterOptions;
-        if (adapterOptions.operation === 'create') {
+        if (adapterOptions && adapterOptions.operation === 'create') {
             let targetType = adapterOptions.targetType;
             // New comments must explicitly identify their target, passed here via fields on .save({adapterOptions: {...}})
             Ember.assert('Must provide target ID', adapterOptions.targetID);
