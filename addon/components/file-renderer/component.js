@@ -23,7 +23,7 @@ export default Ember.Component.extend({
     download: null,
     width: '100%',
     height: '100%',
-    allowfullscreen : true,
+    allowfullscreen: true,
     mfrUrl: Ember.computed('download', function() {
         var base = config.OSF.renderUrl;
         var download = this.get('download');
