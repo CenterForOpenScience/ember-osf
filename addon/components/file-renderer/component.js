@@ -14,7 +14,7 @@ import config from 'ember-get-config';
  * ```handlebars
  * {{file-renderer
  *   download=model.links.download
- *     width="800" height="1000"}}
+ *     width="800" height="1000" allowfullscreen=true}}
  * ```
  * @class file-renderer
  */
