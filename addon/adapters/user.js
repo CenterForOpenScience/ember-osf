@@ -6,7 +6,7 @@ export default OsfAdapter.extend({
         var id = snapshot.id;
         var type = snapshot.modelName;
 
-        url = this.urlPrefix(url, this.buildURL(type, id, null, 'findHasMany'));
+        url = this.urlPrefix(url, this.buildURL(type, id, snapshot, 'findHasMany'));
 
         // If fetching user nodes, will embed root and parent.
         if (relationship.type === 'node') {

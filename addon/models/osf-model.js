@@ -17,6 +17,7 @@ import HasManyQuery from 'ember-data-has-many-query';
 export default DS.Model.extend(HasManyQuery.ModelMixin, {
     links: DS.attr('links'),
     embeds: DS.attr('embed'),
+    errors: DS.attr(),
 
     relationshipLinks: Ember.computed.alias('links.relationships'),
     _dirtyRelationships: null,
