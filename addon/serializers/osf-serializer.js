@@ -40,6 +40,14 @@ export default DS.JSONAPISerializer.extend({
             }
             //TODO Pagination probably breaks here
             let data = resourceHash.embeds[embedded].data || resourceHash.embeds[embedded];
+            if (data.errors) {
+                if (!resourceHash.attributes.embedErrors) {
+                    resourceHash.attributes.embedErrors = {};
+                }
+                let errors = {};
+                errors[embedded] = data.errors;
+                Ember.$.extend(resourceHash.attributes.embedErrors, errors);
+            }
             if (Array.isArray(data)) {
                 included = included.concat(data);
             } else {
