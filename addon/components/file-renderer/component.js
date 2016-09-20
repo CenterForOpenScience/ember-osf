@@ -14,7 +14,7 @@ import config from 'ember-get-config';
  * ```handlebars
  * {{file-renderer
  *   download=model.links.download
- *     width="800" height="1000"}}
+ *     width="800" height="1000" allowfullscreen=true}}
  * ```
  * @class file-renderer
  */
@@ -23,6 +23,7 @@ export default Ember.Component.extend({
     download: null,
     width: '100%',
     height: '100%',
+    allowfullscreen: true,
     mfrUrl: Ember.computed('download', function() {
         var base = config.OSF.renderUrl;
         var download = this.get('download');
