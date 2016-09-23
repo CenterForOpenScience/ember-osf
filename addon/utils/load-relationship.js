@@ -7,6 +7,7 @@ export default function loadAll(model, relationship, dest, options = {}) {
         page: page
     };
     query = Ember.merge(query, options || {});
+    Ember.set(model, 'query-params', query);
 
     return model.query(relationship, query).then(results => {
         dest.pushObjects(results.toArray());
@@ -15,10 +16,9 @@ export default function loadAll(model, relationship, dest, options = {}) {
         var pageSize = results.meta.pagination.per_page;
         var remaining = total - (page * pageSize);
         if (remaining > 0) {
-            return loadAll(model, relationship, dest, {
-                'page[size]': pageSize,
-                page: page + 1
-            });
+            query.page = page + 1;
+            query['page[size]'] = pageSize;
+            return loadAll(model, relationship, dest, query);
         }
     });
 }
