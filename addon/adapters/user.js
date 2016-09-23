@@ -10,13 +10,9 @@ export default OsfAdapter.extend({
 
         // If fetching user nodes, will embed root and parent.
         if (relationship.type === 'node') {
-            var embedParams = 'embed=parent&embed=root';
+            url +='?embed=parent&embed=root';
             if (snapshot.record.get('query-params')) {
-                var queryParams = Ember.$.param(snapshot.record.get('query-params'));
-                url += '?' + queryParams;
-                url += '&' + embedParams;
-            } else {
-                url += '?' + embedParams;
+                url += '&' + Ember.$.param(snapshot.record.get('query-params'));
             }
         }
         return this.ajax(url, 'GET');
