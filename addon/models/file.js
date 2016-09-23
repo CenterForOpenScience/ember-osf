@@ -28,6 +28,7 @@ export default OsfModel.extend(FileItemMixin, {
     guid: DS.attr('string'),
     path: DS.attr('string'),
     size: DS.attr('number'),
+    currentVersion: DS.attr('number'),
     provider: DS.attr('string'),
     materializedPath: DS.attr('string'),
     lastTouched: DS.attr('date'),
