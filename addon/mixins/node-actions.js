@@ -108,6 +108,17 @@ export default Ember.Mixin.create({
         addContributor(userId, permission, isBibliographic, sendEmail) { // jshint ignore:line
             return this.get('_node').addContributor(...arguments);
         },
+         /**
+         * Bulk add contributors to a node
+         *
+         * @method addContributors
+         * @param {Array} contributors Array of objects containing contributor permission, bibliographic, and userId keys
+         * @param {Boolean} sendEmail Whether user will receive an email when added. "default: true"
+         * @return {Promise} Returns a promise that resolves to an array of added contributors
+         */
+        addContributors(contributors, sendEmail) { // jshint ignore:line
+            return this.get('_node').addContributors(...arguments);
+        },
         /**
          * Remove a contributor from a node
          *

@@ -167,6 +167,43 @@ export default OsfModel.extend(FileItemMixin, {
         return contrib.save();
     },
 
+    addContributors(contributors, sendEmail) {
+        let payload = contributors.map(contrib => {
+            let c = this.store.createRecord('contributor', {
+                permission: contrib.permission,
+                bibliographic: contrib.bibliographic,
+                nodeId: this.get('id'),
+                userId: contrib.userId,
+                id: this.get('id') + '-' + contrib.userId,
+                unregisteredContributor: null
+            });
+            return c.serialize({
+                includeId: true,
+                includeUser:true
+            }).data;
+        });
+
+        var emailQuery = '';
+        if (sendEmail === false) {
+            emailQuery = '?send_email=false';
+        }
+
+        // TODO Get this working properly - should not be an ajax request in the future.
+        return this.store.adapterFor('contributor').ajax(this.get('links.relationships.contributors.links.related.href') + emailQuery, 'POST', {
+            data: {
+                data: payload
+            },
+            isBulk: true
+        }).then(resp => {
+            this.store.pushPayload(resp);
+            var createdContribs = Ember.A();
+            resp.data.map((contrib) => {
+                createdContribs.push(this.store.peekRecord('contributor', contrib.id));
+            });
+            return createdContribs;
+        });
+    },
+
     removeContributor(contributor) {
         return contributor.destroyRecord();
     },
