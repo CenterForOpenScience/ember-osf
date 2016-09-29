@@ -108,7 +108,7 @@ export default Ember.Mixin.create({
         addContributor(userId, permission, isBibliographic, sendEmail) { // jshint ignore:line
             return this.get('_node').addContributor(...arguments);
         },
-         /**
+        /**
          * Bulk add contributors to a node
          *
          * @method addContributors

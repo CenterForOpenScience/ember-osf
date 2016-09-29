@@ -179,7 +179,7 @@ export default OsfModel.extend(FileItemMixin, {
             });
             return c.serialize({
                 includeId: true,
-                includeUser:true
+                includeUser: true
             }).data;
         });
 
