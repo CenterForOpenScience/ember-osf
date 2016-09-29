@@ -62,8 +62,13 @@ export default Ember.Component.extend({
 
     actions: {
         addATag(tag) {
+            const splitTags = tag
+                .split(/[,]+/)
+                .map(item => item.trim());
+
             // Calls a curried closure action which was provided the model
-            this.attrs.addATag(tag);
+            for (let splitTag of splitTags)
+                this.attrs.addATag(splitTag);
         },
         removeATag(tag) {
             // Don't try to delete a blank tag (would result in a server error)
