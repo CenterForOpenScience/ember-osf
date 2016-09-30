@@ -53,9 +53,12 @@ uri is correct.  If it needs a trailing slash, be sure to include a trailing sla
 
 Edit the new file (installed in the config directory) and set:
 - `CLIENT_ID` to the client id of your developer application
-- `PERSONAL_ACCESS_TOKEN` to the newly generated token (if applicable, optional for staging development)
+- `PERSONAL_ACCESS_TOKEN` to the newly generated token (Only required or recognized for the LOCAL backend; do not set this value for staging. production, or test backends)
 - REDIRECT_URI: Must exactly match the redirect URI used to register the OAuth developer application. 
 Default value is appropriate for local development using `ember server`, with a login page at `/login` 
+
+Because of the potential for this file to include sensitive information, we strongly recommend adding this file to 
+`.gitignore` for your project.
 
 #### Using the Test API
 
