@@ -21,13 +21,16 @@ import config from 'ember-get-config';
 export default Ember.Component.extend({
     layout,
     download: null,
+    version: null,
     width: '100%',
     height: '100%',
     allowfullscreen: true,
-    mfrUrl: Ember.computed('download', function() {
-        var base = config.OSF.renderUrl;
-        var download = this.get('download');
-        var renderUrl = base + '?url=' + encodeURIComponent(download + '?direct&mode=render&initialWidth=766');
-        return renderUrl;
+    mfrUrl: Ember.computed('download', 'version', function() {
+        const base = config.OSF.renderUrl;
+        const download = this.get('download');
+        const version = this.get('version') ? `&version=${this.get('version')}` : '';
+        const url = encodeURIComponent(`${download}?direct&mode=render&initialWidth=766${version}`);
+
+        return `${base}?url=${url}`;
     })
 });
