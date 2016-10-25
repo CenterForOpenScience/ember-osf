@@ -49,6 +49,9 @@ export default OsfModel.extend(FileItemMixin, {
     children: DS.hasMany('nodes', {
         inverse: 'parent'
     }),
+    preprints: DS.hasMany('preprints', {
+       inverse: null
+    }),
     affiliatedInstitutions: DS.hasMany('institutions', {
         inverse: 'nodes'
     }),
