@@ -7,6 +7,9 @@
         <span class="caret"></span>
     </a>
     <ul class="dropdown-menu" role="menu">
+        {{#if headline}}
+            <li style="margin-left:10%;">{{headline}}</li>
+        {{/if}}
         <li>
             <a href="{{host}}profile/"><i class="fa fa-user fa-lg p-r-xs"></i> My Profile</a>
         </li>
