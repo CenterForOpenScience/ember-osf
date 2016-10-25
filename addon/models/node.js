@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import DS from 'ember-data';
-
 import OsfModel from './osf-model';
 
 import FileItemMixin from 'ember-osf/mixins/file-item';
@@ -50,7 +49,7 @@ export default OsfModel.extend(FileItemMixin, {
         inverse: 'parent'
     }),
     preprints: DS.hasMany('preprints', {
-       inverse: null
+        inverse: null
     }),
     affiliatedInstitutions: DS.hasMany('institutions', {
         inverse: 'nodes'
