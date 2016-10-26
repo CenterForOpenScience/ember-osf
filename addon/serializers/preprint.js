@@ -1,4 +1,3 @@
-import DS from 'ember-data';
 import OsfSerializer from './osf-serializer';
 import Ember from 'ember';
 
