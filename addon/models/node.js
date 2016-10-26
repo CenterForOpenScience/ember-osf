@@ -186,8 +186,10 @@ export default OsfModel.extend(FileItemMixin, {
         });
 
         var emailQuery = '';
-        if (sendEmail === false) {
+        if (!sendEmail) {
             emailQuery = '?send_email=false';
+        } else if (sendEmail === 'preprint') {
+            emailQuery = '?send_email=preprint';
         }
 
         // TODO Get this working properly - should not be an ajax request in the future.
