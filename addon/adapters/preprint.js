@@ -10,10 +10,10 @@ export default OsfAdapter.extend({
     },
     // Override _doRelatedRequest on ember-osf.  Need to serializer preprint instead of file.
     _doRelatedRequest(store, snapshot, relatedSnapshots, relationship, url) {
-            return this.ajax(url, 'PATCH', {
-                data: store.serializerFor('preprint').serialize(snapshot),
-                isBulk: false
-            });
-        }
+        return this.ajax(url, 'PATCH', {
+            data: store.serializerFor('preprint').serialize(snapshot),
+            isBulk: false
+        });
+    }
 
 });
