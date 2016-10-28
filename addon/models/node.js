@@ -185,7 +185,7 @@ export default OsfModel.extend(FileItemMixin, {
             }).data;
         });
 
-        var emailQuery = '';
+        let emailQuery = '';
         if (!sendEmail) {
             emailQuery = '?send_email=false';
         } else if (sendEmail === 'preprint') {

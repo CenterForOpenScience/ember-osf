@@ -2,23 +2,18 @@ import OsfAdapter from './osf-adapter';
 
 export default OsfAdapter.extend({
     // Override _buildRelationshipURL on ember-osf.  Instead of relationship link, need a PATCH to self link
-    _buildRelationshipURL: function _buildRelationshipURL(snapshot) {
-        var url = null;
+    _buildRelationshipURL(snapshot) {
         if (snapshot.record.get('links.self')) {
-            url = snapshot.record.get('links.self');
+            return snapshot.record.get('links.self');
         }
-        return url;
+        return null;
     },
     // Override _doRelatedRequest on ember-osf.  Need to serializer preprint instead of file.
-    _doRelatedRequest: function _doRelatedRequest(store, snapshot, relatedSnapshots, relationship, url) {
-            var isBulk = false;
-            var serializer = store.serializerFor('preprint');
-            var data = serializer.serialize(snapshot);
-
+    _doRelatedRequest(store, snapshot, relatedSnapshots, relationship, url) {
             return this.ajax(url, 'PATCH', {
-                data: data,
-                isBulk: isBulk
+                data: store.serializerFor('preprint').serialize(snapshot),
+                isBulk: false
             });
-        },
+        }
 
 });

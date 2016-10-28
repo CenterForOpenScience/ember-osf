@@ -4,14 +4,13 @@ import Ember from 'ember';
 export default OsfSerializer.extend({
     serialize(snapshot) {
         // Normal OSF serializer strips out relationships. We need to add back primaryFile/node/provider for this endpoint
-        let res = this._super(...arguments);
+        const res = this._super(...arguments);
         res.data.relationships = {};
         for (var rel in snapshot.record._dirtyRelationships) {
             let relationship = Ember.String.underscore(rel);
-            let id = snapshot.belongsTo(rel, { id: true });
             res.data.relationships[relationship] = {
                 data: {
-                    id: id,
+                    id: snapshot.belongsTo(rel, { id: true }),
                     type: relTypes[rel]
                 }
             };
@@ -25,7 +24,7 @@ export default OsfSerializer.extend({
 });
 
 // Type mapping for preprint relationship fields
-var relTypes = {
+const relTypes = {
     primaryFile: 'files',
     node: 'nodes',
     provider: 'providers'
