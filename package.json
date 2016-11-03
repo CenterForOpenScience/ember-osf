@@ -11,7 +11,8 @@
     "docs": "yuidoc",
     "docs-deploy": "yuidoc && ghp-import -r origin -p -b gh-pages docs/",
     "start": "ember server",
-    "test": "./node_modules/jscs/bin/jscs . && ember test"
+    "check-style": "./node_modules/jscs/bin/jscs .",
+    "test": "npm run-script check-style && ember test"
   },
   "repository": "",
   "engines": {
