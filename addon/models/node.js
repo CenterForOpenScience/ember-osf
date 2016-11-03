@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import DS from 'ember-data';
-
 import OsfModel from './osf-model';
 
 import FileItemMixin from 'ember-osf/mixins/file-item';
@@ -48,6 +47,9 @@ export default OsfModel.extend(FileItemMixin, {
     }),
     children: DS.hasMany('nodes', {
         inverse: 'parent'
+    }),
+    preprints: DS.hasMany('preprints', {
+        inverse: 'node'
     }),
     affiliatedInstitutions: DS.hasMany('institutions', {
         inverse: 'nodes'
@@ -183,9 +185,11 @@ export default OsfModel.extend(FileItemMixin, {
             }).data;
         });
 
-        var emailQuery = '';
-        if (sendEmail === false) {
+        let emailQuery = '';
+        if (!sendEmail) {
             emailQuery = '?send_email=false';
+        } else if (sendEmail === 'preprint') {
+            emailQuery = '?send_email=preprint';
         }
 
         // TODO Get this working properly - should not be an ajax request in the future.

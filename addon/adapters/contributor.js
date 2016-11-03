@@ -28,6 +28,8 @@ export default OsfAdapter.extend({
 
                 if (!sendEmail) {
                     requestUrl += `&send_email=false`;
+                } else if (sendEmail === 'preprint') {
+                    requestUrl += `&send_email=preprint`;
                 }
 
                 return requestUrl;
