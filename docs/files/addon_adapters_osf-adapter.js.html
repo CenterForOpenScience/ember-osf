@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>addon/adapters/osf-adapter.js - Ember OSF</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="https://cos.io/static/img/icons/cos_wide.png" title="Ember OSF"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.0.1</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/ajax-helpers.html">ajax-helpers</a></li>
+                                <li><a href="../classes/auth.html">auth</a></li>
+                                <li><a href="../classes/CasAuthenticatedRouteMixin.html">CasAuthenticatedRouteMixin</a></li>
+                                <li><a href="../classes/Collection.html">Collection</a></li>
+                                <li><a href="../classes/Comment.html">Comment</a></li>
+                                <li><a href="../classes/comment-detail.html">comment-detail</a></li>
+                                <li><a href="../classes/comment-form.html">comment-form</a></li>
+                                <li><a href="../classes/comment-pane.html">comment-pane</a></li>
+                                <li><a href="../classes/CommentableMixin.html">CommentableMixin</a></li>
+                                <li><a href="../classes/CommentReport.html">CommentReport</a></li>
+                                <li><a href="../classes/Contributor.html">Contributor</a></li>
+                                <li><a href="../classes/current-user.html">current-user</a></li>
+                                <li><a href="../classes/DraftRegistration.html">DraftRegistration</a></li>
+                                <li><a href="../classes/dropzone-widget.html">dropzone-widget</a></li>
+                                <li><a href="../classes/elem-id.html">elem-id</a></li>
+                                <li><a href="../classes/eosf-project-nav.html">eosf-project-nav</a></li>
+                                <li><a href="../classes/FetchAllRouteMixin.html">FetchAllRouteMixin</a></li>
+                                <li><a href="../classes/File.html">File</a></li>
+                                <li><a href="../classes/file-browser.html">file-browser</a></li>
+                                <li><a href="../classes/file-browser-icon.html">file-browser-icon</a></li>
+                                <li><a href="../classes/file-chooser component.html">file-chooser component</a></li>
+                                <li><a href="../classes/file-manager.html">file-manager</a></li>
+                                <li><a href="../classes/file-renderer.html">file-renderer</a></li>
+                                <li><a href="../classes/file-version.html">file-version</a></li>
+                                <li><a href="../classes/file-widget.html">file-widget</a></li>
+                                <li><a href="../classes/FileCacheBypassMixin.html">FileCacheBypassMixin</a></li>
+                                <li><a href="../classes/FileItemMixin.html">FileItemMixin</a></li>
+                                <li><a href="../classes/FileProvider.html">FileProvider</a></li>
+                                <li><a href="../classes/FileVersion.html">FileVersion</a></li>
+                                <li><a href="../classes/GenericDataADapter.html">GenericDataADapter</a></li>
+                                <li><a href="../classes/InfinityCustomMixin.html">InfinityCustomMixin</a></li>
+                                <li><a href="../classes/Institution.html">Institution</a></li>
+                                <li><a href="../classes/Log.html">Log</a></li>
+                                <li><a href="../classes/Metaschema.html">Metaschema</a></li>
+                                <li><a href="../classes/Node.html">Node</a></li>
+                                <li><a href="../classes/NodeActionsMixin.html">NodeActionsMixin</a></li>
+                                <li><a href="../classes/NodeLink.html">NodeLink</a></li>
+                                <li><a href="../classes/oauth-popup.html">oauth-popup</a></li>
+                                <li><a href="../classes/osf-copyright.html">osf-copyright</a></li>
+                                <li><a href="../classes/osf-footer.html">osf-footer</a></li>
+                                <li><a href="../classes/osf-mode-footer.html">osf-mode-footer</a></li>
+                                <li><a href="../classes/osf-navbar.html">osf-navbar</a></li>
+                                <li><a href="../classes/osf-paginator.html">osf-paginator</a></li>
+                                <li><a href="../classes/OsfAdapter.html">OsfAdapter</a></li>
+                                <li><a href="../classes/OsfAgnosticAuthController.html">OsfAgnosticAuthController</a></li>
+                                <li><a href="../classes/OsfAgnosticAuthRoute.html">OsfAgnosticAuthRoute</a></li>
+                                <li><a href="../classes/OsfCookieAuthenticator.html">OsfCookieAuthenticator</a></li>
+                                <li><a href="../classes/OsfCookieAuthorizer.html">OsfCookieAuthorizer</a></li>
+                                <li><a href="../classes/OsfCookieLoginController.html">OsfCookieLoginController</a></li>
+                                <li><a href="../classes/OsfCookieLoginRoute.html">OsfCookieLoginRoute</a></li>
+                                <li><a href="../classes/OsfModel.html">OsfModel</a></li>
+                                <li><a href="../classes/OsfSerializer.html">OsfSerializer</a></li>
+                                <li><a href="../classes/OsfTokenAuthenticator.html">OsfTokenAuthenticator</a></li>
+                                <li><a href="../classes/OsfTokenAuthorizer.html">OsfTokenAuthorizer</a></li>
+                                <li><a href="../classes/OsfTokenLoginControllerMixin.html">OsfTokenLoginControllerMixin</a></li>
+                                <li><a href="../classes/OsfTokenLoginRouteMixin.html">OsfTokenLoginRouteMixin</a></li>
+                                <li><a href="../classes/PaginatedControllerMixin.html">PaginatedControllerMixin</a></li>
+                                <li><a href="../classes/PaginatedRouteMixin.html">PaginatedRouteMixin</a></li>
+                                <li><a href="../classes/pagination-control.html">pagination-control</a></li>
+                                <li><a href="../classes/Preprint.html">Preprint</a></li>
+                                <li><a href="../classes/Registration.html">Registration</a></li>
+                                <li><a href="../classes/RegistrationActionsMixin.html">RegistrationActionsMixin</a></li>
+                                <li><a href="../classes/search-dropdown.html">search-dropdown</a></li>
+                                <li><a href="../classes/sign-up.html">sign-up</a></li>
+                                <li><a href="../classes/TaggableMixin.html">TaggableMixin</a></li>
+                                <li><a href="../classes/tags-widget.html">tags-widget</a></li>
+                                <li><a href="../classes/Taxonomy.html">Taxonomy</a></li>
+                                <li><a href="../classes/User.html">User</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/adapters.html">adapters</a></li>
+                                <li><a href="../modules/authenticators.html">authenticators</a></li>
+                                <li><a href="../modules/authorizers.html">authorizers</a></li>
+                                <li><a href="../modules/components.html">components</a></li>
+                                <li><a href="../modules/ember.html">ember</a></li>
+                                <li><a href="../modules/ember-osf.html">ember-osf</a></li>
+                                <li><a href="../modules/ember-preprints.html">ember-preprints</a></li>
+                                <li><a href="../modules/helpers.html">helpers</a></li>
+                                <li><a href="../modules/mixins.html">mixins</a></li>
+                                <li><a href="../modules/models.html">models</a></li>
+                                <li><a href="../modules/serializers.html">serializers</a></li>
+                                <li><a href="../modules/services.html">services</a></li>
+                                <li><a href="../modules/utils.html">utils</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: addon/adapters/osf-adapter.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+import Ember from &#x27;ember&#x27;;
+import DS from &#x27;ember-data&#x27;;
+
+import HasManyQuery from &#x27;ember-data-has-many-query&#x27;;
+import config from &#x27;ember-get-config&#x27;;
+import GenericDataAdapterMixin from &#x27;ember-osf/mixins/generic-data-adapter&#x27;;
+
+import {
+    singularize
+} from &#x27;ember-inflector&#x27;;
+
+/**
+ * @module ember-osf
+ * @submodule adapters
+ */
+
+/**
+ * Base adapter class for all OSF APIv2 endpoints
+ *
+ * @class OsfAdapter
+ * @extends DS.JSONAPIAdapter
+ * @uses HasManyQuery.RESTAdapterMixin
+ * @uses GenericDataAdapterMixin
+ */
+export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDataAdapterMixin, {
+    authorizer: config[&#x27;ember-simple-auth&#x27;].authorizer,
+    host: config.OSF.apiUrl,
+    namespace: config.OSF.apiNamespace,
+    buildURL(modelName, id, snapshot, requestType) {
+        var url = this._super(...arguments);
+        var options = (snapshot ? snapshot.adapterOptions : false) || {};
+        if (requestType === &#x27;deleteRecord&#x27; || requestType === &#x27;updateRecord&#x27; || requestType === &#x27;findRecord&#x27;) {
+            if (snapshot.record.get(&#x27;links.self&#x27;)) {
+                url = snapshot.record.get(&#x27;links.self&#x27;);
+            }
+        } else if (options.url) {
+            url = options.url;
+        }
+
+        // Fix issue where CORS request failed on 301s: Ember does not seem to append trailing
+        // slash to URLs for single documents, but DRF redirects to force a trailing slash
+        if (url.lastIndexOf(&#x27;/&#x27;) !== url.length - 1) {
+            url += &#x27;/&#x27;;
+        }
+        return url;
+    },
+    /**
+     * Construct a URL for a relationship create/update/delete.
+     *
+     * @method _buildRelationshipURL
+     * @private
+     * @param {DS.Snapshot} snapshot
+     * @param {String} relationship the relationship to build a url for
+     * @return {String} a URL
+     **/
+    _buildRelationshipURL(snapshot, relationship) {
+        var links = relationship ? snapshot.record.get(
+            &#x60;relationshipLinks.${Ember.String.underscore(relationship)}.links&#x60;
+        ) : false;
+        if (links &amp;&amp; (links.self || links.related)) {
+            return links.self ? links.self.href : links.related.href;
+        }
+        return null;
+    },
+    /**
+     * Handle creation of related resources
+     *
+     * @method _createRelated
+     * @private
+     * @param {DS.Store} store
+     * @param {DS.Snapshot} snapshot snapshot of inverse record
+     * @param {DS.Snapshot[]} createdSnapshots
+     * @param {String} relationship
+     * @param {String} url
+     * @param {Boolean} isBulk
+     **/
+    _createRelated(store, snapshot, createdSnapshots, relationship, url, isBulk = false) { // jshint ignore:line
+        // TODO support bulk create?
+        // if (isBulk) {
+        //
+        // }
+        return createdSnapshots.map(s =&gt; s.record.save({
+            adapterOptions: {
+                nested: true,
+                url: url,
+                requestType: &#x27;create&#x27;
+            }
+        }).then(res =&gt; {
+            snapshot.record.resolveRelationship(relationship).addCanonicalRecord(s.record._internalModel);
+            return res;
+        }));
+    },
+    /**
+     * Handle add(s) of related resources. This differs from CREATEs in that the related
+     * record is already saved and is just being associated with the inverse record.
+     *
+     * @method _addRelated
+     * @private
+     * @param {DS.Store} store
+     * @param {DS.Snapshot} snapshot snapshot of inverse record
+     * @param {DS.Snapshot[]} addedSnapshots
+     * @param {String} relationship
+     * @param {String} url
+     * @param {Boolean} isBulk
+     **/
+    _addRelated(store, snapshot, addedSnapshots, relationship, url, isBulk = false) {
+        return this._doRelatedRequest(store, snapshot, addedSnapshots, relationship, url, &#x27;POST&#x27;, isBulk).then(res =&gt; {
+            addedSnapshots.forEach(function(s) {
+                snapshot.record.resolveRelationship(relationship).addCanonicalRecord(s.record._internalModel);
+            });
+            return res;
+        });
+    },
+    /**
+     * Handle update(s) of related resources
+     *
+     * @method _updateRelated
+     * @private
+     * @param {DS.Store} store
+     * @param {DS.Snapshot} snapshot snapshot of inverse record
+     * @param {DS.Snapshot[]} updatedSnapshots
+     * @param {String} relationship
+     * @param {String} url
+     * @param {Boolean} isBulk
+     **/
+    _updateRelated(store, snapshot, updatedSnapshots, relationship, url, isBulk = false) {
+        return this._doRelatedRequest(store, snapshot, updatedSnapshots, relationship, url, &#x27;PATCH&#x27;, isBulk).then(res =&gt; {
+            var relatedType = singularize(snapshot.record[relationship].meta().type);
+            res.data.forEach(item =&gt; {
+                var record = store.push(store.normalize(relatedType, item));
+                snapshot.record.resolveRelationship(relationship).addCanonicalRecord(record._internalModel);
+            });
+            return res;
+        });
+    },
+    /**
+     * Handle removal of related resources. This differs from DELETEs in that the related
+     * record is not deleted, just dissociated from the inverse record.
+     *
+     * @method _removeRelated
+     * @private
+     * @param {DS.Store} store
+     * @param {DS.Snapshot} snapshot snapshot of inverse record
+     * @param {DS.Snapshot[]} removedSnapshots
+     * @param {String} relationship
+     * @param {String} url
+     * @param {Boolean} isBulk
+     **/
+    _removeRelated(store, snapshot, removedSnapshots, relationship, url, isBulk = false) {
+        return this._doRelatedRequest(store, snapshot, removedSnapshots, relationship, url, &#x27;DELETE&#x27;, isBulk).then(res =&gt; {
+            removedSnapshots.forEach(s =&gt; snapshot.record.resolveRelationship(relationship).removeCanonicalRecord(s.record._internalModel));
+            return res || [];
+        });
+    },
+    /**
+     * Handle deletion of related resources
+     *
+     * @method _deleteRelated
+     * @private
+     * @param {DS.Store} store
+     * @param {DS.Snapshot} snapshot snapshot of inverse record
+     * @param {DS.Snapshot[]} deletedSnapshots
+     * @param {String} relationship
+     * @param {String} url
+     * @param {Boolean} isBulk
+     **/
+    _deleteRelated(store, snapshot, deletedSnapshots, relationship, url, isBulk = false) { // jshint ignore:line
+        return this._removeRelated(...arguments).then(() =&gt; {
+            deletedSnapshots.forEach(s =&gt; s.record.unloadRecord());
+        });
+    },
+    /**
+     * A helper for making _*Related requests
+     *
+     * @method _doRelatedRequest
+     * @private
+     * @param {DS.Store} store
+     * @param {DS.Snapshot} snapshot snapshot of inverse record
+     * @param {DS.Snapshot[]} relatedSnapshots
+     * @param {String} relationship
+     * @param {String} url
+     * @param {String} requestMethod
+     * @param {Boolean} isBulk
+     **/
+    _doRelatedRequest(store, snapshot, relatedSnapshots, relationship, url, requestMethod, isBulk = false) {
+        var data = {};
+        var relatedMeta = snapshot.record[relationship].meta();
+        var type = singularize(relatedMeta.type);
+        var serializer = store.serializerFor(type);
+        if (relatedMeta.options.serializerType) {
+            serializer = store.serializerFor(relatedMeta.options.serializerType);
+        }
+        if (Ember.isArray(relatedSnapshots)) {
+            data.data = relatedSnapshots.map(relatedSnapshot =&gt; {
+                var item = {};
+                serializer.serializeIntoHash(
+                    item,
+                    store.modelFor(type),
+                    relatedSnapshot, {
+                        forRelationship: true,
+                        isBulk: isBulk
+                    }
+                );
+                if (Ember.isArray(item.data) &amp;&amp; item.data.length === 1) {
+                    return item.data[0];
+                }
+                return item.data;
+            });
+        } else {
+            serializer.serializeIntoHash(
+                data,
+                store.modelFor(type),
+                relatedSnapshots, {
+                    forRelationship: true,
+                    isBulk: isBulk
+                }
+            );
+        }
+        return this.ajax(url, requestMethod, {
+            data: data,
+            isBulk: isBulk
+        }).then(res =&gt; {
+            if (!Ember.$.isArray(res.data)) {
+                res.data = [res.data];
+            }
+            return res;
+        });
+    },
+    /**
+     * Delegate a series of requests based on a snapshot, relationship, and a change.
+     * The change argument can be &#x27;delete&#x27;, &#x27;remove&#x27;, &#x27;update&#x27;, &#x27;add&#x27;, &#x27;create&#x27;
+     *
+     * @method _handleRelatedRequest
+     * @private
+     * @param {DS.Store} store
+     * @param {DS.Model} type
+     * @param {DS.Snapshot} snapshot
+     * @param {String} relationship
+     * @param {String} change
+     **/
+    _handleRelatedRequest(store, type, snapshot, relationship, change) {
+        var related = snapshot.record.get(&#x60;_dirtyRelationships.${relationship}.${change}&#x60;).map(function(r) {
+            if (r._internalModel) {
+                return r._internalModel.createSnapshot();
+            }
+            return r.createSnapshot();
+        });
+        if (!related.length) {
+            return [];
+        }
+
+        var relatedMeta = snapshot.record[relationship].meta();
+        var url = this._buildRelationshipURL(snapshot, relationship);
+        var adapter = store.adapterFor(type.modelName);
+        var allowBulk = relatedMeta.options[&#x60;allowBulk${Ember.String.capitalize(change)}&#x60;];
+
+        if (related.record) {
+            related = [related];
+        }
+
+        var response;
+        response = adapter[&#x60;_${change}Related&#x60;](
+            store,
+            snapshot,
+            related,
+            relationship,
+            url,
+            allowBulk
+        );
+        return response;
+    },
+    updateRecord(store, type, snapshot) {
+        var relatedRequests = {};
+        var dirtyRelationships = snapshot.record.get(&#x27;_dirtyRelationships&#x27;);
+        Object.keys(dirtyRelationships).forEach(relationship =&gt; {
+            var promises = [];
+            var changed = dirtyRelationships[relationship];
+            Object.keys(changed).forEach(change =&gt; {
+                promises = promises.concat(
+                    this._handleRelatedRequest(
+                        store, type, snapshot, relationship, change
+                    ) || []
+                );
+            });
+            if (promises.length) {
+                relatedRequests[relationship] = Ember.RSVP.allSettled(promises);
+            }
+        });
+        var relatedPromise = Ember.RSVP.hashSettled(relatedRequests);
+        if (Object.keys(snapshot.record.changedAttributes()).length) {
+            return this._super(...arguments).then(response =&gt; relatedPromise.then(() =&gt; response));
+        } else {
+            return relatedPromise.then(() =&gt; null);
+        }
+    },
+    ajaxOptions(_, __, options) {
+        var ret = this._super(...arguments);
+        if (options &amp;&amp; options.isBulk) {
+            ret.contentType = &#x27;application/vnd.api+json; ext=bulk&#x27;;
+        }
+        return ret;
+    },
+    pathForType(modelName) {
+        var underscored = Ember.String.underscore(modelName);
+        return Ember.String.pluralize(underscored);
+    }
+});
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>
