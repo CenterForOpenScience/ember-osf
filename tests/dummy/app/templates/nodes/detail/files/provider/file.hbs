@@ -1,0 +1,69 @@
+{{title "OSF | " model.name replace=true}}
+<div class='row'>
+    <div class='col-sm-5'>
+        <h2>{{model.name}}</h2>
+    </div>
+    <div class='col-sm-7'>
+        {{#unless canEdit}}
+            <p class='bg-warning'>
+                This file is checked out by a
+                {{link-to 'collaborator' 'users.detail' model.checkout}}.
+            </p>
+        {{/unless}}
+        <div class='pull-right'>
+            {{#if canEdit}}
+                {{#if canCheckIn}}
+                    <button {{action 'checkIn'}} class='btn btn-sm btn-warning'>
+                        Check in
+                    </button>
+                {{else}}
+                    <button {{action 'delete'}} class='btn btn-sm btn-danger'>
+                        Delete
+                    </button>
+                    <button {{action 'checkOut'}} class='btn btn-sm btn-warning'>
+                        Check out
+                    </button>
+                {{/if}}
+
+            {{/if}}
+            <button {{action 'download'}} class='btn btn-sm btn-primary'>
+                Download
+            </button>
+            {{link-to 'View'
+                'nodes.detail.files.provider.file.index'
+                node model.provider model
+                class='btn btn-sm btn-primary'}}
+            {{link-to 'Revisions'
+                'nodes.detail.files.provider.file.revisions'
+                node model.provider model
+                class='btn btn-sm btn-primary'}}
+        </div>
+    </div>
+</div>
+<hr>
+<div class='row'>
+    <div class='col-md-3'>
+        {{file-browser rootItem=node
+        selectedFile=model
+        openFile=(action 'fileDetail')
+        openNode=(action 'nodeDetail')
+        }}
+        <div>
+            <p><label> Tags </label></p>
+            {{tags-widget addATag=(action 'addATag' model) removeATag=(action 'removeATag' model) tags=model.tags}}
+        </div>
+    </div>
+    <div class='col-md-9'>
+        {{outlet}}
+    </div>
+</div>
+
+<div class="row">
+    {{comment-pane
+    comments=comments
+    addComment=(action 'addComment')
+    editComment=(action 'editComment')
+    deleteComment=(action 'deleteComment')
+    restoreComment=(action 'restoreComment')
+    reportComment=(action 'reportComment')}}
+</div>

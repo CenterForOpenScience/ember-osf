@@ -1,0 +1,51 @@
+{{title model.fullName}}
+{{link-to 'Back to list' 'users' class="btn btn-default"}}
+<div>
+    <h4>Data</h4>
+    <p><label>Full Name: </label> {{model.fullName}}</p>
+    <p><label>Date Registered: </label> {{moment-format model.dateRegistered}}</p>
+    <p>
+        <a href="{{model.links.html}}" target="_blank" class="btn btn-primary">
+            View on OSF
+        </a>
+    </p>
+    <hr>
+    <h4>Nodes</h4>
+    <table class="table">
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+        </tr>
+        {{#each model.nodes as |node|}}
+            <tr>
+                <td>{{node.id}}</td>
+                <td>{{node.title}}</td>
+            </tr>
+        {{/each}}
+    </table>
+    <hr>
+    <h4>Registrations</h4>
+    <table class="table">
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+        </tr>
+        {{#each model.registrations as |registration|}}
+            <tr>
+                <td>{{registration.id}}</td>
+                <td>{{registration.title}}</td>
+            </tr>
+        {{/each}}
+    </table>
+    <hr>
+    <h4>Affiliated Institutions</h4>
+    <p>
+        <table class="table">
+            {{#each model.affiliatedInstitutions as |inst|}}
+                <tr>
+                    {{inst.name}}
+                </tr>
+            {{/each}}
+        </table>
+    </p>
+</div>

@@ -1,0 +1,28 @@
+<h2> Recent Activity </h2>
+
+<table class="table logs">
+    <tr>
+        <th> Action </th>
+        <th> Original Node </th>
+        <th> User </th>
+        <th> Current Node </th>
+        <th> Date </th>
+        <th> Additional Params Included </th>
+    </tr>
+    {{#each node-logs as |node-log|}}
+        <tr>
+            <td> {{node-log.action}} </td>
+            <td> <a href="{{node-log.originalNode.links.html}}"> {{node-log.originalNode.title}}: {{node-log.originalNode.id}} </a> </td>
+            <td> <a href="{{node-log.user.links.html}}">{{node-log.user.givenName}} </a> </td>
+            <td> <a href="{{node-log.node.links.html}}">{{node-log.node.title}}: {{node-log.node.id}}  </a></td>
+            <td> {{moment-format node-log.date}} </td>
+            <td>
+                {{#each-in node-log.params as |key value|}}
+                    {{key}},
+                {{/each-in}}
+                {{if node-log.linkedNode "linked_node"}}
+                {{if node-log.templateNode "template_node"}}
+            </td>
+        </tr>
+    {{/each}}
+</table>

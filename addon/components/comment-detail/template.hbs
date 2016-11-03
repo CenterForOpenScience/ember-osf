@@ -1,0 +1,24 @@
+<div>
+    {{#if comment.deleted}}
+        <div>
+            Comment deleted
+            {{# if comment.canEdit}}
+                <button {{action restoreComment comment}} class="btn btn-warning">Restore</button>
+            {{/if}}
+        </div>
+    {{else}}
+        <div>
+            <strong>
+                {{comment.dateCreated}}
+            </strong>:
+            {{# if comment.canEdit}}
+                {{input value=comment.content}}
+                <button {{action editComment comment}} class="btn btn-success">Edit</button>
+                <button {{action deleteComment comment}} class="btn btn-danger">Delete</button>
+            {{else}}
+                <span>{{comment.content}}</span>
+                <button {{action reportComment comment}} class="btn btn-warning">Report</button>
+            {{/if}}
+        </div>
+    {{/if}}
+</div>

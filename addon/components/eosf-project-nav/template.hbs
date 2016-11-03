@@ -1,0 +1,76 @@
+<div id="projectBanner" >
+    <header class="subhead" id="overview">
+        <nav id="projectSubnav" class="navbar osf-project-navbar" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".project-nav">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="fa fa-bars fa-lg"></span>
+                    </button>
+                    <a class="navbar-brand visible-xs" href="{{node.links.html}}">
+                        {{projectLabel}} Navigation
+                    </a>
+                </div>
+                <div class="collapse navbar-collapse project-nav">
+                    <ul class="nav navbar-nav">
+                        {{#if parentExists}}
+                            {{#if showParentProjectLink}}
+                                <li>
+                                    <a href="{{node.parent.links.html}}" data-toggle="tooltip" title="{{node.parent.title}}" data-placement="bottom" class="eosf-project-nav-parent">
+                                        <i class="fa fa-level-down fa-rotate-180"></i>
+                                    </a>
+                                </li>
+                            {{else}}
+                                {{!-- TODO: Private project detection in OSF dashboard relies on embeds : private parent is listed in api endpoint, but the page is not visible --}}
+                                <li><a data-toggle="tooltip" title="Parent project is private" data-placement="bottom" class="eosf-project-nav-private-parent"> <i class="fa fa-level-down fa-rotate-180 text-muted"></i>  </a></li>
+                            {{/if}}
+                        {{/if}}
+                        <li>
+                            <a href="{{node.links.html}}" class="project-title">
+                                {{node.title}}
+                            </a>
+                        </li>
+                        {{#unless isWithdrawnRegistration}}
+                            <li id="projectNavFiles">
+                                <a href="{{node.links.html}}files/">
+                                    Files
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{node.links.html}}wiki/">Wiki</a>
+                            </li>
+                            {{#if showAnalyticsTab}}
+                                <li><a href="{{node.links.html}}analytics/">Analytics</a></li>
+                            {{/if}}
+                            {{#if showRegistrationsTab}}
+                                <li><a href="{{node.links.html}}registrations/">Registrations</a></li>
+                            {{/if}}
+                            {{#if showForksTab}}
+                                <li><a href="{{node.links.html}}forks/">Forks</a></li>
+                            {{/if}}
+
+                            {{#if showContributorsTab}}
+                                <li><a href="{{node.links.html}}contributors/">Contributors</a></li>
+                            {{/if}}
+
+                            {{#if showSettingsTab}}
+                                <li><a href="{{node.links.html}}settings/">Settings</a></li>
+                            {{/if}}
+                        {{/unless}}
+                        {{#if showCommentsButton}}
+                            <li id="commentsLink">
+                                {{!-- TODO: Convert usages of knockout. How can API tell us if user can comment? --}}
+                                <a href="" class="visible-xs cp-handle" data-bind="click:removeCount" data-toggle="collapse" data-target="#projectSubnav .navbar-collapse">
+                                    Comments
+                                    <span data-bind="if: unreadComments() !== 0">
+                                        <span data-bind="text: displayCount" class="badge"></span>
+                                    </span>
+                                </a>
+                            </li>
+                        {{/if}}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+</div>
