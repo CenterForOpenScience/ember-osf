@@ -1,0 +1,4407 @@
+{
+    "project": {
+        "name": "Ember OSF",
+        "description": "Ember components for interacting with the Open Science Framework",
+        "version": "0.0.1",
+        "url": "https://github.com/CenterForOpenScience/ember-osf",
+        "logo": "https://cos.io/static/img/icons/cos_wide.png"
+    },
+    "files": {
+        "addon/adapters/osf-adapter.js": {
+            "name": "addon/adapters/osf-adapter.js",
+            "modules": {
+                "adapters": 1
+            },
+            "classes": {
+                "OsfAdapter": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/authenticators/osf-cookie.js": {
+            "name": "addon/authenticators/osf-cookie.js",
+            "modules": {
+                "authenticators": 1
+            },
+            "classes": {
+                "OsfCookieAuthenticator": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/authenticators/osf-token.js": {
+            "name": "addon/authenticators/osf-token.js",
+            "modules": {},
+            "classes": {
+                "OsfTokenAuthenticator": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/authorizers/osf-cookie.js": {
+            "name": "addon/authorizers/osf-cookie.js",
+            "modules": {
+                "authorizers": 1
+            },
+            "classes": {
+                "OsfCookieAuthorizer": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/authorizers/osf-token.js": {
+            "name": "addon/authorizers/osf-token.js",
+            "modules": {},
+            "classes": {
+                "OsfTokenAuthorizer": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/components/comment-detail/component.js": {
+            "name": "addon/components/comment-detail/component.js",
+            "modules": {
+                "components": 1
+            },
+            "classes": {
+                "comment-detail": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/components/comment-form/component.js": {
+            "name": "addon/components/comment-form/component.js",
+            "modules": {},
+            "classes": {
+                "comment-form": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/components/comment-pane/component.js": {
+            "name": "addon/components/comment-pane/component.js",
+            "modules": {},
+            "classes": {
+                "comment-pane": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/components/dropzone-widget/component.js": {
+            "name": "addon/components/dropzone-widget/component.js",
+            "modules": {},
+            "classes": {
+                "dropzone-widget": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/components/eosf-project-nav/component.js": {
+            "name": "addon/components/eosf-project-nav/component.js",
+            "modules": {},
+            "classes": {
+                "eosf-project-nav": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/components/file-browser/component.js": {
+            "name": "addon/components/file-browser/component.js",
+            "modules": {},
+            "classes": {
+                "file-browser": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/components/file-browser-icon/component.js": {
+            "name": "addon/components/file-browser-icon/component.js",
+            "modules": {},
+            "classes": {
+                "file-browser-icon": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/components/file-browser-item/component.js": {
+            "name": "addon/components/file-browser-item/component.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/components/file-chooser/component.js": {
+            "name": "addon/components/file-chooser/component.js",
+            "modules": {},
+            "classes": {
+                "file-chooser component": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/components/file-renderer/component.js": {
+            "name": "addon/components/file-renderer/component.js",
+            "modules": {},
+            "classes": {
+                "file-renderer": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/components/file-version/component.js": {
+            "name": "addon/components/file-version/component.js",
+            "modules": {},
+            "classes": {
+                "file-version": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/components/file-widget/component.js": {
+            "name": "addon/components/file-widget/component.js",
+            "modules": {},
+            "classes": {
+                "file-widget": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/components/oauth-popup/component.js": {
+            "name": "addon/components/oauth-popup/component.js",
+            "modules": {},
+            "classes": {
+                "oauth-popup": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/components/osf-copyright/component.js": {
+            "name": "addon/components/osf-copyright/component.js",
+            "modules": {},
+            "classes": {
+                "osf-copyright": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/components/osf-footer/component.js": {
+            "name": "addon/components/osf-footer/component.js",
+            "modules": {},
+            "classes": {
+                "osf-footer": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/components/osf-mode-footer/component.js": {
+            "name": "addon/components/osf-mode-footer/component.js",
+            "modules": {},
+            "classes": {
+                "osf-mode-footer": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/components/osf-navbar/component.js": {
+            "name": "addon/components/osf-navbar/component.js",
+            "modules": {},
+            "classes": {
+                "osf-navbar": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/components/osf-paginator/component.js": {
+            "name": "addon/components/osf-paginator/component.js",
+            "modules": {},
+            "classes": {
+                "osf-paginator": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/components/pagination-control/component.js": {
+            "name": "addon/components/pagination-control/component.js",
+            "modules": {},
+            "classes": {
+                "pagination-control": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/components/search-dropdown/component.js": {
+            "name": "addon/components/search-dropdown/component.js",
+            "modules": {},
+            "classes": {
+                "search-dropdown": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/components/sign-up/component.js": {
+            "name": "addon/components/sign-up/component.js",
+            "modules": {},
+            "classes": {
+                "sign-up": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/components/tags-widget/component.js": {
+            "name": "addon/components/tags-widget/component.js",
+            "modules": {},
+            "classes": {
+                "tags-widget": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/const/permissions.js": {
+            "name": "addon/const/permissions.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/helpers/elem-id.js": {
+            "name": "addon/helpers/elem-id.js",
+            "modules": {
+                "helpers": 1
+            },
+            "classes": {
+                "elem-id": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/mixins/cas-authenticated-route.js": {
+            "name": "addon/mixins/cas-authenticated-route.js",
+            "modules": {
+                "mixins": 1
+            },
+            "classes": {
+                "CasAuthenticatedRouteMixin": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/mixins/commentable.js": {
+            "name": "addon/mixins/commentable.js",
+            "modules": {},
+            "classes": {
+                "CommentableMixin": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/mixins/fetch-all-route.js": {
+            "name": "addon/mixins/fetch-all-route.js",
+            "modules": {},
+            "classes": {
+                "FetchAllRouteMixin": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/mixins/file-cache-bypass.js": {
+            "name": "addon/mixins/file-cache-bypass.js",
+            "modules": {},
+            "classes": {
+                "FileCacheBypassMixin": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/mixins/file-item.js": {
+            "name": "addon/mixins/file-item.js",
+            "modules": {},
+            "classes": {
+                "FileItemMixin": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/mixins/generic-data-adapter.js": {
+            "name": "addon/mixins/generic-data-adapter.js",
+            "modules": {},
+            "classes": {
+                "GenericDataADapter": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/mixins/infinity-custom.js": {
+            "name": "addon/mixins/infinity-custom.js",
+            "modules": {},
+            "classes": {
+                "InfinityCustomMixin": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/mixins/node-actions.js": {
+            "name": "addon/mixins/node-actions.js",
+            "modules": {},
+            "classes": {
+                "NodeActionsMixin": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/mixins/osf-agnostic-auth-controller.js": {
+            "name": "addon/mixins/osf-agnostic-auth-controller.js",
+            "modules": {},
+            "classes": {
+                "OsfAgnosticAuthController": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/mixins/osf-agnostic-auth-route.js": {
+            "name": "addon/mixins/osf-agnostic-auth-route.js",
+            "modules": {},
+            "classes": {
+                "OsfAgnosticAuthRoute": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/mixins/osf-cookie-login-controller.js": {
+            "name": "addon/mixins/osf-cookie-login-controller.js",
+            "modules": {},
+            "classes": {
+                "OsfCookieLoginController": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/mixins/osf-cookie-login-route.js": {
+            "name": "addon/mixins/osf-cookie-login-route.js",
+            "modules": {},
+            "classes": {
+                "OsfCookieLoginRoute": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/mixins/osf-token-login-controller.js": {
+            "name": "addon/mixins/osf-token-login-controller.js",
+            "modules": {},
+            "classes": {
+                "OsfTokenLoginControllerMixin": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/mixins/osf-token-login-route.js": {
+            "name": "addon/mixins/osf-token-login-route.js",
+            "modules": {},
+            "classes": {
+                "OsfTokenLoginRouteMixin": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/mixins/paginated-controller.js": {
+            "name": "addon/mixins/paginated-controller.js",
+            "modules": {},
+            "classes": {
+                "PaginatedControllerMixin": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/mixins/paginated-route.js": {
+            "name": "addon/mixins/paginated-route.js",
+            "modules": {},
+            "classes": {
+                "PaginatedRouteMixin": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/mixins/registration-actions.js": {
+            "name": "addon/mixins/registration-actions.js",
+            "modules": {},
+            "classes": {
+                "RegistrationActionsMixin": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/mixins/taggable-mixin.js": {
+            "name": "addon/mixins/taggable-mixin.js",
+            "modules": {},
+            "classes": {
+                "TaggableMixin": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/models/collection.js": {
+            "name": "addon/models/collection.js",
+            "modules": {
+                "models": 1
+            },
+            "classes": {
+                "Collection": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/models/comment-report.js": {
+            "name": "addon/models/comment-report.js",
+            "modules": {},
+            "classes": {
+                "CommentReport": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/models/comment.js": {
+            "name": "addon/models/comment.js",
+            "modules": {},
+            "classes": {
+                "Comment": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/models/contributor.js": {
+            "name": "addon/models/contributor.js",
+            "modules": {},
+            "classes": {
+                "Contributor": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/models/draft-registration.js": {
+            "name": "addon/models/draft-registration.js",
+            "modules": {},
+            "classes": {
+                "DraftRegistration": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/models/file-provider.js": {
+            "name": "addon/models/file-provider.js",
+            "modules": {},
+            "classes": {
+                "FileProvider": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/models/file-version.js": {
+            "name": "addon/models/file-version.js",
+            "modules": {},
+            "classes": {
+                "FileVersion": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/models/file.js": {
+            "name": "addon/models/file.js",
+            "modules": {},
+            "classes": {
+                "File": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/models/institution.js": {
+            "name": "addon/models/institution.js",
+            "modules": {},
+            "classes": {
+                "Institution": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/models/log.js": {
+            "name": "addon/models/log.js",
+            "modules": {},
+            "classes": {
+                "Log": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/models/metaschema.js": {
+            "name": "addon/models/metaschema.js",
+            "modules": {},
+            "classes": {
+                "Metaschema": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/models/node-link.js": {
+            "name": "addon/models/node-link.js",
+            "modules": {},
+            "classes": {
+                "NodeLink": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/models/node.js": {
+            "name": "addon/models/node.js",
+            "modules": {},
+            "classes": {
+                "Node": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/models/osf-model.js": {
+            "name": "addon/models/osf-model.js",
+            "modules": {},
+            "classes": {
+                "OsfModel": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/models/preprint.js": {
+            "name": "addon/models/preprint.js",
+            "modules": {},
+            "classes": {
+                "Preprint": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/models/registration.js": {
+            "name": "addon/models/registration.js",
+            "modules": {},
+            "classes": {
+                "Registration": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/models/taxonomy.js": {
+            "name": "addon/models/taxonomy.js",
+            "modules": {},
+            "classes": {
+                "Taxonomy": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/models/user.js": {
+            "name": "addon/models/user.js",
+            "modules": {},
+            "classes": {
+                "User": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/serializers/osf-serializer.js": {
+            "name": "addon/serializers/osf-serializer.js",
+            "modules": {
+                "serializers": 1
+            },
+            "classes": {
+                "OsfSerializer": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/services/current-user.js": {
+            "name": "addon/services/current-user.js",
+            "modules": {
+                "services": 1
+            },
+            "classes": {
+                "current-user": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/services/file-manager.js": {
+            "name": "addon/services/file-manager.js",
+            "modules": {},
+            "classes": {
+                "file-manager": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/utils/ajax-helpers.js": {
+            "name": "addon/utils/ajax-helpers.js",
+            "modules": {
+                "ember-osf": 1,
+                "utils": 1
+            },
+            "classes": {
+                "ajax-helpers": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/utils/auth.js": {
+            "name": "addon/utils/auth.js",
+            "modules": {},
+            "classes": {
+                "auth": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {
+        "ember-osf": {
+            "name": "ember-osf",
+            "submodules": {
+                "adapters": 1,
+                "authenticators": 1,
+                "authorizers": 1,
+                "components": 1,
+                "helpers": 1,
+                "mixins": 1,
+                "models": 1,
+                "serializers": 1,
+                "services": 1
+            },
+            "elements": {},
+            "classes": {
+                "OsfAdapter": 1,
+                "OsfCookieAuthenticator": 1,
+                "OsfTokenAuthenticator": 1,
+                "OsfCookieAuthorizer": 1,
+                "OsfTokenAuthorizer": 1,
+                "comment-detail": 1,
+                "comment-form": 1,
+                "comment-pane": 1,
+                "dropzone-widget": 1,
+                "eosf-project-nav": 1,
+                "file-browser": 1,
+                "file-browser-icon": 1,
+                "file-chooser component": 1,
+                "file-renderer": 1,
+                "file-version": 1,
+                "file-widget": 1,
+                "oauth-popup": 1,
+                "osf-copyright": 1,
+                "osf-footer": 1,
+                "osf-mode-footer": 1,
+                "osf-navbar": 1,
+                "osf-paginator": 1,
+                "pagination-control": 1,
+                "search-dropdown": 1,
+                "sign-up": 1,
+                "tags-widget": 1,
+                "elem-id": 1,
+                "CasAuthenticatedRouteMixin": 1,
+                "CommentableMixin": 1,
+                "FetchAllRouteMixin": 1,
+                "FileCacheBypassMixin": 1,
+                "FileItemMixin": 1,
+                "GenericDataADapter": 1,
+                "InfinityCustomMixin": 1,
+                "NodeActionsMixin": 1,
+                "OsfAgnosticAuthController": 1,
+                "OsfAgnosticAuthRoute": 1,
+                "OsfCookieLoginController": 1,
+                "OsfTokenLoginControllerMixin": 1,
+                "OsfTokenLoginRouteMixin": 1,
+                "PaginatedControllerMixin": 1,
+                "PaginatedRouteMixin": 1,
+                "RegistrationActionsMixin": 1,
+                "TaggableMixin": 1,
+                "Collection": 1,
+                "CommentReport": 1,
+                "Comment": 1,
+                "Contributor": 1,
+                "DraftRegistration": 1,
+                "FileProvider": 1,
+                "FileVersion": 1,
+                "File": 1,
+                "Institution": 1,
+                "Log": 1,
+                "Metaschema": 1,
+                "NodeLink": 1,
+                "Node": 1,
+                "OsfModel": 1,
+                "Registration": 1,
+                "User": 1,
+                "OsfSerializer": 1,
+                "current-user": 1,
+                "file-manager": 1,
+                "auth": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "addon/utils/auth.js",
+            "line": 10,
+            "description": "Helper functions for asynchronous behavior"
+        },
+        "adapters": {
+            "name": "adapters",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "OsfAdapter": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "ember-osf",
+            "namespace": "",
+            "file": "addon/adapters/osf-adapter.js",
+            "line": 17,
+            "description": "Base adapter class for all OSF APIv2 endpoints"
+        },
+        "authenticators": {
+            "name": "authenticators",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "OsfCookieAuthenticator": 1,
+                "OsfTokenAuthenticator": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "ember-osf",
+            "namespace": "",
+            "file": "addon/authenticators/osf-token.js",
+            "line": 11,
+            "description": "Ember-simple-auth compatible authenticator based on session cookie.\n\nIntended to be used with the authorizer of the same name."
+        },
+        "authorizers": {
+            "name": "authorizers",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "OsfCookieAuthorizer": 1,
+                "OsfTokenAuthorizer": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "ember-osf",
+            "namespace": "",
+            "file": "addon/authorizers/osf-token.js",
+            "line": 8,
+            "description": "Ember-simple-auth compatible authorizer based on session cookie.\n\nIntended to be used with the authenticator of the same name."
+        },
+        "components": {
+            "name": "components",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "comment-detail": 1,
+                "comment-form": 1,
+                "comment-pane": 1,
+                "dropzone-widget": 1,
+                "eosf-project-nav": 1,
+                "file-browser": 1,
+                "file-browser-icon": 1,
+                "file-chooser component": 1,
+                "file-renderer": 1,
+                "file-version": 1,
+                "file-widget": 1,
+                "oauth-popup": 1,
+                "osf-copyright": 1,
+                "osf-footer": 1,
+                "osf-mode-footer": 1,
+                "osf-navbar": 1,
+                "osf-paginator": 1,
+                "pagination-control": 1,
+                "search-dropdown": 1,
+                "sign-up": 1,
+                "tags-widget": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "ember-osf",
+            "namespace": "",
+            "file": "addon/components/tags-widget/component.js",
+            "line": 9,
+            "description": "Display information about an individual comment, including controls to edit, delete, and report.\nThis component is typically used as part of the `comment-pane` component; see that component for further information.\n\nSample usage:\n```handlebars\n{{comment-detail\n  comment=comment\n  editComment=attrs.editComment\n  deleteComment=attrs.deleteComment\n  restoreComment=attrs.restoreComment\n  reportComment=attrs.reportComment}}\n```"
+        },
+        "helpers": {
+            "name": "helpers",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "elem-id": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "ember-osf",
+            "namespace": "",
+            "file": "addon/helpers/elem-id.js",
+            "line": 8,
+            "description": "Generate a unique HTML element ID for this element. Given \"someid\" for component instance 123, returns \"ember123-someid\"\n\nUseful to ensure unique IDs, eg for when component is reused in page."
+        },
+        "mixins": {
+            "name": "mixins",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "CasAuthenticatedRouteMixin": 1,
+                "CommentableMixin": 1,
+                "FetchAllRouteMixin": 1,
+                "FileCacheBypassMixin": 1,
+                "FileItemMixin": 1,
+                "InfinityCustomMixin": 1,
+                "NodeActionsMixin": 1,
+                "OsfAgnosticAuthController": 1,
+                "OsfAgnosticAuthRoute": 1,
+                "OsfCookieLoginController": 1,
+                "OsfCookieLoginRoute": 1,
+                "OsfTokenLoginControllerMixin": 1,
+                "OsfTokenLoginRouteMixin": 1,
+                "PaginatedControllerMixin": 1,
+                "PaginatedRouteMixin": 1,
+                "RegistrationActionsMixin": 1,
+                "TaggableMixin": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "ember-osf",
+            "namespace": "",
+            "file": "addon/mixins/taggable-mixin.js",
+            "line": 8,
+            "description": "Replacement for Ember-simple-auth AuthenticatedRouteMixin. Instead of redirecting to an internal route,\n  this mixin redirects to CAS login URL, and brings the user back to the last requested page afterwards\n\nFor OAuth this is done via the state parameter, and for cookies this is done via the service parameter. (TODO: Need a mixin that detects this!)"
+        },
+        "ember": {
+            "name": "ember",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "OsfCookieLoginRoute": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "file": "addon/mixins/osf-cookie-login-route.js",
+            "line": 8
+        },
+        "models": {
+            "name": "models",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "Collection": 1,
+                "CommentReport": 1,
+                "Comment": 1,
+                "Contributor": 1,
+                "DraftRegistration": 1,
+                "FileProvider": 1,
+                "FileVersion": 1,
+                "File": 1,
+                "Institution": 1,
+                "Log": 1,
+                "Metaschema": 1,
+                "NodeLink": 1,
+                "Node": 1,
+                "OsfModel": 1,
+                "Preprint": 1,
+                "Registration": 1,
+                "Taxonomy": 1,
+                "User": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "ember-osf",
+            "namespace": "",
+            "file": "addon/models/user.js",
+            "line": 11,
+            "description": "Model for OSF APIv2 collections\nFor field and usage information, see:\n* https://api.osf.io/v2/docs/#!/v2/Collection_List_GET"
+        },
+        "ember-preprints": {
+            "name": "ember-preprints",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "Preprint": 1,
+                "Taxonomy": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "file": "addon/models/taxonomy.js",
+            "line": 9
+        },
+        "serializers": {
+            "name": "serializers",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "OsfSerializer": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "ember-osf",
+            "namespace": "",
+            "file": "addon/serializers/osf-serializer.js",
+            "line": 9,
+            "description": "Base serializer class for all OSF APIv2 endpoints. Provides custom behaviors for embeds, relationships, and pagination."
+        },
+        "services": {
+            "name": "services",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "current-user": 1,
+                "file-manager": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "ember-osf",
+            "namespace": "",
+            "file": "addon/services/file-manager.js",
+            "line": 11,
+            "description": "Access information about the currently logged in user"
+        },
+        "utils": {
+            "name": "utils",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "ajax-helpers": 1,
+                "auth": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "addon/utils/auth.js",
+            "line": 10,
+            "description": "Helper functions for asynchronous behavior",
+            "module": "ember-osf"
+        }
+    },
+    "classes": {
+        "OsfAdapter": {
+            "name": "OsfAdapter",
+            "shortname": "OsfAdapter",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "adapters",
+            "namespace": "",
+            "file": "addon/adapters/osf-adapter.js",
+            "line": 17,
+            "description": "Base adapter class for all OSF APIv2 endpoints",
+            "extends": "DS.JSONAPIAdapter",
+            "uses": [
+                "HasManyQuery.RESTAdapterMixin",
+                "GenericDataAdapterMixin"
+            ]
+        },
+        "OsfCookieAuthenticator": {
+            "name": "OsfCookieAuthenticator",
+            "shortname": "OsfCookieAuthenticator",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "authenticators",
+            "namespace": "",
+            "file": "addon/authenticators/osf-cookie.js",
+            "line": 13,
+            "description": "Ember-simple-auth compatible authenticator based on session cookie.\n\nIntended to be used with the authorizer of the same name.",
+            "extends": "ember-simple-auth/BaseAuthenticator"
+        },
+        "OsfTokenAuthenticator": {
+            "name": "OsfTokenAuthenticator",
+            "shortname": "OsfTokenAuthenticator",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "authenticators",
+            "namespace": "",
+            "file": "addon/authenticators/osf-token.js",
+            "line": 11,
+            "description": "Ember-simple-auth compatible authenticator based on OAuth2 bearer tokens.\n\nIntended to be used with the authorizer of the same name.",
+            "extends": "ember-simple-auth/BaseAuthenticator"
+        },
+        "OsfCookieAuthorizer": {
+            "name": "OsfCookieAuthorizer",
+            "shortname": "OsfCookieAuthorizer",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "authorizers",
+            "namespace": "",
+            "file": "addon/authorizers/osf-cookie.js",
+            "line": 7,
+            "description": "Ember-simple-auth compatible authorizer based on session cookie.\n\nIntended to be used with the authenticator of the same name.",
+            "extends": "ember-simple-auth/BaseAuthorizer"
+        },
+        "OsfTokenAuthorizer": {
+            "name": "OsfTokenAuthorizer",
+            "shortname": "OsfTokenAuthorizer",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "authorizers",
+            "namespace": "",
+            "file": "addon/authorizers/osf-token.js",
+            "line": 8,
+            "description": "Ember-simple-auth compatible authorizer based on OAuth2 bearer tokens.\n\nIntended to be used with the authenticator of the same name.",
+            "extends": "ember-simple-auth/BaseAuthorizer"
+        },
+        "comment-detail": {
+            "name": "comment-detail",
+            "shortname": "comment-detail",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "components",
+            "namespace": "",
+            "file": "addon/components/comment-detail/component.js",
+            "line": 9,
+            "description": "Display information about an individual comment, including controls to edit, delete, and report.\nThis component is typically used as part of the `comment-pane` component; see that component for further information.\n\nSample usage:\n```handlebars\n{{comment-detail\n  comment=comment\n  editComment=attrs.editComment\n  deleteComment=attrs.deleteComment\n  restoreComment=attrs.restoreComment\n  reportComment=attrs.reportComment}}\n```",
+            "params": [
+                {
+                    "name": "comment",
+                    "description": "The comment to display",
+                    "type": "DS.Model"
+                },
+                {
+                    "name": "editComment",
+                    "description": "",
+                    "type": "Action"
+                },
+                {
+                    "name": "deleteComment",
+                    "description": "",
+                    "type": "Action"
+                },
+                {
+                    "name": "restoreComment",
+                    "description": "",
+                    "type": "Action"
+                },
+                {
+                    "name": "reportComment",
+                    "description": "",
+                    "type": "Action"
+                }
+            ]
+        },
+        "comment-form": {
+            "name": "comment-form",
+            "shortname": "comment-form",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "components",
+            "namespace": "",
+            "file": "addon/components/comment-form/component.js",
+            "line": 9,
+            "description": "Allow users to add comments to a page.\n\nThis component is typically used as part of the `comment-pane` component; see that component for further information.\nSample usage:\n```handlebars\n{{comment-form addComment=attrs.addComment}}\n```",
+            "params": [
+                {
+                    "name": "addComment",
+                    "description": "The action to fire when adding a new comment to the discussion. Returns a promise.",
+                    "type": "Action"
+                }
+            ]
+        },
+        "comment-pane": {
+            "name": "comment-pane",
+            "shortname": "comment-pane",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "components",
+            "namespace": "",
+            "file": "addon/components/comment-pane/component.js",
+            "line": 9,
+            "description": "Display a list of comments, as well as a form to submit new comments.\nSee CommentableMixin for controller actions that can be used with this component.\n\nSample usage:\n```handlebars\n{{comment-pane\n  comments=comments\n  addComment=(action 'addComment')\n  editComment=(action 'editComment')\n  deleteComment=(action 'deleteComment')\n  restoreComment=(action 'restoreComment')\n  reportComment=(action 'reportComment')}}\n```",
+            "params": [
+                {
+                    "name": "comments",
+                    "description": "An array of comments to be displayed",
+                    "type": "Comment[]"
+                },
+                {
+                    "name": "addComment",
+                    "description": "",
+                    "type": "Action"
+                },
+                {
+                    "name": "editComment",
+                    "description": "",
+                    "type": "Action"
+                },
+                {
+                    "name": "deleteComment",
+                    "description": "",
+                    "type": "Action"
+                },
+                {
+                    "name": "restoreComment",
+                    "description": "",
+                    "type": "Action"
+                },
+                {
+                    "name": "reportComment",
+                    "description": "",
+                    "type": "Action"
+                }
+            ]
+        },
+        "dropzone-widget": {
+            "name": "dropzone-widget",
+            "shortname": "dropzone-widget",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "components",
+            "namespace": "",
+            "file": "addon/components/dropzone-widget/component.js",
+            "line": 11,
+            "description": "Support file uploads via dropzone.\nAccepts dropzone event listeners as parameters (e.g. success, error, addedfile)\n\nSample usage:\n```handlebars\n{{dropzone-widget\n  preUpload=attrs.preUpload\n  buildUrl=buildUrl\n  success=attrs.success\n  defaultMessage=defaultMessage\n  options=dropzoneOptions}}\n```"
+        },
+        "eosf-project-nav": {
+            "name": "eosf-project-nav",
+            "shortname": "eosf-project-nav",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "components",
+            "namespace": "",
+            "file": "addon/components/eosf-project-nav/component.js",
+            "line": 13,
+            "description": "Project header navigation bar, with links to various sub-pages within a project\nSample usage:\n```handlebars\n{{eosf-project-nav\n  node=node\n  user=user}}\n```"
+        },
+        "file-browser": {
+            "name": "file-browser",
+            "shortname": "file-browser",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "components",
+            "namespace": "",
+            "file": "addon/components/file-browser/component.js",
+            "line": 73,
+            "description": "File browser widget\n\nSample usage:\n```handlebars\n{{file-browser\n rootItem=item\n openFile=(action 'openFile')\n openNode=(action 'openNode')}}\n```"
+        },
+        "file-browser-icon": {
+            "name": "file-browser-icon",
+            "shortname": "file-browser-icon",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "components",
+            "namespace": "",
+            "file": "addon/components/file-browser-icon/component.js",
+            "line": 9,
+            "description": "Display the correct file tree icon for on the item to be displayed\n\nSample usage:\n```handlebars\n{{file-browser-icon\nitem=item}}\n```"
+        },
+        "file-chooser component": {
+            "name": "file-chooser component",
+            "shortname": "file-chooser component",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "components",
+            "namespace": "",
+            "file": "addon/components/file-chooser/component.js",
+            "line": 9,
+            "description": "This component lets the user choose a list of files from their computer, by\ndrag-and-drop, a file browser, or whatever method the developer wants.\n\nExposed to parent context (bindable attributes)\n - `files`: mutable list of chosen File objects\n - `multiple`: boolean (default `true`), when `false`, only keeps the most\n         recently chosen File in the list\n - `onChoose`: callback function called each time a file is added, with the\n         new File object as the only argument\n\nExposed to block context\n - `this`: the component object itself, so the block can invoke actions\n     example:\n     ```handlebars\n         {{#file-chooser files=fileList as |component|}}\n             {{input type='file'\n                 change=(action 'onFileInputChange' target=component)}}\n         {{/file-chooser}}\n     ```\n\nActions\n - `onFileInputChange`: handle the `change` event on a file input\n - `onChooseFile`: add a file to the chosen list\n\nStyling\n - This component's element has the `drop-zone` class\n - While the user is holding dragged files over this component, it\n   has the `drop-zone-ready` class"
+        },
+        "file-renderer": {
+            "name": "file-renderer",
+            "shortname": "file-renderer",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "components",
+            "namespace": "",
+            "file": "addon/components/file-renderer/component.js",
+            "line": 10,
+            "description": "Render the provided url in an iframe via MFR\n\nSample usage:\n```handlebars\n{{file-renderer\n  download=model.links.download\n    width=\"800\" height=\"1000\" allowfullscreen=true}}\n```"
+        },
+        "file-version": {
+            "name": "file-version",
+            "shortname": "file-version",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "components",
+            "namespace": "",
+            "file": "addon/components/file-version/component.js",
+            "line": 9,
+            "description": "Display information about one revision of a file\n\nSample usage:\n```handlebars\n{{file-version\nversion=version\ndownload='download'}}\n```"
+        },
+        "file-widget": {
+            "name": "file-widget",
+            "shortname": "file-widget",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "components",
+            "namespace": "",
+            "file": "addon/components/file-widget/component.js",
+            "line": 13,
+            "description": "Widget to quickly upload a file to a selected project\n```handlebars\n{{file-widget\n  preUpload=(action 'preUpload')\n  buildUrl=(action 'buildUrl')\n  listeners=dropzoneOptions\n  options=dropzoneOptions}}\n```"
+        },
+        "oauth-popup": {
+            "name": "oauth-popup",
+            "shortname": "oauth-popup",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "components",
+            "namespace": "",
+            "file": "addon/components/oauth-popup/component.js",
+            "line": 11,
+            "description": "Log a user in via OAuth2 in a popup window, without requiring a redirect\n\nSample usage:\n```handlebars\n{{#oauth-popup\n  authUrl=authUrl\n  loginSuccess=(action 'loginSuccess')\n  loginFail=(action 'loginFail') as |popup|}}\n   <button class=\"btn btn-default login-button\" onclick={{action 'login' target=popup}} >\n      Login to OSF\n   </button>\n{{/oauth-popup}}\n```"
+        },
+        "osf-copyright": {
+            "name": "osf-copyright",
+            "shortname": "osf-copyright",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "components",
+            "namespace": "",
+            "file": "addon/components/osf-copyright/component.js",
+            "line": 9,
+            "description": "Display copyright information as a footer"
+        },
+        "osf-footer": {
+            "name": "osf-footer",
+            "shortname": "osf-footer",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "components",
+            "namespace": "",
+            "file": "addon/components/osf-footer/component.js",
+            "line": 9,
+            "description": "Display the OSF footer"
+        },
+        "osf-mode-footer": {
+            "name": "osf-mode-footer",
+            "shortname": "osf-mode-footer",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "components",
+            "namespace": "",
+            "file": "addon/components/osf-mode-footer/component.js",
+            "line": 11,
+            "description": "If development mode, display a red banner in the footer"
+        },
+        "osf-navbar": {
+            "name": "osf-navbar",
+            "shortname": "osf-navbar",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "components",
+            "namespace": "",
+            "file": "addon/components/osf-navbar/component.js",
+            "line": 10,
+            "description": "Display the OSF navbar\n\nSample usage:\n```handlebars\n{{osf-navbar\n  loginAction=loginAction\n  hideSearch=true}}\n```"
+        },
+        "osf-paginator": {
+            "name": "osf-paginator",
+            "shortname": "osf-paginator",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "components",
+            "namespace": "",
+            "file": "addon/components/osf-paginator/component.js",
+            "line": 9,
+            "description": "OSF Paginator adapted from osf/website/static/js/paginator.js\n\nSample usage:\n```handlebars\n{{osf-paginator\n  totalSearchResults=totalSearchResults\n  fetchResults=(action 'fetchResults')\n  query=query}}\n```",
+            "params": [
+                {
+                    "name": "totalSearchResults",
+                    "description": "Number of total search results to be paginated",
+                    "type": "Integer"
+                },
+                {
+                    "name": "fetchResults",
+                    "description": "- action for fetching other pages of results",
+                    "type": "Action"
+                },
+                {
+                    "name": "query",
+                    "description": "- Query needed for fetchResults action.",
+                    "type": "String"
+                }
+            ]
+        },
+        "pagination-control": {
+            "name": "pagination-control",
+            "shortname": "pagination-control",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "components",
+            "namespace": "",
+            "file": "addon/components/pagination-control/component.js",
+            "line": 9,
+            "description": "Display a simple pagination control that advances the page. Intended for use with PaginatedRouteMixin."
+        },
+        "search-dropdown": {
+            "name": "search-dropdown",
+            "shortname": "search-dropdown",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "components",
+            "namespace": "",
+            "file": "addon/components/search-dropdown/component.js",
+            "line": 10,
+            "description": "Display a search dropdown as used in the OSF navbar\n\nSample usage:\n```handlebars\n  {{#search-dropdown action='toggleSearch'}}\n```"
+        },
+        "sign-up": {
+            "name": "sign-up",
+            "shortname": "sign-up",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "components",
+            "namespace": "",
+            "file": "addon/components/sign-up/component.js",
+            "line": 9,
+            "description": "Display a simple signup form"
+        },
+        "tags-widget": {
+            "name": "tags-widget",
+            "shortname": "tags-widget",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "components",
+            "namespace": "",
+            "file": "addon/components/tags-widget/component.js",
+            "line": 9,
+            "description": "Allow the user to view and manage tags.\nSee TaggableMixin for controller actions that can be used with this component.\n\nFor more information on configuration options, see documentation for [jquery-tags-input](https://github.com/xoxco/jQuery-Tags-Input).\n\n```handlebars\n{{tags-widget\n  addATag=(action 'addATag' model)\n  removeATag=(action 'removeATag' model)\n  tags=model.tags}}\n```",
+            "extends": "Ember.Component"
+        },
+        "elem-id": {
+            "name": "elem-id",
+            "shortname": "elem-id",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "helpers",
+            "namespace": "",
+            "file": "addon/helpers/elem-id.js",
+            "line": 8,
+            "description": "Generate a unique HTML element ID for this element. Given \"someid\" for component instance 123, returns \"ember123-someid\"\n\nUseful to ensure unique IDs, eg for when component is reused in page.",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "The instance with ID to use",
+                    "type": "Ember.Object"
+                },
+                {
+                    "name": "suffix",
+                    "description": "The base attribute to name",
+                    "type": "Ember.suffix"
+                }
+            ]
+        },
+        "CasAuthenticatedRouteMixin": {
+            "name": "CasAuthenticatedRouteMixin",
+            "shortname": "CasAuthenticatedRouteMixin",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "mixins",
+            "namespace": "",
+            "file": "addon/mixins/cas-authenticated-route.js",
+            "line": 9,
+            "description": "Replacement for Ember-simple-auth AuthenticatedRouteMixin. Instead of redirecting to an internal route,\n  this mixin redirects to CAS login URL, and brings the user back to the last requested page afterwards\n\nFor OAuth this is done via the state parameter, and for cookies this is done via the service parameter. (TODO: Need a mixin that detects this!)"
+        },
+        "CommentableMixin": {
+            "name": "CommentableMixin",
+            "shortname": "CommentableMixin",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "mixins",
+            "namespace": "",
+            "file": "addon/mixins/commentable.js",
+            "line": 8,
+            "description": "Controller mixin that implements basic commenting functionality. Uses the base model in the route model hook.",
+            "extends": "Ember.Mixin"
+        },
+        "FetchAllRouteMixin": {
+            "name": "FetchAllRouteMixin",
+            "shortname": "FetchAllRouteMixin",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "mixins",
+            "namespace": "",
+            "file": "addon/mixins/fetch-all-route.js",
+            "line": 9,
+            "description": "The FetchAllRouteMixin supports loading *all* records from a specified model or relationship.\nEssentially, it un-paginates an API\n\nThis may be useful for select applications (such as frontend-powered search boxes), but is strongly discouraged\nfor most applications. Consider using available pagination functionality instead.",
+            "access": "public",
+            "tagname": "",
+            "extends": "Ember.Mixin",
+            "uses": [
+                "InfinityCustom"
+            ]
+        },
+        "FileCacheBypassMixin": {
+            "name": "FileCacheBypassMixin",
+            "shortname": "FileCacheBypassMixin",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "mixins",
+            "namespace": "",
+            "file": "addon/mixins/file-cache-bypass.js",
+            "line": 8,
+            "description": "This is a hack to resolve a server-side race condition.\nAfter creating/modifying/deleting a file through Waterbutler, it can take\na fraction of a second for the API's cache to properly update, and\ntrying to reload the file model in that time can return stale data.\n\nThis adapter mixin appends a nonce to requests that are likely to run into\nthat race condition, forcing a cache miss.",
+            "extends": "Ember.Mixin"
+        },
+        "FileItemMixin": {
+            "name": "FileItemMixin",
+            "shortname": "FileItemMixin",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "mixins",
+            "namespace": "",
+            "file": "addon/mixins/file-item.js",
+            "line": 8,
+            "description": "File-like models are `node`, `file-provider`, and `file`/folder.\nThis mixin provides a polymorphic interface for file-like items, and is intended to be used with models.",
+            "extends": "Ember.Mixin"
+        },
+        "GenericDataADapter": {
+            "name": "GenericDataADapter",
+            "shortname": "GenericDataADapter",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "namespace": "",
+            "file": "addon/mixins/generic-data-adapter.js",
+            "line": 6,
+            "description": "Extend the Ember-Simple-Auth adapter to provide cookie support (when necessary).\nThis allows the same addon to define an adapter that works with two authentication types.\n\nThis particularly applies to local development, as without it cookies are not sent from the ember app to the api domain"
+        },
+        "InfinityCustomMixin": {
+            "name": "InfinityCustomMixin",
+            "shortname": "InfinityCustomMixin",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "mixins",
+            "namespace": "",
+            "file": "addon/mixins/infinity-custom.js",
+            "line": 11,
+            "description": "A custom overlay on ember-infinity that supports loading infinite and paginated relationships\nFor the most part, the API and semantics are identical to ember infinity, except that the means of configuring the store find method is more flexible\n (supporting relationship queries that do not operate via store methods)",
+            "extends": "Ember.Mixin",
+            "uses": [
+                "InfinityRoute"
+            ]
+        },
+        "NodeActionsMixin": {
+            "name": "NodeActionsMixin",
+            "shortname": "NodeActionsMixin",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "mixins",
+            "namespace": "",
+            "file": "addon/mixins/node-actions.js",
+            "line": 8,
+            "description": "Controller mixin that implements common actions performed on nodes.",
+            "extends": "Ember.Mixin"
+        },
+        "OsfAgnosticAuthController": {
+            "name": "OsfAgnosticAuthController",
+            "shortname": "OsfAgnosticAuthController",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "mixins",
+            "namespace": "",
+            "file": "addon/mixins/osf-agnostic-auth-controller.js",
+            "line": 21,
+            "description": "Controller mixin for authentication-agnostic login: defines the application at runtime to use the authentication method\n  specified in environment config. Intended to be used in tandem with OsfAuthController mixin.\nSome authentication methods (eg cookies) are not available to third-party applications.\nThis has limited use, since most applications will only need to support one method. It may be useful for ember apps\n  that run inside the OSF, eg to use the standalone dev server, or to offer support for branded apps\n  on third-party domains.",
+            "extends": "Ember.Mixin",
+            "uses": [
+                "ember-osf/OsfCookieLoginController",
+                "ember-osf/OsfTokenLoginController"
+            ]
+        },
+        "OsfAgnosticAuthRoute": {
+            "name": "OsfAgnosticAuthRoute",
+            "shortname": "OsfAgnosticAuthRoute",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "mixins",
+            "namespace": "",
+            "file": "addon/mixins/osf-agnostic-auth-route.js",
+            "line": 22,
+            "description": "Route mixin for authentication-agnostic login: defines the application at runtime to use the authentication method\n  specified in environment config. Intended to be used in tandem with OsfAgnosticAuthRoute mixin.\nSome authentication methods (eg cookies) are not available to third-party applications.\nThis has limited use, since most applications will only need to support one method. It may be useful for ember apps\n  that run inside the OSF, eg to use the standalone dev server, or to offer support for branded apps\n  on third-party domains.",
+            "extends": "Ember.Mixin",
+            "uses": [
+                "ember-osf/OsfCookieLoginRoute",
+                "ember-osf/OsfTokenLoginRoute"
+            ]
+        },
+        "OsfCookieLoginController": {
+            "name": "OsfCookieLoginController",
+            "shortname": "OsfCookieLoginController",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "mixins",
+            "namespace": "",
+            "file": "addon/mixins/osf-cookie-login-controller.js",
+            "line": 10,
+            "description": "Controller mixin for login based on OSF cookie authentication. Intended to be used in tandem with OsfCookieLoginRoute mixin.\nThis auth method is not available to third-party applications.",
+            "extends": "Ember.Mixin"
+        },
+        "OsfCookieLoginRoute": {
+            "name": "OsfCookieLoginRoute",
+            "shortname": "OsfCookieLoginRoute",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember",
+            "submodule": "mixins",
+            "namespace": "",
+            "file": "addon/mixins/osf-cookie-login-route.js",
+            "line": 8,
+            "description": "Route mixin for login based on OSF cookie authentication. Intended to be used in tandem with OsfCookieLoginController mixin.\nThis auth method is not available to third-party applications.",
+            "extends": "Ember.Mixin",
+            "uses": [
+                "ember-simple-auth/UnauthenticatedRouteMixin"
+            ]
+        },
+        "OsfTokenLoginControllerMixin": {
+            "name": "OsfTokenLoginControllerMixin",
+            "shortname": "OsfTokenLoginControllerMixin",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "mixins",
+            "namespace": "",
+            "file": "addon/mixins/osf-token-login-controller.js",
+            "line": 10,
+            "description": "Controller mixin to add support for OAuth2 token based authentication\n\nIntended to be used in tandem with OsfTokenLoginRouteMixin",
+            "extends": "Ember.Mixin"
+        },
+        "OsfTokenLoginRouteMixin": {
+            "name": "OsfTokenLoginRouteMixin",
+            "shortname": "OsfTokenLoginRouteMixin",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "mixins",
+            "namespace": "",
+            "file": "addon/mixins/osf-token-login-route.js",
+            "line": 12,
+            "description": "Route mixin to add support for OAuth2 token based authentication\n\nIntended to be used in tandem with OsfTokenLoginControllerMixin",
+            "extends": "Ember.Mixin"
+        },
+        "PaginatedControllerMixin": {
+            "name": "PaginatedControllerMixin",
+            "shortname": "PaginatedControllerMixin",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "mixins",
+            "namespace": "",
+            "file": "addon/mixins/paginated-controller.js",
+            "line": 8,
+            "description": "Controller mixin to support fetching paginated results\n\nBecause this uses query parameters, it should be used in tandem with PaginatedRouteMixin",
+            "extends": "Ember.Mixin"
+        },
+        "PaginatedRouteMixin": {
+            "name": "PaginatedRouteMixin",
+            "shortname": "PaginatedRouteMixin",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "mixins",
+            "namespace": "",
+            "file": "addon/mixins/paginated-route.js",
+            "line": 8,
+            "description": "Route mixin to support fetching paginated results\n\nBecause this uses query parameters, it should be used in tandem with PaginatedControllerMixin",
+            "extends": "Ember.Mixin"
+        },
+        "RegistrationActionsMixin": {
+            "name": "RegistrationActionsMixin",
+            "shortname": "RegistrationActionsMixin",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "mixins",
+            "namespace": "",
+            "file": "addon/mixins/registration-actions.js",
+            "line": 8,
+            "description": "Controller mixin that implements common actions performed on registrations (and registration drafts).",
+            "extends": "Ember.Mixin"
+        },
+        "TaggableMixin": {
+            "name": "TaggableMixin",
+            "shortname": "TaggableMixin",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "mixins",
+            "namespace": "",
+            "file": "addon/mixins/taggable-mixin.js",
+            "line": 8,
+            "description": "Controller mixin that implements basic tagging functionality. Uses the model defined in the model hook.",
+            "extends": "Ember.Mixin"
+        },
+        "Collection": {
+            "name": "Collection",
+            "shortname": "Collection",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "models",
+            "namespace": "",
+            "file": "addon/models/collection.js",
+            "line": 10,
+            "description": "Model for OSF APIv2 collections\nFor field and usage information, see:\n* https://api.osf.io/v2/docs/#!/v2/Collection_List_GET"
+        },
+        "CommentReport": {
+            "name": "CommentReport",
+            "shortname": "CommentReport",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "models",
+            "namespace": "",
+            "file": "addon/models/comment-report.js",
+            "line": 10,
+            "description": "Model for OSF APIv2 comment reports. Primarily accessed via relationship fields.\nFor field and usage information, see:\n* https://api.osf.io/v2/docs/#!/v2/Comment_Reports_List_GET"
+        },
+        "Comment": {
+            "name": "Comment",
+            "shortname": "Comment",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "models",
+            "namespace": "",
+            "file": "addon/models/comment.js",
+            "line": 10,
+            "description": "Model for OSF APIv2 comments. This model may be used with one of several API endpoints. It may be queried directly,\n or accessed via relationship fields.\nFor field and usage information, see:\n* https://api.osf.io/v2/docs/#!/v2/Comment_Detail_GET\n* https://api.osf.io/v2/docs/#!/v2/Node_Comments_List_GET\n* https://api.osf.io/v2/docs/#!/v2/Registration_Comments_List_GET"
+        },
+        "Contributor": {
+            "name": "Contributor",
+            "shortname": "Contributor",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "models",
+            "namespace": "",
+            "file": "addon/models/contributor.js",
+            "line": 11,
+            "description": "Model for OSF APIv2 contributors. Primarily accessed via relationship fields.\nFor field and usage information, see:\n* https://api.osf.io/v2/docs/#!/v2/Node_Contributors_List_GET"
+        },
+        "DraftRegistration": {
+            "name": "DraftRegistration",
+            "shortname": "DraftRegistration",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "models",
+            "namespace": "",
+            "file": "addon/models/draft-registration.js",
+            "line": 9,
+            "description": "Model for OSF APIv2 draft registrations.\nThis model represents draft registration data and can be accessed as a relationship of a node.\nFor information on how to interact with a node's draft registrations, see:\n* https://api.osf.io/v2/docs/#!/v2/Node_Draft_Registrations_List_GET\n* https://api.osf.io/v2/docs/#!/v2/Node_Draft_Registration_Detail_GET"
+        },
+        "FileProvider": {
+            "name": "FileProvider",
+            "shortname": "FileProvider",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "models",
+            "namespace": "",
+            "file": "addon/models/file-provider.js",
+            "line": 11,
+            "description": "Model for OSF APIv2 file providers. Primarily used in relationship fields.\nThis model is used for basic file provider metadata. To interact with file contents directly, see the `file-manager` service.\nFor field and usage information, see:\n* https://api.osf.io/v2/docs/#!/v2/Node_Providers_List_GET\n* https://api.osf.io/v2/docs/#!/v2/Node_Provider_Detail_GET\n* https://api.osf.io/v2/docs/#!/v2/Registration_Providers_List_GET"
+        },
+        "FileVersion": {
+            "name": "FileVersion",
+            "shortname": "FileVersion",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "models",
+            "namespace": "",
+            "file": "addon/models/file-version.js",
+            "line": 10,
+            "description": "Model for OSF APIv2 file versions. Primarily used in relationship fields.\nThis model is used for basic file version metadata. To interact with file contents directly, see the `file-manager` service.\nFor field and usage information, see:\n* https://api.osf.io/v2/docs/#!/v2/File_Versions_List_GET\n* https://api.osf.io/v2/docs/#!/v2/File_Version_Detail_GET"
+        },
+        "File": {
+            "name": "File",
+            "shortname": "File",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "models",
+            "namespace": "",
+            "file": "addon/models/file.js",
+            "line": 11,
+            "description": "Model for OSF APIv2 files. This model may be used with one of several API endpoints. It may be queried directly,\n or (more commonly) accessed via relationship fields.\nThis model is used for basic file metadata. To interact with file contents directly, see the `file-manager` service.\nFor field and usage information, see:\n* https://api.osf.io/v2/docs/#!/v2/File_Detail_GET\n* https://api.osf.io/v2/docs/#!/v2/Node_Files_List_GET\n* https://api.osf.io/v2/docs/#!/v2/Node_File_Detail_GET\n* https://api.osf.io/v2/docs/#!/v2/Registration_Files_List_GET\n* https://api.osf.io/v2/docs/#!/v2/Registration_File_Detail_GET"
+        },
+        "Institution": {
+            "name": "Institution",
+            "shortname": "Institution",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "models",
+            "namespace": "",
+            "file": "addon/models/institution.js",
+            "line": 10,
+            "description": "Model for OSF APIv2 institutions. This model may be used with one of several API endpoints. It may be queried directly,\n or accessed via relationship fields.\nFor field and usage information, see:\n* https://api.osf.io/v2/docs/#!/v2/Institution_List_GET\n* https://api.osf.io/v2/docs/#!/v2/Institution_Detail_GET\n* https://api.osf.io/v2/docs/#!/v2/Node_Institutions_List_GET\n* https://api.osf.io/v2/docs/#!/v2/Registration_Institutions_List_GET\n* https://api.osf.io/v2/docs/#!/v2/User_Institutions_GET"
+        },
+        "Log": {
+            "name": "Log",
+            "shortname": "Log",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "models",
+            "namespace": "",
+            "file": "addon/models/log.js",
+            "line": 10,
+            "description": "Model for OSF APIv2 log entries. This model may be used with one of several API endpoints. It may be queried directly,\n or accessed via relationship fields.\nFor field and usage information, see:\n* https://api.osf.io/v2/docs/#!/v2/Node_Log_Detail_GET\n* https://api.osf.io/v2/docs/#!/v2/Node_Log_List_GET\n* https://api.osf.io/v2/docs/#!/v2/Registration_Log_List_GET"
+        },
+        "Metaschema": {
+            "name": "Metaschema",
+            "shortname": "Metaschema",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "models",
+            "namespace": "",
+            "file": "addon/models/metaschema.js",
+            "line": 10,
+            "description": "Model for OSF APIv2 metaschemas.\nThis model describes metaschemas and can be directly queried.\nFor information on how to retrieve metaschemas see:\n* https://api.osf.io/v2/docs/#!/v2/Meta_Schemas_List_GET\n* https://api.osf.io/v2/docs/#!/v2/Meta_Schema_Detail_GET"
+        },
+        "NodeLink": {
+            "name": "NodeLink",
+            "shortname": "NodeLink",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "models",
+            "namespace": "",
+            "file": "addon/models/node-link.js",
+            "line": 10,
+            "description": "Model for OSF APIv2 node links. This model may refer to one of several API endpoints. It may be queried directly,\n or accessed via relationship fields.\nFor field and usage information, see:\n* https://api.osf.io/v2/docs/#!/v2/Node_Links_List_GET\n* https://api.osf.io/v2/docs/#!/v2/Node_Links_Detail_GET\n* https://api.osf.io/v2/docs/#!/v2/Registration_Node_Links_List_GET\n* https://api.osf.io/v2/docs/#!/v2/Registration_Node_Links_Detail_GET"
+        },
+        "Node": {
+            "name": "Node",
+            "shortname": "Node",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "models",
+            "namespace": "",
+            "file": "addon/models/node.js",
+            "line": 12,
+            "description": "Model for OSF APIv2 nodes. This model may be used with one of several API endpoints. It may be queried directly,\n or accessed via relationship fields.\nFor field and usage information, see:\n* https://api.osf.io/v2/docs/#!/v2/Node_List_GET\n* https://api.osf.io/v2/docs/#!/v2/Node_Detail_GET\n* https://api.osf.io/v2/docs/#!/v2/Node_Children_List_GET\n* https://api.osf.io/v2/docs/#!/v2/Linked_Nodes_List_GET\n* https://api.osf.io/v2/docs/#!/v2/Node_Forks_List_GET\n* https://api.osf.io/v2/docs/#!/v2/User_Nodes_GET"
+        },
+        "OsfModel": {
+            "name": "OsfModel",
+            "shortname": "OsfModel",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "models",
+            "namespace": "",
+            "file": "addon/models/osf-model.js",
+            "line": 11,
+            "description": "Common properties and behaviors shared by all OSF APIv2 models",
+            "access": "public",
+            "tagname": ""
+        },
+        "Preprint": {
+            "name": "Preprint",
+            "shortname": "Preprint",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-preprints",
+            "submodule": "models",
+            "namespace": "",
+            "file": "addon/models/preprint.js",
+            "line": 9,
+            "description": "Model for OSF APIv2 preprints. This model may be used with one of several API endpoints. It may be queried directly,\n or accessed via relationship fields.\nFor field and usage information, see:\nhttps://api.osf.io/v2/docs/#!/v2/Preprint_List_GET\nhttps://api.osf.io/v2/docs/#!/v2/Preprint_Detail_GET\nhttps://api.osf.io/v2/docs/#!/v2/User_Preprints_GET"
+        },
+        "Registration": {
+            "name": "Registration",
+            "shortname": "Registration",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "models",
+            "namespace": "",
+            "file": "addon/models/registration.js",
+            "line": 10,
+            "description": "Model for OSF APIv2 registrations. This model may be used with one of several API endpoints. It may be queried directly,\n or accessed via relationship fields.\nFor field and usage information, see:\n* https://api.osf.io/v2/docs/#!/v2/Registration_List_GET\n* https://api.osf.io/v2/docs/#!/v2/Registration_Detail_GET\n* https://api.osf.io/v2/docs/#!/v2/Registration_Children_List_GET\n* https://api.osf.io/v2/docs/#!/v2/User_Registrations_GET"
+        },
+        "Taxonomy": {
+            "name": "Taxonomy",
+            "shortname": "Taxonomy",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-preprints",
+            "submodule": "models",
+            "namespace": "",
+            "file": "addon/models/taxonomy.js",
+            "line": 9,
+            "description": "Model for OSF APIv2 preprints. This model may be used with one of several API endpoints. It may be queried directly. In the future, there will be multiple taxonomy endpoints under the same namespace.\nFor field and usage information, see:\nhttps://api.osf.io/v2/docs/#!/v2/Plos_Taxonomy_GET"
+        },
+        "User": {
+            "name": "User",
+            "shortname": "User",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "models",
+            "namespace": "",
+            "file": "addon/models/user.js",
+            "line": 11,
+            "description": "Model for OSF APIv2 users. This model may be used with one of several API endpoints. It may be queried directly,\n or accessed via relationship fields.\nFor field and usage information, see:\n* https://api.osf.io/v2/docs/#!/v2/User_List_GET\n* https://api.osf.io/v2/docs/#!/v2/User_Detail_GET\n* https://api.osf.io/v2/docs/#!/v2/Institution_User_List_GET"
+        },
+        "OsfSerializer": {
+            "name": "OsfSerializer",
+            "shortname": "OsfSerializer",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "serializers",
+            "namespace": "",
+            "file": "addon/serializers/osf-serializer.js",
+            "line": 9,
+            "description": "Base serializer class for all OSF APIv2 endpoints. Provides custom behaviors for embeds, relationships, and pagination.",
+            "extends": "DS.JSONAPISerializer"
+        },
+        "current-user": {
+            "name": "current-user",
+            "shortname": "current-user",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "services",
+            "namespace": "",
+            "file": "addon/services/current-user.js",
+            "line": 8,
+            "description": "Access information about the currently logged in user",
+            "extends": "Ember.Service"
+        },
+        "file-manager": {
+            "name": "file-manager",
+            "shortname": "file-manager",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "services",
+            "namespace": "",
+            "file": "addon/services/file-manager.js",
+            "line": 11,
+            "description": "An Ember service for doing things to files.\nEssentially a wrapper for the Waterbutler API.\nhttp://waterbutler.readthedocs.io/",
+            "extends": "Ember.Service"
+        },
+        "ajax-helpers": {
+            "name": "ajax-helpers",
+            "shortname": "ajax-helpers",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "utils",
+            "namespace": "",
+            "file": "addon/utils/ajax-helpers.js",
+            "line": 11,
+            "description": "Helper functions to support AJAX requests"
+        },
+        "auth": {
+            "name": "auth",
+            "shortname": "auth",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "utils",
+            "namespace": "",
+            "file": "addon/utils/auth.js",
+            "line": 10
+        }
+    },
+    "elements": {},
+    "classitems": [
+        {
+            "file": "addon/adapters/osf-adapter.js",
+            "line": 47,
+            "description": "Construct a URL for a relationship create/update/delete.",
+            "itemtype": "method",
+            "name": "_buildRelationshipURL",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "snapshot",
+                    "description": "",
+                    "type": "DS.Snapshot"
+                },
+                {
+                    "name": "relationship",
+                    "description": "the relationship to build a url for",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "a URL",
+                "type": "String"
+            },
+            "class": "OsfAdapter",
+            "module": "ember-osf",
+            "submodule": "adapters"
+        },
+        {
+            "file": "addon/adapters/osf-adapter.js",
+            "line": 65,
+            "description": "Handle creation of related resources",
+            "itemtype": "method",
+            "name": "_createRelated",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "store",
+                    "description": "",
+                    "type": "DS.Store"
+                },
+                {
+                    "name": "snapshot",
+                    "description": "snapshot of inverse record",
+                    "type": "DS.Snapshot"
+                },
+                {
+                    "name": "createdSnapshots",
+                    "description": "",
+                    "type": "DS.Snapshot[]"
+                },
+                {
+                    "name": "relationship",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "url",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "isBulk",
+                    "description": "",
+                    "type": "Boolean"
+                }
+            ],
+            "class": "OsfAdapter",
+            "module": "ember-osf",
+            "submodule": "adapters"
+        },
+        {
+            "file": "addon/adapters/osf-adapter.js",
+            "line": 93,
+            "description": "Handle add(s) of related resources. This differs from CREATEs in that the related\nrecord is already saved and is just being associated with the inverse record.",
+            "itemtype": "method",
+            "name": "_addRelated",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "store",
+                    "description": "",
+                    "type": "DS.Store"
+                },
+                {
+                    "name": "snapshot",
+                    "description": "snapshot of inverse record",
+                    "type": "DS.Snapshot"
+                },
+                {
+                    "name": "addedSnapshots",
+                    "description": "",
+                    "type": "DS.Snapshot[]"
+                },
+                {
+                    "name": "relationship",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "url",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "isBulk",
+                    "description": "",
+                    "type": "Boolean"
+                }
+            ],
+            "class": "OsfAdapter",
+            "module": "ember-osf",
+            "submodule": "adapters"
+        },
+        {
+            "file": "addon/adapters/osf-adapter.js",
+            "line": 114,
+            "description": "Handle update(s) of related resources",
+            "itemtype": "method",
+            "name": "_updateRelated",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "store",
+                    "description": "",
+                    "type": "DS.Store"
+                },
+                {
+                    "name": "snapshot",
+                    "description": "snapshot of inverse record",
+                    "type": "DS.Snapshot"
+                },
+                {
+                    "name": "updatedSnapshots",
+                    "description": "",
+                    "type": "DS.Snapshot[]"
+                },
+                {
+                    "name": "relationship",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "url",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "isBulk",
+                    "description": "",
+                    "type": "Boolean"
+                }
+            ],
+            "class": "OsfAdapter",
+            "module": "ember-osf",
+            "submodule": "adapters"
+        },
+        {
+            "file": "addon/adapters/osf-adapter.js",
+            "line": 136,
+            "description": "Handle removal of related resources. This differs from DELETEs in that the related\nrecord is not deleted, just dissociated from the inverse record.",
+            "itemtype": "method",
+            "name": "_removeRelated",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "store",
+                    "description": "",
+                    "type": "DS.Store"
+                },
+                {
+                    "name": "snapshot",
+                    "description": "snapshot of inverse record",
+                    "type": "DS.Snapshot"
+                },
+                {
+                    "name": "removedSnapshots",
+                    "description": "",
+                    "type": "DS.Snapshot[]"
+                },
+                {
+                    "name": "relationship",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "url",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "isBulk",
+                    "description": "",
+                    "type": "Boolean"
+                }
+            ],
+            "class": "OsfAdapter",
+            "module": "ember-osf",
+            "submodule": "adapters"
+        },
+        {
+            "file": "addon/adapters/osf-adapter.js",
+            "line": 155,
+            "description": "Handle deletion of related resources",
+            "itemtype": "method",
+            "name": "_deleteRelated",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "store",
+                    "description": "",
+                    "type": "DS.Store"
+                },
+                {
+                    "name": "snapshot",
+                    "description": "snapshot of inverse record",
+                    "type": "DS.Snapshot"
+                },
+                {
+                    "name": "deletedSnapshots",
+                    "description": "",
+                    "type": "DS.Snapshot[]"
+                },
+                {
+                    "name": "relationship",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "url",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "isBulk",
+                    "description": "",
+                    "type": "Boolean"
+                }
+            ],
+            "class": "OsfAdapter",
+            "module": "ember-osf",
+            "submodule": "adapters"
+        },
+        {
+            "file": "addon/adapters/osf-adapter.js",
+            "line": 172,
+            "description": "A helper for making _*Related requests",
+            "itemtype": "method",
+            "name": "_doRelatedRequest",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "store",
+                    "description": "",
+                    "type": "DS.Store"
+                },
+                {
+                    "name": "snapshot",
+                    "description": "snapshot of inverse record",
+                    "type": "DS.Snapshot"
+                },
+                {
+                    "name": "relatedSnapshots",
+                    "description": "",
+                    "type": "DS.Snapshot[]"
+                },
+                {
+                    "name": "relationship",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "url",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "requestMethod",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "isBulk",
+                    "description": "",
+                    "type": "Boolean"
+                }
+            ],
+            "class": "OsfAdapter",
+            "module": "ember-osf",
+            "submodule": "adapters"
+        },
+        {
+            "file": "addon/adapters/osf-adapter.js",
+            "line": 229,
+            "description": "Delegate a series of requests based on a snapshot, relationship, and a change.\nThe change argument can be 'delete', 'remove', 'update', 'add', 'create'",
+            "itemtype": "method",
+            "name": "_handleRelatedRequest",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "store",
+                    "description": "",
+                    "type": "DS.Store"
+                },
+                {
+                    "name": "type",
+                    "description": "",
+                    "type": "DS.Model"
+                },
+                {
+                    "name": "snapshot",
+                    "description": "",
+                    "type": "DS.Snapshot"
+                },
+                {
+                    "name": "relationship",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "change",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "OsfAdapter",
+            "module": "ember-osf",
+            "submodule": "adapters"
+        },
+        {
+            "file": "addon/authenticators/osf-cookie.js",
+            "line": 42,
+            "description": "Send a request to the flask application to trigger invalidation of session remotely",
+            "itemtype": "method",
+            "name": "invalidate",
+            "class": "OsfCookieAuthenticator",
+            "module": "ember-osf",
+            "submodule": "authenticators"
+        },
+        {
+            "file": "addon/authenticators/osf-cookie.js",
+            "line": 61,
+            "description": "For now, simply verify that a token is present and can be used",
+            "itemtype": "method",
+            "name": "authenticate",
+            "params": [
+                {
+                    "name": "code",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Promise"
+            },
+            "class": "OsfCookieAuthenticator",
+            "module": "ember-osf",
+            "submodule": "authenticators"
+        },
+        {
+            "file": "addon/components/comment-form/component.js",
+            "line": 26,
+            "description": "Call a passed-in closure action to handle submitting a comment. Reset the form if save succeeds.",
+            "itemtype": "method",
+            "name": "addComment",
+            "params": [
+                {
+                    "name": "text",
+                    "description": "The text of the comment to create",
+                    "type": "String"
+                }
+            ],
+            "class": "comment-form",
+            "module": "ember-osf",
+            "submodule": "components"
+        },
+        {
+            "file": "addon/components/eosf-project-nav/component.js",
+            "line": 43,
+            "description": "If this is a withdrawn registration, hide a block of buttons.",
+            "itemtype": "property",
+            "name": "isWithdrawnRegistration",
+            "class": "eosf-project-nav",
+            "module": "ember-osf",
+            "submodule": "components"
+        },
+        {
+            "file": "addon/components/osf-navbar/component.js",
+            "line": 27,
+            "description": "Whether search icons and functionality show up",
+            "itemtype": "property",
+            "name": "hideSearch",
+            "type": "{Boolean}",
+            "class": "osf-navbar",
+            "module": "ember-osf",
+            "submodule": "components"
+        },
+        {
+            "file": "addon/components/osf-navbar/component.js",
+            "line": 34,
+            "description": "The URL to use for signup. May be overridden, eg for special campaign pages",
+            "itemtype": "property",
+            "name": "signupUrl",
+            "type": "{String}",
+            "class": "osf-navbar",
+            "module": "ember-osf",
+            "submodule": "components"
+        },
+        {
+            "file": "addon/components/tags-widget/component.js",
+            "line": 27,
+            "description": "Whether the user is allowed to edit tags.",
+            "itemtype": "property",
+            "name": "canEdit",
+            "type": "{Boolean}",
+            "class": "tags-widget",
+            "module": "ember-osf",
+            "submodule": "components"
+        },
+        {
+            "file": "addon/const/permissions.js",
+            "line": 5,
+            "description": "Provide human-readable labels for permissions fields. Useful in dropdown UI.",
+            "itemtype": "property",
+            "name": "permissionSelector",
+            "final": 1,
+            "type": "{*[]}",
+            "class": "elem-id",
+            "module": "ember-osf"
+        },
+        {
+            "file": "addon/mixins/cas-authenticated-route.js",
+            "line": 18,
+            "description": "The session service.",
+            "itemtype": "property",
+            "name": "session",
+            "readonly": "",
+            "type": "SessionService",
+            "access": "public",
+            "tagname": "",
+            "class": "CasAuthenticatedRouteMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/cas-authenticated-route.js",
+            "line": 28,
+            "description": "Checks whether the session is authenticated, and if it is not, redirects to the login URL. (Sending back to this page after a successful transition)\n\n__If `beforeModel` is overridden in a route that uses this mixin, the route's\n     implementation must call `this._super(...arguments)`__ so that the mixin's\n     `beforeModel` method is actually executed.",
+            "itemtype": "method",
+            "name": "beforeModel",
+            "access": "public",
+            "tagname": "",
+            "class": "CasAuthenticatedRouteMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/commentable.js",
+            "line": 15,
+            "description": "The list of comments associated with a model. Defaults to using the model hook, and ensures that new comments\nare shown first (to match API convention)",
+            "access": "public",
+            "tagname": "",
+            "itemtype": "property",
+            "name": "comments",
+            "type": "Comment[]",
+            "class": "CommentableMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/commentable.js",
+            "line": 32,
+            "description": "Action that adds a new comment targeting the model by GUID.",
+            "itemtype": "method",
+            "name": "addComment",
+            "params": [
+                {
+                    "name": "text",
+                    "description": "The text of the new comment",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "The newly created comment",
+                "type": "Promise"
+            },
+            "class": "CommentableMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/commentable.js",
+            "line": 51,
+            "description": "Action that edits an existing comment.",
+            "itemtype": "method",
+            "name": "editComment",
+            "params": [
+                {
+                    "name": "comment",
+                    "description": "A comment model",
+                    "type": "DS.Model"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Promise"
+            },
+            "class": "CommentableMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/commentable.js",
+            "line": 60,
+            "description": "Action that handles deletion of an existing comment.",
+            "itemtype": "method",
+            "name": "deleteComment",
+            "params": [
+                {
+                    "name": "comment",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Promise"
+            },
+            "class": "CommentableMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/commentable.js",
+            "line": 70,
+            "description": "Action that restores a deleted comment.",
+            "itemtype": "method",
+            "name": "restoreComment",
+            "params": [
+                {
+                    "name": "comment",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Promise"
+            },
+            "class": "CommentableMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/commentable.js",
+            "line": 80,
+            "description": "Action that reports a comment for administrative review",
+            "itemtype": "method",
+            "name": "reportComment",
+            "return": {
+                "description": "",
+                "type": "Promise"
+            },
+            "class": "CommentableMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/fetch-all-route.js",
+            "line": 22,
+            "description": "The name of the URL parameter used by the API to control number of results per page",
+            "itemtype": "property",
+            "name": "perPageParam",
+            "type": "String",
+            "default": "page[size]",
+            "class": "FetchAllRouteMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/fetch-all-route.js",
+            "line": 28,
+            "description": "The name of the URL parameter used by the API to control the page requested",
+            "itemtype": "property",
+            "name": "pageParam",
+            "type": "String",
+            "default": "page",
+            "class": "FetchAllRouteMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/fetch-all-route.js",
+            "line": 34,
+            "description": "The name of the payload field that specifies how many pages are to be loaded. For OSF APIv2, this calculated field is added by serializer.",
+            "itemtype": "property",
+            "name": "totalPagesParam",
+            "type": "String",
+            "default": "meta.total",
+            "class": "FetchAllRouteMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/fetch-all-route.js",
+            "line": 42,
+            "description": "If a string is provided, will set infinite fetch on the relationship with the specified name,\nfrom the model specified in the route's model hook",
+            "itemtype": "property",
+            "name": "relationshipToFetch",
+            "type": "String",
+            "default": "null",
+            "class": "FetchAllRouteMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/fetch-all-route.js",
+            "line": 52,
+            "description": "Relationship querying reloads the relationship, so it can not be used as an in-place storage for the de-paginated list of records\nAs an ugly workaround, provide a new storage place that will not reflect mutations or updates to the list",
+            "itemtype": "property",
+            "name": "allRelated",
+            "class": "FetchAllRouteMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/fetch-all-route.js",
+            "line": 60,
+            "description": "Sets up fetch-all query for a relationship field.",
+            "access": "public",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "setupRelationshipFetch",
+            "params": [
+                {
+                    "name": "controller",
+                    "description": ""
+                },
+                {
+                    "name": "model",
+                    "description": ""
+                }
+            ],
+            "class": "FetchAllRouteMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/fetch-all-route.js",
+            "line": 90,
+            "description": "Event listener that fetches more results automatically\nAs written, this does not handle fetch errors, and will not retry once an error is encountered",
+            "itemtype": "method",
+            "name": "infinityModelUpdated",
+            "class": "FetchAllRouteMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/fetch-all-route.js",
+            "line": 100,
+            "description": "Model queries pass unchanged, but relationship queries require custom transformations to work with Ember-infinity\n\nember-data-has-many-query returns a DS.ManyArray, but Ember-infinity will not work unless given an ArrayProxy instance (with .content)",
+            "itemtype": "method",
+            "name": "afterInfinityModel",
+            "params": [
+                {
+                    "name": "infinityModelPromiseResult",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "FetchAllRouteMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/fetch-all-route.js",
+            "line": 123,
+            "description": "Convenience action for clickable buttons, mainly for use with debugging",
+            "itemtype": "method",
+            "name": "getMore",
+            "class": "FetchAllRouteMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/infinity-custom.js",
+            "line": 21,
+            "description": "Repurpose an ember-infinity hook to override the method used for queries",
+            "itemtype": "property",
+            "name": "_storeFindMethod",
+            "type": "{function}",
+            "default": "this.store.query",
+            "class": "InfinityCustomMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/infinity-custom.js",
+            "line": 29,
+            "description": "Use the infinityModel method in the place of `this.store.find('model')` to\ninitialize the Infinity Model for your route.",
+            "itemtype": "method",
+            "name": "infinityModel",
+            "params": [
+                {
+                    "name": "modelName",
+                    "description": "The name of the model.",
+                    "type": "String"
+                },
+                {
+                    "name": "options",
+                    "description": "Optional, the perPage and startingPage to load from.",
+                    "type": "Object"
+                },
+                {
+                    "name": "boundParams",
+                    "description": "Optional, any route properties to be included as additional params.",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Promise"
+            },
+            "class": "InfinityCustomMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/infinity-custom.js",
+            "line": 73,
+            "description": "request the next page from the adapter",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "_requestNextPage",
+            "return": {
+                "description": "A Promise that resolves the next page of objects",
+                "type": "Promise"
+            },
+            "class": "InfinityCustomMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/node-actions.js",
+            "line": 14,
+            "description": "The node to perform these actions on. If not specified, defaults to the model hook.",
+            "itemtype": "property",
+            "name": "node",
+            "type": "DS.Model",
+            "class": "NodeActionsMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/node-actions.js",
+            "line": 22,
+            "description": "Helper method that affiliates an institution with a node.",
+            "itemtype": "method",
+            "name": "_affiliateNode",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "node",
+                    "description": "Node record",
+                    "type": "DS.Model"
+                },
+                {
+                    "name": "institution",
+                    "description": "Institution record",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "Returns a promise that resolves to the updated node with the newly created institution relationship",
+                "type": "Promise"
+            },
+            "class": "NodeActionsMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/node-actions.js",
+            "line": 36,
+            "description": "Update a node",
+            "itemtype": "method",
+            "name": "updateNode",
+            "params": [
+                {
+                    "name": "title",
+                    "description": "New title of the node",
+                    "type": "String"
+                },
+                {
+                    "name": "description",
+                    "description": "New Description of the node",
+                    "type": "String"
+                },
+                {
+                    "name": "category",
+                    "description": "New node category",
+                    "type": "String"
+                },
+                {
+                    "name": "isPublic",
+                    "description": "Should this node be publicly-visible?",
+                    "type": "Boolean"
+                }
+            ],
+            "return": {
+                "description": "Returns a promise that resolves to the updated node",
+                "type": "Promise"
+            },
+            "class": "NodeActionsMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/node-actions.js",
+            "line": 62,
+            "description": "Delete a node",
+            "itemtype": "method",
+            "name": "deleteNode",
+            "return": {
+                "description": "Returns a promise that resolves after the deletion of the node.",
+                "type": "Promise"
+            },
+            "class": "NodeActionsMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/node-actions.js",
+            "line": 72,
+            "description": "Affiliate a node with an institution",
+            "itemtype": "method",
+            "name": "affiliateNode",
+            "params": [
+                {
+                    "name": "institutionId",
+                    "description": "ID of the institutution to be affiliated",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "Returns a promise that resolves to the updated node\nwith the newly affiliated institution relationship",
+                "type": "Promise"
+            },
+            "class": "NodeActionsMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/node-actions.js",
+            "line": 85,
+            "description": "Unaffiliate a node with an institution",
+            "itemtype": "method",
+            "name": "unaffiliateNode",
+            "params": [
+                {
+                    "name": "institution",
+                    "description": "Institution relationship to be removed from node",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "Returns a promise that resolves to the updated node\nwith the affiliated institution relationship removed.",
+                "type": "Promise"
+            },
+            "class": "NodeActionsMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/node-actions.js",
+            "line": 98,
+            "description": "Add a contributor to a node",
+            "itemtype": "method",
+            "name": "addContributor",
+            "params": [
+                {
+                    "name": "userId",
+                    "description": "ID of user that will be a contributor on the node",
+                    "type": "String"
+                },
+                {
+                    "name": "permission",
+                    "description": "User permission level. One of \"read\", \"write\", or \"admin\". Default: \"write\".",
+                    "type": "String"
+                },
+                {
+                    "name": "isBibliographic",
+                    "description": "Whether user will be included in citations for the node. \"default: true\"",
+                    "type": "Boolean"
+                },
+                {
+                    "name": "sendEmail",
+                    "description": "Whether user will receive an email when added. \"default: true\"",
+                    "type": "Boolean"
+                }
+            ],
+            "return": {
+                "description": "Returns a promise that resolves to the newly created contributor object.",
+                "type": "Promise"
+            },
+            "class": "NodeActionsMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/node-actions.js",
+            "line": 111,
+            "description": "Bulk add contributors to a node",
+            "itemtype": "method",
+            "name": "addContributors",
+            "params": [
+                {
+                    "name": "contributors",
+                    "description": "Array of objects containing contributor permission, bibliographic, and userId keys",
+                    "type": "Array"
+                },
+                {
+                    "name": "sendEmail",
+                    "description": "Whether user will receive an email when added. \"default: true\"",
+                    "type": "Boolean"
+                }
+            ],
+            "return": {
+                "description": "Returns a promise that resolves to an array of added contributors",
+                "type": "Promise"
+            },
+            "class": "NodeActionsMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/node-actions.js",
+            "line": 122,
+            "description": "Remove a contributor from a node",
+            "itemtype": "method",
+            "name": "removeContributor",
+            "params": [
+                {
+                    "name": "contributor",
+                    "description": "Contributor relationship that will be removed from node",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "Returns a promise that will resolve upon contributor deletion.\nUser itself will not be removed.",
+                "type": "Promise"
+            },
+            "class": "NodeActionsMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/node-actions.js",
+            "line": 134,
+            "description": "Update contributors of a node. Makes a bulk request to the APIv2.",
+            "itemtype": "method",
+            "name": "updateContributors",
+            "params": [
+                {
+                    "name": "contributors",
+                    "description": "Contributor relationships on the node.",
+                    "type": "Contributor[]"
+                },
+                {
+                    "name": "permissionsChanges",
+                    "description": "Dictionary mapping contributor ids to desired permissions.",
+                    "type": "Object"
+                },
+                {
+                    "name": "bibliographicChanges",
+                    "description": "Dictionary mapping contributor ids to desired bibliographic statuses",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "Returns a promise that resolves to the updated node\nwith edited contributor relationships.",
+                "type": "Promise"
+            },
+            "class": "NodeActionsMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/node-actions.js",
+            "line": 148,
+            "description": "Update contributors of a node. Makes a bulk request to the APIv2.",
+            "itemtype": "method",
+            "name": "updateContributor",
+            "params": [
+                {
+                    "name": "contributor",
+                    "description": "relationship on the node.",
+                    "type": "Contributor"
+                },
+                {
+                    "name": "permissions",
+                    "description": "desired permissions.",
+                    "type": "String"
+                },
+                {
+                    "name": "bibliographic",
+                    "description": "desired bibliographic statuses",
+                    "type": "Boolean"
+                }
+            ],
+            "return": {
+                "description": "Returns a promise that resolves to the updated node\nwith edited contributor relationships.",
+                "type": "Promise"
+            },
+            "class": "NodeActionsMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/node-actions.js",
+            "line": 161,
+            "description": "Reorder contributors on a node, and manually updates store.",
+            "itemtype": "method",
+            "name": "reorderContributors",
+            "params": [
+                {
+                    "name": "contributor",
+                    "description": "Contributor record to be modified",
+                    "type": "Object"
+                },
+                {
+                    "name": "newIndex",
+                    "description": "Contributor's new position in the list",
+                    "type": "Integer"
+                },
+                {
+                    "name": "contributors",
+                    "description": "New contributor list in correct order",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "Returns a promise that resolves to the updated contributor.",
+                "type": "Promise"
+            },
+            "class": "NodeActionsMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/node-actions.js",
+            "line": 187,
+            "description": "Add a child (component) to a node.",
+            "itemtype": "method",
+            "name": "addChild",
+            "params": [
+                {
+                    "name": "title",
+                    "description": "Title for the child",
+                    "type": "String"
+                },
+                {
+                    "name": "description",
+                    "description": "Description for the child",
+                    "type": "String"
+                },
+                {
+                    "name": "category",
+                    "description": "Category for the child",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "Returns a promise that resolves to the newly created child node.",
+                "type": "Promise"
+            },
+            "class": "NodeActionsMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/node-actions.js",
+            "line": 199,
+            "description": "Add a node link (pointer) to another node",
+            "itemtype": "method",
+            "name": "addNodeLink",
+            "params": [
+                {
+                    "name": "targetNodeId",
+                    "description": "ID of the node for which you wish to create a pointer",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "Returns a promise that resolves to model for the newly created NodeLink",
+                "type": "Promise"
+            },
+            "class": "NodeActionsMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/node-actions.js",
+            "line": 214,
+            "description": "Remove a node link (pointer) to another node",
+            "itemtype": "method",
+            "name": "removeNodeLink",
+            "params": [
+                {
+                    "name": "nodeLink",
+                    "description": "nodeLink record to be destroyed.",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "Returns a promise that resolves after the node link has been removed.  This does not delete\nthe target node itself.",
+                "type": "Promise"
+            },
+            "class": "NodeActionsMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/paginated-route.js",
+            "line": 27,
+            "description": "Allow configuration of the backend URL parameter used for page #",
+            "itemtype": "property",
+            "name": "pageParam",
+            "type": "String",
+            "default": "\"page\"",
+            "class": "PaginatedRouteMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/paginated-route.js",
+            "line": 35,
+            "description": "Allow configuration of the backend URL parameter for number of results per page",
+            "itemtype": "property",
+            "name": "perPageParam",
+            "type": "String",
+            "default": "\"page[size]\"",
+            "class": "PaginatedRouteMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/paginated-route.js",
+            "line": 43,
+            "description": "Fetch a route-specified page of results from an external API\n\nTo use this argument, pass the params from the model hook as the first argument.\n```javascript\nmodel(routeParams) {\n  return this.queryForPage('user', routeParams);\n}\n```",
+            "itemtype": "method",
+            "name": "queryForPage",
+            "params": [
+                {
+                    "name": "modelName",
+                    "description": "The name of the model to query in the store"
+                },
+                {
+                    "name": "routeParams",
+                    "description": "Parameters dictionary available to the model hook; must be passed in manually"
+                },
+                {
+                    "name": "userParams",
+                    "description": "Additional user-specified query parameters to further customize the query"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Promise"
+            },
+            "class": "PaginatedRouteMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/registration-actions.js",
+            "line": 14,
+            "description": "TODO: Document this parameter",
+            "itemtype": "property",
+            "name": "node",
+            "type": "DS.Model",
+            "class": "RegistrationActionsMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/registration-actions.js",
+            "line": 20,
+            "description": "The draft to perform these actions on. If not specified, defaults to the model hook.",
+            "itemtype": "property",
+            "name": "draft",
+            "type": "DS.Model",
+            "class": "RegistrationActionsMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/registration-actions.js",
+            "line": 28,
+            "description": "Update the current registration metadata with new responses. Takes the\ncurrentMetadata and recursively merges in the newMetadata.",
+            "itemtype": "method",
+            "name": "_updateMetadata",
+            "params": [
+                {
+                    "name": "currentMetadata",
+                    "description": "The registration metadata at last save.",
+                    "type": "Object"
+                },
+                {
+                    "name": "newMetadata",
+                    "description": "New registration metadata.",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "Returns merge of currentMetadata and newMetadata",
+                "type": "Object"
+            },
+            "class": "RegistrationActionsMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/registration-actions.js",
+            "line": 51,
+            "description": "Build the request payload used when creating a registration from a draft.",
+            "itemtype": "method",
+            "name": "_generateRegistrationPayload",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "draft",
+                    "description": "ID of the draft registration",
+                    "type": "String"
+                },
+                {
+                    "name": "registrationChoice",
+                    "description": "Either \"immediate\" or \"embargo\".",
+                    "type": "String"
+                },
+                {
+                    "name": "liftEmbargo",
+                    "description": "if registrationChoice === \"embargo\", liftEmbargo should be the date to lift the embargo.",
+                    "type": "Date"
+                }
+            ],
+            "return": {
+                "description": "Returns the attributes portion of the payload for creating a registration.",
+                "type": "Object"
+            },
+            "class": "RegistrationActionsMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/registration-actions.js",
+            "line": 72,
+            "description": "Create a draft registration of the node.",
+            "itemtype": "method",
+            "name": "createDraft",
+            "params": [
+                {
+                    "name": "schemaId",
+                    "description": "ID of the chosen registration schema",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "Returns a promise that resolves to the updated node - with the\nnewly created draft registration.",
+                "type": "Promise"
+            },
+            "class": "RegistrationActionsMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/registration-actions.js",
+            "line": 88,
+            "description": "Delete a draft registration of the node.",
+            "itemtype": "method",
+            "name": "deleteDraft",
+            "params": [
+                {
+                    "name": "draft",
+                    "description": "Draft to be deleted",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "Returns a promise that resolves after the deletion of the draft.",
+                "type": "Promise"
+            },
+            "class": "RegistrationActionsMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/registration-actions.js",
+            "line": 98,
+            "description": "Edit a draft registration of the node",
+            "itemtype": "method",
+            "name": "editDraft",
+            "params": [
+                {
+                    "name": "updatedMetadata",
+                    "description": "Responses to questions in the registration\nschema, nested in the format the registration schema expects\nto questions in the registration schema",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "Returns a promise that resolves to the updated draft",
+                "type": "Promise"
+            },
+            "class": "RegistrationActionsMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/registration-actions.js",
+            "line": 114,
+            "description": "Register a draft (creates a registration from a draft)",
+            "itemtype": "method",
+            "name": "registerDraft",
+            "params": [
+                {
+                    "name": "updatedMetadata",
+                    "description": "esponses to questions in the registration\nschema, nested in the format the registration schema expects",
+                    "type": "Object"
+                },
+                {
+                    "name": "registrationChoice",
+                    "description": "Either \"immediate\" or \"embargo\".",
+                    "type": "String"
+                },
+                {
+                    "name": "liftEmbargo",
+                    "description": "if registrationChoice === \"embargo\", liftEmbargo should be the date to lift the embargo.",
+                    "type": "Date"
+                }
+            ],
+            "return": {
+                "description": "Returns a promise that resolves to the updated node with the newly created registration relationship",
+                "type": "Promise"
+            },
+            "class": "RegistrationActionsMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/taggable-mixin.js",
+            "line": 15,
+            "description": "Appends a tag to the current array of tags on the resource.  Copies current\nlist of tags, appends new tag to copy, and then sets tags on the resource\nas the modified copy.",
+            "itemtype": "method",
+            "name": "addATag",
+            "params": [
+                {
+                    "name": "model",
+                    "description": "A model instance that supports tags functionality",
+                    "type": "DS.Model"
+                },
+                {
+                    "name": "tag",
+                    "description": "New tag to be added to list.",
+                    "type": "String"
+                }
+            ],
+            "class": "TaggableMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/taggable-mixin.js",
+            "line": 31,
+            "description": "Removes a tag from the current array of tags on the resource.",
+            "itemtype": "method",
+            "name": "removeATag",
+            "params": [
+                {
+                    "name": "model",
+                    "description": "A model instance that supports tags functionality",
+                    "type": "DS.Model"
+                },
+                {
+                    "name": "tag",
+                    "description": "Tag to be removed from list.",
+                    "type": "String"
+                }
+            ],
+            "class": "TaggableMixin",
+            "module": "ember-osf",
+            "submodule": "mixins"
+        },
+        {
+            "file": "addon/models/node.js",
+            "line": 83,
+            "description": "Is this a project? Flag can be used to provide template-specific behavior for different resource types.",
+            "itemtype": "property",
+            "name": "isProject",
+            "type": "boolean",
+            "class": "Node",
+            "module": "ember-osf",
+            "submodule": "models"
+        },
+        {
+            "file": "addon/models/node.js",
+            "line": 89,
+            "description": "Is this a registration? Flag can be used to provide template-specific behavior for different resource types.",
+            "itemtype": "property",
+            "name": "isRegistration",
+            "type": "boolean",
+            "class": "Node",
+            "module": "ember-osf",
+            "submodule": "models"
+        },
+        {
+            "file": "addon/models/node.js",
+            "line": 96,
+            "description": "Is this node being viewed through an anonymized, view-only link?",
+            "itemtype": "property",
+            "name": "isAnonymous",
+            "type": "boolean",
+            "class": "Node",
+            "module": "ember-osf",
+            "submodule": "models"
+        },
+        {
+            "file": "addon/models/node.js",
+            "line": 103,
+            "description": "Determine whether the specified user ID is a contributor on this node",
+            "itemtype": "method",
+            "name": "isContributor",
+            "params": [
+                {
+                    "name": "userId",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "Whether the specified user is a contributor on this node",
+                "type": "Boolean"
+            },
+            "class": "Node",
+            "module": "ember-osf",
+            "submodule": "models"
+        },
+        {
+            "file": "addon/models/osf-model.js",
+            "line": 30,
+            "description": "Looks up relationship on model and returns hasManyRelationship\nor belongsToRelationship object.",
+            "itemtype": "method",
+            "name": "resolveRelationship",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "rel",
+                    "description": "Name of the relationship on the model",
+                    "type": "String"
+                }
+            ],
+            "class": "OsfModel",
+            "module": "ember-osf",
+            "submodule": "models"
+        },
+        {
+            "file": "addon/serializers/osf-serializer.js",
+            "line": 24,
+            "description": "Extract information about records embedded inside this request",
+            "itemtype": "method",
+            "name": "_extractEmbeds",
+            "params": [
+                {
+                    "name": "resourceHash",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Array"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "OsfSerializer",
+            "module": "ember-osf",
+            "submodule": "serializers"
+        },
+        {
+            "file": "addon/services/current-user.js",
+            "line": 17,
+            "description": "If logged in, return the ID of the current user, else return null.",
+            "itemtype": "property",
+            "name": "currentUserId",
+            "type": "{String|null}",
+            "class": "current-user",
+            "module": "ember-osf",
+            "submodule": "services"
+        },
+        {
+            "file": "addon/services/current-user.js",
+            "line": 31,
+            "description": "Fetch information about the currently logged in user. If no user is logged in, this method returns a rejected promise.",
+            "itemtype": "method",
+            "name": "load",
+            "return": {
+                "description": "",
+                "type": "Promise"
+            },
+            "class": "current-user",
+            "module": "ember-osf",
+            "submodule": "services"
+        },
+        {
+            "file": "addon/services/file-manager.js",
+            "line": 23,
+            "description": "Get a URL to download the given file.",
+            "itemtype": "method",
+            "name": "getDownloadUrl",
+            "params": [
+                {
+                    "name": "file",
+                    "description": "A `file` model",
+                    "type": "File"
+                },
+                {
+                    "name": "options",
+                    "description": "Options hash",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "query",
+                            "description": "Key-value hash of query parameters to\nadd to the URL.",
+                            "type": "Object",
+                            "optional": true,
+                            "props": [
+                                {
+                                    "name": "version",
+                                    "description": "`file-version` ID",
+                                    "type": "Object",
+                                    "optional": true
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "return": {
+                "description": "Download URL",
+                "type": "String"
+            },
+            "class": "file-manager",
+            "module": "ember-osf",
+            "submodule": "services"
+        },
+        {
+            "file": "addon/services/file-manager.js",
+            "line": 51,
+            "description": "Download the contents of the given file.",
+            "itemtype": "method",
+            "name": "getContents",
+            "params": [
+                {
+                    "name": "file",
+                    "description": "A `file` model with `isFolder == false`.",
+                    "type": "File"
+                },
+                {
+                    "name": "options",
+                    "description": "Options hash",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "query",
+                            "description": "Key-value hash of query parameters to\nadd to the request URL.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "data",
+                            "description": "Payload to be sent.",
+                            "type": "Object",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "return": {
+                "description": "Promise that resolves to the file contents or rejects\nwith an error message.",
+                "type": "Promise"
+            },
+            "class": "file-manager",
+            "module": "ember-osf",
+            "submodule": "services"
+        },
+        {
+            "file": "addon/services/file-manager.js",
+            "line": 68,
+            "description": "Upload a new version of an existing file.",
+            "itemtype": "method",
+            "name": "updateContents",
+            "params": [
+                {
+                    "name": "file",
+                    "description": "A `file` model with `isFolder == false`.",
+                    "type": "File"
+                },
+                {
+                    "name": "contents",
+                    "description": "A native `File` object or another appropriate\npayload for uploading.",
+                    "type": "Object"
+                },
+                {
+                    "name": "options",
+                    "description": "Options hash",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "query",
+                            "description": "Key-value hash of query parameters to\nadd to the request URL.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "data",
+                            "description": "Payload to be sent.",
+                            "type": "Object",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "return": {
+                "description": "Promise that resolves to the updated `file` model or\nrejects with an error message.",
+                "type": "Promise"
+            },
+            "class": "file-manager",
+            "module": "ember-osf",
+            "submodule": "services"
+        },
+        {
+            "file": "addon/services/file-manager.js",
+            "line": 94,
+            "description": "Check out a file, so only the current user can modify it.",
+            "itemtype": "method",
+            "name": "checkOut",
+            "params": [
+                {
+                    "name": "file",
+                    "description": "`file` model with `isFolder == false`.",
+                    "type": "File"
+                }
+            ],
+            "return": {
+                "description": "Promise that resolves on success or rejects with an\nerror message.",
+                "type": "Promise"
+            },
+            "class": "file-manager",
+            "module": "ember-osf",
+            "submodule": "services"
+        },
+        {
+            "file": "addon/services/file-manager.js",
+            "line": 113,
+            "description": "Check in a file, so anyone with permission can modify it.",
+            "itemtype": "method",
+            "name": "checkOut",
+            "params": [
+                {
+                    "name": "file",
+                    "description": "`file` model with `isFolder == false`.",
+                    "type": "File"
+                }
+            ],
+            "return": {
+                "description": "Promise that resolves on success or rejects with an\nerror message.",
+                "type": "Promise"
+            },
+            "class": "file-manager",
+            "module": "ember-osf",
+            "submodule": "services"
+        },
+        {
+            "file": "addon/services/file-manager.js",
+            "line": 131,
+            "description": "Create a new folder",
+            "itemtype": "method",
+            "name": "addSubfolder",
+            "params": [
+                {
+                    "name": "folder",
+                    "description": "Location of the new folder, a `file` model with\n`isFolder == true`.",
+                    "type": "File"
+                },
+                {
+                    "name": "name",
+                    "description": "Name of the folder to create.",
+                    "type": "String"
+                },
+                {
+                    "name": "options",
+                    "description": "Options hash",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "query",
+                            "description": "Key-value hash of query parameters to\nadd to the request URL.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "data",
+                            "description": "Payload to be sent.",
+                            "type": "Object",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "return": {
+                "description": "Promise that resolves to the new folder's model or\nrejects with an error message.",
+                "type": "Promise"
+            },
+            "class": "file-manager",
+            "module": "ember-osf",
+            "submodule": "services"
+        },
+        {
+            "file": "addon/services/file-manager.js",
+            "line": 162,
+            "description": "Upload a file",
+            "itemtype": "method",
+            "name": "uploadFile",
+            "params": [
+                {
+                    "name": "folder",
+                    "description": "Location of the new file, a `file` model with\n`isFolder == true`.",
+                    "type": "File"
+                },
+                {
+                    "name": "name",
+                    "description": "Name of the new file.",
+                    "type": "String"
+                },
+                {
+                    "name": "contents",
+                    "description": "A native `File` object or another appropriate\npayload for uploading.",
+                    "type": "Object"
+                },
+                {
+                    "name": "options",
+                    "description": "Options hash",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "query",
+                            "description": "Key-value hash of query parameters to\nadd to the request URL.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "data",
+                            "description": "Payload to be sent.",
+                            "type": "Object",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "return": {
+                "description": "Promise that resolves to the new file's model or\nrejects with an error message.",
+                "type": "Promise"
+            },
+            "class": "file-manager",
+            "module": "ember-osf",
+            "submodule": "services"
+        },
+        {
+            "file": "addon/services/file-manager.js",
+            "line": 191,
+            "description": "Rename a file or folder",
+            "itemtype": "method",
+            "name": "rename",
+            "params": [
+                {
+                    "name": "file",
+                    "description": "`file` model to rename.",
+                    "type": "File"
+                },
+                {
+                    "name": "newName",
+                    "description": "New name for the file.",
+                    "type": "String"
+                },
+                {
+                    "name": "options",
+                    "description": "Options hash",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "query",
+                            "description": "Key-value hash of query parameters to\nadd to the request URL.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "data",
+                            "description": "Payload to be sent.",
+                            "type": "Object",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "return": {
+                "description": "Promise that resolves to the updated `file` model or\nrejects with an error message.",
+                "type": "Promise"
+            },
+            "class": "file-manager",
+            "module": "ember-osf",
+            "submodule": "services"
+        },
+        {
+            "file": "addon/services/file-manager.js",
+            "line": 212,
+            "description": "Move (or copy) a file or folder",
+            "itemtype": "method",
+            "name": "move",
+            "params": [
+                {
+                    "name": "file",
+                    "description": "`file` model to move.",
+                    "type": "File"
+                },
+                {
+                    "name": "targetFolder",
+                    "description": "Where to move the file, a `file` model with\n`isFolder == true`.",
+                    "type": "File"
+                },
+                {
+                    "name": "options",
+                    "description": "Options hash",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "query",
+                            "description": "Key-value hash of query parameters to\nadd to the request URL.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "data",
+                            "description": "Payload to be sent.",
+                            "type": "Object",
+                            "optional": true,
+                            "props": [
+                                {
+                                    "name": "rename",
+                                    "description": "If specified, also rename the file\nto the given name.",
+                                    "type": "String",
+                                    "optional": true
+                                },
+                                {
+                                    "name": "resource",
+                                    "description": "Optional node ID. If specified,\nmove the file to that node.",
+                                    "type": "String",
+                                    "optional": true
+                                },
+                                {
+                                    "name": "provider",
+                                    "description": "Optional provider name. If\nspecified, move the file to that provider.",
+                                    "type": "String",
+                                    "optional": true
+                                },
+                                {
+                                    "name": "action",
+                                    "description": "Either 'move' or 'copy'.",
+                                    "type": "String",
+                                    "optional": true,
+                                    "optdefault": "'move'"
+                                },
+                                {
+                                    "name": "conflict",
+                                    "description": "Specifies what to do if\na file of the same name already exists in the target folder. If 'keep',\nrename this file to avoid conflict. If replace, the existing file is\ndestroyed.",
+                                    "type": "String",
+                                    "optional": true,
+                                    "optdefault": "'replace'"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "return": {
+                "description": "Promise that resolves to the the updated (or newly\ncreated) `file` model or rejects with an error message.",
+                "type": "Promise"
+            },
+            "class": "file-manager",
+            "module": "ember-osf",
+            "submodule": "services"
+        },
+        {
+            "file": "addon/services/file-manager.js",
+            "line": 253,
+            "description": "Copy a file or folder.\nConvenience method for `move` with `options.copy == true`.",
+            "itemtype": "method",
+            "name": "copy",
+            "params": [
+                {
+                    "name": "file",
+                    "description": "`file` model to copy.",
+                    "type": "File"
+                },
+                {
+                    "name": "targetFolder",
+                    "description": "Where to copy the file, a `file` model with\n`isFolder == true`.",
+                    "type": "File"
+                },
+                {
+                    "name": "options",
+                    "description": "Options hash",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "query",
+                            "description": "Key-value hash of query parameters to\nadd to the request URL.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "data",
+                            "description": "Payload to be sent.",
+                            "type": "Object",
+                            "optional": true,
+                            "props": [
+                                {
+                                    "name": "rename",
+                                    "description": "If specified, also rename the file\nto the given name.",
+                                    "type": "String",
+                                    "optional": true
+                                },
+                                {
+                                    "name": "resource",
+                                    "description": "Optional node ID. If specified,\nmove the file to that node.",
+                                    "type": "String",
+                                    "optional": true
+                                },
+                                {
+                                    "name": "provider",
+                                    "description": "Optional provider name. If\nspecified, move the file to that provider.",
+                                    "type": "String",
+                                    "optional": true
+                                },
+                                {
+                                    "name": "conflict",
+                                    "description": "Specifies what to do if\na file of the same name already exists in the target folder. If 'keep',\nrename this file to avoid conflict. If replace, the existing file is\ndestroyed.",
+                                    "type": "String",
+                                    "optional": true,
+                                    "optdefault": "'replace'"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "return": {
+                "description": "Promise that resolves to the the new `file` model or\nrejects with an error message.",
+                "type": "Promise"
+            },
+            "class": "file-manager",
+            "module": "ember-osf",
+            "submodule": "services"
+        },
+        {
+            "file": "addon/services/file-manager.js",
+            "line": 286,
+            "description": "Delete a file or folder",
+            "itemtype": "method",
+            "name": "deleteFile",
+            "params": [
+                {
+                    "name": "file",
+                    "description": "`file` model to delete.",
+                    "type": "File"
+                },
+                {
+                    "name": "options",
+                    "description": "Options hash",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "query",
+                            "description": "Key-value hash of query parameters to\nadd to the request URL.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "data",
+                            "description": "Payload to be sent.",
+                            "type": "Object",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "return": {
+                "description": "Promise that resolves on success or rejects with an\nerror message.",
+                "type": "Promise"
+            },
+            "class": "file-manager",
+            "module": "ember-osf",
+            "submodule": "services"
+        },
+        {
+            "file": "addon/services/file-manager.js",
+            "line": 312,
+            "description": "Check whether the given url corresponds to a model that is currently\nreloading after a file operation.\n\nUsed by `mixin:file-cache-bypass` to avoid a race condition where the\ncache might return stale, inaccurate data.",
+            "itemtype": "method",
+            "name": "isReloadingUrl",
+            "params": [
+                {
+                    "name": "url",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "`true` if `url` corresponds to a pending reload on a\nmodel immediately after a Waterbutler action, otherwise `false`.",
+                "type": "Boolean"
+            },
+            "class": "file-manager",
+            "module": "ember-osf",
+            "submodule": "services"
+        },
+        {
+            "file": "addon/services/file-manager.js",
+            "line": 328,
+            "description": "Hash set of URLs for `model.reload()` calls that are still pending.",
+            "itemtype": "property",
+            "name": "_reloadingUrls",
+            "access": "private",
+            "tagname": "",
+            "class": "file-manager",
+            "module": "ember-osf",
+            "submodule": "services"
+        },
+        {
+            "file": "addon/services/file-manager.js",
+            "line": 336,
+            "description": "Force-reload a model from the API.",
+            "itemtype": "method",
+            "name": "_reloadModel",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "model",
+                    "description": "`file` model or a `files` relationship",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "Promise that resolves to the reloaded model or\nrejects with an error message.",
+                "type": "Promise"
+            },
+            "class": "file-manager",
+            "module": "ember-osf",
+            "submodule": "services"
+        },
+        {
+            "file": "addon/services/file-manager.js",
+            "line": 370,
+            "description": "Make a Waterbutler request",
+            "itemtype": "method",
+            "name": "_waterbutlerRequest",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "method",
+                    "description": "HTTP method for the request.",
+                    "type": "String"
+                },
+                {
+                    "name": "url",
+                    "description": "Waterbutler URL.",
+                    "type": "String"
+                },
+                {
+                    "name": "options",
+                    "description": "Options hash",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "query",
+                            "description": "Key-value hash of query parameters to\nadd to the request URL.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "data",
+                            "description": "Payload to be sent.",
+                            "type": "Object",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "return": {
+                "description": "Promise that resolves to the data returned from the\nserver on success, or rejects with an error message.",
+                "type": "Promise"
+            },
+            "class": "file-manager",
+            "module": "ember-osf",
+            "submodule": "services"
+        },
+        {
+            "file": "addon/services/file-manager.js",
+            "line": 409,
+            "description": "Get the `file` model for a newly created file.",
+            "itemtype": "method",
+            "name": "_getNewFileInfo",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "parentFolder",
+                    "description": "Model for the new file's parent folder.",
+                    "type": "File"
+                },
+                {
+                    "name": "name",
+                    "description": "Name of the new file.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "Promise that resolves to the new file's model or\nrejects with an error message.",
+                "type": "Promise"
+            },
+            "class": "file-manager",
+            "module": "ember-osf",
+            "submodule": "services"
+        },
+        {
+            "file": "addon/utils/ajax-helpers.js",
+            "line": 16,
+            "description": "Performs an AJAX request with any additional authorization config as needed for the configured authorization type.\nAllows manual AJAX requests to be authorization-agnostic when using this addon.\n\nPrimarily used to set XHR flags on manual AJAX requests, for cookie based authorization.",
+            "itemtype": "method",
+            "name": "authenticatedAJAX",
+            "params": [
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Promise"
+            },
+            "class": "ajax-helpers",
+            "module": "utils"
+        },
+        {
+            "file": "addon/utils/auth.js",
+            "line": 14,
+            "description": "Retrieve the correct URL for OAuth 2.0 authentication in the OSF, including any additional configurable parameters",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "getOAuthUrl",
+            "params": [
+                {
+                    "name": "nextUri",
+                    "description": "Where to send the browser after a successful login request",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "auth",
+            "module": "ember-osf",
+            "submodule": "utils"
+        },
+        {
+            "file": "addon/utils/auth.js",
+            "line": 34,
+            "description": "Retrieve the correct URL for cookie-based in the OSF, including any additional configurable parameters",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "getCookieAuthUrl",
+            "params": [
+                {
+                    "name": "nextUri",
+                    "description": "Where to send the browser after a successful login request",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "auth",
+            "module": "ember-osf",
+            "submodule": "utils"
+        },
+        {
+            "file": "addon/utils/auth.js",
+            "line": 47,
+            "description": "Return the appropriate auth URL for the specified authorization mechanism (as specified in application configuration)\nCurrently supports `token` and `cookie` based authorization",
+            "access": "public",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "getAuthUrl",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "auth",
+            "module": "ember-osf",
+            "submodule": "utils"
+        }
+    ],
+    "warnings": [
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " addon/models/node.js:103"
+        }
+    ]
+}

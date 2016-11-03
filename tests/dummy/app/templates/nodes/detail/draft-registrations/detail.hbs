@@ -1,0 +1,88 @@
+{{title "OSF | Edit " model.branchedFrom.title " registration" replace=true}}
+{{link-to 'Back to node' 'nodes.detail' class='btn btn-default'}}
+{{link-to 'View registrations' 'nodes.detail.registrations' class='btn btn-primary'}}
+{{link-to 'View draft registrations' 'nodes.detail.draft_registrations' class='btn btn-info'}}
+
+
+<h2> {{model.registrationSchema.name}} </h2>
+<p> Initiated by: {{model.initiator.fullName}}</p>
+<p> Started: {{moment-format model.datetimeInitiated}} </p>
+<p> Last Updated: {{moment-format model.datetimeUpdated}} </p>
+
+<hr>
+
+<h3> Edit Draft Registration </h3>
+{{#each model.registrationSchema.schema.pages as |page|}}
+
+    {{#each page.questions as |question|}}
+        <p> <label> {{question.title}} </label> </p>
+        {{#if question.description}}
+            <p> {{question.description}} </p>
+        {{/if}}
+        {{#if (eq question.type "choose")}}
+            {{#unless question.description}}
+                <p> <em> Please choose </em> </p>
+            {{/unless}}
+            <form>
+                {{#each question.options as |option|}}
+                    {{#if (eq (check-data-type option) "string")}}
+                        <p> <input onchange={{action "buildForm" value="target"}} type="radio" name={{question.qid}} value={{option}} checked={{selected-helper option (draft-text-input model.registrationMetadata question)}}> {{option}} </p>
+                    {{else}}
+                        <p> <input onchange={{action "buildForm" value="target"}} type="radio" name={{question.qid}} value={{option.text}} checked={{selected-helper option.text (draft-text-input model.registrationMetadata question)}}> {{option.text}} </p>
+                    {{/if}}
+                {{/each}}
+            </form>
+        {{else if (eq question.type "object")}}
+            {{#each question.properties as |subquestion|}}
+                {{#if subquestion.description}}
+                    <p>{{subquestion.description}}</p>
+                {{/if}}
+                {{#if (eq subquestion.type "osf-upload")}}
+                    <p>
+                        You may attach up to 5 files to this question.
+                        You may attach files that you already have in this OSF project, or upload a new file from your computer.
+                        Uploaded files will automatically be added to this project so that they can be registered.
+                    </p>
+                    <a href=#> Attach File (not implemented) </a>
+                {{else}}
+                    {{#if subquestion.properties}}
+                        {{#each subquestion.properties as |item|}}
+                            {{#if item.description}}
+                                <p>{{item.description}}</p>
+                            {{/if}}
+                            <p><textarea onchange={{action "buildForm" value="target"}} name="{{question.qid}}:{{subquestion.id}}:{{item.id}}" value={{draft-text-input model.registrationMetadata question subquestion item}}></textarea></p>
+                        {{/each}}
+                    {{else}}
+                        <p><textarea onchange={{action "buildForm" value="target"}} name="{{question.qid}}:{{subquestion.id}}" value={{draft-text-input model.registrationMetadata question subquestion}}></textarea></p>
+                    {{/if}}
+                {{/if}}
+            {{/each}}
+        {{else}}
+            <textarea onchange={{action "buildForm" value="target"}} name={{question.qid}} value={{draft-text-input model.registrationMetadata question}}> </textarea>
+        {{/if}}
+        <hr>
+    {{/each}}
+{{/each}}
+
+{{#if formDisplayed}}
+    <h3> Before you continue ... </h3>
+    <p><label> Registration Choice </label></p>
+    <select onchange={{action "changeRegistrationChoice" value="target.value"}}>
+        <option value="immediate"> Make registration public immediately </option>
+        <option value="embargo"> Enter registration into embargo </option>
+    </select>
+    {{#if embargoSelected}}
+        <p><label> Embargo End Date </label></p>
+        <input name="liftEmbargo" type="date" value="liftEmbargo" onchange={{action "changeEmbargoEndDate" value="target.value"}}>
+    {{/if}}
+    <br><br>
+    <p>
+        <button class='btn btn-default' {{action "regForm"}}>Cancel</button>
+        <button class='btn btn-success' {{action "registerDraft" editedMetadata registrationChoice liftEmbargo}}>Continue</button>
+    </p>
+{{else}}
+    <p>
+        <button class='btn btn-primary' {{action "editDraft" editedMetadata "draft"}}>Save as draft</button>
+        <button class='btn btn-success' {{action "regForm"}}>Register</button>
+    </p>
+{{/if}}

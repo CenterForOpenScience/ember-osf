@@ -1,0 +1,9 @@
+User: {{model.fullName}}<br>
+Nodes:
+<ol>
+    {{#each allRelated as |node|}}
+        <li>{{node}}, {{node.title}}</li>
+    {{/each}}
+</ol>
+
+<button {{action 'getMore'}}>Load more</button>
