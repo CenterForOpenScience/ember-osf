@@ -1,7 +1,7 @@
 {
   "name": "ember-osf",
-  "version": "0.0.1",
-  "description": "Ember Data models for the OSF APIv2",
+  "version": "0.1.0",
+  "description": "Reusable ember models and components for interacting with the Open Science Framework",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -9,7 +9,6 @@
   "scripts": {
     "build": "ember build",
     "docs": "yuidoc",
-    "docs-deploy": "yuidoc && ghp-import -r origin -p -b gh-pages docs/",
     "start": "ember server",
     "test": "ember test",
     "check-style": "./node_modules/jscs/bin/jscs ."
