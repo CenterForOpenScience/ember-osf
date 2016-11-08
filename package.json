@@ -10,8 +10,8 @@
     "build": "ember build",
     "docs": "yuidoc",
     "start": "ember server",
-    "test": "ember test",
-    "check-style": "./node_modules/jscs/bin/jscs ."
+    "check-style": "./node_modules/jscs/bin/jscs .",
+    "test": "npm run-script check-style && ember test"
   },
   "repository": "",
   "engines": {
