@@ -524,3 +524,24 @@ test('#ajaxOptions adds bulk contentType if request is bulk', function(assert) {
     });
     assert.equal(opts.contentType, 'application/vnd.api+json; ext=bulk');
 });
+
+test('#findRecord can embed(via include) data with findRecord', function(assert) {
+    this.inject.service('store');
+    let store = this.store;
+
+    let node = FactoryGuy.make('node');
+    Ember.run(() => node.set('title', 'Parent'));
+
+    let child = FactoryGuy.make('node');
+    Ember.run(() => child.set('title', 'Child'));
+
+    Ember.run(() => node.set('children', [child]));
+
+    Ember.run(() => {
+        store.findRecord('node', node.id, { include: 'children' }).then(res => {
+            assert.equal(res.get('children').toArray()[0].get('title'), child.get('title'));
+        });
+    });
+
+});
+
