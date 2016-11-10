@@ -40,6 +40,7 @@ export default DS.JSONAPISerializer.extend({
             }
             //TODO Pagination probably breaks here
             let data = resourceHash.embeds[embedded].data || resourceHash.embeds[embedded];
+            this.store.pushPayload({data: data});
             if (Array.isArray(data)) {
                 included = included.concat(data);
             } else {
