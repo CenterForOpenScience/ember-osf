@@ -5,12 +5,12 @@ export default Ember.Controller.extend({
     fetchedChild: null,
     actions: {
         fetchNodePreprintsEmbedded() {
-            this.store.findRecord('node', 'ee2t9').then((node) => {
+            this.store.findRecord('node', '7gzxb', {include: 'preprints'}).then((node) => {
                 this.set('fetchedNode', node);
             });
         },
         fetchNodeParentEmbedded() {
-            this.store.findRecord('node', 'pe8s6').then((node) => {
+            this.store.findRecord('node', 'ddyuz', {include: 'parent'}).then((node) => {
                 this.set('fetchedChild', node);
             });
         }
