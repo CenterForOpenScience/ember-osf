@@ -11,7 +11,6 @@ export default OsfAdapter.extend({
                 );
             }
         }
-        let url = this._super(...arguments);
-        return `${url}?embed=preprints&embed=parent`;
+        return this._super(...arguments);
     }
 });
