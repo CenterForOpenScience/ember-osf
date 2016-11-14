@@ -530,13 +530,23 @@ test('#findRecord can embed(via include) data with findRecord', function(assert)
     let store = this.store;
 
     let node = FactoryGuy.make('node');
-    let child = FactoryGuy.make('node');
+    var children;
+    Ember.run(() => {
+        children = [
+            store.createRecord('node', {
+                title: 'Foo'
+            }),
+            store.createRecord('node', {
+                title: 'Bar'
+            })
+        ];
+    });
+    node.get('children').pushObjects(children);
+
     Ember.run(() => {
         node.set('title', 'Parent');
-        child.set('title', 'Child');
-        node.set('children', [child]);
         store.findRecord('node', node.id, { include: 'children' }).then(res => {
-            assert.equal(res.get('children').toArray()[0].get('title'), child.get('title'));
+            assert.equal(res.get('children').toArray()[0].get('title'), children[0].get('title'));
         });
 
     });
