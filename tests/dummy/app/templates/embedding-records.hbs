@@ -13,8 +13,8 @@
                         <label>Node title</label>: {{preprintNode.title}}
                         <label>Node ID</label>: {{preprintNode.id}}
                     </p>
+                    <p> <em> This preprint was embedded on this node, so a separate request wasn't required to fetch it!</em></p>
                     <p>
-
                         <label>Preprint ID</label>: {{preprint.id}}
                         {{#if preprint.doi}}
                             <label> DOI: </label> {{preprint.doi}}
@@ -49,6 +49,7 @@
                     {{#each matchingUsers as |user|}}
                         <li> {{user.fullName}} </li>
                         {{#if user.nodes}}
+                            <p> <b> These nodes were embedded in the user response so a separate request was not required!</b></p>
                             <p> <em>User Nodes:</em> </p>
                             <ul>
                                 {{#each user.nodes as |node|}}
