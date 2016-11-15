@@ -13,7 +13,8 @@ import config from 'ember-get-config';
  * Sample usage:
  * ```handlebars
  * {{navbar-auth-dropdown
- *   loginAction=loginAction}}
+ *   loginAction=loginAction
+ *   redirectUrl=redirectUrl}}
  * ```
  *
  * @class osf-navbar
@@ -27,6 +28,7 @@ export default Ember.Component.extend({
     classNames: ['dropdown'],
     classNameBindings: ['notAuthenticated:sign-in'],
     notAuthenticated: Ember.computed.not('session.isAuthenticated'),
+    redirectUrl: null,
 
     /**
      * The URL to use for signup. May be overridden, eg for special campaign pages
@@ -60,8 +62,11 @@ export default Ember.Component.extend({
     enableInstitutions: true,
     actions: {
         logout() {
+            const redirect_url = this.get('redirectUrl');
+            const query = redirect_url ? '?' + Ember.$.param({redirect_url}) : '';
             // TODO: May not work well if logging out from page that requires login- check?
-            this.get('session').invalidate();
+            this.get('session').invalidate()
+                .then(() => window.location.href = `${config.OSF.url}logout/${query}`);
         },
     }
 });

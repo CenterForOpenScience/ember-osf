@@ -51,8 +51,7 @@ export default Base.extend({
             // Can't do this via AJAX request because it redirects to CAS, and AJAX + redirect = CORS issue
 
             // Manually clear session before user leaves the page, since we aren't sticking around for ESA to do so later
-            this.get('session.session')._clear(true)
-                .then(() => window.location = `${config.OSF.url}logout/`);
+            return this.get('session.session')._clear(true);
         } else {
             // This branch is expected to be called when a test request reveals the user to lack permissions... so session should be wiped
             return Ember.RSVP.resolve();
