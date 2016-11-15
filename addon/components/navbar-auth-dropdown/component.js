@@ -17,7 +17,7 @@ import config from 'ember-get-config';
  *   redirectUrl=redirectUrl}}
  * ```
  *
- * @class osf-navbar
+ * @class navbar-auth-dropdown
  */
 export default Ember.Component.extend({
     layout,
@@ -62,8 +62,8 @@ export default Ember.Component.extend({
     enableInstitutions: true,
     actions: {
         logout() {
-            const redirect_url = this.get('redirectUrl');
-            const query = redirect_url ? '?' + Ember.$.param({redirect_url}) : '';
+            const redirectUrl = this.get('redirectUrl');
+            const query = redirectUrl ? '?' + Ember.$.param({ redirect_url: redirectUrl }) : '';
             // TODO: May not work well if logging out from page that requires login- check?
             this.get('session').invalidate()
                 .then(() => window.location.href = `${config.OSF.url}logout/${query}`);
