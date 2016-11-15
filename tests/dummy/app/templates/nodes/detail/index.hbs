@@ -17,6 +17,10 @@
     <p><label> Tags </label></p>
     {{tags-widget addATag=(action 'addATag' model) removeATag=(action 'removeATag' model) tags=model.tags}}
     <hr>
+    <p><label> License </lable></p>
+    {{#if licenseToggle}}
+        {{license-picker licenses=[] currentValues=serializedLicense editLicense=(action 'editLicense') allowDismiss=true dismiss=(action 'toggleLicense')}}
+    {{/if}}
     <p>
         <a href="{{model.links.html}}" target="_blank" class="btn btn-primary">
             View on OSF

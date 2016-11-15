@@ -1,0 +1,11 @@
+<p><label>Choose a license:</label></p>
+{{input}}
+<p><label>Year:</label></p>
+{{input}}
+<p><label>Copyright Holders:</label></p>
+{{input}}
+<h2>Preview</h2>
+{{#if allowDismiss}}
+ <button {{action 'dismiss'}}>{{fa-icon 'times'}}</button>
+{{/if}}
+<button {{action 'save'}}>Save</button>
