@@ -3,6 +3,8 @@
         <div class="col-xs-12">
             <h1> Demonstration of Embedded Records </h1>
 
+            <hr>
+
             <p> <button class="btn btn-default" {{action 'loadNodeEmbedPreprint'}}> Load a node with an embedded preprint </button> </p>
 
             {{#if nodePreprintsQueried}}
@@ -35,6 +37,31 @@
                     <p class="text-warning"> No nodes with published preprints on them (that you can access at least)! </p>
                 {{/if}}
 
+            {{/if}}
+
+            <hr>
+
+            {{input value=userQuery placeholder='Enter user name'}}
+            <button class="btn btn-default" disabled={{not userQuery}} {{action 'searchUsers' userQuery}}> Search users and embed nodes </button>
+            {{#if matchingUsers}}
+                <p> <label> Search results </label> </p>
+                <ul>
+                    {{#each matchingUsers as |user|}}
+                        <li> {{user.fullName}} </li>
+                        {{#if user.nodes}}
+                            <p> <em>User Nodes:</em> </p>
+                            <ul>
+                                {{#each user.nodes as |node|}}
+                                    <li>{{node.title}}</li>
+                                {{/each}}
+                            </ul>
+                        {{/if}}
+                    {{/each}}
+                </ul>
+            {{else}}
+                {{#if usersQueried}}
+                    <p> No users matching this query! </p>
+                {{/if}}
             {{/if}}
 
         </div>

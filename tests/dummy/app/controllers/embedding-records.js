@@ -4,6 +4,8 @@ export default Ember.Controller.extend({
     preprintNode: null,
     preprint: null,
     nodePreprintsQueried: false,
+    usersQueried: false,
+    matchingUsers: Ember.A(),
     actions: {
         loadNodeEmbedPreprint() {
             this.store.findAll('node', { include: 'preprints' }).then((nodes) => {
@@ -17,6 +19,17 @@ export default Ember.Controller.extend({
                     }
                 }
             });
+        },
+        searchUsers(userQuery) {
+            this.set('usersQueried', false);
+            this.store.query('user', {
+                filter: {full_name: userQuery},
+                embed: 'nodes'
+            }).then((users) => {
+                this.set('usersQueried', true);
+                this.set('matchingUsers', users);
+            });
+
         }
     }
 });
