@@ -1,0 +1,46 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1> Demonstration of Embedded Records </h1>
+
+            <p> <button class="btn btn-default" {{action 'loadNodeEmbedPreprint'}}> Load a node with an embedded preprint </button> </p>
+
+            {{#if nodePreprintsQueried}}
+                {{#if preprintNode}}
+                    <p>
+                        <label>Node title</label>: {{preprintNode.title}}
+                        <label>Node ID</label>: {{preprintNode.id}}
+                    </p>
+                    <p>
+
+                        <label>Preprint ID</label>: {{preprint.id}}
+                        {{#if preprint.doi}}
+                            <label> DOI: </label> {{preprint.doi}}
+                        {{/if}}
+                    </p>
+                    <p> <label> Abstract: </label> {{preprintNode.description}} </p>
+                    <p>
+                        <label> Subjects: </label>
+
+                        <ul>
+                            {{#each preprint.subjects as |subjectBlock|}}
+                                {{#each subjectBlock as |subject|}}
+                                    <li><{{subject.text}}/li>
+                                {{/each}}
+                            {{/each}}
+                        </ul>
+
+                    </p>
+                {{else}}
+                    <p class="text-warning"> No nodes with published preprints on them (that you can access at least)! </p>
+                {{/if}}
+
+            {{/if}}
+
+        </div>
+    </div>
+</div>
+
+
+
+
