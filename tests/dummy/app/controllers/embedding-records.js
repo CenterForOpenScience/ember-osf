@@ -23,7 +23,7 @@ export default Ember.Controller.extend({
         searchUsers(userQuery) {
             this.set('usersQueried', false);
             this.store.query('user', {
-                filter: {full_name: userQuery},
+                filter: { full_name: userQuery },
                 embed: 'nodes'
             }).then((users) => {
                 this.set('usersQueried', true);
