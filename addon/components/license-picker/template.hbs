@@ -1,15 +1,20 @@
-<p><label>Choose a license:</label></p>
-{{license-list licenses=licensesAvailable showCategories=true select=(action 'selectLicense')}}
+<div class="panel panel-default">
+    <div class="panel-body">
+        <p><label>Choose a license:</label></p>
+        {{license-list licenses=licensesAvailable showCategories=true select=(action 'selectLicense')}}
 
-<p><label>Year:</label></p>
-{{input value=year}}
-<p><label>Copyright Holders:</label></p>
-{{input value=copyrightHolders}}
+        <hr>
+        <p><label>Year:</label></p>
+        {{input value=year}}
+        <p><label>Copyright Holders:</label></p>
+        {{input value=copyrightHolders}}
 
-<p>{{nodeLicenseText}}</p>
+        <pre class='license-text'>{{nodeLicenseText}}</pre>
 
-{{#if allowDismiss}}
-    <button {{action 'dismiss'}}>{{fa-icon 'times'}}</button>
-{{/if}}
+        {{#if allowDismiss}}
+            <button {{action 'dismiss'}}>{{fa-icon 'times'}}</button>
+        {{/if}}
 
-<button {{action 'save'}}>Save</button>
+        <button class='btn btn-success pull-right' {{action 'save'}}>Save</button>
+    </div>
+</div>
