@@ -10,6 +10,16 @@ export default Ember.Component.extend({
          this.set('licensesAvailable', ret);
       });
   },
+  nodeLicenseText: Ember.computed('nodeLicense.text', 'year', 'copyrightHolders', function() {
+      let text = this.get('nodeLicense.text');
+      if (!text) {
+          return '';
+      }
+      text = text.replace(/({{year}})/g, this.get('year') || '');
+      text = text.replace(/({{copyrightHolders}})/g, this.get('copyrightHolders') || '');
+      return text;
+  }),
+
   // nodeLicense: Ember.computed('licensesAvailable', function() {
   //     return this.get('currentValues.licenseType') || this.get('licensesAvailable')[0];
   //     //return this.get('store').findRecord('license', '57a8c6b752386caf6a68df1e');//this.get('licenseId'));
@@ -33,8 +43,8 @@ export default Ember.Component.extend({
   year: null,
   copyrightHolders: null,
   actions: {
-      selectLicense() {
-          console.log('oks')
+      selectLicense(license) {
+          this.set('nodeLicense', license);
       },
       save() {
           let values = {

@@ -67,9 +67,9 @@ export default Ember.Component.extend({
         this.set('categories', categories);
     }),
     actions: {
-        selectLicense(license) {
+        select(license) {
             this.set('_selectedLicense', license);
-            this.send('select', license);
+            this.sendAction('select', license);
         }
     }
 });

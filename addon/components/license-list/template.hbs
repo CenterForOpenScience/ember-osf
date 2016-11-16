@@ -10,12 +10,12 @@
                     <li class='dropdown-header'>{{category.title}}</li>
                 {{/if}}
                 {{#each category.licenses as |license|}}
-                    <li><a href='#' {{action 'selectLicense' license}}>{{license.name}}</a></li>
+                    <li><a href='#' {{action 'select' license}}>{{license.name}}</a></li>
                 {{/each}}
             {{/each}}
         {{else}}
             {{#each licenses as |license|}}
-                <li><a href='#' {{action 'selectLicense' license}}>{{license.name}}</a></li>
+                <li><a href='#' {{action 'select' license}}>{{license.name}}</a></li>
             {{/each}}
         {{/if}}
     </ul>
