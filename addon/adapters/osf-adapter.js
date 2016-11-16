@@ -23,6 +23,9 @@ import {
  * @uses GenericDataAdapterMixin
  */
 export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDataAdapterMixin, {
+    headers: {
+        'ACCEPT':'application/vnd.api+json; version=2.3'
+    },
     authorizer: config['ember-simple-auth'].authorizer,
     host: config.OSF.apiUrl,
     namespace: config.OSF.apiNamespace,
