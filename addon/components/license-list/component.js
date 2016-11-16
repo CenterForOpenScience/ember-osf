@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import layout from './template';
 
-const defaultCategories: {
+const defaultCategories = {
     Content: name => name.indexOf('CC') !== -1,
     'Code - Permissive': name => name.indexOf('MIT') !== -1 || name.indexOf('Apache') !== -1 || name.indexOf('BSD') !== -1,
     'Code - Copyleft': name => name.indexOf('GNU') !== -1 && name.indexOf('Lesser') === -1
@@ -9,53 +9,54 @@ const defaultCategories: {
 
 export default Ember.Component.extend({
     layout,
-    categories: Ember.computed('licenses', function() {
-        if (!this.get('showCategories')) {
+    categories: Ember.observer('licenses', function() {
+        if (!this.get('showCategories') || !this.get('licenses')) {
             return;
         }
         let categories = [];
         let hasOther = false;
         let cat = {
-            Content: []
+            Content: [],
             'Code - Permissive': [],
             'Code - Copyleft': [],
             'Code - Other': []
         }
         this.get('licenses').forEach(each => {
-            if (each.name == 'No license') {
+            if (each.get('name') == 'No license') {
                 categories.push({
                     licenses: [each]
                 });
-            } else if (each.name == 'Other') {
+            } else if (each.get('name') == 'Other') {
                 hasOther = {
                     licenses: [each]
                 };
             } else {
                 let pass = false;
-                for (var [key, value] of defaultCategories) {
-                    if (value(each.name)) { //does it match the rule
+                for (var key of Object.keys(defaultCategories)) {
+                    if (defaultCategories[key](each.get('name'))) { //does it match the rule
                         cat[key].push(each);
                         pass = true;
                         break;
                     }
                 }
                 if (!pass) {
-                    cat['Code - Other'].push(each)
+                    cat['Code - Other'].push(each);
                 }
 
             }
         });
-        for (var [key, value] of cat) {
-            if (value.length) {
+        for (var key of Object.keys(cat)) {
+            if (cat[key].length) {
                 categories.push({
                     title: key,
-                    licenses: value
+                    licenses: cat[key]
                 })
             }
         }
         if (hasOther) {
             categories.push(hasOther);
         }
+        console.log(categories)
         return categories;
     })
 });
