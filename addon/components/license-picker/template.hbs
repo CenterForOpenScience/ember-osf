@@ -1,10 +1,13 @@
 <p><label>Choose a license:</label></p>
-{{input}}
+{{license-list licenses=licensesAvailable showCategories=showCategories select=(action 'selectLicense')}}
+
+
+{{!input value=nodeLicense.name}}
 <p><label>Year:</label></p>
-{{input}}
+{{input value=year}}
 <p><label>Copyright Holders:</label></p>
-{{input}}
-<h2>Preview</h2>
+{{input value=copyrightHolders}}
+<p>{{nodeLicense.text}}</p>
 {{#if allowDismiss}}
  <button {{action 'dismiss'}}>{{fa-icon 'times'}}</button>
 {{/if}}

@@ -7,7 +7,7 @@ export default Ember.Controller.extend(CommentableMixin, TaggableMixin, NodeActi
     toast: Ember.inject.service(),
     propertiesVisible: false,
     isSaving: false,
-    licenseToggle: false,
+    licenseToggle: true,
     serializedLicense: Ember.computed('model.license', function() {
         let license = this.get('model.license');
         if (!license) {
@@ -27,7 +27,7 @@ export default Ember.Controller.extend(CommentableMixin, TaggableMixin, NodeActi
             this.toggleProperty('licenseToggle');
         },
         editLicense() {
-            var p = ...arguments;
+            var p = arguments;
             debugger;
         },
         updateNode() {

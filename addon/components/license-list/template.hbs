@@ -1,0 +1,16 @@
+<ul class="dropdown-menu">
+    {{#unless showCategories}}
+        {{#each licenses as |license|}}
+            <li>{{license.name}}</li>
+        {{/each}}
+    {{else}}
+        {{#each categories as |category|}}
+            {{#if category.title}}
+                <li class="dropdown-header">category.title</li>
+            {{/if}}
+            {{#each category.licenses as |license|}}
+                <li>{{license.name}}
+            {{/each}}
+        {{/each}}
+    {{/unless}}
+</ul>
