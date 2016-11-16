@@ -223,7 +223,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
             data: data,
             isBulk: isBulk
         }).then(res => {
-            if (!Ember.$.isArray(res.data)) {
+            if (res && !Ember.$.isArray(res.data)) {
                 res.data = [res.data];
             }
             return res;
