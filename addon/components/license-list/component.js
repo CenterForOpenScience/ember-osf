@@ -9,7 +9,15 @@ const defaultCategories = {
 
 export default Ember.Component.extend({
     layout,
-    categories: Ember.observer('licenses', function() {
+    _selectedLicense: null,
+    selectedLicense: Ember.computed('attrs.currentLicense', 'licenses', '_selectedLicense', function() {
+        if (this.get('_selectedLicense') !== null) {
+            return this.get('_selectedLicense');
+        }
+        return this.get('attrs.currentLicense');
+    }),
+    categories: Ember.A(),
+    categoriesSeparator: Ember.observer('licenses', function() {
         if (!this.get('showCategories') || !this.get('licenses')) {
             return;
         }
@@ -56,7 +64,12 @@ export default Ember.Component.extend({
         if (hasOther) {
             categories.push(hasOther);
         }
-        console.log(categories)
-        return categories;
-    })
+        this.set('categories', categories);
+    }),
+    actions: {
+        selectLicense(license) {
+            this.set('_selectedLicense', license);
+            this.send('select', license);
+        }
+    }
 });

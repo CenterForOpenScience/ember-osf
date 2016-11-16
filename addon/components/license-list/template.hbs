@@ -1,16 +1,22 @@
-<ul class="dropdown-menu">
-    {{#if showCategories}}
-        {{#each categories as |category|}}
-            {{#if category.title}}
-                <li class='dropdown-header'>category.title</li>
-            {{/if}}
-            {{#each category.licenses as |license|}}
-                <li>{{license.name}}</li>
+<div class='dropdown'>
+    <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {{selectedLicense.name}}
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+        {{#if showCategories}}
+            {{#each categories as |category|}}
+                {{#if category.title}}
+                    <li class='dropdown-header'>{{category.title}}</li>
+                {{/if}}
+                {{#each category.licenses as |license|}}
+                    <li><a href='#' {{action 'selectLicense' license}}>{{license.name}}</a></li>
+                {{/each}}
             {{/each}}
-        {{/each}}
-    {{else}}
-        {{#each licenses as |license|}}
-            <li>{{license.name}}</li>
-        {{/each}}
-    {{/if}}
-</ul>
+        {{else}}
+            {{#each licenses as |license|}}
+                <li><a href='#' {{action 'selectLicense' license}}>{{license.name}}</a></li>
+            {{/each}}
+        {{/if}}
+    </ul>
+</div>
