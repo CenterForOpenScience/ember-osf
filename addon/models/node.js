@@ -66,6 +66,10 @@ export default OsfModel.extend(FileItemMixin, {
     nodeLinks: DS.hasMany('node-links', {
         inverse: null
     }),
+    linkedNodes: DS.hasMany('nodes', {
+        inverse: null,
+        serializerType: 'linked-node'
+    }),
     registrations: DS.hasMany('registrations', {
         inverse: 'registeredFrom'
     }),
