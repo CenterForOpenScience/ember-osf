@@ -19,7 +19,7 @@
     <hr>
     <p><label> License </label></p>
     {{#if licenseToggle}}
-        {{license-picker licenses=[] currentValues=serializedLicense editLicense=(action 'editLicense') allowDismiss=true dismiss=(action 'toggleLicense')}}
+        {{license-picker showCategories=true currentValues=serializedLicense editLicense=(action 'editLicense') allowDismiss=true dismiss=(action 'toggleLicense')}}
     {{/if}}
     <p>
         <a href="{{model.links.html}}" target="_blank" class="btn btn-primary">

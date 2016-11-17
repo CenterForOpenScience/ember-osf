@@ -10,11 +10,11 @@ const defaultCategories = {
 export default Ember.Component.extend({
     layout,
     _selectedLicense: null,
-    selectedLicense: Ember.computed('attrs.currentLicense', 'licenses', '_selectedLicense', function() {
+    selectedLicense: Ember.computed('currentLicense', 'licenses', '_selectedLicense', function() {
         if (this.get('_selectedLicense') !== null) {
             return this.get('_selectedLicense');
         }
-        return this.get('attrs.currentLicense');
+        return this.get('currentLicense');
     }),
     categories: Ember.A(),
     categoriesSeparator: Ember.observer('licenses', function() {

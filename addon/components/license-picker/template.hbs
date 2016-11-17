@@ -1,19 +1,24 @@
 <div class="panel panel-default">
     <div class="panel-body">
-        <p><label>Choose a license:</label></p>
-        {{license-list licenses=licensesAvailable showCategories=true select=(action 'selectLicense')}}
-
-        <hr>
-        <p><label>Year:</label></p>
-        {{input value=year}}
-        <p><label>Copyright Holders:</label></p>
-        {{input value=copyrightHolders}}
-
-        <pre class='license-text'>{{nodeLicenseText}}</pre>
-
         {{#if allowDismiss}}
-            <button {{action 'dismiss'}}>{{fa-icon 'times'}}</button>
+            <a class='pull-right' href='#' {{action 'dismiss'}}>{{fa-icon 'times'}}</a>
         {{/if}}
+        <p><label>Choose a license:</label></p>
+        {{license-list licenses=licensesAvailable currentLicense=currentValues.licenseType showCategories=showCategories select=(action 'selectLicense')}}
+        <hr>
+        {{#if showYear}}
+            <p><label>Year:</label></p>
+            {{input class='form-control' value=year}}
+        {{/if}}
+        {{#if showCopyrightHolders}}
+            <p><label>Copyright Holders:</label></p>
+            {{input value=copyrightHolders}}
+        {{/if}}
+        <br>
+        <pre class='license-text' style='border:none; width:100%; text-align:justify; max-height: 300px;'>
+            {{nodeLicenseText}}
+        </pre>
+
 
         <button class='btn btn-success pull-right' {{action 'save'}}>Save</button>
     </div>

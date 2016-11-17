@@ -4,12 +4,44 @@ import layout from './template';
 export default Ember.Component.extend({
   layout,
   store: Ember.inject.service(),
-  init: function() {
-      this._super(...arguments);
-      this.get('store').query('license', {'page[size]': 20}).then(ret => {
-         this.set('licensesAvailable', ret);
+  licensesAvailable: Ember.A(),
+  showYear: true,
+  showCopyrightHolders: true,
+  showOtherFields: Ember.observer('nodeLicense', 'nodeLicense.text', function() {
+      let text = this.get('nodeLicense.text');
+      if (!text) {
+          return;
+      }
+      this.set('showYear', text.indexOf('{{year}}') !== -1);
+      this.set('showCopyrightHolders', text.indexOf('{{copyrightHolders}}') !== -1);
+  }),
+  didReceiveAttrs() {
+      Ember.run.once(this, function() {
+          if (!this.get('licenses')) {
+              this.get('store').query('license', {'page[size]': 20}).then(ret => {
+                 this.set('licensesAvailable', ret);
+              });
+          } else {
+              this.set('licensesAvailable', this.get('licenses'));
+          }
+          if (!this.get('currentValues.year')) {
+              let date = new Date();
+              this.set('year', String(date.getUTCFullYear()));
+          } else {
+              this.set('year', this.get('currentValues.year'));
+          }
+          if (this.get('currentValues.copyrightHolders')) {
+              this.set('copyrightHolders', this.get('currentValues.copyrightHolders'));
+          }
       });
   },
+  _setNodeLicense: Ember.observer('licensesAvailable', function() {
+      if (!this.get('currentValues.licenseType')) {
+          this.set('nodeLicense', this.get('licensesAvailable.firstObject'));
+      } else {
+          this.set('nodeLicense', this.get('currentValues.licenseType'));
+      }
+  }),
   nodeLicenseText: Ember.computed('nodeLicense.text', 'year', 'copyrightHolders', function() {
       let text = this.get('nodeLicense.text');
       if (!text) {
@@ -19,27 +51,6 @@ export default Ember.Component.extend({
       text = text.replace(/({{copyrightHolders}})/g, this.get('copyrightHolders') || '');
       return text;
   }),
-
-  // nodeLicense: Ember.computed('licensesAvailable', function() {
-  //     return this.get('currentValues.licenseType') || this.get('licensesAvailable')[0];
-  //     //return this.get('store').findRecord('license', '57a8c6b752386caf6a68df1e');//this.get('licenseId'));
-  // }),
-  // licensesAvailable: Ember.computed('currentValues', 'attrs.licenses', function() {
-  //     //if (!this.get('attrs.licenses.value') || this.get('attrs.licenses').length === 0) {
-  //         return this.get('store').query('license', {'page[size]': 20}).then(ret => {
-  //             ret.forEach(each => {
-  //                 console.log(each.get('name'));
-  //                 if (each.get('name') === "No license") {
-  //
-  //                     this.set('nodeLicense', each);
-  //                 }
-  //             })
-  //           //   this.set('nodeLicense', ret[0]);
-  //             return ret;
-  //         });
-  //     //}
-  //     //return this.get('licenses');
-  // }),
   year: null,
   copyrightHolders: null,
   actions: {
