@@ -33,7 +33,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
      * Swaps included resources with embedded resources
      */
     buildQuery() {
-        var query = this._super(...arguments);
+        let query = this._super(...arguments);
         if (query.include) {
             query.embed = query.include;
         }

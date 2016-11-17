@@ -10,8 +10,8 @@ export default Ember.Controller.extend({
         loadNodeEmbedPreprint() {
             this.store.findAll('node', { include: 'preprints' }).then((nodes) => {
                 this.toggleProperty('nodePreprintsQueried');
-                for (var node of nodes.toArray()) {
-                    let preprints = node.get('preprints').toArray();
+                for (const node of nodes.toArray()) {
+                    const preprints = node.get('preprints').toArray();
                     if (preprints.length > 0 && preprints[0].get('isPublished')) {
                         this.set('preprintNode', node);
                         this.set('preprint', preprints[0]);

@@ -41,7 +41,7 @@ export default DS.JSONAPISerializer.extend({
             //TODO Pagination probably breaks here
             let data = resourceHash.embeds[embedded].data || resourceHash.embeds[embedded];
             if (!('errors' in data)) {
-                this.store.pushPayload({ data: data });
+                this.store.pushPayload({ data });
             }
             if (Array.isArray(data)) {
                 included = included.concat(data);
