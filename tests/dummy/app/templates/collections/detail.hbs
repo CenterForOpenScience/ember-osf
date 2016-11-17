@@ -21,7 +21,7 @@
                 <td><button {{action "removeNodeFromCollection" linkedNode}} class="btn btn-danger">Remove project</button> </td>
             </tr>
         {{/each}}
-         {{#each model.linkedRegistrations as |linkedRegistration|}}
+        {{#each model.linkedRegistrations as |linkedRegistration|}}
             <tr>
                 <td>{{link-to linkedRegistration.title 'nodes.detail' linkedRegistration.id }} </td>
                 <td>{{moment-format linkedRegistration.dateModified}} </td>
