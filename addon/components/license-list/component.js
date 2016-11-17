@@ -9,7 +9,7 @@ const defaultCategories = {
 
 export default Ember.Component.extend({
     layout,
-    _selectedLicense: null,
+    store: Ember.inject.service(),
     selectedLicense: Ember.computed('currentLicense', 'licenses', '_selectedLicense', function() {
         if (this.get('_selectedLicense') !== null) {
             return this.get('_selectedLicense');
@@ -67,8 +67,8 @@ export default Ember.Component.extend({
         this.set('categories', categories);
     }),
     actions: {
-        select(license) {
-            this.set('_selectedLicense', license);
+        select() {
+            let license = this.get('store').peekRecord('license', this.$('select')[0].value);
             this.sendAction('select', license);
         }
     }

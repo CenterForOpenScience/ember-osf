@@ -1,22 +1,22 @@
-<div class='dropdown'>
-    <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        {{selectedLicense.name}}
-        <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu">
-        {{#if showCategories}}
-            {{#each categories as |category|}}
-                {{#if category.title}}
-                    <li class='dropdown-header'>{{category.title}}</li>
-                {{/if}}
+
+<select class="form-control" onchange={{action 'select' this}}>
+    {{#if showCategories}}
+        {{#each categories as |category|}}
+            {{#if category.title}}
+                <optgroup label={{category.title}}>
                 {{#each category.licenses as |license|}}
-                    <li><a href='#' {{action 'select' license}}>{{license.name}}</a></li>
+                    <option value={{license.id}}>{{license.name}}</option>
                 {{/each}}
-            {{/each}}
-        {{else}}
-            {{#each licenses as |license|}}
-                <li><a href='#' {{action 'select' license}}>{{license.name}}</a></li>
-            {{/each}}
-        {{/if}}
-    </ul>
-</div>
+                </optgroup>
+            {{else}}
+                {{#each category.licenses as |license|}}
+                    <option value={{license.id}}>{{license.name}}</option>
+                {{/each}}
+            {{/if}}
+        {{/each}}
+    {{else}}
+        {{#each licenses as |license|}}
+            <option value={{license.id}}>{{license.name}}</option>
+        {{/each}}
+    {{/if}}
+</select>

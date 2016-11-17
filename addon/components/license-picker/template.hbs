@@ -1,10 +1,10 @@
-<div class="panel panel-default">
-    <div class="panel-body">
+<div class={{if showBorder "panel panel-default" ''}}>
+    <div class={{if showBorder "panel-body" ''}}>
         {{#if allowDismiss}}
-            <a class='pull-right' href='#' {{action 'dismiss'}}>{{fa-icon 'times'}}</a>
+            <span style='cursor: pointer; float: right;' {{action 'dismiss'}}>{{fa-icon class='text-muted' 'times'}}</span>
         {{/if}}
         <p><label>Choose a license:</label></p>
-        {{license-list licenses=licensesAvailable currentLicense=currentValues.licenseType showCategories=showCategories select=(action 'selectLicense')}}
+        {{license-list licenses=licensesAvailable currentValues=currentValues showCategories=showCategories select=(action 'selectLicense')}}
         <hr>
         {{#if showYear}}
             <p><label>Year:</label></p>
@@ -12,7 +12,7 @@
         {{/if}}
         {{#if showCopyrightHolders}}
             <p><label>Copyright Holders:</label></p>
-            {{input value=copyrightHolders}}
+            {{input class='form-control' value=copyrightHolders}}
         {{/if}}
         <br>
         <pre class='license-text' style='border:none; width:100%; text-align:justify; max-height: 300px;'>

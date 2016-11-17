@@ -5,6 +5,7 @@ export default Ember.Component.extend({
   layout,
   store: Ember.inject.service(),
   licensesAvailable: Ember.A(),
+  showBorder: true,
   showYear: true,
   showCopyrightHolders: true,
   showOtherFields: Ember.observer('nodeLicense', 'nodeLicense.text', function() {
@@ -17,6 +18,7 @@ export default Ember.Component.extend({
   }),
   didReceiveAttrs() {
       Ember.run.once(this, function() {
+          this.get('currentValues');
           if (!this.get('licenses')) {
               this.get('store').query('license', {'page[size]': 20}).then(ret => {
                  this.set('licensesAvailable', ret);
