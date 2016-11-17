@@ -21,11 +21,23 @@
                 <td><button {{action "removeNodeFromCollection" linkedNode}} class="btn btn-danger">Remove project</button> </td>
             </tr>
         {{/each}}
+         {{#each model.linkedRegistrations as |linkedRegistration|}}
+            <tr>
+                <td>{{link-to linkedRegistration.title 'nodes.detail' linkedRegistration.id }} </td>
+                <td>{{moment-format linkedRegistration.dateModified}} </td>
+                <td><button {{action "removeRegistrationFromCollection" linkedRegistration}} class="btn btn-danger">Remove registration</button> </td>
+            </tr>
+        {{/each}}
     </table>
 
-    <h3>Add project to collection</h3>
+    <h3>Add project to collection </h3>
     <label> Project id </label> {{input value=projectId}}
     <button {{action "addNodeToCollection" projectId}} class="btn btn-primary">Add</button>
+
+    <h3>Add registration to collection </h3>
+    <label> Registration id </label> {{input value=registrationId}}
+    <button {{action "addRegistrationToCollection" registrationId}} class="btn btn-primary">Add</button>
+
 
 
 </div>

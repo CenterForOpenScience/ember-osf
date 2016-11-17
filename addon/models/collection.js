@@ -22,6 +22,10 @@ export default OsfModel.extend({
     linkedNodes: DS.hasMany('nodes', {
         inverse: null,
         serializerType: 'linked-node'
+    }),
+    linkedRegistrations: DS.hasMany('registrations', {
+        inverse: null,
+        serializerType: 'linked-node'
     })
 
 });

@@ -34,5 +34,33 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
             collection.get('linkedNodes').removeObject(project);
             collection.save();
         },
+        /**
+        * Add node to a collection
+        *
+        * @method addNodeToCollection
+        * @param {String} projectId, ID of node (linkedNode) to be added to the collection
+        * @return {Promise} Returns a promise that resolves to the updated collection
+        * with the new linkedNodes relationship
+        */
+        addRegistrationToCollection(registrationId) {
+            this.store.findRecord('registration', registrationId).then(registration => {
+                var collection = this.modelFor(this.routeName);
+                collection.get('linkedRegistrations').pushObject(registration);
+                collection.save();
+            });
+        },
+        /**
+        * Remove node from a collection
+        *
+        * @method removeNodeFromCollection
+        * @param {Object} project Node(linkedNode) relationship to be removed from collection
+        * @return {Promise} Returns a promise that resolves to the updated collection
+        * with the linkedNode relationship removed.  The node itself is not removed.
+        */
+        removeRegistrationFromCollection(registration) {
+            var collection = this.modelFor(this.routeName);
+            collection.get('linkedRegistrations').removeObject(registration);
+            collection.save();
+        },
     }
 });
