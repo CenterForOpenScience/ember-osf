@@ -5,18 +5,18 @@
             {{#if category.title}}
                 <optgroup label={{category.title}}>
                 {{#each category.licenses as |license|}}
-                    <option value={{license.id}}>{{license.name}}</option>
+                    <option selected={{if (eq license.id currentLicense.id) true false}} value={{license.id}}>{{license.name}}</option>
                 {{/each}}
                 </optgroup>
             {{else}}
                 {{#each category.licenses as |license|}}
-                    <option value={{license.id}}>{{license.name}}</option>
+                    <option selected={{if (eq license.id currentLicense.id) true false}} value={{license.id}}>{{license.name}}</option>
                 {{/each}}
             {{/if}}
         {{/each}}
     {{else}}
         {{#each licenses as |license|}}
-            <option value={{license.id}}>{{license.name}}</option>
+            <option selected={{if (eq license.id currentLicense.id) true false}} value={{license.id}}>{{license.name}}</option>
         {{/each}}
     {{/if}}
 </select>
