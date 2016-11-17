@@ -5,7 +5,7 @@ const defaultCategories = {
     Content: name => name.indexOf('CC') !== -1,
     'Code - Permissive': name => name.indexOf('MIT') !== -1 || name.indexOf('Apache') !== -1 || name.indexOf('BSD') !== -1,
     'Code - Copyleft': name => name.indexOf('GNU') !== -1 && name.indexOf('Lesser') === -1
-}
+};
 
 export default Ember.Component.extend({
     layout,
@@ -28,13 +28,13 @@ export default Ember.Component.extend({
             'Code - Permissive': [],
             'Code - Copyleft': [],
             'Code - Other': []
-        }
+        };
         this.get('licenses').forEach(each => {
-            if (each.get('name') == 'No license') {
+            if (each.get('name') === 'No license') {
                 categories.push({
                     licenses: [each]
                 });
-            } else if (each.get('name') == 'Other') {
+            } else if (each.get('name') === 'Other') {
                 hasOther = {
                     licenses: [each]
                 };
@@ -58,7 +58,7 @@ export default Ember.Component.extend({
                 categories.push({
                     title: key,
                     licenses: cat[key]
-                })
+                });
             }
         }
         if (hasOther) {

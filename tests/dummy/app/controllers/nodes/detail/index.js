@@ -14,9 +14,9 @@ export default Ember.Controller.extend(CommentableMixin, TaggableMixin, NodeActi
             return;
         }
         return {
-            licenseType: license.get('nodeLicense'),
-            year: license.get('year'),
-            copyrightHolders: license.get('copyrightHolders')
+            licenseType: license,
+            year: this.get('model.nodeLicense.year'),
+            copyrightHolders: this.get('model.nodeLicense.copyright_holders') ? this.get('model.nodeLicense.copyright_holders').join(',') : null
         };
     }),
     actions: {
@@ -27,8 +27,7 @@ export default Ember.Controller.extend(CommentableMixin, TaggableMixin, NodeActi
             this.toggleProperty('licenseToggle');
         },
         editLicense() {
-            var p = arguments;
-            debugger;
+            // Would update node properly!
         },
         updateNode() {
             this.set('isSaving', true);

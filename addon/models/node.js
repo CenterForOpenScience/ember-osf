@@ -38,6 +38,7 @@ export default OsfModel.extend(FileItemMixin, {
     dateCreated: DS.attr('date'),
     dateModified: DS.attr('date'),
 
+    nodeLicense: DS.attr(),
     tags: DS.attr(),
 
     templateFrom: DS.attr('string'),
@@ -59,6 +60,10 @@ export default OsfModel.extend(FileItemMixin, {
         allowBulkUpdate: true,
         allowBulkRemove: true,
         inverse: 'node'
+    }),
+
+    license: DS.belongsTo('license', {
+        inverse: null
     }),
 
     files: DS.hasMany('file-provider'),

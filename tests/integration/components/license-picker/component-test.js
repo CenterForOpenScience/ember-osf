@@ -11,14 +11,7 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{license-picker}}`);
 
-  assert.equal(this.$().text().trim(), '');
+  assert.ok(this.$().text().trim());
 
-  // Template block usage:
-  this.render(hbs`
-    {{#license-picker}}
-      template block text
-    {{/license-picker}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
+  // no template block usage
 });

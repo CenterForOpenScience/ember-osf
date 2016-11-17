@@ -4,9 +4,9 @@
         {{#each categories as |category|}}
             {{#if category.title}}
                 <optgroup label={{category.title}}>
-                {{#each category.licenses as |license|}}
-                    <option selected={{if (eq license.id currentLicense.id) true false}} value={{license.id}}>{{license.name}}</option>
-                {{/each}}
+                    {{#each category.licenses as |license|}}
+                        <option selected={{if (eq license.id currentLicense.id) true false}} value={{license.id}}>{{license.name}}</option>
+                    {{/each}}
                 </optgroup>
             {{else}}
                 {{#each category.licenses as |license|}}

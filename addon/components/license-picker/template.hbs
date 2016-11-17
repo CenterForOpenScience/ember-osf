@@ -3,14 +3,19 @@
         {{#if allowDismiss}}
             <span class='text-muted' style='cursor: pointer; float: right;' {{action 'dismiss'}}>{{fa-icon 'times'}}</span>
         {{/if}}
-        <p><label>Choose a license:</label></p>
-        {{license-list licenses=licensesAvailable currentLicense=nodeLicense showCategories=showCategories select=(action 'selectLicense')}}
-        <hr>
+        <div class="form-inline">
+            <div class="form-group">
+                <label> Choose a license: </label>
+                {{license-list licenses=licensesAvailable currentLicense=nodeLicense showCategories=showCategories select=(action 'selectLicense')}}
+            </div>
+            <hr>
+        </div>
         {{#if showYear}}
             <p><label>Year:</label></p>
             {{input class='form-control' value=year}}
         {{/if}}
         {{#if showCopyrightHolders}}
+            <br>
             <p><label>Copyright Holders:</label></p>
             {{input class='form-control' value=copyrightHolders}}
         {{/if}}
