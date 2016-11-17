@@ -63,9 +63,6 @@ export default OsfModel.extend(FileItemMixin, {
 
     files: DS.hasMany('file-provider'),
     //forkedFrom: DS.belongsTo('node'),
-    nodeLinks: DS.hasMany('node-links', {
-        inverse: null
-    }),
     linkedNodes: DS.hasMany('nodes', {
         inverse: null,
         serializerType: 'linked-node'
