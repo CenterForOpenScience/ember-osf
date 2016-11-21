@@ -50,6 +50,13 @@ export default Ember.Component.extend({
         text = text.replace(/({{copyrightHolders}})/g, this.get('copyrightHolders') || '');
         return text;
     }),
+    licenseEdited: Ember.observer('copyrightHolders', 'nodeLicense', 'year', function() {
+        Ember.run.debounce(this, function() {
+            if (this.get('autosave')) {
+                this.get('actions.save').bind(this)();
+            }
+        }, 250);
+    }),
     year: null,
     copyrightHolders: null,
     actions: {
@@ -60,7 +67,7 @@ export default Ember.Component.extend({
             let values = {
                 licenseType: this.get('nodeLicense'),
                 year: this.get('year'),
-                copyrightHolders: this.get('copyrightHolders').split(',')
+                copyrightHolders: this.get('copyrightHolders') ? this.get('copyrightHolders').split(',') : []
             };
             this.attrs.editLicense(values);
         },

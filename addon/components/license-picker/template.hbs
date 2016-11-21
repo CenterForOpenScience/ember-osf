@@ -22,7 +22,8 @@
         <br>
         <pre class='license-text' style='border:none; width:100%; text-align:justify; max-height: 300px;'>{{nodeLicenseText}}</pre>
 
-
-        <button class='btn btn-success pull-right' {{action 'save'}}>Save</button>
+        {{#unless autosave}}
+            <button class='btn btn-success pull-right' {{action 'save'}}>Save</button>
+        {{/unless}}
     </div>
 </div>
