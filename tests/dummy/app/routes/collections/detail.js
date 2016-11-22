@@ -18,7 +18,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
             this.store.findRecord('node', projectId).then(node => {
                 var collection = this.modelFor(this.routeName);
                 collection.get('linkedNodes').pushObject(node);
-                collection.save();
+                return collection.save();
             });
         },
         /**
@@ -32,35 +32,35 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
         removeNodeFromCollection(project) {
             var collection = this.modelFor(this.routeName);
             collection.get('linkedNodes').removeObject(project);
-            collection.save();
+            return collection.save();
         },
         /**
-        * Add node to a collection
+        * Add registration to a collection
         *
-        * @method addNodeToCollection
-        * @param {String} projectId, ID of node (linkedNode) to be added to the collection
+        * @method addRegistrationToCollection
+        * @param {String} registrationId, ID of registration (linkedRegistration) to be added to the collection
         * @return {Promise} Returns a promise that resolves to the updated collection
-        * with the new linkedNodes relationship
+        * with the new linkedRegistration relationship
         */
         addRegistrationToCollection(registrationId) {
             this.store.findRecord('registration', registrationId).then(registration => {
                 var collection = this.modelFor(this.routeName);
                 collection.get('linkedRegistrations').pushObject(registration);
-                collection.save();
+                return collection.save();
             });
         },
         /**
-        * Remove node from a collection
+        * Remove registration from a collection
         *
-        * @method removeNodeFromCollection
-        * @param {Object} project Node(linkedNode) relationship to be removed from collection
+        * @method removeRegistrationFromCollection
+        * @param {Object} registration linkedRegistration to be removed from collection
         * @return {Promise} Returns a promise that resolves to the updated collection
-        * with the linkedNode relationship removed.  The node itself is not removed.
+        * with the linkedRegistration relationship removed.  The registration itself is not deleted.
         */
         removeRegistrationFromCollection(registration) {
             var collection = this.modelFor(this.routeName);
             collection.get('linkedRegistrations').removeObject(registration);
-            collection.save();
+            return collection.save();
         },
     }
 });
