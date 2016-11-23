@@ -60,7 +60,7 @@ export default OsfModel.extend(FileItemMixin, {
         allowBulkRemove: true,
         inverse: 'node'
     }),
-
+    citation: DS.belongsTo('citation'),
     files: DS.hasMany('file-provider'),
     //forkedFrom: DS.belongsTo('node'),
     nodeLinks: DS.hasMany('node-links', {
