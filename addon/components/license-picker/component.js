@@ -16,6 +16,12 @@ export default Ember.Component.extend({
         this.set('showYear', text.indexOf('{{year}}') !== -1);
         this.set('showCopyrightHolders', text.indexOf('{{copyrightHolders}}') !== -1);
     }),
+    yearRequired: Ember.computed('nodeLicense', function() {
+        return this.get('nodeLicense.requiredProperties') && this.get('nodeLicense.requiredProperties').indexOf('year') !== -1;
+    }),
+    copyrightHoldersRequired: Ember.computed('nodeLicense', function() {
+        return this.get('nodeLicense.requiredProperties') && this.get('nodeLicense.requiredProperties').indexOf('copyrightHolders') !== -1;
+    }),
     didReceiveAttrs() {
         if (!this.get('licenses')) {
             this.get('store').query('license', { 'page[size]': 20 }).then(ret => {
@@ -67,9 +73,12 @@ export default Ember.Component.extend({
             let values = {
                 licenseType: this.get('nodeLicense'),
                 year: this.get('year'),
-                copyrightHolders: this.get('copyrightHolders') ? this.get('copyrightHolders').split(',') : []
+                copyrightHolders: this.get('copyrightHolders') ? this.get('copyrightHolders') : []
             };
-            this.attrs.editLicense(values);
+            this.attrs.editLicense(
+                values,
+                !((this.get('yearRequired') && !values.year) || (this.get('copyrightHoldersRequired') && values.copyrightHolders.length === 0))
+            );
         },
         dismiss() {
             this.attrs.dismiss();

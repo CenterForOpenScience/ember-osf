@@ -25,9 +25,11 @@ export default OsfModel.extend({
     doi: DS.attr('string'),
     isPublished: DS.attr('boolean'),
     isPreprintOrphan: DS.attr('boolean'),
+    licenseRecord: DS.attr(),
 
     // Relationships
     node: DS.belongsTo('node', { inverse: null, async: true }),
+    license: DS.belongsTo('license', { inverse: null }),
     primaryFile: DS.belongsTo('file', { inverse: null }),
     provider: DS.belongsTo('preprint-provider', { inverse: 'preprints', async: true }),
 });

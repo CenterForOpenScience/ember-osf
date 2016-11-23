@@ -13,11 +13,17 @@
         {{#if showYear}}
             <p><label>Year:</label></p>
             {{input class='form-control' value=year}}
+            {{#if yearRequired}}
+                <p>Required</p>
+            {{/if}}
         {{/if}}
         {{#if showCopyrightHolders}}
             <br>
             <p><label>Copyright Holders:</label></p>
             {{input class='form-control' value=copyrightHolders}}
+            {{#if copyrightHoldersRequired}}
+                <p>Required</p>
+            {{/if}}
         {{/if}}
         <br>
         <pre class='license-text' style='border:none; width:100%; text-align:justify; max-height: 300px;'>{{nodeLicenseText}}</pre>
