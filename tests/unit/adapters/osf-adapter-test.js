@@ -11,7 +11,7 @@ import OsfAdapter from 'ember-osf/adapters/osf-adapter';
 
 moduleFor('adapter:osf-adapter', 'Unit | Adapter | osf adapter', {
     needs: [
-        'model:comment', 'model:contributor', 'model:draft-registration', 'model:file-provider',
+        'model:citation', 'model:comment', 'model:contributor', 'model:draft-registration', 'model:file-provider',
         'model:institution', 'model:log', 'model:node', 'model:node-link', 'model:registration', 'model:user', 'model:preprint',
         'adapter:osf-adapter', 'adapter:node', 'adapter:user',
         'serializer:node',
