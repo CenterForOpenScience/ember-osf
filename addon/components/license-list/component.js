@@ -2,9 +2,9 @@ import Ember from 'ember';
 import layout from './template';
 
 const defaultCategories = {
-    Content: name => name.indexOf('CC') !== -1,
-    'Code - Permissive': name => name.indexOf('MIT') !== -1 || name.indexOf('Apache') !== -1 || name.indexOf('BSD') !== -1,
-    'Code - Copyleft': name => name.indexOf('GNU') !== -1 && name.indexOf('Lesser') === -1
+    Content: name => name.includes('CC'),
+    'Code - Permissive': name => name.includes('MIT') || name.includes('Apache') || name.includes('BSD'),
+    'Code - Copyleft': name => name.includes('GNU') && !name.includes('Lesser')
 };
 
 export default Ember.Component.extend({
@@ -67,8 +67,8 @@ export default Ember.Component.extend({
         this.set('categories', categories);
     }),
     actions: {
-        select() {
-            let license = this.get('store').peekRecord('license', this.$('select')[0].value);
+        select(value) {
+            let license = this.get('store').peekRecord('license', value);
             this.sendAction('select', license);
         }
     }

@@ -8,6 +8,8 @@ export default Ember.Component.extend({
     showBorder: true,
     showYear: true,
     showCopyrightHolders: true,
+    showCategories: true,
+    allowDismiss: false,
     showOtherFields: Ember.observer('nodeLicense', 'nodeLicense.text', function() {
         let text = this.get('nodeLicense.text');
         if (!text) {
@@ -47,13 +49,12 @@ export default Ember.Component.extend({
             this.set('nodeLicense', this.get('currentValues.licenseType'));
         }
     }),
-    nodeLicenseText: Ember.computed('nodeLicense.text', 'year', 'copyrightHolders', function() {
+    nodeLicenseText: Ember.computed('nodeLicense', 'nodeLicense.text', 'year', 'copyrightHolders', function() {
         let text = this.get('nodeLicense.text');
-        if (!text) {
-            return '';
+        if (text) {
+            text = text.replace(/({{year}})/g, this.get('year') || '');
+            text = text.replace(/({{copyrightHolders}})/g, this.get('copyrightHolders') || '');
         }
-        text = text.replace(/({{year}})/g, this.get('year') || '');
-        text = text.replace(/({{copyrightHolders}})/g, this.get('copyrightHolders') || '');
         return text;
     }),
     licenseEdited: Ember.observer('copyrightHolders', 'nodeLicense', 'year', function() {

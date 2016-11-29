@@ -10,9 +10,6 @@ export default Ember.Controller.extend(CommentableMixin, TaggableMixin, NodeActi
     licenseToggle: true,
     serializedLicense: Ember.computed('model.license', function() {
         let license = this.get('model.license');
-        if (!license) {
-            return;
-        }
         return {
             licenseType: license,
             year: this.get('model.nodeLicense.year'),
