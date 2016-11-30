@@ -7,6 +7,8 @@ export default Ember.Component.extend({
     licensesAvailable: Ember.A(),
     showBorder: true,
     showYear: true,
+    showText: false,
+    toggleText: true,
     showCopyrightHolders: true,
     showCategories: true,
     allowDismiss: false,
@@ -19,10 +21,10 @@ export default Ember.Component.extend({
         this.set('showCopyrightHolders', text.indexOf('{{copyrightHolders}}') !== -1);
     }),
     yearRequired: Ember.computed('nodeLicense', function() {
-        return this.get('nodeLicense.requiredProperties') && this.get('nodeLicense.requiredProperties').indexOf('year') !== -1;
+        return this.get('nodeLicense.requiredFields') && this.get('nodeLicense.requiredFields').indexOf('year') !== -1;
     }),
     copyrightHoldersRequired: Ember.computed('nodeLicense', function() {
-        return this.get('nodeLicense.requiredProperties') && this.get('nodeLicense.requiredProperties').indexOf('copyrightHolders') !== -1;
+        return this.get('nodeLicense.requiredFields') && this.get('nodeLicense.requiredFields').indexOf('copyrightHolders') !== -1;
     }),
     didReceiveAttrs() {
         if (!this.get('licenses')) {
@@ -42,8 +44,8 @@ export default Ember.Component.extend({
             this.set('copyrightHolders', this.get('currentValues.copyrightHolders'));
         }
     },
-    _setNodeLicense: Ember.observer('licensesAvailable', function() {
-        if (!this.get('currentValues.licenseType')) {
+    _setNodeLicense: Ember.observer('licensesAvailable', 'currentValues.licenseType', function() {
+        if (!this.get('currentValues.licenseType.id')) { //if not resolved properly
             this.set('nodeLicense', this.get('licensesAvailable.firstObject'));
         } else {
             this.set('nodeLicense', this.get('currentValues.licenseType'));
@@ -69,6 +71,9 @@ export default Ember.Component.extend({
     actions: {
         selectLicense(license) {
             this.set('nodeLicense', license);
+        },
+        toggleFullText() {
+            this.set('showText', !this.get('showText'));
         },
         save() {
             let values = {

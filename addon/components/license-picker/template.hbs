@@ -11,23 +11,22 @@
             <hr>
         </div>
         {{#if showYear}}
-            <p><label>Year:</label></p>
+            <p><label>Year {{if yearRequired '(Required)'}}:</label></p>
             {{input class='form-control' value=year}}
-            {{#if yearRequired}}
-                <p>Required</p>
-            {{/if}}
         {{/if}}
         {{#if showCopyrightHolders}}
             <br>
-            <p><label>Copyright Holders:</label></p>
+            <p><label>Copyright Holders {{if copyrightHoldersRequired '(Required)'}}:</label></p>
             {{input class='form-control' value=copyrightHolders}}
-            {{#if copyrightHoldersRequired}}
-                <p>Required</p>
-            {{/if}}
         {{/if}}
         <br>
-        <pre class='license-text' style='border:none; width:100%; text-align:justify; max-height: 300px;'>{{nodeLicenseText}}</pre>
-
+        {{#if toggleText}}
+            <a href="#" {{action 'toggleFullText'}}>{{if showText 'Hide full text' 'Show full text'}}</a>
+        {{/if}}
+        
+        {{#if (or showText (not toggleText))}}
+            <pre class='license-text' style='border:none; width:100%; text-align:justify; max-height: 300px;'>{{nodeLicenseText}}</pre>
+        {{/if}}
         {{#unless autosave}}
             <button class='btn btn-success pull-right' {{action 'save'}}>Save</button>
         {{/unless}}
