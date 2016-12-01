@@ -1,8 +1,8 @@
 import { moduleForModel, test } from 'ember-qunit';
 
-moduleForModel('preprint-provider', 'Unit | Model | preprint provider', {
+moduleForModel('license', 'Unit | Model | license', {
   // Specify the other units that are required for this test.
-  needs: ['model:preprint', 'model:taxonomy', 'model:license']
+  needs: []
 });
 
 test('it exists', function(assert) {

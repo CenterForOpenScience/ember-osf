@@ -12,5 +12,11 @@ export default OsfAdapter.extend({
             }
         }
         return this._super(...arguments);
+    },
+    _handleRelatedRequest(_, __, ___, relationship) {
+        if (relationship.includes('license')) {
+            return;
+        }
+        return this._super(...arguments);
     }
 });

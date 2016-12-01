@@ -1,0 +1,34 @@
+<div class={{if showBorder "panel panel-default" ''}}>
+    <div class={{if showBorder "panel-body" ''}}>
+        {{#if allowDismiss}}
+            <span class='text-muted' style='cursor: pointer; float: right;' {{action 'dismiss'}}>{{fa-icon 'times'}}</span>
+        {{/if}}
+        <div class="form-inline">
+            <div class="form-group">
+                <label> Choose a license: <small><a target='_blank' href='http://help.osf.io/m/60347/l/611430-licensing'>License FAQ</a></small></label>
+                {{license-list licenses=licensesAvailable currentLicense=nodeLicense showCategories=showCategories select=(action 'selectLicense')}}
+            </div>
+            <hr>
+        </div>
+        {{#if showYear}}
+            <p><label>Year {{if yearRequired '(Required)'}}:</label></p>
+            {{input class='form-control' value=year}}
+        {{/if}}
+        {{#if showCopyrightHolders}}
+            <br>
+            <p><label>Copyright Holders {{if copyrightHoldersRequired '(Required)'}}:</label></p>
+            {{input class='form-control' value=copyrightHolders}}
+        {{/if}}
+        <br>
+        {{#if toggleText}}
+            <a href="#" {{action 'toggleFullText'}}>{{if showText 'Hide full text' 'Show full text'}}</a>
+        {{/if}}
+
+        {{#if (or showText (not toggleText))}}
+            <pre class='license-text' style='border:none; width:100%; text-align:justify; max-height: 300px;'>{{nodeLicenseText}}</pre>
+        {{/if}}
+        {{#unless autosave}}
+            <button class='btn btn-success pull-right' {{action 'save'}}>Save</button>
+        {{/unless}}
+    </div>
+</div>
