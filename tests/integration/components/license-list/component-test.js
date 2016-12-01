@@ -4,7 +4,7 @@ moduleForComponent('license-list', 'Integration | Component | license list', {
   integration: true
 });
 
-test('it renders', function() {
+test('it renders', function(assert) {
     //Remove as adapter logic is breaking it
     assert.ok(true);
 });
