@@ -11,12 +11,26 @@
             <hr>
         </div>
         {{#if showYear}}
-            <p><label>Year {{if yearRequired '(Required)'}}:</label></p>
+            <p>
+                <label>
+                    Year:
+                    {{#if yearRequired }}
+                        <span style="color: #f99; font-weight: 400"> (required)</span>
+                    {{/if}}
+                </label>
+            </p>
             {{input class='form-control' value=year}}
         {{/if}}
         {{#if showCopyrightHolders}}
             <br>
-            <p><label>Copyright Holders {{if copyrightHoldersRequired '(Required)'}}:</label></p>
+            <p>
+                <label>
+                    Copyright Holders:
+                    {{#if copyrightHoldersRequired}}
+                        <span style="color: #f99; font-weight: 400"> (required)</span>
+                    {{/if}}
+                </label>
+            </p>
             {{input class='form-control' value=copyrightHolders}}
         {{/if}}
         <br>
