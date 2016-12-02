@@ -38,6 +38,7 @@ export default OsfModel.extend(FileItemMixin, {
     dateCreated: DS.attr('date'),
     dateModified: DS.attr('date'),
 
+    nodeLicense: DS.attr(),
     tags: DS.attr(),
 
     templateFrom: DS.attr('string'),
@@ -61,6 +62,11 @@ export default OsfModel.extend(FileItemMixin, {
         inverse: 'node'
     }),
     citation: DS.belongsTo('citation'),
+
+    license: DS.belongsTo('license', {
+        inverse: null
+    }),
+
     files: DS.hasMany('file-provider'),
     //forkedFrom: DS.belongsTo('node'),
     nodeLinks: DS.hasMany('node-links', {

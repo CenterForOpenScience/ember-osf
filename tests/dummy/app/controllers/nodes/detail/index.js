@@ -7,10 +7,24 @@ export default Ember.Controller.extend(CommentableMixin, TaggableMixin, NodeActi
     toast: Ember.inject.service(),
     propertiesVisible: false,
     isSaving: false,
-
+    licenseToggle: true,
+    serializedLicense: Ember.computed('model.license', function() {
+        let license = this.get('model.license');
+        return {
+            licenseType: license,
+            year: this.get('model.nodeLicense.year'),
+            copyrightHolders: this.get('model.nodeLicense.copyright_holders') ? this.get('model.nodeLicense.copyright_holders').join(',') : null
+        };
+    }),
     actions: {
         toggleEditNode() {
             this.toggleProperty('propertiesVisible');
+        },
+        toggleLicense() {
+            this.toggleProperty('licenseToggle');
+        },
+        editLicense() {
+            // Would update node properly!
         },
         updateNode() {
             this.set('isSaving', true);

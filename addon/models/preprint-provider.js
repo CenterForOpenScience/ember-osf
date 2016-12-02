@@ -18,4 +18,5 @@ export default OsfModel.extend({
     // Relationships
     taxonomies: DS.hasMany('taxonomy'),
     preprints: DS.hasMany('preprint', { inverse: 'provider', async: true }),
+    licensesAcceptable: DS.hasMany('license', { inverse: null }),
 });
