@@ -26,6 +26,20 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
     authorizer: config['ember-simple-auth'].authorizer,
     host: config.OSF.apiUrl,
     namespace: config.OSF.apiNamespace,
+    /**
+     * Overrides buildQuery method - Allows users to embed resources with findRecord
+     * OSF APIv2 does not have "include" functionality, instead we use 'embed'.
+     * Usage: findRecord(type, id, {include: 'resource'}) or findRecord(type, id, {include: ['resource1', resource2]})
+     * Swaps included resources with embedded resources
+     */
+    buildQuery() {
+        let query = this._super(...arguments);
+        if (query.include) {
+            query.embed = query.include;
+        }
+        delete query.include;
+        return query;
+    },
     buildURL(modelName, id, snapshot, requestType) {
         var url = this._super(...arguments);
         var options = (snapshot ? snapshot.adapterOptions : false) || {};
