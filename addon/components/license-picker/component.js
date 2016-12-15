@@ -79,7 +79,7 @@ export default Ember.Component.extend({
             let values = {
                 licenseType: this.get('nodeLicense'),
                 year: this.get('year'),
-                copyrightHolders: this.get('copyrightHolders') ? this.get('copyrightHolders') : []
+                copyrightHolders: this.get('copyrightHolders') ? this.get('copyrightHolders') : ''
             };
             this.attrs.editLicense(
                 values,
