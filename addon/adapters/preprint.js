@@ -13,5 +13,5 @@ export default OsfAdapter.extend({
         var url = this.buildURL(type.modelName, id, snapshot, 'updateRecord');
 
         return this.ajax(url, 'PATCH', { data: data });
-        }
+    }
 });
