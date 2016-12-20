@@ -1,19 +1,17 @@
 import OsfAdapter from './osf-adapter';
 
 export default OsfAdapter.extend({
-    // Override _buildRelationshipURL on ember-osf.  Instead of relationship link, need a PATCH to self link
-    _buildRelationshipURL(snapshot) {
-        if (snapshot.record.get('links.self')) {
-            return snapshot.record.get('links.self');
-        }
-        return null;
-    },
-    // Override _doRelatedRequest on ember-osf.  Need to serializer preprint instead of file.
-    _doRelatedRequest(store, snapshot, relatedSnapshots, relationship, url) {
-        return this.ajax(url, 'PATCH', {
-            data: store.serializerFor('preprint').serialize(snapshot),
-            isBulk: false
-        });
-    }
+    // Overrides updateRecord on OsfAdapter. Is identical to JSONAPIAdapter > Update Record (parent's parent method).
+    // Updates to preprints do not need special handling.
+    updateRecord(store, type, snapshot) {
+        var data = {};
+        var serializer = store.serializerFor(type.modelName);
 
+        serializer.serializeIntoHash(data, type, snapshot, { includeId: true });
+
+        var id = snapshot.id;
+        var url = this.buildURL(type.modelName, id, snapshot, 'updateRecord');
+
+        return this.ajax(url, 'PATCH', { data: data });
+        }
 });
