@@ -119,7 +119,7 @@ export default DS.JSONAPISerializer.extend({
         //  links.meta from the payload links section, and add to the model metadata manually.
         let documentHash = this._super(...arguments);
         documentHash.meta = documentHash.meta || {};
-        documentHash.meta.pagination =  Ember.$.extend(true, {}, Ember.get(payload || {}, 'meta'));
+        documentHash.meta.pagination = Ember.$.extend(true, {}, Ember.get(payload || {}, 'meta'));
         documentHash.meta.total = Math.ceil(documentHash.meta.pagination.total / documentHash.meta.pagination.per_page);
         return documentHash;
     }
