@@ -20,7 +20,10 @@
     <p><label> License </label></p>
     {{#if licenseToggle}}
         {{license-picker showCategories=true toggleText=false currentValues=serializedLicense editLicense=(action 'editLicense') allowDismiss=true dismiss=(action 'toggleLicense')}}
+    {{else}}
+        <a href='#' {{action 'toggleLicense'}}>Edit License</a>
     {{/if}}
+    <hr>
     <p>
         <a href="{{model.links.html}}" target="_blank" class="btn btn-primary">
             View on OSF

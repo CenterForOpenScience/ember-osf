@@ -1,15 +1,18 @@
 import Ember from 'ember';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
-export default Ember.Route.extend(AuthenticatedRouteMixin, {
+import PaginatedRouteMixin from  'ember-osf/mixins/paginated-route';
+
+export default Ember.Route.extend(AuthenticatedRouteMixin, PaginatedRouteMixin, {
     store: Ember.inject.service(),
     session: Ember.inject.service(),
     model() {
         let user = this.modelFor('application');
+        let routeParams = {page: 1, page_size: 10};
         if (user) {
-            return user.get('nodes'); // Fetch from `/users/me/nodes/`
+            return user.query('nodes', routeParams); // Fetch from `/users/me/nodes/`
         } else {
-            return this.get('store').findRecord('user', 'me').then(user => user.get('nodes'));
+            return this.get('store').findRecord('user', 'me').then(user => user.query('nodes', routeParams));
         }
     }
 });
