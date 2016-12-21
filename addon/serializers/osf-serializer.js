@@ -115,8 +115,8 @@ export default DS.JSONAPISerializer.extend({
     },
 
     normalizeArrayResponse(store, primaryModelClass, payload, id, requestType) { // jshint ignore:line
-        // Ember data does not yet support pagination. For any request that returns more than one result, extract
-        //  links.meta from the payload links section, and add to the model metadata manually.
+        // Ember data does not yet support pagination. For any request that returns more than one result, add pagination data
+        // under meta, and then calculate total pages to be loaded.
         let documentHash = this._super(...arguments);
         documentHash.meta = documentHash.meta || {};
         documentHash.meta.pagination = Ember.$.extend(true, {}, Ember.get(payload || {}, 'meta'));
