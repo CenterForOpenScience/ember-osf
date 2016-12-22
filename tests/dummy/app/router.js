@@ -12,6 +12,9 @@ Router.map(function() {
     this.route('login');
     this.route('cookielogin');
     this.route('nodes', function() {
+        this.route('list', {
+            path: '/'
+        });
         this.route('detail', {
             path: '/:node_id'
         }, function() {
