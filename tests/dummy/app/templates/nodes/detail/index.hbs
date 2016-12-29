@@ -21,7 +21,14 @@
     {{/if}}
     <p><label> Tags </label></p>
     {{tags-widget addATag=(action 'addATag' model) removeATag=(action 'removeATag' model) tags=model.tags}}
+    <p><label>Preprints</label></p>
+    <ul>
+        {{#each model.preprints as |prep|}}
+            <li><a href='{{host}}{{prep.id}}/'>{{prep.node.title}} (Preprint)</a></li>
+        {{/each}}
+    </ul>
     <hr>
+
     <p><label> License </label></p>
     {{#if licenseToggle}}
         {{license-picker showCategories=true toggleText=false currentValues=serializedLicense editLicense=(action 'editLicense') allowDismiss=true dismiss=(action 'toggleLicense')}}
@@ -158,7 +165,8 @@
         {{/each}}
     </ul>
     <hr>
-    
+
+
     {{comment-pane
     comments=comments
     addComment=(action 'addComment')
