@@ -123,25 +123,25 @@
     </div>
     <hr>
 
-    <h2>Node links </h2>
+    <h2>Linked Nodes (formerly node links.  After API v2.1, node links have been deprecated). </h2>
     <table class="table">
-        {{#if model.nodeLinks}}
+        {{#if model.linkedNodes}}
             <tr>
                 <th> Id </th>
                 <th> Name </th>
                 <th> </th>
             </tr>
-            {{#each model.nodeLinks as |nodelink|}}
+            {{#each model.linkedNodes as |node|}}
                 <tr>
-                    <td> {{nodelink.targetNode.id}} </td>
-                    <td> {{link-to nodelink.targetNode.title 'nodes.detail' nodelink.targetNode.id}} </td>
-                    <td> <button {{action "removeNodeLink" nodelink}} class="btn btn-danger"> Remove </button> </td>
+                    <td> {{node.id}} </td>
+                    <td> {{link-to node.title 'nodes.detail' node.id}} </td>
+                    <td> <button {{action "removeNodeLink" node}} class="btn btn-danger"> Remove </button> </td>
                 </tr>
             {{/each}}
         {{/if}}
     </table>
     <hr>
-    <h3>Add link</h3>
+    <h3>Add linked node relationship</h3>
     <label> Target node id </label> {{input value=targetNodeId}}
     <button {{action "addNodeLink" targetNodeId}} class="btn btn-primary">Add</button>
 

@@ -23,6 +23,9 @@ import {
  * @uses GenericDataAdapterMixin
  */
 export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDataAdapterMixin, {
+    headers: {
+        ACCEPT: 'application/vnd.api+json; version=2.3'
+    },
     authorizer: config['ember-simple-auth'].authorizer,
     host: config.OSF.apiUrl,
     namespace: config.OSF.apiNamespace,
@@ -234,7 +237,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
             data: data,
             isBulk: isBulk
         }).then(res => {
-            if (!Ember.$.isArray(res.data)) {
+            if (res && !Ember.$.isArray(res.data)) {
                 res.data = [res.data];
             }
             return res;
