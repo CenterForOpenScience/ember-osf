@@ -16,7 +16,7 @@ import OsfModel from './osf-model';
  * @class Preprint
  */
 export default OsfModel.extend({
-    title: DS.attr('string'),
+    // title: DS.attr('string'), title stored in node.title
     // TODO: May be a relationship in the future pending APIv2 changes
     subjects: DS.attr(),
     dateCreated: DS.attr('date'),

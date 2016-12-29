@@ -31,6 +31,7 @@ Router.map(function() {
                 });
             });
             this.route('registrations');
+            this.route('wikis');
             this.route('draft_registrations', function() {
                 this.route('detail', {
                     path: '/:draft_registration_id'

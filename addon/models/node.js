@@ -93,6 +93,11 @@ export default OsfModel.extend(FileItemMixin, {
     root: DS.belongsTo('node', {
         inverse: null
     }),
+
+    wikis: DS.hasMany('wikis', {
+        inverse: 'node'
+    }),
+
     logs: DS.hasMany('logs'),
 
     // These are only computeds because maintaining separate flag values on different classes would be a headache TODO: Improve.
