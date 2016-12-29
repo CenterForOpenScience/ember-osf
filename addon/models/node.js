@@ -38,6 +38,8 @@ export default OsfModel.extend(FileItemMixin, {
     dateCreated: DS.attr('date'),
     dateModified: DS.attr('date'),
 
+    forkedDate: DS.attr('date'),
+
     nodeLicense: DS.attr(),
     tags: DS.attr(),
 
@@ -78,6 +80,14 @@ export default OsfModel.extend(FileItemMixin, {
 
     draftRegistrations: DS.hasMany('draft-registrations', {
         inverse: 'branchedFrom'
+    }),
+
+    forks: DS.hasMany('nodes', {
+        inverse: 'forkedFrom'
+    }),
+
+    forkedFrom: DS.belongsTo('node', {
+        inverse: 'forks'
     }),
 
     root: DS.belongsTo('node', {

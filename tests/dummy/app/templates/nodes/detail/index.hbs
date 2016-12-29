@@ -13,7 +13,12 @@
     <p><label>Category:</label> {{model.category}}</p>
     <p><label>Date Created:</label> {{moment-format model.dateCreated}}</p>
     <p><label>Date Modified:</label> {{moment-format model.dateModified}}</p>
-    <p><label>Public </label> {{model.public}} </p>
+    <p><label>Public: </label> {{model.public}} </p>
+    <p><label>Fork: </label> {{model.fork}} </p>
+    {{#if model.fork}}
+        <p><label>Forked From: </label> {{link-to model.forkedFrom.title 'nodes.detail' model.forkedFrom}}</p>
+        <p><label>Forked on:</label> {{moment-format model.forkedDate}}</p>
+    {{/if}}
     <p><label> Tags </label></p>
     {{tags-widget addATag=(action 'addATag' model) removeATag=(action 'removeATag' model) tags=model.tags}}
     <hr>
@@ -145,6 +150,15 @@
     <label> Target node id </label> {{input value=targetNodeId}}
     <button {{action "addNodeLink" targetNodeId}} class="btn btn-primary">Add</button>
 
+    <hr>
+    <h2> Forks </h2>
+    <ul>
+        {{#each model.forks as |forke|}}
+            <li>{{link-to forke.title 'nodes.detail' forke}}</li>
+        {{/each}}
+    </ul>
+    <hr>
+    
     {{comment-pane
     comments=comments
     addComment=(action 'addComment')
