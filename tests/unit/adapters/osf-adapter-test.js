@@ -12,7 +12,7 @@ import OsfAdapter from 'ember-osf/adapters/osf-adapter';
 moduleFor('adapter:osf-adapter', 'Unit | Adapter | osf adapter', {
     needs: [
         'model:comment', 'model:contributor', 'model:draft-registration', 'model:file-provider',
-        'model:institution', 'model:log', 'model:node', 'model:node-link', 'model:registration', 'model:user', 'model:preprint',
+        'model:institution', 'model:log', 'model:node', 'model:node-link', 'model:registration', 'model:user', 'model:preprint', 'model:wiki',
         'adapter:osf-adapter', 'adapter:node', 'adapter:user',
         'serializer:node',
         'service:session',
@@ -551,4 +551,3 @@ test('#findRecord can embed(via include) data with findRecord', function(assert)
 
     });
 });
-
