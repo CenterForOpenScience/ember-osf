@@ -11,6 +11,7 @@ export default function loadAll(model, relationship, dest, options = {}) {
 
     return model.query(relationship, query).then(results => {
         dest.pushObjects(results.toArray());
+        
         if (results.meta) {
             var total = results.meta.pagination.total;
             var pageSize = results.meta.pagination.per_page;
