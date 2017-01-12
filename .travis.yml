@@ -1,23 +1,20 @@
 ---
 language: node_js
 node_js:
-  - "4.3.2"
+  - "lts/boron"
 
 sudo: false
+dist: trusty
 
 cache:
+  yarn: true
   directories:
-    - node_modules
+    - $HOME/.cache # includes bowers cache
 
 before_install:
   - export PATH=/usr/local/phantomjs-2.0.0/bin:$PATH
-  - "npm config set spin false"
-  - "npm install -g npm@^2"
 
 install:
-  - npm install -g bower
-  - npm install
+  - yarn add global bower
+  - yarn install --prefer-offline
   - bower install
-
-script:
-  - npm test
