@@ -5,18 +5,33 @@
         {{/if}}
         <div class="form-inline">
             <div class="form-group">
-                <label> Choose a license: <small><a target='_blank' href='http://help.osf.io/m/60347/l/611430-licensing'>License FAQ</a></small></label>
+                <label> Choose a license: <span style="color: #f99; font-weight: 400"> (required)</span></label>
                 {{license-list licenses=licensesAvailable currentLicense=nodeLicense showCategories=showCategories select=(action 'selectLicense')}}
+                <small><a target='_blank' href='http://help.osf.io/m/60347/l/611430-licensing'>License FAQ</a></small>
             </div>
-            <hr>
+            <br>
         </div>
         {{#if showYear}}
-            <p><label>Year {{if yearRequired '(Required)'}}:</label></p>
+            <p>
+                <label>
+                    Year:
+                    {{#if yearRequired }}
+                        <span style="color: #f99; font-weight: 400"> (required)</span>
+                    {{/if}}
+                </label>
+            </p>
             {{input class='form-control' value=year}}
         {{/if}}
         {{#if showCopyrightHolders}}
             <br>
-            <p><label>Copyright Holders {{if copyrightHoldersRequired '(Required)'}}:</label></p>
+            <p>
+                <label>
+                    Copyright Holders:
+                    {{#if copyrightHoldersRequired}}
+                        <span style="color: #f99; font-weight: 400"> (required)</span>
+                    {{/if}}
+                </label>
+            </p>
             {{input class='form-control' value=copyrightHolders}}
         {{/if}}
         <br>
@@ -25,7 +40,7 @@
         {{/if}}
 
         {{#if (or showText (not toggleText))}}
-            <pre class='license-text' style='border:none; width:100%; text-align:justify; max-height: 300px;'>{{nodeLicenseText}}</pre>
+            <pre style='white-space: pre-wrap; border:none; width:100%; text-align:justify; max-height: 300px;'>{{nodeLicenseText}}</pre>
         {{/if}}
         {{#unless autosave}}
             <button class='btn btn-success pull-right' {{action 'save'}}>Save</button>

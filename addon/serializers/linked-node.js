@@ -7,7 +7,7 @@ export default OsfSerializer.extend({
         if (options.forRelationship) {
             hash.data = [{
                 id: snapshot.record.get('id'),
-                type: 'linked_nodes'
+                type: typeClass.modelName === 'registration' ? 'linked_registrations' : 'linked_nodes'
             }];
             return hash;
         }

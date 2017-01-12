@@ -19,10 +19,11 @@ export default OsfModel.extend({
     dateCreated: DS.attr('date'),
     dateModified: DS.attr('date'),
     bookmarks: DS.attr('boolean'),
-    // nodeLinks: DS.hasMany('node-links', {
-    //     inverse:null
-    // }),
     linkedNodes: DS.hasMany('nodes', {
+        inverse: null,
+        serializerType: 'linked-node'
+    }),
+    linkedRegistrations: DS.hasMany('registrations', {
         inverse: null,
         serializerType: 'linked-node'
     })

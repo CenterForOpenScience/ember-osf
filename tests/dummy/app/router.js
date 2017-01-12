@@ -63,6 +63,7 @@ Router.map(function() {
     this.route('prereg');
     this.route('allnodes');
     this.route('usernodes');
+    this.route('embedding-records');
 });
 
 export default Router;
