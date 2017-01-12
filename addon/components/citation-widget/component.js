@@ -6,6 +6,21 @@ import layout from './template';
  * @submodule components
  */
 
+const citationStyles = [
+    {
+        linkSuffix: 'apa',
+        attr: 'apa'
+    },
+    {
+        linkSuffix: 'chicago-author-date',
+        attr: 'chicago'
+    },
+    {
+        linkSuffix: 'modern-language-association',
+        attr: 'mla'
+    }
+];
+
 /**
  * Lists citations for node in APA, MLA, and Chicago formats
  *
@@ -21,23 +36,19 @@ export default Ember.Component.extend({
     store: Ember.inject.service(),
 
     didRender() {
-        let node = this.get('node');
+        const node = this.get('node');
+
         if (!node) {
             return;
         }
-        let citationLink = node.get('links.relationships.citation.links.related.href');
 
-        this.get('store').adapterFor('node').ajax(citationLink + 'apa/', 'GET').then(resp => {
-            this.set('apa', resp.data.attributes.citation);
-        });
+        const citationLink = node.get('links.relationships.citation.links.related.href');
 
-        this.get('store').adapterFor('node').ajax(citationLink + 'chicago-author-date/', 'GET').then(resp => {
-            this.set('chicago', resp.data.attributes.citation);
-        });
-
-        this.get('store').adapterFor('node').ajax(citationLink + 'modern-language-association/', 'GET').then(resp => {
-            this.set('mla', resp.data.attributes.citation);
-        });
+        for (const { linkSuffix, attr } of citationStyles) {
+            this.get('store')
+                .adapterFor('node')
+                .ajax(`${citationLink}${linkSuffix}/`, 'GET')
+                .then(resp => this.set(attr, resp.data.attributes.citation));
+        }
     }
-
 });
