@@ -11,9 +11,10 @@ This repo contains code for interacting with the OSF APIv2 inside of an Ember ap
 Please read the [CONTRIBUTING.md](https://github.com/CenterForOpenScience/ember-osf/blob/develop/.github/CONTRIBUTING.md)
 
 ## Installation (for Development)
+See the [yarn docs](https://yarnpkg.com/) for installing and using yarn.
 
 * `git clone` this repository
-* `npm install`
+* `yarn`
 * `bower install`
 
 ## Using this code in an Ember app
