@@ -6,14 +6,18 @@ node_js:
 sudo: false
 dist: trusty
 
+env:
+  global:
+    - SUPPRESS_NO_CONFIG_WARNING=true
+
 cache:
   yarn: true
   directories:
     - $HOME/.cache # includes bowers cache
 
-before_install:
-  - export PATH=/usr/local/phantomjs-2.0.0/bin:$PATH
-  - npm install -g yarn
+#before_install:
+#  - export PATH=/usr/local/phantomjs-2.0.0/bin:$PATH
+#  - npm install -g yarn
 
 install:
   - "yarn add global bower"
