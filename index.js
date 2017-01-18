@@ -47,7 +47,8 @@ module.exports = {
 
             ENV.OSF.accessToken = SETTINGS.PERSONAL_ACCESS_TOKEN;
             ENV.OSF.isLocal = true;
-        } else if (BACKEND === 'stage') {
+        }
+        if (BACKEND === 'stage') {
             ENV.OSF.url = 'https://staging.osf.io/';
             ENV.OSF.apiUrl = 'https://staging-api.osf.io';
             ENV.OSF.cookieLoginUrl = 'https://staging-accounts.osf.io/login';
@@ -63,6 +64,16 @@ module.exports = {
             ENV.OSF.oauthUrl = 'https://staging2-accounts.osf.io/oauth2/authorize';
             ENV.OSF.renderUrl = 'https://staging2-mfr.osf.io/render';
             ENV.OSF.waterbutlerUrl = 'http://staging2-files.osf.io/';
+            ENV.OSF.helpUrl = 'http://help.osf.io';
+        }
+        // TODO: backend needs to go away, env's need to be from environment vars on build.
+        if (BACKEND === 'stage3') {
+            ENV.OSF.url = 'https://staging3.osf.io/';
+            ENV.OSF.apiUrl = 'https://staging3-api.osf.io';
+            ENV.OSF.cookieLoginUrl = 'https://staging3-accounts.osf.io/login';
+            ENV.OSF.oauthUrl = 'https://staging3-accounts.osf.io/oauth2/authorize';
+            ENV.OSF.renderUrl = 'https://staging3-mfr.osf.io/render';
+            ENV.OSF.waterbutlerUrl = 'http://staging3-files.osf.io/';
             ENV.OSF.helpUrl = 'http://help.osf.io';
         }
         if (BACKEND === 'test') {
