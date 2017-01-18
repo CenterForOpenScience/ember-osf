@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>eosf-project-nav - Ember OSF</title>
+    <title>addon/components/navbar-auth-dropdown/component.js - Ember OSF</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -159,90 +159,84 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>eosf-project-nav Class</h1>
-<div class="box meta">
+<h1 class="file-heading">File: addon/components/navbar-auth-dropdown/component.js</h1>
 
+<div class="file">
+    <pre class="code prettyprint linenums">
+import Ember from &#x27;ember&#x27;;
+import layout from &#x27;./template&#x27;;
+import config from &#x27;ember-get-config&#x27;;
 
-        <div class="foundat">
-            Defined in: <a href="../files/addon_components_eosf-project-nav_component.js.html#l13"><code>addon&#x2F;components&#x2F;eosf-project-nav&#x2F;component.js:13</code></a>
-        </div>
+/**
+ * @module ember-osf
+ * @submodule components
+ */
 
-            Module: <a href="../modules/components.html">components</a><br>
-            Parent Module: <a href="../modules/ember-osf.html">ember-osf</a>
+/**
+ * Display the login dropdown on the navbar
+ *
+ * Sample usage:
+ * &#x60;&#x60;&#x60;handlebars
+ * {{navbar-auth-dropdown
+ *   loginAction=loginAction
+ *   redirectUrl=redirectUrl}}
+ * &#x60;&#x60;&#x60;
+ *
+ * @class navbar-auth-dropdown
+ */
+export default Ember.Component.extend({
+    layout,
+    session: Ember.inject.service(),
+    currentUser: Ember.inject.service(),
 
-</div>
+    tagName: &#x27;li&#x27;,
+    classNames: [&#x27;dropdown&#x27;],
+    classNameBindings: [&#x27;notAuthenticated:sign-in&#x27;],
+    notAuthenticated: Ember.computed.not(&#x27;session.isAuthenticated&#x27;),
+    redirectUrl: null,
 
+    /**
+     * The URL to use for signup. May be overridden, eg for special campaign pages
+     *
+     * @property signupUrl
+     * @type {String}
+     */
+    signupUrl: config.OSF.url + &#x27;register&#x27;,
 
-<div class="box intro">
-    <p>Project header navigation bar, with links to various sub-pages within a project
-Sample usage:</p>
-<pre class="code prettyprint"><code class="language-handlebars">{{eosf-project-nav
-  node=node
-  user=user}}
-</code></pre>
+    gravatarUrl: Ember.computed(&#x27;user&#x27;, function() {
+        let imgLink = this.get(&#x27;user.links.profile_image&#x27;);
 
-</div>
+        return imgLink ? &#x60;${imgLink}&amp;s=25&#x60; : &#x27;&#x27;;
+    }),
+    host: config.OSF.url,
+    user: null,
+    _loadCurrentUser() {
+        this.get(&#x27;currentUser&#x27;)
+            .load()
+            .then(user =&gt; this.set(&#x27;user&#x27;, user));
+    },
+    init() {
+        this._super(...arguments);
+        // TODO: React to changes in service/ event?
+        if (this.get(&#x27;session.isAuthenticated&#x27;)) {
+            this._loadCurrentUser();
+        }
+    },
+    // TODO: These parameters are defined in osf settings.py; make sure ember config matches.
+    allowLogin: true,
+    enableInstitutions: true,
+    actions: {
+        logout() {
+            const redirectUrl = this.get(&#x27;redirectUrl&#x27;);
+            const query = redirectUrl ? &#x27;?&#x27; + Ember.$.param({ redirect_url: redirectUrl }) : &#x27;&#x27;;
+            // TODO: May not work well if logging out from page that requires login- check?
+            this.get(&#x27;session&#x27;).invalidate()
+                .then(() =&gt; window.location.href = &#x60;${config.OSF.url}logout/${query}&#x60;);
+        },
+    }
+});
 
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties">
-                            <li class="index-item property">
-                                <a href="#property_isWithdrawnRegistration">isWithdrawnRegistration</a>
-
-                            </li>
-                    </ul>
-                </div>
-
-
-        </div>
-
-
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
-
-<div id="property_isWithdrawnRegistration" class="property item">
-    <h3 class="name"><code>isWithdrawnRegistration</code></h3>
-    <span class="type">Unknown</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_components_eosf-project-nav_component.js.html#l43"><code>addon&#x2F;components&#x2F;eosf-project-nav&#x2F;component.js:43</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>If this is a withdrawn registration, hide a block of buttons.</p>
-
-    </div>
-
-
-
-</div>
-            </div>
-
-
-    </div>
+    </pre>
 </div>
                     </div>
                 </div>

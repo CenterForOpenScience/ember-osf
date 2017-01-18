@@ -67,11 +67,13 @@
                                 <li><a href="../classes/FileItemMixin.html">FileItemMixin</a></li>
                                 <li><a href="../classes/FileProvider.html">FileProvider</a></li>
                                 <li><a href="../classes/FileVersion.html">FileVersion</a></li>
+                                <li><a href="../classes/fixstring.html">fixstring</a></li>
                                 <li><a href="../classes/GenericDataADapter.html">GenericDataADapter</a></li>
                                 <li><a href="../classes/InfinityCustomMixin.html">InfinityCustomMixin</a></li>
                                 <li><a href="../classes/Institution.html">Institution</a></li>
                                 <li><a href="../classes/Log.html">Log</a></li>
                                 <li><a href="../classes/Metaschema.html">Metaschema</a></li>
+                                <li><a href="../classes/navbar-auth-dropdown.html">navbar-auth-dropdown</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
                                 <li><a href="../classes/NodeActionsMixin.html">NodeActionsMixin</a></li>
                                 <li><a href="../classes/NodeLink.html">NodeLink</a></li>
@@ -122,6 +124,7 @@
                                 <li><a href="../modules/models.html">models</a></li>
                                 <li><a href="../modules/serializers.html">serializers</a></li>
                                 <li><a href="../modules/services.html">services</a></li>
+                                <li><a href="../modules/transforms.html">transforms</a></li>
                                 <li><a href="../modules/utils.html">utils</a></li>
                             </ul>
                         </div>
@@ -319,6 +322,11 @@
                     </a>
                 </li>
                 <li class="module-class">
+                    <a href="../classes/fixstring.html">
+                        fixstring
+                    </a>
+                </li>
+                <li class="module-class">
                     <a href="../classes/GenericDataADapter.html">
                         GenericDataADapter
                     </a>
@@ -341,6 +349,11 @@
                 <li class="module-class">
                     <a href="../classes/Metaschema.html">
                         Metaschema
+                    </a>
+                </li>
+                <li class="module-class">
+                    <a href="../classes/navbar-auth-dropdown.html">
+                        navbar-auth-dropdown
                     </a>
                 </li>
                 <li class="module-class">
@@ -607,6 +620,26 @@ For field and usage information, see:
 
                     <div class="module-submodule-description">
                         Access information about the currently logged in user
+                    </div>
+                </li>
+                <li class="module-submodule">
+                    <a href="../modules/transforms.html">
+                        transforms
+                    </a>
+
+                    <div class="module-submodule-description">
+                        Custom field transform that abstracts away bad API behavior. In certain cases the server will insert HTML escape
+ sequences into text. This allows them to be correctly and transparently used in templates without manually fixing
+ these characters for display on each use.
+
+ This transform is used when <code>fixstring</code> is passed as the type parameter to the DS.attr function.
+ It replaces <code>&amp;amp;</code> with <code>&amp;</code>.
+  <code>&#x60;</code>app/models/score.js
+   import DS from 'ember-data';
+   export default DS.Model.extend({
+      astring: DS.attr('fixstring'),
+   });
+ <code>&#x60;</code>
                     </div>
                 </li>
             </ul>

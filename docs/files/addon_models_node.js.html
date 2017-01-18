@@ -67,11 +67,13 @@
                                 <li><a href="../classes/FileItemMixin.html">FileItemMixin</a></li>
                                 <li><a href="../classes/FileProvider.html">FileProvider</a></li>
                                 <li><a href="../classes/FileVersion.html">FileVersion</a></li>
+                                <li><a href="../classes/fixstring.html">fixstring</a></li>
                                 <li><a href="../classes/GenericDataADapter.html">GenericDataADapter</a></li>
                                 <li><a href="../classes/InfinityCustomMixin.html">InfinityCustomMixin</a></li>
                                 <li><a href="../classes/Institution.html">Institution</a></li>
                                 <li><a href="../classes/Log.html">Log</a></li>
                                 <li><a href="../classes/Metaschema.html">Metaschema</a></li>
+                                <li><a href="../classes/navbar-auth-dropdown.html">navbar-auth-dropdown</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
                                 <li><a href="../classes/NodeActionsMixin.html">NodeActionsMixin</a></li>
                                 <li><a href="../classes/NodeLink.html">NodeLink</a></li>
@@ -122,6 +124,7 @@
                                 <li><a href="../modules/models.html">models</a></li>
                                 <li><a href="../modules/serializers.html">serializers</a></li>
                                 <li><a href="../modules/services.html">services</a></li>
+                                <li><a href="../modules/transforms.html">transforms</a></li>
                                 <li><a href="../modules/utils.html">utils</a></li>
                             </ul>
                         </div>
@@ -186,11 +189,11 @@ import FileItemMixin from &#x27;ember-osf/mixins/file-item&#x27;;
 export default OsfModel.extend(FileItemMixin, {
     isNode: true,
 
-    title: DS.attr(&#x27;string&#x27;),
-    description: DS.attr(&#x27;string&#x27;),
-    category: DS.attr(&#x27;string&#x27;),
+    title: DS.attr(&#x27;fixstring&#x27;),
+    description: DS.attr(&#x27;fixstring&#x27;),
+    category: DS.attr(&#x27;fixstring&#x27;),
 
-    currentUserPermissions: DS.attr(&#x27;string&#x27;),
+    currentUserPermissions: DS.attr(&#x27;fixstring&#x27;),
 
     fork: DS.attr(&#x27;boolean&#x27;),
     collection: DS.attr(&#x27;boolean&#x27;),
@@ -200,9 +203,10 @@ export default OsfModel.extend(FileItemMixin, {
     dateCreated: DS.attr(&#x27;date&#x27;),
     dateModified: DS.attr(&#x27;date&#x27;),
 
+    nodeLicense: DS.attr(),
     tags: DS.attr(),
 
-    templateFrom: DS.attr(&#x27;string&#x27;),
+    templateFrom: DS.attr(&#x27;fixstring&#x27;),
 
     parent: DS.belongsTo(&#x27;node&#x27;, {
         inverse: &#x27;children&#x27;
@@ -223,10 +227,15 @@ export default OsfModel.extend(FileItemMixin, {
         inverse: &#x27;node&#x27;
     }),
 
+    license: DS.belongsTo(&#x27;license&#x27;, {
+        inverse: null
+    }),
+
     files: DS.hasMany(&#x27;file-provider&#x27;),
     //forkedFrom: DS.belongsTo(&#x27;node&#x27;),
-    nodeLinks: DS.hasMany(&#x27;node-links&#x27;, {
-        inverse: null
+    linkedNodes: DS.hasMany(&#x27;nodes&#x27;, {
+        inverse: null,
+        serializerType: &#x27;linked-node&#x27;
     }),
     registrations: DS.hasMany(&#x27;registrations&#x27;, {
         inverse: &#x27;registeredFrom&#x27;
@@ -266,7 +275,7 @@ export default OsfModel.extend(FileItemMixin, {
      * Determine whether the specified user ID is a contributor on this node
      * @method isContributor
      * @param {String} userId
-     * @returns {boolean} Whether the specified user is a contributor on this node
+     * @return {boolean} Whether the specified user is a contributor on this node
      */
     isContributor(userId) {
         // Return true if there is at least one matching contributor for this user ID

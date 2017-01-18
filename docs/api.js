@@ -59,6 +59,8 @@ YUI.add("yuidoc-meta", function(Y) {
         "file-renderer",
         "file-version",
         "file-widget",
+        "fixstring",
+        "navbar-auth-dropdown",
         "oauth-popup",
         "osf-copyright",
         "osf-footer",
@@ -83,6 +85,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "models",
         "serializers",
         "services",
+        "transforms",
         "utils"
     ],
     "allModules": [
@@ -143,6 +146,11 @@ YUI.add("yuidoc-meta", function(Y) {
             "displayName": "services",
             "name": "services",
             "description": "Access information about the currently logged in user"
+        },
+        {
+            "displayName": "transforms",
+            "name": "transforms",
+            "description": "Custom field transform that abstracts away bad API behavior. In certain cases the server will insert HTML escape\n sequences into text. This allows them to be correctly and transparently used in templates without manually fixing\n these characters for display on each use.\n\n This transform is used when `fixstring` is passed as the type parameter to the DS.attr function.\n It replaces `&amp;` with `&`.\n  ```app/models/score.js\n   import DS from 'ember-data';\n   export default DS.Model.extend({\n      astring: DS.attr('fixstring'),\n   });\n ```"
         },
         {
             "displayName": "utils",

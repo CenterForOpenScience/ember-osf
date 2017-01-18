@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>eosf-project-nav - Ember OSF</title>
+    <title>fixstring - Ember OSF</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -159,26 +159,33 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>eosf-project-nav Class</h1>
+<h1>fixstring Class</h1>
 <div class="box meta">
 
-
-        <div class="foundat">
-            Defined in: <a href="../files/addon_components_eosf-project-nav_component.js.html#l13"><code>addon&#x2F;components&#x2F;eosf-project-nav&#x2F;component.js:13</code></a>
+        <div class="extends">
+            Extends DS.Transform
         </div>
 
-            Module: <a href="../modules/components.html">components</a><br>
+        <div class="foundat">
+            Defined in: <a href="../files/addon_transforms_fixstring.js.html#l8"><code>addon&#x2F;transforms&#x2F;fixstring.js:8</code></a>
+        </div>
+
+            Module: <a href="../modules/transforms.html">transforms</a><br>
             Parent Module: <a href="../modules/ember-osf.html">ember-osf</a>
 
 </div>
 
 
 <div class="box intro">
-    <p>Project header navigation bar, with links to various sub-pages within a project
-Sample usage:</p>
-<pre class="code prettyprint"><code class="language-handlebars">{{eosf-project-nav
-  node=node
-  user=user}}
+    <p>Custom field transform that abstracts away bad API behavior. In certain cases the server will insert HTML escape
+sequences into text. This allows them to be correctly and transparently used in templates without manually fixing
+these characters for display on each use.</p>
+<p>This transform is used when <code>fixstring</code> is passed as the type parameter to the DS.attr function.
+It replaces <code>&amp;amp;</code> with <code>&amp;</code>.</p>
+<pre class="code prettyprint"><code class="language-app/models/score.js"> import DS from 'ember-data';
+ export default DS.Model.extend({
+    astring: DS.attr('fixstring'),
+ });
 </code></pre>
 
 </div>
@@ -188,7 +195,6 @@ Sample usage:</p>
     <ul class="api-class-tabs">
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
     </ul>
 
     <div>
@@ -196,50 +202,11 @@ Sample usage:</p>
             <h2 class="off-left">Item Index</h2>
 
 
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties">
-                            <li class="index-item property">
-                                <a href="#property_isWithdrawnRegistration">isWithdrawnRegistration</a>
-
-                            </li>
-                    </ul>
-                </div>
 
 
         </div>
 
 
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
-
-<div id="property_isWithdrawnRegistration" class="property item">
-    <h3 class="name"><code>isWithdrawnRegistration</code></h3>
-    <span class="type">Unknown</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_components_eosf-project-nav_component.js.html#l43"><code>addon&#x2F;components&#x2F;eosf-project-nav&#x2F;component.js:43</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>If this is a withdrawn registration, hide a block of buttons.</p>
-
-    </div>
-
-
-
-</div>
-            </div>
 
 
     </div>
