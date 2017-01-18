@@ -1,6 +1,8 @@
 import Ember from 'ember';
+import layout from './template';
 
 export default Ember.Component.extend({
+    layout,
     atFirstPage: Ember.computed.equal('page', 1),
 
     atLastPage: Ember.computed('page', 'clampedPages', function() {
