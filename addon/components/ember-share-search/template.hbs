@@ -22,4 +22,28 @@
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-sm-3 col-xs-12"> {{!LEFT PANEL - FILTER}}
+
+        </div>
+
+        <div class="col-sm-9 col-xs-12">  {{!RIGHT PANEL - SEARCH RESULTS}}
+            {{#if loading}}
+                <div class="text-center">
+                        {{fa-icon 'spinner' pulse=true size=3}}
+                </div>
+            {{else if noResultsMessage}}
+                <div class="text-center no-results">{{noResultsMessage}}</div>
+            {{else}}
+                {{#each results as |obj|}}
+                    {{search-result addFilter='addFilter' obj=obj}}
+                {{/each}}
+                <div class="pull-right text-right">
+                    {{!page-controls page=page clampedPages=clampedPages loadPage=(action 'loadPage')}}
+                </div>
+            {{/if}}
+
+        </div>
+    </div>
 </div>
