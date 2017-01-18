@@ -20,15 +20,8 @@ export default Ember.Component.extend({
     metrics: Ember.inject.service(),
     category: 'discover',
 
-    queryParams:  Ember.computed(function() {
-        let allParams = ['q', 'start', 'end', 'sort', 'page'];
-        allParams.push(...filterQueryParams);
-        return allParams;
-    }),
-
     page: 1,
     size: 10,
-    q: '',
     tags: '',
     sources: '',
     publishers: '',
@@ -287,11 +280,11 @@ export default Ember.Component.extend({
     actions: {
 
         addFilter(type, filterValue) {
-            const category = this.get('category');
-            const action = 'add-filter';
-            const label = filterValue;
+            // const category = this.get('category');
+            // const action = 'add-filter';
+            // const label = filterValue;
 
-            this.get('metrics').trackEvent({ category, action, label });
+            // this.get('metrics').trackEvent({ category, action, label });
 
             let currentValue = getSplitParams(this.get(type)) || [];
             let newValue = getUniqueList([filterValue].concat(currentValue));
@@ -333,11 +326,11 @@ export default Ember.Component.extend({
         },
 
         search() {
-            const category = this.get('category');
-            const action = 'search';
-            const label = this.get('q');
-
-            this.get('metrics').trackEvent({ category, action, label });
+            // const category = this.get('category');
+            // const action = 'search';
+            // const label = this.get('q');
+            //
+            // this.get('metrics').trackEvent({ category, action, label });
 
             this.search();
         },
