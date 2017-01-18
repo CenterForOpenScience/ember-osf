@@ -14,7 +14,7 @@ Please read the [CONTRIBUTING.md](https://github.com/CenterForOpenScience/ember-
 See the [yarn docs](https://yarnpkg.com/) for installing and using yarn.
 
 * `git clone` this repository
-* `yarn`
+* `yarn install --pure-lockfile`
 * `bower install`
 
 ## Using this code in an Ember app
@@ -108,12 +108,11 @@ and visit your app at http://localhost:4200.
 
 ## Running Tests
 
-* `npm test` (Runs `ember try:testall` to test your addon against multiple Ember versions)
-* `ember test`
+* `yarn test`
 * `ember test --server`
 
 ## Building
 
-* `ember build`
+* `yarn run build`
 
 For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).

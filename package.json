@@ -11,11 +11,15 @@
     "docs": "yuidoc",
     "start": "ember server",
     "check-style": "./node_modules/jscs/bin/jscs .",
-    "test": "npm run-script check-style && ember test"
+    "test": "yarn run check-style && ember test"
   },
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CenterForOpenScience/ember-osf.git"
+  },
+  "engineStrict": true,
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">=6"
   },
   "author": "",
   "license": "MIT",
