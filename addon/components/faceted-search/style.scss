@@ -1,0 +1,50 @@
+.panel-default {
+    font-family: 'Open Sans' , 'Helvetica Neue' , sans-serif;
+    -webkit-font-smoothing: antialiased ;
+    border-width: 0 ;
+    background-color: #f5f5f5;
+
+    > .panel-heading {
+          background-color: rgba(40, 59, 73, 0.84);
+          color: white ;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 2px ;
+    }
+}
+
+.ember-power-select-trigger {
+    background-color: #f5f5f5;
+    border-width: 1px;
+    border-color: #ccc;
+    border-radius: 0 ;
+    color: #333333 ;
+}
+
+.ember-power-select-placeholder {
+    color: #333333 ;
+}
+
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color: #333333 ;
+}
+
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #333333;
+    opacity: 1;
+}
+
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #333333;
+    opacity: 1;
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #333333 ;
+}
+
+.ember-power-select-status-icon{
+    border-color: #333333 transparent transparent transparent;
+
+}
