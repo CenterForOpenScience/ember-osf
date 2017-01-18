@@ -24,11 +24,11 @@ import FileItemMixin from 'ember-osf/mixins/file-item';
 export default OsfModel.extend(FileItemMixin, {
     isNode: true,
 
-    title: DS.attr('string'),
-    description: DS.attr('string'),
-    category: DS.attr('string'),
+    title: DS.attr('fixstring'),
+    description: DS.attr('fixstring'),
+    category: DS.attr('fixstring'),
 
-    currentUserPermissions: DS.attr('string'),
+    currentUserPermissions: DS.attr('fixstring'),
 
     fork: DS.attr('boolean'),
     collection: DS.attr('boolean'),
@@ -41,7 +41,7 @@ export default OsfModel.extend(FileItemMixin, {
     nodeLicense: DS.attr(),
     tags: DS.attr(),
 
-    templateFrom: DS.attr('string'),
+    templateFrom: DS.attr('fixstring'),
 
     parent: DS.belongsTo('node', {
         inverse: 'children'

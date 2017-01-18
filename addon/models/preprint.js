@@ -16,13 +16,13 @@ import OsfModel from './osf-model';
  * @class Preprint
  */
 export default OsfModel.extend({
-    title: DS.attr('string'),
+    title: DS.attr('fixstring'),
     // TODO: May be a relationship in the future pending APIv2 changes
     subjects: DS.attr(),
     dateCreated: DS.attr('date'),
     datePublished: DS.attr('date'),
     dateModified: DS.attr('date'),
-    doi: DS.attr('string'),
+    doi: DS.attr('fixstring'),
     isPublished: DS.attr('boolean'),
     isPreprintOrphan: DS.attr('boolean'),
     licenseRecord: DS.attr(),
