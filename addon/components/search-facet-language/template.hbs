@@ -1,0 +1,12 @@
+<div class='choices'>
+    {{#power-select
+        options=languages
+        placeholder=placeholder
+        selected=selected
+        allowClear=true
+        onchange=(action "changeFilter")
+        as |language|
+    }}
+        {{language}}
+    {{/power-select}}
+</div>

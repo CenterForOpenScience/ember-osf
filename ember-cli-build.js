@@ -9,7 +9,7 @@ module.exports = function(defaults) {
             includePaths: [
                 'tests/dummy/app/components',
                 'bower_components/c3',
-
+                'bower_components/bootstrap-daterangepicker',
             ]
         },
 
@@ -32,6 +32,8 @@ module.exports = function(defaults) {
     app.import(path.join(app.bowerDirectory, 'dropzone/dist/basic.css'));
     app.import(path.join(app.bowerDirectory, 'dropzone/dist/dropzone.css'));
     app.import(path.join(app.bowerDirectory, 'dropzone/dist/dropzone.js'));
+    app.import('bower_components/bootstrap-daterangepicker/daterangepicker.js');
+    app.import('bower_components/lodash/lodash.js');
 
     app.import(path.join(app.bowerDirectory, 'jquery.tagsinput/src/jquery.tagsinput.js'));
     app.import(path.join(app.bowerDirectory, 'c3/c3.js'));

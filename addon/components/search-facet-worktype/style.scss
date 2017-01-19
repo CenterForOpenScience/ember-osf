@@ -1,0 +1,40 @@
+.row {
+    display: flex;
+    flex-direction: column;
+
+    > button {
+        color: white ;
+        background-color: #337ab7;
+        background-image: linear-gradient(to bottom, rgba(60, 60, 60, 0.5) 0%, rgba(34, 34, 34, 0.5) 100%);
+        margin-left: 20px ;
+        margin-right: 20px ;
+        margin-top: 1.5px ;
+        margin-bottom: 1.5px ;
+        border-radius: 3px ;
+        border-color: rgba(51, 122, 183, 0.6) ;
+    }
+}
+
+.btn-default:hover {
+    background-color: #204762;
+    background-image: linear-gradient(to bottom, rgba(60, 60, 60, 0.5) 0%, rgba(34, 34, 34, 0.5) 100%);
+}
+
+.btn-default.active {
+    background-color: rgba(139, 149, 157, 0.34) ;
+}
+
+.btn-default.active:hover {
+    color: white ;
+    background-color: rgba(139, 149, 157, 0.5) ;
+}
+
+.btn-default:focus {
+    color: white ;
+    background-color: rgba(139, 149, 157, 0.5) ;
+}
+
+
+a:-webkit-any-link {
+    text-decoration: none !important;
+}

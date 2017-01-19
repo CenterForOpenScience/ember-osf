@@ -1,8 +1,7 @@
+import Ember from 'ember';
 import layout from './template';
 import config from 'ember-get-config';
-import _ from 'lodash/lodash';
 import moment from 'moment';
-import Ember from 'ember';
 import { getUniqueList, getSplitParams, encodeParams } from '../../utils/elastic-query';
 
 const MAX_SOURCES = 500;
@@ -91,7 +90,7 @@ export default Ember.Component.extend({
         this._super(...arguments);
         this.set('firstLoad', true);
         this.set('facetFilters', Ember.Object.create());
-        this.set('debouncedLoadPage', _.debounce(this.loadPage.bind(this), 500));
+        this.set('debouncedLoadPage', this.loadPage.bind(this));
         this.getCounts();
         this.loadPage();
     },
@@ -237,7 +236,9 @@ export default Ember.Component.extend({
         }
         this.set('loading', true);
         this.get('results').clear();
-        this.get('debouncedLoadPage')();
+        Ember.run.debounce(() => {
+            this.get('debouncedLoadPage')();
+        }, 500);
     },
 
     facets: Ember.computed(function() {
