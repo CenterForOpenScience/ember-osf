@@ -3,7 +3,7 @@
         {{#if obj.retracted}}
             <div class='col-xs-6'>
                 <span class='retraction-alert bg-warning text-warning'>
-                    {{fa-icon 'exclamation-triangle'}} This work has been retracted. {{link-to 'View retraction notice' 'detail' 'retraction' retractionId}}
+                    {{fa-icon 'exclamation-triangle'}} This work has been retracted. <a href="{{share-detail-url 'retraction' retractionId}}"></a>
                 </span>
             </div>
         {{/if}}
@@ -15,7 +15,7 @@
     </div>
     <div class="row title"> {{!TITLE}}
         <h4 class="col-sm-11 redirect">
-            <a href="{{share-detail-url obj}}">
+            <a href="{{share-detail-url obj.type obj.id}}">
                 {{#if safeTitle}}
                     {{safeTitle}}
                 {{else}}
@@ -32,7 +32,7 @@
                         {{#if index}}
                             -
                         {{/if}}
-                        <a href="{{share-detail-url contrib}}">
+                        <a href="{{share-detail-url contrib.type contrib.id}}">
                             {{if contrib.cited_as contrib.cited_as contrib.name}}
                         </a>
                     {{/each}}
