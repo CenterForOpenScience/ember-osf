@@ -1,86 +1,86 @@
-<div class="panel panel-default search-result">
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-xs-12">
-                {{!Title}}
-                <h4>
-                    <a href="{{share-detail-url obj.type obj.id}}">
-                        {{#if safeTitle}}
-                            {{safeTitle}}
-                        {{else}}
-                            <i class="no-title">Title not provided</i>
-                        {{/if}}
-                    </a>
-                </h4>
-                {{!Authors}}
-                <p>
-                    {{#each contributors as |contrib index|}}
-                        {{#if index}}
-                            -
-                        {{/if}}
-                        {{if contrib.cited_as contrib.cited_as contrib.name}}
-                    {{/each}}
-                    {{#if extraContributors}} {{!+5, for example}}
-                        <span class="text-muted">+{{extraContributors.length}}</span>
+<div class="search-result p-sm">
+    <div class="row">
+        <div class="col-xs-12">
+            {{!Title}}
+            <h4>
+                <a href="{{share-detail-url obj.type obj.id}}">
+                    {{#if safeTitle}}
+                        {{safeTitle}}
+                    {{else}}
+                        <i class="no-title">Title not provided</i>
                     {{/if}}
-                </p>
+                </a>
+            </h4>
+            {{!Authors}}
+            <p>
+                {{#each contributors as |contrib index|}}
+                    {{#if index}}
+                        -
+                    {{/if}}
+                    {{if contrib.cited_as contrib.cited_as contrib.name}}
+                {{/each}}
+                {{#if extraContributors}} {{!+5, for example}}
+                    <span class="text-muted">+{{extraContributors.length}}</span>
+                {{/if}}
+            </p>
 
-                {{!Abstract}}
-                <p>
+            {{!Abstract}}
+            <p>
+                <div class="text-muted m-t-sm">
                     {{#if abbreviation}}
                         {{{abbreviation}}}
                         {{#if abbreviated}}
                             <span class="text-muted">...</span>
                         {{/if}}
                     {{/if}}
-                </p>
-
-                {{!Provider}}
-                <div class="m-t-sm">
-                     {{#each obj.sources as |source index|}}
-                        {{#if index}}
-                            ,
-                        {{/if}}
-                        <!--<a class="filter" {{!action 'addFilter' 'sources' source}}>-->
-                            <!--{{!source}}-->
-                        <!--</a>-->
-                         <strong> {{source}} </strong>
-                    {{/each}}
-
-                     {{#if obj.date_published}}
-                        <span class="pull-right">
-                            {{moment-format obj.date_published}}
-                        </span>
-                    {{/if}}
                 </div>
+            </p>
 
-                {{#if showBody}}
-                    {{!Links}}
-                    {{#if identifiers}}
-                        <ul class="preprints-block-list m-t-sm">
-                            {{#each identifiers as |link|}}
-                                <li><a href='{{link}}'>{{link}}</a></li>
-                            {{/each}}
-                        </ul>
+            {{!Provider}}
+            <div class="m-t-sm">
+                 {{#each obj.sources as |source index|}}
+                    {{#if index}}
+                        ,
                     {{/if}}
+                    <!--<a class="filter" {{!action 'addFilter' 'sources' source}}>-->
+                        <!--{{!source}}-->
+                    <!--</a>-->
+                     <strong> {{source}} </strong>
+                {{/each}}
 
-                    {{!Tags}}
-                     {{#each tags as |tag|}}
-                        <a {{action 'addFilter' 'tags' tag}}>
-                            <span class="badge">{{tag}}</span>
-                        </a>
-                    {{/each}}
-                    {{#if extraTags}}
-                        <span class="text-muted">+{{extraTags.length}}</span>
-                    {{/if}}
+                 {{#if obj.date_published}}
+                    <span class="pull-right">
+                        {{moment-format obj.date_published}}
+                    </span>
+                {{/if}}
+            </div>
 
+            {{#if showBody}}
+                {{!Links}}
+                {{#if identifiers}}
+                    <ul class="preprints-block-list m-t-sm">
+                        {{#each identifiers as |link|}}
+                            <li><a href='{{link}}'>{{link}}</a></li>
+                        {{/each}}
+                    </ul>
                 {{/if}}
 
-            </div>
-        </div>
+                {{!Tags}}
+                 {{#each tags as |tag|}}
+                    <a {{action 'addFilter' 'tags' tag}}>
+                        <span class="badge">{{tag}}</span>
+                    </a>
+                {{/each}}
+                {{#if extraTags}}
+                    <span class="text-muted">+{{extraTags.length}}</span>
+                {{/if}}
 
-        <div class="text-center" {{action "toggleShowBody"}}>
-            <a href=''>{{fa-icon footerIcon size=1}}</a>
+            {{/if}}
+
         </div>
+    </div>
+
+    <div class="text-center" {{action "toggleShowBody"}}>
+        <a href=''>{{fa-icon footerIcon size=1}}</a>
     </div>
 </div>
