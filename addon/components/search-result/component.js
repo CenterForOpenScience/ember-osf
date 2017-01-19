@@ -1,12 +1,17 @@
 import Ember from 'ember';
 import layout from './template';
 
-// Copied from Ember-SHARE
+// Copied from Ember-SHARE - some pieces added from Ember-preprints as well.
 export default Ember.Component.extend({
     layout,
     maxTags: 5,
     maxContributors: 6,
     maxDescription: 350,
+    showBody: false,
+    footerIcon: Ember.computed('showBody', function() {
+        return this.get('showBody') ? 'caret-up' : 'caret-down';
+    }),
+
     type: Ember.computed('obj.type', function() {
         return this.get('obj.type').capitalize();
     }),
@@ -31,6 +36,9 @@ export default Ember.Component.extend({
     extraTags: Ember.computed('obj.tags', function() {
         return (this.get('obj.tags') || []).slice(this.get('maxTags'));
     }),
+    identifiers: Ember.computed('obj.identifiers', function() {
+       return this.get('obj.identifiers');
+    }),
     tags: Ember.computed('obj.tags', function() {
         return (this.get('obj.tags') || []).slice(0, this.get('maxTags'));
     }),
@@ -47,6 +55,10 @@ export default Ember.Component.extend({
     actions: {
         addFilter(type, filter) {
             this.sendAction('addFilter', type, filter);
-        }
+        },
+        toggleShowBody() {
+            this.set('showBody', !this.showBody);
+        },
+
     }
 });
