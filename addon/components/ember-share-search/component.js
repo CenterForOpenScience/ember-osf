@@ -242,7 +242,7 @@ export default Ember.Component.extend({
 
     facets: Ember.computed(function() {
         return [
-            { key: 'sources', title: 'Source', component: 'search-facet-source' },
+            // { key: 'sources', title: 'Source', component: 'search-facet-source' },
             { key: 'date', title: 'Date', component: 'search-facet-daterange' },
             { key: 'type', title: 'Type', component: 'search-facet-worktype' },
             { key: 'tags', title: 'Tag', component: 'search-facet-typeahead', type: 'tag' },
