@@ -266,7 +266,7 @@ export default Ember.Component.extend({
             { key: 'publishers', title: 'Publisher', component: 'search-facet-typeahead', type: 'publisher' },
             { key: 'funders', title: 'Funder', component: 'search-facet-typeahead', type: 'funder' },
             { key: 'language', title: 'Language', component: 'search-facet-language' },
-            { key: 'contributors', title: 'People', component: 'search-facet-typeahead', type: 'person' },
+            { key: 'contributors', title: 'People', component: 'search-facet-typeahead', type: 'person' }
         ];
     }),
 
