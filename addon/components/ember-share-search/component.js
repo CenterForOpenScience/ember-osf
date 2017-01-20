@@ -4,10 +4,26 @@ import config from 'ember-get-config';
 import moment from 'moment';
 import { getUniqueList, getSplitParams, encodeParams } from '../../utils/elastic-query';
 
+/**
+ * @module ember-osf
+ * @submodule components
+ */
+
+/**
+ * Ember share-search component. Component that can build majority of search page that utilizes SHARE.
+ * Adapted from Ember-SHARE https://github.com/CenterForOpenScience/ember-share
+ *
+ * Sample usage:
+ * ```handlebars
+ * {{ember-share-search
+ *   TODO}}
+ * ```
+ * @class ember-share-search
+ */
+
 const MAX_SOURCES = 500;
 let filterQueryParams = ['tags', 'sources', 'publishers', 'funders', 'institutions', 'organizations', 'language', 'contributors', 'type'];
 
-// Modified from Ember-SHARE
 export default Ember.Component.extend({
     classNames: ['ember-share-search'],
     layout,
