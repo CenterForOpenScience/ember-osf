@@ -22,20 +22,29 @@
             </div>
         </div>
 
-        <span class="pull-right p-v-sm"> {{!SORT BY}}
-            <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button" id="sortBy" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="true">
-                    Sort by: {{sort-option-display sortOptions sort}}
-                    <span class="caret"></span>
+        <div class="row p-v-sm">
+            <div class="col-xs-6">
+                <button {{action 'clearFilters'}} class='btn btn-default clear-filters'>
+                    Clear filters
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="sortBy">
-                    {{#each sortOptions as |sortChoice|}}
-                        <li style="cursor: pointer; cursor: hand"><a {{action "selectSortOption" sortChoice.sortBy}}>{{sortChoice.display}}</a></li>
-                    {{/each}}
-                </ul>
             </div>
-        </span>
+            <div class="col-sm-6 pull-right text-right">
+                <span> {{!SORT BY}}
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="sortBy" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="true">
+                            Sort by: {{sort-option-display sortOptions sort}}
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="sortBy">
+                            {{#each sortOptions as |sortChoice|}}
+                                <li style="cursor: pointer; cursor: hand"><a {{action "selectSortOption" sortChoice.sortBy}}>{{sortChoice.display}}</a></li>
+                            {{/each}}
+                        </ul>
+                    </div>
+                </span>
+            </div>
+        </div>
     </div>
 </div>
 <div class="search-below-the-fold">
