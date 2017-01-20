@@ -11,11 +11,15 @@
     "docs": "yuidoc",
     "start": "ember server",
     "check-style": "./node_modules/jscs/bin/jscs .",
-    "test": "npm run-script check-style && ember test"
+    "test": "yarn run check-style && ember test"
   },
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CenterForOpenScience/ember-osf.git"
+  },
+  "engineStrict": true,
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">=6"
   },
   "author": "",
   "license": "MIT",
@@ -37,9 +41,10 @@
     "ember-cli-sass": "5.3.1",
     "ember-cli-sri": "^2.0.0",
     "ember-cli-template-lint": "0.4.7",
+    "ember-cli-test-loader": "^1.1.1",
     "ember-cli-uglify": "^1.2.0",
     "ember-collection": "1.0.0-alpha.5",
-    "ember-data": "^2.3.0",
+    "ember-data": "2.7.0",
     "ember-data-factory-guy": "^2.6.1",
     "ember-disable-prototype-extensions": "^1.0.0",
     "ember-disable-proxy-controllers": "^1.0.1",
