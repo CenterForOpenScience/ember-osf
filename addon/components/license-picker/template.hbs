@@ -20,7 +20,7 @@
                     {{/if}}
                 </label>
             </p>
-            {{input class='form-control' value=year}}
+            {{input class='form-control' value=year enter=(action 'sendSubmit')}}
         {{/if}}
         {{#if showCopyrightHolders}}
             <br>
@@ -32,7 +32,7 @@
                     {{/if}}
                 </label>
             </p>
-            {{input class='form-control' value=copyrightHolders}}
+            {{input class='form-control' value=copyrightHolders enter=(action 'sendSubmit')}}
         {{/if}}
         <br>
         {{#if toggleText}}
