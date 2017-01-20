@@ -4,6 +4,8 @@
 /config/*.yml
 /dist
 /docs
+/.github
+/.idea
 /tests
 /tmp
 **/.gitkeep
