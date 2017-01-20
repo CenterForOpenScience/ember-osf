@@ -60,10 +60,12 @@
 
 <div class="row">
     {{comment-pane
-    comments=comments
-    addComment=(action 'addComment')
-    editComment=(action 'editComment')
-    deleteComment=(action 'deleteComment')
-    restoreComment=(action 'restoreComment')
-    reportComment=(action 'reportComment')}}
+      comments=comments
+      title=model.name
+      resource=model
+      addComment=(action 'addComment')
+      editComment=(action 'editComment')
+      deleteComment=(action 'deleteComment')
+      restoreComment=(action 'restoreComment')
+      reportComment=(action 'reportComment')}}
 </div>

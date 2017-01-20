@@ -33,6 +33,7 @@ Router.map(function() {
                     path: '/:draft_registration_id'
                 });
             });
+            this.route('comments');
         });
     });
     this.route('signup');

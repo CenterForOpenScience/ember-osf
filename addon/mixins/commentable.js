@@ -33,28 +33,44 @@ export default Ember.Mixin.create({
          * Action that adds a new comment targeting the model by GUID.
          * @method addComment
          * @param {String} text The text of the new comment
+         * @param {Comment|File|Node|Wiki} parent The target of this comment
          * @return {Promise} The newly created comment
          */
-        addComment(text) {
-            // Assumes that the page's model hook is the target for the comment
-            let model = this.get('model');
-            var commentsRel = model.get('comments');
+        addComment(text, parent) {
+            // FIXME: Known issue: if you add a comment, then delete without refreshing, you get a 409 error. This is because the target fields are still there in the store and haven't been cleared of placeholder values.
+            // TODO: Test to see if adapterOptions changes resolve the above error.
+
+            // TODO: Rework method signature so parent/ target argument is always required in all usages
+            let target = parent || this.get('model');
+
+            let targetID = target.get('guid') || target.id;
+            let targetType = target.constructor.modelName;
 
             var comment = this.store.createRecord('comment', {
                 content: text,
-                targetID: model.get('guid') || model.id,
-                targetType: Ember.Inflector.inflector.pluralize(model.constructor.modelName)
+                targetID: targetID,
+                targetType: targetType
             });
-            commentsRel.pushObject(comment);
-            return model.save().then(() => comment);
+            // TODO: Check whether store gets updated with information about the new comment associated with the target
+            //   (in various cases it probably won't, eg due to unclear inverse relationship for preprint-through-nodes)
+            return comment.save({
+                adapterOptions: {
+                    operation: 'create',
+                    targetID: targetID,
+                    targetType: targetType,
+                }
+            });
         },
         /**
          * Action that edits an existing comment.
          * @method editComment
+         * @param {String} text The text of the comment to save
          * @param {DS.Model} comment A comment model
          * @return {Promise}
          */
-        editComment(comment) {
+        editComment(text, comment) {
+            // TODO: Change argument order in all usages to support currying
+            comment.set('content', text);
             return comment.save();
         },
         /**

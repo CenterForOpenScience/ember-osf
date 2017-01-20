@@ -3,32 +3,27 @@ import OsfSerializer from './osf-serializer';
 
 export default OsfSerializer.extend({
     serialize(snapshot, options) {  // jshint ignore:line
-        // Add relationships field to identify comment target
-        let serialized = this._super(...arguments);
+        let res = this._super(...arguments);
 
-        // For POST requests specifically, two additional fields are needed
-        let targetID = snapshot.record.get('targetID');
-        let targetType = snapshot.record.get('targetType');
-        // TODO: Find a better way to detect request type, so this can enforce fields that are needed for creation (but not for editing)
-        //Ember.assert('Must provide target ID', targetID);
-        //Ember.assert('Must provide target type', targetType);
+        let adapterOptions = snapshot.adapterOptions;
+        if (adapterOptions && adapterOptions.operation === 'create') {
+            let targetType = adapterOptions.targetType;
+            // New comments must explicitly identify their target, passed here via fields on .save({adapterOptions: {...}})
+            Ember.assert('Must provide target ID', adapterOptions.targetID);
+            Ember.assert('Must provide target type', targetType);
 
-        if (targetID && targetType) {
-            serialized.data.relationships = {
+            // Preprint comments are made through the node
+            if (targetType === 'preprint') {
+                targetType = 'node';
+            }
+
+            res.data.relationships = {
                 target: {
                     data: {
-                        id: targetID,
-                        type: targetType
-                    }
-                }
-            };
+                        id: adapterOptions.targetID,
+                        type: Ember.Inflector.inflector.pluralize(targetType)
+                    }}};
         }
-        return serialized;
+        return res;
     },
-    extractRelationships(modelClass, resourceHash) {
-        // TODO: remove when https://openscience.atlassian.net/browse/OSF-6646 is done
-        resourceHash = this._super(modelClass, resourceHash);
-        resourceHash.replies.links.related = Ember.copy(resourceHash.replies.links.self);
-        return resourceHash;
-    }
 });

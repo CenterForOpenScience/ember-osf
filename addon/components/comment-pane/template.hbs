@@ -1,13 +1,20 @@
-<h3>Comments</h3>
-{{#each comments as |comment|}}
-    {{comment-detail
-    comment=comment
-    editComment=attrs.editComment
-    deleteComment=attrs.deleteComment
-    restoreComment=attrs.restoreComment
-    reportComment=attrs.reportComment}}
-{{else}}
-    (none)
-{{/each}}
+<h3>{{title}} | Discussion</h3>
 
-{{comment-form addComment=attrs.addComment}}
+{{comment-form submitComment=attrs.addComment}}
+
+{{#if comments.isPending}}
+    {{!-- TODO: Get loading indicator working correctly. Should be watching comments.isLoaded (on a DS.ManyArray)- get oage load  --}}
+    <i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Loading...
+{{else}}
+    {{#each comments as |comment|}}
+        {{comment-detail
+        comment=comment
+        resource=resource
+        addComment=attrs.addComment
+        editComment=attrs.editComment
+        deleteComment=attrs.deleteComment
+        restoreComment=attrs.restoreComment
+        reportComment=attrs.reportComment}}
+    {{/each}}
+{{/if}}
+
