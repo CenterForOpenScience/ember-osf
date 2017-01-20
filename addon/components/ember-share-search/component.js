@@ -44,7 +44,7 @@ export default Ember.Component.extend({
 
     results: Ember.ArrayProxy.create({ content: [] }),
     loading: true,
-    eventsLastUpdated: Date().toString(),
+    eventsLastUpdated: new Date().toString(),
     numberOfResults: 0,
     took: 0,
     numberOfSources: 0,
