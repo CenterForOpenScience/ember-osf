@@ -35,6 +35,13 @@ export default Ember.Component.extend({
     metrics: Ember.inject.service(),
     category: 'discover',
 
+    queryParams:  Ember.computed(function() {
+        let allParams = ['q', 'start', 'end', 'sort', 'page'];
+        allParams.push(...filterQueryParams);
+        return allParams;
+    }),
+    lockedQueryBody: [],
+
     page: 1,
     size: 10,
     tags: '',
@@ -142,8 +149,8 @@ export default Ember.Component.extend({
     }),
 
     getQueryBody() {
+        let filters = this.get('lockedQueryBody'); // Either empty array or search facets that are automatically set
         let facetFilters = this.get('facetFilters');
-        let filters = [];
         for (let k of Object.keys(facetFilters)) {
             let filter = facetFilters[k];
             if (filter) {
