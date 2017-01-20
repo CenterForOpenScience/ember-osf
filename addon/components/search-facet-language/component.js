@@ -1,11 +1,10 @@
 import Ember from 'ember';
+import langs from 'npm:langs';
 import { termsFilter, getUniqueList } from '../../utils/elastic-query';
-import langs from 'langs';
-import layout from '/.template';
+import layout from './template';
 
 export default Ember.Component.extend({
     layout,
-
     metrics: Ember.inject.service(),
     category: 'filter-facets',
 
