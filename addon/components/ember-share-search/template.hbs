@@ -25,34 +25,35 @@
 </div>
 <div class="search-below-the-fold">
     <div class="container">
-        <hr class='results-top'>
-        <div class="row search-results-section">
-            <div class="col-sm-3 col-xs-12 faceted-search-item-bar"> {{!LEFT PANEL - FILTER}}
-                {{faceted-search
-                    onChange='filtersChanged'
-                    updateParams='updateParams'
-                    filters=facetFilters
-                    facetStates=facetStates
-                    facets=facets
-                    aggregations=aggregations
-                }}
-            </div>
+        <div class='results-top'>
+            <div class="row search-results-section p-v-md">
+                <div class="col-sm-3 col-xs-12 faceted-search-item-bar"> {{!LEFT PANEL - FILTER}}
+                    {{faceted-search
+                        onChange='filtersChanged'
+                        updateParams='updateParams'
+                        filters=facetFilters
+                        facetStates=facetStates
+                        facets=facets
+                        aggregations=aggregations
+                    }}
+                </div>
 
-            <div class="col-sm-9 col-xs-12">  {{!RIGHT PANEL - SEARCH RESULTS}}
-                {{#if loading}}
-                    <div class="text-center">
-                        {{fa-icon 'spinner' pulse=true size=3}}
-                    </div>
-                {{else if noResultsMessage}}
-                    <div class="text-center no-results">{{noResultsMessage}}</div>
-                {{else}}
-                    {{#each results as |obj|}}
-                        {{search-result addFilter='addFilter' obj=obj}}
-                    {{/each}}
-                    <div class="pull-right text-right">
-                        {{page-controls page=page clampedPages=clampedPages loadPage=(action 'loadPage')}}
-                    </div>
-                {{/if}}
+                <div class="col-sm-9 col-xs-12">  {{!RIGHT PANEL - SEARCH RESULTS}}
+                    {{#if loading}}
+                        <div class="text-center p-v-md">
+                            {{fa-icon 'spinner' pulse=true size=3}}
+                        </div>
+                    {{else if noResultsMessage}}
+                        <div class="text-center no-results">{{noResultsMessage}}</div>
+                    {{else}}
+                        {{#each results as |obj|}}
+                            {{search-result addFilter='addFilter' obj=obj}}
+                        {{/each}}
+                        <div class="pull-right text-right">
+                            {{page-controls page=page clampedPages=clampedPages loadPage=(action 'loadPage')}}
+                        </div>
+                    {{/if}}
+                </div>
             </div>
         </div>
     </div>
