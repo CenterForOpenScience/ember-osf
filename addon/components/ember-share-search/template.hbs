@@ -21,12 +21,27 @@
                 <p class="lead">{{poweredBy}} <a href="https://share.osf.io/" class="share-logo" title="SHARE"></a></p> {{! powered by SHARE}}
             </div>
         </div>
+
+        <span class="pull-right p-v-sm"> {{!SORT BY}}
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="sortBy" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="true">
+                    Sort by: {{sort-option-display sortOptions sort}}
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="sortBy">
+                    {{#each sortOptions as |sortChoice|}}
+                        <li style="cursor: pointer; cursor: hand"><a {{action "selectSortOption" sortChoice.sortBy}}>{{sortChoice.display}}</a></li>
+                    {{/each}}
+                </ul>
+            </div>
+        </span>
     </div>
 </div>
 <div class="search-below-the-fold">
     <div class="container">
         <div class='results-top'>
-            <div class="row search-results-section p-v-md">
+            <div class="row search-results-section p-v-xl">
                 <div class="col-sm-3 col-xs-12 faceted-search-item-bar"> {{!LEFT PANEL - FILTER}}
                     {{faceted-search
                         onChange='filtersChanged'
