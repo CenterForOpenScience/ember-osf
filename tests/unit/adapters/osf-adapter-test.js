@@ -540,12 +540,14 @@ test('#findRecord can embed(via include) data with findRecord', function(assert)
                 title: 'Bar'
             })
         ];
-        node.get('children').pushObjects(children);
+    });
+    node.get('children').pushObjects(children);
+
+    Ember.run(() => {
         node.set('title', 'Parent');
-        store.findRecord('node', node.id, { include: 'children' }).then(res => {
+        store.findRecord('node', node.id, {include: 'children'}).then(res => {
             assert.equal(res.get('children').toArray()[0].get('title'), children[0].get('title'));
         });
-
     });
 });
 
