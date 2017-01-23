@@ -42,12 +42,9 @@
                     {{#if index}}
                         ,
                     {{/if}}
-                    <!--<a class="filter" {{!action 'addFilter' 'sources' source}}>-->
-                        <!--{{!source}}-->
-                    <!--</a>-->
                      <strong> {{source}} </strong>
                 {{/each}}
-
+             {{!Date Published}}
                  {{#if obj.date_published}}
                     <span class="pull-right">
                         {{moment-format obj.date_published}}
