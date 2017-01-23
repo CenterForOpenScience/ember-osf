@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { moduleFor, test } from 'ember-qunit';
 import FactoryGuy, { manualSetup, mockSetup, mockUpdate,
-    mockTeardown, mockFind, mockReload } from 'ember-data-factory-guy';
+    mockTeardown, mockFindRecord, mockReload } from 'ember-data-factory-guy';
 
 /*
  * assertions:
@@ -170,7 +170,7 @@ test('updateContents sends valid waterbutler request', function(assert) {
     };
     let freshModel = FactoryGuy.build('file', { id: file.id,
                                       dateModified: new Date() });
-    mockFind('file', file.id).returns({json:freshModel});
+    mockFindRecord('file', {id: file.id}).returns({json:freshModel});
 
     mockWaterbutler(assert, request, response);
 

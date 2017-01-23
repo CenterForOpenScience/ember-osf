@@ -86,6 +86,9 @@ export default Ember.Component.extend({
                 !((this.get('yearRequired') && !values.year) || (this.get('copyrightHoldersRequired') && values.copyrightHolders.length === 0))
             );
         },
+        sendSubmit() {
+            this.sendAction('pressSubmit');
+        },
         dismiss() {
             this.attrs.dismiss();
         }
