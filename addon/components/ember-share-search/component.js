@@ -31,6 +31,7 @@ export default Ember.Component.extend({
     searchButton: 'Search',
     poweredBy: 'powered by',
     noResults: 'No results. Try removing some filters.',
+    pageHeader: null,
 
     metrics: Ember.inject.service(),
     category: 'discover',

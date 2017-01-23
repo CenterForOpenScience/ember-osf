@@ -2,8 +2,8 @@
     <div class="search-header">
         <div class="row m-v-md"> {{!LOGO}}
             <div class="col-xs-12 text-center">
-                {{#if page-header}}
-                    <h1> {{page-header}}</h1> {{!TEXT HEADER FOR PARTICULAR SERVICE}}
+                {{#if pageHeader}}
+                    <h1 class="service-name"> {{pageHeader}}</h1> {{!TEXT HEADER FOR PARTICULAR SERVICE}}
                 {{else}}
                      <h1 class="service-logo"></h1> {{!LOGO FOR PARTICULAR SERVICE}}
                 {{/if}}
@@ -18,7 +18,8 @@
                         <button class="btn btn-default" type="button"> {{searchButton}} </button>
                     </span>
                 </div>
-                <p class="lead">{{poweredBy}} <a href="https://share.osf.io/" class="share-logo" title="SHARE"></a></p> {{! powered by SHARE}}
+                {{!POWERED BY SHARE}}
+                <p class="lead">{{poweredBy}} <a href="https://share.osf.io/" class="share-logo" title="SHARE"></a></p>
             </div>
         </div>
 
