@@ -1,3 +1,52 @@
-<td>{{version.id}}</td>
-<td>{{version.size}}</td>
-<td><button {{action 'downloadVersion' version.id}}>{{fa-icon 'download'}}</button></td>
+<td>
+    {{#if isActive}}
+        {{version.id}}
+    {{else}}
+        {{#link-to 'file-detail' (query-params version=version.id)}}{{version.id}}{{/link-to}}
+    {{/if}}
+</td>
+<td>{{date-format version.dateModified}}</td>
+<td><a href="/{{version.creator.id}}/">{{version.creator.fullName}}</a></td>
+<td>
+    <div class="badge">{{version.extra.downloads}}</div>
+</td>
+<td>
+    <button {{action 'downloadVersion' version.id}}
+            class="btn btn-primary btn-sm file-download">
+        {{fa-icon 'download'}}
+    </button>
+</td>
+<td>
+    <div style="width: 180px;" class="input-group">
+        <span class="input-group-btn">
+            <button type="button"
+                    class="btn btn-default btn-sm"
+                    data-clipboard-text={{version.extra.hashes.md5}}
+                    {{action 'copy' 'md5'}}>
+                <div class="fa fa-copy"></div>
+            </button>
+        </span>
+        <input type="text"
+               class="md5"
+               readonly="readonly"
+               style="float:left; height: 30px;"
+               value={{version.extra.hashes.md5}}>
+    </div>
+</td>
+<td>
+    <div style="width: 180px;" class="input-group">
+        <span class="input-group-btn">
+            <button type="button"
+                    class="btn btn-default btn-sm"
+                    data-clipboard-text={{version.extra.hashes.sha256}}
+                    {{action 'copy' 'sha256'}}>
+                <div class="fa fa-copy"></div>
+            </button>
+        </span>
+        <input type="text"
+               class="sha256"
+               readonly="readonly"
+               style="float:left; height: 30px;"
+               value={{version.extra.hashes.sha256}}>
+    </div>
+</td>

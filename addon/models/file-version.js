@@ -17,5 +17,10 @@ import OsfModel from './osf-model';
 */
 export default OsfModel.extend({
     size: DS.attr('number'),
-    contentType: DS.attr('string')
+    contentType: DS.attr('string'),
+    dateModified: DS.attr('date'),
+    extra: DS.attr(),
+    creator: DS.belongsTo('user', {
+        inverse: null
+    })
 });

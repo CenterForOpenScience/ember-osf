@@ -354,17 +354,21 @@ export default Ember.Service.extend({
             this._reloadingUrls[reloadUrl] = true;
         }
 
-        return model.reload().then((freshModel) => {
-            if (reloadUrl) {
-                delete this._reloadingUrls[reloadUrl];
-            }
-            return freshModel;
-        }).catch((error) => {
-            if (reloadUrl) {
-                delete this._reloadingUrls[reloadUrl];
-            }
-            throw error;
-        });
+        model.get('versions').reload();
+
+        return model.reload()
+            .then((freshModel) => {
+                if (reloadUrl) {
+                    delete this._reloadingUrls[reloadUrl];
+                }
+                return freshModel;
+            })
+            .catch((error) => {
+                if (reloadUrl) {
+                    delete this._reloadingUrls[reloadUrl];
+                }
+                throw error;
+            });
     },
 
     /**
