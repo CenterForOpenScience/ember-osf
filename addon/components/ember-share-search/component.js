@@ -189,7 +189,7 @@ export default Ember.Component.extend({
 
             query[queryKey] = lockedParams[key];
             queryBody.push({
-               "term": query
+                term: query
             });
         });
         return queryBody;

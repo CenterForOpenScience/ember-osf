@@ -16,7 +16,7 @@
             <p>
                 {{#each contributors as |contrib index|}}
                     {{#if index~}}
-                        ,
+                        <span> , </span>
                     {{~/if}}
                     {{contrib.name~}}
                 {{/each}}
@@ -29,7 +29,7 @@
             <p>
                 <div class="text-muted m-t-sm">
                     {{#if abbreviation}}
-                        {{{abbreviation}}}
+                        {{abbreviation}}
                         {{#if abbreviated}}
                             <span class="text-muted">...</span>
                         {{/if}}
@@ -39,14 +39,14 @@
 
             {{!Provider}}
             <div class="m-t-sm">
-                 {{#each obj.sources as |source index|}}
+                {{#each obj.sources as |source index|}}
                     {{#if index}}
-                        ,
+                        <span>,</span>
                     {{/if}}
-                     <strong> {{source}} </strong>
+                    <strong> {{source}} </strong>
                 {{/each}}
-             {{!Date Published}}
-                 {{#if obj.date_published}}
+                {{!Date Published}}
+                {{#if obj.date_published}}
                     <span class="pull-right">
                         {{moment-format obj.date_published}}
                     </span>
@@ -64,7 +64,7 @@
                 {{/if}}
 
                 {{!Tags}}
-                 {{#each tags as |tag|}}
+                {{#each tags as |tag|}}
                     <a {{action 'addFilter' 'tags' tag}}>
                         <span class="badge">{{tag}}</span>
                     </a>

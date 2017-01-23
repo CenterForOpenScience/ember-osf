@@ -37,7 +37,7 @@ export default Ember.Component.extend({
         return (this.get('obj.tags') || []).slice(this.get('maxTags'));
     }),
     identifiers: Ember.computed('obj.identifiers', function() {
-       return this.get('obj.identifiers');
+        return this.get('obj.identifiers');
     }),
     tags: Ember.computed('obj.tags', function() {
         return (this.get('obj.tags') || []).slice(0, this.get('maxTags'));
