@@ -5,8 +5,6 @@ import layout from './template';
 
 export default Ember.Component.extend({
     layout,
-    metrics: Ember.inject.service(),
-    category: 'filter-facets',
 
     init() {
         this._super(...arguments);
@@ -58,12 +56,6 @@ export default Ember.Component.extend({
 
     actions: {
         changeFilter(languageNames) {
-            const category = this.get('category');
-            const action = 'filter';
-            const label = languageNames;
-
-            this.get('metrics').trackEvent({ category, action, label });
-
             let key = this.get('key');
             let { filter: filter, value: value } = this.buildQueryObject(languageNames || []);
             this.set('previousState', this.get('state'));

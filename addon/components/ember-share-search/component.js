@@ -61,9 +61,6 @@ export default Ember.Component.extend({
     pageHeader: null,
     lockedParams: {}, // Example: {'sources': 'PubMed Central'} will make PubMed Central a locked source that cannot be changed
 
-    metrics: Ember.inject.service(),
-    category: 'discover',
-
     queryParams:  Ember.computed(function() {
         let allParams = ['q', 'start', 'end', 'sort', 'page'];
         allParams.push(...filterQueryParams);
@@ -353,24 +350,12 @@ export default Ember.Component.extend({
     actions: {
 
         addFilter(type, filterValue) {
-            // const category = this.get('category');
-            // const action = 'add-filter';
-            // const label = filterValue;
-
-            // this.get('metrics').trackEvent({ category, action, label });
-
             let currentValue = getSplitParams(this.get(type)) || [];
             let newValue = getUniqueList([filterValue].concat(currentValue));
             this.set(type, encodeParams(newValue));
         },
 
         removeFilter(type, filterValue) {
-            const category = this.get('category');
-            const action = 'remove-filter';
-            const label = filterValue;
-
-            this.get('metrics').trackEvent({ category, action, label });
-
             let currentValue = getSplitParams(this.get(type)) || [];
             let index = currentValue.indexOf(filterValue);
             if (index > -1) {
@@ -399,12 +384,6 @@ export default Ember.Component.extend({
         },
 
         search() {
-            // const category = this.get('category');
-            // const action = 'search';
-            // const label = this.get('q');
-            //
-            // this.get('metrics').trackEvent({ category, action, label });
-
             this.search();
         },
 
@@ -431,12 +410,6 @@ export default Ember.Component.extend({
                 return;
             }
 
-            const category = this.get('category');
-            const action = 'load-result-page';
-            const label = newPage;
-
-            this.get('metrics').trackEvent({ category, action, label });
-
             this.set('page', newPage);
             if (scroll) {
                 this.scrollToResults();
@@ -450,12 +423,6 @@ export default Ember.Component.extend({
         },
 
         clearFilters() {
-            const category = this.get('category');
-            const action = 'clear-filters';
-            const label = 'clear';
-
-            this.get('metrics').trackEvent({ category, action, label });
-
             this.set('facetFilters', Ember.Object.create());
             for (var param in filterQueryParams) {
                 let key = filterQueryParams[param];
