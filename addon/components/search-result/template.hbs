@@ -1,3 +1,4 @@
+{{! Template similar to Ember-Preprints Layout, but using Ember-SHARE properties}}
 <div class="search-result p-sm">
     <div class="row">
         <div class="col-xs-12">
@@ -14,10 +15,10 @@
             {{!Authors}}
             <p>
                 {{#each contributors as |contrib index|}}
-                    {{#if index}}
-                        -
-                    {{/if}}
-                    {{if contrib.cited_as contrib.cited_as contrib.name}}
+                    {{#if index~}}
+                        ,
+                    {{~/if}}
+                    {{contrib.name~}}
                 {{/each}}
                 {{#if extraContributors}} {{!+5, for example}}
                     <span class="text-muted">+{{extraContributors.length}}</span>
@@ -71,7 +72,6 @@
                 {{#if extraTags}}
                     <span class="text-muted">+{{extraTags.length}}</span>
                 {{/if}}
-
             {{/if}}
 
         </div>
