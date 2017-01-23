@@ -11,12 +11,39 @@ import { getUniqueList, getSplitParams, encodeParams } from '../../utils/elastic
 
 /**
  * Ember share-search component. Component that can build majority of search page that utilizes SHARE.
+ * See retraction-watch for working example.
  * Adapted from Ember-SHARE https://github.com/CenterForOpenScience/ember-share
  *
- * Sample usage:
+ * Sample usage: Pass in custom text like searchPlaceholder.  The facet property will enable you to customize the filters
+ *  on the left-hand side of the discover page. Sort options are the sort dropdown options.  The lockedParams are the
+ *  query parameters that are always locked in your application.  Also, each query parameter must be passed in individually,
+ *  so they are reflected in the URL.  Logo and custom colors must be placed in your application's stylesheet. Individual components
+ *  can be overridden on your application.
+ *
+ *
  * ```handlebars
- * {{ember-share-search
- *   TODO}}
+ *{{ember-share-search
+ *   searchPlaceholder=(t 'discover.search.placeholder')
+ *   searchButton=(t 'global.search')
+ *   poweredBy=(t 'discover.search.paragraph')
+ *   queryParams=queryParams
+ *   facets=facets (list of dictionaries. Keys include key, title, component, and locked_item)
+ *   sortOptions=sortOptions (list of dictionaries, with keys display and sortBy)
+ *   lockedParams=lockedParams (hash of query parameters that are locked. For example, on retraction watch, {types: 'retraction'})
+ *   q=q
+ *   tags=tags
+ *   sources=sources
+ *   publishers=publishers
+ *   funders=funders
+ *   institutions=institutions
+ *   organizations=organizations
+ *   language=language
+ *   contributors=contributors
+ *   start=start
+ *   end=end
+ *   type=type
+ *   sort=sort
+* }}
  * ```
  * @class ember-share-search
  */
@@ -32,6 +59,7 @@ export default Ember.Component.extend({
     poweredBy: 'powered by',
     noResults: 'No results. Try removing some filters.',
     pageHeader: null,
+    lockedParams: {}, // Example: {'sources': 'PubMed Central'} will make PubMed Central a locked source that cannot be changed
 
     metrics: Ember.inject.service(),
     category: 'discover',
@@ -149,8 +177,28 @@ export default Ember.Component.extend({
         return config.SHARE.searchUrl;
     }),
 
+    buildLockedQueryBody(lockedParams) {
+        // Takes in a dictionary of locked param keys matched to the locked value and builds the locked portion of the query
+        let queryBody = [];
+        Object.keys(lockedParams).forEach(key => {
+            let query = {};
+            let queryKey = [`${key}.raw`]; //Change to .exact at some point?
+            if (key === 'tags') {
+                queryKey = key;
+            } else if (key === 'contributors') {
+                queryKey = 'lists.contributors.name.raw'; //Change to .exact at some point?
+            }
+
+            query[queryKey] = lockedParams[key];
+            queryBody.push({
+               "term": query
+            });
+        });
+        return queryBody;
+    },
+
     getQueryBody() {
-        let filters = this.get('lockedQueryBody'); // Either empty array or search facets that are automatically set
+        let filters = this.buildLockedQueryBody(this.get('lockedParams')); // Empty list if no locked query parameters
         let facetFilters = this.get('facetFilters');
         for (let k of Object.keys(facetFilters)) {
             let filter = facetFilters[k];
