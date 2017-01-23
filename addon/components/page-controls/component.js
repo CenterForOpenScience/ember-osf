@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import layout from './template';
 
+// Copied from Ember-SHARE.  For use in ember-share-search component.  Pagination on Discover Page.
 export default Ember.Component.extend({
     layout,
     atFirstPage: Ember.computed.equal('page', 1),

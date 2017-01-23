@@ -3,6 +3,7 @@ import Ember from 'ember';
 import layout from './template';
 import TypeaheadComponent from '../search-facet-typeahead/component';
 
+// Copied from Ember-SHARE.  Sources facet. Uses C3 charts.
 export default TypeaheadComponent.extend({
     layout,
     c3: Ember.inject.service(),

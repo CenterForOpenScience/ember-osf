@@ -3,6 +3,7 @@ import Ember from 'ember';
 import config from 'ember-get-config';
 import { termsFilter, getUniqueList } from '../../utils/elastic-query';
 
+// Copied from Ember-SHARE.  Typeahead facet - used for items like organization, tags, people filter.
 export default Ember.Component.extend({
     layout,
 

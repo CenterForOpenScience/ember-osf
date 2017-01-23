@@ -18,7 +18,7 @@ import { getUniqueList, getSplitParams, encodeParams } from '../../utils/elastic
  *  on the left-hand side of the discover page. Sort options are the sort dropdown options.  The lockedParams are the
  *  query parameters that are always locked in your application.  Also, each query parameter must be passed in individually,
  *  so they are reflected in the URL.  Logo and custom colors must be placed in your application's stylesheet. Individual components
- *  can be overridden on your application.
+ *  can additionally be overridden on your application.
  *
  *
  * ```handlebars
@@ -195,6 +195,7 @@ export default Ember.Component.extend({
         return queryBody;
     },
 
+    // Builds SHARE query
     getQueryBody() {
         let filters = this.buildLockedQueryBody(this.get('lockedParams')); // Empty list if no locked query parameters
         let facetFilters = this.get('facetFilters');

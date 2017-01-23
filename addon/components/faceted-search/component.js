@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import layout from './template';
 
+// Copied from Ember-SHARE - Filter options on left hand pane of Discover Page
 export default Ember.Component.extend({
     layout,
     init() {

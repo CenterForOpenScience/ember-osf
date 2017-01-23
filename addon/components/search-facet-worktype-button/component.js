@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import layout from './template';
 
+// Copied from Ember-SHARE.  Worktype button.
 export default Ember.Component.extend({
     layout,
     tagName: 'button',

@@ -2,6 +2,7 @@ import Ember from 'ember';
 import layout from './template';
 import { termsFilter, getUniqueList } from '../../utils/elastic-query';
 
+// Copied from Ember-SHARE.  Type facet.
 export default Ember.Component.extend({
     layout,
     init() {

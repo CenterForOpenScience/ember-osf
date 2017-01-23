@@ -3,6 +3,7 @@ import langs from 'npm:langs';
 import { termsFilter, getUniqueList } from '../../utils/elastic-query';
 import layout from './template';
 
+// Copied from Ember-SHARE.  Language facet.
 export default Ember.Component.extend({
     layout,
 

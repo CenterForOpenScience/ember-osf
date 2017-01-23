@@ -1,3 +1,4 @@
+{{!Component builds DISCOVER PAGE - Blend of Ember-SHARE and Preprints Discover pages}}
 <div class="container">
     <div class="search-header">
         <div class="row m-v-md"> {{!LOGO}}
@@ -5,7 +6,7 @@
                 {{#if pageHeader}}
                     <h1 class="service-name"> {{pageHeader}}</h1> {{!TEXT HEADER FOR PARTICULAR SERVICE}}
                 {{else}}
-                     <h1 class="service-logo"></h1> {{!LOGO FOR PARTICULAR SERVICE}}
+                     <h1 class="service-logo"></h1> {{!LOGO FOR PARTICULAR SERVICE - ADD IN YOUR CLIENT APPLICATION}}
                 {{/if}}
             </div>
         </div>
@@ -52,7 +53,7 @@
 <div class="search-below-the-fold">
     <div class="container">
         <div class='results-top'>
-            <div class="row search-results-section p-v-xl">
+            <div class="row search-results-section p-v-lg">
                 <div class="col-sm-3 col-xs-12 faceted-search-item-bar"> {{!LEFT PANEL - FILTER}}
                     {{faceted-search
                         onChange='filtersChanged'

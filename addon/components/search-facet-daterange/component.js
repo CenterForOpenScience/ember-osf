@@ -5,6 +5,7 @@ import { dateRangeFilter } from '../../utils/elastic-query';
 
 const DATE_FORMAT = 'Y-MM-DD';
 
+// Copied from Ember-SHARE.  Datepicker facet. Need to add styles to client application (@import 'daterangepicker.scss';)
 export default Ember.Component.extend({
     layout,
 
