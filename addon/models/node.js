@@ -63,6 +63,7 @@ export default OsfModel.extend(FileItemMixin, {
         allowBulkRemove: true,
         inverse: 'node'
     }),
+    citation: DS.belongsTo('citation'),
 
     license: DS.belongsTo('license', {
         inverse: null
