@@ -1,4 +1,3 @@
-**/.gitkeep
 /bower_components
 /config/ember-try.js
 /config/*.yml
