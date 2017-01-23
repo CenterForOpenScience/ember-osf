@@ -11,7 +11,10 @@
     "docs": "yuidoc",
     "start": "ember server",
     "check-style": "./node_modules/jscs/bin/jscs .",
-    "test": "yarn run check-style && ember test"
+    "test": "yarn run check-style && ember test",
+    "release": "npm --no-git-tag-version version",
+    "preversion": "yarn test && yarn run docs",
+    "postversion": "git flow release start $npm_package_version && git flow release finish $npm_package_version"
   },
   "repository": {
     "type": "git",
