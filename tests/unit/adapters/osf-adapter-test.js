@@ -11,7 +11,7 @@ import OsfAdapter from 'ember-osf/adapters/osf-adapter';
 
 moduleFor('adapter:osf-adapter', 'Unit | Adapter | osf adapter', {
     needs: [
-        'model:comment', 'model:contributor', 'model:draft-registration', 'model:file-provider',
+        'model:citation', 'model:comment', 'model:contributor', 'model:draft-registration', 'model:file-provider',
         'model:institution', 'model:log', 'model:node', 'model:node-link', 'model:registration', 'model:user', 'model:preprint',
         'adapter:osf-adapter', 'adapter:node', 'adapter:user',
         'serializer:node',
@@ -545,10 +545,9 @@ test('#findRecord can embed(via include) data with findRecord', function(assert)
 
     Ember.run(() => {
         node.set('title', 'Parent');
-        store.findRecord('node', node.id, { include: 'children' }).then(res => {
+        store.findRecord('node', node.id, {include: 'children'}).then(res => {
             assert.equal(res.get('children').toArray()[0].get('title'), children[0].get('title'));
         });
-
     });
 });
 
