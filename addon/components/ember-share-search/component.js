@@ -58,6 +58,7 @@ export default Ember.Component.extend({
     searchButton: 'Search',
     poweredBy: 'powered by',
     noResults: 'No results. Try removing some filters.',
+    clearFiltersButton: `Clear filters`,
     pageHeader: null,
     lockedParams: {}, // Example: {'sources': 'PubMed Central'} will make PubMed Central a locked source that cannot be changed
 

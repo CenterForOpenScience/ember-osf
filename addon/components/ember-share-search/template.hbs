@@ -26,7 +26,7 @@
         <div class="row p-v-sm">
             <div class="col-xs-6">
                 <button {{action 'clearFilters'}} class='btn btn-default clear-filters'>
-                    Clear filters
+                    {{clearFiltersButton}}
                 </button>
             </div>
             <div class="col-sm-6">
@@ -75,7 +75,7 @@
                         {{#each results as |obj|}}
                             {{search-result addFilter='addFilter' obj=obj}}
                         {{/each}}
-                        <div class="pull-right text-right">
+                        <div class="pull-right text-right pagination-format p-xs">
                             {{page-controls page=page clampedPages=clampedPages loadPage=(action 'loadPage')}}
                         </div>
                     {{/if}}
