@@ -1,11 +1,11 @@
 {{!Copied from Ember-SHARE}}
-<div class="faceted-search-item-bar p-v-md">
+<div class="p-v-md">
     {{#each facets as |facet|}}
         <div class='panel panel-default'>
             <div class='panel-heading'>
                 {{facet.title}}
             </div>
-            <div class='panel-body'>
+            <div class='panel-body individual-facet'>
                 {{component facet.component
                 key=facet.key
                 options=facet
