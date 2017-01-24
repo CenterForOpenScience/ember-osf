@@ -6,7 +6,8 @@ module('Unit | Helper | share detail url');
 
 // Replace this with your real tests.
 test('it works', function(assert) {
-  let result = shareDetailURL([42]);
-  assert.ok(result);
+    const type = 'retraction';
+    const id= '12345';
+    let result = shareDetailURL([type, id]);
+     assert.equal(result, '/nowhere/retraction/12345');
 });
-
