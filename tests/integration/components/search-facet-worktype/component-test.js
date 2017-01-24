@@ -9,8 +9,19 @@ test('it renders', function(assert) {
 
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
+    this.set('key', 'type');
+    this.set('title', 'Type');
+    this.set('state', ['Publication']);
+    this.set('filter', '');
+    this.set('onChange', () => {});
 
-  this.render(hbs`{{search-facet-worktype}}`);
+    this.render(hbs`{{search-facet-worktype
+        key=key
+        state=state
+        filter=filter
+        onChange=(action onChange)
+        selected=selected
+    }}`);
 
-  assert.equal(this.$().text().trim(), '');
+  assert.equal(document.getElementsByTagName('button')[1].innerText, 'Publication');
 });
