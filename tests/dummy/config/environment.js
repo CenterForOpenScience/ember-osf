@@ -54,6 +54,12 @@ module.exports = function(environment) {
         ENV.baseURL = '/';
         ENV.locationType = 'none';
 
+        ENV.SHARE = {
+            baseURL: '/nowhere/',
+            searchUrl: '/nowhere/',
+            baseUrl: '/nowhere/'
+        };
+
         // keep test console output quieter
         ENV.APP.LOG_ACTIVE_GENERATION = false;
         ENV.APP.LOG_VIEW_LOOKUPS = false;
