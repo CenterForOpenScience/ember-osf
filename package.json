@@ -12,9 +12,10 @@
     "start": "ember server",
     "check-style": "./node_modules/jscs/bin/jscs .",
     "test": "yarn run check-style && ember test",
-    "make-release": "npm --no-git-tag-version version ",
+    "bump-version": "npm --no-git-tag-version version ",
     "preversion": "git-branch-is develop && yarn test",
-    "postversion": "yarn run docs && git add package.json ./docs && git commit -m 'Update documentation for release' && git flow release start $npm_package_version && git flow release finish $npm_package_version"
+    "postversion": "yarn run docs",
+    "make-release": "git-branch-is develop && git flow release start $npm_package_version && git flow release finish $npm_package_version"
   },
   "repository": {
     "type": "git",
