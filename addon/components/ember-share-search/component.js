@@ -350,6 +350,11 @@ export default Ember.Component.extend({
     },
 
     actions: {
+        // COPIED FROM EMBER-SHARE/APP/ROUTES/DISCOVER.JS. What does this do??
+        elasticDown() {
+            // this.intermediateTransitionTo('elastic-down');
+            return false;
+        },
 
         addFilter(type, filterValue) {
             let currentValue = getSplitParams(this.get(type)) || [];

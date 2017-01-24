@@ -6,20 +6,21 @@ moduleForComponent('search-facet-daterange', 'Integration | Component | search f
 });
 
 test('it renders', function(assert) {
+    this.set('key', 'date');
+    this.set('options', { key: 'date', title: 'Date', component: 'search-facet-daterange' });
+    this.set('state', '');
+    this.set('filter', '');
+    this.set('onChange', () => {});
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+    this.render(hbs`{{search-facet-daterange
+        key=key
+        options=options
+        state=state
+        filter=filter
+        onChange=(action onChange)
+    }}`);
 
-  this.render(hbs`{{search-facet-daterange}}`);
-
-  assert.equal(this.$().text().trim(), '');
-
-  // Template block usage:
-  this.render(hbs`
-    {{#search-facet-daterange}}
-      template block text
-    {{/search-facet-daterange}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
+    assert.equal(this.$().text().trim(), 'All time');
 });
+
+

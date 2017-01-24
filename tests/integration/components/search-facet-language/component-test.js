@@ -5,21 +5,25 @@ moduleForComponent('search-facet-language', 'Integration | Component | search fa
   integration: true
 });
 
+
 test('it renders', function(assert) {
 
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
+        this.set('key', 'languages');
+        this.set('options', { key: 'languages', title: 'Language', component: 'search-facet-language' } );
+        this.set('state', '');
+        this.set('filter', '');
+        this.set('onChange', () => {});
 
-  this.render(hbs`{{search-facet-language}}`);
+        this.render(hbs`{{search-facet-language
+            key=key
+            options=options
+            state=state
+            filter=filter
+            onChange=(action onChange)
+        }}`);
 
-  assert.equal(this.$().text().trim(), '');
-
-  // Template block usage:
-  this.render(hbs`
-    {{#search-facet-language}}
-      template block text
-    {{/search-facet-language}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
+        assert.equal(this.$()[0].innerText.trim(), 'Add Language filter');
 });
+
