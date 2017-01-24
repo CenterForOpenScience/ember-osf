@@ -13,13 +13,4 @@ test('it renders', function(assert) {
   this.render(hbs`{{search-facet-typeahead}}`);
 
   assert.equal(this.$().text().trim(), '');
-
-  // Template block usage:
-  this.render(hbs`
-    {{#search-facet-typeahead}}
-      template block text
-    {{/search-facet-typeahead}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
 });

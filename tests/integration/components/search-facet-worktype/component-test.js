@@ -13,13 +13,4 @@ test('it renders', function(assert) {
   this.render(hbs`{{search-facet-worktype}}`);
 
   assert.equal(this.$().text().trim(), '');
-
-  // Template block usage:
-  this.render(hbs`
-    {{#search-facet-worktype}}
-      template block text
-    {{/search-facet-worktype}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
 });

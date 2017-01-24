@@ -13,13 +13,4 @@ test('it renders', function(assert) {
   this.render(hbs`{{search-facet-source}}`);
 
   assert.equal(this.$().text().trim(), '');
-
-  // Template block usage:
-  this.render(hbs`
-    {{#search-facet-source}}
-      template block text
-    {{/search-facet-source}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
 });
