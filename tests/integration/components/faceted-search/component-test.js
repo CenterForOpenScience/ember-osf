@@ -5,20 +5,35 @@ moduleForComponent('faceted-search', 'Integration | Component | faceted search',
   integration: true
 });
 
+ // {{faceted-search
+ //                        onChange='filtersChanged'
+ //                        updateParams='updateParams'
+ //                        filters=facetFilters
+ //                        facetStates=facetStates
+ //                        facets=facets
+ //                        aggregations=aggregations
+ //                    }}
+
 test('it renders', function(assert) {
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
 
-  this.render(hbs`{{faceted-search}}`);
+    let noop = () => {};
+    this.set('noop', noop);
+    this.set('facetStates', {contributors: '', language: ''});
+    this.set('facets', [{
+        key: 'sources', title: 'Sources', component: 'search-facet-locked', locked_items: ['PubMedCentral']
+    }]);
+    this.set('filters', {});
 
-  assert.equal(this.$().text().trim(), '');
+  this.render(hbs`{{faceted-search
+      onChange=(action noop)
+      updateParams=(action noop)
+      facetStates=facetStates
+      facets=facets
+      filters=filters
+  
+  }}`);
 
-  // Template block usage:
-  this.render(hbs`
-    {{#faceted-search}}
-      template block text
-    {{/faceted-search}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
+  assert.equal(document.getElementsByTagName('button')[1].firstChild.nodeValue, 'PubMedCentral');
 });

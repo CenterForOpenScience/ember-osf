@@ -8,17 +8,21 @@ moduleForComponent('ember-share-search', 'Integration | Component | ember share 
 test('it renders', function(assert) {
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
+    this.set('shareSearchUrl', 'https://staging-share.osf.io/api/v2/search/creativeworks/_search');
+    this.set('facets', [{
+        key: 'sources', title: 'Sources', component: 'search-facet-locked', locked_items: ['PubMedCentral']
+    }]);
+    this.set('searchPlaceholder', 'Test Placeholder');
 
-  this.render(hbs`{{ember-share-search}}`);
+    this.render(hbs`{{ember-share-search
+        shareSearchUrl=shareSearchUrl
+        facets=facets
+        searchPlaceholder=searchPlaceholder
+    
+    }}`);
 
-  assert.equal(this.$().text().trim(), '');
+    let placeholder = this.$('div.search-header').children()[1].firstElementChild.firstElementChild.firstElementChild.placeholder;
 
-  // Template block usage:
-  this.render(hbs`
-    {{#ember-share-search}}
-      template block text
-    {{/ember-share-search}}
-  `);
+    assert.equal(placeholder, 'Test Placeholder');
 
-  assert.equal(this.$().text().trim(), 'template block text');
 });

@@ -8,17 +8,16 @@ moduleForComponent('page-controls', 'Integration | Component | page controls', {
 test('it renders', function(assert) {
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
+    this.set('page', 1);
+    this.set('clampedPages', 3);
+    this.set('loadPage', () => {});
 
-  this.render(hbs`{{page-controls}}`);
+  this.render(hbs`{{page-controls
+      page=page
+      clampedPages=clampedPages
+      loadPage=(action loadPage)
+  
+  }}`);
 
-  assert.equal(this.$().text().trim(), '');
-
-  // Template block usage:
-  this.render(hbs`
-    {{#page-controls}}
-      template block text
-    {{/page-controls}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
+  assert.equal(this.$()[0].innerText.trim(), '1 2 3');
 });
