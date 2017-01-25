@@ -1,7 +1,9 @@
-import fixSpecialChar from 'dummy/utils/fix-special-char';
+
+import { fixSpecialCharHelper } from 'dummy/helpers/fix-special-char-helper';
 import { module, test } from 'qunit';
 
-module('Unit | Utility | fix special char');
+module('Unit | Helper | fix special char helper');
+
 
 const testCases = [
     ['a regular string', 'a regular string'],
@@ -12,11 +14,11 @@ const testCases = [
 ];
 
 
-test('#fixSpecialChar converts values sent from the server into something display friendly', function(assert) {
+test('#fixSpecialCharHelper uses fixSpecialChar', function(assert) {
     assert.expect(testCases.length);
 
     for (let [input, output] of testCases) {
-        let res = fixSpecialChar(input);
+        let res = fixSpecialCharHelper([input]);
         assert.equal(res, output);
     }
 });
