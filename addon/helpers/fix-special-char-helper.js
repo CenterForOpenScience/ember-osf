@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import fixSpecialChar from 'dummy/utils/fix-special-char';
+import fixSpecialChar from '../utils/fix-special-char';
 
 export function fixSpecialCharHelper(params/*, hash*/) {
     return params ? fixSpecialChar(params[0]) : params;
