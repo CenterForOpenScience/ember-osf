@@ -78,6 +78,22 @@ If for some reason you don't have a config/local.yml you can generate one. To do
 ember generate ember-osf
 ```
 
+#### Advanced usage: Selecting an authorization type
+We expect that most projects based on `ember-osf` will authenticate via OAuth 2.0 ("Token Login"); the addon is 
+configured to use this out of the box, so long as you provide your own login page based on the appropriate mixins.
+
+If you are developing an application that will be hosted under the `osf.io` domain, you may wish to use cookie-based 
+authentication instead. In that rare case, add the following lines to your `config/environment.js` file:
+
+```javascript
+    ENV.authorizationType = 'cookie';
+    
+    ENV['ember-simple-auth'] = {
+        authorizer: `authorizer:osf-${defaultAuthorizationType}`,
+        authenticator: `authenticator:osf-${defaultAuthorizationType}`
+    };
+```
+
 ## Usage
 
 #### Ember Data: Using the OSF models
