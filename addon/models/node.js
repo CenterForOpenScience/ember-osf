@@ -28,7 +28,8 @@ export default OsfModel.extend(FileItemMixin, {
     description: DS.attr('fixstring'),
     category: DS.attr('fixstring'),
 
-    currentUserPermissions: DS.attr('fixstring'),
+    // List of strings
+    currentUserPermissions: DS.attr(),
 
     fork: DS.attr('boolean'),
     collection: DS.attr('boolean'),
