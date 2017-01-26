@@ -1,5 +1,4 @@
-
-import { fixSpecialCharHelper } from 'dummy/helpers/fix-special-char-helper';
+import { fixSpecialCharHelper } from 'dummy/helpers/fix-special-char';
 import { module, test } from 'qunit';
 
 module('Unit | Helper | fix special char helper');
