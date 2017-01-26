@@ -65,12 +65,22 @@
 
                 {{!Tags}}
                 {{#each tags as |tag|}}
-                    <a {{action 'addFilter' 'tags' tag}}>
+                    <a class="filter" {{action 'addFilter' 'tags' tag}}>
                         <span class="badge">{{tag}}</span>
                     </a>
                 {{/each}}
                 {{#if extraTags}}
                     <span class="text-muted">+{{extraTags.length}}</span>
+                {{/if}}
+
+                {{!Subjects}}
+                {{#each subjects as |subject|}}
+                    <a class="filter" {{action 'addFilter' 'subjects' subject}}>
+                        <span class="badge">{{subject}}</span>
+                    </a>
+                {{/each}}
+                {{#if extraSubjects}}
+                    <span class="text-muted">+{{extraSubjects.length}}</span>
                 {{/if}}
             {{/if}}
 

@@ -5,6 +5,7 @@ import layout from './template';
 export default Ember.Component.extend({
     layout,
     maxTags: 5,
+    maxSubjects: 5,
     maxContributors: 6,
     maxDescription: 350,
     showBody: false,
@@ -41,6 +42,12 @@ export default Ember.Component.extend({
     }),
     tags: Ember.computed('obj.tags', function() {
         return (this.get('obj.tags') || []).slice(0, this.get('maxTags'));
+    }),
+    subjects: Ember.computed('obj.subjects', function() {
+        return (this.get('obj.subjects') || []).slice(0, this.get('maxSubjects'));
+    }),
+    extraSubjects: Ember.computed('obj.subjects', function() {
+        return (this.get('obj.subjects') || []).slice(this.get('maxSubjects'));
     }),
     retractionId: Ember.computed('obj.lists.retractions[]', function() {
         const retractions = this.get('obj.lists.retractions');
