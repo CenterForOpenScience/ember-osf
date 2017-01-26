@@ -1,5 +1,7 @@
 import DS from 'ember-data';
 
+import fixSpecialChars from '../utils/fix-special-char';
+
 /**
  * @module ember-osf
  * @submodule transforms
@@ -21,12 +23,8 @@ import DS from 'ember-data';
   @class fixstring
   @extends DS.Transform
  */
-export default DS.Transform.extend({
+export default DS.StringTransform.extend({
     deserialize(serialized) {
-        return serialized ? serialized.replace(/&amp;/g, '&') : serialized;
-    },
-
-    serialize(deserialized) {
-        return deserialized;
+        return fixSpecialChars(this._super(serialized));
     }
 });
