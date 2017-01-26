@@ -166,15 +166,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "addon/components/navbar-auth-dropdown/component.js": {
-            "name": "addon/components/navbar-auth-dropdown/component.js",
-            "modules": {},
-            "classes": {
-                "navbar-auth-dropdown": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "addon/components/oauth-popup/component.js": {
             "name": "addon/components/oauth-popup/component.js",
             "modules": {},
@@ -642,17 +633,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "addon/transforms/fixstring.js": {
-            "name": "addon/transforms/fixstring.js",
-            "modules": {
-                "transforms": 1
-            },
-            "classes": {
-                "fixstring": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "addon/utils/ajax-helpers.js": {
             "name": "addon/utils/ajax-helpers.js",
             "modules": {
@@ -687,8 +667,7 @@
                 "mixins": 1,
                 "models": 1,
                 "serializers": 1,
-                "services": 1,
-                "transforms": 1
+                "services": 1
             },
             "elements": {},
             "classes": {
@@ -708,7 +687,6 @@
                 "file-renderer": 1,
                 "file-version": 1,
                 "file-widget": 1,
-                "navbar-auth-dropdown": 1,
                 "oauth-popup": 1,
                 "osf-copyright": 1,
                 "osf-footer": 1,
@@ -756,7 +734,6 @@
                 "OsfSerializer": 1,
                 "current-user": 1,
                 "file-manager": 1,
-                "fixstring": 1,
                 "auth": 1
             },
             "fors": {},
@@ -832,7 +809,6 @@
                 "file-renderer": 1,
                 "file-version": 1,
                 "file-widget": 1,
-                "navbar-auth-dropdown": 1,
                 "oauth-popup": 1,
                 "osf-copyright": 1,
                 "osf-footer": 1,
@@ -991,22 +967,6 @@
             "file": "addon/services/file-manager.js",
             "line": 11,
             "description": "Access information about the currently logged in user"
-        },
-        "transforms": {
-            "name": "transforms",
-            "submodules": {},
-            "elements": {},
-            "classes": {
-                "fixstring": 1
-            },
-            "fors": {},
-            "is_submodule": 1,
-            "namespaces": {},
-            "module": "ember-osf",
-            "namespace": "",
-            "file": "addon/transforms/fixstring.js",
-            "line": 8,
-            "description": "Custom field transform that abstracts away bad API behavior. In certain cases the server will insert HTML escape\n sequences into text. This allows them to be correctly and transparently used in templates without manually fixing\n these characters for display on each use.\n\n This transform is used when `fixstring` is passed as the type parameter to the DS.attr function.\n It replaces `&amp;` with `&`.\n  ```app/models/score.js\n   import DS from 'ember-data';\n   export default DS.Model.extend({\n      astring: DS.attr('fixstring'),\n   });\n ```"
         },
         "utils": {
             "name": "utils",
@@ -1340,21 +1300,6 @@
             "file": "addon/components/file-widget/component.js",
             "line": 13,
             "description": "Widget to quickly upload a file to a selected project\n```handlebars\n{{file-widget\n  preUpload=(action 'preUpload')\n  buildUrl=(action 'buildUrl')\n  listeners=dropzoneOptions\n  options=dropzoneOptions}}\n```"
-        },
-        "navbar-auth-dropdown": {
-            "name": "navbar-auth-dropdown",
-            "shortname": "navbar-auth-dropdown",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "ember-osf",
-            "submodule": "components",
-            "namespace": "",
-            "file": "addon/components/navbar-auth-dropdown/component.js",
-            "line": 10,
-            "description": "Display the login dropdown on the navbar\n\nSample usage:\n```handlebars\n{{navbar-auth-dropdown\n  loginAction=loginAction\n  redirectUrl=redirectUrl}}\n```"
         },
         "oauth-popup": {
             "name": "oauth-popup",
@@ -2175,22 +2120,6 @@
             "description": "An Ember service for doing things to files.\nEssentially a wrapper for the Waterbutler API.\nhttp://waterbutler.readthedocs.io/",
             "extends": "Ember.Service"
         },
-        "fixstring": {
-            "name": "fixstring",
-            "shortname": "fixstring",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "ember-osf",
-            "submodule": "transforms",
-            "namespace": "",
-            "file": "addon/transforms/fixstring.js",
-            "line": 8,
-            "description": "Custom field transform that abstracts away bad API behavior. In certain cases the server will insert HTML escape\n sequences into text. This allows them to be correctly and transparently used in templates without manually fixing\n these characters for display on each use.\n\n This transform is used when `fixstring` is passed as the type parameter to the DS.attr function.\n It replaces `&amp;` with `&`.\n  ```app/models/score.js\n   import DS from 'ember-data';\n   export default DS.Model.extend({\n      astring: DS.attr('fixstring'),\n   });\n ```",
-            "extends": "DS.Transform"
-        },
         "ajax-helpers": {
             "name": "ajax-helpers",
             "shortname": "ajax-helpers",
@@ -2224,17 +2153,7 @@
     "classitems": [
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 32,
-            "description": "Overrides buildQuery method - Allows users to embed resources with findRecord\nOSF APIv2 does not have \"include\" functionality, instead we use 'embed'.\nUsage: findRecord(type, id, {include: 'resource'}) or findRecord(type, id, {include: ['resource1', resource2]})\nSwaps included resources with embedded resources",
-            "itemtype": "method",
-            "name": "buildQuery",
-            "class": "OsfAdapter",
-            "module": "ember-osf",
-            "submodule": "adapters"
-        },
-        {
-            "file": "addon/adapters/osf-adapter.js",
-            "line": 66,
+            "line": 47,
             "description": "Construct a URL for a relationship create/update/delete.",
             "itemtype": "method",
             "name": "_buildRelationshipURL",
@@ -2262,7 +2181,7 @@
         },
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 84,
+            "line": 65,
             "description": "Handle creation of related resources",
             "itemtype": "method",
             "name": "_createRelated",
@@ -2306,7 +2225,7 @@
         },
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 112,
+            "line": 93,
             "description": "Handle add(s) of related resources. This differs from CREATEs in that the related\nrecord is already saved and is just being associated with the inverse record.",
             "itemtype": "method",
             "name": "_addRelated",
@@ -2350,7 +2269,7 @@
         },
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 133,
+            "line": 114,
             "description": "Handle update(s) of related resources",
             "itemtype": "method",
             "name": "_updateRelated",
@@ -2394,7 +2313,7 @@
         },
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 155,
+            "line": 136,
             "description": "Handle removal of related resources. This differs from DELETEs in that the related\nrecord is not deleted, just dissociated from the inverse record.",
             "itemtype": "method",
             "name": "_removeRelated",
@@ -2438,7 +2357,7 @@
         },
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 174,
+            "line": 155,
             "description": "Handle deletion of related resources",
             "itemtype": "method",
             "name": "_deleteRelated",
@@ -2482,7 +2401,7 @@
         },
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 191,
+            "line": 172,
             "description": "A helper for making _*Related requests",
             "itemtype": "method",
             "name": "_doRelatedRequest",
@@ -2531,7 +2450,7 @@
         },
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 248,
+            "line": 229,
             "description": "Delegate a series of requests based on a snapshot, relationship, and a change.\nThe change argument can be 'delete', 'remove', 'update', 'add', 'create'",
             "itemtype": "method",
             "name": "_handleRelatedRequest",
@@ -2580,7 +2499,7 @@
         },
         {
             "file": "addon/authenticators/osf-cookie.js",
-            "line": 60,
+            "line": 61,
             "description": "For now, simply verify that a token is present and can be used",
             "itemtype": "method",
             "name": "authenticate",
@@ -2626,23 +2545,23 @@
             "submodule": "components"
         },
         {
-            "file": "addon/components/navbar-auth-dropdown/component.js",
-            "line": 33,
-            "description": "The URL to use for signup. May be overridden, eg for special campaign pages",
+            "file": "addon/components/osf-navbar/component.js",
+            "line": 27,
+            "description": "Whether search icons and functionality show up",
             "itemtype": "property",
-            "name": "signupUrl",
-            "type": "{String}",
-            "class": "navbar-auth-dropdown",
+            "name": "hideSearch",
+            "type": "{Boolean}",
+            "class": "osf-navbar",
             "module": "ember-osf",
             "submodule": "components"
         },
         {
             "file": "addon/components/osf-navbar/component.js",
-            "line": 26,
-            "description": "Whether search icons and functionality show up",
+            "line": 34,
+            "description": "The URL to use for signup. May be overridden, eg for special campaign pages",
             "itemtype": "property",
-            "name": "hideSearch",
-            "type": "{Boolean}",
+            "name": "signupUrl",
+            "type": "{String}",
             "class": "osf-navbar",
             "module": "ember-osf",
             "submodule": "components"
@@ -3324,18 +3243,18 @@
         {
             "file": "addon/mixins/node-actions.js",
             "line": 199,
-            "description": "Adds a relationship to another node, called a linkedNode.",
+            "description": "Add a node link (pointer) to another node",
             "itemtype": "method",
             "name": "addNodeLink",
             "params": [
                 {
                     "name": "targetNodeId",
-                    "description": "ID of the node for which you wish to create a link",
+                    "description": "ID of the node for which you wish to create a pointer",
                     "type": "String"
                 }
             ],
             "return": {
-                "description": "Returns a promise that resolves to the newly updated node",
+                "description": "Returns a promise that resolves to model for the newly created NodeLink",
                 "type": "Promise"
             },
             "class": "NodeActionsMixin",
@@ -3345,18 +3264,18 @@
         {
             "file": "addon/mixins/node-actions.js",
             "line": 214,
-            "description": "Removes the linkedNode relationship to another node. Does not remove the linked node itself.",
+            "description": "Remove a node link (pointer) to another node",
             "itemtype": "method",
             "name": "removeNodeLink",
             "params": [
                 {
-                    "name": "linkedNode",
-                    "description": "linkedNode relationship to be destroyed.",
+                    "name": "nodeLink",
+                    "description": "nodeLink record to be destroyed.",
                     "type": "Object"
                 }
             ],
             "return": {
-                "description": "Returns a promise that resolves to the newly updated node",
+                "description": "Returns a promise that resolves after the node link has been removed.  This does not delete\nthe target node itself.",
                 "type": "Promise"
             },
             "class": "NodeActionsMixin",
@@ -3636,7 +3555,7 @@
         },
         {
             "file": "addon/models/node.js",
-            "line": 89,
+            "line": 83,
             "description": "Is this a project? Flag can be used to provide template-specific behavior for different resource types.",
             "itemtype": "property",
             "name": "isProject",
@@ -3647,7 +3566,7 @@
         },
         {
             "file": "addon/models/node.js",
-            "line": 95,
+            "line": 89,
             "description": "Is this a registration? Flag can be used to provide template-specific behavior for different resource types.",
             "itemtype": "property",
             "name": "isRegistration",
@@ -3658,7 +3577,7 @@
         },
         {
             "file": "addon/models/node.js",
-            "line": 102,
+            "line": 96,
             "description": "Is this node being viewed through an anonymized, view-only link?",
             "itemtype": "property",
             "name": "isAnonymous",
@@ -3669,7 +3588,7 @@
         },
         {
             "file": "addon/models/node.js",
-            "line": 109,
+            "line": 103,
             "description": "Determine whether the specified user ID is a contributor on this node",
             "itemtype": "method",
             "name": "isContributor",
@@ -4479,5 +4398,10 @@
             "submodule": "utils"
         }
     ],
-    "warnings": []
+    "warnings": [
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " addon/models/node.js:103"
+        }
+    ]
 }

@@ -8,7 +8,6 @@ import fixSpecialChars from '../utils/fix-special-char';
  */
 
 /**
-
   Custom string field transform that uses the `fix-special-char` utility function to clean up malformed text sent
   from the server. This allows string fields to be correctly and transparently used in templates without manually fixing
   these characters for display on each use.

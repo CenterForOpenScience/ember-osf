@@ -67,13 +67,11 @@
                                 <li><a href="../classes/FileItemMixin.html">FileItemMixin</a></li>
                                 <li><a href="../classes/FileProvider.html">FileProvider</a></li>
                                 <li><a href="../classes/FileVersion.html">FileVersion</a></li>
-                                <li><a href="../classes/fixstring.html">fixstring</a></li>
                                 <li><a href="../classes/GenericDataADapter.html">GenericDataADapter</a></li>
                                 <li><a href="../classes/InfinityCustomMixin.html">InfinityCustomMixin</a></li>
                                 <li><a href="../classes/Institution.html">Institution</a></li>
                                 <li><a href="../classes/Log.html">Log</a></li>
                                 <li><a href="../classes/Metaschema.html">Metaschema</a></li>
-                                <li><a href="../classes/navbar-auth-dropdown.html">navbar-auth-dropdown</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
                                 <li><a href="../classes/NodeActionsMixin.html">NodeActionsMixin</a></li>
                                 <li><a href="../classes/NodeLink.html">NodeLink</a></li>
@@ -124,7 +122,6 @@
                                 <li><a href="../modules/models.html">models</a></li>
                                 <li><a href="../modules/serializers.html">serializers</a></li>
                                 <li><a href="../modules/services.html">services</a></li>
-                                <li><a href="../modules/transforms.html">transforms</a></li>
                                 <li><a href="../modules/utils.html">utils</a></li>
                             </ul>
                         </div>
@@ -188,28 +185,9 @@ import {
  * @uses GenericDataAdapterMixin
  */
 export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDataAdapterMixin, {
-    headers: {
-        ACCEPT: &#x27;application/vnd.api+json; version=2.3&#x27;
-    },
     authorizer: config[&#x27;ember-simple-auth&#x27;].authorizer,
     host: config.OSF.apiUrl,
     namespace: config.OSF.apiNamespace,
-    /**
-     * Overrides buildQuery method - Allows users to embed resources with findRecord
-     * OSF APIv2 does not have &quot;include&quot; functionality, instead we use &#x27;embed&#x27;.
-     * Usage: findRecord(type, id, {include: &#x27;resource&#x27;}) or findRecord(type, id, {include: [&#x27;resource1&#x27;, resource2]})
-     * Swaps included resources with embedded resources
-     *
-     * @method buildQuery
-     */
-    buildQuery() {
-        let query = this._super(...arguments);
-        if (query.include) {
-            query.embed = query.include;
-        }
-        delete query.include;
-        return query;
-    },
     buildURL(modelName, id, snapshot, requestType) {
         var url = this._super(...arguments);
         var options = (snapshot ? snapshot.adapterOptions : false) || {};
@@ -404,7 +382,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
             data: data,
             isBulk: isBulk
         }).then(res =&gt; {
-            if (res &amp;&amp; !Ember.$.isArray(res.data)) {
+            if (!Ember.$.isArray(res.data)) {
                 res.data = [res.data];
             }
             return res;

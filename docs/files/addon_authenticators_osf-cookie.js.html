@@ -67,13 +67,11 @@
                                 <li><a href="../classes/FileItemMixin.html">FileItemMixin</a></li>
                                 <li><a href="../classes/FileProvider.html">FileProvider</a></li>
                                 <li><a href="../classes/FileVersion.html">FileVersion</a></li>
-                                <li><a href="../classes/fixstring.html">fixstring</a></li>
                                 <li><a href="../classes/GenericDataADapter.html">GenericDataADapter</a></li>
                                 <li><a href="../classes/InfinityCustomMixin.html">InfinityCustomMixin</a></li>
                                 <li><a href="../classes/Institution.html">Institution</a></li>
                                 <li><a href="../classes/Log.html">Log</a></li>
                                 <li><a href="../classes/Metaschema.html">Metaschema</a></li>
-                                <li><a href="../classes/navbar-auth-dropdown.html">navbar-auth-dropdown</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
                                 <li><a href="../classes/NodeActionsMixin.html">NodeActionsMixin</a></li>
                                 <li><a href="../classes/NodeLink.html">NodeLink</a></li>
@@ -124,7 +122,6 @@
                                 <li><a href="../modules/models.html">models</a></li>
                                 <li><a href="../modules/serializers.html">serializers</a></li>
                                 <li><a href="../modules/services.html">services</a></li>
-                                <li><a href="../modules/transforms.html">transforms</a></li>
                                 <li><a href="../modules/utils.html">utils</a></li>
                             </ul>
                         </div>
@@ -216,7 +213,8 @@ export default Base.extend({
             // Can&#x27;t do this via AJAX request because it redirects to CAS, and AJAX + redirect = CORS issue
 
             // Manually clear session before user leaves the page, since we aren&#x27;t sticking around for ESA to do so later
-            return this.get(&#x27;session.session&#x27;)._clear(true);
+            this.get(&#x27;session.session&#x27;)._clear(true)
+                .then(() =&gt; window.location = &#x60;${config.OSF.url}logout/&#x60;);
         } else {
             // This branch is expected to be called when a test request reveals the user to lack permissions... so session should be wiped
             return Ember.RSVP.resolve();

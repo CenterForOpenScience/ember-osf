@@ -67,13 +67,11 @@
                                 <li><a href="../classes/FileItemMixin.html">FileItemMixin</a></li>
                                 <li><a href="../classes/FileProvider.html">FileProvider</a></li>
                                 <li><a href="../classes/FileVersion.html">FileVersion</a></li>
-                                <li><a href="../classes/fixstring.html">fixstring</a></li>
                                 <li><a href="../classes/GenericDataADapter.html">GenericDataADapter</a></li>
                                 <li><a href="../classes/InfinityCustomMixin.html">InfinityCustomMixin</a></li>
                                 <li><a href="../classes/Institution.html">Institution</a></li>
                                 <li><a href="../classes/Log.html">Log</a></li>
                                 <li><a href="../classes/Metaschema.html">Metaschema</a></li>
-                                <li><a href="../classes/navbar-auth-dropdown.html">navbar-auth-dropdown</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
                                 <li><a href="../classes/NodeActionsMixin.html">NodeActionsMixin</a></li>
                                 <li><a href="../classes/NodeLink.html">NodeLink</a></li>
@@ -124,7 +122,6 @@
                                 <li><a href="../modules/models.html">models</a></li>
                                 <li><a href="../modules/serializers.html">serializers</a></li>
                                 <li><a href="../modules/services.html">services</a></li>
-                                <li><a href="../modules/transforms.html">transforms</a></li>
                                 <li><a href="../modules/utils.html">utils</a></li>
                             </ul>
                         </div>
@@ -362,33 +359,31 @@ export default Ember.Mixin.create({
             return this.get(&#x27;_node&#x27;).addChild(title, description, category);
         },
         /**
-         * Adds a relationship to another node, called a linkedNode.
+         * Add a node link (pointer) to another node
          *
          * @method addNodeLink
-         * @param {String} targetNodeId ID of the node for which you wish to create a link
-         * @return {Promise} Returns a promise that resolves to the newly updated node
+         * @param {String} targetNodeId ID of the node for which you wish to create a pointer
+         * @return {Promise} Returns a promise that resolves to model for the newly created NodeLink
          */
         addNodeLink(targetNodeId) {
             var node = this.get(&#x27;_node&#x27;);
-            return this.store.findRecord(&#x27;node&#x27;, targetNodeId).then(linkedNode =&gt; {
-                node.get(&#x27;linkedNodes&#x27;).pushObject(linkedNode);
-                return node.save();
+            var nodeLink = this.store.createRecord(&#x27;node-link&#x27;, {
+                target: targetNodeId
             });
-
+            node.get(&#x27;nodeLinks&#x27;).pushObject(nodeLink);
+            return node.save().then(() =&gt; nodeLink);
         },
         /**
-         * Removes the linkedNode relationship to another node. Does not remove the linked node itself.
+         * Remove a node link (pointer) to another node
          *
          * @method removeNodeLink
-         * @param {Object} linkedNode linkedNode relationship to be destroyed.
-         * @return {Promise} Returns a promise that resolves to the newly updated node
+         * @param {Object} nodeLink nodeLink record to be destroyed.
+         * @return {Promise} Returns a promise that resolves after the node link has been removed.  This does not delete
+         * the target node itself.
          */
-        removeNodeLink(linkedNode) {
-            var node = this.get(&#x27;_node&#x27;);
-            node.get(&#x27;linkedNodes&#x27;).removeObject(linkedNode);
-            return node.save();
+        removeNodeLink(nodeLink) {
+            return nodeLink.destroyRecord();
         }
-
     }
 });
 

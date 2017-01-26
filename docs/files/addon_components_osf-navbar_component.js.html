@@ -67,13 +67,11 @@
                                 <li><a href="../classes/FileItemMixin.html">FileItemMixin</a></li>
                                 <li><a href="../classes/FileProvider.html">FileProvider</a></li>
                                 <li><a href="../classes/FileVersion.html">FileVersion</a></li>
-                                <li><a href="../classes/fixstring.html">fixstring</a></li>
                                 <li><a href="../classes/GenericDataADapter.html">GenericDataADapter</a></li>
                                 <li><a href="../classes/InfinityCustomMixin.html">InfinityCustomMixin</a></li>
                                 <li><a href="../classes/Institution.html">Institution</a></li>
                                 <li><a href="../classes/Log.html">Log</a></li>
                                 <li><a href="../classes/Metaschema.html">Metaschema</a></li>
-                                <li><a href="../classes/navbar-auth-dropdown.html">navbar-auth-dropdown</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
                                 <li><a href="../classes/NodeActionsMixin.html">NodeActionsMixin</a></li>
                                 <li><a href="../classes/NodeLink.html">NodeLink</a></li>
@@ -124,7 +122,6 @@
                                 <li><a href="../modules/models.html">models</a></li>
                                 <li><a href="../modules/serializers.html">serializers</a></li>
                                 <li><a href="../modules/services.html">services</a></li>
-                                <li><a href="../modules/transforms.html">transforms</a></li>
                                 <li><a href="../modules/utils.html">utils</a></li>
                             </ul>
                         </div>
@@ -187,6 +184,7 @@ import config from &#x27;ember-get-config&#x27;;
 export default Ember.Component.extend({
     layout,
     session: Ember.inject.service(),
+    currentUser: Ember.inject.service(),
     onSearchPage: false,
     /**
      * Whether search icons and functionality show up
@@ -195,13 +193,45 @@ export default Ember.Component.extend({
      */
     hideSearch: false,
 
+    /**
+     * The URL to use for signup. May be overridden, eg for special campaign pages
+     *
+     * @property signupUrl
+     * @type {String}
+     */
+    signupUrl: config.OSF.url + &#x27;register&#x27;,
+
+    gravatarUrl: Ember.computed(&#x27;user&#x27;, function() {
+        let imgLink = this.get(&#x27;user.links.profile_image&#x27;);
+        if (imgLink) {
+            imgLink += &#x27;&amp;s=25&#x27;;
+        }
+        return imgLink;
+    }),
+    fullName: null,
     host: config.OSF.url,
-
+    user: null,
     showSearch: false,
-
+    _loadCurrentUser() {
+        this.get(&#x27;currentUser&#x27;).load().then((user) =&gt; this.set(&#x27;user&#x27;, user));
+    },
+    init() {
+        this._super(...arguments);
+        // TODO: React to changes in service/ event?
+        if (this.get(&#x27;session.isAuthenticated&#x27;)) {
+            this._loadCurrentUser();
+        }
+    },
+    // TODO: These parameters are defined in osf settings.py; make sure ember config matches.
+    allowLogin: true,
+    enableInstitutions: true,
     actions: {
         toggleSearch() {
             this.toggleProperty(&#x27;showSearch&#x27;);
+        },
+        logout() {
+            // TODO: May not work well if logging out from page that requires login- check?
+            this.get(&#x27;session&#x27;).invalidate();
         },
     }
 });

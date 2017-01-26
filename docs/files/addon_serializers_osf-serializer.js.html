@@ -67,13 +67,11 @@
                                 <li><a href="../classes/FileItemMixin.html">FileItemMixin</a></li>
                                 <li><a href="../classes/FileProvider.html">FileProvider</a></li>
                                 <li><a href="../classes/FileVersion.html">FileVersion</a></li>
-                                <li><a href="../classes/fixstring.html">fixstring</a></li>
                                 <li><a href="../classes/GenericDataADapter.html">GenericDataADapter</a></li>
                                 <li><a href="../classes/InfinityCustomMixin.html">InfinityCustomMixin</a></li>
                                 <li><a href="../classes/Institution.html">Institution</a></li>
                                 <li><a href="../classes/Log.html">Log</a></li>
                                 <li><a href="../classes/Metaschema.html">Metaschema</a></li>
-                                <li><a href="../classes/navbar-auth-dropdown.html">navbar-auth-dropdown</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
                                 <li><a href="../classes/NodeActionsMixin.html">NodeActionsMixin</a></li>
                                 <li><a href="../classes/NodeLink.html">NodeLink</a></li>
@@ -124,7 +122,6 @@
                                 <li><a href="../modules/models.html">models</a></li>
                                 <li><a href="../modules/serializers.html">serializers</a></li>
                                 <li><a href="../modules/services.html">services</a></li>
-                                <li><a href="../modules/transforms.html">transforms</a></li>
                                 <li><a href="../modules/utils.html">utils</a></li>
                             </ul>
                         </div>
@@ -205,9 +202,6 @@ export default DS.JSONAPISerializer.extend({
             }
             //TODO Pagination probably breaks here
             let data = resourceHash.embeds[embedded].data || resourceHash.embeds[embedded];
-            if (!(&#x27;errors&#x27; in data)) {
-                this.store.pushPayload({ data });
-            }
             if (Array.isArray(data)) {
                 included = included.concat(data);
             } else {
@@ -280,11 +274,11 @@ export default DS.JSONAPISerializer.extend({
     },
 
     normalizeArrayResponse(store, primaryModelClass, payload, id, requestType) { // jshint ignore:line
-        // Ember data does not yet support pagination. For any request that returns more than one result, add pagination data
-        // under meta, and then calculate total pages to be loaded.
+        // Ember data does not yet support pagination. For any request that returns more than one result, extract
+        //  links.meta from the payload links section, and add to the model metadata manually.
         let documentHash = this._super(...arguments);
         documentHash.meta = documentHash.meta || {};
-        documentHash.meta.pagination = Ember.$.extend(true, {}, Ember.get(payload || {}, &#x27;meta&#x27;));
+        documentHash.meta.pagination = Ember.get(payload || {}, &#x27;links.meta&#x27;);
         documentHash.meta.total = Math.ceil(documentHash.meta.pagination.total / documentHash.meta.pagination.per_page);
         return documentHash;
     }
