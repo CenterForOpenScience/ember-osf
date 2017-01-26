@@ -86,11 +86,12 @@ If you are developing an application that will be hosted under the `osf.io` doma
 authentication instead. In that rare case, add the following lines to your `config/environment.js` file:
 
 ```javascript
-    ENV.authorizationType = 'cookie';
+    var authorizationType = 'cookie';
+    ENV.authorizationType = authorizationType;
     
     ENV['ember-simple-auth'] = {
-        authorizer: `authorizer:osf-${defaultAuthorizationType}`,
-        authenticator: `authenticator:osf-${defaultAuthorizationType}`
+        authorizer: `authorizer:osf-${authorizationType}`,
+        authenticator: `authenticator:osf-${authorizationType}`
     };
 ```
 
