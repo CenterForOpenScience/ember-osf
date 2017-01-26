@@ -112,7 +112,7 @@ export default OsfModel.extend(FileItemMixin, {
      * Determine whether the specified user ID is a contributor on this node
      * @method isContributor
      * @param {String} userId
-     * @returns {boolean} Whether the specified user is a contributor on this node
+     * @return {boolean} Whether the specified user is a contributor on this node
      */
     isContributor(userId) {
         // Return true if there is at least one matching contributor for this user ID
