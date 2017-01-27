@@ -151,7 +151,7 @@ export default Ember.Component.extend({
             aggregations: {
                 sources: {
                     cardinality: {
-                        field: 'sources.raw',
+                        field: 'sources',
                         precision_threshold: MAX_SOURCES
                     }
                 }
@@ -180,11 +180,11 @@ export default Ember.Component.extend({
         let queryBody = [];
         Object.keys(lockedParams).forEach(key => {
             let query = {};
-            let queryKey = [`${key}.raw`]; //Change to .exact at some point?
+            let queryKey = [`${key}`]; //Change to .exact at some point?
             if (key === 'tags') {
                 queryKey = key;
             } else if (key === 'contributors') {
-                queryKey = 'lists.contributors.name.raw'; //Change to .exact at some point?
+                queryKey = 'lists.contributors.name'; //Change to .exact at some point?
             }
 
             query[queryKey] = lockedParams[key];
@@ -246,7 +246,7 @@ export default Ember.Component.extend({
         return {
             sources: {
                 terms: {
-                    field: 'sources.raw',
+                    field: 'sources',
                     size: MAX_SOURCES
                 }
             }
