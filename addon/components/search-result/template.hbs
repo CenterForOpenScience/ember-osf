@@ -4,13 +4,23 @@
         <div class="col-xs-12">
             {{!Title}}
             <h4>
-                <a href="{{share-detail-url obj.type obj.id}}">
-                    {{#if safeTitle}}
-                        {{safeTitle}}
-                    {{else}}
-                        <i class="no-title">Title not provided</i>
-                    {{/if}}
-                </a>
+                {{#if detailRoute}}
+                    {{#link-to detailRoute obj.id}}
+                          {{#if safeTitle}}
+                            {{safeTitle}}
+                        {{else}}
+                            <i class="no-title">Title not provided</i>
+                        {{/if}}
+                    {{/link-to}}
+                {{else}}
+                    <a href="{{share-detail-url obj.type obj.id}}">
+                        {{#if safeTitle}}
+                            {{safeTitle}}
+                        {{else}}
+                            <i class="no-title">Title not provided</i>
+                        {{/if}}
+                    </a>
+                {{/if}}
             </h4>
             {{!Authors}}
             <p>

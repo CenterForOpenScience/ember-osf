@@ -74,7 +74,7 @@
                         <div class="text-center no-results">{{noResultsMessage}}</div>
                     {{else}}
                         {{#each results as |obj|}}
-                            {{search-result addFilter='addFilter' obj=obj}}
+                            {{search-result detailRoute=detailRoute addFilter='addFilter' obj=obj}}
                         {{/each}}
                         <div class="pull-right text-right pagination-format p-xs">
                             {{page-controls page=page clampedPages=clampedPages loadPage=(action 'loadPage')}}

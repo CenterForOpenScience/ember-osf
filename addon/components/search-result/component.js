@@ -9,6 +9,7 @@ export default Ember.Component.extend({
     maxContributors: 6,
     maxDescription: 350,
     showBody: false,
+    detailRoute: null, //Add name of route you want search-result to link to if not using Ember-SHARE detail page
     footerIcon: Ember.computed('showBody', function() {
         return this.get('showBody') ? 'caret-up' : 'caret-down';
     }),
