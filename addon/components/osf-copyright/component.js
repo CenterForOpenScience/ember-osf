@@ -13,6 +13,6 @@ import layout from './template';
 export default Ember.Component.extend({
     layout,
     currentYear: function() {
-    return new Date().getFullYear();
+        return new Date().getFullYear();
     }.property()
 });
