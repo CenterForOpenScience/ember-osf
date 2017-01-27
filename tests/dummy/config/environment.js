@@ -19,6 +19,12 @@ module.exports = function(environment) {
         baseURL: '/',
         locationType: 'auto',
 
+        SHARE: {
+            baseUrl: 'https://staging-share.osf.io/',
+            apiUrl: 'https://staging-share.osf.io/api/v2',
+            searchUrl: 'https://staging-share.osf.io/api/v2/search/creativeworks/_search'
+        },
+
         EmberENV: {
             FEATURES: {
                 // Here you can enable experimental features on an ember canary build

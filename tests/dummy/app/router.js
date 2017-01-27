@@ -64,6 +64,7 @@ Router.map(function() {
     this.route('allnodes');
     this.route('usernodes');
     this.route('embedding-records');
+    this.route('share-discover-page');
 });
 
 export default Router;
