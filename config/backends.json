@@ -43,5 +43,14 @@
         "helpUrl": "http://help.osf.io",
         "cookieLoginUrl": "https://test-accounts.osf.io/login",
         "oauthUrl": "https://test-accounts.osf.io/oauth2/authorize"
+    },
+    "env": {
+        "url": "OSF_URL",
+        "apiUrl": "OSF_API_URL",
+        "renderUrl": "OSF_RENDER_URL",
+        "waterbutlerUrl": "OSF_FILE_URL",
+        "helpUrl": "OSF_HELP_URL",
+        "cookieLoginUrl": "OSF_COOKIE_LOGIN_URL",
+        "oauthUrl": "OSF_OAUTH_URL"
     }
 }

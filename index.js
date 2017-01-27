@@ -21,7 +21,7 @@ module.exports = {
         // Backwards compatibility: old config.yml files were nested, with keys like "local", "test", etc.
         // New ones are flat- you specify the values you want once. If there is no <backendname> key, assume
         // this is a flat config file and access keys accordingly.
-        OAUTH_SETTINGS = config['BACKEND'] || config;
+        OAUTH_SETTINGS = config[BACKEND] || config;
 
         // For i18n
         ENV.i18n = {
@@ -43,10 +43,23 @@ module.exports = {
             backendConfig.accessToken = OAUTH_SETTINGS.PERSONAL_ACCESS_TOKEN;
             backendConfig.isLocal = true;
         } else if (BACKEND === 'prod') {
-            console.log("WARNING: you've specified production as a backend. Please do not use production for testing or development purposes");
+            console.warn("WARNING: you've specified production as a backend. Please do not use production for testing or development purposes");
+        } else if (BACKEND === 'env') {
+            // Optionally draw backend settings entirely from environment variables.
+            //   This is an all-or-nothing operation; we currently do not support overriding one URL at a time.
+            let newConfig = {};
+            // Map the internal, old-style key names to the corresponding environment variables. All must be present.
+            Object.keys(backendConfig).forEach(key => {
+                const envEntryName = backendConfig[key];
+                newConfig[key] = config[envEntryName];
+            });
+            backendConfig = newConfig;
         }
 
-        // TODO: Deal with incomplete or unrecognized config? (since config comes from env variables, backends, or both, need to check at end)
+        // Warn the user if some config entries not present
+        Object.keys(backendConfig).forEach(key => {
+            if (!backendConfig[key]) console.error(`This backend must define a value for: ${key}`);
+        });
         ENV.OSF = backendConfig;
 
         ENV['ember-simple-auth'] = {
