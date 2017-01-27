@@ -16,4 +16,5 @@
 npm-debug.log
 testem.log
 
+# Never commit configuration or private settings
 config/*.yml
