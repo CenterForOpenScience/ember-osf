@@ -1,26 +1,26 @@
-
 ######## ember-osf settings ########
-# local:
-#    CLIENT_ID: null
-#    PERSONAL_ACCESS_TOKEN: null
-#    OAUTH_SCOPES: osf.full_read osf.full_write
-#    REDIRECT_URI: http://localhost:4200/login/
+## This file is solely for developer convenience. Any of these settings may alternately be passed in as
+# environment variables in your deployment environment
 
-# stage:
-#    CLIENT_ID: null
-#    PERSONAL_ACCESS_TOKEN: null
-#    OAUTH_SCOPES: osf.full_read osf.full_write
-#    REDIRECT_URI: http://localhost:4200/login/
+### Login settings
+OAUTH_SCOPES: osf.full_write
+REDIRECT_URI: http://localhost:4200/login/
+# The developer app client ID (not client secret!). Allows your app to let users log in via the OSF.
+CLIENT_ID: null
+# Credentials for only a single user. This setting will be ignored except for local development; NEVER commit to github
+PERSONAL_ACCESS_TOKEN: null
 
-# stage2:
-#    CLIENT_ID: null
-#    PERSONAL_ACCESS_TOKEN: null
-#    OAUTH_SCOPES: osf.full_read osf.full_write
-#    REDIRECT_URI: http://localhost:4200/login/
+### In general, you can leave the items below commented out; ember-osf already knows how to talk to many common OSF
+##    backends. Only use the below if running against a new or custom OSF instance where you need to control the URLs.
+#OSF_URL: 'http://localhost:5000/'
+#OSF_API_URL: 'http://localhost:8000'
+#RENDER_URL: 'http://localhost:7778/render'
+#FILE_URL: 'http://localhost:7777/'
+#HELP_URL: 'http://localhost:4200/help'
 
-test:
-    CLIENT_ID: null
-    PERSONAL_ACCESS_TOKEN: null
-    OAUTH_SCOPES: osf.full_read osf.full_write
-    REDIRECT_URI: http://localhost:4200/login/
-######### end ember-osf ##########
+
+## Where to direct the user for cookie based authentication
+#COOKIE_LOGIN_URL: 'http://localhost:8080/login'
+
+## Where to direct the user for oauth-based authentication
+#OAUTH_URL: 'http://localhost:8080/oauth2/profile'
