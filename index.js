@@ -18,9 +18,9 @@ module.exports = {
         let BACKEND = process.env.BACKEND || 'local';
         // Settings required to configure the developer application, primarily for OAuth2
         let OAUTH_SETTINGS = {};
-        // Backwards compatibility: old config.yml files were nested, with keys like "local", "test", etc.
-        // New ones are flat- you specify the values you want once. If there is no <backendname> key, assume
-        // this is a flat config file and access keys accordingly.
+        // Backwards compatibility: old config/*.yml files were nested, with keys like "stage", "test", etc.
+        // New files are flat- you specify the values you want once. If there is no <backendname> key, assume
+        // this is a flat config file and assume the settings we want are at the top level.
         OAUTH_SETTINGS = config[BACKEND] || config;
 
         // For i18n
