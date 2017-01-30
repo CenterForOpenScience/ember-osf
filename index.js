@@ -39,6 +39,10 @@ module.exports = {
         // Fetch configuration information for the application
         var backendConfig = knownBackends[BACKEND] || {};
 
+        if (!Object.keys(knownBackends).includes(BACKEND)) {
+            console.warn('WARNING: You have specified an unknown backend environment. If you need to customize URL settings, specify BACKEND=env');
+        }
+
         if (BACKEND === 'local') {
             backendConfig.accessToken = OAUTH_SETTINGS.PERSONAL_ACCESS_TOKEN;
             backendConfig.isLocal = true;
@@ -56,11 +60,13 @@ module.exports = {
             backendConfig = newConfig;
         }
 
-        // Warn the user if some config entries not present
+        // Warn the user if some URL entries not present
         Object.keys(backendConfig).forEach(key => {
             if (!backendConfig[key]) console.error(`This backend must define a value for: ${key}`);
         });
-        ENV.OSF = backendConfig;
+
+        // Combine URLs + auth settings into final auth config
+        Object.assign(ENV.OSF, backendConfig);
 
         ENV['ember-simple-auth'] = {
             authorizer: 'authorizer:osf-token'

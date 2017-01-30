@@ -4,21 +4,31 @@
 
 `develop` Build Status: [![Build Status](https://travis-ci.org/CenterForOpenScience/ember-osf.svg?branch=develop)](https://travis-ci.org/CenterForOpenScience/ember-osf)
 
-This repo contains code for interacting with the OSF APIv2 inside of an Ember app.
+This repo contains code for interacting with the [OSF APIv2](https://api.osf.io/v2/) inside of an Ember app. See 
+[addon API Docs](http://centerforopenscience.github.io/ember-osf/) for a list of what this addon provides.
 
-## Contributing?
+## Contributing
 
 Please read the [CONTRIBUTING.md](https://github.com/CenterForOpenScience/ember-osf/blob/develop/.github/CONTRIBUTING.md)
 
-## Installation (for Development)
-See the [yarn docs](https://yarnpkg.com/) for installing and using yarn.
+## Installing tools to develop and modify this addon
+See the [yarn docs](https://yarnpkg.com/) for installing and using yarn. These instructions will prepare your 
+environment if you plan to modify and test this addon in isolation.
 
 * `git clone` this repository
 * `yarn install --pure-lockfile`
 * `bower install`
 
-## Using this code in an Ember app
+## Using this addon in another Ember app
+### For production use
+Other applications that wish to consume this addon should add the following line manually to the consuming Ember app's 
+`package.json` file, then run `yarn install` and `bower install` inside that app.
 
+ `"ember-osf": "git+https://github.com/CenterForOpenScience/ember-osf.git#NewestCommitHashGoesHere",`
+
+In the future, we will provide an installable `npm` package to simplify this process.
+
+### For local development
 1. Clone the repository: `git clone https://github.com/CenterForOpenScience/ember-osf.git`
 2. From the consuming Ember app:
   - install the addon and it's dependencies: `ember install ../ember-osf`
@@ -32,19 +42,26 @@ See the [yarn docs](https://yarnpkg.com/) for installing and using yarn.
   export default Ember.Route.extend(OsfLoginRouteMixin);
   ```
 
-> **Note**: Running ember install will automatically install all bower and npm dependencies for ember-osf.
+> **Note**: Running ember install will automatically install many bower and npm dependencies for ember-osf.
 
 ## Configuration
 
+### Specifying configuration information
+
 #### local.yml settings
 
-This file is structured like:
+If for some reason you don't have a config/local.yml you can generate one. To do this:
+```bash
+ember generate ember-osf
+```
+
+Ember-osf needs certain configuration variables to run. This is usually done via a config file structured as follows:
 ```yaml
-<backend>:
+  OAUTH_SCOPES: osf.full_write
+  REDIRECT_URI: http://localhost:4200/login
+
   CLIENT_ID: null
   PERSONAL_ACCESS_TOKEN: null
-  OAUTH_SCOPES: osf.full_read osf.full_write
-  REDIRECT_URI: http://localhost:4200/login
 ```
 
 You will need to fill out options for each backend you want to use (see 'Running' below).
@@ -54,65 +71,85 @@ uri is correct.  If it needs a trailing slash, be sure to include a trailing sla
 
 Edit the new file (installed in the config directory) and set:
 - `CLIENT_ID` to the client id of your developer application
-- `PERSONAL_ACCESS_TOKEN` to the newly generated token (Only required or recognized for the LOCAL backend; do not set this value for staging, production, or test backends)
-- REDIRECT_URI: Must exactly match the redirect URI used to register the OAuth developer application. 
+- `PERSONAL_ACCESS_TOKEN` to the newly generated token (Only required or recognized for the LOCAL backend; do not set 
+this value for staging, production, or test backends)
+- `REDIRECT_URI`: Must exactly match the redirect URI used to register the OAuth developer application. 
 Default value is appropriate for local development using `ember server`, with a login page at `/login` 
 
-Because of the potential for this file to include sensitive information, we strongly recommend adding this file to 
-`.gitignore` for your project.
+Because of the potential for this file to include sensitive information, **we strongly recommend adding this file to 
+`.gitignore`** for your project.
 
-#### Using the Test API
+#### Alternate option: Environment variables
+If you do not wish to use file-based configuration, any of the settings above can be overridden individually as 
+environment variables with the same name as appears in the config file. Eg
 
-To do this, you will need to [create a developer application](https://test.osf.io/settings/applications/) on the relevant version of the OSF.
+`BACKEND=test CLIENT_ID=gibberish ember serve`
 
-#### Running the OSF Locally (optional)
+If you provide a setting in both the config file and an environment variable, the environment variables take precedence.
+
+### Using the API
+Most apps that use this addon will authorize requests via OAuth2.  As may be apparent from the `CLIENT_ID` and 
+`REDIRECT_URI` settings above, you will need to [create a developer application](https://test.osf.io/settings/applications/) 
+on the relevant version of the OSF, and provide the appropriate settings for your app.
+
+### Running the OSF Locally (optional)
 
 For local development, you will need to be running the [OSF APIv2](https://github.com/CenterForOpenScience/osf.io#running-the-api-server).
-To connect to the APIv2 while using [fakecas](https://github.com/CenterForOpenScience/osf.io#running-the-osf), you will need to generate a
-personal access token on your local OSF instance [here](http://localhost:5000/settings/tokens/)--go ahead and grant access to all scopes.
+To connect to the APIv2 while using [fakecas](https://github.com/CenterForOpenScience/osf.io#running-the-osf), you 
+will need to generate a personal access token on your local OSF instance [here](http://localhost:5000/settings/tokens/)- 
+go ahead and grant full privilege access to all scopes (the `osf.full_write` option).
 
-#### Create a local settings file
+## Using this addon
 
-If for some reason you don't have a config/local.yml you can generate one. To do this:
-```bash
-ember generate ember-osf
-```
-
-## Usage
-
-#### Ember Data: Using the OSF models
+### Ember Data: Using the OSF models
 
 The models, serializers, adapters bundled in this addon with be available to you automatically.
 For example, simply do:
 ```javascript
 this.store.findAll('node')
 ```
-to fetch all nodes.
+to fetch all nodes (or at least the first page of results). If you need to fetch many results, see the API docs for 
+information about how to handle pagination. Ember-osf also provides support for 
+[paginated relationship requests](https://github.com/mdehoog/ember-data-has-many-query) via a third-party addon.
+
+### Advanced: using components and styles
+Some of the ember-osf components require additional configuration to take advantage of premade widgets or styles.
+ 
+Some of these settings, as well as recommended best practices, are gathered together in a 
+[demonstration app](https://github.com/abought/demo-ember-osf/) that consumes this addon.
 
 ## Running
 
-We recommend developers target out test server:
+### Using the addon with a specific server
+We recommend developers target our test server:
 - test (`test`): matches production features, very stable
 
-Other options include:
+Ember-osf also ships with builtin support for several other servers:
 - local (`local`): for developers running the OSF stack locally
 - staging (`stage`): contains bleeding edge features, but less stable
-- staging2 (`stage2`): another version of staging using running a specific feature branch
+- staging2 (`stage2`) or `staging3` (`stage3`): Staging servers that run specific feature branches, usually for
+ functionality that is being tested for longer or not targeted for immediate release
+- production (`prod`): The main osf.io site. This is a good choice for apps you deploy, but please be a good citizen 
+ and avoid using the production server for your test data.
 
 Then (using test as an example) run:
 `BACKEND=test ember server`
 
 and visit your app at http://localhost:4200.
 
-**Note:** This runs the dummy app contained in /tests/dummy
+**Note:** When run from within the `ember-osf` repository, this command runs the dummy app contained in /tests/dummy
+
+### Using a custom OSF backend
+In certain circumstances, you may wish to use a custom set of servers not known to the `ember-osf` addon. 
+ You can elect to specify your server URLs individually, by specifying `BACKEND=env` and passing additional environment 
+ variables/config file entries. For example:
+ 
+`BACKEND=env OSF_URL=https://e.io/ OSF_API_URL=https://api.e.io OSF_RENDER_URL=https://mfr.e.io/render OSF_FILE_URL=https://files.e.io OSF_HELP_URL=https://help.e.io OSF_COOKIE_LOGIN_URL=https://accounts.e.io/login OSF_OAUTH_URL=https://accounts.e.io/oauth2/authorize ember serve`
 
 ## Running Tests
 
-* `yarn test`
-* `ember test --server`
+* `yarn test` will run all tests used by Travis
+* `ember test --server` will run just ember tests, and reload any time that code is changed
 
-## Building
-
-* `yarn run build`
 
 For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).

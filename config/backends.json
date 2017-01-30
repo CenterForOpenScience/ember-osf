@@ -12,7 +12,7 @@
         "url": "https://staging.osf.io/",
         "apiUrl": "https://staging-api.osf.io",
         "renderUrl": "https://staging-mfr.osf.io/render",
-        "waterbutlerUrl": "http://staging-files.osf.io/",
+        "waterbutlerUrl": "https://staging-files.osf.io/",
         "helpUrl": "http://help.osf.io",
         "cookieLoginUrl": "https://staging-accounts.osf.io/login",
         "oauthUrl": "https://staging-accounts.osf.io/oauth2/authorize"
@@ -21,7 +21,7 @@
         "url": "https://staging2.osf.io/",
         "apiUrl": "https://staging2-api.osf.io",
         "renderUrl": "https://staging2-mfr.osf.io/render",
-        "waterbutlerUrl": "http://staging2-files.osf.io/",
+        "waterbutlerUrl": "https://staging2-files.osf.io/",
         "helpUrl": "http://help.osf.io",
         "cookieLoginUrl": "https://staging2-accounts.osf.io/login",
         "oauthUrl": "https://staging2-accounts.osf.io/oauth2/authorize"
@@ -30,16 +30,25 @@
         "url": "https://staging3.osf.io/",
         "apiUrl": "https://staging3-api.osf.io",
         "renderUrl": "https://staging3-mfr.osf.io/render",
-        "waterbutlerUrl": "http://staging3-files.osf.io/",
+        "waterbutlerUrl": "https://staging3-files.osf.io/",
         "helpUrl": "http://help.osf.io",
         "cookieLoginUrl": "https://staging3-accounts.osf.io/login",
         "oauthUrl": "https://staging3-accounts.osf.io/oauth2/authorize"
+    },
+    "prod": {
+        "url": "https://osf.io/",
+        "apiUrl": "https://api.osf.io",
+        "renderUrl": "https://mfr.osf.io/render",
+        "waterbutlerUrl": "https://files.osf.io/",
+        "helpUrl": "http://help.osf.io",
+        "cookieLoginUrl": "https://accounts.osf.io/login",
+        "oauthUrl": "https://accounts.osf.io/oauth2/authorize"
     },
     "test": {
         "url": "https://test.osf.io/",
         "apiUrl": "https://test-api.osf.io",
         "renderUrl": "https://test-mfr.osf.io/render",
-        "waterbutlerUrl": "http://test-files.osf.io/",
+        "waterbutlerUrl": "https://test-files.osf.io/",
         "helpUrl": "http://help.osf.io",
         "cookieLoginUrl": "https://test-accounts.osf.io/login",
         "oauthUrl": "https://test-accounts.osf.io/oauth2/authorize"

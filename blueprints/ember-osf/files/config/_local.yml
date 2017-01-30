@@ -3,15 +3,19 @@
 # environment variables in your deployment environment
 
 ### Login settings
+# Default is ability to read and write all data associated with a user's account. Some apps may not need full account
+#  privileges. If your app only reads data, best practice is to limit permission requests to only what you need.
 OAUTH_SCOPES: osf.full_write
+# Where to send the user on the site after they authenticated. Usually this is a page enabled to handle the oauth flow.
 REDIRECT_URI: http://localhost:4200/login/
-# The developer app client ID (not client secret!). Allows your app to let users log in via the OSF.
+# The developer app client ID (not client secret!). This is needed for your app to let users log in via the OSF.
 CLIENT_ID: null
 # Credentials for only a single user. This setting will be ignored except for local development; NEVER commit to github
 PERSONAL_ACCESS_TOKEN: null
 
 ### In general, you can leave the items below commented out; ember-osf already knows how to talk to many common OSF
 ##    backends. Only use the below if running against a new or custom OSF instance where you need to control the URLs.
+##    These values will be ignored unless running with `BACKEND=env`.
 #OSF_URL: 'http://localhost:5000/'
 #OSF_API_URL: 'http://localhost:8000'
 #OSF_RENDER_URL: 'http://localhost:7778/render'
