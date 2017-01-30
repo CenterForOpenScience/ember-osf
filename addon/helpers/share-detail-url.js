@@ -11,8 +11,7 @@ import config from 'ember-get-config';
  */
 export function shareDetailURL(params/*, hash*/) {
     const [type, id] = params;
-    const baseUrl = config.SHARE.baseUrl;
-    return baseUrl + type + '/' + id;
+    return `${config.SHARE.baseUrl}${type.toLowerCase()}/${id}`;
 }
 
 export default Ember.Helper.helper(shareDetailURL);
