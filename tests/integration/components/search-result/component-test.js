@@ -10,7 +10,9 @@ test('it renders', function(assert) {
   // Handle any actions with this.on('myAction', function(val) { ... });
     this.set('addFilter', () => {});
     this.set('obj', {
-        title: 'Hello'
+        title: 'Hello',
+        id: '12345',
+        type: 'Retraction'
     });
     this.render(hbs`{{search-result
         addFilter=(action addFilter)
