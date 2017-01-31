@@ -15,7 +15,7 @@ PERSONAL_ACCESS_TOKEN: null
 
 ### In general, you can leave the items below commented out; ember-osf already knows how to talk to many common OSF
 ##    backends. Only use the below if running against a new or custom OSF instance where you need to control the URLs.
-##    These values will be ignored unless running with `BACKEND=env`.
+##    These values WILL be ignored unless you explicitly specify `BACKEND=env`.
 #OSF_URL: 'http://localhost:5000/'
 #OSF_API_URL: 'http://localhost:8000'
 #OSF_RENDER_URL: 'http://localhost:7778/render'

@@ -9,30 +9,12 @@ var compileSass = require('broccoli-sass-source-maps');
 // Fetch a list of known backends. The user can always choose to override any of these URLs via ENV vars
 var knownBackends = require('./config/backends');
 
-
-// The following environment variables can always override any other settings. These key names should match local.yml options.
-const authEnvVars = ['OAUTH_SCOPES', 'REDIRECT_URI', 'CLIENT_ID', 'PERSONAL_ACCESS_TOKEN'];
-const backendUrlEnvVars = [
-    "OSF_URL", "OSF_API_URL", "OSF_RENDER_URL", "OSF_FILE_URL", "OSF_HELP_URL",
-    "OSF_COOKIE_LOGIN_URL", "OSF_OAUTH_URL"
-];
-const knownEnvVars = authEnvVars.concat(backendUrlEnvVars);
-
-/**
- * @method getEnvConfig Fetch values of the selected environment variables
- * @param env A dictionary representing environment variable configuration
- * @param desiredKeys
- */
-function getEnvConfig(env, desiredKeys) {
-    desiredKeys = desiredKeys || knownEnvVars;
-    var res = {};
-    desiredKeys.forEach(function(key) {
-        const val = env[key];
-        if (val) {
-            res[key] = val;
-        }
-    });
-    return res;
+// Shorthand closure to fetch a key from one of two places (environment vars or a specified object)
+function envOrSource(env, source) {
+    function getKey(keyName) {
+        return env[keyName] || source[keyName];
+    }
+    return getKey;
 }
 
 module.exports = {
@@ -43,25 +25,24 @@ module.exports = {
     config: function(environment, ENV) {
         let BACKEND = process.env.BACKEND || 'local';
         // Settings required to configure the developer application, primarily for OAuth2
-        let oauthYmlSettings = {};
+        let configFileSettings = {};
         // Backwards compatibility: old config/*.yml files were nested, with keys like "stage", "test", etc.
         // New files are flat- you specify the values you want once. If there is no <backendname> key, assume
         // this is a flat config file and assume the settings we want are at the top level.
-        oauthYmlSettings = config[BACKEND] || config;
+        configFileSettings = config[BACKEND] || config;
 
         // For i18n
         ENV.i18n = {
             defaultLocale: 'en-US'
         };
 
-        const envConfig = getEnvConfig(process.env);
+        const eitherConfig = envOrSource(process.env, configFileSettings);
         ENV.OSF = {
-            // TODO: make this respect envConfig!!
-            clientId: envConfig.CLIENT_ID || oauthYmlSettings.CLIENT_ID,
-            scope: envConfig.OAUTH_SCOPES || oauthYmlSettings.OAUTH_SCOPES,
+            clientId: eitherConfig('CLIENT_ID'),
+            scope: eitherConfig('OAUTH_SCOPES'),
             apiNamespace: 'v2', // URL suffix (after host)
             backend: BACKEND,
-            redirectUri: envConfig.REDIRECT_URI || oauthYmlSettings.REDIRECT_URI
+            redirectUri: eitherConfig('REDIRECT_URI')
         };
 
         // Fetch configuration information for the application
@@ -72,7 +53,7 @@ module.exports = {
         }
 
         if (BACKEND === 'local') {
-            backendUrlConfig.accessToken = envConfig.PERSONAL_ACCESS_TOKEN || oauthYmlSettings.PERSONAL_ACCESS_TOKEN;
+            backendUrlConfig.accessToken = eitherConfig('PERSONAL_ACCESS_TOKEN');
             backendUrlConfig.isLocal = true;
         } else if (BACKEND === 'prod') {
             console.warn("WARNING: you've specified production as a backend. Please do not use production for testing or development purposes");
@@ -80,10 +61,10 @@ module.exports = {
             // Optionally draw backend URL settings entirely from environment variables.
             //   This is an all-or-nothing operation; we currently do not support overriding one URL at a time.
             let newConfig = {};
-            // Map environment var names to internal config keys, eg {url: OSF_URL}. All keys must be present.
-            Object.keys(backendUrlConfig).forEach(key => {
-                const envEntryName = backendUrlConfig[key];
-                newConfig[key] =  envConfig[envEntryName] || config[envEntryName];
+            // Map internal config names to the corresponding env var names, eg {url: OSF_URL}. All keys must be present.
+            Object.keys(backendUrlConfig).forEach(internalName => {
+                const envVarName = backendUrlConfig[internalName];
+                newConfig[internalName] =  eitherConfig(envVarName);
             });
             backendUrlConfig = newConfig;
         }
@@ -93,7 +74,7 @@ module.exports = {
         });
 
         // Combine URLs + auth settings into final auth config. Anything in an env var takes precedence
-        Object.assign(ENV.OSF, backendUrlConfig, envConfig);
+        Object.assign(ENV.OSF, backendUrlConfig);
 
         ENV['ember-simple-auth'] = {
             authorizer: 'authorizer:osf-token'
