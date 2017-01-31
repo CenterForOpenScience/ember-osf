@@ -12,8 +12,5 @@ import layout from './template';
  */
 export default Ember.Component.extend({
     layout,
-    currentYear: function() {
-        let date = new Date();
-        return date.getUTCFullYear().toString();
-    }.property()
+    currentYear: (new Date()).getUTCFullYear().toString()
 });
