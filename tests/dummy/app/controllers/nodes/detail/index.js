@@ -2,8 +2,9 @@ import Ember from 'ember';
 import CommentableMixin from 'ember-osf/mixins/commentable';
 import TaggableMixin from 'ember-osf/mixins/taggable-mixin';
 import NodeActionsMixin from 'ember-osf/mixins/node-actions';
+import KeenTrackerMixin from 'ember-osf/mixins/keen-tracker';
 
-export default Ember.Controller.extend(CommentableMixin, TaggableMixin, NodeActionsMixin, {
+export default Ember.Controller.extend(CommentableMixin, TaggableMixin, NodeActionsMixin, KeenTrackerMixin, {
     toast: Ember.inject.service(),
     propertiesVisible: false,
     isSaving: false,
@@ -27,6 +28,7 @@ export default Ember.Controller.extend(CommentableMixin, TaggableMixin, NodeActi
             // Would update node properly!
         },
         updateNode() {
+            this.keenTrackFrontEndEvent('button', 'click', 'updateNode');
             this.set('isSaving', true);
             return this._super(...arguments)
                 .then(() => {
