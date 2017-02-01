@@ -40,6 +40,7 @@ export default Ember.Mixin.create({
             var user = window.contextVars.currentUser;
             var node = window.contextVars.node;
             var pageMeta = _get(window, 'contextVars.analyticsMeta.pageMeta', {});
+            var pageMeta = _get(window, 'contextVars.analyticsMeta.pageMeta', {}); // Is there any way to get this??
             return {
                 page: {
                     title: document.title,
@@ -237,7 +238,6 @@ export default Ember.Mixin.create({
             getInstance() {
                 if (!instance) {
                     instance = new KeenTracker();
-                    instance.init(window.contextVars.keen);
                     instance.init(config.KEEN);
                 }
                 return instance;
@@ -253,7 +253,7 @@ export default Ember.Mixin.create({
             user = {
                 id: userInfo.id,
                 entry_point: userInfo.attributes.entry_point,
-                institutions: null,
+                institutions: null, // Don't really want to make an API request to fetch user institutions.
                 locale: userInfo.attributes.locale,
                 timezone: userInfo.attributes.timezone
             };
