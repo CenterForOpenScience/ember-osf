@@ -14,6 +14,8 @@ export default Ember.Mixin.create({
         let data = {
             page: transition.get('targetName'),
             queryParams: transition.get('queryParams')
+            page: transition.targetName,
+            queryParams: transition.queryParams
         };
         return this.KeenTracker().getInstance().trackPageView(data);
     },
