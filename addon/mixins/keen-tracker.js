@@ -1,16 +1,24 @@
 import Ember from 'ember';
 import md5 from 'npm:js-md5';
-import config from 'ember-get-config';
 import _get from 'npm:lodash/get';
 import Cookie from 'npm:js-cookie';
+import config from 'ember-get-config';
 import keenTracking from 'npm:keen-tracking';
 
 // Adapted from website/static/js/keen.js
 export default Ember.Mixin.create({
     session: Ember.inject.service(),
+    // Add this mixin to your route, and the beforeModel hook will send pageviews to keen
+    // TODO add node to context vars, if exists?
+    beforeModel(transition) {
+        let data = {
+            page: transition.get('targetName'),
+            queryParams: transition.get('queryParams')
+        };
+        return this.KeenTracker().getInstance().trackPageView(data);
+    },
     KeenTracker() {
         function _nowUTC() {
-
             var now = new Date();
             return new Date(
                 now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),
@@ -39,7 +47,6 @@ export default Ember.Mixin.create({
 
             var user = window.contextVars.currentUser;
             var node = window.contextVars.node;
-            var pageMeta = _get(window, 'contextVars.analyticsMeta.pageMeta', {});
             var pageMeta = _get(window, 'contextVars.analyticsMeta.pageMeta', {}); // Is there any way to get this??
             return {
                 page: {
@@ -208,13 +215,13 @@ export default Ember.Mixin.create({
                     return payload;
                 };
 
-                self.trackPageView = function () {
+                self.trackPageView = function (data) {
                     var self = this;
                     if (_get(window, 'contextVars.node.isPublic', false) &&
                         _get(window, 'contextVars.analyticsMeta.pageMeta.public', false)) {
-                        self.trackPublicEvent('pageviews', {});
+                        self.trackPublicEvent('pageviews', data);
                     }
-                    self.trackPrivateEvent('pageviews', {});
+                    self.trackPrivateEvent('pageviews', data);
                 };
 
                 self.trackPrivateEvent = function(collection, event) {
