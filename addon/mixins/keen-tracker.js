@@ -10,17 +10,6 @@ export default Ember.Mixin.create({
     keen: Ember.inject.service(),
     session: Ember.inject.service(),
     KeenTracker() {
-        const keenContextVars = {
-            private: {
-                projectId: config.KEEN_PROJECT_ID,
-                writeKey: config.KEEN_WRITE_KEY
-            },
-            public: {
-                projectId: config.KEEN_PROJECT_ID,
-                writeKey: config.KEEN_WRITE_KEY
-            }
-        };
-
         function _nowUTC() {
 
             var now = new Date();
@@ -164,13 +153,13 @@ export default Ember.Mixin.create({
                         return self;
                     }
 
-                    self._publicClient = new keenTracking({
+                    self._publicClient = keenTracking({
                         projectId: params.public.projectId,
                         writeKey: params.public.writeKey,
                     });
                     self._publicClient.extendEvents(_defaultPublicKeenPayload);
 
-                    self._privateClient = new keenTracking({
+                    self._privateClient = keenTracking({
                         projectId: params.private.projectId,
                         writeKey: params.private.writeKey,
                     });
@@ -249,22 +238,66 @@ export default Ember.Mixin.create({
             getInstance() {
                 if (!instance) {
                     instance = new KeenTracker();
-                    instance.init(keenContextVars);
+                    instance.init(window.contextVars.keen);
                 }
                 return instance;
             }
         };
     },
-    keenTrackEvent(event_collection, properties) {
+    userContextVars() {
+        // Extract user variables from session.
+        const session = this.get('session');
+        let user = {};
+        if (session.get('isAuthenticated')) {
+            let userInfo = session.get('session.authenticated');
+            user = {
+                id: userInfo.id,
+                entry_point: userInfo.attributes.entry_point,
+                institutions: null,
+                locale: userInfo.attributes.locale,
+                timezone: userInfo.attributes.timezone
+            };
+        }
+        user.anon = {}; // Can I get this info?
+        return user;
+    },
+    nodeContextVars(node) {
+        // Extract node variables, if passed in.
+        let nodeVars = {};
+        if (node) {
+            nodeVars = {
+                id: node.get('id'),
+                title: node.get('title'),
+                type: node.get('category'),
+                tags: node.get('tags'),
+                isPublic: node.get('public')
+            };
+        }
+        return nodeVars;
+    },
+    keenTrackEvent(event_collection, properties, node) {
+        // Adds context vars and sends keen trackPrivateEvent method
+        window.contextVars = {};
+        window.contextVars.currentUser = this.userContextVars();
+        window.contextVars.node = this.nodeContextVars(node);
+        window.contextVars.keen = config.KEEN;
         return this.KeenTracker().getInstance().trackPrivateEvent(event_collection, properties);
     },
-    keenTrackFrontEndEvent(category, action, label) {
+    /**
+     * For front-end event-tracking - Sends event to keen. Collection: front-end-events. Properties:
+     * interaction dictionary plus supplement info like OSF
+     *
+     * @method keenTrackFrontEndEvent
+     * @param {Object} event Dictionary with category, action, label
+     * @param {Object} node Node model, if exists
+     */
+    keenTrackFrontEndEvent(event, node) {
         return this.keenTrackEvent('front-end-events', {
             interaction: {
-                category: category,
-                action: action,
-                label: label
+                category: event.category || null,
+                action: event.action || null,
+                label: event.label || null
             }
-        });
+        }, node);
     }
 });
