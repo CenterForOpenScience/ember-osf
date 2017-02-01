@@ -9,7 +9,7 @@ var compileSass = require('broccoli-sass-source-maps');
 // Fetch a list of known backends. The user can always choose to override any of these URLs via ENV vars
 var knownBackends = require('./config/backends');
 
-// Shorthand closure to fetch a key from one of two places (environment vars or a specified object)
+// Closure to fetch a key from one of two places (environment vars or a specified object). Env vars take precedence.
 function envOrSource(env, source) {
     function getKey(keyName) {
         return env[keyName] || source[keyName];
@@ -59,9 +59,9 @@ module.exports = {
             console.warn("WARNING: you've specified production as a backend. Please do not use production for testing or development purposes");
         } else if (BACKEND === 'env') {
             // Optionally draw backend URL settings entirely from environment variables.
-            //   This is an all-or-nothing operation; we currently do not support overriding one URL at a time.
+            //   This is all or nothing: If you want to specify a custom backend, you must provide ALL URLs.
             let newConfig = {};
-            // Map internal config names to the corresponding env var names, eg {url: OSF_URL}. All keys must be present.
+            // Map internal config names to the corresponding env var names, eg {url: OSF_URL}. All keys must be present
             Object.keys(backendUrlConfig).forEach(internalName => {
                 const envVarName = backendUrlConfig[internalName];
                 newConfig[internalName] =  eitherConfig(envVarName);
@@ -73,7 +73,7 @@ module.exports = {
             if (!backendUrlConfig[key]) console.error(`This backend must define a value for: ${key}`);
         });
 
-        // Combine URLs + auth settings into final auth config. Anything in an env var takes precedence
+        // Combine URLs + auth settings into final auth config
         Object.assign(ENV.OSF, backendUrlConfig);
 
         ENV['ember-simple-auth'] = {

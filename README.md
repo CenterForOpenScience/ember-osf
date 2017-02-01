@@ -87,6 +87,9 @@ environment variables with the same name as appears in the config file. Eg
 
 If you provide a setting in both the config file and an environment variable, the environment variables take precedence.
 
+You can always override auth-related settings, but attempts to override server URLs will be ignored unless you 
+explicitly specify `BACKEND=env` (see "Running" for example).
+
 ### Using the API
 Most apps that use this addon will authorize requests via OAuth2.  As may be apparent from the `CLIENT_ID` and 
 `REDIRECT_URI` settings above, you will need to [create a developer application](https://test.osf.io/settings/applications/) 
