@@ -238,6 +238,7 @@ export default Ember.Mixin.create({
                 if (!instance) {
                     instance = new KeenTracker();
                     instance.init(window.contextVars.keen);
+                    instance.init(config.KEEN);
                 }
                 return instance;
             }
@@ -279,7 +280,6 @@ export default Ember.Mixin.create({
         window.contextVars = {};
         window.contextVars.currentUser = this.userContextVars();
         window.contextVars.node = this.nodeContextVars(node);
-        window.contextVars.keen = config.KEEN;
         return this.KeenTracker().getInstance().trackPrivateEvent(event_collection, properties);
     },
     /**
