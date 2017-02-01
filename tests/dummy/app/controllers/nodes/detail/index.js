@@ -28,7 +28,12 @@ export default Ember.Controller.extend(CommentableMixin, TaggableMixin, NodeActi
             // Would update node properly!
         },
         updateNode() {
-            this.keenTrackFrontEndEvent('button', 'click', 'updateNode');
+            this.keenTrackFrontEndEvent({
+                category:'button',
+                action: 'click',
+                label: 'Update Node'
+            }, this.get('model'));
+
             this.set('isSaving', true);
             return this._super(...arguments)
                 .then(() => {
