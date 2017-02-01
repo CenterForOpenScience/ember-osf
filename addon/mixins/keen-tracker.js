@@ -12,11 +12,12 @@ export default Ember.Mixin.create({
     // TODO add node to context vars, if exists?
     beforeModel(transition) {
         let data = {
-            page: transition.get('targetName'),
-            queryParams: transition.get('queryParams')
             page: transition.targetName,
             queryParams: transition.queryParams
         };
+        window.contextVars = {};
+        window.contextVars.currentUser = this.userContextVars();
+        window.contextVars.node = this.nodeContextVars(null);
         return this.KeenTracker().getInstance().trackPageView(data);
     },
     KeenTracker() {
