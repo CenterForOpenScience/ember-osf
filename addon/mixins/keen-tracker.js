@@ -7,7 +7,6 @@ import keenTracking from 'npm:keen-tracking';
 
 // Adapted from website/static/js/keen.js
 export default Ember.Mixin.create({
-    keen: Ember.inject.service(),
     session: Ember.inject.service(),
     KeenTracker() {
         function _nowUTC() {
