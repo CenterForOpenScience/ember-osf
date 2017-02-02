@@ -5,7 +5,7 @@ dist: trusty
 
 env:
   global:
-  - SUPPRESS_NO_CONFIG_WARNING=true
+    - SUPPRESS_NO_CONFIG_WARNING=true
 
 cache:
   yarn: true
@@ -19,7 +19,7 @@ install:
   - yarn --prefer-offline --pure-lockfile
   - ./node_modules/bower/bin/bower install --config.interactive=false
 
- script:
+script:
   - yarn test:cover
 
 after_success:
