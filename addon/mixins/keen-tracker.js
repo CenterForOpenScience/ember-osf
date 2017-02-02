@@ -8,17 +8,13 @@ import keenTracking from 'npm:keen-tracking';
 // Adapted from website/static/js/keen.js
 export default Ember.Mixin.create({
     session: Ember.inject.service(),
-    // Add this mixin to your route, and the beforeModel hook will send pageviews to keen
+    // Add this mixin to your route, and the afterModel hook will send pageviews to keen
     // TODO add node to context vars, if exists?
-    beforeModel(transition) {
-        let data = {
-            page: transition.targetName,
-            queryParams: transition.queryParams
-        };
+    afterModel(model) { // Using afterModel hook so node info can be sent to keen
         window.contextVars = {};
         window.contextVars.currentUser = this.userContextVars();
-        window.contextVars.node = this.nodeContextVars(null);
-        return this.KeenTracker().getInstance().trackPageView(data);
+        window.contextVars.node = this.nodeContextVars(model); // model may not be a node, in which case, only id might be extracted
+        return this.KeenTracker().getInstance().trackPageView();
     },
     KeenTracker() {
         function _nowUTC() {
@@ -53,7 +49,7 @@ export default Ember.Mixin.create({
 
             var user = window.contextVars.currentUser;
             var node = window.contextVars.node;
-            var pageMeta = _get(window, 'contextVars.analyticsMeta.pageMeta', {}); // Is there any way to get this??
+            var pageMeta = _get(window, 'contextVars.analyticsMeta.pageMeta', {}); // Do not have this information.
             return {
                 page: {
                     title: document.title,
@@ -116,42 +112,14 @@ export default Ember.Mixin.create({
             if (client === null) {
                 return;
             }
-            client.recordEvent(collection, eventData, function (err) {
-                if (err) {
-                    console.log(err);
-                    // Raven.captureMessage('Error sending Keen data to ' + collection + ': <' + err + '>', {
-                    //     extra: {payload: eventData}
-                    // });
-                }
-            });
+            client.recordEvent(collection, eventData);
         }
 
         function _trackCustomEvents(client, events) {
             if (client === null) {
                 return;
             }
-            client.recordEvents(events, function (err, res) {
-                if (err) {
-                    console.log(err);
-                    // TODO RAVEN
-                    // Raven.captureMessage('Error sending Keen data for multiple events: <' + err + '>', {
-                    //     extra: {payload: events}
-                    // });
-                } else {
-                    for (var collection in res) {
-                        var results = res[collection];
-                        for (var idx in results) {
-                            if (!results[idx].success) {
-                                console.log(err);
-                                // TODO RAVEN
-                                // Raven.captureMessage('Error sending Keen data to ' + collection + '.', {
-                                //     extra: {payload: events[collection][idx]}
-                                // });
-                            }
-                        }
-                    }
-                }
-            });
+            client.recordEvents(events);
         }
 
         function KeenTracker() {
@@ -269,13 +237,13 @@ export default Ember.Mixin.create({
             let userInfo = session.get('session.authenticated');
             user = {
                 id: userInfo.id,
-                entry_point: userInfo.attributes.entry_point,
+                entry_point: userInfo.attributes.entry_point, // Don't have the entry point.
                 institutions: null, // Don't really want to make an API request to fetch user institutions.
                 locale: userInfo.attributes.locale,
                 timezone: userInfo.attributes.timezone
             };
         }
-        user.anon = {}; // Can I get this info?
+        user.anon = {}; // Do not have this info, but most duplicated in geo.
         return user;
     },
     nodeContextVars(node) {
@@ -300,20 +268,20 @@ export default Ember.Mixin.create({
         return this.KeenTracker().getInstance().trackPrivateEvent(collection, properties);
     },
     /**
-     * For front-end event-tracking - Sends event to keen. Collection: front-end-events. Properties:
-     * interaction dictionary plus supplement info like OSF
+     * For front-end event-tracking - Sends event info to keen front-end-events collection. Collection: front-end-events.
+     * Properties: interaction dictionary plus supplemental info in default keen payload
      *
      * @method keenTrackFrontEndEvent
      * @param {Object} event Dictionary with category, action, label
-     * @param {Object} node Node model, if exists
+     * @param {Object} model Relevant model - node model if exists
      */
-    keenTrackFrontEndEvent(event, node) {
+    keenTrackFrontEndEvent(event, model) {
         return this.keenTrackEvent('front-end-events', {
             interaction: {
                 category: event.category || null,
                 action: event.action || null,
                 label: event.label || null
             }
-        }, node);
+        }, model);
     }
 });
