@@ -9,7 +9,7 @@ import layout from './template';
 /**
  * Display a simple pagination control that advances the page. Intended for use with PaginatedRouteMixin.
  *
- * The pagination-control is now deprecated. Use pagination-pager instead.
+ * The pagination-control will be deprecated. Use pagination-pager instead.
  *
  * @class pagination-control
  */
@@ -26,9 +26,9 @@ export default Ember.Component.extend({
 
     init() {
         this._super(...arguments);
-        Ember.deprecate('pagination-control is now deprecated. Use pagination-pager instead', false, {
+        Ember.deprecate('pagination-control will be deprecated. Use pagination-pager instead', false, {
             id: 'pagination-control',
-            until: '0.1.0'
+            until: '1.0.0'
         });
     },
 
