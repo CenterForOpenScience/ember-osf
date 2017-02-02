@@ -19,12 +19,12 @@ export default Ember.Mixin.create({
     actions: {
         //keenClick action can be used in template
         keenClick(category, label, node) {
-            return this.keenTrackFrontEndEvent({category: category, action: 'click', label: label}, node);
+            return this.keenTrackFrontEndEvent({ category: category, action: 'click', label: label }, node);
 
         },
         //keenTrack action can be used in template
         keenTrack(category, action, label, node) {
-            return this.keenTrackFrontEndEvent({category: category, action: action, label: label}, node);
+            return this.keenTrackFrontEndEvent({ category: category, action: action, label: label }, node);
         }
     },
     KeenTracker() {
