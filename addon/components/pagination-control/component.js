@@ -22,11 +22,11 @@ export default Ember.Component.extend({
     }),
 
     init() {
-      this._super(...arguments);
-      Ember.deprecate("pagination-control is now deprecated. Use pagination-pager instead", false, {
-        id: "pagination-control",
-        until: '0.1.0'
-      });
+        this._super(...arguments);
+        Ember.deprecate('pagination-control is now deprecated. Use pagination-pager instead', false, {
+            id: 'pagination-control',
+            until: '0.1.0'
+        });
     },
 
     // TODO: This actions hash feels a bit kludgy
