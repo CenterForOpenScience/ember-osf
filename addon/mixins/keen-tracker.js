@@ -8,13 +8,24 @@ import keenTracking from 'npm:keen-tracking';
 // Adapted from website/static/js/keen.js
 export default Ember.Mixin.create({
     session: Ember.inject.service(),
+
     // Add this mixin to your route, and the afterModel hook will send pageviews to keen
-    // TODO add node to context vars, if exists?
     afterModel(model) { // Using afterModel hook so node info can be sent to keen
         window.contextVars = {};
         window.contextVars.currentUser = this.userContextVars();
         window.contextVars.node = this.nodeContextVars(model); // model may not be a node, in which case, only id might be extracted
         return this.KeenTracker().getInstance().trackPageView();
+    },
+    actions: {
+        //keenClick action can be used in template
+        keenClick(category, label, node) {
+            return this.keenTrackFrontEndEvent({category: category, action: 'click', label: label}, node);
+
+        },
+        //keenTrack action can be used in template
+        keenTrack(category, action, label, node) {
+            return this.keenTrackFrontEndEvent({category: category, action: action, label: label}, node);
+        }
     },
     KeenTracker() {
         function _nowUTC() {
