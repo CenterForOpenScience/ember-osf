@@ -16,6 +16,9 @@ import layout from './template';
  *   fetchResults=(action 'fetchResults')
  *   query=query}}
  * ```
+ *
+ * The osf-paginator is now deprecated. Use pagination-pager instead.
+ *
  * @class osf-paginator
  * @param {integer} totalSearchResults Number of total search results to be paginated
  * @param {action} fetchResults - action for fetching other pages of results

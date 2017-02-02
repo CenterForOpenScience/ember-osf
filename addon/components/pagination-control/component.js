@@ -8,6 +8,9 @@ import layout from './template';
 
 /**
  * Display a simple pagination control that advances the page. Intended for use with PaginatedRouteMixin.
+ *
+ * The pagination-control is now deprecated. Use pagination-pager instead.
+ *
  * @class pagination-control
  */
 export default Ember.Component.extend({
