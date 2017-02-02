@@ -24,6 +24,13 @@ import layout from './template';
 export default Ember.Component.extend({
     layout,
     currentPage: 1,
+    init() {
+      this._super(...arguments);
+      Ember.deprecate("osf-paginator is now deprecated. Use pagination-pager instead", false, {
+        id: "osf-paginator",
+        until: '0.1.0'
+      });
+    },
     pages: Ember.computed('totalSearchResults', function() {
         let totalSearchResults = this.get('totalSearchResults');
         return Math.ceil(totalSearchResults / 10);
