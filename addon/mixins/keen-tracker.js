@@ -34,16 +34,19 @@ export default Ember.Mixin.create({
             var expiresInMinutes = 25;
             expDate.setTime(expDate.getTime() + (expiresInMinutes * 60 * 1000));
             var currentSessionId = Cookie.get('keenSessionId') || keenTracking.helpers.getUniqueId();
-            Cookie.set('keenSessionId', currentSessionId, {expires: expDate, path: '/'});
+            Cookie.set('keenSessionId', currentSessionId, {
+                expires: expDate, path: '/'
+            });
         }
 
         function _getOrCreateKeenId() {
             if (!Cookie.get('keenUserId')) {
-                Cookie.set('keenUserId', keenTracking.helpers.getUniqueId(), {expires: 365, path: '/'});
+                Cookie.set('keenUserId', keenTracking.helpers.getUniqueId(), {
+                    expires: 365, path: '/'
+                });
             }
             return Cookie.get('keenUserId');
         }
-
 
         function _defaultKeenPayload() {
             _createOrUpdateKeenSession();
@@ -129,6 +132,8 @@ export default Ember.Mixin.create({
             }
             client.recordEvents(events, function (err, res) {
                 if (err) {
+                    console.log(err);
+                    // TODO RAVEN
                     // Raven.captureMessage('Error sending Keen data for multiple events: <' + err + '>', {
                     //     extra: {payload: events}
                     // });
@@ -137,6 +142,8 @@ export default Ember.Mixin.create({
                         var results = res[collection];
                         for (var idx in results) {
                             if (!results[idx].success) {
+                                console.log(err);
+                                // TODO RAVEN
                                 // Raven.captureMessage('Error sending Keen data to ' + collection + '.', {
                                 //     extra: {payload: events[collection][idx]}
                                 // });
@@ -151,31 +158,31 @@ export default Ember.Mixin.create({
             if (instance) {
                 throw new Error('Cannot instantiate another KeenTracker instance.');
             } else {
-                var self = this;
+                var _this = this;
 
-                self._publicClient = null;
-                self._privateClient = null;
+                _this._publicClient = null;
+                _this._privateClient = null;
 
-                self.init = function _initKeentracker(params) {
-                    var self = this;
+                _this.init = function _initKeentracker(params) {
+                    var _this = this;
 
                     if (params === undefined) {
-                        return self;
+                        return _this;
                     }
 
-                    self._publicClient = keenTracking({
+                    _this._publicClient = keenTracking({
                         projectId: params.public.projectId,
                         writeKey: params.public.writeKey,
                     });
-                    self._publicClient.extendEvents(_defaultPublicKeenPayload);
+                    _this._publicClient.extendEvents(_defaultPublicKeenPayload);
 
-                    self._privateClient = keenTracking({
+                    _this._privateClient = keenTracking({
                         projectId: params.private.projectId,
                         writeKey: params.private.writeKey,
                     });
-                    self._privateClient.extendEvents(_defaultPrivateKeenPayload);
+                    _this._privateClient.extendEvents(_defaultPrivateKeenPayload);
 
-                    return self;
+                    return _this;
                 };
 
                 var _defaultPublicKeenPayload = function() { return _defaultKeenPayload(); };
@@ -218,27 +225,27 @@ export default Ember.Mixin.create({
                     return payload;
                 };
 
-                self.trackPageView = function (data) {
-                    var self = this;
+                _this.trackPageView = function (data) {
+                    var _this = this;
                     if (_get(window, 'contextVars.node.isPublic', false) &&
                         _get(window, 'contextVars.analyticsMeta.pageMeta.public', false)) {
-                        self.trackPublicEvent('pageviews', data);
+                        _this.trackPublicEvent('pageviews', data);
                     }
-                    self.trackPrivateEvent('pageviews', data);
+                    _this.trackPrivateEvent('pageviews', data);
                 };
 
-                self.trackPrivateEvent = function(collection, event) {
-                    return _trackCustomEvent(self._privateClient, collection, event);
+                _this.trackPrivateEvent = function(collection, event) {
+                    return _trackCustomEvent(_this._privateClient, collection, event);
                 };
-                self.trackPrivateEvents = function(events) {
-                    return _trackCustomEvents(self._privateClient, events);
+                _this.trackPrivateEvents = function(events) {
+                    return _trackCustomEvents(_this._privateClient, events);
                 };
 
-                self.trackPublicEvent = function(collection, event) {
-                    return _trackCustomEvent(self._publicClient, collection, event);
+                _this.trackPublicEvent = function(collection, event) {
+                    return _trackCustomEvent(_this._publicClient, collection, event);
                 };
-                self.trackPublicEvents = function(events) {
-                    return _trackCustomEvents(self._publicClient, events);
+                _this.trackPublicEvents = function(events) {
+                    return _trackCustomEvents(_this._publicClient, events);
                 };
             }
         }
@@ -285,12 +292,12 @@ export default Ember.Mixin.create({
         }
         return nodeVars;
     },
-    keenTrackEvent(event_collection, properties, node) {
+    keenTrackEvent(collection, properties, node) {
         // Adds context vars and sends keen trackPrivateEvent method
         window.contextVars = {};
         window.contextVars.currentUser = this.userContextVars();
         window.contextVars.node = this.nodeContextVars(node);
-        return this.KeenTracker().getInstance().trackPrivateEvent(event_collection, properties);
+        return this.KeenTracker().getInstance().trackPrivateEvent(collection, properties);
     },
     /**
      * For front-end event-tracking - Sends event to keen. Collection: front-end-events. Properties:

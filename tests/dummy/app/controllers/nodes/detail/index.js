@@ -29,7 +29,7 @@ export default Ember.Controller.extend(CommentableMixin, TaggableMixin, NodeActi
         },
         updateNode() {
             this.keenTrackFrontEndEvent({
-                category:'button',
+                category: 'button',
                 action: 'click',
                 label: 'Update Node'
             }, this.get('model'));
