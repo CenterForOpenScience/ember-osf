@@ -1,7 +1,9 @@
 import Ember from 'ember';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
-export default Ember.Route.extend(AuthenticatedRouteMixin, {
+import GuidRouteMaskMixin from 'ember-osf/mixins/guid-route-mask';
+
+export default Ember.Route.extend(AuthenticatedRouteMixin, GuidRouteMaskMixin , {
     fileManager: Ember.inject.service(),
 
     model(params) {
