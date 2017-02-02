@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "description": "Reusable ember models and components for interacting with the Open Science Framework",
   "directories": {
-    "doc": "doc",
+    "doc": "docs",
     "test": "tests"
   },
   "scripts": {
@@ -26,7 +26,7 @@
     "node": ">=6"
   },
   "author": "Center for Open Science",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "devDependencies": {
     "broccoli-asset-rev": "^2.2.0",
     "chalk": "^1.1.3",

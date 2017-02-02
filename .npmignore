@@ -1,6 +1,8 @@
 /bower_components
+/config/coverage.js
 /config/ember-try.js
 /config/*.yml
+/coverage
 /dist
 /docs
 /.github
