@@ -98,6 +98,7 @@
     "excludeFiles": [
       "package.json",
       "bower_components",
+      "coverage",
       "dist",
       "docs",
       "tmp",
