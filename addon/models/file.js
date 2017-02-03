@@ -23,13 +23,13 @@ import FileItemMixin from 'ember-osf/mixins/file-item';
 export default OsfModel.extend(FileItemMixin, {
     _isFileModel: true,
 
-    name: DS.attr('string'),
-    kind: DS.attr('string'),
-    guid: DS.attr('string'),
+    name: DS.attr('fixstring'),
+    kind: DS.attr('fixstring'),
+    guid: DS.attr('fixstring'),
     path: DS.attr('string'),
     size: DS.attr('number'),
     currentVersion: DS.attr('number'),
-    provider: DS.attr('string'),
+    provider: DS.attr('fixstring'),
     materializedPath: DS.attr('string'),
     lastTouched: DS.attr('date'),
     dateModified: DS.attr('date'),
@@ -46,5 +46,5 @@ export default OsfModel.extend(FileItemMixin, {
     versions: DS.hasMany('file-version'),
     comments: DS.hasMany('comment'),
     node: DS.belongsTo('node'),  // TODO: In the future apiv2 may also need to support this pointing at nodes OR registrations
-    checkout: DS.attr('string')
+    checkout: DS.attr('fixstring')
 });

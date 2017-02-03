@@ -88,7 +88,7 @@ moduleFor('service:file-manager', 'Unit | Service | file manager', {
     unit: true,
     needs: [
         'model:file', 'model:file-version', 'model:comment', 'model:node',
-        'transform:links', 'transform:embed'
+        'transform:links', 'transform:embed', 'transform:fixstring'
     ],
     beforeEach() {
         this.register('service:session', sessionStub);

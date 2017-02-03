@@ -96,8 +96,13 @@ module.exports = {
             ENV.OSF.helpUrl = 'http://help.osf.io';
 
         }
+
+        const defaultAuthorizationType = 'token';
+        ENV.authorizationType = defaultAuthorizationType;
+
         ENV['ember-simple-auth'] = {
-            authorizer: 'authorizer:osf-token'
+            authorizer: `authorizer:osf-${defaultAuthorizationType}`,
+            authenticator: `authenticator:osf-${defaultAuthorizationType}`
         };
     },
     afterInstall: function(options) {
