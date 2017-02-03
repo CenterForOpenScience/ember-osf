@@ -2,6 +2,7 @@ YUI.add("yuidoc-meta", function(Y) {
    Y.YUIDoc = { meta: {
     "classes": [
         "CasAuthenticatedRouteMixin",
+        "Citation",
         "Collection",
         "Comment",
         "CommentReport",
@@ -45,6 +46,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "User",
         "ajax-helpers",
         "auth",
+        "citation-widget",
         "comment-detail",
         "comment-form",
         "comment-pane",
@@ -59,6 +61,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "file-renderer",
         "file-version",
         "file-widget",
+        "navbar-auth-dropdown",
         "oauth-popup",
         "osf-copyright",
         "osf-footer",
@@ -104,7 +107,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "components",
             "name": "components",
-            "description": "Display information about an individual comment, including controls to edit, delete, and report.\nThis component is typically used as part of the `comment-pane` component; see that component for further information.\n\nSample usage:\n```handlebars\n{{comment-detail\n  comment=comment\n  editComment=attrs.editComment\n  deleteComment=attrs.deleteComment\n  restoreComment=attrs.restoreComment\n  reportComment=attrs.reportComment}}\n```"
+            "description": "Lists citations for node in APA, MLA, and Chicago formats"
         },
         {
             "displayName": "ember",
@@ -132,7 +135,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "models",
             "name": "models",
-            "description": "Model for OSF APIv2 collections\nFor field and usage information, see:\n* https://api.osf.io/v2/docs/#!/v2/Collection_List_GET"
+            "description": "Model for OSF APIv2 citation styles"
         },
         {
             "displayName": "serializers",

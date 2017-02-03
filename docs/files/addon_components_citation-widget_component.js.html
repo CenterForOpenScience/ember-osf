@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>OsfAgnosticAuthRoute - Ember OSF</title>
+    <title>addon/components/citation-widget/component.js - Ember OSF</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -159,60 +159,66 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>OsfAgnosticAuthRoute Class</h1>
-<div class="box meta">
-        <div class="uses">
-            Uses
-            <ul class="inline commas">
-                    <li><a href="ember-osf/OsfCookieLoginRoute.html">ember-osf/OsfCookieLoginRoute</a></li>
-                    <li><a href="ember-osf/OsfTokenLoginRoute.html">ember-osf/OsfTokenLoginRoute</a></li>
-            </ul>
-        </div>
+<h1 class="file-heading">File: addon/components/citation-widget/component.js</h1>
 
-        <div class="extends">
-            Extends Ember.Mixin
-        </div>
+<div class="file">
+    <pre class="code prettyprint linenums">
+import Ember from &#x27;ember&#x27;;
+import layout from &#x27;./template&#x27;;
 
-        <div class="foundat">
-            Defined in: <a href="../files/addon_mixins_osf-agnostic-auth-route.js.html#l22"><code>addon&#x2F;mixins&#x2F;osf-agnostic-auth-route.js:22</code></a>
-        </div>
+/**
+ * @module ember-osf
+ * @submodule components
+ */
 
-            Module: <a href="../modules/mixins.html">mixins</a><br>
-            Parent Module: <a href="../modules/ember-osf.html">ember-osf</a>
+const citationStyles = [
+    {
+        linkSuffix: &#x27;apa&#x27;,
+        attr: &#x27;apa&#x27;
+    },
+    {
+        linkSuffix: &#x27;chicago-author-date&#x27;,
+        attr: &#x27;chicago&#x27;
+    },
+    {
+        linkSuffix: &#x27;modern-language-association&#x27;,
+        attr: &#x27;mla&#x27;
+    }
+];
 
-</div>
+/**
+ * Lists citations for node in APA, MLA, and Chicago formats
+ *
+ * @class citation-widget
+ * @param {node} node for which to fetch citations
+ */
+export default Ember.Component.extend({
+    layout,
+    apa: null,
+    chicago: null,
+    mla: null,
+    node: null,
+    store: Ember.inject.service(),
 
+    didRender() {
+        const node = this.get(&#x27;node&#x27;);
 
-<div class="box intro">
-    <p>Route mixin for authentication-agnostic login: defines the application at runtime to use the authentication method
-specified in environment config. Intended to be used in tandem with OsfAgnosticAuthRoute mixin.
-Some authentication methods (eg cookies) are not available to third-party applications.
-This has limited use, since most applications will only need to support one method. It may be useful for ember apps
-that run inside the OSF, eg to use the standalone dev server, or to offer support for branded apps
-on third-party domains.</p>
+        if (!node) {
+            return;
+        }
 
-</div>
+        const citationLink = node.get(&#x27;links.relationships.citation.links.related.href&#x27;);
 
+        for (const { linkSuffix, attr } of citationStyles) {
+            this.get(&#x27;store&#x27;)
+                .adapterFor(&#x27;node&#x27;)
+                .ajax(&#x60;${citationLink}${linkSuffix}/&#x60;, &#x27;GET&#x27;)
+                .then(resp =&gt; this.set(attr, resp.data.attributes.citation));
+        }
+    }
+});
 
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-
-
-
-        </div>
-
-
-
-
-    </div>
+    </pre>
 </div>
                     </div>
                 </div>

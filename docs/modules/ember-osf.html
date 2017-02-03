@@ -41,6 +41,8 @@
                                 <li><a href="../classes/ajax-helpers.html">ajax-helpers</a></li>
                                 <li><a href="../classes/auth.html">auth</a></li>
                                 <li><a href="../classes/CasAuthenticatedRouteMixin.html">CasAuthenticatedRouteMixin</a></li>
+                                <li><a href="../classes/Citation.html">Citation</a></li>
+                                <li><a href="../classes/citation-widget.html">citation-widget</a></li>
                                 <li><a href="../classes/Collection.html">Collection</a></li>
                                 <li><a href="../classes/Comment.html">Comment</a></li>
                                 <li><a href="../classes/comment-detail.html">comment-detail</a></li>
@@ -72,6 +74,7 @@
                                 <li><a href="../classes/Institution.html">Institution</a></li>
                                 <li><a href="../classes/Log.html">Log</a></li>
                                 <li><a href="../classes/Metaschema.html">Metaschema</a></li>
+                                <li><a href="../classes/navbar-auth-dropdown.html">navbar-auth-dropdown</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
                                 <li><a href="../classes/NodeActionsMixin.html">NodeActionsMixin</a></li>
                                 <li><a href="../classes/NodeLink.html">NodeLink</a></li>
@@ -186,6 +189,16 @@
                 <li class="module-class">
                     <a href="../classes/CasAuthenticatedRouteMixin.html">
                         CasAuthenticatedRouteMixin
+                    </a>
+                </li>
+                <li class="module-class">
+                    <a href="../classes/Citation.html">
+                        Citation
+                    </a>
+                </li>
+                <li class="module-class">
+                    <a href="../classes/citation-widget.html">
+                        citation-widget
                     </a>
                 </li>
                 <li class="module-class">
@@ -341,6 +354,11 @@
                 <li class="module-class">
                     <a href="../classes/Metaschema.html">
                         Metaschema
+                    </a>
+                </li>
+                <li class="module-class">
+                    <a href="../classes/navbar-auth-dropdown.html">
+                        navbar-auth-dropdown
                     </a>
                 </li>
                 <li class="module-class">
@@ -543,18 +561,7 @@ Intended to be used with the authenticator of the same name.
                     </a>
 
                     <div class="module-submodule-description">
-                        Display information about an individual comment, including controls to edit, delete, and report.
-This component is typically used as part of the <code>comment-pane</code> component; see that component for further information.
-
-Sample usage:
-<code>&#x60;</code>handlebars
-{{comment-detail
-  comment=comment
-  editComment=attrs.editComment
-  deleteComment=attrs.deleteComment
-  restoreComment=attrs.restoreComment
-  reportComment=attrs.reportComment}}
-<code>&#x60;</code>
+                        Lists citations for node in APA, MLA, and Chicago formats
                     </div>
                 </li>
                 <li class="module-submodule">
@@ -586,9 +593,7 @@ For OAuth this is done via the state parameter, and for cookies this is done via
                     </a>
 
                     <div class="module-submodule-description">
-                        Model for OSF APIv2 collections
-For field and usage information, see:
-* https://api.osf.io/v2/docs/#!/v2/Collection_List_GET
+                        Model for OSF APIv2 citation styles
                     </div>
                 </li>
                 <li class="module-submodule">

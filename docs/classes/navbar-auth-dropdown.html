@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>OsfAgnosticAuthRoute - Ember OSF</title>
+    <title>navbar-auth-dropdown - Ember OSF</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -159,37 +159,27 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>OsfAgnosticAuthRoute Class</h1>
+<h1>navbar-auth-dropdown Class</h1>
 <div class="box meta">
-        <div class="uses">
-            Uses
-            <ul class="inline commas">
-                    <li><a href="ember-osf/OsfCookieLoginRoute.html">ember-osf/OsfCookieLoginRoute</a></li>
-                    <li><a href="ember-osf/OsfTokenLoginRoute.html">ember-osf/OsfTokenLoginRoute</a></li>
-            </ul>
-        </div>
 
-        <div class="extends">
-            Extends Ember.Mixin
-        </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/addon_mixins_osf-agnostic-auth-route.js.html#l22"><code>addon&#x2F;mixins&#x2F;osf-agnostic-auth-route.js:22</code></a>
+            Defined in: <a href="../files/addon_components_navbar-auth-dropdown_component.js.html#l10"><code>addon&#x2F;components&#x2F;navbar-auth-dropdown&#x2F;component.js:10</code></a>
         </div>
 
-            Module: <a href="../modules/mixins.html">mixins</a><br>
+            Module: <a href="../modules/components.html">components</a><br>
             Parent Module: <a href="../modules/ember-osf.html">ember-osf</a>
 
 </div>
 
 
 <div class="box intro">
-    <p>Route mixin for authentication-agnostic login: defines the application at runtime to use the authentication method
-specified in environment config. Intended to be used in tandem with OsfAgnosticAuthRoute mixin.
-Some authentication methods (eg cookies) are not available to third-party applications.
-This has limited use, since most applications will only need to support one method. It may be useful for ember apps
-that run inside the OSF, eg to use the standalone dev server, or to offer support for branded apps
-on third-party domains.</p>
+    <p>Display the login dropdown on the navbar</p>
+<p>Sample usage:</p>
+<pre class="code prettyprint"><code class="language-handlebars">{{navbar-auth-dropdown
+  loginAction=loginAction
+  redirectUrl=redirectUrl}}
+</code></pre>
 
 </div>
 
@@ -198,6 +188,7 @@ on third-party domains.</p>
     <ul class="api-class-tabs">
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
     </ul>
 
     <div>
@@ -205,11 +196,50 @@ on third-party domains.</p>
             <h2 class="off-left">Item Index</h2>
 
 
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                            <li class="index-item property">
+                                <a href="#property_signupUrl">signupUrl</a>
+
+                            </li>
+                    </ul>
+                </div>
 
 
         </div>
 
 
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+<div id="property_signupUrl" class="property item">
+    <h3 class="name"><code>signupUrl</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_components_navbar-auth-dropdown_component.js.html#l33"><code>addon&#x2F;components&#x2F;navbar-auth-dropdown&#x2F;component.js:33</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The URL to use for signup. May be overridden, eg for special campaign pages</p>
+
+    </div>
+
+
+
+</div>
+            </div>
 
 
     </div>

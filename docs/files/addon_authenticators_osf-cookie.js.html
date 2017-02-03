@@ -41,6 +41,8 @@
                                 <li><a href="../classes/ajax-helpers.html">ajax-helpers</a></li>
                                 <li><a href="../classes/auth.html">auth</a></li>
                                 <li><a href="../classes/CasAuthenticatedRouteMixin.html">CasAuthenticatedRouteMixin</a></li>
+                                <li><a href="../classes/Citation.html">Citation</a></li>
+                                <li><a href="../classes/citation-widget.html">citation-widget</a></li>
                                 <li><a href="../classes/Collection.html">Collection</a></li>
                                 <li><a href="../classes/Comment.html">Comment</a></li>
                                 <li><a href="../classes/comment-detail.html">comment-detail</a></li>
@@ -72,6 +74,7 @@
                                 <li><a href="../classes/Institution.html">Institution</a></li>
                                 <li><a href="../classes/Log.html">Log</a></li>
                                 <li><a href="../classes/Metaschema.html">Metaschema</a></li>
+                                <li><a href="../classes/navbar-auth-dropdown.html">navbar-auth-dropdown</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
                                 <li><a href="../classes/NodeActionsMixin.html">NodeActionsMixin</a></li>
                                 <li><a href="../classes/NodeLink.html">NodeLink</a></li>
@@ -213,8 +216,7 @@ export default Base.extend({
             // Can&#x27;t do this via AJAX request because it redirects to CAS, and AJAX + redirect = CORS issue
 
             // Manually clear session before user leaves the page, since we aren&#x27;t sticking around for ESA to do so later
-            this.get(&#x27;session.session&#x27;)._clear(true)
-                .then(() =&gt; window.location = &#x60;${config.OSF.url}logout/&#x60;);
+            return this.get(&#x27;session.session&#x27;)._clear(true);
         } else {
             // This branch is expected to be called when a test request reveals the user to lack permissions... so session should be wiped
             return Ember.RSVP.resolve();

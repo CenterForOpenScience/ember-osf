@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>OsfAgnosticAuthRoute - Ember OSF</title>
+    <title>addon/components/navbar-auth-dropdown/component.js - Ember OSF</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -159,60 +159,84 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>OsfAgnosticAuthRoute Class</h1>
-<div class="box meta">
-        <div class="uses">
-            Uses
-            <ul class="inline commas">
-                    <li><a href="ember-osf/OsfCookieLoginRoute.html">ember-osf/OsfCookieLoginRoute</a></li>
-                    <li><a href="ember-osf/OsfTokenLoginRoute.html">ember-osf/OsfTokenLoginRoute</a></li>
-            </ul>
-        </div>
+<h1 class="file-heading">File: addon/components/navbar-auth-dropdown/component.js</h1>
 
-        <div class="extends">
-            Extends Ember.Mixin
-        </div>
+<div class="file">
+    <pre class="code prettyprint linenums">
+import Ember from &#x27;ember&#x27;;
+import layout from &#x27;./template&#x27;;
+import config from &#x27;ember-get-config&#x27;;
 
-        <div class="foundat">
-            Defined in: <a href="../files/addon_mixins_osf-agnostic-auth-route.js.html#l22"><code>addon&#x2F;mixins&#x2F;osf-agnostic-auth-route.js:22</code></a>
-        </div>
+/**
+ * @module ember-osf
+ * @submodule components
+ */
 
-            Module: <a href="../modules/mixins.html">mixins</a><br>
-            Parent Module: <a href="../modules/ember-osf.html">ember-osf</a>
+/**
+ * Display the login dropdown on the navbar
+ *
+ * Sample usage:
+ * &#x60;&#x60;&#x60;handlebars
+ * {{navbar-auth-dropdown
+ *   loginAction=loginAction
+ *   redirectUrl=redirectUrl}}
+ * &#x60;&#x60;&#x60;
+ *
+ * @class navbar-auth-dropdown
+ */
+export default Ember.Component.extend({
+    layout,
+    session: Ember.inject.service(),
+    currentUser: Ember.inject.service(),
 
-</div>
+    tagName: &#x27;li&#x27;,
+    classNames: [&#x27;dropdown&#x27;],
+    classNameBindings: [&#x27;notAuthenticated:sign-in&#x27;],
+    notAuthenticated: Ember.computed.not(&#x27;session.isAuthenticated&#x27;),
+    redirectUrl: null,
 
+    /**
+     * The URL to use for signup. May be overridden, eg for special campaign pages
+     *
+     * @property signupUrl
+     * @type {String}
+     */
+    signupUrl: config.OSF.url + &#x27;register&#x27;,
 
-<div class="box intro">
-    <p>Route mixin for authentication-agnostic login: defines the application at runtime to use the authentication method
-specified in environment config. Intended to be used in tandem with OsfAgnosticAuthRoute mixin.
-Some authentication methods (eg cookies) are not available to third-party applications.
-This has limited use, since most applications will only need to support one method. It may be useful for ember apps
-that run inside the OSF, eg to use the standalone dev server, or to offer support for branded apps
-on third-party domains.</p>
+    gravatarUrl: Ember.computed(&#x27;user&#x27;, function() {
+        let imgLink = this.get(&#x27;user.links.profile_image&#x27;);
 
-</div>
+        return imgLink ? &#x60;${imgLink}&amp;s=25&#x60; : &#x27;&#x27;;
+    }),
+    host: config.OSF.url,
+    user: null,
+    _loadCurrentUser() {
+        this.get(&#x27;currentUser&#x27;)
+            .load()
+            .then(user =&gt; this.set(&#x27;user&#x27;, user));
+    },
+    init() {
+        this._super(...arguments);
+        // TODO: React to changes in service/ event?
+        if (this.get(&#x27;session.isAuthenticated&#x27;)) {
+            this._loadCurrentUser();
+        }
+    },
+    // TODO: These parameters are defined in osf settings.py; make sure ember config matches.
+    allowLogin: true,
+    enableInstitutions: true,
+    actions: {
+        logout() {
+            const redirectUrl = this.get(&#x27;redirectUrl&#x27;);
+            const query = redirectUrl ? &#x27;?&#x27; + Ember.$.param({ redirect_url: redirectUrl }) : &#x27;&#x27;;
+            // TODO: May not work well if logging out from page that requires login- check?
+            this.get(&#x27;session&#x27;).invalidate()
+                .then(() =&gt; window.location.href = &#x60;${config.OSF.url}logout/${query}&#x60;);
+        },
+    }
+});
 
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-
-
-
-        </div>
-
-
-
-
-    </div>
+    </pre>
 </div>
                     </div>
                 </div>
