@@ -19,13 +19,13 @@ import OsfModel from './osf-model';
  */
 export default OsfModel.extend({
     // TODO validation: maxLength
-    content: DS.attr('string'),
-    page: DS.attr('string'),
+    content: DS.attr('fixstring'),
+    page: DS.attr('fixstring'),
 
     // Placeholder for comment creation: allow specifying attributes that are sent to the server, but not as attributes
     // Both type and ID will be serialized into relationships field
-    targetID: DS.attr('string'),
-    targetType: DS.attr('string'),
+    targetID: DS.attr('fixstring'),
+    targetType: DS.attr('fixstring'),
 
     // TODO dynamic belongsTo
     user: DS.belongsTo('user'),

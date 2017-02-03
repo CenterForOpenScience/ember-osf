@@ -16,7 +16,7 @@ moduleFor('adapter:osf-adapter', 'Unit | Adapter | osf adapter', {
         'adapter:osf-adapter', 'adapter:node', 'adapter:user',
         'serializer:node',
         'service:session',
-        'transform:links', 'transform:embed'
+        'transform:links', 'transform:embed', 'transform:fixstring'
     ],
     beforeEach() {
         manualSetup(this.container);
