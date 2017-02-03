@@ -41,8 +41,6 @@
                                 <li><a href="../classes/ajax-helpers.html">ajax-helpers</a></li>
                                 <li><a href="../classes/auth.html">auth</a></li>
                                 <li><a href="../classes/CasAuthenticatedRouteMixin.html">CasAuthenticatedRouteMixin</a></li>
-                                <li><a href="../classes/Citation.html">Citation</a></li>
-                                <li><a href="../classes/citation-widget.html">citation-widget</a></li>
                                 <li><a href="../classes/Collection.html">Collection</a></li>
                                 <li><a href="../classes/Comment.html">Comment</a></li>
                                 <li><a href="../classes/comment-detail.html">comment-detail</a></li>
@@ -74,7 +72,6 @@
                                 <li><a href="../classes/Institution.html">Institution</a></li>
                                 <li><a href="../classes/Log.html">Log</a></li>
                                 <li><a href="../classes/Metaschema.html">Metaschema</a></li>
-                                <li><a href="../classes/navbar-auth-dropdown.html">navbar-auth-dropdown</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
                                 <li><a href="../classes/NodeActionsMixin.html">NodeActionsMixin</a></li>
                                 <li><a href="../classes/NodeLink.html">NodeLink</a></li>
@@ -188,26 +185,9 @@ import {
  * @uses GenericDataAdapterMixin
  */
 export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDataAdapterMixin, {
-    headers: {
-        ACCEPT: &#x27;application/vnd.api+json; version=2.3&#x27;
-    },
     authorizer: config[&#x27;ember-simple-auth&#x27;].authorizer,
     host: config.OSF.apiUrl,
     namespace: config.OSF.apiNamespace,
-    /**
-     * Overrides buildQuery method - Allows users to embed resources with findRecord
-     * OSF APIv2 does not have &quot;include&quot; functionality, instead we use &#x27;embed&#x27;.
-     * Usage: findRecord(type, id, {include: &#x27;resource&#x27;}) or findRecord(type, id, {include: [&#x27;resource1&#x27;, resource2]})
-     * Swaps included resources with embedded resources
-     */
-    buildQuery() {
-        let query = this._super(...arguments);
-        if (query.include) {
-            query.embed = query.include;
-        }
-        delete query.include;
-        return query;
-    },
     buildURL(modelName, id, snapshot, requestType) {
         var url = this._super(...arguments);
         var options = (snapshot ? snapshot.adapterOptions : false) || {};
@@ -402,7 +382,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
             data: data,
             isBulk: isBulk
         }).then(res =&gt; {
-            if (res &amp;&amp; !Ember.$.isArray(res.data)) {
+            if (!Ember.$.isArray(res.data)) {
                 res.data = [res.data];
             }
             return res;

@@ -41,8 +41,6 @@
                                 <li><a href="../classes/ajax-helpers.html">ajax-helpers</a></li>
                                 <li><a href="../classes/auth.html">auth</a></li>
                                 <li><a href="../classes/CasAuthenticatedRouteMixin.html">CasAuthenticatedRouteMixin</a></li>
-                                <li><a href="../classes/Citation.html">Citation</a></li>
-                                <li><a href="../classes/citation-widget.html">citation-widget</a></li>
                                 <li><a href="../classes/Collection.html">Collection</a></li>
                                 <li><a href="../classes/Comment.html">Comment</a></li>
                                 <li><a href="../classes/comment-detail.html">comment-detail</a></li>
@@ -74,7 +72,6 @@
                                 <li><a href="../classes/Institution.html">Institution</a></li>
                                 <li><a href="../classes/Log.html">Log</a></li>
                                 <li><a href="../classes/Metaschema.html">Metaschema</a></li>
-                                <li><a href="../classes/navbar-auth-dropdown.html">navbar-auth-dropdown</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
                                 <li><a href="../classes/NodeActionsMixin.html">NodeActionsMixin</a></li>
                                 <li><a href="../classes/NodeLink.html">NodeLink</a></li>
@@ -181,9 +178,6 @@ import layout from &#x27;./template&#x27;;
  *   fetchResults=(action &#x27;fetchResults&#x27;)
  *   query=query}}
  * &#x60;&#x60;&#x60;
- *
- * The osf-paginator will be deprecated. Use pagination-pager instead.
- *
  * @class osf-paginator
  * @param {integer} totalSearchResults Number of total search results to be paginated
  * @param {action} fetchResults - action for fetching other pages of results
@@ -192,13 +186,6 @@ import layout from &#x27;./template&#x27;;
 export default Ember.Component.extend({
     layout,
     currentPage: 1,
-    init() {
-        this._super(...arguments);
-        Ember.deprecate(&#x27;osf-paginator will be deprecated. Use pagination-pager instead&#x27;, false, {
-            id: &#x27;osf-paginator&#x27;,
-            until: &#x27;1.0.0&#x27;
-        });
-    },
     pages: Ember.computed(&#x27;totalSearchResults&#x27;, function() {
         let totalSearchResults = this.get(&#x27;totalSearchResults&#x27;);
         return Math.ceil(totalSearchResults / 10);

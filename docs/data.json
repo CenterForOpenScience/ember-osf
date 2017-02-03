@@ -58,20 +58,11 @@
             "fors": {},
             "namespaces": {}
         },
-        "addon/components/citation-widget/component.js": {
-            "name": "addon/components/citation-widget/component.js",
+        "addon/components/comment-detail/component.js": {
+            "name": "addon/components/comment-detail/component.js",
             "modules": {
                 "components": 1
             },
-            "classes": {
-                "citation-widget": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "addon/components/comment-detail/component.js": {
-            "name": "addon/components/comment-detail/component.js",
-            "modules": {},
             "classes": {
                 "comment-detail": 1
             },
@@ -171,15 +162,6 @@
             "modules": {},
             "classes": {
                 "file-widget": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "addon/components/navbar-auth-dropdown/component.js": {
-            "name": "addon/components/navbar-auth-dropdown/component.js",
-            "modules": {},
-            "classes": {
-                "navbar-auth-dropdown": 1
             },
             "fors": {},
             "namespaces": {}
@@ -456,20 +438,11 @@
             "fors": {},
             "namespaces": {}
         },
-        "addon/models/citation.js": {
-            "name": "addon/models/citation.js",
+        "addon/models/collection.js": {
+            "name": "addon/models/collection.js",
             "modules": {
                 "models": 1
             },
-            "classes": {
-                "Citation": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "addon/models/collection.js": {
-            "name": "addon/models/collection.js",
-            "modules": {},
             "classes": {
                 "Collection": 1
             },
@@ -703,7 +676,6 @@
                 "OsfTokenAuthenticator": 1,
                 "OsfCookieAuthorizer": 1,
                 "OsfTokenAuthorizer": 1,
-                "citation-widget": 1,
                 "comment-detail": 1,
                 "comment-form": 1,
                 "comment-pane": 1,
@@ -715,7 +687,6 @@
                 "file-renderer": 1,
                 "file-version": 1,
                 "file-widget": 1,
-                "navbar-auth-dropdown": 1,
                 "oauth-popup": 1,
                 "osf-copyright": 1,
                 "osf-footer": 1,
@@ -744,7 +715,6 @@
                 "PaginatedRouteMixin": 1,
                 "RegistrationActionsMixin": 1,
                 "TaggableMixin": 1,
-                "Citation": 1,
                 "Collection": 1,
                 "CommentReport": 1,
                 "Comment": 1,
@@ -828,7 +798,6 @@
             "submodules": {},
             "elements": {},
             "classes": {
-                "citation-widget": 1,
                 "comment-detail": 1,
                 "comment-form": 1,
                 "comment-pane": 1,
@@ -840,7 +809,6 @@
                 "file-renderer": 1,
                 "file-version": 1,
                 "file-widget": 1,
-                "navbar-auth-dropdown": 1,
                 "oauth-popup": 1,
                 "osf-copyright": 1,
                 "osf-footer": 1,
@@ -859,7 +827,7 @@
             "namespace": "",
             "file": "addon/components/tags-widget/component.js",
             "line": 9,
-            "description": "Lists citations for node in APA, MLA, and Chicago formats"
+            "description": "Display information about an individual comment, including controls to edit, delete, and report.\nThis component is typically used as part of the `comment-pane` component; see that component for further information.\n\nSample usage:\n```handlebars\n{{comment-detail\n  comment=comment\n  editComment=attrs.editComment\n  deleteComment=attrs.deleteComment\n  restoreComment=attrs.restoreComment\n  reportComment=attrs.reportComment}}\n```"
         },
         "helpers": {
             "name": "helpers",
@@ -926,7 +894,6 @@
             "submodules": {},
             "elements": {},
             "classes": {
-                "Citation": 1,
                 "Collection": 1,
                 "CommentReport": 1,
                 "Comment": 1,
@@ -953,7 +920,7 @@
             "namespace": "",
             "file": "addon/models/user.js",
             "line": 11,
-            "description": "Model for OSF APIv2 citation styles"
+            "description": "Model for OSF APIv2 collections\nFor field and usage information, see:\n* https://api.osf.io/v2/docs/#!/v2/Collection_List_GET"
         },
         "ember-preprints": {
             "name": "ember-preprints",
@@ -1102,28 +1069,6 @@
             "line": 8,
             "description": "Ember-simple-auth compatible authorizer based on OAuth2 bearer tokens.\n\nIntended to be used with the authenticator of the same name.",
             "extends": "ember-simple-auth/BaseAuthorizer"
-        },
-        "citation-widget": {
-            "name": "citation-widget",
-            "shortname": "citation-widget",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "ember-osf",
-            "submodule": "components",
-            "namespace": "",
-            "file": "addon/components/citation-widget/component.js",
-            "line": 24,
-            "description": "Lists citations for node in APA, MLA, and Chicago formats",
-            "params": [
-                {
-                    "name": "node",
-                    "description": "for which to fetch citations",
-                    "type": "Node"
-                }
-            ]
         },
         "comment-detail": {
             "name": "comment-detail",
@@ -1356,21 +1301,6 @@
             "line": 13,
             "description": "Widget to quickly upload a file to a selected project\n```handlebars\n{{file-widget\n  preUpload=(action 'preUpload')\n  buildUrl=(action 'buildUrl')\n  listeners=dropzoneOptions\n  options=dropzoneOptions}}\n```"
         },
-        "navbar-auth-dropdown": {
-            "name": "navbar-auth-dropdown",
-            "shortname": "navbar-auth-dropdown",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "ember-osf",
-            "submodule": "components",
-            "namespace": "",
-            "file": "addon/components/navbar-auth-dropdown/component.js",
-            "line": 10,
-            "description": "Display the login dropdown on the navbar\n\nSample usage:\n```handlebars\n{{navbar-auth-dropdown\n  loginAction=loginAction\n  redirectUrl=redirectUrl}}\n```"
-        },
         "oauth-popup": {
             "name": "oauth-popup",
             "shortname": "oauth-popup",
@@ -1459,7 +1389,7 @@
             "namespace": "",
             "file": "addon/components/osf-paginator/component.js",
             "line": 9,
-            "description": "OSF Paginator adapted from osf/website/static/js/paginator.js\n\nSample usage:\n```handlebars\n{{osf-paginator\n  totalSearchResults=totalSearchResults\n  fetchResults=(action 'fetchResults')\n  query=query}}\n```\n\nThe osf-paginator will be deprecated. Use pagination-pager instead.",
+            "description": "OSF Paginator adapted from osf/website/static/js/paginator.js\n\nSample usage:\n```handlebars\n{{osf-paginator\n  totalSearchResults=totalSearchResults\n  fetchResults=(action 'fetchResults')\n  query=query}}\n```",
             "params": [
                 {
                     "name": "totalSearchResults",
@@ -1491,7 +1421,7 @@
             "namespace": "",
             "file": "addon/components/pagination-control/component.js",
             "line": 9,
-            "description": "Display a simple pagination control that advances the page. Intended for use with PaginatedRouteMixin.\n\nThe pagination-control will be deprecated. Use pagination-pager instead."
+            "description": "Display a simple pagination control that advances the page. Intended for use with PaginatedRouteMixin."
         },
         "search-dropdown": {
             "name": "search-dropdown",
@@ -1870,21 +1800,6 @@
             "description": "Controller mixin that implements basic tagging functionality. Uses the model defined in the model hook.",
             "extends": "Ember.Mixin"
         },
-        "Citation": {
-            "name": "Citation",
-            "shortname": "Citation",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "ember-osf",
-            "submodule": "models",
-            "namespace": "",
-            "file": "addon/models/citation.js",
-            "line": 10,
-            "description": "Model for OSF APIv2 citation styles"
-        },
         "Collection": {
             "name": "Collection",
             "shortname": "Collection",
@@ -2238,15 +2153,7 @@
     "classitems": [
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 32,
-            "description": "Overrides buildQuery method - Allows users to embed resources with findRecord\nOSF APIv2 does not have \"include\" functionality, instead we use 'embed'.\nUsage: findRecord(type, id, {include: 'resource'}) or findRecord(type, id, {include: ['resource1', resource2]})\nSwaps included resources with embedded resources",
-            "class": "OsfAdapter",
-            "module": "ember-osf",
-            "submodule": "adapters"
-        },
-        {
-            "file": "addon/adapters/osf-adapter.js",
-            "line": 64,
+            "line": 47,
             "description": "Construct a URL for a relationship create/update/delete.",
             "itemtype": "method",
             "name": "_buildRelationshipURL",
@@ -2274,7 +2181,7 @@
         },
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 82,
+            "line": 65,
             "description": "Handle creation of related resources",
             "itemtype": "method",
             "name": "_createRelated",
@@ -2318,7 +2225,7 @@
         },
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 110,
+            "line": 93,
             "description": "Handle add(s) of related resources. This differs from CREATEs in that the related\nrecord is already saved and is just being associated with the inverse record.",
             "itemtype": "method",
             "name": "_addRelated",
@@ -2362,7 +2269,7 @@
         },
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 131,
+            "line": 114,
             "description": "Handle update(s) of related resources",
             "itemtype": "method",
             "name": "_updateRelated",
@@ -2406,7 +2313,7 @@
         },
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 153,
+            "line": 136,
             "description": "Handle removal of related resources. This differs from DELETEs in that the related\nrecord is not deleted, just dissociated from the inverse record.",
             "itemtype": "method",
             "name": "_removeRelated",
@@ -2450,7 +2357,7 @@
         },
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 172,
+            "line": 155,
             "description": "Handle deletion of related resources",
             "itemtype": "method",
             "name": "_deleteRelated",
@@ -2494,7 +2401,7 @@
         },
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 189,
+            "line": 172,
             "description": "A helper for making _*Related requests",
             "itemtype": "method",
             "name": "_doRelatedRequest",
@@ -2543,7 +2450,7 @@
         },
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 246,
+            "line": 229,
             "description": "Delegate a series of requests based on a snapshot, relationship, and a change.\nThe change argument can be 'delete', 'remove', 'update', 'add', 'create'",
             "itemtype": "method",
             "name": "_handleRelatedRequest",
@@ -2592,7 +2499,7 @@
         },
         {
             "file": "addon/authenticators/osf-cookie.js",
-            "line": 60,
+            "line": 61,
             "description": "For now, simply verify that a token is present and can be used",
             "itemtype": "method",
             "name": "authenticate",
@@ -2638,23 +2545,23 @@
             "submodule": "components"
         },
         {
-            "file": "addon/components/navbar-auth-dropdown/component.js",
-            "line": 33,
-            "description": "The URL to use for signup. May be overridden, eg for special campaign pages",
+            "file": "addon/components/osf-navbar/component.js",
+            "line": 27,
+            "description": "Whether search icons and functionality show up",
             "itemtype": "property",
-            "name": "signupUrl",
-            "type": "{String}",
-            "class": "navbar-auth-dropdown",
+            "name": "hideSearch",
+            "type": "{Boolean}",
+            "class": "osf-navbar",
             "module": "ember-osf",
             "submodule": "components"
         },
         {
             "file": "addon/components/osf-navbar/component.js",
-            "line": 26,
-            "description": "Whether search icons and functionality show up",
+            "line": 34,
+            "description": "The URL to use for signup. May be overridden, eg for special campaign pages",
             "itemtype": "property",
-            "name": "hideSearch",
-            "type": "{Boolean}",
+            "name": "signupUrl",
+            "type": "{String}",
             "class": "osf-navbar",
             "module": "ember-osf",
             "submodule": "components"
@@ -3336,18 +3243,18 @@
         {
             "file": "addon/mixins/node-actions.js",
             "line": 199,
-            "description": "Adds a relationship to another node, called a linkedNode.",
+            "description": "Add a node link (pointer) to another node",
             "itemtype": "method",
             "name": "addNodeLink",
             "params": [
                 {
                     "name": "targetNodeId",
-                    "description": "ID of the node for which you wish to create a link",
+                    "description": "ID of the node for which you wish to create a pointer",
                     "type": "String"
                 }
             ],
             "return": {
-                "description": "Returns a promise that resolves to the newly updated node",
+                "description": "Returns a promise that resolves to model for the newly created NodeLink",
                 "type": "Promise"
             },
             "class": "NodeActionsMixin",
@@ -3357,18 +3264,18 @@
         {
             "file": "addon/mixins/node-actions.js",
             "line": 214,
-            "description": "Removes the linkedNode relationship to another node. Does not remove the linked node itself.",
+            "description": "Remove a node link (pointer) to another node",
             "itemtype": "method",
             "name": "removeNodeLink",
             "params": [
                 {
-                    "name": "linkedNode",
-                    "description": "linkedNode relationship to be destroyed.",
+                    "name": "nodeLink",
+                    "description": "nodeLink record to be destroyed.",
                     "type": "Object"
                 }
             ],
             "return": {
-                "description": "Returns a promise that resolves to the newly updated node",
+                "description": "Returns a promise that resolves after the node link has been removed.  This does not delete\nthe target node itself.",
                 "type": "Promise"
             },
             "class": "NodeActionsMixin",
@@ -3648,7 +3555,7 @@
         },
         {
             "file": "addon/models/node.js",
-            "line": 90,
+            "line": 83,
             "description": "Is this a project? Flag can be used to provide template-specific behavior for different resource types.",
             "itemtype": "property",
             "name": "isProject",
@@ -3659,7 +3566,7 @@
         },
         {
             "file": "addon/models/node.js",
-            "line": 96,
+            "line": 89,
             "description": "Is this a registration? Flag can be used to provide template-specific behavior for different resource types.",
             "itemtype": "property",
             "name": "isRegistration",
@@ -3670,7 +3577,7 @@
         },
         {
             "file": "addon/models/node.js",
-            "line": 103,
+            "line": 96,
             "description": "Is this node being viewed through an anonymized, view-only link?",
             "itemtype": "property",
             "name": "isAnonymous",
@@ -3681,7 +3588,7 @@
         },
         {
             "file": "addon/models/node.js",
-            "line": 110,
+            "line": 103,
             "description": "Determine whether the specified user ID is a contributor on this node",
             "itemtype": "method",
             "name": "isContributor",
@@ -4494,11 +4401,7 @@
     "warnings": [
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " addon/models/node.js:110"
-        },
-        {
-            "message": "Missing item type\nOverrides buildQuery method - Allows users to embed resources with findRecord\nOSF APIv2 does not have \"include\" functionality, instead we use 'embed'.\nUsage: findRecord(type, id, {include: 'resource'}) or findRecord(type, id, {include: ['resource1', resource2]})\nSwaps included resources with embedded resources",
-            "line": " addon/adapters/osf-adapter.js:32"
+            "line": " addon/models/node.js:103"
         }
     ]
 }
