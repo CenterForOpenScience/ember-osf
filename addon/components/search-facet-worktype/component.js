@@ -2,7 +2,21 @@ import Ember from 'ember';
 import layout from './template';
 import { termsFilter, getUniqueList } from '../../utils/elastic-query';
 
-// Copied from Ember-SHARE.  Type facet.
+/**
+ * Copied from Ember-SHARE.  Type facet.
+ *
+ * ```handlebars
+ * {{search-facet-worktype
+ *      key=facet.key
+ *      options=facet
+ *      aggregations=aggregations
+ *      state=(get facetStates facet.key)
+ *      filter=(get facetFilters facet.key)
+ *      onChange=(action 'facetChanged')
+ * }}
+ * ```
+ * @class search-facet-worktype
+ */
 export default Ember.Component.extend({
     layout,
     init() {

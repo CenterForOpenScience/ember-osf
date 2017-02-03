@@ -3,7 +3,21 @@ import Ember from 'ember';
 import layout from './template';
 import TypeaheadComponent from '../search-facet-typeahead/component';
 
-// Copied from Ember-SHARE.  Sources facet. Uses C3 charts.
+/**
+ * Copied from Ember-SHARE.  Sources facet. Uses C3 charts.
+ *
+ * ```handlebars
+ * {{search-facet-source
+ *      key=facet.key
+ *      options=facet
+ *      aggregations=aggregations
+ *      state=(get facetStates facet.key)
+ *      filter=(get facetFilters facet.key)
+ *      onChange=(action 'facetChanged')
+ * }}
+ * ```
+ * @class search-facet-source
+ */
 export default TypeaheadComponent.extend({
     layout,
     c3: Ember.inject.service(),

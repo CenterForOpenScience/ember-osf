@@ -3,7 +3,21 @@ import langs from 'npm:langs';
 import { termsFilter, getUniqueList } from '../../utils/elastic-query';
 import layout from './template';
 
-// Copied from Ember-SHARE.  Language facet.
+/**
+ * Copied from Ember-SHARE.  Language facet.
+ *
+ * ```handlebars
+ * {{search-facet-language
+ *      key=facet.key
+ *      options=facet
+ *      aggregations=aggregations
+ *      state=(get facetStates facet.key)
+ *      filter=(get facetFilters facet.key)
+ *      onChange=(action 'facetChanged')
+ * }}
+ * ```
+ * @class search-facet-language
+ */
 export default Ember.Component.extend({
     layout,
 

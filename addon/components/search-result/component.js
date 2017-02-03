@@ -1,7 +1,19 @@
 import Ember from 'ember';
 import layout from './template';
 
-// Copied from Ember-SHARE - some pieces added from Ember-preprints as well.
+
+/**
+ * Adapted from Ember-SHARE - some pieces added from Ember-Preprints as well.
+ *
+ * ```handlebars
+ * {{search-result
+ *      detailRoute=detailRoute
+ *      addFilter='addFilter'
+ *      obj=obj
+ * }}
+ * ```
+ * @class search-result
+ */
 export default Ember.Component.extend({
     layout,
     maxTags: 5,

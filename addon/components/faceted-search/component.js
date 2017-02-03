@@ -1,7 +1,21 @@
 import Ember from 'ember';
 import layout from './template';
 
-// Copied from Ember-SHARE - Filter options on left hand pane of Discover Page
+/**
+ * Copied from Ember-SHARE. Sets up the filter optinos of the left hand pane of the Discover page.
+ *
+ * ```handlebars
+ * {{faceted-search
+ *      onChange='filtersChanged'
+ *      updateParams='updateParams'
+ *      filters=facetFilters
+ *      facetStates=facetStates
+ *      facets=facets
+ *      aggregations=aggregations
+ * }}
+ * ```
+ * @class faceted-search
+ */
 export default Ember.Component.extend({
     layout,
     init() {
