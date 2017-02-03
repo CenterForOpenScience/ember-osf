@@ -24,10 +24,10 @@ export default Node.extend({
     embargoEndDate: DS.attr('date'),
     pendingEmbargoApproval: DS.attr('boolean'),
     withdrawn: DS.attr('boolean'),
-    withdrawalJustification: DS.attr('string'),
+    withdrawalJustification: DS.attr('fixstring'),
     pendingWithdrawal: DS.attr('boolean'),
 
-    registrationSupplement: DS.attr('string'),
+    registrationSupplement: DS.attr('fixstring'),
     registeredMeta: DS.attr(),
 
     registeredFrom: DS.belongsTo('node', {
@@ -38,8 +38,8 @@ export default Node.extend({
     }),
     contributors: DS.hasMany('contributors'),
     comments: DS.hasMany('comments'),
-    draftRegistration: DS.attr('string'),
-    registrationChoice: DS.attr('string'),
+    draftRegistration: DS.attr('fixstring'),
+    registrationChoice: DS.attr('fixstring'),
     liftEmbargo: DS.attr()
     //more relationship
 });

@@ -95,6 +95,24 @@ Most apps that use this addon will authorize requests via OAuth2.  As may be app
 `REDIRECT_URI` settings above, you will need to [create a developer application](https://test.osf.io/settings/applications/) 
 on the relevant version of the OSF, and provide the appropriate settings for your app.
 
+### Advanced usage: Selecting an authorization type
+We expect that most projects based on `ember-osf` will authenticate via OAuth 2.0 ("Token Login"); the addon is 
+configured to use this out of the box, so long as you provide your own login page based on the appropriate mixins. 
+This is the most effective way for third-party applications to work with our services. 
+
+If you are developing an application that will be hosted under the `osf.io` domain, you may wish to use cookie-based 
+authentication instead. In that rare case, add the following lines to your `config/environment.js` file:
+
+```javascript
+    var authorizationType = 'cookie';
+    ENV.authorizationType = authorizationType;
+    
+    ENV['ember-simple-auth'] = {
+        authorizer: `authorizer:osf-${authorizationType}`,
+        authenticator: `authenticator:osf-${authorizationType}`
+    };
+```
+
 ### Running the OSF Locally (optional)
 
 For local development, you will need to be running the [OSF APIv2](https://github.com/CenterForOpenScience/osf.io#running-the-api-server).

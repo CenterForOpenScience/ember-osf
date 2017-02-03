@@ -76,8 +76,12 @@ module.exports = {
         // Combine URLs + auth settings into final auth config
         Object.assign(ENV.OSF, backendUrlConfig);
 
+        const defaultAuthorizationType = 'token';
+        ENV.authorizationType = defaultAuthorizationType;
+
         ENV['ember-simple-auth'] = {
-            authorizer: 'authorizer:osf-token'
+            authorizer: `authorizer:osf-${defaultAuthorizationType}`,
+            authenticator: `authenticator:osf-${defaultAuthorizationType}`
         };
     },
     afterInstall: function(options) {
