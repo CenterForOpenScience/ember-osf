@@ -16,7 +16,7 @@ import OsfModel from './osf-model';
  */
 export default OsfModel.extend({
     bibliographic: DS.attr('boolean'),
-    permission: DS.attr('string'),
+    permission: DS.attr('fixstring'),
 
     _userId: null,
     userId: Ember.computed('_userId', {
@@ -46,10 +46,10 @@ export default OsfModel.extend({
     }).volatile(),
 
     users: DS.belongsTo('user'),
-    unregisteredContributor: DS.attr('string'),
+    unregisteredContributor: DS.attr('fixstring'),
     index: DS.attr('number'),
-    fullName: DS.attr('string'),
-    email: DS.attr('string'),
+    fullName: DS.attr('fixstring'),
+    email: DS.attr('fixstring'),
     sendEmail: DS.attr('boolean'),
 
     node: DS.belongsTo('node', {

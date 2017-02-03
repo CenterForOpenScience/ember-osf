@@ -7,6 +7,18 @@
     {{input type="text" value=description placeholder="Node's description"}}
     <p><button onclick={{action 'createNode' title description}}>Create Node</button></p>
 </div>
+<hr>
+<p>
+    {{pagination-control
+    currentPage=page
+    pageCount=totalPages
+    next=(action 'next')
+    previous=(action 'previous')
+    goToPage=(action 'goToPage')
+    }}
+</p>
+
+<hr>
 {{#each model as |node|}}
     <hr>
     <div class="panel">
