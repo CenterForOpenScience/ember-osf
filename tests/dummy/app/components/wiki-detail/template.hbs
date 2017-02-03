@@ -1,0 +1,6 @@
+<p>{{wiki.name}}, {{wiki.contentType}}</p>
+
+<a href="#" {{action 'toggleContent'}}>{{if showContent 'Hide content' 'Show content'}}</a>
+{{#if showContent}}
+    <pre style='white-space: pre-wrap; border:none; width:100%; text-align:justify; max-height: 300px;'>{{wikiContent}}</pre>
+{{/if}}

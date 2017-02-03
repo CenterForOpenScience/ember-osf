@@ -16,6 +16,7 @@ import OsfModel from './osf-model';
  * @class Preprint
  */
 export default OsfModel.extend({
+
     title: DS.attr('fixstring'),
     // TODO: May be a relationship in the future pending APIv2 changes
     subjects: DS.attr(),

@@ -12,6 +12,9 @@ Router.map(function() {
     this.route('login');
     this.route('cookielogin');
     this.route('nodes', function() {
+        this.route('list', {
+            path: '/'
+        });
         this.route('detail', {
             path: '/:node_id'
         }, function() {
@@ -28,6 +31,7 @@ Router.map(function() {
                 });
             });
             this.route('registrations');
+            this.route('wikis');
             this.route('draft_registrations', function() {
                 this.route('detail', {
                     path: '/:draft_registration_id'

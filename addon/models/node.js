@@ -39,6 +39,8 @@ export default OsfModel.extend(FileItemMixin, {
     dateCreated: DS.attr('date'),
     dateModified: DS.attr('date'),
 
+    forkedDate: DS.attr('date'),
+
     nodeLicense: DS.attr(),
     tags: DS.attr(),
 
@@ -82,9 +84,22 @@ export default OsfModel.extend(FileItemMixin, {
         inverse: 'branchedFrom'
     }),
 
+    forks: DS.hasMany('nodes', {
+        inverse: 'forkedFrom'
+    }),
+
+    forkedFrom: DS.belongsTo('node', {
+        inverse: 'forks'
+    }),
+
     root: DS.belongsTo('node', {
         inverse: null
     }),
+
+    wikis: DS.hasMany('wikis', {
+        inverse: 'node'
+    }),
+
     logs: DS.hasMany('logs'),
 
     // These are only computeds because maintaining separate flag values on different classes would be a headache TODO: Improve.
