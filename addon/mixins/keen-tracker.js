@@ -260,7 +260,7 @@ export default Ember.Mixin.create({
     nodeContextVars(node) {
         // Extract node variables, if passed in.
         let nodeVars = {};
-        if (node) {
+        if (node && node.id) {
             nodeVars = {
                 id: node.get('id'),
                 title: node.get('title'),
