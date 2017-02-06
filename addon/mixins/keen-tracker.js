@@ -15,8 +15,10 @@ export default Ember.Mixin.create({
         window.contextVars.currentUser = this.userContextVars();
         window.contextVars.node = this.nodeContextVars(model); // model may not be a node, in which case, only id might be extracted
         let transitionData = {
-            page: transition.targetName,
-            queryParams: transition.queryParams
+            transition: {
+                page: transition.targetName,
+                queryParams: transition.queryParams
+            }
         };
         return this.KeenTracker().getInstance().trackPageView(transitionData);
     },
