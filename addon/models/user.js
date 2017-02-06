@@ -18,14 +18,14 @@ import OsfModel from './osf-model';
  * @class User
  */
 export default OsfModel.extend({
-    fullName: DS.attr('string'),
-    givenName: DS.attr('string'),
+    fullName: DS.attr('fixstring'),
+    givenName: DS.attr('fixstring'),
     middleNames: DS.attr(),
-    familyName: DS.attr('string'),
+    familyName: DS.attr('fixstring'),
 
     dateRegistered: DS.attr('date'),
     // email
-    username: DS.attr('string'),
+    username: DS.attr('fixstring'),
 
     nodes: DS.hasMany('nodes'),
     registrations: DS.hasMany('registrations'),

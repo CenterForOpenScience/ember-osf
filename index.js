@@ -6,6 +6,17 @@ var Funnel = require('broccoli-funnel');
 var mergeTrees = require('broccoli-merge-trees');
 var compileSass = require('broccoli-sass-source-maps');
 
+// Fetch a list of known backends. The user can always choose to override any of these URLs via ENV vars
+var knownBackends = require('./config/backends');
+
+// Closure to fetch a key from one of two places (environment vars or a specified object). Env vars take precedence.
+function envOrSource(env, source) {
+    function getKey(keyName) {
+        return env[keyName] || source[keyName];
+    }
+    return getKey;
+}
+
 module.exports = {
     name: 'ember-osf',
     blueprintsPath: function() {
@@ -13,91 +24,64 @@ module.exports = {
     },
     config: function(environment, ENV) {
         let BACKEND = process.env.BACKEND || 'local';
-        let SETTINGS = {};
-        try {
-            SETTINGS = config.get(BACKEND);
-        } catch (e) {
-            console.log(`WARNING: you\'ve specified a backend '${BACKEND}' that you have not configured in your config/local.yml`);
-        }
+        // Settings required to configure the developer application, primarily for OAuth2
+        let configFileSettings = {};
+        // Backwards compatibility: old config/*.yml files were nested, with keys like "stage", "test", etc.
+        // New files are flat- you specify the values you want once. If there is no <backendname> key, assume
+        // this is a flat config file and assume the settings we want are at the top level.
+        configFileSettings = config[BACKEND] || config;
 
         // For i18n
         ENV.i18n = {
             defaultLocale: 'en-US'
         };
 
+        const eitherConfig = envOrSource(process.env, configFileSettings);
         ENV.OSF = {
-            clientId: SETTINGS.CLIENT_ID,
-            scope: SETTINGS.OAUTH_SCOPES,
+            clientId: eitherConfig('CLIENT_ID'),
+            scope: eitherConfig('OAUTH_SCOPES'),
             apiNamespace: 'v2', // URL suffix (after host)
             backend: BACKEND,
-            redirectUri: SETTINGS.REDIRECT_URI
+            redirectUri: eitherConfig('REDIRECT_URI')
         };
 
+        // Fetch configuration information for the application
+        var backendUrlConfig = knownBackends[BACKEND] || {};
+
+        if (!Object.keys(knownBackends).includes(BACKEND)) {
+            console.warn('WARNING: You have specified an unknown backend environment. If you need to customize URL settings, specify BACKEND=env');
+        }
+
         if (BACKEND === 'local') {
-            ENV.OSF.url = 'http://localhost:5000/';
-            ENV.OSF.apiUrl = 'http://localhost:8000';
+            backendUrlConfig.accessToken = eitherConfig('PERSONAL_ACCESS_TOKEN');
+            backendUrlConfig.isLocal = true;
+        } else if (BACKEND === 'prod') {
+            console.warn("WARNING: you've specified production as a backend. Please do not use production for testing or development purposes");
+        } else if (BACKEND === 'env') {
+            // Optionally draw backend URL settings entirely from environment variables.
+            //   This is all or nothing: If you want to specify a custom backend, you must provide ALL URLs.
+            let newConfig = {};
+            // Map internal config names to the corresponding env var names, eg {url: OSF_URL}. All keys must be present
+            Object.keys(backendUrlConfig).forEach(internalName => {
+                const envVarName = backendUrlConfig[internalName];
+                newConfig[internalName] =  eitherConfig(envVarName);
+            });
+            backendUrlConfig = newConfig;
+        }
+        // Warn the user if some URL entries not present
+        Object.keys(backendUrlConfig).forEach(key => {
+            if (!backendUrlConfig[key]) console.error(`This backend must define a value for: ${key}`);
+        });
 
-            // Where to direct the user for cookie-based authentication
-            ENV.OSF.cookieLoginUrl = 'http://localhost:8080/login';
-            // Where to direct the user for oauth2-based authentication
-            ENV.OSF.oauthUrl = 'http://localhost:8080/oauth2/profile';
-            ENV.OSF.renderUrl = 'http://localhost:7778/render';
-            ENV.OSF.waterbutlerUrl = 'http://localhost:7777/';
-            ENV.OSF.helpUrl = 'http://localhost:4200/help';
+        // Combine URLs + auth settings into final auth config
+        Object.assign(ENV.OSF, backendUrlConfig);
 
-            ENV.OSF.accessToken = SETTINGS.PERSONAL_ACCESS_TOKEN;
-            ENV.OSF.isLocal = true;
-        }
-        if (BACKEND === 'stage') {
-            ENV.OSF.url = 'https://staging.osf.io/';
-            ENV.OSF.apiUrl = 'https://staging-api.osf.io';
-            ENV.OSF.cookieLoginUrl = 'https://staging-accounts.osf.io/login';
-            ENV.OSF.oauthUrl = 'https://staging-accounts.osf.io/oauth2/authorize';
-            ENV.OSF.renderUrl = 'https://staging-mfr.osf.io/render';
-            ENV.OSF.waterbutlerUrl = 'http://staging-files.osf.io/';
-            ENV.OSF.helpUrl = 'http://help.osf.io';
-        }
-        if (BACKEND === 'stage2') {
-            ENV.OSF.url = 'https://staging2.osf.io/';
-            ENV.OSF.apiUrl = 'https://staging2-api.osf.io';
-            ENV.OSF.cookieLoginUrl = 'https://staging2-accounts.osf.io/login';
-            ENV.OSF.oauthUrl = 'https://staging2-accounts.osf.io/oauth2/authorize';
-            ENV.OSF.renderUrl = 'https://staging2-mfr.osf.io/render';
-            ENV.OSF.waterbutlerUrl = 'http://staging2-files.osf.io/';
-            ENV.OSF.helpUrl = 'http://help.osf.io';
-        }
-        // TODO: backend needs to go away, env's need to be from environment vars on build.
-        if (BACKEND === 'stage3') {
-            ENV.OSF.url = 'https://staging3.osf.io/';
-            ENV.OSF.apiUrl = 'https://staging3-api.osf.io';
-            ENV.OSF.cookieLoginUrl = 'https://staging3-accounts.osf.io/login';
-            ENV.OSF.oauthUrl = 'https://staging3-accounts.osf.io/oauth2/authorize';
-            ENV.OSF.renderUrl = 'https://staging3-mfr.osf.io/render';
-            ENV.OSF.waterbutlerUrl = 'http://staging3-files.osf.io/';
-            ENV.OSF.helpUrl = 'http://help.osf.io';
-        }
-        if (BACKEND === 'test') {
-            ENV.OSF.url = 'https://test.osf.io/';
-            ENV.OSF.apiUrl = 'https://test-api.osf.io';
-            ENV.OSF.cookieLoginUrl = 'https://test-accounts.osf.io/login';
-            ENV.OSF.oauthUrl = 'https://test-accounts.osf.io/oauth2/authorize';
-            ENV.OSF.renderUrl = 'https://test-mfr.osf.io/render';
-            ENV.OSF.waterbutlerUrl = 'http://test-files.osf.io/';
-            ENV.OSF.helpUrl = 'http://help.osf.io';
-        }
-        if (BACKEND === 'prod') {
-            console.log(`WARNING: you\'ve specified production as a backend. Please do not use production for testing or development purposes`);
-            ENV.OSF.url = 'https://osf.io/';
-            ENV.OSF.apiUrl = 'https://api.osf.io';
-            ENV.OSF.cookieLoginUrl = 'https://accounts.osf.io/login';
-            ENV.OSF.oauthUrl = 'https://accounts.osf.io/oauth2/authorize';
-            ENV.OSF.renderUrl = 'https://mfr.osf.io/render';
-            ENV.OSF.waterbutlerUrl = 'http://files.osf.io/';
-            ENV.OSF.helpUrl = 'http://help.osf.io';
+        const defaultAuthorizationType = 'token';
+        ENV.authorizationType = defaultAuthorizationType;
 
-        }
         ENV['ember-simple-auth'] = {
-            authorizer: 'authorizer:osf-token'
+            authorizer: `authorizer:osf-${defaultAuthorizationType}`,
+            authenticator: `authenticator:osf-${defaultAuthorizationType}`
         };
     },
     afterInstall: function(options) {

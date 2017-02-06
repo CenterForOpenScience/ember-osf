@@ -19,8 +19,8 @@ import OsfModel from './osf-model';
  * @class Institution
  */
 export default OsfModel.extend({
-    name: DS.attr('string'),
-    description: DS.attr('string'),
+    name: DS.attr('fixstring'),
+    description: DS.attr('fixstring'),
     logoPath: DS.attr('string'),
     authUrl: DS.attr('string'),
 

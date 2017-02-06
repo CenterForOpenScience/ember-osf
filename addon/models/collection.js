@@ -15,7 +15,7 @@ import OsfModel from './osf-model';
  * @class Collection
  */
 export default OsfModel.extend({
-    title: DS.attr('string'),
+    title: DS.attr('fixstring'),
     dateCreated: DS.attr('date'),
     dateModified: DS.attr('date'),
     bookmarks: DS.attr('boolean'),

@@ -34,6 +34,8 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
      * OSF APIv2 does not have "include" functionality, instead we use 'embed'.
      * Usage: findRecord(type, id, {include: 'resource'}) or findRecord(type, id, {include: ['resource1', resource2]})
      * Swaps included resources with embedded resources
+     *
+     * @method buildQuery
      */
     buildQuery() {
         let query = this._super(...arguments);
