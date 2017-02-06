@@ -2,7 +2,8 @@
 
 `master` Build Status: [![Build Status](https://travis-ci.org/CenterForOpenScience/ember-osf.svg?branch=master)](https://travis-ci.org/CenterForOpenScience/ember-osf)
 
-`develop` Build Status: [![Build Status](https://travis-ci.org/CenterForOpenScience/ember-osf.svg?branch=develop)](https://travis-ci.org/CenterForOpenScience/ember-osf)
+`develop` Build Status: [![Build Status](https://travis-ci.org/CenterForOpenScience/ember-osf.svg?branch=develop)](https://travis-ci.org/CenterForOpenScience/ember-osf) 
+[![Coverage Status](https://coveralls.io/repos/github/CenterForOpenScience/ember-osf/badge.svg?branch=develop)](https://coveralls.io/github/CenterForOpenScience/ember-osf?branch=develop)
 
 This repo contains code for interacting with the OSF APIv2 inside of an Ember app.
 
@@ -76,6 +77,23 @@ personal access token on your local OSF instance [here](http://localhost:5000/se
 If for some reason you don't have a config/local.yml you can generate one. To do this:
 ```bash
 ember generate ember-osf
+```
+
+#### Advanced usage: Selecting an authorization type
+We expect that most projects based on `ember-osf` will authenticate via OAuth 2.0 ("Token Login"); the addon is 
+configured to use this out of the box, so long as you provide your own login page based on the appropriate mixins.
+
+If you are developing an application that will be hosted under the `osf.io` domain, you may wish to use cookie-based 
+authentication instead. In that rare case, add the following lines to your `config/environment.js` file:
+
+```javascript
+    var authorizationType = 'cookie';
+    ENV.authorizationType = authorizationType;
+    
+    ENV['ember-simple-auth'] = {
+        authorizer: `authorizer:osf-${authorizationType}`,
+        authenticator: `authenticator:osf-${authorizationType}`
+    };
 ```
 
 ## Usage

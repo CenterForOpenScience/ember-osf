@@ -15,6 +15,6 @@ import OsfModel from './osf-model';
  * @class CommentReport
  */
 export default OsfModel.extend({
-    category: DS.attr('string'),
+    category: DS.attr('fixstring'),
     text: DS.belongsTo('comment')
 });
