@@ -175,3 +175,18 @@ In certain circumstances, you may wish to use a custom set of servers not known 
 
 
 For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
+
+## Distribution / releases
+The information below applies only to package maintainers, and most users will not need this.
+
+The following commands can be used to publish a new release of `ember-osf`:
+
+- `yarn run bump-version [<newversion> | major | minor | patch]`: Verify that the code is in a releasable state, 
+increment the version number without generating a new git commit, and update documentation. 
+See [docs](https://docs.npmjs.com/cli/version) for recognized options.
+- `yarn run make-release`: Uses [git flow](https://github.com/nvie/gitflow) to prepare a new release. 
+You must be on the develop branch, commit all changes, and have run `git init` in this folder at least one time (ever).
+- `yarn publish`: [Publish](https://docs.npmjs.com/getting-started/publishing-npm-packages) a new version of the 
+package to the NPM registry. It is highly recommended that you do this from a fresh checkout of the repo, and 
+[validate](https://docs.npmjs.com/misc/developers#before-publishing-make-sure-your-package-installs-and-works) 
+the package contents before uploading. You must be a recognized NPM collaborator or this command will fail.
