@@ -3,13 +3,22 @@ var READ = 'read';
 var WRITE = 'write';
 
 /**
+ * @module ember-osf
+ * @submodule const
+ */
+
+/**
+ * @class permissions
+ */
+
+/**
  * Provide human-readable labels for permissions fields. Useful in dropdown UI.
  * @property permissionSelector
  * @final
- * @type {*[]}
+ * @type {Object[]}
  */
 // TODO: Document constants in YUIDoc format
-let permissionSelector = [
+const permissionSelector = [
     { value: READ, text: 'Read' },
     { value: WRITE, text: 'Read + Write' },
     { value: ADMIN, text: 'Administrator' }

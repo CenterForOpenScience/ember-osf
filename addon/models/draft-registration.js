@@ -15,7 +15,7 @@ import OsfModel from './osf-model';
  * @class DraftRegistration
  */
 export default OsfModel.extend({
-    registrationSupplement: DS.attr('string'),
+    registrationSupplement: DS.attr('fixstring'),
     registrationMetadata: DS.attr(),
     datetimeInitiated: DS.attr('date'),
     datetimeUpdated: DS.attr('date'),
