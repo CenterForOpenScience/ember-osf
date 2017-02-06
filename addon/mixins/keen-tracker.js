@@ -10,11 +10,15 @@ export default Ember.Mixin.create({
     session: Ember.inject.service(),
 
     // Add this mixin to your route, and the afterModel hook will send pageviews to keen
-    afterModel(model) { // Using afterModel hook so node info can be sent to keen
+    afterModel(model, transition) { // Using afterModel hook so node info can be sent to keen
         window.contextVars = {};
         window.contextVars.currentUser = this.userContextVars();
         window.contextVars.node = this.nodeContextVars(model); // model may not be a node, in which case, only id might be extracted
-        return this.KeenTracker().getInstance().trackPageView();
+        let transitionData = {
+            page: transition.targetName,
+            queryParams: transition.queryParams
+        };
+        return this.KeenTracker().getInstance().trackPageView(transitionData);
     },
     actions: {
         //keenClick action can be used in template
