@@ -83,7 +83,7 @@ Because of the potential for this file to include sensitive information, **we st
 If you do not wish to use file-based configuration, any of the settings above can be overridden individually as 
 environment variables with the same name as appears in the config file. Eg
 
-`BACKEND=test CLIENT_ID=gibberish ember serve`
+`BACKEND=test CLIENT_ID=gibberish ember server`
 
 If you provide a setting in both the config file and an environment variable, the environment variables take precedence.
 
@@ -165,7 +165,7 @@ In certain circumstances, you may wish to use a custom set of servers not known 
  You can elect to specify your server URLs individually, by specifying `BACKEND=env` and passing additional environment 
  variables/config file entries. For example:
  
-`BACKEND=env OSF_URL=https://e.io/ OSF_API_URL=https://api.e.io OSF_RENDER_URL=https://mfr.e.io/render OSF_FILE_URL=https://files.e.io OSF_HELP_URL=https://help.e.io OSF_COOKIE_LOGIN_URL=https://accounts.e.io/login OSF_OAUTH_URL=https://accounts.e.io/oauth2/authorize ember serve`
+`BACKEND=env OSF_URL=https://e.io/ OSF_API_URL=https://api.e.io OSF_RENDER_URL=https://mfr.e.io/render OSF_FILE_URL=https://files.e.io OSF_HELP_URL=https://help.e.io OSF_COOKIE_LOGIN_URL=https://accounts.e.io/login OSF_OAUTH_URL=https://accounts.e.io/oauth2/authorize ember server`
 
 ## Running Tests
 
