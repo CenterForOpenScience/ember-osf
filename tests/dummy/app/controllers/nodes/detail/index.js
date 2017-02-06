@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import config from 'ember-get-config';
 import CommentableMixin from 'ember-osf/mixins/commentable';
 import TaggableMixin from 'ember-osf/mixins/taggable-mixin';
 import NodeActionsMixin from 'ember-osf/mixins/node-actions';
@@ -6,6 +7,7 @@ import NodeActionsMixin from 'ember-osf/mixins/node-actions';
 export default Ember.Controller.extend(CommentableMixin, TaggableMixin, NodeActionsMixin, {
     toast: Ember.inject.service(),
     propertiesVisible: false,
+    host: config.OSF.url,
     isSaving: false,
     licenseToggle: true,
     serializedLicense: Ember.computed('model.license', function() {

@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import layout from './template';
 
-
 /**
  * Adapted from Ember-SHARE - some pieces added from Ember-Preprints as well.
  *
