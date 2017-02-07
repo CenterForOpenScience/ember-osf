@@ -9,7 +9,7 @@ import keenTracking from 'npm:keen-tracking';
 export default Ember.Mixin.create({
     session: Ember.inject.service(),
 
-    // Add this mixin to your route, and the afterModel hook will send pageviews to keen
+    // Add this mixin to your route, and the afterModel hook will send pageviews to keen.  Be sure to call super if using afterModel hook in route!
     afterModel(model, transition) { // Using afterModel hook so node info can be sent to keen
         window.contextVars = {};
         window.contextVars.currentUser = this.userContextVars();
