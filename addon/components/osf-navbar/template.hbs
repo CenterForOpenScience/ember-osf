@@ -8,8 +8,8 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                {{# unless hideSearch}}
-                    {{# unless onSearchPage}}
+                {{#unless hideSearch}}
+                    {{#unless onSearchPage}}
                         {{!-- TODO: Replace usage of knockout--}}
                         <span class="visible-xs" data-bind="click : toggleSearch, css: searchCSS">
                             <a class="osf-xs-search pull-right" {{action "toggleSearch"}} style="padding-top: 12px" >
@@ -39,13 +39,13 @@
                             <li><a href="{{host}}preprints/">Preprints</a></li>
                         </ul>
                     </li>
-                    {{# unless session.isAuthenticated}}
+                    {{#unless session.isAuthenticated}}
                         <li class="dropdown">
                             <a href="/support/" >Support</a>
                         </li>
                     {{/unless}}
-                    {{# unless hideSearch}}
-                        {{# unless onSearchPage}}
+                    {{#unless hideSearch}}
+                        {{#unless onSearchPage}}
                             <li class="hidden-xs">
                                 <a onclick={{action "toggleSearch"}}>
                                     <span rel="tooltip" data-placement="bottom" title="Search OSF" class="fa fa-search fa-lg" ></span>
@@ -53,50 +53,7 @@
                             </li>
                         {{/unless}}
                     {{/unless}}
-                    {{# if session.isAuthenticated }}
-                        {{!-- TODO: Replace display name functionality if possible- for now truncate via CSS at end of label --}}
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle nav-user-dropdown" data-toggle="dropdown" role="button" aria-expanded="false">
-                                <span class="osf-gravatar">
-                                    <img src="{{gravatarUrl}}" alt="User gravatar">
-                                </span> {{user.fullName}}
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li>
-                                    <a href="{{host}}profile/"><i class="fa fa-user fa-lg p-r-xs"></i> My Profile</a>
-                                </li>
-                                <li>
-                                    <a href="{{host}}support/" ><i class="fa fa-life-ring fa-lg p-r-xs"></i> Support</a>
-                                </li>
-
-                                <li>
-                                    <a href="{{host}}settings/"><i class="fa fa-cog fa-lg p-r-xs"></i> Settings</a>
-                                </li>
-                                <li>
-                                    <a onclick={{action 'logout'}}><i class="fa fa-sign-out fa-lg p-r-xs"></i> Log out</a>
-                                </li>
-
-                            </ul>
-                        </li>
-                    {{else if allowLogin}}
-                        {{#if institution}}  {{!-- TODO: How does the page know whether this is an institution view? Implement in the future --}}
-                            <li class="dropdown sign-in" data-bind="with: $root.signIn">
-                                <div class="btn-group">
-                                    <a href="${domain}login/?campaign=institution&redirect_url=${redirect_url}" class="btn btn-info btn-top-login">
-                                        Sign in <span class="hidden-xs"><i class="fa fa-arrow-right"></i></span>
-                                    </a>
-                                </div>
-                            </li>
-                        {{else}}
-                            <li class="dropdown sign-in">
-                                <div class="col-sm-12">
-                                    <a href="{{signupUrl}}" class="btn btn-success btn-top-signup m-r-xs">Sign Up</a>
-                                    <a {{action loginAction}} class="btn btn-info btn-top-login m-r-xs">Sign in</a>
-                                </div>
-                            </li>
-                        {{/if}}
-                    {{/if}}
+                    {{navbar-auth-dropdown signupUrl=signupUrl loginAction=loginAction}}
                 </ul>
             </div>{{!--/.navbar-collapse --}}
         </div>

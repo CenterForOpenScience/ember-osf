@@ -24,11 +24,12 @@ import FileItemMixin from 'ember-osf/mixins/file-item';
 export default OsfModel.extend(FileItemMixin, {
     isNode: true,
 
-    title: DS.attr('string'),
-    description: DS.attr('string'),
-    category: DS.attr('string'),
+    title: DS.attr('fixstring'),
+    description: DS.attr('fixstring'),
+    category: DS.attr('fixstring'),
 
-    currentUserPermissions: DS.attr('string'),
+    // List of strings
+    currentUserPermissions: DS.attr(),
 
     fork: DS.attr('boolean'),
     collection: DS.attr('boolean'),
@@ -38,9 +39,12 @@ export default OsfModel.extend(FileItemMixin, {
     dateCreated: DS.attr('date'),
     dateModified: DS.attr('date'),
 
+    forkedDate: DS.attr('date'),
+
+    nodeLicense: DS.attr(),
     tags: DS.attr(),
 
-    templateFrom: DS.attr('string'),
+    templateFrom: DS.attr('fixstring'),
 
     parent: DS.belongsTo('node', {
         inverse: 'children'
@@ -60,11 +64,17 @@ export default OsfModel.extend(FileItemMixin, {
         allowBulkRemove: true,
         inverse: 'node'
     }),
+    citation: DS.belongsTo('citation'),
+
+    license: DS.belongsTo('license', {
+        inverse: null
+    }),
 
     files: DS.hasMany('file-provider'),
     //forkedFrom: DS.belongsTo('node'),
-    nodeLinks: DS.hasMany('node-links', {
-        inverse: null
+    linkedNodes: DS.hasMany('nodes', {
+        inverse: null,
+        serializerType: 'linked-node'
     }),
     registrations: DS.hasMany('registrations', {
         inverse: 'registeredFrom'
@@ -74,9 +84,22 @@ export default OsfModel.extend(FileItemMixin, {
         inverse: 'branchedFrom'
     }),
 
+    forks: DS.hasMany('nodes', {
+        inverse: 'forkedFrom'
+    }),
+
+    forkedFrom: DS.belongsTo('node', {
+        inverse: 'forks'
+    }),
+
     root: DS.belongsTo('node', {
         inverse: null
     }),
+
+    wikis: DS.hasMany('wikis', {
+        inverse: 'node'
+    }),
+
     logs: DS.hasMany('logs'),
 
     // These are only computeds because maintaining separate flag values on different classes would be a headache TODO: Improve.
@@ -104,7 +127,7 @@ export default OsfModel.extend(FileItemMixin, {
      * Determine whether the specified user ID is a contributor on this node
      * @method isContributor
      * @param {String} userId
-     * @returns {boolean} Whether the specified user is a contributor on this node
+     * @return {boolean} Whether the specified user is a contributor on this node
      */
     isContributor(userId) {
         // Return true if there is at least one matching contributor for this user ID

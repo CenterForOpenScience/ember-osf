@@ -11,12 +11,12 @@ import OsfAdapter from 'ember-osf/adapters/osf-adapter';
 
 moduleFor('adapter:osf-adapter', 'Unit | Adapter | osf adapter', {
     needs: [
-        'model:comment', 'model:contributor', 'model:draft-registration', 'model:file-provider',
-        'model:institution', 'model:log', 'model:node', 'model:node-link', 'model:registration', 'model:user', 'model:preprint',
+        'model:comment', 'model:contributor', 'model:draft-registration', 'model:file-provider', 'model:citation',
+        'model:institution', 'model:log', 'model:node', 'model:node-link', 'model:registration', 'model:user', 'model:preprint', 'model:wiki',
         'adapter:osf-adapter', 'adapter:node', 'adapter:user',
         'serializer:node',
         'service:session',
-        'transform:links', 'transform:embed'
+        'transform:links', 'transform:embed', 'transform:fixstring'
     ],
     beforeEach() {
         manualSetup(this.container);
@@ -523,4 +523,30 @@ test('#ajaxOptions adds bulk contentType if request is bulk', function(assert) {
         isBulk: true
     });
     assert.equal(opts.contentType, 'application/vnd.api+json; ext=bulk');
+});
+
+test('#findRecord can embed(via include) data with findRecord', function(assert) {
+    this.inject.service('store');
+    let store = this.store;
+
+    let node = FactoryGuy.make('node');
+    var children;
+    Ember.run(() => {
+        children = [
+            store.createRecord('node', {
+                title: 'Foo'
+            }),
+            store.createRecord('node', {
+                title: 'Bar'
+            })
+        ];
+    });
+    node.get('children').pushObjects(children);
+
+    Ember.run(() => {
+        node.set('title', 'Parent');
+        store.findRecord('node', node.id, {include: 'children'}).then(res => {
+            assert.equal(res.get('children').toArray()[0].get('title'), children[0].get('title'));
+        });
+    });
 });

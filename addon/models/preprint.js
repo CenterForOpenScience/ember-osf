@@ -16,18 +16,21 @@ import OsfModel from './osf-model';
  * @class Preprint
  */
 export default OsfModel.extend({
-    title: DS.attr('string'),
+
+    title: DS.attr('fixstring'),
     // TODO: May be a relationship in the future pending APIv2 changes
     subjects: DS.attr(),
     dateCreated: DS.attr('date'),
     datePublished: DS.attr('date'),
-    dateModifed: DS.attr('date'),
-    doi: DS.attr('string'),
+    dateModified: DS.attr('date'),
+    doi: DS.attr('fixstring'),
     isPublished: DS.attr('boolean'),
     isPreprintOrphan: DS.attr('boolean'),
+    licenseRecord: DS.attr(),
 
     // Relationships
     node: DS.belongsTo('node', { inverse: null, async: true }),
+    license: DS.belongsTo('license', { inverse: null }),
     primaryFile: DS.belongsTo('file', { inverse: null }),
     provider: DS.belongsTo('preprint-provider', { inverse: 'preprints', async: true }),
 });

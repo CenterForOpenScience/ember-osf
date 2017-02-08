@@ -27,5 +27,6 @@ export default OsfSerializer.extend({
 const relTypes = {
     primaryFile: 'files',
     node: 'nodes',
-    provider: 'providers'
+    provider: 'providers',
+    license: 'licenses',
 };

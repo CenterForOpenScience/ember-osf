@@ -13,9 +13,28 @@
     <p><label>Category:</label> {{model.category}}</p>
     <p><label>Date Created:</label> {{moment-format model.dateCreated}}</p>
     <p><label>Date Modified:</label> {{moment-format model.dateModified}}</p>
-    <p><label>Public </label> {{model.public}} </p>
+    <p><label>Public: </label> {{model.public}} </p>
+    <p><label>Fork: </label> {{model.fork}} </p>
+    {{#if model.fork}}
+        <p><label>Forked From: </label> {{link-to model.forkedFrom.title 'nodes.detail' model.forkedFrom}}</p>
+        <p><label>Forked on:</label> {{moment-format model.forkedDate}}</p>
+    {{/if}}
     <p><label> Tags </label></p>
     {{tags-widget addATag=(action 'addATag' model) removeATag=(action 'removeATag' model) tags=model.tags}}
+    <p><label>Preprints</label></p>
+    <ul>
+        {{#each model.preprints as |prep|}}
+            <li><a href='{{host}}{{prep.id}}/'>{{prep.node.title}} (Preprint)</a></li>
+        {{/each}}
+    </ul>
+    <hr>
+
+    <p><label> License </label></p>
+    {{#if licenseToggle}}
+        {{license-picker showCategories=true toggleText=false currentValues=serializedLicense editLicense=(action 'editLicense') allowDismiss=true dismiss=(action 'toggleLicense')}}
+    {{else}}
+        <a href='#' {{action 'toggleLicense'}}>Edit License</a>
+    {{/if}}
     <hr>
     <p>
         <a href="{{model.links.html}}" target="_blank" class="btn btn-primary">
@@ -116,27 +135,38 @@
     </div>
     <hr>
 
-    <h2>Node links </h2>
+    <h2>Linked Nodes (formerly node links.  After API v2.1, node links have been deprecated). </h2>
     <table class="table">
-        {{#if model.nodeLinks}}
+        {{#if model.linkedNodes}}
             <tr>
                 <th> Id </th>
                 <th> Name </th>
                 <th> </th>
             </tr>
-            {{#each model.nodeLinks as |nodelink|}}
+            {{#each model.linkedNodes as |node|}}
                 <tr>
-                    <td> {{nodelink.targetNode.id}} </td>
-                    <td> {{link-to nodelink.targetNode.title 'nodes.detail' nodelink.targetNode.id}} </td>
-                    <td> <button {{action "removeNodeLink" nodelink}} class="btn btn-danger"> Remove </button> </td>
+                    <td> {{node.id}} </td>
+                    <td> {{link-to node.title 'nodes.detail' node.id}} </td>
+                    <td> <button {{action "removeNodeLink" node}} class="btn btn-danger"> Remove </button> </td>
                 </tr>
             {{/each}}
         {{/if}}
     </table>
     <hr>
-    <h3>Add link</h3>
+    <h3>Add linked node relationship</h3>
     <label> Target node id </label> {{input value=targetNodeId}}
     <button {{action "addNodeLink" targetNodeId}} class="btn btn-primary">Add</button>
+
+    <hr>
+    <h2> Forks </h2>
+    <ul>
+        {{#each model.forks as |forke|}}
+            <li>{{link-to forke.title 'nodes.detail' forke}}</li>
+        {{/each}}
+    </ul>
+    <hr>
+    <h2>{{link-to 'Wikis' 'nodes.detail.wikis' model}}</h2>
+    <hr>
 
     {{comment-pane
     comments=comments
@@ -145,6 +175,11 @@
     deleteComment=(action 'deleteComment')
     restoreComment=(action 'restoreComment')
     reportComment=(action 'reportComment')}}
+
+    <br>
+    <label> Citation </label>
+    <br>
+    {{citation-widget node=model}}
 
 </div>
 

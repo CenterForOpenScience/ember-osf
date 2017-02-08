@@ -1,23 +1,26 @@
----
 language: node_js
-node_js:
-  - "4.3.2"
 
 sudo: false
+dist: trusty
+
+env:
+  global:
+    - SUPPRESS_NO_CONFIG_WARNING=true
 
 cache:
+  yarn: true
   directories:
     - node_modules
-
-before_install:
-  - export PATH=/usr/local/phantomjs-2.0.0/bin:$PATH
-  - "npm config set spin false"
-  - "npm install -g npm@^2"
+    - $HOME/.cache # includes bowers cache
 
 install:
-  - npm install -g bower
-  - npm install
-  - bower install
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH=$HOME/.yarn/bin:$PATH
+  - yarn --pure-lockfile
+  - ./node_modules/bower/bin/bower install --config.interactive=false
 
 script:
-  - npm run check-style && npm test
+  - yarn test:cover
+
+after_success:
+  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
