@@ -17,7 +17,7 @@ export default Ember.Component.extend({
     layout,
     maxTags: 5,
     maxSubjects: 5,
-    maxContributors: 6,
+    maxCreators: 6,
     maxDescription: 350,
     showBody: false,
     detailRoute: null, //Add name of route you want search-result to link to if not using Ember-SHARE detail page
@@ -26,7 +26,7 @@ export default Ember.Component.extend({
     }),
 
     type: Ember.computed('obj.type', function() {
-        return this.get('obj.type').capitalize();
+        return this.get('obj.type').replace(/\w\S*/g, function(str) {return str.capitalize();});
     }),
     safeTitle: Ember.computed('obj.title', function() {
         return Ember.String.htmlSafe(this.get('obj.title')).string;
@@ -40,11 +40,14 @@ export default Ember.Component.extend({
     abbreviation: Ember.computed('safeDescription', function() {
         return this.get('safeDescription').slice(0, this.get('maxDescription'));
     }),
-    extraContributors: Ember.computed('obj.lists.contributors', function() {
-        return (this.get('obj.lists.contributors') || []).slice(this.get('maxContributors'));
+    allCreators: Ember.computed('obj.lists.contributors', function() {
+        return (this.get('obj.lists.contributors') || []).filterBy('relation', 'creator').sortBy('order_cited');
     }),
-    contributors: Ember.computed('obj.lists.contributors', function() {
-        return (this.get('obj.lists.contributors') || []).slice(0, this.get('maxContributors'));
+    extraCreators: Ember.computed('allCreators', function() {
+        return this.get('allCreators').slice(this.get('maxCreators'));
+    }),
+    creators: Ember.computed('allCreators', function() {
+        return this.get('allCreators').slice(0, this.get('maxCreators'));
     }),
     extraTags: Ember.computed('obj.tags', function() {
         return (this.get('obj.tags') || []).slice(this.get('maxTags'));

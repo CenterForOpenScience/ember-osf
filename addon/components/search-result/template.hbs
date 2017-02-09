@@ -24,14 +24,14 @@
             </h4>
             {{!Authors}}
             <p>
-                {{#each contributors as |contrib index|}}
+                {{#each creators as |creator index|}}
                     {{#if index~}}
                         <span>,</span>
                     {{~/if}}
-                    {{contrib.name~}}
+                    {{creator.name~}}
                 {{/each}}
-                {{#if extraContributors}} {{!+5, for example}}
-                    <span class="text-muted">+{{extraContributors.length}}</span>
+                {{#if extraCreators}} {{!+5, for example}}
+                    <span class="text-muted">+{{extraCreators.length}}</span>
                 {{/if}}
             </p>
 

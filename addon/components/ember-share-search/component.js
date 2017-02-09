@@ -118,6 +118,10 @@ export default Ember.Component.extend({
         return null;
     }),
 
+    processedTypes: Ember.computed('types', function() {
+        return this.transformTypes(this.get('types'));
+    }),
+
     sortOptions: [{
         display: 'Relevance',
         sortBy: ''
@@ -140,6 +144,7 @@ export default Ember.Component.extend({
         this._super(...arguments);
         this.set('firstLoad', true);
         this.set('facetFilters', Ember.Object.create());
+        this.getTypes();
         this.set('debouncedLoadPage', this.loadPage.bind(this));
         this.getCounts();
         this.loadPage();
@@ -168,6 +173,34 @@ export default Ember.Component.extend({
                 numberOfEvents: json.hits.total,
                 numberOfSources: json.aggregations.sources.value
             });
+        });
+    },
+
+     transformTypes(obj) {
+        if (typeof (obj) !== 'object') {
+            return obj;
+        }
+
+        for (let key in obj) {
+            let lowKey = key.replace(/([A-Z])/g, ' $1').trim().toLowerCase();
+            obj[lowKey] = this.transformTypes(obj[key]);
+            if (key !== lowKey) {
+                delete obj[key];
+            }
+        }
+        return obj;
+    },
+
+    getTypes() {
+        return Ember.$.ajax({
+            url: config.SHARE.apiUrl + '/schema/creativework/hierarchy/',
+            crossDomain: true,
+            type: 'GET',
+            contentType: 'application/vnd.api+json',
+        }).then((json) => {
+            if (json.data) {
+                this.set('types', json.data);
+            }
         });
     },
 
@@ -312,16 +345,16 @@ export default Ember.Component.extend({
         }, 500);
     },
 
-    facets: Ember.computed(function() {
+    facets: Ember.computed('processedTypes', function() {
         return [
             { key: 'sources', title: 'Source', component: 'search-facet-source' },
             { key: 'date', title: 'Date', component: 'search-facet-daterange' },
-            { key: 'type', title: 'Type', component: 'search-facet-worktype' },
-            { key: 'tags', title: 'Tag', component: 'search-facet-typeahead', type: 'tag' },
-            { key: 'publishers', title: 'Publisher', component: 'search-facet-typeahead', type: 'publisher' },
-            { key: 'funders', title: 'Funder', component: 'search-facet-typeahead', type: 'funder' },
+            { key: 'type', title: 'Type', component: 'search-facet-worktype', data: this.get('processedTypes') },
+            { key: 'tags', title: 'Tag', component: 'search-facet-typeahead' },
+            { key: 'publishers', title: 'Publisher', component: 'search-facet-typeahead', base: 'agents', type: 'publisher' },
+            { key: 'funders', title: 'Funder', component: 'search-facet-typeahead', base: 'agents', type: 'funder' },
             { key: 'language', title: 'Language', component: 'search-facet-language' },
-            { key: 'contributors', title: 'People', component: 'search-facet-typeahead', type: 'person' }
+            { key: 'contributors', title: 'People', component: 'search-facet-typeahead', base: 'agents', type: 'person' },
         ];
     }),
 

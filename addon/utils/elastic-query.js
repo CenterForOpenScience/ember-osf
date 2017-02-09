@@ -28,12 +28,8 @@ function dateRangeFilter(field, start, end) {
  */
 function termsFilter(field, terms, all = true) {
     if (terms && terms.length) {
-        if (field === 'contributors') {
-            field = 'lists.contributors.name.raw';
-        } else if (field === 'type' && !terms.includes('creative work')) {
-            field = field + 's.raw';
-        } else if (field !== 'tags') {
-            field = field + '.raw';
+        if (['contributors', 'funders', 'identifiers', 'tags', 'publishers'].includes(field)) {
+            field = field + '.exact';
         }
         if (all) {
             return terms.map(term => {
