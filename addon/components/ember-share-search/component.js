@@ -176,7 +176,7 @@ export default Ember.Component.extend({
         });
     },
 
-     transformTypes(obj) {
+    transformTypes(obj) {
         if (typeof (obj) !== 'object') {
             return obj;
         }
