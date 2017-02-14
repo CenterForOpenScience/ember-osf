@@ -2,6 +2,7 @@ YUI.add("yuidoc-meta", function(Y) {
    Y.YUIDoc = { meta: {
     "classes": [
         "CasAuthenticatedRouteMixin",
+        "Citation",
         "Collection",
         "Comment",
         "CommentReport",
@@ -45,6 +46,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "User",
         "ajax-helpers",
         "auth",
+        "citation-widget",
         "comment-detail",
         "comment-form",
         "comment-pane",
@@ -59,6 +61,10 @@ YUI.add("yuidoc-meta", function(Y) {
         "file-renderer",
         "file-version",
         "file-widget",
+        "fix-special-char",
+        "fix-special-char-helper",
+        "fixstring",
+        "navbar-auth-dropdown",
         "oauth-popup",
         "osf-copyright",
         "osf-footer",
@@ -66,6 +72,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "osf-navbar",
         "osf-paginator",
         "pagination-control",
+        "permissions",
         "search-dropdown",
         "sign-up",
         "tags-widget"
@@ -75,6 +82,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "authenticators",
         "authorizers",
         "components",
+        "const",
         "ember",
         "ember-osf",
         "ember-preprints",
@@ -83,6 +91,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "models",
         "serializers",
         "services",
+        "transforms",
         "utils"
     ],
     "allModules": [
@@ -104,7 +113,11 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "components",
             "name": "components",
-            "description": "Display information about an individual comment, including controls to edit, delete, and report.\nThis component is typically used as part of the `comment-pane` component; see that component for further information.\n\nSample usage:\n```handlebars\n{{comment-detail\n  comment=comment\n  editComment=attrs.editComment\n  deleteComment=attrs.deleteComment\n  restoreComment=attrs.restoreComment\n  reportComment=attrs.reportComment}}\n```"
+            "description": "Lists citations for node in APA, MLA, and Chicago formats"
+        },
+        {
+            "displayName": "const",
+            "name": "const"
         },
         {
             "displayName": "ember",
@@ -132,7 +145,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "models",
             "name": "models",
-            "description": "Model for OSF APIv2 collections\nFor field and usage information, see:\n* https://api.osf.io/v2/docs/#!/v2/Collection_List_GET"
+            "description": "Model for OSF APIv2 citation styles"
         },
         {
             "displayName": "serializers",
@@ -143,6 +156,11 @@ YUI.add("yuidoc-meta", function(Y) {
             "displayName": "services",
             "name": "services",
             "description": "Access information about the currently logged in user"
+        },
+        {
+            "displayName": "transforms",
+            "name": "transforms",
+            "description": "Custom string field transform that uses the `fix-special-char` utility function to clean up malformed text sent\nfrom the server. This allows string fields to be correctly and transparently used in templates without manually fixing\nthese characters for display on each use.\n\n This transform is used when `fixstring` is passed as the type parameter to the DS.attr function.\n  ```app/models/score.js\n   import DS from 'ember-data';\n   export default DS.Model.extend({\n      astring: DS.attr('fixstring'),\n   });\n ```"
         },
         {
             "displayName": "utils",
