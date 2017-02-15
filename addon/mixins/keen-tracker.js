@@ -21,8 +21,8 @@ export default Ember.Mixin.create({
             }
         };
         if (model.id) {
-            transitionData.relatedModel = model.id;
-            transitionData.modelType = model.constructor.modelName;
+            transitionData.pageViewed.relatedModel = model.id;
+            transitionData.pageViewed.modelType = model.constructor.modelName;
         }
         return this.KeenTracker().getInstance().trackPageView(transitionData);
     },
