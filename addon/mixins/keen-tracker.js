@@ -29,9 +29,14 @@ export default Ember.Mixin.create({
 
         },
         //keenTrack action can be used in template
-        keenTrack(category, action, label, node) {
+        keenTrack(category, action, label, extra) {
+            return this.keenTrackFrontEndEvent({ category: category, action: action, label: label, extra: extra });
+        },
+
+        //keenTrackNode action can pass in node model
+        keenTrackNode(category, action, label, node) {
             return this.keenTrackFrontEndEvent({ category: category, action: action, label: label }, node);
-        }
+        },
     },
     KeenTracker() {
         function _nowUTC() {
