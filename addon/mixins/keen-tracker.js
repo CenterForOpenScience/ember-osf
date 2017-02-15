@@ -24,8 +24,8 @@ export default Ember.Mixin.create({
     },
     actions: {
         //keenClick action can be used in template
-        keenClick(category, label, url) {
-            return this.keenTrackFrontEndEvent({ category: category, action: 'click', label: label, url: url });
+        keenClick(category, label, extra) {
+            return this.keenTrackFrontEndEvent({ category: category, action: 'click', label: label, extra: extra });
 
         },
         //keenTrack action can be used in template
@@ -298,7 +298,7 @@ export default Ember.Mixin.create({
                 category: event.category || null,
                 action: event.action || null,
                 label: event.label || null,
-                url: event.url || null
+                extra: event.extra || null
             }
         }, model);
     }
