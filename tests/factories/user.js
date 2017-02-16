@@ -11,13 +11,13 @@ FactoryGuy.define('user', {
     },
     traits: {
         // TODO: Consider writing tests that would force pagination of relationships (!)
-        has_projects: {
+        hasProjects: {
             nodes: () => FactoryGuy.hasMany('node', 3)
         },
-        has_registrations: {
+        hasRegistrations: {
             registrations: () => FactoryGuy.hasMany('registration', 3)
         },
-        has_institutions: {
+        hasInstitutions: {
             affiliatedInstitutions: () => FactoryGuy.hasMany('institution', 2)
         }
     }

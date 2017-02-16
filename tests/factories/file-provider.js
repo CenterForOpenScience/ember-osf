@@ -6,6 +6,7 @@ FactoryGuy.define('file-provider', {
         kind: 'folder',
         path: '/',
         provider: 'osfstorage',
+        node: FactoryGuy.belongsTo('node')
     },
     traits: {
         hasFiles: {
