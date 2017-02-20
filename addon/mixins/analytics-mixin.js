@@ -1,38 +1,40 @@
 import Ember from 'ember';
 
 /**
- * @module ember-preprints
+ * @module ember-osf
  * @submodule mixins
  */
 
 /**
- * Google Analytics mixin. Provides actions that can be used in templates to track events.
+ *  Analytics mixin. Provides actions that can be used in templates to track events (can send to multiple
+ *  analytics services)
  *
  * @class AnalyticsMixin
  */
 export default Ember.Mixin.create({
     metrics: Ember.inject.service(),
     actions: {
-        click(category, label, url) {
+        click(category, label, extra) {
+            if (extra && extra.toString() === '[object MouseEvent]') {
+                extra = null;
+            }
             Ember.get(this, 'metrics')
                 .trackEvent({
                     category,
                     action: 'click',
-                    label
+                    label,
+                    extra
                 });
-
-            // Needed for outbound links, see https://support.google.com/analytics/answer/1136920?hl=en
-            if (url)
-                window.location.href = url;
 
             return true;
         },
-        track(category, action, label) {
+        track(category, action, label, extra) {
             Ember.get(this, 'metrics')
                 .trackEvent({
                     category,
                     action,
-                    label
+                    label,
+                    extra
                 });
             return true;
 
