@@ -7,8 +7,10 @@ import config from 'ember-get-config';
 import keenTracking from 'npm:keen-tracking';
 
 export default BaseAdapter.extend({
+    session: Ember.inject.service(),
+
     toStringExtension() {
-    return 'Keen';
+        return 'Keen';
     },
 
     init() {
