@@ -13,6 +13,21 @@ import Ember from 'ember';
  */
 export default Ember.Mixin.create({
     metrics: Ember.inject.service(),
+    // Add this mixin to your route, and the afterModel hook will track pageviews.  Be sure to call super if using afterModel hook in route!
+    afterModel(model, transition) { // Using afterModel hook so node info can be sent to keen
+        let transitionData = {
+            pageViewed: {
+                page: transition.targetName,
+                queryParams: transition.queryParams,
+            }
+        };
+        if (model.id) {
+            transitionData.pageViewed.relatedModel = model.id;
+            transitionData.pageViewed.modelType = model.constructor.modelName;
+        }
+        Ember.get(this, 'metrics')
+            .trackPage(transitionData, model);
+    },
     actions: {
         click(category, label, extra) {
             if (extra && extra.toString() === '[object MouseEvent]') {

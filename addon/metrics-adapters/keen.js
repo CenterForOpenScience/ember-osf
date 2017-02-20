@@ -18,30 +18,23 @@ export default BaseAdapter.extend({
         console.log('start');
     },
 
-    identify() {
-
-    },
-
     trackEvent(properties, node) {
         window.contextVars = {};
         window.contextVars.currentUser = this.userContextVars();
         window.contextVars.node = this.nodeContextVars(node);
         return this.KeenTracker().getInstance().trackPrivateEvent('front-end-events', { interaction: properties }, node);
-  },
-
-
-    trackPage() {
-
     },
 
-    alias() {
-
+    trackPage(transitionData, model) {
+        window.contextVars = {};
+        window.contextVars.currentUser = this.userContextVars();
+        window.contextVars.node = this.nodeContextVars(model); // model may not be a node, in which case, only id might be extracted
+        return this.KeenTracker().getInstance().trackPageView(transitionData);
     },
 
     willDestroy() {
         // TODO
         console.log('done');
-
     },
 
     KeenTracker() {
