@@ -9,7 +9,7 @@ import Ember from 'ember';
  *  Analytics mixin. Provides actions that can be used in templates to track events (can send to multiple
  *  analytics services)
  *
- * @class AnalyticsMixin
+ * @class Analytics
  */
 export default Ember.Mixin.create({
     metrics: Ember.inject.service(),
