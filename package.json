@@ -62,6 +62,7 @@
     "ember-infinity": "0.2.3",
     "ember-load-initializers": "0.5.1",
     "ember-lodash": "4.17.0",
+    "ember-metrics": "^0.8.1",
     "ember-page-title": "3.0.3",
     "ember-power-select": "1.0.0-alpha.5",
     "ember-resolver": "2.0.3",
