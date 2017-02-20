@@ -20,11 +20,11 @@ export default BaseAdapter.extend({
 
     },
 
-    trackEvent(properties, collection, node) {
+    trackEvent(properties, node) {
         window.contextVars = {};
         window.contextVars.currentUser = this.userContextVars();
         window.contextVars.node = this.nodeContextVars(node);
-        return this.KeenTracker().getInstance().trackPrivateEvent(collection, properties);
+        return this.KeenTracker().getInstance().trackPrivateEvent('front-end-events', properties, node);
   },
 
 
