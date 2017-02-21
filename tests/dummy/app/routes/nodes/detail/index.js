@@ -1,7 +1,7 @@
 import Ember from 'ember';
-import KeenTrackerMixin from 'ember-osf/mixins/keen-tracker';
+import Analytics from 'ember-osf/mixins/analytics';
 
-export default Ember.Route.extend(KeenTrackerMixin, {
+export default Ember.Route.extend(Analytics, {
     model() {
         return this.modelFor('nodes.detail');
     },
