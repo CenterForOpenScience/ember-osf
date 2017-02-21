@@ -28,7 +28,7 @@ export default BaseAdapter.extend({
     trackPage(properties) {
         window.contextVars = {};
         window.contextVars.currentUser = this.userContextVars();
-        return this.KeenTracker().getInstance().trackPageView({ pageViewed: {properties} });
+        return this.KeenTracker().getInstance().trackPageView({ pageViewed: properties });
     },
 
     willDestroy() {
@@ -242,8 +242,14 @@ export default BaseAdapter.extend({
         return {
             getInstance() {
                 if (!instance) {
+                    let configInfo = {};
+                    config.metricsAdapters.forEach((adapter) => {
+                        if (adapter.name === 'Keen') {
+                            configInfo = adapter.config;
+                        }
+                    });
                     instance = new KeenTracker();
-                    instance.init(config.KEEN);
+                    instance.init(configInfo);
                 }
                 return instance;
             }
