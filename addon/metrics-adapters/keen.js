@@ -28,6 +28,13 @@ export default BaseAdapter.extend({
         return this.KeenTracker().getInstance().trackPageView({ pageViewed: properties });
     },
 
+    trackSpecificCollection(collection, properties, node) {
+        window.contextVars = {};
+        window.contextVars.currentUser = this.userContextVars();
+        window.contextVars.node = this.nodeContextVars(node);
+        return this.KeenTracker().getInstance().trackPrivateEvent(collection, { interaction: properties }, node);
+    },
+
     willDestroy() {},
 
     KeenTracker() {
