@@ -1,10 +1,10 @@
-import BaseAdapter from 'ember-metrics/metrics-adapters/base';
 import Ember from 'ember';
 import md5 from 'npm:js-md5';
 import _get from 'npm:lodash/get';
 import Cookie from 'npm:js-cookie';
 import config from 'ember-get-config';
 import keenTracking from 'npm:keen-tracking';
+import BaseAdapter from 'ember-metrics/metrics-adapters/base';
 
 export default BaseAdapter.extend({
     session: Ember.inject.service(),
@@ -13,10 +13,7 @@ export default BaseAdapter.extend({
         return 'Keen';
     },
 
-    init() {
-        // TODO
-        console.log('start');
-    },
+    init() {},
 
     trackEvent(properties, node) {
         window.contextVars = {};
@@ -31,10 +28,7 @@ export default BaseAdapter.extend({
         return this.KeenTracker().getInstance().trackPageView({ pageViewed: properties });
     },
 
-    willDestroy() {
-        // TODO
-        console.log('done');
-    },
+    willDestroy() {},
 
     KeenTracker() {
         function _nowUTC() {
