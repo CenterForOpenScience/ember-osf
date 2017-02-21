@@ -39,7 +39,7 @@ export default BaseAdapter.extend({
         window.contextVars = {};
         window.contextVars.currentUser = this.userContextVars();
         window.contextVars.node = this.nodeContextVars(node);
-        return this.KeenTracker().getInstance().trackPrivateEvent(collection, { interaction: properties }, node);
+        return this.KeenTracker().getInstance().trackPrivateEvent(collection, properties, node);
     },
 
     willDestroy() {},
