@@ -28,7 +28,14 @@ export default BaseAdapter.extend({
         return this.KeenTracker().getInstance().trackPageView({ pageViewed: properties });
     },
 
-    trackSpecificCollection(collection, properties, node) {
+    // Use when tracking something specific, not a generic front-end-event.  Usually for something we want
+    // to isolate and later display to the user.
+    trackSpecificCollection(trackingInfo) {
+        // Tracking info should be structured like this:
+        // {collection: 'keen-collection-name', eventData: eventData, node: node }
+        const collection = trackingInfo.collection || 'front-end-events';
+        const properties = trackingInfo.eventData || {};
+        const node = trackingInfo.node || null;
         window.contextVars = {};
         window.contextVars.currentUser = this.userContextVars();
         window.contextVars.node = this.nodeContextVars(node);
@@ -37,6 +44,7 @@ export default BaseAdapter.extend({
 
     willDestroy() {},
 
+    // Adapted from osf.io/website/static/js/keen.js
     KeenTracker() {
         function _nowUTC() {
             var now = new Date();
