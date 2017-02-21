@@ -1,7 +1,6 @@
 import Ember from 'ember';
-import Analytics from 'ember-osf/mixins/analytics';
 
-export default Ember.Route.extend(Analytics, {
+export default Ember.Route.extend({
     model() {
         return this.modelFor('nodes.detail');
     },
