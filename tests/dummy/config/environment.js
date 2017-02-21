@@ -27,12 +27,12 @@ module.exports = function(environment) {
                 environments: ['all'],
                 config: {
                     private: {
-                        projectId: 'process.env.KEEN_PRIVATE_PROJECT_ID',
-                        writeKey: 'process.env.KEEN_PRIVATE_WRITE_KEY'
+                        projectId: process.env.KEEN_PRIVATE_PROJECT_ID,
+                        writeKey: process.env.KEEN_PRIVATE_WRITE_KEY
                     },
                     public: {
-                        projectId: 'process.env.KEEN_PUBLIC_PROJECT_ID',
-                        writeKey: 'process.env.KEEN_PUBLIC_WRITE_KEY'
+                        projectId: process.env.KEEN_PUBLIC_PROJECT_ID,
+                        writeKey: process.env.KEEN_PUBLIC_WRITE_KEY
                     }
                 }
             }
