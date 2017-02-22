@@ -14,6 +14,29 @@ module.exports = function(environment) {
     }
 
     var ENV = {
+        metricsAdapters: [
+            {
+                name: 'GoogleAnalytics',
+                environments: ['all'],
+                config: {
+                    id: process.env.GOOGLE_ANALYTICS_ID
+                }
+            },
+            {
+                name: 'Keen',
+                environments: ['all'],
+                config: {
+                    private: {
+                        projectId: process.env.KEEN_PRIVATE_PROJECT_ID,
+                        writeKey: process.env.KEEN_PRIVATE_WRITE_KEY
+                    },
+                    public: {
+                        projectId: process.env.KEEN_PUBLIC_PROJECT_ID,
+                        writeKey: process.env.KEEN_PUBLIC_WRITE_KEY
+                    }
+                }
+            }
+        ],
         modulePrefix: 'dummy',
         environment: environment,
         baseURL: '/',
