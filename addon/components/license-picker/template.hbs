@@ -40,7 +40,7 @@
         {{/if}}
 
         {{#if (or showText (not toggleText))}}
-            <pre style='white-space: pre-wrap; border:none; width:100%; text-align:justify; max-height: 300px;'>{{nodeLicenseText}}</pre>
+            <pre style='white-space: pre-wrap; word-break: normal; border:none; width:100%; text-align:justify; max-height: 300px;'>{{nodeLicenseText}}</pre>
         {{/if}}
         {{#unless autosave}}
             <button class='btn btn-success pull-right' {{action 'save'}}>Save</button>
