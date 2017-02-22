@@ -25,7 +25,7 @@
     <ul>
         {{#each model.preprints as |prep|}}
             <li><a href='{{host}}{{prep.id}}/'>{{prep.node.title}} (Preprint)</a></li>
-             {{doi-minter model=prep}}
+            {{doi-minter model=prep}}
         {{/each}}
     </ul>
     <hr>

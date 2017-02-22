@@ -12,14 +12,5 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{doi-minter}}`);
 
-  assert.equal(this.$().text().trim(), '');
-
-  // Template block usage:
-  this.render(hbs`
-    {{#doi-minter}}
-      template block text
-    {{/doi-minter}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
+  assert.equal(this.$()[0].innerText.trim(), 'Create DOI');
 });
