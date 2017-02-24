@@ -1,19 +1,72 @@
-// Overrides some of base osf-styles for navbar
+// Overrides some of base osf-styles for the navbar osf-style/sass/_bootstrap.scss
+$osf-teal-navbar: #2E6A74;
+$osf-highlight-navbar: #5A8288;
+$osf-dark-blue-navbar: #213948;
 
 .new-osf-navbar-styling {
+    /* Overrides navbar height to make shorter */
     .navbar {
         min-height: 40px;
         margin-bottom: 20px;
     }
+
+    /* Vertically centers OSF Logo/OSF (the brand), enlarges OSF font */
     .navbar-brand {
         height: 20px;
         padding: 6.5px 15px;
         font-size: 22px;
-        font-family: "Novecentosanswide-Book", "Open Sans";
+        font-family: "Novecentosanswide-Book", "Open Sans", "sans-serif";
     }
 
+     /* Overrides the navbar color */
     .navbar-inverse {
-        background-color: #213948;
+        background-color: $osf-dark-blue-navbar;
     }
 
+    /* Overrides vertical and horizontal position of dropdown caret */
+    .dropdown-toggle {
+        padding-top: 10.5px;
+        padding-bottom: 3px;
+        padding-left: 0px;
+    }
+
+    /* Overrides background of dropdown-toggle when active */
+    .navbar-nav > .open > a,
+    .navbar-nav > .open > a:focus,
+    .navbar-nav > .open > a:hover {
+        background: transparent;
+        box-shadow: none;
+    }
+
+
+    /* Overrides color and position of dropdown menu */
+    .dropdown-menu {
+        background-color: $osf-teal-navbar;
+        top: 44px;
+        left: -14.5px;
+    }
+
+    .dropdown-menu > li > a {
+        font-size: 16px;
+    }
+
+    /* Overrides color of dropdown list hover */
+    .dropdown-menu > li > a:hover,
+    .dropdown-menu > li > a:focus {
+          background-image: -webkit-linear-gradient(top, $osf-highlight-navbar 0%, $osf-highlight-navbar 100%);
+          background-image: -o-linear-gradient(top, $osf-highlight-navbar 0%, $osf-highlight-navbar 100%);
+          background-image: linear-gradient(to bottom, $osf-highlight-navbar 0%, $osf-highlight-navbar 100%);
+    }
+
+    /* Adds css triangle to dropdown menu */
+    .dropdown-menu:after {
+        position: absolute;
+        top: -4px;
+        left: 14px;
+        display: inline-block;
+        border-right: 6px solid transparent;
+        border-bottom: 6px solid $osf-teal-navbar;
+        border-left: 6px solid transparent;
+        content: '';
+    }
 }

@@ -2,16 +2,28 @@
     <nav class="navbar navbar-inverse" id="navbarScope">
         <div class="container">
             <div class="navbar-header">
-                {{! Toggle navigation button for xs screens}}
+                {{!Toggle navigation button for xs screens}}
                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigation-links">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="fa fa-bars fa-lg"></span>
                 </button>
-
+                {{!OSF Brand}}
                 <a class="navbar-brand new-osf-navbar-styling" href="/"><span class="osf-navbar-logo"></span> OSF </a>
-
             </div>
-
+            {{!Collapsible Navbar}}
+             <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{{host}}">OSF<b>HOME</b></a></li>
+                            <li><a href="{{host}}preprints/">OSF<b>PREPRINTS</b></a></li>
+                            <li><a href="{{host}}registries/">OSF<b>REGISTRIES</b></a></li>
+                            <li><a href="{{host}}meetings/">OSF<b>MEETINGS</b></a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
 </div>
