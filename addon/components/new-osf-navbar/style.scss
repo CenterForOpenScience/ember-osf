@@ -1,0 +1,19 @@
+// Overrides some of base osf-styles for navbar
+
+.new-osf-navbar-styling {
+    .navbar {
+        min-height: 40px;
+        margin-bottom: 20px;
+    }
+    .navbar-brand {
+        height: 20px;
+        padding: 6.5px 15px;
+        font-size: 22px;
+        font-family: novecento_sans_widebook;
+    }
+
+    .navbar-inverse {
+        background-color: #213948;
+    }
+
+}
