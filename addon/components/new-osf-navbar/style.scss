@@ -25,8 +25,9 @@ $osf-dark-blue-navbar: #213948;
 
     /* Overrides vertical and horizontal position of dropdown caret */
     .dropdown-toggle {
+        margin: 0;
         padding-top: 10.5px;
-        padding-bottom: 3px;
+        padding-bottom: 0px;
         padding-left: 0px;
     }
 
@@ -68,5 +69,16 @@ $osf-dark-blue-navbar: #213948;
         border-bottom: 6px solid $osf-teal-navbar;
         border-left: 6px solid transparent;
         content: '';
+    }
+
+    .current-service-bar {
+        color: white;
+        background-color: $osf-teal-navbar;
+        margin-top: 4px;
+        margin-left: -125px;
+        border-radius: 5px;
+        font-size: 16px;
+        padding-top: 4px;
+        padding-bottom: 3.5px;
     }
 }

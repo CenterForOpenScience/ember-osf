@@ -10,19 +10,48 @@ export default Ember.Component.extend({
         return [
             {
                 name: "HOME",
-                url: `${this.get('host')}`
+                url: `${this.get('host')}`,
+                navbarLinks: [
+                    {
+                        name: 'My Projects',
+                    },
+                    {
+                        name: 'Search'
+                    }
+                ]
             },
             {
                 name: "PREPRINTS",
-                url: `${this.get('host')}preprints/`
+                url: `${this.get('host')}preprints/`,
+                navbarLinks: [
+                    {
+                        name: 'Add a preprint',
+                    },
+                    {
+                        name: 'Search'
+                    },
+                    {
+                        name: 'Support'
+                    }
+                ]
             },
             {
                 name: "REGISTRIES",
-                url: `${this.get('host')}registries/`
+                url: `${this.get('host')}registries/`,
+                navbarLinks: [
+                    {
+                        name: 'Search'
+                    }
+                ]
             },
             {
                 name: "MEETINGS",
-                url: `${this.get('host')}meetings/`
+                url: `${this.get('host')}meetings/`,
+                navbarLinks: [
+                    {
+                        name: 'Search'
+                    }
+                ]
             }
         ];
     }),
