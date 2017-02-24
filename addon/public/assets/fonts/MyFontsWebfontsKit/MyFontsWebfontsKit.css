@@ -1,0 +1,40 @@
+/**
+ * @license
+ * MyFonts Webfont Build ID 3349704, 2017-02-24T09:35:49-0500
+ *
+ * The fonts listed in this notice are subject to the End User License
+ * Agreement(s) entered into by the website owner. All other parties are
+ * explicitly restricted from using the Licensed Webfonts(s).
+ *
+ * You may obtain a valid license at the URLs below.
+ *
+ * Webfont: Novecentosanswide-Book by Synthview
+ * URL: http://www.myfonts.com/fonts/synthview/novecento/wide-book/
+ *
+ * Webfont: Novecentosanswide-DemiBold by Synthview
+ * URL: http://www.myfonts.com/fonts/synthview/novecento/wide-demibold/
+ *
+ *
+ * License: http://www.myfonts.com/viewlicense?type=web&buildid=3349704
+ * Licensed pageviews: Unlimited
+ * Webfonts copyright: Copyright &#x00A9; 2013 by Jan Tonellato. All rights reserved.
+ *
+ * © 2017 MyFonts Inc
+*/
+
+
+
+
+
+@font-face {
+    font-family: 'Novecentosanswide-Book';
+    src: url('webfonts/331CC8_0_0.eot');
+    src: url('webfonts/331CC8_0_0.eot?#iefix') format('embedded-opentype'),url('webfonts/331CC8_0_0.woff2') format('woff2'),url('webfonts/331CC8_0_0.woff') format('woff'),url('webfonts/331CC8_0_0.ttf') format('truetype');
+}
+
+
+@font-face {
+    font-family: 'Novecentosanswide-DemiBold';
+    src: url('webfonts/331CC8_1_0.eot');src:
+    url('webfonts/331CC8_1_0.eot?#iefix') format('embedded-opentype'),url('webfonts/331CC8_1_0.woff2') format('woff2'),url('webfonts/331CC8_1_0.woff') format('woff'),url('webfonts/331CC8_1_0.ttf') format('truetype');
+}
