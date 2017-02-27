@@ -18,32 +18,28 @@ $osf-dark-blue-navbar: #213948;
         font-family: "Novecentosanswide-Book", "Open Sans", "sans-serif";
     }
 
+    /* Positioning of primary navigation: dropdown toggle (caret) */
+    .primary-nav {
+        float: left;
+            /* Overrides vertical and horizontal position of dropdown caret */
+        li.dropdown {
+            margin-left: -40px;
+            width: 10px;
+            padding-top: 10px;
+            margin-bottom: 0;
+            list-style-type: none;
+        }
+    }
+
      /* Overrides the navbar color */
     .navbar-inverse {
         background-color: $osf-dark-blue-navbar;
     }
 
-    /* Overrides vertical and horizontal position of dropdown caret */
-    .dropdown-toggle {
-        margin: 0;
-        padding-top: 10.5px;
-        padding-bottom: 0px;
-        padding-left: 0px;
-    }
-
-    /* Overrides background of dropdown-toggle when active */
-    .navbar-nav > .open > a,
-    .navbar-nav > .open > a:focus,
-    .navbar-nav > .open > a:hover {
-        background: transparent;
-        box-shadow: none;
-    }
-
-
     /* Overrides color and position of dropdown menu */
     .dropdown-menu {
         background-color: $osf-teal-navbar;
-        top: 44px;
+        top: 47px;
         left: -14.5px;
     }
 
@@ -75,16 +71,16 @@ $osf-dark-blue-navbar: #213948;
     .current-service-bar {
         color: white;
         background-color: $osf-teal-navbar;
-        margin-top: 4px;
+        margin-top: 4.5px;
         border-radius: 5px;
         font-size: 16px;
         padding-top: 4px;
-        padding-bottom: 3.5px;
+        padding-bottom: 4px;
     }
 
     /* Auth navbar positioning*/
     .auth-navbar {
-        padding-top: 4.5px;
+        padding-top: 5px;
         li {
           list-style-type: none;
         }
@@ -120,7 +116,7 @@ $osf-dark-blue-navbar: #213948;
         }
     }
 
-     /* lg screen formatting */
+     /* xl screen formatting */
     @media screen and (min-width: 1600px) {
         .current-service-bar {
             width: 1245px;
