@@ -25,7 +25,7 @@ $osf-dark-blue-navbar: #213948;
 
     /* Override height of secondary toggle (only visible on xs screen) */
     .navbar-toggle {
-        padding: 4px 10px;
+        padding: 4.5px 10px;
     }
 
     /* Defines position of primary navigation: dropdown toggle (caret) */
@@ -94,9 +94,8 @@ $osf-dark-blue-navbar: #213948;
     /***********************************************
         Responsive changes to teal secondary navbar
     ***********************************************/
-
     /* xs screen formatting */
-    @media screen and (max-width: 400px) {
+    @media (max-width: 400px) {
         .current-service-bar {
             padding-left: 10px;
             width: 140px;
@@ -107,26 +106,26 @@ $osf-dark-blue-navbar: #213948;
      /* xs screen formatting */
     @media screen and (min-width: 401px) {
         .current-service-bar {
-            width: 160px;
+            width: 190px;
             padding-left: 10px;
             margin-left: 130px;
         }
     }
 
-    /* xs screen formatting */
-    @media screen and (min-width: 500px) {
-        .current-service-bar {
-            width: 275px;
-        }
-    }
+     /* More xs screen resizing of teal secondary navbar */
+    @media (min-width: 430px) { .current-service-bar { width: 220px;} }
+    @media (min-width: 460px) { .current-service-bar { width: 250px;} }
+    @media (min-width: 490px) { .current-service-bar { width: 280px;} }
+    @media (min-width: 520px) { .current-service-bar { width: 310px;} }
+    @media (min-width: 550px) { .current-service-bar { width: 340px;} }
+    @media (min-width: 580px) { .current-service-bar { width: 370px;} }
+    @media (min-width: 610px) { .current-service-bar { width: 400px;} }
+    @media (min-width: 640px) { .current-service-bar { width: 430px;} }
+    @media (min-width: 670px) { .current-service-bar { width: 460px;} }
+    @media (min-width: 700px) { .current-service-bar { width: 490px;} }
+    @media (min-width: 730px) { .current-service-bar { width: 520px;} }
+    @media (min-width: 760px) { .current-service-bar { width: 550px;} }
 
-
-    /* xs screen formatting */
-    @media screen and (min-width: 640px) {
-        .current-service-bar {
-            width: 420px;
-        }
-    }
 
      /* sm screen formatting */
     @media screen and (min-width: 768px) {
