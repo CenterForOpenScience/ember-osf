@@ -98,6 +98,22 @@ $osf-dark-blue-navbar: #213948;
         }
     }
 
+    /* Overrides for signup button */
+    #navbarScope .btn-top-signup {
+        margin-top: -1px;
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+    /* Overrides for Sign in button */
+    #navbarScope .btn-top-login {
+        margin-top: -1px;
+        padding: 2px 20px;
+        margin-right: 0;
+        margin-left: 1px;
+    }
+
+
     /***********************************************
         Responsive changes to teal secondary navbar
     ***********************************************/
@@ -137,28 +153,28 @@ $osf-dark-blue-navbar: #213948;
      /* sm screen formatting */
     @media screen and (min-width: 768px) {
         .current-service-bar {
-            width: 420px;
+            width: 350px;
         }
     }
 
     /* md screen formatting */
     @media screen and (min-width: 992px) {
         .current-service-bar {
-            width: 640px;
+            width: 550px;
         }
     }
 
     /* lg screen formatting */
     @media screen and (min-width: 1200px) {
         .current-service-bar {
-            width: 840px;
+            width:750px;
         }
     }
 
      /* xl screen formatting */
     @media screen and (min-width: 1600px) {
         .current-service-bar {
-            width: 1245px;
+            width: 1150px;
             margin-left: 120px;
         }
     }
