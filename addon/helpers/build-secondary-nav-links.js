@@ -55,7 +55,7 @@ export function buildSecondaryNavLinks(params/*, hash*/) {
             },
              {
                 name: "Support",
-                href: "#"
+                href: "http://help.osf.io/m/registrations"
             },
 
         ],
