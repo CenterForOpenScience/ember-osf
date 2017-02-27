@@ -45,7 +45,7 @@
                          <li><a href="{{nav-link.href}}"> {{nav-link.name}}</a></li>
                      {{/each}}
                  </ul>
-                 {{navbar-auth-dropdown signupUrl=signupUrl loginAction=loginAction}}
+                 {{navbar-auth-dropdown loginAction=(action "login")}}
             </div>
         </div>
     </nav>

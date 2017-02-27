@@ -68,5 +68,8 @@ export default Ember.Component.extend({
             this.get('session').invalidate()
                 .then(() => window.location.href = `${config.OSF.url}logout/${query}`);
         },
+        loginAction() {
+            this.attrs.loginAction();
+        }
     }
 });
