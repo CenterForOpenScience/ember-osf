@@ -4,10 +4,15 @@ $osf-highlight-navbar: #5A8288;
 $osf-dark-blue-navbar: #213948;
 
 .new-osf-navbar-styling {
-    /* Overrides navbar height to make shorter */
+    /* Overrides overall navbar height to make shorter */
     .navbar {
         min-height: 40px;
         margin-bottom: 20px;
+    }
+
+    /* Overrides the overall navbar color */
+    .navbar-inverse {
+        background-color: $osf-dark-blue-navbar;
     }
 
     /* Vertically centers OSF Logo/OSF (the brand), enlarges OSF font */
@@ -18,7 +23,12 @@ $osf-dark-blue-navbar: #213948;
         font-family: "Novecentosanswide-Book", "Open Sans", "sans-serif";
     }
 
-    /* Positioning of primary navigation: dropdown toggle (caret) */
+    /* Override height of secondary toggle (only visible on xs screen) */
+    .navbar-toggle {
+        padding: 4px 10px;
+    }
+
+    /* Defines position of primary navigation: dropdown toggle (caret) */
     .primary-nav {
         float: left;
             /* Overrides vertical and horizontal position of dropdown caret */
@@ -31,20 +41,15 @@ $osf-dark-blue-navbar: #213948;
         }
     }
 
-     /* Overrides the navbar color */
-    .navbar-inverse {
-        background-color: $osf-dark-blue-navbar;
-    }
-
-    /* Overrides color and position of dropdown menu */
+    /* Overrides the color and position of dropdown menu */
     .dropdown-menu {
         background-color: $osf-teal-navbar;
         top: 47px;
         left: -14.5px;
-    }
 
-    .dropdown-menu > li > a {
-        font-size: 16px;
+        li > a {
+           font-size: 16px;
+        }
     }
 
     /* Overrides color of dropdown list hover */
@@ -67,7 +72,7 @@ $osf-dark-blue-navbar: #213948;
         content: '';
     }
 
-    /* Color, shape, vertical spacing for teal secondary navbar */
+    /* Defines the color, shape, vertical spacing for teal secondary navbar */
     .current-service-bar {
         color: white;
         background-color: $osf-teal-navbar;
@@ -86,10 +91,40 @@ $osf-dark-blue-navbar: #213948;
         }
     }
 
+    /***********************************************
+        Responsive changes to teal secondary navbar
+    ***********************************************/
+
     /* xs screen formatting */
-    @media screen and (max-width: 767px) {
+    @media screen and (max-width: 400px) {
         .current-service-bar {
-            width: 100px;
+            padding-left: 10px;
+            width: 140px;
+            margin-left: 140px;
+        }
+    }
+
+     /* xs screen formatting */
+    @media screen and (min-width: 401px) {
+        .current-service-bar {
+            width: 160px;
+            padding-left: 10px;
+            margin-left: 130px;
+        }
+    }
+
+    /* xs screen formatting */
+    @media screen and (min-width: 500px) {
+        .current-service-bar {
+            width: 275px;
+        }
+    }
+
+
+    /* xs screen formatting */
+    @media screen and (min-width: 640px) {
+        .current-service-bar {
+            width: 420px;
         }
     }
 
@@ -97,8 +132,6 @@ $osf-dark-blue-navbar: #213948;
     @media screen and (min-width: 768px) {
         .current-service-bar {
             width: 420px;
-            margin-left: 120px;
-            padding-left: 10px;
         }
     }
 
@@ -120,6 +153,7 @@ $osf-dark-blue-navbar: #213948;
     @media screen and (min-width: 1600px) {
         .current-service-bar {
             width: 1245px;
+            margin-left: 120px;
         }
     }
 }
