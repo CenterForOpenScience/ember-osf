@@ -24,7 +24,15 @@
                 </ul>
                   {{!Secondary navigation - displays corresponding links for selected service}}
                  <div class="current-service-bar">
+                     {{!Name of current service}}
                     <strong>{{currentService}}</strong>
+
+                     <ul>
+                         {{!Corresponding service links}}
+                         {{#each (build-secondary-nav-links currentService session) as |nav-link|}}
+                             <li><a href="{{nav-link.href}}"> {{nav-link.name}}</a></li>
+                         {{/each}}
+                     </ul>
                 </div>
             </div>
              {{!Auth navbar}}
