@@ -71,14 +71,59 @@ $osf-dark-blue-navbar: #213948;
         content: '';
     }
 
+    /* Color, shape, vertical spacing for teal secondary navbar */
     .current-service-bar {
         color: white;
         background-color: $osf-teal-navbar;
         margin-top: 4px;
-        margin-left: -125px;
         border-radius: 5px;
         font-size: 16px;
         padding-top: 4px;
         padding-bottom: 3.5px;
+    }
+
+    /* Auth navbar positioning*/
+    .auth-navbar {
+        padding-top: 4.5px;
+        li {
+          list-style-type: none;
+        }
+    }
+
+    /* xs screen formatting */
+    @media screen and (max-width: 767px) {
+        .current-service-bar {
+            width: 100px;
+        }
+    }
+
+     /* sm screen formatting */
+    @media screen and (min-width: 768px) {
+        .current-service-bar {
+            width: 420px;
+            margin-left: 120px;
+            padding-left: 10px;
+        }
+    }
+
+    /* md screen formatting */
+    @media screen and (min-width: 992px) {
+        .current-service-bar {
+            width: 640px;
+        }
+    }
+
+    /* lg screen formatting */
+    @media screen and (min-width: 1200px) {
+        .current-service-bar {
+            width: 840px;
+        }
+    }
+
+     /* lg screen formatting */
+    @media screen and (min-width: 1600px) {
+        .current-service-bar {
+            width: 1245px;
+        }
     }
 }
