@@ -81,11 +81,18 @@ $osf-dark-blue-navbar: #213948;
         font-size: 16px;
         padding-top: 4px;
         padding-bottom: 4px;
+
+        /* Overrides positioning of service links */
+        .navbar-collapse {
+            font-size: 14px;
+            margin-top: -14px;
+            margin-bottom: -20px;
+        }
     }
 
     /* Auth navbar positioning*/
     .auth-navbar {
-        padding-top: 5px;
+        padding-top: 6.5px;
         li {
           list-style-type: none;
         }
