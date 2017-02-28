@@ -55,8 +55,11 @@ export default Ember.Component.extend({
         // Toggles whether search bar is displayed (for searching OSF)
         toggleSearch() {
             this.toggleProperty('showSearch');
-            Ember.$('.navbar-collapse').collapse('hide');
+            this.send('closeSecondaryNavigation');
         },
+        closeSecondaryNavigation() {
+            Ember.$('.navbar-collapse').collapse('hide');
+        }
     }
 
 });
