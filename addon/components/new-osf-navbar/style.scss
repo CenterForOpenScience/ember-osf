@@ -171,6 +171,13 @@ $osf-dark-blue-navbar: #213948;
     @media (min-width: 760px) { .current-service-bar { width: 550px;} }
 
 
+    @media (max-width: 768px) {
+        /* Overrides positioning of signup/sign in buttons on xs screen */
+        .btn-top-signup {
+            margin-left: 14px;
+        }
+    }
+
      /* sm screen formatting */
     @media screen and (min-width: 768px) {
         .current-service-bar {
