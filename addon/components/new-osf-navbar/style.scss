@@ -15,7 +15,7 @@ $osf-dark-blue-navbar: #213948;
         font-family: "Novecentosanswide-Book", "Open Sans", "sans-serif";
     }
 
-    /* Enlarges navbar logo */
+    /* Enlarges OSF logo */
     .osf-navbar-logo {
         width: 35px;
         height:35px;
@@ -31,10 +31,11 @@ $osf-dark-blue-navbar: #213948;
             margin-left: -45px;
             padding-top: 16px;
             list-style-type: none;
+            font-size: 15px;
         }
     }
 
-    /* Overrides the color and position and font size of dropdown menus (applies to service menu and user dropdown) */
+    /* Overrides the color, relative position, and font size of dropdown menus (service and profile) */
     .dropdown-menu {
         background-color: $osf-teal-navbar;
         &.service-dropdown {
@@ -45,10 +46,24 @@ $osf-dark-blue-navbar: #213948;
             left: -14.5px;
         }
         &.profile-dropdown {
-            top: 40px;
-            left: -2px;
+            top: 58px;
+            left: 15px;
         }
     }
+
+    /* Overrides background of dropdown-toggle when active */
+     .navbar-nav > .open > a,
+     .navbar-nav > .open > a:focus,
+     .navbar-nav > .open > a:hover {
+         background: transparent;
+         box-shadow: none;
+     }
+
+     /* Overrides font-size and position of auth dropdown */
+     a.nav-user-dropdown {
+         padding-right: 0;
+         font-size: 15px;
+     }
 
     /* Overrides color of dropdown list hover */
     .dropdown-menu > li > a:hover,
@@ -69,21 +84,6 @@ $osf-dark-blue-navbar: #213948;
             content: '';
             top: -4px;
             left: 14px;
-
-        }
-    }
-
-     /* Adds css triangle to auth dropdown */
-    .dropdown-menu.profile-dropdown {
-        :after {
-            position: absolute;
-            display: inline-block;
-            border-right: 6px solid transparent;
-            border-bottom: 6px solid $osf-teal-navbar;
-            border-left: 6px solid transparent;
-            content: '';
-            top: -4px;
-            left: 131px;
 
         }
     }
@@ -120,27 +120,31 @@ $osf-dark-blue-navbar: #213948;
         margin-right: 0;
         margin-left: 1px;
     }
-    
+
     /***********************************************
         Responsive changes to teal secondary navbar
     ***********************************************/
     /* xs screen formatting */
-    @media (max-width: 400px) {
+    @media (max-width: 280px) {
         .current-service-bar {
-            width: 150px;
+            width: 100px;
             margin-left: 135px;
         }
     }
 
      /* xs screen formatting */
-    @media screen and (min-width: 401px) {
+    @media (min-width: 281px) {
         .current-service-bar {
-            width: 190px;
-            margin-left: 130px;
+            width: 110px;
+            margin-left: 135px;
         }
     }
 
      /* More xs screen resizing of teal secondary navbar */
+    @media (min-width: 310px) { .current-service-bar { width: 115px;} }
+    @media (min-width: 340px) { .current-service-bar { width: 130px;} }
+    @media (min-width: 370px) { .current-service-bar { width: 160px;} }
+    @media (min-width: 400px) { .current-service-bar { width: 190px;} }
     @media (min-width: 430px) { .current-service-bar { width: 220px;} }
     @media (min-width: 460px) { .current-service-bar { width: 250px;} }
     @media (min-width: 490px) { .current-service-bar { width: 280px;} }
@@ -159,6 +163,21 @@ $osf-dark-blue-navbar: #213948;
     @media screen and (min-width: 768px) {
         .current-service-bar {
             width: 350px;
+        }
+
+            /* Adds css triangle to auth dropdown - only on screens > xs */
+        .dropdown-menu.profile-dropdown {
+            :after {
+                position: absolute;
+                display: inline-block;
+                border-right: 6px solid transparent;
+                border-bottom: 6px solid $osf-teal-navbar;
+                border-left: 6px solid transparent;
+                content: '';
+                top: -4px;
+                left: 136px;
+
+            }
         }
     }
 
