@@ -15,9 +15,10 @@ import config from 'ember-get-config';
  * @return {Array} Returns array of secondary link information
  */
 export function buildSecondaryNavLinks(params/*, hash*/) {
-    const [currentService, session] = params;
+    const currentService = params[0].toUpperCase();
+    const session = params[1];
     const osfUrl = config.OSF.url;
-    const links = {
+    const links = Ember.Object.create({
         HOME: [
             {
                 name: `${session.isAuthenticated ? 'My Projects' : 'Browse'}`,
@@ -65,8 +66,13 @@ export function buildSecondaryNavLinks(params/*, hash*/) {
                 href: `${osfUrl}meetings`
             }
         ]
-    };
-    return links[currentService];
+    });
+
+    if (Object.keys(links).includes(currentService)) {
+        return links[currentService];
+    }
+    return links['HOME'];  // Return Home links by default
+
 }
 
 export default Ember.Helper.helper(buildSecondaryNavLinks);

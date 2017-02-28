@@ -15,6 +15,7 @@ import config from 'ember-get-config';
  * ```handlebars
  * {{new-osf-navbar
  *   loginAction=loginAction
+ *   currentService=currentService (pass in service in all caps, ex. REGISTRIES, HOME, MEETINGS, PREPRINTS)
  * }}
  * ```
  *
