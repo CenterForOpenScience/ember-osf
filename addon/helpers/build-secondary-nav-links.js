@@ -18,7 +18,7 @@ export function buildSecondaryNavLinks(params/*, hash*/) {
     const currentService = params[0].toUpperCase();
     const session = params[1];
     const osfUrl = config.OSF.url;
-    const links = Ember.Object.create({
+    let links = Ember.Object.create({
         HOME: [
             {
                 name: `${session.isAuthenticated ? 'My Projects' : 'Browse'}`,
@@ -27,11 +27,7 @@ export function buildSecondaryNavLinks(params/*, hash*/) {
              {
                 name: 'Search',
                 href: '#'
-            },
-             {
-                name: 'Support',
-                href: `${osfUrl}support/`
-            },
+            }
 
         ],
         PREPRINTS: [
@@ -67,6 +63,15 @@ export function buildSecondaryNavLinks(params/*, hash*/) {
             }
         ]
     });
+
+    if (!session.isAuthenticated) {
+        links.HOME.push(
+            {
+                name: 'Support',
+                href: `${osfUrl}support/`
+            }
+        );
+    }
 
     if (Object.keys(links).includes(currentService)) {
         return links[currentService];
