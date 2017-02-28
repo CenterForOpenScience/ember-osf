@@ -4,28 +4,23 @@ $osf-highlight-navbar: #5A8288;
 $osf-dark-blue-navbar: #213948;
 
 .new-osf-navbar-styling {
-    /* Overrides overall navbar height to make shorter */
-    .navbar {
-        min-height: 40px;
-        margin-bottom: 20px;
-    }
-
     /* Overrides the overall navbar color */
     .navbar-inverse {
         background-color: $osf-dark-blue-navbar;
     }
 
-    /* Vertically centers OSF Logo/OSF (the brand), enlarges OSF font */
+    /* Enlarges OSF Font, changes font (not yet working) */
     .navbar-brand {
-        height: 20px;
-        padding: 6.5px 15px;
-        font-size: 22px;
+        font-size: 26px;
         font-family: "Novecentosanswide-Book", "Open Sans", "sans-serif";
     }
 
-    /* Overrides dimensions of secondary toggle (only visible on xs screen) */
-    .navbar-toggle {
-        padding: 4.5px 10px;
+    /* Enlarges navbar logo */
+    .osf-navbar-logo {
+        width: 35px;
+        height:35px;
+        margin-top: -4px;
+        margin-left: -4px;
     }
 
     /* Defines position of primary navigation: dropdown toggle (caret) */
@@ -33,10 +28,8 @@ $osf-dark-blue-navbar: #213948;
         float: left;
         /* Overrides vertical and horizontal position of dropdown caret */
         li.dropdown {
-            margin-left: -40px;
-            width: 10px;
-            padding-top: 12px;
-            margin-bottom: -2.5px;
+            margin-left: -45px;
+            padding-top: 16px;
             list-style-type: none;
         }
     }
@@ -44,16 +37,16 @@ $osf-dark-blue-navbar: #213948;
     /* Overrides the color and position and font size of dropdown menus (applies to service menu and user dropdown) */
     .dropdown-menu {
         background-color: $osf-teal-navbar;
-        &.service-menu {
+        &.service-dropdown {
             li > a {
                font-size: 16px;
             }
-            top: 47px;
+            top: 58px;
             left: -14.5px;
         }
         &.profile-dropdown {
             top: 40px;
-            left: 4px;
+            left: -2px;
         }
     }
 
@@ -65,8 +58,8 @@ $osf-dark-blue-navbar: #213948;
           background-image: linear-gradient(to bottom, $osf-highlight-navbar 0%, $osf-highlight-navbar 100%);
     }
 
-    /* Adds css triangle to dropdown menu - services */
-    .dropdown-menu.service-menu {
+    /* Adds css triangle to service dropdown */
+    .dropdown-menu.service-dropdown {
         :after {
             position: absolute;
             display: inline-block;
@@ -80,7 +73,7 @@ $osf-dark-blue-navbar: #213948;
         }
     }
 
-     /* Adds css triangle to dropdown menu - profile links */
+     /* Adds css triangle to auth dropdown */
     .dropdown-menu.profile-dropdown {
         :after {
             position: absolute;
@@ -90,7 +83,7 @@ $osf-dark-blue-navbar: #213948;
             border-left: 6px solid transparent;
             content: '';
             top: -4px;
-            left: 125px;
+            left: 131px;
 
         }
     }
@@ -99,31 +92,17 @@ $osf-dark-blue-navbar: #213948;
     .current-service-bar {
         color: white;
         background-color: $osf-teal-navbar;
-        margin-top: 4.5px;
+        margin-top: 7.5px;
         border-radius: 5px;
         font-size: 16px;
-        padding-top: 4px;
-        padding-bottom: 4px;
+        padding-top: 6px;
+        padding-bottom: 6px;
 
-        /* Overrides positioning of service links */
+        /* Overrides positioning and font-size of service links */
         .navbar-collapse {
-            font-size: 14px;
+            font-size: 15px;
             margin-top: -14px;
             margin-bottom: -20px;
-        }
-    }
-
-    /* Auth navbar positioning */
-    .auth-navbar {
-        padding-top: 6.5px;
-        li {
-          list-style-type: none;
-        }
-        a:hover {
-            text-decoration: none;
-        }
-        a:focus {
-            text-decoration: none;
         }
     }
 
@@ -141,17 +120,15 @@ $osf-dark-blue-navbar: #213948;
         margin-right: 0;
         margin-left: 1px;
     }
-
-
+    
     /***********************************************
         Responsive changes to teal secondary navbar
     ***********************************************/
     /* xs screen formatting */
     @media (max-width: 400px) {
         .current-service-bar {
-            padding-left: 10px;
-            width: 140px;
-            margin-left: 140px;
+            width: 150px;
+            margin-left: 135px;
         }
     }
 
@@ -159,7 +136,6 @@ $osf-dark-blue-navbar: #213948;
     @media screen and (min-width: 401px) {
         .current-service-bar {
             width: 190px;
-            padding-left: 10px;
             margin-left: 130px;
         }
     }
