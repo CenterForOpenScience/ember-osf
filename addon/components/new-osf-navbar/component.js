@@ -62,6 +62,10 @@ export default Ember.Component.extend({
         },
         closeSearch() {
             this.set('showSearch', false);
+        },
+        closeSecondaryAndSearch() {
+            this.send('closeSecondaryNavigation');
+            this.send('closeSearch');
         }
     }
 

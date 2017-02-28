@@ -1,6 +1,6 @@
 {{# if session.isAuthenticated }}
     {{! TODO: Replace display name functionality if possible- for now truncate via CSS at end of label }}
-    <a href="#" class="dropdown-toggle nav-user-dropdown" data-toggle="dropdown" role="button" aria-expanded="false">
+    <a href="#" class="dropdown-toggle nav-user-dropdown" data-toggle="dropdown" role="button" aria-expanded="false" {{action closeOtherNavigation}}>
         <span class="osf-gravatar">
             <img src="{{gravatarUrl}}" alt="User gravatar">
         </span> {{user.fullName}}

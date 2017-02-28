@@ -14,7 +14,7 @@
                 {{!Primary navigation - toggle between OSF, Preprints, Registries, and Meetings}}
                 <ul class="primary-nav">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" onclick={{action 'closeSecondaryNavigation'}}><span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" onclick={{action 'closeSecondaryAndSearch'}}><span class="caret"></span></a>
                         <ul class="dropdown-menu service-dropdown" role="menu">
                             {{#each osfServices as |service|}}
                                 <li><a href="#" onclick={{action "switchService" service.name}}>OSF<b>{{service.name}}</b></a></li>
@@ -61,7 +61,7 @@
                        {{/each}}
                     </div>
                     {{!Auth navbar}}
-                    {{navbar-auth-dropdown signupUrl=signupUrl loginAction=loginAction}}
+                    {{navbar-auth-dropdown signupUrl=signupUrl loginAction=loginAction closeOtherNavigation=(action 'closeSecondaryAndSearch')}}
                 </ul>
             </div>
         </div>
