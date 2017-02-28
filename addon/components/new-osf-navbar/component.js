@@ -1,16 +1,10 @@
 import Ember from 'ember';
 import layout from './template';
 import config from 'ember-get-config';
-import OsfTokenLoginControllerMixin from 'ember-osf/mixins/osf-token-login-controller';
 
-import {
-    getAuthUrl
-} from 'ember-osf/utils/auth';
-
-export default Ember.Component.extend(OsfTokenLoginControllerMixin, {
+export default Ember.Component.extend( {
     layout,
     session: Ember.inject.service(),
-    authUrl: getAuthUrl(),
     host: config.OSF.url,
     currentService: "HOME",
     osfServices: Ember.computed('currentService', function() {

@@ -23,7 +23,7 @@ $osf-dark-blue-navbar: #213948;
         font-family: "Novecentosanswide-Book", "Open Sans", "sans-serif";
     }
 
-    /* Override height of secondary toggle (only visible on xs screen) */
+    /* Overrides dimensions of secondary toggle (only visible on xs screen) */
     .navbar-toggle {
         padding: 4.5px 10px;
     }
@@ -31,22 +31,21 @@ $osf-dark-blue-navbar: #213948;
     /* Defines position of primary navigation: dropdown toggle (caret) */
     .primary-nav {
         float: left;
-            /* Overrides vertical and horizontal position of dropdown caret */
+        /* Overrides vertical and horizontal position of dropdown caret */
         li.dropdown {
             margin-left: -40px;
             width: 10px;
-            padding-top: 10px;
-            margin-bottom: 0;
+            padding-top: 12px;
+            margin-bottom: -2.5px;
             list-style-type: none;
         }
     }
 
-    /* Overrides the color and position of dropdown menu */
+    /* Overrides the color and position and font size of dropdown menu */
     .dropdown-menu {
         background-color: $osf-teal-navbar;
         top: 47px;
         left: -14.5px;
-
         li > a {
            font-size: 16px;
         }
@@ -90,7 +89,7 @@ $osf-dark-blue-navbar: #213948;
         }
     }
 
-    /* Auth navbar positioning*/
+    /* Auth navbar positioning */
     .auth-navbar {
         padding-top: 6.5px;
         li {

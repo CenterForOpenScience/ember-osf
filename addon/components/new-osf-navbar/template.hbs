@@ -3,14 +3,14 @@
         <div class="container">
              <div class="navbar-header">
                 {{!Toggle navigation button for xs screens}}
-                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".secondary-navigation">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
                 {{!OSF Brand}}
-                <a class="navbar-brand new-osf-navbar-styling" href="/"><span class="osf-navbar-logo"></span> OSF </a>
+                <a class="navbar-brand" href="/"><span class="osf-navbar-logo"></span> OSF </a>
                 {{!Primary navigation - toggle between OSF, Preprints, Registries, and Meetings}}
                 <ul class="primary-nav">
                     <li class="dropdown">
@@ -38,14 +38,14 @@
                 </div>
             </div>
              {{!Auth navbar}}
-            <div class="navbar-collapse collapse navbar-right auth-navbar">
+            <div class="navbar-collapse collapse navbar-right auth-navbar secondary-navigation">
                 <ul class="nav navbar-nav visible-xs">
                      {{!Corresponding service links, only visible on XS Screens}}
                      {{#each (build-secondary-nav-links currentService session) as |nav-link|}}
                          <li><a href="{{nav-link.href}}"> {{nav-link.name}}</a></li>
                      {{/each}}
                  </ul>
-                 {{navbar-auth-dropdown loginAction=(action "login")}}
+                {{navbar-auth-dropdown signupUrl=signupUrl loginAction=loginAction}}
             </div>
         </div>
     </nav>
