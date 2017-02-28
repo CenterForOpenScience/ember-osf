@@ -22,15 +22,23 @@
                         </ul>
                     </li>
                 </ul>
-                    {{!Secondary navigation - displays corresponding links for selected service}}
+                {{!Secondary navigation - displays corresponding links for selected service}}
                 <div class="current-service-bar">
                     {{!Name of current service}}
                     <strong class="service-name">{{currentService}}</strong>
                     <div id="navbar" class="navbar-collapse collapse navbar-right hidden-xs">
                         <ul class="nav navbar-nav">
                             {{!Corresponding service links - Hidden on XS Screens}}
-                            {{#each (build-secondary-nav-links currentService session) as |nav-link|}}
-                                <li><a href="{{nav-link.href}}"> {{nav-link.name}}</a></li>
+                            {{#each (build-secondary-navLinks currentService session) as |navLink|}}
+                                {{#if (and (eq currentService 'HOME') (eq navLink.name 'Search'))}}
+                                    <li>
+                                        {{!If search link on Home service, toggle search window}}
+                                        <a href="{{navLink.href}}" onclick={{action 'toggleSearch'}}>
+                                            {{navLink.name}}
+                                        </a></li>
+                                {{else}}
+                                    <li><a href="{{navLink.href}}"> {{navLink.name}}</a></li>
+                                {{/if}}
                             {{/each}}
                         </ul>
                     </div>
@@ -40,9 +48,17 @@
                 <ul class="nav navbar-nav">
                     {{!Corresponding service links, only visible on XS Screens}}
                     <div class="visible-xs secondary-navigation-collapsed">
-                       {{#each (build-secondary-nav-links currentService session) as |navLink|}}
-                            <li><a href="{{navLink.href}}"> {{navLink.name}}</a></li>
-                        {{/each}}
+                       {{#each (build-secondary-navLinks currentService session) as |navLink|}}
+                           {{#if (and (eq currentService 'HOME') (eq navLink.name 'Search'))}}
+                               <li>
+                                   {{!If search link on Home service, toggle search window}}
+                                   <a href="{{navLink.href}}" onclick={{action 'toggleSearch'}}>
+                                       {{navLink.name}}
+                                   </a></li>
+                           {{else}}
+                               <li><a href="{{navLink.href}}"> {{navLink.name}}</a></li>
+                           {{/if}}
+                       {{/each}}
                     </div>
                     {{!Auth navbar}}
                     {{navbar-auth-dropdown signupUrl=signupUrl loginAction=loginAction}}
@@ -50,5 +66,8 @@
             </div>
         </div>
     </nav>
+    {{#if showSearch}}
+        {{!Search dropdown - redirects to /search/?q=search_query}}
+        {{search-dropdown action='toggleSearch'}}
+    {{/if}}
 </div>
-

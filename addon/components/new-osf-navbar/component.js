@@ -2,11 +2,30 @@ import Ember from 'ember';
 import layout from './template';
 import config from 'ember-get-config';
 
+/**
+ * @module ember-osf
+ * @submodule components
+ */
+
+/**
+ * Display the new OSF navbar - features primary navigation to toggle between services - HOME, PREPRINTS, REGISTRIES, and MEETINGS,
+ * and secondary navigation links for each particular service.
+ *
+ * Sample usage:
+ * ```handlebars
+ * {{new-osf-navbar
+ *   loginAction=loginAction
+ * }}
+ * ```
+ *
+ * @class new-osf-navbar
+ */
 export default Ember.Component.extend({
     layout,
     session: Ember.inject.service(),
     host: config.OSF.url,
     currentService: 'HOME',
+    showSearch: false,
     osfServices: Ember.computed('currentService', function() {
         return [
             {
@@ -28,9 +47,15 @@ export default Ember.Component.extend({
         ];
     }),
     actions: {
+        // Switches to new service
         switchService(serviceName) {
             this.set('currentService', serviceName);
-        }
+        },
+        // Toggles whether search bar is displayed (for searching OSF)
+        toggleSearch() {
+            this.toggleProperty('showSearch');
+            Ember.$('.navbar-collapse').collapse('hide');
+        },
     }
 
 });

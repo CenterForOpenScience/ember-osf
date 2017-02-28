@@ -25,7 +25,7 @@ export function buildSecondaryNavLinks(params/*, hash*/) {
             },
              {
                 name: 'Search',
-                href: `${osfUrl}`
+                href: '#'
             },
              {
                 name: 'Support',
