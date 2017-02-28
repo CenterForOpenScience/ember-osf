@@ -4,9 +4,14 @@ import { module, test } from 'qunit';
 
 module('Unit | Helper | build secondary nav links');
 
-// Replace this with your real tests.
-test('it works', function(assert) {
-  let result = buildSecondaryNavLinks([42]);
-  assert.ok(result);
+test('returns preprints service links', function(assert) {
+    let currentService = 'PREPRINTS';
+    let session = {
+        isAuthenticated: true
+    };
+  let links = buildSecondaryNavLinks([currentService, session]);
+  assert.equal(links[0].name, 'Add a preprint');
+  assert.equal(links[1].name, 'Search');
+  assert.equal(links[2].name, 'Support');
 });
 

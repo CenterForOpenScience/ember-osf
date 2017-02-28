@@ -9,17 +9,13 @@ test('it renders', function(assert) {
 
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
+    const login = () => {};
+    this.set('login', login);
 
-  this.render(hbs`{{new-osf-navbar}}`);
+    this.render(hbs`{{new-osf-navbar
+        loginAction=(action login)    
+    }}`);
 
-  assert.equal(this.$().text().trim(), '');
+  assert.ok(this.$('primary-nav').context.innerText.replace(/\s+/g, " ").includes('OSF'));
 
-  // Template block usage:
-  this.render(hbs`
-    {{#new-osf-navbar}}
-      template block text
-    {{/new-osf-navbar}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
 });
