@@ -39,7 +39,7 @@
             <div class="navbar-collapse collapse navbar-right secondary-navigation">
                 <ul class="nav navbar-nav">
                     {{!Corresponding service links, only visible on XS Screens}}
-                    <div class="visible-xs">
+                    <div class="visible-xs secondary-navigation-collapsed">
                        {{#each (build-secondary-nav-links currentService session) as |navLink|}}
                             <li><a href="{{navLink.href}}"> {{navLink.name}}</a></li>
                         {{/each}}

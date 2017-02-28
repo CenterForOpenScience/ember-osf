@@ -107,6 +107,18 @@ $osf-dark-blue-navbar: #213948;
         }
     }
 
+    /* Format positioning of secondary navigation links on xs screen */
+    .secondary-navigation-collapsed {
+        margin-left: 15px;
+        li {
+            padding-top: 6px;
+            padding-bottom: 6px;
+            a {
+                text-decoration: none;
+            }
+        }
+    }
+
     /* Overrides for signup button */
     #navbarScope .btn-top-signup {
         padding: 5px 10px;
@@ -144,7 +156,7 @@ $osf-dark-blue-navbar: #213948;
     @media (min-width: 310px) { .current-service-bar { width: 115px;} }
     @media (min-width: 340px) { .current-service-bar { width: 130px;} }
     @media (min-width: 370px) { .current-service-bar { width: 160px;} }
-    @media (min-width: 400px) { .current-service-bar { width: 190px;} }
+    @media (min-width: 400px) { .current-service-bar { width: 185px;} }
     @media (min-width: 430px) { .current-service-bar { width: 220px;} }
     @media (min-width: 460px) { .current-service-bar { width: 250px;} }
     @media (min-width: 490px) { .current-service-bar { width: 280px;} }
