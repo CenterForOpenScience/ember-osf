@@ -41,13 +41,19 @@ $osf-dark-blue-navbar: #213948;
         }
     }
 
-    /* Overrides the color and position and font size of dropdown menu */
+    /* Overrides the color and position and font size of dropdown menus (applies to service menu and user dropdown) */
     .dropdown-menu {
         background-color: $osf-teal-navbar;
-        top: 47px;
-        left: -14.5px;
-        li > a {
-           font-size: 16px;
+        &.service-menu {
+            li > a {
+               font-size: 16px;
+            }
+            top: 47px;
+            left: -14.5px;
+        }
+        &.profile-dropdown {
+            top: 40px;
+            left: 4px;
         }
     }
 
@@ -59,16 +65,34 @@ $osf-dark-blue-navbar: #213948;
           background-image: linear-gradient(to bottom, $osf-highlight-navbar 0%, $osf-highlight-navbar 100%);
     }
 
-    /* Adds css triangle to dropdown menu */
-    .dropdown-menu:after {
-        position: absolute;
-        top: -4px;
-        left: 14px;
-        display: inline-block;
-        border-right: 6px solid transparent;
-        border-bottom: 6px solid $osf-teal-navbar;
-        border-left: 6px solid transparent;
-        content: '';
+    /* Adds css triangle to dropdown menu - services */
+    .dropdown-menu.service-menu {
+        :after {
+            position: absolute;
+            display: inline-block;
+            border-right: 6px solid transparent;
+            border-bottom: 6px solid $osf-teal-navbar;
+            border-left: 6px solid transparent;
+            content: '';
+            top: -4px;
+            left: 14px;
+
+        }
+    }
+
+     /* Adds css triangle to dropdown menu - profile links */
+    .dropdown-menu.profile-dropdown {
+        :after {
+            position: absolute;
+            display: inline-block;
+            border-right: 6px solid transparent;
+            border-bottom: 6px solid $osf-teal-navbar;
+            border-left: 6px solid transparent;
+            content: '';
+            top: -4px;
+            left: 125px;
+
+        }
     }
 
     /* Defines the color, shape, vertical spacing for teal secondary navbar */
@@ -94,6 +118,12 @@ $osf-dark-blue-navbar: #213948;
         padding-top: 6.5px;
         li {
           list-style-type: none;
+        }
+        a:hover {
+            text-decoration: none;
+        }
+        a:focus {
+            text-decoration: none;
         }
     }
 
