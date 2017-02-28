@@ -18,50 +18,50 @@ export function buildSecondaryNavLinks(params/*, hash*/) {
     const [currentService, session] = params;
     const osfUrl = config.OSF.url;
     const links = {
-        'HOME': [
+        HOME: [
             {
-                name: `${session.isAuthenticated ? "My Projects" : "Browse"}`,
+                name: `${session.isAuthenticated ? 'My Projects' : 'Browse'}`,
                 href: `${session.isAuthenticated ? `${osfUrl}myprojects/` : `${osfUrl}explore/activity/`}`
             },
              {
-                name: "Search",
+                name: 'Search',
                 href: `${osfUrl}`
             },
              {
-                name: "Support",
+                name: 'Support',
                 href: `${osfUrl}support/`
             },
 
         ],
-        'PREPRINTS': [
+        PREPRINTS: [
             {
-                name: "Add a preprint",
+                name: 'Add a preprint',
                 href: `${osfUrl}preprints/submit/`
             },
              {
-                name: "Search",
+                name: 'Search',
                 href: `${osfUrl}preprints/discover`
             },
              {
-                name: "Support",
-                href: "http://help.osf.io/m/preprints"
+                name: 'Support',
+                href: 'http://help.osf.io/m/preprints'
             },
 
         ],
-        'REGISTRIES': [
+        REGISTRIES: [
              {
-                name: "Search",
+                name: 'Search',
                 href: `${osfUrl}registries/discover`
             },
              {
-                name: "Support",
-                href: "http://help.osf.io/m/registrations"
+                name: 'Support',
+                href: 'http://help.osf.io/m/registrations'
             },
 
         ],
-        'MEETINGS': [
+        MEETINGS: [
              {
-                name: "Search",
+                name: 'Search',
                 href: `${osfUrl}meetings`
             }
         ]
