@@ -18,7 +18,7 @@ $osf-dark-blue-navbar: #213948;
     /* Enlarges OSF logo */
     .osf-navbar-logo {
         width: 35px;
-        height:35px;
+        height: 35px;
         margin-top: -4px;
         margin-left: -4px;
     }
@@ -103,22 +103,22 @@ $osf-dark-blue-navbar: #213948;
             font-size: 15px;
             margin-top: -14px;
             margin-bottom: -20px;
+            padding-left: 0;
         }
     }
 
     /* Overrides for signup button */
     #navbarScope .btn-top-signup {
-        margin-top: -1px;
-        margin-right: 0;
-        margin-left: 0;
+        padding: 5px 10px;
+        margin-top: 7px;
+        left: -10px;
     }
 
     /* Overrides for Sign in button */
     #navbarScope .btn-top-login {
-        margin-top: -1px;
-        padding: 2px 20px;
-        margin-right: 0;
-        margin-left: 1px;
+        padding: 5px 10px;
+        margin-top: 7px;
+        left: -10px;
     }
 
     /***********************************************
@@ -162,7 +162,8 @@ $osf-dark-blue-navbar: #213948;
      /* sm screen formatting */
     @media screen and (min-width: 768px) {
         .current-service-bar {
-            width: 350px;
+            width: 400px;
+            margin-left: 120px;
         }
 
             /* Adds css triangle to auth dropdown - only on screens > xs */
@@ -176,7 +177,6 @@ $osf-dark-blue-navbar: #213948;
                 content: '';
                 top: -4px;
                 left: 136px;
-
             }
         }
     }
@@ -184,21 +184,21 @@ $osf-dark-blue-navbar: #213948;
     /* md screen formatting */
     @media screen and (min-width: 992px) {
         .current-service-bar {
-            width: 550px;
+            width: 620px;
         }
     }
 
     /* lg screen formatting */
     @media screen and (min-width: 1200px) {
         .current-service-bar {
-            width:770px;
+            width:820px;
         }
     }
 
      /* xl screen formatting */
     @media screen and (min-width: 1600px) {
         .current-service-bar {
-            width: 1180px;
+            width: 1210px;
             margin-left: 120px;
         }
     }
