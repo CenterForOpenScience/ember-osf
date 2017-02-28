@@ -59,6 +59,9 @@ export default Ember.Component.extend({
         },
         closeSecondaryNavigation() {
             Ember.$('.navbar-collapse').collapse('hide');
+        },
+        closeSearch() {
+            this.set('showSearch', false);
         }
     }
 
