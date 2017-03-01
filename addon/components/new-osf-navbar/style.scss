@@ -1,4 +1,4 @@
-// Overrides some of base osf-styles for the navbar osf-style/sass/_bootstrap.scss
+// Overrides some of base osf-styles for the navbar in osf-style/sass/_bootstrap.scss
 $osf-teal-navbar: #2E6A74;
 $osf-highlight-navbar: #5A8288;
 $osf-dark-blue-navbar: #263947;
@@ -25,7 +25,7 @@ $osf-dark-blue-navbar: #263947;
     /* Defines position of primary navigation: dropdown toggle (caret) */
     .primary-nav {
         float: left;
-        /* Overrides vertical and horizontal position of dropdown caret */
+        /* Overrides vertical and horizontal position of dropdown caret for service menu */
         li.dropdown {
             margin-left: -46px;
             padding-top: 14px;
@@ -34,7 +34,7 @@ $osf-dark-blue-navbar: #263947;
         }
     }
 
-    /* Overrides the color, relative position, and font size of dropdown menus (service and profile) */
+    /* Overrides the color, relative position, and font size of dropdown menus (both service and auth) */
     .dropdown-menu {
         background-color: $osf-teal-navbar;
         &.service-dropdown {
@@ -44,13 +44,16 @@ $osf-dark-blue-navbar: #263947;
             top: 58px;
             left: -14.5px;
         }
-        &.profile-dropdown {
+        &.auth-dropdown {
+            li > a {
+               font-size: 15px;
+            }
             top: 60px;
             left: 15px;
         }
     }
 
-    /* Overrides background of dropdown-toggle when active */
+    /* Overrides background of dropdown-toggle when active - needed for auth navbar */
      .navbar-nav > .open > a,
      .navbar-nav > .open > a:focus,
      .navbar-nav > .open > a:hover {
@@ -58,13 +61,13 @@ $osf-dark-blue-navbar: #263947;
          box-shadow: none;
      }
 
-     /* Overrides font-size and position of auth dropdown */
+     /* Overrides font-size and position of user name / gravatar */
      a.nav-user-dropdown {
          padding-right: 0;
          font-size: 15px;
      }
 
-    /* Overrides color of dropdown list hover */
+    /* Overrides color of dropdown list hover (applies to both service and auth dropdowns) */
     .dropdown-menu > li > a:hover,
     .dropdown-menu > li > a:focus {
           background-image: -webkit-linear-gradient(top, $osf-highlight-navbar 0%, $osf-highlight-navbar 100%);
@@ -87,7 +90,7 @@ $osf-dark-blue-navbar: #263947;
         }
     }
 
-    /* Defines the color, shape, vertical spacing for teal secondary navbar */
+    /* Defines the color, shape, vertical spacing for teal secondary navigation */
     .current-service-bar {
         color: white;
         background-color: $osf-teal-navbar;
@@ -97,7 +100,7 @@ $osf-dark-blue-navbar: #263947;
         padding-top: 6px;
         padding-bottom: 6px;
 
-        /* Overrides positioning and font-size of secondary links */
+        /* Overrides positioning and font-size of secondary links inside secondary navigation bar */
         .navbar-collapse {
             font-size: 15px;
             margin-top: -14.5px;
@@ -106,9 +109,10 @@ $osf-dark-blue-navbar: #263947;
         }
     }
 
-    /* Format positioning of secondary navigation links on xs screen */
+    /* Formats positioning of secondary navigation links on xs screen */
     .secondary-navigation-collapsed {
-        margin-left: 15px;
+        margin-left: 18px;
+        font-size: 15px;
         li {
             padding-top: 6px;
             padding-bottom: 6px;
@@ -149,15 +153,15 @@ $osf-dark-blue-navbar: #263947;
     @media (min-width: 281px) {
         .current-service-bar {
             width: 110px;
-            margin-left: 135px;
+            margin-left: 140px;
         }
     }
 
      /* More xs screen resizing of teal secondary navbar */
-    @media (min-width: 310px) { .current-service-bar { width: 115px;} }
+    @media (min-width: 310px) { .current-service-bar { width: 110px;} }
     @media (min-width: 340px) { .current-service-bar { width: 130px;} }
     @media (min-width: 370px) { .current-service-bar { width: 160px;} }
-    @media (min-width: 400px) { .current-service-bar { width: 185px;} }
+    @media (min-width: 400px) { .current-service-bar { width: 190px;} }
     @media (min-width: 430px) { .current-service-bar { width: 220px;} }
     @media (min-width: 460px) { .current-service-bar { width: 250px;} }
     @media (min-width: 490px) { .current-service-bar { width: 280px;} }
@@ -186,8 +190,8 @@ $osf-dark-blue-navbar: #263947;
             margin-left: 123px;
         }
 
-            /* Adds css triangle to auth dropdown - only on screens > xs */
-        .dropdown-menu.profile-dropdown {
+        /* Adds css triangle to auth dropdown - only on sm screens and greater */
+        .dropdown-menu.auth-dropdown {
             :after {
                 position: absolute;
                 display: inline-block;
