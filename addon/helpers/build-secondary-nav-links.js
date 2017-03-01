@@ -76,7 +76,7 @@ export function buildSecondaryNavLinks(params/*, hash*/) {
     if (Object.keys(links).includes(currentService)) {
         return links[currentService];
     }
-    return links['HOME'];  // Return Home links by default
+    return links.HOME;  // Return Home links by default
 
 }
 
