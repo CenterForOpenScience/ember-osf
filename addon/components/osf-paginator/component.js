@@ -16,6 +16,9 @@ import layout from './template';
  *   fetchResults=(action 'fetchResults')
  *   query=query}}
  * ```
+ *
+ * The osf-paginator will be deprecated. Use pagination-pager instead.
+ *
  * @class osf-paginator
  * @param {integer} totalSearchResults Number of total search results to be paginated
  * @param {action} fetchResults - action for fetching other pages of results
@@ -24,6 +27,13 @@ import layout from './template';
 export default Ember.Component.extend({
     layout,
     currentPage: 1,
+    init() {
+        this._super(...arguments);
+        Ember.deprecate('osf-paginator will be deprecated. Use pagination-pager instead', false, {
+            id: 'osf-paginator',
+            until: '1.0.0'
+        });
+    },
     pages: Ember.computed('totalSearchResults', function() {
         let totalSearchResults = this.get('totalSearchResults');
         return Math.ceil(totalSearchResults / 10);
