@@ -25,7 +25,7 @@ export default Ember.Component.extend({
     layout,
     session: Ember.inject.service(),
     host: config.OSF.url,
-    currentService: 'HOME',
+    currentService: 'HOME', // Pass in name of current service
     showSearch: false,
     osfServices: Ember.computed('currentService', function() {
         return [
