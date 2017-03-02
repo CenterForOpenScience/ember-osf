@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import layout from './template';
 import config from 'ember-get-config';
+import serviceLinks from '../../const/service-links';
 
 /**
  * @module ember-osf
@@ -37,6 +38,10 @@ export default Ember.Component.extend({
      * @type {String}
      */
     signupUrl: config.OSF.url + 'register',
+
+    serviceLinks: Ember.computed(function() {
+        return serviceLinks;
+    }),
 
     gravatarUrl: Ember.computed('user', function() {
         let imgLink = this.get('user.links.profile_image');

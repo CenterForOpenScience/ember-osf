@@ -27,9 +27,11 @@ const serviceLinks = {
     preprintsHome: `${osfUrl}preprints/`,
     preprintsSubmit: `${osfUrl}preprints/submit/`,
     preprintsSupport: 'http://help.osf.io/m/preprints/',
+    profile: `${osfUrl}profile/`,
     registriesDiscover: `${osfUrl}registries/discover/`,
     registriesHome: `${osfUrl}registries/`,
     registriesSupport: 'http://help.osf.io/m/registrations/',
+    settings: `${osfUrl}settings/`
 };
 
 export default serviceLinks;

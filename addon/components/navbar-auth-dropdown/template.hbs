@@ -11,14 +11,14 @@
             <li style="margin-left:10%;">{{headline}}</li>
         {{/if}}
         <li>
-            <a href="{{host}}profile/"><i class="fa fa-user fa-lg p-r-xs"></i> {{t 'eosf.authDropdown.myProfile'}}</a>
+            <a href="{{serviceLinks.profile}}"><i class="fa fa-user fa-lg p-r-xs"></i> {{t 'eosf.authDropdown.myProfile'}}</a>
         </li>
         <li>
-            <a href="{{host}}support/"><i class="fa fa-life-ring fa-lg p-r-xs"></i>{{t 'eosf.authDropdown.osfSupport'}}</a>
+            <a href="{{serviceLinks.osfSupport}}"><i class="fa fa-life-ring fa-lg p-r-xs"></i>{{t 'eosf.authDropdown.osfSupport'}}</a>
         </li>
 
         <li>
-            <a href="{{host}}settings/"><i class="fa fa-cog fa-lg p-r-xs"></i> {{t 'eosf.authDropdown.settings'}}</a>
+            <a href="{{serviceLinks.settings}}"><i class="fa fa-cog fa-lg p-r-xs"></i> {{t 'eosf.authDropdown.settings'}}</a>
         </li>
         <li>
             <a onclick={{action 'logout'}}><i class="fa fa-sign-out fa-lg p-r-xs"></i> {{t 'eosf.authDropdown.logOut'}}</a>
