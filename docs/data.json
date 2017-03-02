@@ -4,7 +4,7 @@
         "description": "Ember components for interacting with the Open Science Framework",
         "url": "https://github.com/CenterForOpenScience/ember-osf",
         "logo": "https://cos.io/static/img/icons/cos_wide.png",
-        "version": "0.2.0"
+        "version": "0.3.0"
     },
     "files": {
         "addon/adapters/osf-adapter.js": {
@@ -305,11 +305,20 @@
             "fors": {},
             "namespaces": {}
         },
-        "addon/mixins/cas-authenticated-route.js": {
-            "name": "addon/mixins/cas-authenticated-route.js",
+        "addon/mixins/analytics.js": {
+            "name": "addon/mixins/analytics.js",
             "modules": {
                 "mixins": 1
             },
+            "classes": {
+                "Analytics": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/mixins/cas-authenticated-route.js": {
+            "name": "addon/mixins/cas-authenticated-route.js",
+            "modules": {},
             "classes": {
                 "CasAuthenticatedRouteMixin": 1
             },
@@ -764,6 +773,7 @@
                 "permissions": 1,
                 "elem-id": 1,
                 "fix-special-char-helper": 1,
+                "Analytics": 1,
                 "CasAuthenticatedRouteMixin": 1,
                 "CommentableMixin": 1,
                 "FetchAllRouteMixin": 1,
@@ -936,6 +946,7 @@
             "submodules": {},
             "elements": {},
             "classes": {
+                "Analytics": 1,
                 "CasAuthenticatedRouteMixin": 1,
                 "CommentableMixin": 1,
                 "FetchAllRouteMixin": 1,
@@ -961,7 +972,7 @@
             "namespace": "",
             "file": "addon/mixins/taggable-mixin.js",
             "line": 8,
-            "description": "Replacement for Ember-simple-auth AuthenticatedRouteMixin. Instead of redirecting to an internal route,\n  this mixin redirects to CAS login URL, and brings the user back to the last requested page afterwards\n\nFor OAuth this is done via the state parameter, and for cookies this is done via the service parameter. (TODO: Need a mixin that detects this!)"
+            "description": "Analytics mixin. Provides actions that can be used in templates to track events (can send to multiple\nanalytics services)"
         },
         "ember": {
             "name": "ember",
@@ -1530,7 +1541,7 @@
             "namespace": "",
             "file": "addon/components/osf-paginator/component.js",
             "line": 9,
-            "description": "OSF Paginator adapted from osf/website/static/js/paginator.js\n\nSample usage:\n```handlebars\n{{osf-paginator\n  totalSearchResults=totalSearchResults\n  fetchResults=(action 'fetchResults')\n  query=query}}\n```",
+            "description": "OSF Paginator adapted from osf/website/static/js/paginator.js\n\nSample usage:\n```handlebars\n{{osf-paginator\n  totalSearchResults=totalSearchResults\n  fetchResults=(action 'fetchResults')\n  query=query}}\n```\n\nThe osf-paginator will be deprecated. Use pagination-pager instead.",
             "params": [
                 {
                     "name": "totalSearchResults",
@@ -1562,7 +1573,7 @@
             "namespace": "",
             "file": "addon/components/pagination-control/component.js",
             "line": 9,
-            "description": "Display a simple pagination control that advances the page. Intended for use with PaginatedRouteMixin."
+            "description": "Display a simple pagination control that advances the page. Intended for use with PaginatedRouteMixin.\n\nThe pagination-control will be deprecated. Use pagination-pager instead."
         },
         "search-dropdown": {
             "name": "search-dropdown",
@@ -1667,6 +1678,21 @@
             "uses": [
                 "fix-special-char"
             ]
+        },
+        "Analytics": {
+            "name": "Analytics",
+            "shortname": "Analytics",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "mixins",
+            "namespace": "",
+            "file": "addon/mixins/analytics.js",
+            "line": 8,
+            "description": "Analytics mixin. Provides actions that can be used in templates to track events (can send to multiple\nanalytics services)"
         },
         "CasAuthenticatedRouteMixin": {
             "name": "CasAuthenticatedRouteMixin",
