@@ -8,13 +8,15 @@ import config from 'ember-get-config';
  */
 
 /**
- * Display the OSF navbar
+ * Display the new OSF navbar - features primary navigation to toggle between services - HOME, PREPRINTS, REGISTRIES, and MEETINGS,
+ * and secondary navigation links for each particular service.
  *
  * Sample usage:
  * ```handlebars
  * {{osf-navbar
  *   loginAction=loginAction
- *   hideSearch=true}}
+ *   currentService=currentService (pass in service in all caps, ex. REGISTRIES, HOME, MEETINGS, PREPRINTS)
+ * }}
  * ```
  *
  * @class osf-navbar
@@ -22,21 +24,49 @@ import config from 'ember-get-config';
 export default Ember.Component.extend({
     layout,
     session: Ember.inject.service(),
-    onSearchPage: false,
-    /**
-     * Whether search icons and functionality show up
-     * @property hideSearch
-     * @type {Boolean}
-     */
-    hideSearch: false,
-
     host: config.OSF.url,
-
+    currentService: 'HOME', // Pass in name of current service
     showSearch: false,
-
+    osfServices: Ember.computed('currentService', function() {
+        return [
+            {
+                name: 'HOME',
+                url: `${this.get('host')}`,
+            },
+            {
+                name: 'PREPRINTS',
+                url: `${this.get('host')}preprints/`,
+            },
+            {
+                name: 'REGISTRIES',
+                url: `${this.get('host')}registries/`,
+            },
+            {
+                name: 'MEETINGS',
+                url: `${this.get('host')}meetings/`,
+            }
+        ];
+    }),
     actions: {
+        // Switches to new service
+        switchService(serviceName) {
+            this.set('currentService', serviceName);
+        },
+        // Toggles whether search bar is displayed (for searching OSF)
         toggleSearch() {
             this.toggleProperty('showSearch');
+            this.send('closeSecondaryNavigation');
         },
+        closeSecondaryNavigation() {
+            Ember.$('.navbar-collapse').collapse('hide');
+        },
+        closeSearch() {
+            this.set('showSearch', false);
+        },
+        closeSecondaryAndSearch() {
+            this.send('closeSecondaryNavigation');
+            this.send('closeSearch');
+        }
     }
+
 });
