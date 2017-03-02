@@ -23,7 +23,7 @@ export default Ember.Component.extend({
     layout,
     session: Ember.inject.service(),
     currentUser: Ember.inject.service(),
-
+    i18n: Ember.inject.service(),
     tagName: 'li',
     classNames: ['dropdown'],
     classNameBindings: ['notAuthenticated:sign-in'],

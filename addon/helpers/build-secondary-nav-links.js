@@ -14,69 +14,72 @@ import serviceLinks from '../const/service-links';
  * @param {Object} session Injected session
  * @return {Array} Returns array of secondary link information
  */
-export function buildSecondaryNavLinks(params/*, hash*/) {
-    const currentService = params[0].toUpperCase();
-    const session = params[1];
-    let links = Ember.Object.create({
-        HOME: [
-            {
-                name: `${session.get('isAuthenticated') ? 'My Projects' : 'Browse'}`,
-                href: `${session.get('isAuthenticated') ? serviceLinks.myProjects : serviceLinks.exploreActivity}`
-            },
-             {
-                name: 'Search',
-                href: '#'
-            }
 
-        ],
-        PREPRINTS: [
-            {
-                name: 'Add a preprint',
-                href: serviceLinks.preprintsSubmit
-            },
-             {
-                name: 'Search',
-                href: serviceLinks.preprintsDiscover
-            },
-             {
-                name: 'Support',
-                href: serviceLinks.preprintsSupport
-            },
+export default Ember.Helper.extend({
+    i18n: Ember.inject.service(),
+    compute(params) {
+        const i18n = this.get('i18n');
+        const currentService = params[0].toUpperCase();
+        const session = params[1];
+        let links = Ember.Object.create({
+            HOME: [
+                {
+                    name: `${session.get('isAuthenticated') ? i18n.t('eosf.navbar.myProjects') : i18n.t('eosf.navbar.browse')}`,
+                    href: `${session.get('isAuthenticated') ? serviceLinks.myProjects : serviceLinks.exploreActivity}`
+                },
+                {
+                    name: i18n.t('eosf.navbar.search'),
+                    href: '#'
+                }
 
-        ],
-        REGISTRIES: [
-             {
-                name: 'Search',
-                href: serviceLinks.registriesDiscover
-            },
-             {
-                name: 'Support',
-                href: serviceLinks.registriesSupport
-            },
+            ],
+            PREPRINTS: [
+                {
+                    name: i18n.t('eosf.navbar.addAPreprint'),
+                    href: serviceLinks.preprintsSubmit
+                },
+                {
+                    name: i18n.t('eosf.navbar.search'),
+                    href: serviceLinks.preprintsDiscover
+                },
+                {
+                    name: i18n.t('eosf.navbar.support'),
+                    href: serviceLinks.preprintsSupport
+                },
 
-        ],
-        MEETINGS: [
-             {
-                name: 'Search',
-                href: serviceLinks.meetingsHome
-            }
-        ]
-    });
+            ],
+            REGISTRIES: [
+                {
+                    name: i18n.t('eosf.navbar.search'),
+                    href: serviceLinks.registriesDiscover
+                },
+                {
+                    name: i18n.t('eosf.navbar.support'),
+                    href: serviceLinks.registriesSupport
+                },
 
-    if (!session.isAuthenticated) {
-        links.HOME.push(
-            {
-                name: 'Support',
-                href: serviceLinks.support
-            }
-        );
+            ],
+            MEETINGS: [
+                {
+                    name: i18n.t('eosf.navbar.search'),
+                    href: serviceLinks.meetingsHome
+                }
+            ]
+        });
+
+        if (!session.isAuthenticated) {
+            links.HOME.push(
+                {
+                    name: i18n.t('eosf.navbar.support'),
+                    href: serviceLinks.support
+                }
+            );
+        }
+
+        if (Object.keys(links).includes(currentService)) {
+            return links[currentService];
+        }
+        return links.HOME;  // Return Home links by default
+
     }
-
-    if (Object.keys(links).includes(currentService)) {
-        return links[currentService];
-    }
-    return links.HOME;  // Return Home links by default
-
-}
-
-export default Ember.Helper.helper(buildSecondaryNavLinks);
+});
