@@ -29,7 +29,7 @@
                         <ul class="nav navbar-nav">
                             {{!Corresponding service links - Hidden on XS Screens}}
                             {{#each (build-secondary-navLinks currentService session) as |navLink|}}
-                                {{#if (and (eq currentService 'HOME') (eq navLink.name 'Search'))}}
+                                {{#if (and (eq currentService 'HOME') (eq navLink.name.string 'Search'))}}
                                     <li>
                                         {{!If search link on Home service, toggle search window}}
                                         <a href="{{navLink.href}}" onclick={{action 'toggleSearch'}}>
@@ -49,7 +49,7 @@
                     {{!Corresponding service links, only visible on XS Screens}}
                     <div class="visible-xs secondary-navigation-collapsed">
                         {{#each (build-secondary-navLinks currentService session) as |navLink|}}
-                            {{#if (and (eq currentService 'HOME') (eq navLink.name 'Search'))}}
+                            {{#if (and (eq currentService 'HOME') (eq navLink.name.string "Search"))}}
                                 <li>
                                     {{!If search link on Home service, toggle search window}}
                                     <a href="{{navLink.href}}" onclick={{action 'toggleSearch'}}>
