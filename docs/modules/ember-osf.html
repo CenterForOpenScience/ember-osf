@@ -17,7 +17,7 @@
                 <h1><img src="https://cos.io/static/img/icons/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.2.0</em>
+            <em>API Docs for: 0.3.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -39,6 +39,7 @@
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/ajax-helpers.html">ajax-helpers</a></li>
+                                <li><a href="../classes/Analytics.html">Analytics</a></li>
                                 <li><a href="../classes/auth.html">auth</a></li>
                                 <li><a href="../classes/CasAuthenticatedRouteMixin.html">CasAuthenticatedRouteMixin</a></li>
                                 <li><a href="../classes/Citation.html">Citation</a></li>
@@ -187,6 +188,11 @@
             <p>This module provides the following classes:</p>
 
             <ul class="module-classes">
+                <li class="module-class">
+                    <a href="../classes/Analytics.html">
+                        Analytics
+                    </a>
+                </li>
                 <li class="module-class">
                     <a href="../classes/auth.html">
                         auth
@@ -616,10 +622,8 @@ Useful to ensure unique IDs, eg for when component is reused in page.
                     </a>
 
                     <div class="module-submodule-description">
-                        Replacement for Ember-simple-auth AuthenticatedRouteMixin. Instead of redirecting to an internal route,
-  this mixin redirects to CAS login URL, and brings the user back to the last requested page afterwards
-
-For OAuth this is done via the state parameter, and for cookies this is done via the service parameter. (TODO: Need a mixin that detects this!)
+                        Analytics mixin. Provides actions that can be used in templates to track events (can send to multiple
+analytics services)
                     </div>
                 </li>
                 <li class="module-submodule">
