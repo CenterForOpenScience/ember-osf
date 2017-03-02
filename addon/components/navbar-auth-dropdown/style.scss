@@ -3,3 +3,19 @@
     border-radius: 13px;
     margin-right: 5px;
 }
+
+/* Overrides font-size and position of user name / gravatar */
+button.nav-user-dropdown {
+    padding-right: 0;
+    font-size: 15px;
+    margin-top: 9px;
+}
+
+/* Changes profile name formatting (now that the "a" tag has been changed to button)*/
+.navbar-inverse .btn-link.nav-user-dropdown {
+    color: white;
+    text-decoration: none;
+    &:hover {
+        color: rgba(255, 255, 255, 0.8);
+    }
+}

@@ -61,12 +61,6 @@ $osf-dark-blue-navbar: #263947;
          box-shadow: none;
      }
 
-     /* Overrides font-size and position of user name / gravatar */
-     a.nav-user-dropdown {
-         padding-right: 0;
-         font-size: 15px;
-     }
-
     /* Overrides color of dropdown list hover (applies to both service and auth dropdowns) */
     .dropdown-menu > li > a:hover,
     .dropdown-menu > li > a:focus {
@@ -187,7 +181,7 @@ $osf-dark-blue-navbar: #263947;
     @media (min-width: 310px) { .current-service-bar { width: 110px;} }
     @media (min-width: 340px) { .current-service-bar { width: 130px;} }
     @media (min-width: 370px) { .current-service-bar { width: 160px;} }
-    @media (min-width: 400px) { .current-service-bar { width: 190px;} }
+    @media (min-width: 400px) { .current-service-bar { width: 180px;} }
     @media (min-width: 430px) { .current-service-bar { width: 220px;} }
     @media (min-width: 460px) { .current-service-bar { width: 250px;} }
     @media (min-width: 490px) { .current-service-bar { width: 280px;} }
@@ -226,7 +220,7 @@ $osf-dark-blue-navbar: #263947;
                 border-left: 6px solid transparent;
                 content: '';
                 top: -4px;
-                left: 135.5px;
+                left: 128.5px;
             }
         }
     }
