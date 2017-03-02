@@ -1,6 +1,6 @@
 {{# if session.isAuthenticated }}
     {{! TODO: Replace display name functionality if possible- for now truncate via CSS at end of label }}
-    <button class="dropdown-toggle nav-user-dropdown btn-link" data-toggle="dropdown" role="button" aria-expanded="false" {{action closeOtherNavigation}}>
+    <button class="dropdown-toggle nav-user-dropdown btn-link" data-toggle="dropdown" role="button" aria-expanded="false" aria-label={{t 'eosf.authDropdown.toggleAuthDropdown'}} {{action closeOtherNavigation}}>
         <span class="osf-gravatar">
             <img src="{{gravatarUrl}}" alt="User gravatar">
         </span> {{user.fullName}}
@@ -14,7 +14,7 @@
             <a href="{{serviceLinks.profile}}"><i class="fa fa-user fa-lg p-r-xs"></i> {{t 'eosf.authDropdown.myProfile'}}</a>
         </li>
         <li>
-            <a href="{{serviceLinks.osfSupport}}"><i class="fa fa-life-ring fa-lg p-r-xs"></i>{{t 'eosf.authDropdown.osfSupport'}}</a>
+            <a href="{{serviceLinks.osfSupport}}"><i class="fa fa-life-ring fa-lg p-r-xs"></i> {{t 'eosf.authDropdown.osfSupport'}}</a>
         </li>
 
         <li>

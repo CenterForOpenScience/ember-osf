@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import layout from './template';
 import osfServices from '../../const/osf-services';
+import serviceLinks from '../../const/service-links';
 import config from 'ember-get-config';
 
 /**
@@ -27,6 +28,9 @@ export default Ember.Component.extend({
     session: Ember.inject.service(),
     osfServices: Ember.computed(function() {
         return osfServices;
+    }),
+    serviceLinks: Ember.computed(function() {
+        return serviceLinks;
     }),
     host: config.OSF.url,
     currentService: 'HOME', // Pass in name of current service

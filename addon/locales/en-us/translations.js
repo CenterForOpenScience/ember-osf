@@ -22,9 +22,12 @@ export default {
         navbar: {
             addAPreprint: 'Add a preprint',
             browse: 'Browse',
+            goHome: 'Go home',
             myProjects: 'My Projects',
             search: 'Search',
             support: 'Support',
+            togglePrimary: 'Toggle primary navigation',
+            toggleSecondary: 'Toggle secondary navigation',
         },
         authDropdown: {
             logOut: 'Log out',
@@ -32,7 +35,8 @@ export default {
             osfSupport: 'OSF Support',
             settings: 'Settings',
             signUp: 'Sign Up',
-            signIn: 'Sign in'
+            signIn: 'Sign in',
+            toggleAuthDropdown: 'Toggle auth dropdown'
 
         }
     }
