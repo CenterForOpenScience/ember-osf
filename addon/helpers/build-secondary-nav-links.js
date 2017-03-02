@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import config from 'ember-get-config';
+import serviceLinks from '../const/service-links';
 
 /**
  * @module ember-osf
@@ -17,12 +17,11 @@ import config from 'ember-get-config';
 export function buildSecondaryNavLinks(params/*, hash*/) {
     const currentService = params[0].toUpperCase();
     const session = params[1];
-    const osfUrl = config.OSF.url;
     let links = Ember.Object.create({
         HOME: [
             {
-                name: `${session.isAuthenticated ? 'My Projects' : 'Browse'}`,
-                href: `${session.isAuthenticated ? `${osfUrl}myprojects/` : `${osfUrl}explore/activity/`}`
+                name: `${session.get('isAuthenticated') ? 'My Projects' : 'Browse'}`,
+                href: `${session.get('isAuthenticated') ? serviceLinks.myProjects : serviceLinks.exploreActivity}`
             },
              {
                 name: 'Search',
@@ -33,33 +32,33 @@ export function buildSecondaryNavLinks(params/*, hash*/) {
         PREPRINTS: [
             {
                 name: 'Add a preprint',
-                href: `${osfUrl}preprints/submit/`
+                href: serviceLinks.preprintsSubmit
             },
              {
                 name: 'Search',
-                href: `${osfUrl}preprints/discover`
+                href: serviceLinks.preprintsDiscover
             },
              {
                 name: 'Support',
-                href: 'http://help.osf.io/m/preprints'
+                href: serviceLinks.preprintsSupport
             },
 
         ],
         REGISTRIES: [
              {
                 name: 'Search',
-                href: `${osfUrl}registries/discover`
+                href: serviceLinks.registriesDiscover
             },
              {
                 name: 'Support',
-                href: 'http://help.osf.io/m/registrations'
+                href: serviceLinks.registriesSupport
             },
 
         ],
         MEETINGS: [
              {
                 name: 'Search',
-                href: `${osfUrl}meetings`
+                href: serviceLinks.meetingsHome
             }
         ]
     });
@@ -68,7 +67,7 @@ export function buildSecondaryNavLinks(params/*, hash*/) {
         links.HOME.push(
             {
                 name: 'Support',
-                href: `${osfUrl}support/`
+                href: serviceLinks.support
             }
         );
     }

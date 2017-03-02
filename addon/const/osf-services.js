@@ -1,4 +1,4 @@
-import config from 'ember-get-config';
+import serviceLinks from './service-links';
 
 /**
  * @module ember-osf
@@ -16,23 +16,22 @@ import config from 'ember-get-config';
  * @type {Array}
  */
 
-const host = config.OSF.url;
 const osfServices = [
     {
         name: 'HOME',
-        url: `${host}`,
+        url: serviceLinks.osfHome,
     },
     {
         name: 'PREPRINTS',
-        url: `${host}preprints/`
+        url: serviceLinks.preprintsHome
     },
     {
         name: 'REGISTRIES',
-        url: `${host}registries/`
+        url: serviceLinks.registriesHome
     },
     {
         name: 'MEETINGS',
-        url: `${host}meetings/`
+        url: serviceLinks.meetingsHome
     }
 ];
 
