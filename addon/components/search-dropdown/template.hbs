@@ -3,12 +3,12 @@
         <div class="row">
             <div class="col-md-12">
                 <form class="input-group" {{action "search" on="submit"}}>
-                    {{input value=query name='search-placeholder' class='osf-search-input form-control' placeholder='Search the OSF'}}
-                    <label id="searchBarLabel" class="search-label-placeholder" for="search-placeholder">Search</label>
+                    {{input value=query name='search-placeholder' class='osf-search-input form-control' placeholder=(t 'eosf.navbar.searchTheOSF')}}
+                    <label id="searchBarLabel" class="search-label-placeholder" for="search-placeholder">{{t 'eosf.navbar.search'}}</label>
                     <span class="input-group-btn">
-                        <button type="submit" class="btn osf-search-btn"><i class="fa fa-arrow-circle-right fa-lg"></i></button>
-                        <button type="button" class="btn osf-search-btn" data-toggle="modal" data-target="#search-help-modal"><i class="fa fa-question fa-lg"></i></button>
-                        <button type="button" class="btn osf-search-btn" onclick={{action "toggleSearch"}}><i class="fa fa-times fa-lg"></i></button>
+                        <button type="submit" class="btn osf-search-btn" aria-label={{t 'eosf.navbar.sendSearch'}}><i class="fa fa-arrow-circle-right fa-lg"></i></button>
+                        <button type="button" class="btn osf-search-btn" aria-label={{t 'eosf.navbar.searchHelp'}} data-toggle="modal" data-target="#search-help-modal"><i class="fa fa-question fa-lg"></i></button>
+                        <button type="button" class="btn osf-search-btn" aria-label={{t 'eosf.navbar.cancelSearch'}} onclick={{action "toggleSearch"}}><i class="fa fa-times fa-lg"></i></button>
                     </span>
                 </form>
             </div>

@@ -22,9 +22,13 @@ export default {
         navbar: {
             addAPreprint: 'Add a preprint',
             browse: 'Browse',
+            cancelSearch: 'Cancel search',
             goHome: 'Go home',
             myProjects: 'My Projects',
             search: 'Search',
+            searchHelp: 'Search help',
+            searchTheOSF: 'Search the OSF',
+            sendSearch: 'Send search query',
             support: 'Support',
             togglePrimary: 'Toggle primary navigation',
             toggleSecondary: 'Toggle secondary navigation',

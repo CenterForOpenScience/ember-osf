@@ -19,6 +19,7 @@ import config from 'ember-get-config';
 export default Ember.Component.extend({
     layout,
     host: config.OSF.url,
+    i18n: Ember.inject.service(),
     query: null,
     actions: {
         // Runs toggleSearch in parent component, osf-navbar
