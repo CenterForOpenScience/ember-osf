@@ -25,9 +25,6 @@ export default Ember.Component.extend({
         toggleSearch() {
             this.sendAction('action');
         },
-        updateQuery(value) {
-            this.set('query', value);
-        },
         search() {
             var query = this.get('query');
             if (query) {

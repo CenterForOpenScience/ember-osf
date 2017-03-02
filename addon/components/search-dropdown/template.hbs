@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-12">
                 <form class="input-group" {{action "search" on="submit"}}>
-                    <input id="searchPageFullBar" onchange={{action "updateQuery" value="target.value"}} name="search-placeholder" type="text" class="osf-search-input form-control" placeholder="Search the OSF">
+                    {{input value=query name='search-placeholder' class='osf-search-input form-control' placeholder='Search the OSF'}}
                     <label id="searchBarLabel" class="search-label-placeholder" for="search-placeholder">Search</label>
                     <span class="input-group-btn">
                         <button type="submit" class="btn osf-search-btn"><i class="fa fa-arrow-circle-right fa-lg"></i></button>
