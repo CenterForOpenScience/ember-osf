@@ -1,6 +1,7 @@
 YUI.add("yuidoc-meta", function(Y) {
    Y.YUIDoc = { meta: {
     "classes": [
+        "Analytics",
         "CasAuthenticatedRouteMixin",
         "Citation",
         "Collection",
@@ -140,7 +141,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "mixins",
             "name": "mixins",
-            "description": "Replacement for Ember-simple-auth AuthenticatedRouteMixin. Instead of redirecting to an internal route,\n  this mixin redirects to CAS login URL, and brings the user back to the last requested page afterwards\n\nFor OAuth this is done via the state parameter, and for cookies this is done via the service parameter. (TODO: Need a mixin that detects this!)"
+            "description": "Analytics mixin. Provides actions that can be used in templates to track events (can send to multiple\nanalytics services)"
         },
         {
             "displayName": "models",
