@@ -10,12 +10,3 @@ button.nav-user-dropdown {
     font-size: 15px;
     margin-top: 9px;
 }
-
-/* Changes profile name formatting (now that the "a" tag has been changed to button)*/
-.navbar-inverse .btn-link.nav-user-dropdown {
-    color: white;
-    text-decoration: none;
-    &:hover {
-        color: rgba(255, 255, 255, 0.8);
-    }
-}

@@ -22,13 +22,22 @@ $osf-dark-blue-navbar: #263947;
         margin-left: -4px;
     }
 
+    /* Changes formatting of buttons that look like links in the navbar*/
+    .navbar-inverse .btn-link {
+        color: white;
+        text-decoration: none;
+        &:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+    }
+
     /* Defines position of primary navigation: dropdown toggle (caret) */
     .primary-nav {
         float: left;
         /* Overrides vertical and horizontal position of dropdown caret for service menu */
         li.dropdown {
-            margin-left: -46px;
-            padding-top: 15px;
+            margin-left: -52px;
+            padding-top: 10px;
             list-style-type: none;
             font-size: 15px;
         }
@@ -79,7 +88,7 @@ $osf-dark-blue-navbar: #263947;
             border-left: 6px solid transparent;
             content: '';
             top: -4px;
-            left: 13.5px;
+            left: 20px;
 
         }
     }
