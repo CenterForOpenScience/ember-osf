@@ -43,6 +43,7 @@ export default {
             toggleAuthDropdown: 'Toggle auth dropdown'
         },
         searchHelpModal: {
+            close: 'Close',
             searchHelp: 'Search help',
             queries: 'Queries',
             searchUsesThe: 'Search uses the ',
