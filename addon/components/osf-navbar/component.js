@@ -34,7 +34,7 @@ export default Ember.Component.extend({
     }),
     host: config.OSF.url,
     currentService: 'HOME', // Pass in name of current service
-    currentServiceLink: Ember.computed('serviceLinks', 'currentService', function(){
+    currentServiceLink: Ember.computed('serviceLinks', 'currentService', function() {
         const serviceMapping = {
             HOME: 'osfHome',
             PREPRINTS: 'preprintsHome',
