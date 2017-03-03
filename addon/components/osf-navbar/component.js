@@ -34,6 +34,16 @@ export default Ember.Component.extend({
     }),
     host: config.OSF.url,
     currentService: 'HOME', // Pass in name of current service
+    currentServiceLink: Ember.computed('serviceLinks', 'currentService', function(){
+        const serviceMapping = {
+            HOME: 'osfHome',
+            PREPRINTS: 'preprintsHome',
+            REGISTRIES: 'registriesHome',
+            MEETINGS: 'meetingsHome'
+        };
+        const service = this.get('currentService');
+        return this.get('serviceLinks')[serviceMapping[service]];
+    }),
     showSearch: false,
     actions: {
         // Switches to new service
