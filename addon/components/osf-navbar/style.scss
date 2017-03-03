@@ -117,6 +117,7 @@ $osf-dark-blue-navbar: #263947;
             margin-top: -15px;
             margin-bottom: -20px;
             padding-left: 0;
+            margin-right: 5px;
         }
     }
 
@@ -195,22 +196,22 @@ $osf-dark-blue-navbar: #263947;
     }
 
      /* More xs screen resizing of teal secondary navbar */
-    @media (min-width: 310px) { .current-service-bar { width: 110px;} }
-    @media (min-width: 340px) { .current-service-bar { width: 130px;} }
-    @media (min-width: 370px) { .current-service-bar { width: 160px;} }
-    @media (min-width: 400px) { .current-service-bar { width: 180px;} }
-    @media (min-width: 430px) { .current-service-bar { width: 210px;} }
-    @media (min-width: 460px) { .current-service-bar { width: 240px;} }
-    @media (min-width: 490px) { .current-service-bar { width: 270px;} }
-    @media (min-width: 520px) { .current-service-bar { width: 300px;} }
-    @media (min-width: 550px) { .current-service-bar { width: 330px;} }
-    @media (min-width: 580px) { .current-service-bar { width: 360px;} }
-    @media (min-width: 610px) { .current-service-bar { width: 390px;} }
-    @media (min-width: 640px) { .current-service-bar { width: 420px;} }
-    @media (min-width: 670px) { .current-service-bar { width: 450px;} }
-    @media (min-width: 700px) { .current-service-bar { width: 480px;} }
-    @media (min-width: 730px) { .current-service-bar { width: 510px;} }
-    @media (min-width: 760px) { .current-service-bar { width: 540px;} }
+    @media (min-width: 310px) { .current-service-bar { width: 80px;} }
+    @media (min-width: 340px) { .current-service-bar { width: 110px;} }
+    @media (min-width: 370px) { .current-service-bar { width: 140px;} }
+    @media (min-width: 400px) { .current-service-bar { width: 170px;} }
+    @media (min-width: 430px) { .current-service-bar { width: 200px;} }
+    @media (min-width: 460px) { .current-service-bar { width: 230px;} }
+    @media (min-width: 490px) { .current-service-bar { width: 260px;} }
+    @media (min-width: 520px) { .current-service-bar { width: 290px;} }
+    @media (min-width: 550px) { .current-service-bar { width: 320px;} }
+    @media (min-width: 580px) { .current-service-bar { width: 350px;} }
+    @media (min-width: 610px) { .current-service-bar { width: 380px;} }
+    @media (min-width: 640px) { .current-service-bar { width: 410px;} }
+    @media (min-width: 670px) { .current-service-bar { width: 440px;} }
+    @media (min-width: 700px) { .current-service-bar { width: 470px;} }
+    @media (min-width: 730px) { .current-service-bar { width: 500px;} }
+    @media (min-width: 760px) { .current-service-bar { width: 530px;} }
 
 
     @media (max-width: 768px) {
