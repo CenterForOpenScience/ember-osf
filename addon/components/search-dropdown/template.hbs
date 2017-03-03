@@ -1,17 +1,48 @@
+{{!Green OSF Search bar}}
 <div class="osf-search">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <form class="input-group" {{action "search" on="submit"}}>
+                    {{!Search bar}}
                     {{input value=query name='search-placeholder' class='osf-search-input form-control' placeholder=(t 'eosf.navbar.searchTheOSF')}}
                     <label id="searchBarLabel" class="search-label-placeholder" for="search-placeholder">{{t 'eosf.navbar.search'}}</label>
                     <span class="input-group-btn">
+                        {{!Submit search, search help, and cancel search buttons}}
                         <button type="submit" class="btn osf-search-btn" aria-label={{t 'eosf.navbar.sendSearch'}}><i class="fa fa-arrow-circle-right fa-lg"></i></button>
-                        <button type="button" class="btn osf-search-btn" aria-label={{t 'eosf.navbar.searchHelp'}} data-toggle="modal" data-target="#search-help-modal"><i class="fa fa-question fa-lg"></i></button>
+                        <button type="button" class="btn osf-search-btn" aria-label={{t 'eosf.navbar.searchHelp'}} data-toggle="modal" {{action 'toggleHelpModal'}}><i class="fa fa-question fa-lg"></i></button>
                         <button type="button" class="btn osf-search-btn" aria-label={{t 'eosf.navbar.cancelSearch'}} onclick={{action "toggleSearch"}}><i class="fa fa-times fa-lg"></i></button>
                     </span>
                 </form>
             </div>
         </div>
     </div>
+</div>
+
+{{!Search help modal - appears after clicking question mark on green search dropdown}}
+<div id="ember-bootstrap-modal-container">
+    {{#bs-modal open=isOpen body=false header=false footer=false}}
+        {{#bs-modal-header}}
+            <h3 class="modal-title">{{t 'eosf.searchHelpModal.searchHelp'}}</h3>
+        {{/bs-modal-header}}
+        {{#bs-modal-body}}
+            <h4> {{t 'eosf.searchHelpModal.queries'}} </h4>
+            <p>
+                {{t 'eosf.searchHelpModal.searchUsesThe'}} <a href="http://extensions.xwiki.org/xwiki/bin/view/Extension/Search+Application+Query+Syntax">Lucene {{t 'eosf.searchHelpModal.searchSyntax'}}</a>.
+                {{t 'eosf.searchHelpModal.helpDescription'}}
+            </p>
+            <ul>
+                <li><a href="{{host}}search/?q=repro*">repro*</a></li>
+                <li><a href="{{host}}search/?q=brian+AND+title%3Amany">brian AND title:many</a></li>
+                <li><a href="{{host}}search/?q=tags%3A%28psychology%29">tags:(psychology)</a></li>
+            </ul>
+        {{/bs-modal-body}}
+
+        {{#bs-modal-footer}}
+            <div align="right">
+                <button {{action 'close'}} class="btn btn-default"> Close </button>
+            </div>
+        {{/bs-modal-footer}}
+    {{/bs-modal}}
+
 </div>

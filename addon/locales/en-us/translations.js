@@ -41,7 +41,13 @@ export default {
             signUp: 'Sign Up',
             signIn: 'Sign in',
             toggleAuthDropdown: 'Toggle auth dropdown'
-
+        },
+        searchHelpModal: {
+            searchHelp: 'Search help',
+            queries: 'Queries',
+            searchUsesThe: 'Search uses the ',
+            searchSyntax: 'search syntax',
+            helpDescription: 'This gives you many options, but can be very simple as well. Examples of valid searches include:'
         }
     }
 };

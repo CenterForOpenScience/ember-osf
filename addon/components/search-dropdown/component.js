@@ -21,6 +21,7 @@ export default Ember.Component.extend({
     host: config.OSF.url,
     i18n: Ember.inject.service(),
     query: null,
+    isOpen: false, // is help modal open?
     actions: {
         // Runs toggleSearch in parent component, osf-navbar
         toggleSearch() {
@@ -31,6 +32,12 @@ export default Ember.Component.extend({
             if (query) {
                 window.location.href = this.host + 'search/?q=' + query;
             }
+        },
+        close() {
+            this.set('isOpen', false);
+        },
+        toggleHelpModal() {
+            this.toggleProperty('isOpen');
         }
     }
 });
