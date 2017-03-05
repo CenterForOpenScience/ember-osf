@@ -2,7 +2,7 @@
     "name": "Ember OSF Addon",
     "description": "Ember components for interacting with the Open Science Framework",
     "url": "https://github.com/CenterForOpenScience/ember-osf",
-    "logo": "https://cos.io/static/img/icons/cos_wide.png",
+    "logo": "https://cdn.cos.io/static/images/cos_wide.png",
     "options": {
         "linkNatives": "true",
         "attributesEmit": "true",
