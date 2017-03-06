@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>auth - Ember OSF Addon</title>
+    <title>Analytics - Ember OSF Addon</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -166,22 +166,24 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>auth Class</h1>
+<h1>Analytics Class</h1>
 <div class="box meta">
 
 
         <div class="foundat">
-            Defined in: <a href="../files/addon_utils_auth.js.html#l10"><code>addon&#x2F;utils&#x2F;auth.js:10</code></a>
+            Defined in: <a href="../files/addon_mixins_analytics.js.html#l8"><code>addon&#x2F;mixins&#x2F;analytics.js:8</code></a>
         </div>
 
-            Module: <a href="../modules/utils.html">utils</a><br>
+            Module: <a href="../modules/mixins.html">mixins</a><br>
             Parent Module: <a href="../modules/ember-osf.html">ember-osf</a>
 
 </div>
 
 
 <div class="box intro">
-    
+    <p>Analytics mixin. Provides actions that can be used in templates to track events (can send to multiple
+analytics services)</p>
+
 </div>
 
 
@@ -189,213 +191,17 @@
     <ul class="api-class-tabs">
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
-            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
     </ul>
 
     <div>
         <div id="index" class="api-class-tabpanel index">
             <h2 class="off-left">Item Index</h2>
 
-                <div class="index-section methods">
-                    <h3>Methods</h3>
-
-                    <ul class="index-list methods">
-                            <li class="index-item method public">
-                                <a href="#method_getAuthUrl">getAuthUrl</a>
-
-                            </li>
-                            <li class="index-item method private">
-                                <a href="#method_getCookieAuthUrl">getCookieAuthUrl</a>
-
-                            </li>
-                            <li class="index-item method private">
-                                <a href="#method_getOAuthUrl">getOAuthUrl</a>
-
-                            </li>
-                    </ul>
-                </div>
 
 
 
         </div>
 
-            <div id="methods" class="api-class-tabpanel">
-                <h2 class="off-left">Methods</h2>
-
-<div id="method_getAuthUrl" class="method item public">
-    <h3 class="name"><code>getAuthUrl</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-        </span>
-
-
-        <span class="flag public">public</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_utils_auth.js.html#l47"><code>addon&#x2F;utils&#x2F;auth.js:47</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Return the appropriate auth URL for the specified authorization mechanism (as specified in application configuration)
-Currently supports <code>token</code> and <code>cookie</code> based authorization</p>
-
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_getCookieAuthUrl" class="method item private">
-    <h3 class="name"><code>getCookieAuthUrl</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>nextUri</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-        </span>
-
-
-        <span class="flag private">private</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_utils_auth.js.html#l34"><code>addon&#x2F;utils&#x2F;auth.js:34</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Retrieve the correct URL for cookie-based in the OSF, including any additional configurable parameters</p>
-
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">nextUri</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-
-
-                    <div class="param-description">
-                        <p>Where to send the browser after a successful login request</p>
-
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_getOAuthUrl" class="method item private">
-    <h3 class="name"><code>getOAuthUrl</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>nextUri</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-        </span>
-
-
-        <span class="flag private">private</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_utils_auth.js.html#l14"><code>addon&#x2F;utils&#x2F;auth.js:14</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Retrieve the correct URL for OAuth 2.0 authentication in the OSF, including any additional configurable parameters</p>
-
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">nextUri</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-
-
-                    <div class="param-description">
-                        <p>Where to send the browser after a successful login request</p>
-
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>:
-            </div>
-        </div>
-
-
-</div>
-            </div>
 
 
 
