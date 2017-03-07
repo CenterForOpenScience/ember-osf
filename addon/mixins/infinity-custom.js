@@ -26,6 +26,15 @@ export default Ember.Mixin.create(InfinityRoute, {
      */
     _storeFindMethod: null,
 
+    init() {
+        this._super(...arguments);
+
+        Ember.deprecate('The infinity-custom mixin will be removed in future versions.', false, {
+            id: 'mixin.infinity-custom',
+            until: '0.5.0'
+        });
+    },
+
     /**
      Use the infinityModel method in the place of `this.store.find('model')` to
      initialize the Infinity Model for your route.

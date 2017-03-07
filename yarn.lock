@@ -2671,9 +2671,9 @@ ember-i18n@5.0.0:
     ember-cli-version-checker "^1.2.0"
     ember-getowner-polyfill "^1.2.2"
 
-ember-infinity@0.2.8:
-  version "0.2.8"
-  resolved "https://registry.yarnpkg.com/ember-infinity/-/ember-infinity-0.2.8.tgz#813a24d0828446a44d09c21fee5adf371897d8dd"
+ember-infinity@0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/ember-infinity/-/ember-infinity-0.2.3.tgz#595443687c496c8d46df277ec540731ca7c4268d"
   dependencies:
     ember-cli-babel "^5.1.5"
     ember-cli-htmlbars "^1.0.1"

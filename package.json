@@ -58,7 +58,7 @@
     "ember-export-application-global": "1.1.1",
     "ember-faker": "1.1.1",
     "ember-font-awesome": "3.0.4",
-    "ember-infinity": "0.2.8",
+    "ember-infinity": "0.2.3",
     "ember-load-initializers": "0.6.3",
     "ember-metrics": "0.8.1",
     "ember-page-title": "3.1.5",

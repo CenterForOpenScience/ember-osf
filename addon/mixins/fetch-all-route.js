@@ -79,6 +79,15 @@ export default Ember.Mixin.create(InfinityRoute, {
         });
     },
 
+    init() {
+        this._super(...arguments);
+
+        Ember.deprecate('The fetch-all-route mixin will be removed in future versions.', false, {
+            id: 'mixin.fetch-all-route',
+            until: '0.5.0'
+        });
+    },
+
     setupController(controller, model) {
         // If a relationship is specified, implicitly and automatically set the infinityModel to the related field of the model
         if (this.get('relationshipToFetch')) {
