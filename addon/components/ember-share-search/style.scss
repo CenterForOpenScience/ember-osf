@@ -1,16 +1,15 @@
 /* Header panel */
 
-.ember-share-search {
-    .search-header {
-        padding-top: 120px;
-        background: white;
-        background-size: cover;
-    }
-    .no-results {
-        font-size: 15px ;
-        color: #204762; // This color can change??
-    }
+.search-header {
+    padding-top: 120px;
+    background: white;
+    background-size: cover;
 }
+.no-results {
+    font-size: 15px ;
+    color: #204762; // This color can change??
+}
+
 
 .share-logo {
     width: 46px;
@@ -21,7 +20,7 @@
     vertical-align: middle;
 }
 
-.search-below-the-fold {
+.search-main {
     background-color: #F5F5F5;
     border-top: 1px solid #DDDDDD;
     border-bottom: 1px solid #dedede;
@@ -51,7 +50,7 @@
 }
 
 
-.faceted-search-item-bar {
+.search-sidebar {
     background-color: white !important;
 }
 

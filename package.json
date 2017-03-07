@@ -72,6 +72,7 @@
     "loader": "2.1.0",
     "loader.js": "4.0.3",
     "moment": "^2.13.0",
+    "pagination-pager": "2.4.2",
     "phantomjs-prebuilt": "^2.1.7"
   },
   "keywords": [

@@ -49,9 +49,10 @@ import { getUniqueList, getSplitParams, encodeParams } from '../../utils/elastic
  */
 
 const MAX_SOURCES = 500;
-let filterQueryParams = ['tags', 'sources', 'publishers', 'funders', 'institutions', 'organizations', 'language', 'contributors', 'type'];
+let filterQueryParams = ['subjects', 'tags', 'sources', 'publishers', 'funders', 'institutions', 'organizations', 'language', 'contributors', 'type'];
 
 export default Ember.Component.extend({
+    theme: Ember.inject.service(), // jshint ignore:line
     classNames: ['ember-share-search'],
     layout,
     searchPlaceholder: 'Search...',
@@ -59,15 +60,18 @@ export default Ember.Component.extend({
     poweredBy: 'powered by',
     noResults: 'No results. Try removing some filters.',
     clearFiltersButton: `Clear filters`,
-    pageHeader: null,
+    discoverHeader: null,
     lockedParams: {}, // Example: {'sources': 'PubMed Central'} will make PubMed Central a locked source that cannot be changed
-
+    activeFilters: { providers: [], subjects: [] },
     queryParams:  Ember.computed(function() {
         let allParams = ['q', 'start', 'end', 'sort', 'page'];
         allParams.push(...filterQueryParams);
         return allParams;
     }),
     lockedQueryBody: [],
+    filterMap: {},
+    consumingService: null,
+    providerName: null,
 
     page: 1,
     size: 10,
@@ -83,6 +87,10 @@ export default Ember.Component.extend({
     end: '',
     type: '',
     sort: '',
+    subjects: '',
+    provider: '',
+    subject: '',
+    showActiveFilters: true, //should always have a provider, don't want to mix osfProviders and non-osf
 
     noResultsMessage: Ember.computed('numberOfResults', function() {
         // Message can be overridden as component property
@@ -103,6 +111,8 @@ export default Ember.Component.extend({
         return Math.ceil(this.get('numberOfResults') / this.get('size'));
     }),
 
+    // TODO update this property if a solution is found for the elastic search limitation.
+    // Ticket: SHARE-595
     clampedPages: Ember.computed('totalPages', 'size', function() {
         let maxPages = Math.ceil(10000 / this.get('size'));
         let totalPages = this.get('totalPages');
@@ -132,12 +142,16 @@ export default Ember.Component.extend({
         display: 'Date Updated (Asc)',
         sortBy: 'date_updated'
     }, {
-        display: 'Ingress Date (Asc)',
+        display: 'Ingest Date (Asc)',
         sortBy: 'date_created'
     }, {
-        display: 'Ingress Date (Desc)',
+        display: 'Ingest Date (Desc)',
         sortBy: '-date_created'
     }],
+    reloadSearch: Ember.observer('activeFilters', function() {
+        this.set('page', 1);
+        this.loadPage();
+    }),
 
     init() {
         //TODO Sort initial results on date_modified
@@ -147,7 +161,18 @@ export default Ember.Component.extend({
         this.getTypes();
         this.set('debouncedLoadPage', this.loadPage.bind(this));
         this.getCounts();
+        this.loadProvider();
         this.loadPage();
+    },
+
+    // Loads preprint provider if theme.isProvider
+    loadProvider() {
+        if (this.get('theme.isProvider')) {
+            this.get('theme.provider').then(provider => {
+                this.set('providerName', provider.get('name'));
+                this.loadPage();
+            });
+        }
     },
 
     getCounts() {
@@ -243,6 +268,36 @@ export default Ember.Component.extend({
             }
         }
 
+        // Copied from preprints - add activeFilters into to SHARE query
+        const activeFilters = this.get('activeFilters');
+        const filterMap = this.get('filterMap');
+        for (const key in filterMap) {
+            const val = filterMap[key];
+            const filterList = activeFilters[key];
+
+            if (!filterList.length || (key === 'providers' && this.get('theme.isProvider')))
+                continue;
+
+            filters.push({
+                terms: {
+                    [val]: filterList
+                }
+            });
+        }
+        // Copied from preprints - modify subject and providers filters
+        this.set('subject', activeFilters.subjects.join('AND'));
+        if (!this.get('theme.isProvider'))
+            this.set('provider', activeFilters.providers.join('AND'));
+
+        // Copied from preprints
+        if (this.get('theme.isProvider') && this.get('providerName') !== null) {
+            filters.push({
+                terms: {
+                    sources: [this.get('providerName')]
+                }
+            });
+        }
+
         let query = {
             query_string: {
                 query: this.get('q') || '*'
@@ -296,14 +351,50 @@ export default Ember.Component.extend({
             contentType: 'application/json',
             data: queryBody
         }).then((json) => {
-            let results = json.hits.hits.map(hit => Object.assign(
-                {},
-                hit._source,
-                ['contributors', 'publishers'].reduce((acc, key) => Object.assign(
-                    acc,
-                    { [key]: hit._source.lists[key] }
-                ), { typeSlug: hit._source.type.classify().toLowerCase() })
-            ));
+            let results = json.hits.hits.map(hit => {
+                // HACK: Make share data look like apiv2 preprints data
+                let result = Ember.merge(hit._source, {
+                    id: hit._id,
+                    type: 'elastic-search-result',
+                    workType: hit._source['@type'],
+                    abstract: hit._source.description,
+                    subjects: hit._source.subjects.map(each => ({text: each})),
+                    providers: hit._source.sources.map(item => ({name: item})),
+                    hyperLinks: [// Links that are hyperlinks from hit._source.lists.links
+                        {
+                            type: 'share',
+                            url: config.SHARE.baseUrl + 'preprint/' + hit._id
+                        }
+                    ],
+                    infoLinks: [] // Links that are not hyperlinks  hit._source.lists.links
+                });
+
+                hit._source.identifiers.forEach(function(identifier) {
+                    if (identifier.startsWith('http://')) {
+                        result.hyperLinks.push({url: identifier});
+                    } else {
+                        const spl = identifier.split('://');
+                        const [type, uri, ..._] = spl; // jshint ignore:line
+                        result.infoLinks.push({type, uri});
+                    }
+                });
+
+                result.contributors = result.lists.contributors
+                  .sort((b, a) => (b.order_cited || -1) - (a.order_cited || -1))
+                  .map(contributor => ({
+                        users: Object.keys(contributor)
+                          .reduce(
+                              (acc, key) => Ember.merge(acc, {[key.camelize()]: contributor[key]}),
+                              {bibliographic: contributor.relation !== 'contributor'}
+                          )
+                    }));
+
+                // Temporary fix to handle half way migrated SHARE ES
+                // Only false will result in a false here.
+                result.contributors.map(contributor => contributor.users.bibliographic = !(contributor.users.bibliographic === false));  // jshint ignore:line
+
+                return result;
+            });
 
             if (json.aggregations) {
                 this.set('aggregations', json.aggregations);
@@ -345,6 +436,7 @@ export default Ember.Component.extend({
         }, 500);
     },
 
+    // Default facets - can pass in as property to component
     facets: Ember.computed('processedTypes', function() {
         return [
             { key: 'sources', title: 'Source', component: 'search-facet-source' },
@@ -456,6 +548,14 @@ export default Ember.Component.extend({
             }
             this.loadPage();
         },
+        // From Ember Preprints
+        setLoadPage(pageNumber) {
+            this.set('page', pageNumber);
+            if (scroll) {
+                this.scrollToResults();
+            }
+            this.loadPage();
+        },
 
         selectSortOption(option) {
             this.set('sort', option);
@@ -463,6 +563,7 @@ export default Ember.Component.extend({
         },
 
         clearFilters() {
+            // Clears facetFilters for SHARE-type facets
             this.set('facetFilters', Ember.Object.create());
             for (var param in filterQueryParams) {
                 let key = filterQueryParams[param];
@@ -474,6 +575,20 @@ export default Ember.Component.extend({
             this.set('end', '');
             this.set('sort', '');
             this.search();
-        }
+            // Clears Active Filters for Preprints/Registries
+            this.set('activeFilters', {
+                providers: this.get('theme.isProvider') ? this.get('activeFilters.providers') : [],
+                subjects: []
+            });
+        },
+        updateFilters(filterType, item) {
+            item = typeof item === 'object' ? item.text : item;
+            const filters = Ember.$.extend(true, [], this.get(`activeFilters.${filterType}`));
+            const hasItem = filters.includes(item);
+            const action = hasItem ? 'remove' : 'push';
+            filters[`${action}Object`](item);
+            this.set(`activeFilters.${filterType}`, filters);
+            this.notifyPropertyChange('activeFilters');
+        },
     }
 });

@@ -14,4 +14,23 @@
         cursor: pointer;
         text-decoration: none;
     }
+    .subject-preview { // Copied from ember-preprints
+        display: inline-block;
+        background-color: #f8f8f8;
+        border-radius: 3px;
+        border: 1px solid #eee;
+        padding: 1px 7px;
+        margin-bottom: 4px;
+    }
+    .search-result-providers {
+        font-weight: bold;
+    }
+    ul.preprints-block-list {
+        display: block;
+        list-style: none;
+        padding-left: 0;
+    }
+    .pointer {
+        cursor: pointer;
+    }
 }

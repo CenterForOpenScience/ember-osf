@@ -18,6 +18,18 @@ export default {
             labelInputPassword: 'Password',
             textTosNotice: 'By clicking "Create account", you agree to our <a href="https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/TERMS_OF_USE.md">Terms</a> and that you have read our <a href="https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/PRIVACY_POLICY.md">Privacy Policy</a>, including our information on <a href="https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/PRIVACY_POLICY.md#f-cookies">Cookie Use</a>.',
             buttonSubmit: 'Create account'
+        },
+        components: {
+            searchResult: {
+                addedOn: 'Added on',
+
+            },
+            emberShareSearch: {
+                activeFilters: {
+                    heading: 'Active Filters',
+                    button: 'Clear filters'
+                }
+            }
         }
     }
 };
