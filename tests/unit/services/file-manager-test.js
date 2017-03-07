@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { moduleFor, test } from 'ember-qunit';
+import { moduleFor, test, skip } from 'ember-qunit';
 import FactoryGuy, { manualSetup, mockSetup, mockUpdate,
     mockTeardown, mockFindRecord, mockReload } from 'ember-data-factory-guy';
 
@@ -153,7 +153,7 @@ test('getContents passes along error', function(assert) {
     });
 });
 
-test('updateContents sends valid waterbutler request', function(assert) {
+skip('updateContents sends valid waterbutler request', function(assert) {
     assert.expect(6);
     let service = this.subject();
     let file = FactoryGuy.make('file');

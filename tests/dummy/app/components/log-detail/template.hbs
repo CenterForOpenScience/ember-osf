@@ -17,7 +17,7 @@
             <td> <a href="{{node-log.node.links.html}}">{{node-log.node.title}}: {{node-log.node.id}}  </a></td>
             <td> {{moment-format node-log.date}} </td>
             <td>
-                {{#each-in node-log.params as |key value|}}
+                {{#each-in node-log.params as |key|}}
                     {{key}},
                 {{/each-in}}
                 {{if node-log.linkedNode "linked_node"}}

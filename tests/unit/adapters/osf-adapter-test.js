@@ -484,36 +484,41 @@ test('#_handleRelatedRequest checks if relationship supports bulk', function(ass
 });
 
 test('#updateRecord handles both dirtyRelationships and the parent record', function(assert) {
-    let adapter = this.subject();
+    assert.expect(2);
 
     this.inject.service('store');
-    let store = this.store;
 
-    let node = FactoryGuy.make('node');
+    const store = this.store;
+    const adapter = this.subject();
+    const node = FactoryGuy.make('node');
+
     Ember.run(() => node.set('title', 'The meaning of life'));
+
     node.set('_dirtyRelationships', {
         children: {
             update: null
         }
     });
 
-    var handleRelatedStub = this.stub(adapter, '_handleRelatedRequest', () => []);
+    const handleRelatedStub = this.stub(adapter, '_handleRelatedRequest', () => []);
     // Have to stub apply due to ...arguments usage
-    this.stub(JSONAPIAdapter.prototype.updateRecord, 'apply', () => {
-        return Ember.RSVP.resolve(42);
-    });
+    this.stub(JSONAPIAdapter.prototype.updateRecord, 'apply', () => Ember.RSVP.resolve(42));
 
-    var ss = node._internalModel.createSnapshot();
-    adapter.updateRecord(store, node, ss).then(res => {
-	// Note: 42 comes from promise resolution of stubbed updateRecord above
+    const ss = node._internalModel.createSnapshot();
+
+    return adapter
+        .updateRecord(store, node, ss).then(res => {
+	    // Note: 42 comes from promise resolution of stubbed updateRecord above
         assert.equal(res, 42);
-        assert.ok(handleRelatedStub.calledWith(
-            store,
-            node,
-            ss,
-            'children',
-            'update'
-        ));
+        assert.ok(
+            handleRelatedStub.calledWith(
+                store,
+                node,
+                ss,
+                'children',
+                'update'
+            )
+        );
     });
 });
 
