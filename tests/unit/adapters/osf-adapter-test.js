@@ -531,6 +531,7 @@ test('#ajaxOptions adds bulk contentType if request is bulk', function(assert) {
 });
 
 test('#findRecord can embed(via include) data with findRecord', function(assert) {
+    const done = assert.async();
     assert.expect(1);
 
     this.inject.service('store');
@@ -561,6 +562,7 @@ test('#findRecord can embed(via include) data with findRecord', function(assert)
                     res.get('children').toArray()[0].get('title'),
                     children[0].get('title')
                 );
-            });
+            })
+            .then(done);
     });
 });
