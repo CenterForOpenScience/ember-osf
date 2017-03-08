@@ -534,13 +534,13 @@ test('#findRecord can embed(via include) data with findRecord', function(assert)
     const done = assert.async();
     assert.expect(1);
 
-    this.inject.service('store');
-    const store = this.store;
-    const node = FactoryGuy.make('node');
-    let children;
-
     Ember.run(() => {
-        Ember.RSVP.Promise
+        this.inject.service('store');
+        const store = this.store;
+        const node = FactoryGuy.make('node');
+        let children;
+
+        return Ember.RSVP.Promise
             .all([
                 store.createRecord('node', {
                     title: 'Foo'
@@ -564,5 +564,5 @@ test('#findRecord can embed(via include) data with findRecord', function(assert)
                 );
             })
             .then(done);
-    });
+     });
 });
