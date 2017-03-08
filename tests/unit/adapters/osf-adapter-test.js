@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 import { moduleFor } from 'ember-qunit';
-import test from 'dummy/tests/ember-sinon-qunit/test';
+import test from 'ember-sinon-qunit/test-support/test';
 import FactoryGuy, { manualSetup } from 'ember-data-factory-guy';
 
 import DS from 'ember-data';
@@ -531,27 +531,36 @@ test('#ajaxOptions adds bulk contentType if request is bulk', function(assert) {
 });
 
 test('#findRecord can embed(via include) data with findRecord', function(assert) {
+    assert.expect(1);
+
     this.inject.service('store');
-    let store = this.store;
+    const store = this.store;
+    const node = FactoryGuy.make('node');
+    let children;
 
-    let node = FactoryGuy.make('node');
-    var children;
     Ember.run(() => {
-        children = [
-            store.createRecord('node', {
-                title: 'Foo'
-            }),
-            store.createRecord('node', {
-                title: 'Bar'
+        Ember.RSVP.Promise
+            .all([
+                store.createRecord('node', {
+                    title: 'Foo'
+                }),
+                store.createRecord('node', {
+                    title: 'Bar'
+                })
+            ])
+            .then(res => {
+                children = res;
+                return node.get('children').pushObjects(res);
             })
-        ];
-    });
-    node.get('children').pushObjects(children);
-
-    Ember.run(() => {
-        node.set('title', 'Parent');
-        store.findRecord('node', node.id, {include: 'children'}).then(res => {
-            assert.equal(res.get('children').toArray()[0].get('title'), children[0].get('title'));
-        });
+            .then(() => {
+                node.set('title', 'Parent');
+                return store.findRecord('node', node.id, {include: 'children'});
+            })
+            .then(res => {
+                assert.equal(
+                    res.get('children').toArray()[0].get('title'),
+                    children[0].get('title')
+                );
+            });
     });
 });
