@@ -22,7 +22,7 @@ module.exports = function(defaults) {
         //     prepend: 'static/ember/'
         // },
 
-        babel: {
+        'ember-cli-babel': {
             includePolyfill: true
         }
     });
