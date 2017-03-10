@@ -1,4 +1,3 @@
-import DS from 'ember-data';
 import OsfModel from './osf-model';
 
 /**
