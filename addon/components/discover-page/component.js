@@ -10,102 +10,139 @@ import { getUniqueList, getSplitParams, encodeParams } from '../../utils/elastic
  */
 
 /**
- * Ember share-search component. Component that can build majority of search page that utilizes SHARE.
- * See retraction-watch for working example.
- * Adapted from Ember-SHARE https://github.com/CenterForOpenScience/ember-share
+ *  Discover-page component. Component that can build a search interface utilizing SHARE.
+ *  See retraction-watch, registries, and preprints discover pages for working examples.
+ *  Majority adapted from Ember-SHARE https://github.com/CenterForOpenScience/ember-share, with additions from preprints
+ *  and registries discover pages.
  *
- * Sample usage: Pass in custom text like searchPlaceholder.  The facet property will enable you to customize the filters
+ *  Sample usage: Pass in custom text like searchPlaceholder.  The facets property will enable you to customize the filters
  *  on the left-hand side of the discover page. Sort options are the sort dropdown options.  The lockedParams are the
  *  query parameters that are always locked in your application.  Also, each query parameter must be passed in individually,
- *  so they are reflected in the URL.  Logo and custom colors must be placed in your application's stylesheet. Individual components
- *  can additionally be overridden on your application.  Your searchUrl must be defined in your config/environment.js file.
+ *  so they are reflected in the URL.  Logo and custom colors must be placed in the consuming application's stylesheet. Individual components
+ *  can additionally be overridden in your application.  Your searchUrl must be defined in your config/environment.js file.
  *
  *
  * ```handlebars
  *{{discover-page
- *   searchPlaceholder=(t 'discover.search.placeholder')
- *   searchButton=(t 'global.search')
- *   poweredBy=(t 'discover.search.paragraph')
- *   queryParams=queryParams
- *   facets=facets (list of dictionaries. Keys include key, title, component, and locked_item)
- *   sortOptions=sortOptions (list of dictionaries, with keys display and sortBy)
- *   lockedParams=lockedParams (hash of query parameters that are locked. For example, on retraction watch, {types: 'retraction'})
- *   q=q
- *   tags=tags
- *   sources=sources
- *   publishers=publishers
- *   funders=funders
- *   institutions=institutions
- *   organizations=organizations
- *   language=language
- *   contributors=contributors
- *   start=start
- *   end=end
- *   type=type
- *   sort=sort
+ *    activeFilters=activeFilters
+ *    clearFiltersButton=clearFiltersButton
+ *    consumingService=consumingService
+ *    detailRoute=detailRoute
+ *    discoverHeader=discoverHeader
+ *    facets=facets
+ *    fetchedProviders=model
+ *    filterMap=filterMap
+ *    filterReplace=filterReplace
+ *    lockedParams=lockedParams
+ *    page=page
+ *    provider=provider
+ *    q=q
+ *    queryParams=queryParams
+ *    searchButton=searchButton
+ *    searchPlaceholder=searchPlaceholder
+ *    showActiveFilters=showActiveFilters
+ *    sortOptions=sortOptions
+ *    subject=subject
 * }}
  * ```
  * @class discover-page
  */
 
 const MAX_SOURCES = 500;
-let filterQueryParams = ['subjects', 'tags', 'sources', 'publishers', 'funders', 'institutions', 'organizations', 'language', 'contributors', 'type'];
+let filterQueryParams = ['subject', 'provider', 'tags', 'sources', 'publishers', 'funders', 'institutions', 'organizations', 'language', 'contributors', 'type'];
 
 export default Ember.Component.extend({
-    theme: Ember.inject.service(), // jshint ignore:line
-    classNames: ['discover-page'],
     layout,
-    searchPlaceholder: 'Search...',
-    searchButton: 'Search',
-    poweredBy: 'powered by',
-    noResults: 'No results. Try removing some filters.',
-    clearFiltersButton: `Clear filters`,
-    discoverHeader: null,
-    lockedParams: {}, // Example: {'sources': 'PubMed Central'} will make PubMed Central a locked source that cannot be changed
-    activeFilters: { providers: [], subjects: [] },
-    queryParams:  Ember.computed(function() {
+    theme: Ember.inject.service(),
+    i18n: Ember.inject.service(),
+    classNames: ['discover-page'],
+
+    activeFilters: { providers: [], subjects: [], types: [] }, // Active filters - currently being used in preprints and registries
+    clearFiltersButton: Ember.computed(function() { // Text for clearFilters button
+        return this.get('i18n').t('eosf.components.discoverPage.activeFilters.button');
+    }),
+    consumingService: null, // Consuming service, like "preprints" or "registries"
+    contributors: '', // Query parameter
+    detailRoute: null, // Name of detail route for consuming application, like "content" or "detail". Override if want search result to link to detail route.
+    discoverHeader: null, // Text header for top of discover page
+    end: '', // Query parameter
+    facets: Ember.computed('processedTypes', function() {  // Default search facets - pass in as property to component.
+        return [
+            { key: 'sources', title: 'Source', component: 'search-facet-source' },
+            { key: 'date', title: 'Date', component: 'search-facet-daterange' },
+            { key: 'type', title: 'Type', component: 'search-facet-worktype', data: this.get('processedTypes') },
+            { key: 'tags', title: 'Tag', component: 'search-facet-typeahead' },
+            { key: 'publishers', title: 'Publisher', component: 'search-facet-typeahead', base: 'agents', type: 'publisher' },
+            { key: 'funders', title: 'Funder', component: 'search-facet-typeahead', base: 'agents', type: 'funder' },
+            { key: 'language', title: 'Language', component: 'search-facet-language' },
+            { key: 'contributors', title: 'People', component: 'search-facet-typeahead', base: 'agents', type: 'person' },
+        ];
+    }),
+    filterMap: {}, // A mapping of active filters to facet names expected by SHARE
+    filterReplace: {},  // A mapping of filter names for front-end display
+    funders: '', // Query parameter
+    institutions: '', // Query parameter
+    language: '', // Query parameter
+    loading: true,
+    lockedParams: {}, //  Example: {'sources': 'PubMed Central'} will make PubMed Central a locked source that cannot be changed
+    noResults: Ember.computed(function() { // Text to display if no results found
+        return this.get('i18n').t('eosf.components.discoverPage.broadenSearch');
+    }),
+    numberOfResults: 0,  // Number of search results returned
+    numberOfSources: 0,
+    organizations: '', // Query parameter
+    page: 1, // Query parameter
+    poweredBy: Ember.computed(function() { // Powered by text
+        return this.get('i18n').t('eosf.components.discoverPage.poweredBy');
+    }),
+    publishers: '', // Query parameter
+    provider: '', // Query parameter
+    providerName: null, // Provider name, if theme.isProvider, ex: psyarxiv
+    q: '', // Query parameter
+    queryParams:  Ember.computed(function() { // Query params
         let allParams = ['q', 'start', 'end', 'sort', 'page'];
         allParams.push(...filterQueryParams);
         return allParams;
     }),
-    lockedQueryBody: [],
-    filterMap: {},
-    consumingService: null,
-    providerName: null,
-
-    page: 1,
-    size: 10,
-    tags: '',
-    sources: '',
-    publishers: '',
-    funders: '',
-    institutions: '',
-    organizations: '',
-    language: '',
-    contributors: '',
-    start: '',
-    end: '',
-    type: '',
-    sort: '',
-    subjects: '',
-    provider: '',
-    subject: '',
-    showActiveFilters: true, //should always have a provider, don't want to mix osfProviders and non-osf
+    results: Ember.ArrayProxy.create({ content: [] }), // Results from SHARE query
+    searchButton: Ember.computed(function() { // Search button text
+        return this.get('i18n').t('eosf.components.discoverPage.search');
+    }),
+    searchPlaceholder: Ember.computed(function() { // Search bar placeholder text
+        return this.get('i18n').t('eosf.components.discoverPage.searchPlaceholder');
+    }),
+    shareTotalText: Ember.computed(function() {
+        return this.get('i18n').t('eosf.components.discoverPage.shareTotalText');
+    }),
+    showActiveFilters: false, // Should active filters box be displayed (currently only displays providers/subjects/types)
+    size: 10, // Query parameter
+    sort: '', // Query parameter
+    sortOptions: [{ // Default sort options, can override
+        display: 'Relevance',
+        sortBy: ''
+    }, {
+        display: 'Date Updated (Desc)',
+        sortBy: '-date_updated'
+    }, {
+        display: 'Date Updated (Asc)',
+        sortBy: 'date_updated'
+    }, {
+        display: 'Ingest Date (Asc)',
+        sortBy: 'date_created'
+    }, {
+        display: 'Ingest Date (Desc)',
+        sortBy: '-date_created'
+    }],
+    sources: '', // Query parameter
+    start: '', // Query parameter
+    subject: '', // Query parameter
+    tags: '', // Query parameter
+    took: 0,
+    type: '', // Query parameter
 
     noResultsMessage: Ember.computed('numberOfResults', function() {
-        // Message can be overridden as component property
         return this.get('numberOfResults') > 0 ? '' : this.get('noResults');
     }),
-
-    collapsedFilters: true,
-    collapsedQueryBody: true,
-
-    results: Ember.ArrayProxy.create({ content: [] }),
-    loading: true,
-    eventsLastUpdated: new Date().toString(),
-    numberOfResults: 0,
-    took: 0,
-    numberOfSources: 0,
 
     totalPages: Ember.computed('numberOfResults', 'size', function() {
         return Math.ceil(this.get('numberOfResults') / this.get('size'));
@@ -113,6 +150,7 @@ export default Ember.Component.extend({
 
     // TODO update this property if a solution is found for the elastic search limitation.
     // Ticket: SHARE-595
+    // Total pages of search results, unless total is greater than the max pages allowed.
     clampedPages: Ember.computed('totalPages', 'size', function() {
         let maxPages = Math.ceil(10000 / this.get('size'));
         let totalPages = this.get('totalPages');
@@ -132,22 +170,7 @@ export default Ember.Component.extend({
         return this.transformTypes(this.get('types'));
     }),
 
-    sortOptions: [{
-        display: 'Relevance',
-        sortBy: ''
-    }, {
-        display: 'Date Updated (Desc)',
-        sortBy: '-date_updated'
-    }, {
-        display: 'Date Updated (Asc)',
-        sortBy: 'date_updated'
-    }, {
-        display: 'Ingest Date (Asc)',
-        sortBy: 'date_created'
-    }, {
-        display: 'Ingest Date (Desc)',
-        sortBy: '-date_created'
-    }],
+    // Copied from preprints - loads page if activeFilters change
     reloadSearch: Ember.observer('activeFilters', function() {
         this.set('page', 1);
         this.loadPage();
@@ -165,7 +188,7 @@ export default Ember.Component.extend({
         this.loadPage();
     },
 
-    // Loads preprint provider if theme.isProvider
+    // Loads preprint provider if theme.isProvider - needed because theme's provider was not loading before making queries to SHARE
     loadProvider() {
         if (this.get('theme.isProvider')) {
             this.get('theme.provider').then(provider => {
@@ -238,11 +261,11 @@ export default Ember.Component.extend({
         let queryBody = [];
         Object.keys(lockedParams).forEach(key => {
             let query = {};
-            let queryKey = [`${key}`]; //Change to .exact at some point?
+            let queryKey = [`${key}`];
             if (key === 'tags') {
                 queryKey = key;
             } else if (key === 'contributors') {
-                queryKey = 'lists.contributors.name'; //Change to .exact at some point?
+                queryKey = 'lists.contributors.name';
             }
 
             query[queryKey] = lockedParams[key];
@@ -256,7 +279,7 @@ export default Ember.Component.extend({
     // Builds SHARE query
     getQueryBody() {
         let filters = this.buildLockedQueryBody(this.get('lockedParams')); // Empty list if no locked query parameters
-        let facetFilters = this.get('facetFilters');
+        let facetFilters = this.get('facetFilters'); // Ember SHARE filters
         for (let k of Object.keys(facetFilters)) {
             let filter = facetFilters[k];
             if (filter) {
@@ -268,7 +291,7 @@ export default Ember.Component.extend({
             }
         }
 
-        // Copied from preprints - add activeFilters into to SHARE query
+        // Copied from preprints - add activeFilters into SHARE query
         const activeFilters = this.get('activeFilters');
         const filterMap = this.get('filterMap');
         for (const key in filterMap) {
@@ -284,12 +307,15 @@ export default Ember.Component.extend({
                 }
             });
         }
-        // Copied from preprints - modify subject and providers filters
-        this.set('subject', activeFilters.subjects.join('AND'));
-        if (!this.get('theme.isProvider'))
-            this.set('provider', activeFilters.providers.join('AND'));
+        // Adapted from preprints and registries - modifies query params in URL
+        Object.keys(activeFilters).forEach(pluralFilter => {
+            const filter = Ember.String.singularize(pluralFilter);
+            if (pluralFilter !== 'providers' || !this.get('theme.isProvider')) {
+                this.set(`${filter}`, activeFilters[pluralFilter].join('AND'));
+            }
+        });
 
-        // Copied from preprints
+        // Copied from preprints, if theme, and provider to query
         if (this.get('theme.isProvider') && this.get('providerName') !== null) {
             filters.push({
                 terms: {
@@ -351,6 +377,7 @@ export default Ember.Component.extend({
             contentType: 'application/json',
             data: queryBody
         }).then((json) => {
+            if (this.isDestroyed || this.isDestroying) return;
             let results = json.hits.hits.map(hit => {
                 // HACK: Make share data look like apiv2 preprints data
                 let result = Ember.merge(hit._source, {
@@ -358,36 +385,37 @@ export default Ember.Component.extend({
                     type: 'elastic-search-result',
                     workType: hit._source['@type'],
                     abstract: hit._source.description,
-                    subjects: hit._source.subjects.map(each => ({text: each})),
-                    providers: hit._source.sources.map(item => ({name: item})),
+                    subjects: hit._source.subjects.map(each => ({ text: each })),
+                    providers: hit._source.sources.map(item => ({ name: item })),
                     hyperLinks: [// Links that are hyperlinks from hit._source.lists.links
                         {
                             type: 'share',
                             url: config.SHARE.baseUrl + 'preprint/' + hit._id
                         }
                     ],
-                    infoLinks: [] // Links that are not hyperlinks  hit._source.lists.links
+                    infoLinks: [], // Links that are not hyperlinks  hit._source.lists.links
+                    registrationType: hit._source.registration_type
                 });
 
                 hit._source.identifiers.forEach(function(identifier) {
                     if (identifier.startsWith('http://')) {
-                        result.hyperLinks.push({url: identifier});
+                        result.hyperLinks.push({ url: identifier });
                     } else {
                         const spl = identifier.split('://');
                         const [type, uri, ..._] = spl; // jshint ignore:line
-                        result.infoLinks.push({type, uri});
+                        result.infoLinks.push({ type, uri });
                     }
                 });
 
-                result.contributors = result.lists.contributors
+                result.contributors = result.lists.contributors ? result.lists.contributors
                   .sort((b, a) => (b.order_cited || -1) - (a.order_cited || -1))
                   .map(contributor => ({
                         users: Object.keys(contributor)
                           .reduce(
-                              (acc, key) => Ember.merge(acc, {[key.camelize()]: contributor[key]}),
-                              {bibliographic: contributor.relation !== 'contributor'}
+                              (acc, key) => Ember.merge(acc, { [key.camelize()]: contributor[key] }),
+                              { bibliographic: contributor.relation !== 'contributor' }
                           )
-                    }));
+                    })) : [];
 
                 // Temporary fix to handle half way migrated SHARE ES
                 // Only false will result in a false here.
@@ -435,20 +463,6 @@ export default Ember.Component.extend({
             this.get('debouncedLoadPage')();
         }, 500);
     },
-
-    // Default facets - can pass in as property to component
-    facets: Ember.computed('processedTypes', function() {
-        return [
-            { key: 'sources', title: 'Source', component: 'search-facet-source' },
-            { key: 'date', title: 'Date', component: 'search-facet-daterange' },
-            { key: 'type', title: 'Type', component: 'search-facet-worktype', data: this.get('processedTypes') },
-            { key: 'tags', title: 'Tag', component: 'search-facet-typeahead' },
-            { key: 'publishers', title: 'Publisher', component: 'search-facet-typeahead', base: 'agents', type: 'publisher' },
-            { key: 'funders', title: 'Funder', component: 'search-facet-typeahead', base: 'agents', type: 'funder' },
-            { key: 'language', title: 'Language', component: 'search-facet-language' },
-            { key: 'contributors', title: 'People', component: 'search-facet-typeahead', base: 'agents', type: 'person' },
-        ];
-    }),
 
     facetStatesArray: [],
 
@@ -498,14 +512,6 @@ export default Ember.Component.extend({
             this.get('facetFilters');
         },
 
-        toggleCollapsedQueryBody() {
-            this.toggleProperty('collapsedQueryBody');
-        },
-
-        toggleCollapsedFilters() {
-            this.toggleProperty('collapsedFilters');
-        },
-
         typing(val, event) {
             // Ignore all keycodes that do not result in the value changing
             // 8 == Backspace, 32 == Space
@@ -531,10 +537,6 @@ export default Ember.Component.extend({
 
         filtersChanged() {
             this.search();
-        },
-
-        loadPageNoScroll(newPage) {
-            this.send('loadPage', newPage, false);
         },
 
         loadPage(newPage, scroll = true) {
@@ -576,11 +578,18 @@ export default Ember.Component.extend({
             this.set('sort', '');
             this.search();
             // Clears Active Filters for Preprints/Registries
-            this.set('activeFilters', {
-                providers: this.get('theme.isProvider') ? this.get('activeFilters.providers') : [],
-                subjects: []
+            let restoreActiveFilters = {};
+            Object.keys(this.get('activeFilters')).forEach(filter => {
+                if (filter === 'providers') {
+                    restoreActiveFilters[filter] = this.get('theme.isProvider') ? this.get('activeFilters.providers') : [];
+                } else {
+                    restoreActiveFilters[filter] = [];
+                }
+
             });
+            this.set('activeFilters', restoreActiveFilters);
         },
+        // Adapted from preprints/registries - modifies activeFilters
         updateFilters(filterType, item) {
             item = typeof item === 'object' ? item.text : item;
             const filters = Ember.$.extend(true, [], this.get(`activeFilters.${filterType}`));

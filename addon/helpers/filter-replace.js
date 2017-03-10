@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-// Copied from Ember-preprints. Needs to work with Registries as well as generic case
+// Adapted from Ember-preprints.
 var defaultFilters = {
     'Open Science Framework': 'OSF',
     'Cognitive Sciences ePrint Archive': 'Cogprints',

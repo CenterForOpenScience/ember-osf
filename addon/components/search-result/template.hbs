@@ -17,23 +17,25 @@
                         <span>{{result.title}}</span>
                     {{/if}}
                 {{/if}}
+                {{#if result.withdrawn}}
+                    <span class='label label-default'> Withdrawn </span>
+                {{/if}}
             </h4>
 
             {{!Authors}}
-            <p>
-                {{~#each creators as |creator index|}}
-                    {{#if index~}}
-                        <span>,</span>
-                    {{~/if}}
-                    {{author-link contributor=creator}}
-                {{~/each}}
-                {{#if extraCreators}} {{!+5, for example}}
+            <div>
+                <ul class="comma-list">
+                    {{~#each creators as |creator|}}
+                        {{~author-link contributor=creator}}
+                    {{~/each}}
+                </ul>
+                 {{#if extraCreators}} {{!+5, for example}}
                     <span class="text-muted">+{{extraCreators.length}}</span>
                 {{/if}}
-            </p>
+            </div>
 
             {{!Added on}}
-            <div class="m-t-sm"> <em> {{t "eosf.components.searchResult.addedOn"}}: {{moment-format result.date 'YYYY-MM-DD hh:mm a'}} </em> </div>
+            <div class="m-t-sm"> <em> {{t "eosf.components.searchResult.addedOn"}}: {{moment-format result.date 'YYYY-MM-DD'}} </em> </div>
 
             {{!Disciplines}}
             {{#if subjects}}
@@ -52,11 +54,15 @@
             {{!Abstract}}
             <p>
                 <div class="text-muted m-t-sm">
-                    {{#if abbreviation}}
-                        {{abbreviation}}
-                        {{#if abbreviated}}
-                            <span class="text-muted">...</span>
-                        {{/if}}
+                    {{#if showBody}}
+                        {{safeDescription}}
+                    {{else}}
+                         {{#if abbreviation}}
+                             {{abbreviation}}
+                             {{#if abbreviated}}
+                                 <span class="text-muted">...</span>
+                             {{/if}}
+                         {{/if}}
                     {{/if}}
                 </div>
             </p>
@@ -67,6 +73,10 @@
                     {{#each result.providers as |provider index|}}
                         {{if index '| '}}{{filter-replace provider.name filterReplace}}
                     {{/each}}
+                    {{!For registries - registrationType}}
+                    {{#if result.registrationType}}
+                        | {{result.registrationType}}
+                    {{/if}}
                 </span>
                 <span class="pull-right">
                     {{#if result.dateModified}} {{! moment-format will use current time if null}}
@@ -80,7 +90,7 @@
                 {{#if result.hyperLinks}}
                     <ul class="preprints-block-list m-t-sm">
                         {{#each result.hyperLinks as |link|}}
-                            <li><a href='{{link.url}}' {{action 'click' 'link' 'Preprints - Discover - Result Hyperlink' link.url}}>{{link.url}}</a></li>
+                            <li><a href='{{link.url}}'>{{link.url}}</a></li>
                         {{/each}}
                     </ul>
                 {{/if}}
@@ -95,9 +105,13 @@
 
                 {{!Tags}}
                 {{#each tags as |tag|}}
-                    <a class="filter" {{action 'addFilter' 'tags' tag}}>
+                    {{#if tagsInQueryParams}}
+                        <a class="filter" {{action 'addFilter' 'tags' tag}}>
+                            <span class="badge">{{fix-special-char tag}}</span>
+                        </a>
+                    {{else}}
                         <span class="badge">{{fix-special-char tag}}</span>
-                    </a>
+                    {{/if}}
                 {{/each}}
                 {{#if extraTags}}
                     <span class="text-muted">+{{extraTags.length}}</span>

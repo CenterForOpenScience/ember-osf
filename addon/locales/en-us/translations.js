@@ -24,11 +24,22 @@ export default {
                 addedOn: 'Added on',
 
             },
-            emberShareSearch: {
+            discoverPage: {
                 activeFilters: {
                     heading: 'Active Filters',
                     button: 'Clear filters'
-                }
+                },
+                search: 'Search',
+                searchPlaceholder: 'Search...',
+                poweredBy: 'powered by',
+                noResults: 'No results. Try removing some filters.',
+                shareTotalText: `results`,
+                asOf: 'as of',
+                sortBy: 'Sort by',
+                partnerRepositories: 'Partner Repositories',
+                refineSearch: 'Refine your search by',
+                noResultsFound: 'No results found.',
+                broadenSearch: 'Try broadening your search terms'
             }
         }
     }

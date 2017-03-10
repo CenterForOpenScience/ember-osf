@@ -2,13 +2,17 @@ import Ember from 'ember';
 import layout from './template';
 
 /**
- * Adapted from Ember-SHARE - some pieces added from Ember-Preprints as well.
+ * Adapted from Ember-SHARE and Ember Preprints
+ * Used for search results on discover page.
  *
  * ```handlebars
  * {{search-result
  *      detailRoute=detailRoute
  *      addFilter='addFilter'
  *      result=result
+ *      queryParams=queryParams
+ *      filterReplace=filterReplace
+ *      updateFilters=(action 'updateFilters')
  * }}
  * ```
  * @class search-result
@@ -18,16 +22,18 @@ export default Ember.Component.extend({
     maxTags: 5,
     maxSubjects: 5,
     maxCreators: 10,
-    maxDescription: 350,
+    maxDescription: 300,
     showBody: false,
+    queryParams: null,
     providerUrlRegex: {
         //'bioRxiv': '', doesnt currently have urls
         Cogprints: /cogprints/,
         OSF: /https?:\/\/((?!api).)*osf.io/, // Doesn't match api.osf urls
         PeerJ: /peerj/,
-        arXiv: /arxivj/
+        arXiv: /arxivj/,
+        'ClinicalTrials.gov': /http:\/\/clinicaltrials.gov/,
     },
-    detailRoute: null, //Add name of route you want search-result to link to if not using Ember-SHARE detail page
+    detailRoute: null, // Add name of route you want search-result to if route exists in consuming app
     footerIcon: Ember.computed('showBody', function() {
         return this.get('showBody') ? 'caret-up' : 'caret-down';
     }),
@@ -106,6 +112,16 @@ export default Ember.Component.extend({
                 return identifiers[j];
 
         return identifiers[0];
+    }),
+    // Determines whether tags in search results should be links - preprints and registries are not using tag filter right now
+    tagsInQueryParams: Ember.computed('queryParams', function() {
+        let foundTags = false;
+        this.get('queryParams').forEach(param => {
+            if (param === 'tags') {
+                foundTags = true;
+            }
+        });
+        return foundTags;
     }),
     didRender() {
         MathJax.Hub.Queue(['Typeset', MathJax.Hub, this.$()[0]]);  // jshint ignore: line

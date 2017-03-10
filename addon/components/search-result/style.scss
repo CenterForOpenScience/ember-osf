@@ -33,4 +33,18 @@
     .pointer {
         cursor: pointer;
     }
+    ul.comma-list {
+        display: inline;
+        list-style: none;
+        padding-left: 0;
+        li {
+            display: inline;
+        }
+        li:after {
+            content: ", "
+        }
+        li:last-child:after {
+            content: "";
+        }
+    }
 }

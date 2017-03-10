@@ -1,6 +1,5 @@
 {{!Copied from Ember-SHARE}}
-<div>
-    <h4> Refine your search by </h4>
+<div class="p-t-md">
     {{#each facets as |facet|}}
         <div class='panel panel-default'>
             <div class='panel-heading'>
@@ -15,13 +14,10 @@
                 filter=(get facetFilters facet.key)
                 updateFilters=updateFilters
                 activeFilters=activeFilters
+                filterReplace=filterReplace
                 onChange=(action 'facetChanged')
                 data=facet.data}}
             </div>
         </div>
     {{/each}}
 </div>
-
-
-
-

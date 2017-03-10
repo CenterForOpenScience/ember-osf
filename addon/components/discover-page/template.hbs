@@ -1,17 +1,24 @@
-{{!Component builds DISCOVER PAGE - Blend of Ember-SHARE and Preprints Discover pages}}
+{{!Component builds DISCOVER PAGE - Blend of Ember-SHARE, Preprints, and Registries Discover pages}}
 <div class="search-header">
     <div class="container">
-        <div class="row m-v-md"> {{!LOGO}}
+        <div class="row m-v-md"> {{!BRANDING}}
             <div class="col-xs-12 text-center">
-                {{#if theme.isProvider}} {{!Provider Logo, if exists}}
+                {{#if (or theme.isProvider providerLogo)}} {{!Provider Logo, if exists}}
                     <div class="col-xs-6 text-right">
                         <div class="provider-brand" style="height: 140px; background-position-x: right;"></div>
                     </div>
                 {{/if}}
-                <div class={{if theme.isProvider 'col-xs-6 text-left'}}>
-                    <h1> {{discoverHeader}} </h1> {{!Discover Page Header text}}
-                    {{!POWERED BY SHARE}}
-                    <p class="lead">{{poweredBy}} <a href="https://share.osf.io/" class="share-logo" title="SHARE"></a></p>
+                <div class={{if (or theme.isProvider providerLogo) 'col-xs-6 text-left'}}>
+                    {{#if (eq consumingService 'registries')}} {{!REGISTRIES LOGO - REGISTRIES ONLY}}
+                        <div class="registries-brand m-t-lg"></div>
+                        <p class="lead">
+                            <span> {{discoverHeader}} </span>
+                        </p>
+                    {{else}}
+                        <h1> {{discoverHeader}} </h1> {{!Discover Page Header text}}
+                         {{!POWERED BY SHARE}}
+                        <p class="lead">{{poweredBy}} <a href="https://share.osf.io/" class="share-logo" title="SHARE"></a></p>
+                    {{/if}}
                 </div>
             </div>
         </div>
@@ -24,6 +31,8 @@
                         <button class="btn btn-default" type="button"> {{searchButton}} </button>
                     </span>
                 </div>
+                {{!NUMBER OF SEARCHABLE RESULTS}}
+                {{total-share-results shareTotal=shareTotal shareTotalText=shareTotalText}}
             </div>
         </div>
 
@@ -32,10 +41,10 @@
             <div class="row m-v-md">
                 <div class="col-xs-10 col-xs-offset-1" style="text-align: center;">
                     {{#if (not theme.isProvider)}}
-                        <h3>Partner Repositories</h3>
+                        <h3>{{t 'eosf.components.discoverPage.partnerRepositories'}}</h3>
                         <div class="row">
                             {{provider-carousel
-                                providers=providers
+                                providers=fetchedProviders
                                 lightLogo=false
                             }}
                         </div>
@@ -47,7 +56,7 @@
         <div class="row p-v-sm">
             {{#if (not showActiveFilters)}}
                 <div class="col-xs-6">
-                    {{!Clear filters button, if activeFilters are not displayed}}
+                    {{!CLEAR FILTERS BUTTON - ONLY IF ACTIVE FILTERS NOT SHOWN}}
                     <button {{action 'clearFilters'}} class='btn btn-default clear-filters'>
                         {{clearFiltersButton}}
                     </button>
@@ -56,10 +65,10 @@
 
             <div class="col-sm-6 pull-right">
                 <div class="dropdown pull-right">
-                    {{!Sort by button}}
+                    {{!SORT BY BUTTON}}
                     <button class="btn btn-default dropdown-toggle" type="button" id="sortBy" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="true">
-                        Sort by: {{sort-option-display sortOptions sort}}
+                        {{t 'eosf.components.discoverPage.sortBy'}}: {{sort-option-display sortOptions sort}}
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu text-right" aria-labelledby="sortBy">
@@ -76,18 +85,18 @@
 <div class="search-main p-v-xl">
     <div class="container">
         <div class="row search-results-section">
-            <div class="col-sm-4 col-xs-12 search-sidebar"> {{!LEFT PANEL - FILTER}}
-                {{! Active Filters}}
+            <div class="col-sm-4 col-xs-12 search-sidebar"> {{!LEFT PANEL - SEARCH FACETS}}
+                {{! ACTIVE FILTERS - FOR PREPRINTS, REGISTRIES}}
                 {{#if showActiveFilters}}
-                    <div id="activeFilters" class="well well-sm p-md m-t-sm">
+                    <div id="activeFilters" class="well well-sm p-md">
                         <div class="row">
                             <div class="col-sm-6">
-                                <h4>{{t "eosf.components.emberShareSearch.activeFilters.heading"}}:</h4>
+                                <h4>{{t "eosf.components.discoverPage.activeFilters.heading"}}:</h4>
                             </div>
                             <div class="col-sm-6">
                                 <span class="pull-right">
-                                    {{!Clear filters button}}
-                                    <button type="button" class="btn btn-default btn-sm" {{action "clearFilters"}}>{{t "eosf.components.emberShareSearch.activeFilters.button"}} {{fa-icon "remove"}}</button>
+                                    {{!CLEAR FILTERS BUTTON}}
+                                    <button type="button" class="btn btn-default btn-sm" {{action "clearFilters"}}>{{clearFiltersButton}} {{fa-icon "remove"}}</button>
                                 </span>
                             </div>
                         </div>
@@ -96,20 +105,27 @@
                                 <span class='preprint-filter provider-filter'>
                                     {{filter-replace filter}}
                                     {{#unless theme.isProvider}}
-                                        {{!Active provider filters}}
+                                        {{!ACTIVE PROVIDER FILTERS}}
                                         <span class='pointer'>{{fa-icon 'times-circle' click=(action 'updateFilters' 'providers' filter)}}</span>
                                     {{/unless}}
                                 </span>
                             {{/each}}
                             {{#each activeFilters.subjects as |filter|}}
-                                {{!Active subject filters}}
+                                {{!ACTIVE SUBJECT FILTERS}}
                                 <span class='preprint-filter subject-filter'>{{filter}} <span class='pointer'>{{fa-icon 'times-circle' click=(action 'updateFilters' 'subjects' filter)}}</span></span>
+                            {{/each}}
+                            {{!ACTIVE TYPE FILTERS}}
+                            {{#each activeFilters.types as |filter|}}
+                                <span class='preprint-filter type-filter'>{{filter}} <span class='pointer'>{{fa-icon 'times-circle' click=(action 'updateFilters' 'types' filter)}}</span></span>
                             {{/each}}
                         </div>
                     </div>
                 {{/if}}
 
-                {{!Search facets}}
+                {{!SEARCH FACETS}}
+                {{#if showActiveFilters}}
+                    <h4> {{t 'eosf.components.discoverPage.refineSearch'}} </h4>
+                {{/if}}
                 {{faceted-search
                     onChange='filtersChanged'
                     updateParams='updateParams'
@@ -119,9 +135,10 @@
                     aggregations=aggregations
                     activeFilters=activeFilters
                     updateFilters=(action 'updateFilters')
+                    filterReplace=filterReplace
                 }}
 
-                {{!Button asking if user wants to add preprint - Preprints Only }}
+                {{!ADD PREPRINT BUTTON - Preprints Only }}
                 {{#if (eq consumingService 'preprints')}}
                     {{add-preprint-box}}
                 {{/if}}
@@ -134,11 +151,14 @@
                         {{fa-icon 'spinner' pulse=true size=3}}
                     </div>
                 {{else if noResultsMessage}}
-                    <div class="text-center no-results">{{noResultsMessage}}</div>
+                    <div class="text-muted text-center">
+                        <p class="lead ">{{t "eosf.components.discoverPage.noResultsFound"}}</p>
+                        <p>{{noResultsMessage}}</p>
+                    </div>
                 {{else}}
                     <div class="results-top">
                         {{#each results as |result|}}
-                            {{search-result detailRoute=detailRoute filterReplace=filterReplace addFilter='addFilter' updateFilters=(action 'updateFilters') result=result}}
+                            {{search-result queryParams=queryParams detailRoute=detailRoute filterReplace=filterReplace addFilter='addFilter' updateFilters=(action 'updateFilters') result=result}}
                         {{/each}}
                     </div>
                     <div class="pull-right text-right">

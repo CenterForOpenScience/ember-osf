@@ -73,5 +73,4 @@ export default TypeaheadComponent.extend({
         });
         this.set('donut', donut);
     },
-
 });
