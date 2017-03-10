@@ -22,7 +22,7 @@ import { getUniqueList, getSplitParams, encodeParams } from '../../utils/elastic
  *
  *
  * ```handlebars
- *{{ember-share-search
+ *{{discover-page
  *   searchPlaceholder=(t 'discover.search.placeholder')
  *   searchButton=(t 'global.search')
  *   poweredBy=(t 'discover.search.paragraph')
@@ -45,7 +45,7 @@ import { getUniqueList, getSplitParams, encodeParams } from '../../utils/elastic
  *   sort=sort
 * }}
  * ```
- * @class ember-share-search
+ * @class discover-page
  */
 
 const MAX_SOURCES = 500;
@@ -53,7 +53,7 @@ let filterQueryParams = ['subjects', 'tags', 'sources', 'publishers', 'funders',
 
 export default Ember.Component.extend({
     theme: Ember.inject.service(), // jshint ignore:line
-    classNames: ['ember-share-search'],
+    classNames: ['discover-page'],
     layout,
     searchPlaceholder: 'Search...',
     searchButton: 'Search',

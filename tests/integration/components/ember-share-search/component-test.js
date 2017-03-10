@@ -2,7 +2,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
 
-moduleForComponent('ember-share-search', 'Integration | Component | ember share search', {
+moduleForComponent('discover-page', 'Integration | Component | discover page', {
   integration: true
 });
 
@@ -16,7 +16,7 @@ test('it renders', function(assert) {
         }]);
         this.set('searchPlaceholder', 'Test Placeholder');
 
-        this.render(hbs`{{ember-share-search
+        this.render(hbs`{{discover-page
             shareSearchUrl=shareSearchUrl
             facets=facets
             searchPlaceholder=searchPlaceholder
