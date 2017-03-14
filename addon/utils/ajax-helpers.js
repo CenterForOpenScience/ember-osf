@@ -34,4 +34,3 @@ function authenticatedAJAX(options) {
 
 }
 export { authenticatedAJAX };
-
