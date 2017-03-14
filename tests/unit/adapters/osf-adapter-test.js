@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-import { moduleFor } from 'ember-qunit';
+import { moduleFor, skip } from 'ember-qunit';
 import test from 'ember-sinon-qunit/test-support/test';
 import FactoryGuy, { manualSetup } from 'ember-data-factory-guy';
 
@@ -530,7 +530,7 @@ test('#ajaxOptions adds bulk contentType if request is bulk', function(assert) {
     assert.equal(opts.contentType, 'application/vnd.api+json; ext=bulk');
 });
 
-test('#findRecord can embed(via include) data with findRecord', function(assert) {
+skip('#findRecord can embed(via include) data with findRecord', function(assert) {
     const done = assert.async();
     assert.expect(1);
 
