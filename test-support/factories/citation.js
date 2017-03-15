@@ -3,6 +3,6 @@ import faker from 'faker';
 
 FactoryGuy.define('citation', {
     default: {
-        citation: faker.lorem.words(10)
+        citation: () => faker.lorem.words(10)
     }
 });

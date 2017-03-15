@@ -10,7 +10,7 @@ FactoryGuy.define('wiki', {
         path: () => '/' + faker.lorem.words(1),
         currentUserCanComment: () => faker.random.boolean(),
         materializedPath: () => '/' + faker.lorem.words(1),
-        size: faker.random.number(),
+        size: () => faker.random.number(),
         node: FactoryGuy.belongsTo('node')
     }
 });
