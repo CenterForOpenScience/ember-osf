@@ -22,6 +22,7 @@ export default {
         components: {
             searchResult: {
                 addedOn: 'Added on',
+                lastEdited: 'Last edited'
 
             },
             discoverPage: {
@@ -39,7 +40,17 @@ export default {
                 partnerRepositories: 'Partner Repositories',
                 refineSearch: 'Refine your search by',
                 noResultsFound: 'No results found.',
-                broadenSearch: 'Try broadening your search terms'
+                broadenSearch: 'Try broadening your search terms',
+                shareUnavailable: 'Search is Unavailable',
+                shareUnavailableDescription: 'SHARE Search is temporarily unavailable. We have been notified and are working to fix the problem. Please try again later.'
+            },
+            searchHelpModal: {
+                close: 'Close',
+                searchHelp: 'Search help',
+                queries: 'Queries',
+                searchUsesThe: 'Search uses the ',
+                searchSyntax: 'search syntax',
+                helpDescription: 'This gives you many options, but can be very simple as well. Examples of valid searches include:'
             }
         }
     }

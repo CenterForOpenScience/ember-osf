@@ -28,17 +28,23 @@
                 <div class="input-group input-group-lg"> {{!SEARCH BAR}}
                     {{input id="searchBox" value=q class="form-control" key-up='typing' placeholder=searchPlaceholder}}
                     <span class="input-group-btn">
+                        {{!HELP BUTTON}}
+                        <button class="btn btn-default" type="button" {{action 'toggleShowLuceneHelp'}}> <i class="fa fa-question text-muted"></i></button>
+                        {{!SEARCH BUTTON}}
                         <button class="btn btn-default" type="button"> {{searchButton}} </button>
                     </span>
                 </div>
+                {{!Lucene search help modal}}
+                {{search-help-modal isOpen=showLuceneHelp}}
+
                 {{!NUMBER OF SEARCHABLE RESULTS}}
-                {{total-share-results shareTotal=shareTotal shareTotalText=shareTotalText}}
+                {{total-share-results consumingService=consumingService shareTotalText=shareTotalText}}
             </div>
         </div>
 
         {{!CAROUSEL WITH PREPRINT PROVIDERS - PREPRINTS ONLY}}
         {{#if (eq consumingService 'preprints')}}
-            <div class="row m-v-md">
+            <div class="row m-t-xs m-b-md">
                 <div class="col-xs-10 col-xs-offset-1" style="text-align: center;">
                     {{#if (not theme.isProvider)}}
                         <h3>{{t 'eosf.components.discoverPage.partnerRepositories'}}</h3>
@@ -71,9 +77,9 @@
                         {{t 'eosf.components.discoverPage.sortBy'}}: {{sort-option-display sortOptions sort}}
                         <span class="caret"></span>
                     </button>
-                    <ul class="dropdown-menu text-right" aria-labelledby="sortBy">
+                    <ul class="dropdown-menu text-right" aria-labelledby="sortBy" id="sortByOptionList">
                         {{#each sortOptions as |sortChoice|}}
-                            <li style="cursor: pointer; cursor: hand"><a {{action "selectSortOption" sortChoice.sortBy}}>{{sortChoice.display}}</a></li>
+                            <li class="listOption" style="cursor: pointer; cursor: hand"><a {{action "selectSortOption" sortChoice.sortBy}}>{{sortChoice.display}}</a></li>
                         {{/each}}
                     </ul>
                 </div>
@@ -103,7 +109,7 @@
                         <div id="activeFiltersList">
                             {{#each activeFilters.providers as |filter|}}
                                 <span class='preprint-filter provider-filter'>
-                                    {{filter-replace filter}}
+                                    {{filter-replace filter filterReplace}}
                                     {{#unless theme.isProvider}}
                                         {{!ACTIVE PROVIDER FILTERS}}
                                         <span class='pointer'>{{fa-icon 'times-circle' click=(action 'updateFilters' 'providers' filter)}}</span>
@@ -149,6 +155,13 @@
                 {{#if loading}}
                     <div class="text-center p-v-md">
                         {{fa-icon 'spinner' pulse=true size=3}}
+                    </div>
+                {{else if queryError}}
+                    {{query-syntax message=queryError}}
+                {{else if shareDown}}
+                    <div class="text-muted text-center">
+                        <p class="lead ">{{t 'eosf.components.discoverPage.shareUnavailable'}}</p>
+                        <p> {{t 'eosf.components.discoverPage.shareUnavailableDescription'}}</p>
                     </div>
                 {{else if noResultsMessage}}
                     <div class="text-muted text-center">

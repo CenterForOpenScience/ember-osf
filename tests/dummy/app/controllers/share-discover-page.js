@@ -3,6 +3,7 @@ import Ember from 'ember';
 let filterQueryParams = ['types', 'provider', 'subject', 'tags', 'sources', 'publishers', 'funders', 'institutions', 'organizations', 'language', 'contributors', 'type'];
 
 export default Ember.Controller.extend({
+    consumingService: 'registries',
     contributors: '',
     detailRoute: 'nodes.detail',
     discoverHeader: 'Demonstration of discover-page component',
@@ -21,7 +22,7 @@ export default Ember.Controller.extend({
     },
     funders: '',
     language: '',
-    lockedParams: { types: 'preprint' },
+    lockedParams: { types: 'registration' },
     organizations: '',
     page: 1,
     provider: '',
@@ -33,7 +34,7 @@ export default Ember.Controller.extend({
         return allParams;
     }),
     shareTotal: 100,
-    shareTotalText: 'searchable preprints',
+    shareTotalText: 'searchable registrations',
     showActiveFilters: true,
     sort: '',
     sources: '',

@@ -53,3 +53,24 @@
     background-color: white;
     border: 1px solid #DDDDDD;
 }
+
+#sortBy {
+    min-width: 291px;
+    width: 100%;
+}
+
+#sortByOptionList {
+    background-color: #EFEFEF;
+    min-width: 291px;
+    .listOption {
+        cursor: pointer;
+        a {
+            text-decoration: none;
+            color: black;
+        }
+        a:hover {
+            background-image: none;
+            background-color: #D9D9D9;
+        }
+    }
+}

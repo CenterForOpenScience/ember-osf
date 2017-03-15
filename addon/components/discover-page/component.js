@@ -58,7 +58,7 @@ export default Ember.Component.extend({
     classNames: ['discover-page'],
 
     activeFilters: { providers: [], subjects: [], types: [] }, // Active filters - currently being used in preprints and registries
-    clearFiltersButton: Ember.computed(function() { // Text for clearFilters button
+    clearFiltersButton: Ember.computed('i18n.locale', function() { // Text for clearFilters button
         return this.get('i18n').t('eosf.components.discoverPage.activeFilters.button');
     }),
     consumingService: null, // Consuming service, like "preprints" or "registries"
@@ -85,14 +85,14 @@ export default Ember.Component.extend({
     language: '', // Query parameter
     loading: true,
     lockedParams: {}, //  Example: {'sources': 'PubMed Central'} will make PubMed Central a locked source that cannot be changed
-    noResults: Ember.computed(function() { // Text to display if no results found
+    noResults: Ember.computed('i18n.locale', function() { // Text to display if no results found
         return this.get('i18n').t('eosf.components.discoverPage.broadenSearch');
     }),
     numberOfResults: 0,  // Number of search results returned
     numberOfSources: 0,
     organizations: '', // Query parameter
     page: 1, // Query parameter
-    poweredBy: Ember.computed(function() { // Powered by text
+    poweredBy: Ember.computed('i18n.locale', function() { // Powered by text
         return this.get('i18n').t('eosf.components.discoverPage.poweredBy');
     }),
     publishers: '', // Query parameter
@@ -105,13 +105,13 @@ export default Ember.Component.extend({
         return allParams;
     }),
     results: Ember.ArrayProxy.create({ content: [] }), // Results from SHARE query
-    searchButton: Ember.computed(function() { // Search button text
+    searchButton: Ember.computed('i18n.locale', function() { // Search button text
         return this.get('i18n').t('eosf.components.discoverPage.search');
     }),
-    searchPlaceholder: Ember.computed(function() { // Search bar placeholder text
+    searchPlaceholder: Ember.computed('i18n.locale', function() { // Search bar placeholder text
         return this.get('i18n').t('eosf.components.discoverPage.searchPlaceholder');
     }),
-    shareTotalText: Ember.computed(function() {
+    shareTotalText: Ember.computed('i18n.locale', function() {
         return this.get('i18n').t('eosf.components.discoverPage.shareTotalText');
     }),
     showActiveFilters: false, // Should active filters box be displayed (currently only displays providers/subjects/types)
@@ -140,6 +140,7 @@ export default Ember.Component.extend({
     took: 0,
     type: '', // Query parameter
 
+    showLuceneHelp: false, // Is Lucene Search help modal open?
     noResultsMessage: Ember.computed('numberOfResults', function() {
         return this.get('numberOfResults') > 0 ? '' : this.get('noResults');
     }),
@@ -187,7 +188,6 @@ export default Ember.Component.extend({
         this.loadProvider();
         this.loadPage();
     },
-
     // Loads preprint provider if theme.isProvider - needed because theme's provider was not loading before making queries to SHARE
     loadProvider() {
         if (this.get('theme.isProvider')) {
@@ -433,7 +433,8 @@ export default Ember.Component.extend({
                 loading: false,
                 firstLoad: false,
                 results: results,
-                queryError: false
+                queryError: false,
+                shareDown: false,
             });
             if (this.get('totalPages') && this.get('totalPages') < this.get('page')) {
                 this.search();
@@ -448,7 +449,7 @@ export default Ember.Component.extend({
             if (errorResponse.status === 400) {
                 this.set('queryError', true);
             } else {
-                this.send('elasticDown');
+                this.set('shareDown', true);
             }
         });
     },
@@ -489,12 +490,10 @@ export default Ember.Component.extend({
     },
 
     actions: {
-        // COPIED FROM EMBER-SHARE/APP/ROUTES/DISCOVER.JS. What does this do??
-        elasticDown() {
-            // this.intermediateTransitionTo('elastic-down');
-            return false;
+        // Toggles display of lucene search help modal
+        toggleShowLuceneHelp() {
+            this.toggleProperty('showLuceneHelp');
         },
-
         addFilter(type, filterValue) {
             let currentValue = getSplitParams(this.get(type)) || [];
             let newValue = getUniqueList([filterValue].concat(currentValue));

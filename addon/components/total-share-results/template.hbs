@@ -1,4 +1,4 @@
-{{#if shareTotal}}
+{{#if (and shareTotalText shareTotal)}}
     <p class="p-l-md text-left">
         <span class="f-w-lg">{{number-format shareTotal}} {{shareTotalText}}</span>
         <span>{{t "eosf.components.discoverPage.asOf"}} {{moment-format currentDate "MMMM DD, YYYY"}}</span>

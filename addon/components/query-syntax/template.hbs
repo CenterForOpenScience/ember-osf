@@ -1,0 +1,101 @@
+{{!Copied from Ember SHARE}}
+<div class="query-syntax-help">
+    <h2>Could not perform search query.</h2>
+    <p class='lead'>Please see below for more information on advanced search queries.</p>
+    <div>
+        <h3>Reserved Characters</h3>
+        <p>
+            The following characters have special meanings in a query:
+            <code>+ - = &amp;&amp; || &gt; &lt; ! ( ) { } [ ] ^ " ~ * ? : \ /</code>
+        </p>
+        <p>
+            If you want to use any of these reserved characters in your query, escape them with a leading backslash.
+            For instance, to search for <code>(1+1)=2</code>, you would need to type <code>\(1\+1\)\=2</code>.
+        </p>
+    </div>
+    <div>
+        <h3>Searching by Field</h3>
+        <p>
+            By default, all available fields are searched, but you can choose to search specific fields instead:
+        </p>
+        <ul>
+            <li><code>title:giraffe</code> -- The title contains the word "giraffe".</li>
+            <li><code>description:"giraffe neck"</code> -- The description contains the exact phrase "giraffe neck".</li>
+            <li><code>contributors:"degrasse tyson"</code> -- The list of contributor names contains the exact phrase "degrasse tyson".</li>
+            <li><code>identifiers:"10.1371/journal.pbio.1002456"</code> -- The list of identifiers contains "10.1371/journal.pbio.1002456"</li>
+        </ul>
+    </div>
+    <div>
+        <h3>Boolean Operators</h3>
+        <p>
+            By default, all terms in the query are optional, as long as one term matches. You can use boolean operators (<code>+</code>, <code>-</code>, <code>AND</code>, <code>OR</code>, <code>NOT</code>) to have more control over the search:
+        </p>
+        <ul>
+            <li><code>+giraffe neck spots</code> -- The word "giraffe" <b>must</b> be present. The words "neck" and "spots" are optional but used for sorting by relevance.</li>
+            <li><code>+giraffe neck spots -stripes</code> -- Same as above, except the word "stripes" <b>must not</b> be present.</li>
+            <li><code>giraffe AND lion</code> -- Both "giraffe" and "lion" <b>must</b> be present. Equivalent to <code>+giraffe +lion</code>.</li>
+            <li><code>giraffe AND NOT lion</code> -- The word "giraffe" <b>must</b> be present, the word "lion" <b>must not</b>. Equivalent to <code>+giraffe -lion</code>.</li>
+            <li><code>tags:(ungulate OR feline)</code> -- The list of tags contains "ungulate", "feline", or both.</li>
+        </ul>
+    </div>
+    <div>
+        <h3>Wildcards</h3>
+        <p>
+            Use wildcards to match multiple terms at once. Use <code>?</code> to match any single character, or <code>*</code> to match zero or more characters.
+        </p>
+        <ul>
+            <li><code>giraf*</code> -- Match any word that starts with "giraf".</li>
+            <li><code>l?on</code> -- Match "lion", "loon", "leon", etc.</li>
+        </ul>
+    </div>
+    <div>
+        <h3>Fuzziness</h3>
+        <p>
+            Use <code>~</code> after a word to indicate a "fuzzy" search, to include matches that are similar but not exactly the same.
+        </p>
+        <ul>
+            <li><code>girafe~ nekc~</code> -- Match "giraffe neck".</li>
+        </ul>
+        <p>
+            This uses the <a href='http://en.wikipedia.org/wiki/Damerau-Levenshtein_distance'>Damerau-Levenshtein distance</a> to match all words with at most 1 change. You can specify a different maximum edit distance with a number after the <code>~</code>.
+        </p>
+        <ul>
+            <li><code>girafe~2</code> -- Match "giraffe", "gyrate", "pirate", etc.</li>
+        </ul>
+    </div>
+    <div>
+        <h3>Phrase Proximity</h3>
+        <p>
+            You can also specify a maximum edit distance for phrases, to allow the words in the phrase to be farther apart or in a different order.
+        </p>
+        <ul>
+            <li><code>"giraffe neck"~2</code> -- Match "giraffe has a neck", but not "giraffe has a long neck".</li>
+        </ul>
+    </div>
+    <div>
+        <h3>Ranges</h3>
+        <p>
+            Use brackets to specify ranges for a field. Square brackets <code>[min TO max]</code> indicate inclusive ranges and curly brackets <code>{min TO max}</code> indicate exclusive ranges.
+        </p>
+        <ul>
+            <li><code>date:[2016-01-01 TO 2016-12-31]</code> -- Match all dates in 2016.</li>
+            <li><code>tags:{alpha TO omega}</code> -- Match all tags between "alpha" and "omega", excluding "alpha" and "omega".</li>
+            <li><code>date:[2016-01-01 TO 2016-12-31}</code> -- Match all dates in 2016 except December 31.</li>
+        </ul>
+    </div>
+    <div>
+        <h3>Boosting</h3>
+        <p>
+            Use the boost operator <code>^</code> with a number to make one term more relevant than another. The boost can be any positive number. Boosts between 0 and 1 reduce relevance.
+        </p>
+        <ul>
+            <li><code>giraffe^2 lion</code> -- Boost results with "giraffe" higher than results with just "lion".</li>
+        </ul>
+    </div>
+    <div>
+        <h3>More Information</h3>
+        <p>
+            For more details about query syntax, see the <a href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax'>Elasticsearch documentation</a>.
+        </p>
+    </div>
+</div>

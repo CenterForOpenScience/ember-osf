@@ -19,8 +19,8 @@ import layout from './template';
  */
 export default Ember.Component.extend({
     layout,
-    maxTags: 5,
-    maxSubjects: 5,
+    maxTags: 10,
+    maxSubjects: 10,
     maxCreators: 10,
     maxDescription: 300,
     showBody: false,
