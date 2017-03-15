@@ -10,6 +10,7 @@ export default OsfModel.extend({
     advisoryBoard: DS.attr('string'),
     emailContact: DS.attr('fixstring'),
     emailSupport: DS.attr('fixstring'),
+    blogUrl: DS.attr('string'),
     socialTwitter: DS.attr('fixstring'),
     socialFacebook: DS.attr('fixstring'),
     socialInstagram: DS.attr('fixstring'),
