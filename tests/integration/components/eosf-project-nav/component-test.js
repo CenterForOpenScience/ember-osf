@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-import { moduleForComponent, test } from 'ember-qunit';
+import { moduleForComponent, test, skip } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
 import FactoryGuy, { manualSetup } from 'ember-data-factory-guy';
@@ -15,7 +15,7 @@ moduleForComponent('eosf-project-nav', 'Integration | Component | eosf project n
 });
 
 
-test('buttons for logged in non-contributor on public project', function(assert) {
+skip('buttons for logged in non-contributor on public project', function(assert) {
     var user = FactoryGuy.make('user');
     var node = FactoryGuy.make('node', {
         public: true,
@@ -41,7 +41,7 @@ test('buttons for logged in non-contributor on public project', function(assert)
     }
 });
 
-test('buttons for logged-in contributor on private project', function(assert) {
+skip('buttons for logged-in contributor on private project', function(assert) {
     var user = FactoryGuy.make('user');
     var node = FactoryGuy.make('node', {
         public: false,
@@ -62,7 +62,7 @@ test('buttons for logged-in contributor on private project', function(assert) {
     }
 });
 
-test('hides parent button for top level node', function(assert) {
+skip('hides parent button for top level node', function(assert) {
     var user = FactoryGuy.make('user');
     var node = FactoryGuy.make('node', {
         currentUserPermissions: [permissions.WRITE]
