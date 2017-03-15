@@ -20,7 +20,7 @@ test('#_mergeFields adds links to attributes if included in payload', function(a
 /* TODO fixme
 test('#_mergeFields adds embeds to attributes if included in payload', function(assert) {
     let payload = {
-        id: () => faker.random.uuid(),
+        id: faker.random.uuid(),
         attributes: {
             key: 'value'
         },
