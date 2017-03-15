@@ -23,7 +23,7 @@ test('it renders', function(assert) {
         
         }}`);
 
-        let placeholder = this.$('div.search-header').children()[1].firstElementChild.firstElementChild.firstElementChild.placeholder;
+        let placeholder = this.$('input#searchBox.form-control')[0].placeholder;
 
         assert.equal(placeholder, 'Test Placeholder');
 

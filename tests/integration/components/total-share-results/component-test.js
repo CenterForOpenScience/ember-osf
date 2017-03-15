@@ -9,17 +9,12 @@ test('it renders', function(assert) {
 
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
+    this.set('shareTotal', 100);
+    this.set('shareTotalText', 'searchable preprints');
 
-  this.render(hbs`{{total-share-results}}`);
-
-  assert.equal(this.$().text().trim(), '');
-
-  // Template block usage:
-  this.render(hbs`
-    {{#total-share-results}}
-      template block text
-    {{/total-share-results}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
+    this.render(hbs`{{total-share-results
+        shareTotal=shareTotal
+        shareTotalText=shareTotalText
+    }}`);
+    assert.ok(this.$().text().trim().includes('100 searchable preprints'));
 });

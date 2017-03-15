@@ -10,15 +10,16 @@ test('it renders', function(assert) {
   // Handle any actions with this.on('myAction', function(val) { ... });
     this.set('addFilter', () => {});
     this.set('obj', {
-        title: 'Hello',
+        title: 'Research Title',
         id: '12345',
-        type: 'Retraction'
+        type: 'Retraction',
+        identifiers: []
     });
     this.render(hbs`{{search-result
         addFilter=(action addFilter)
-        obj=obj
+        result=obj
   
     }}`);
 
-  assert.equal(this.$().text().trim(), 'Hello');
+  assert.ok(this.$().text().trim().includes('Research Title'));
 });
