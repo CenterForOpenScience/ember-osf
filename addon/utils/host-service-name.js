@@ -6,14 +6,14 @@ import config from 'ember-get-config';
  */
 
 /**
- * @class host-service-name-helper
+ * @class host-service-name
  */
 
 /**
  * This function is useful for retrieving the hostname from the environment.js for the hosting app. This is needed to
  * allow ember-osf addons identify their hosting apps.
  *
- * @method hostservicename
+ * @method hostServiceName
  * @return {String}
  */
 export default function hostServiceName() {
