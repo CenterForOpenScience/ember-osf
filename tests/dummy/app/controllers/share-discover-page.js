@@ -29,7 +29,7 @@ export default Ember.Controller.extend({
     publishers: '',
     q: '',
     queryParams:  Ember.computed(function() {
-        let allParams = ['q', 'start', 'end', 'sort', 'page'];
+        let allParams = ['q', 'start', 'end', 'sort', 'page', 'provider'];
         allParams.push(...filterQueryParams);
         return allParams;
     }),

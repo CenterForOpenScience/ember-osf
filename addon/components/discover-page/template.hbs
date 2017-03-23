@@ -9,16 +9,12 @@
                     </div>
                 {{/if}}
                 <div class={{if (or theme.isProvider providerLogo) 'col-xs-6 text-left'}}>
-                    {{#if (eq consumingService 'registries')}} {{!REGISTRIES LOGO - REGISTRIES ONLY}}
-                        <div class="registries-brand m-t-lg"></div>
-                        <p class="lead">
-                            <span> {{discoverHeader}} </span>
-                        </p>
-                    {{else}}
+                    <div class="registries-brand m-t-lg"></div> {{!REGISTRIES ONLY}}
+                    {{#if discoverHeader}}
                         <h1> {{discoverHeader}} </h1> {{!Discover Page Header text}}
-                         {{!POWERED BY SHARE}}
-                        <p class="lead">{{poweredBy}} <a href="https://share.osf.io/" class="share-logo" title="SHARE"></a></p>
                     {{/if}}
+                     {{!POWERED BY SHARE}}
+                    <p class="lead">{{poweredBy}} <a href="https://share.osf.io/" id='share-logo' class="share-logo" title="SHARE"></a></p>
                 </div>
             </div>
         </div>

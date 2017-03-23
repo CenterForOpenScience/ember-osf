@@ -13,7 +13,7 @@ import { getUniqueList, getSplitParams, encodeParams } from '../../utils/elastic
  *  Discover-page component. Component that can build a search interface utilizing SHARE.
  *  See retraction-watch, registries, and preprints discover pages for working examples.
  *  Majority adapted from Ember-SHARE https://github.com/CenterForOpenScience/ember-share, with additions from preprints
- *  and registries discover pages.
+ *  and registries discover pages. Original Ember-SHARE facets and preprints/registries facets behave differently at this time.
  *
  *  Sample usage: Pass in custom text like searchPlaceholder.  The facets property will enable you to customize the filters
  *  on the left-hand side of the discover page. Sort options are the sort dropdown options.  The lockedParams are the
@@ -171,7 +171,7 @@ export default Ember.Component.extend({
         return this.transformTypes(this.get('types'));
     }),
 
-    // Copied from preprints - loads page if activeFilters change
+    // Copied from preprints - loads page if activeFilters change (provider/subject or provider/type)
     reloadSearch: Ember.observer('activeFilters', function() {
         this.set('page', 1);
         this.loadPage();
@@ -257,7 +257,10 @@ export default Ember.Component.extend({
     }),
 
     buildLockedQueryBody(lockedParams) {
-        // Takes in a dictionary of locked param keys matched to the locked value and builds the locked portion of the query
+        /* Builds the locked portion of the query.  For example, in preprints, type=preprint
+        * is something that cannot be modified by the user.
+        * Takes in a dictionary of locked param keys matched to the locked value.
+        */
         let queryBody = [];
         Object.keys(lockedParams).forEach(key => {
             let query = {};
@@ -276,7 +279,7 @@ export default Ember.Component.extend({
         return queryBody;
     },
 
-    // Builds SHARE query
+    // Builds query body for SHARE
     getQueryBody() {
         let filters = this.buildLockedQueryBody(this.get('lockedParams')); // Empty list if no locked query parameters
         let facetFilters = this.get('facetFilters'); // Ember SHARE filters
@@ -291,7 +294,7 @@ export default Ember.Component.extend({
             }
         }
 
-        // Copied from preprints - add activeFilters into SHARE query
+        // Copied from preprints - adds activeFilters into SHARE query
         const activeFilters = this.get('activeFilters');
         const filterMap = this.get('filterMap');
         for (const key in filterMap) {
@@ -307,13 +310,6 @@ export default Ember.Component.extend({
                 }
             });
         }
-        // Adapted from preprints and registries - modifies query params in URL
-        Object.keys(activeFilters).forEach(pluralFilter => {
-            const filter = Ember.String.singularize(pluralFilter);
-            if (pluralFilter !== 'providers' || !this.get('theme.isProvider')) {
-                this.set(`${filter}`, activeFilters[pluralFilter].join('AND'));
-            }
-        });
 
         // Copied from preprints, if theme, and provider to query
         if (this.get('theme.isProvider') && this.get('providerName') !== null) {
@@ -467,6 +463,7 @@ export default Ember.Component.extend({
 
     facetStatesArray: [],
 
+    // If query params in URL change, facetStates update
     facetStates: Ember.computed(...filterQueryParams, 'end', 'start', function() {
         let facetStates = {};
         for (let param of filterQueryParams) {
@@ -485,6 +482,31 @@ export default Ember.Component.extend({
         return facetStates;
     }),
 
+    // Query params observer for preprints/registries
+    subjectChanged: Ember.on('init', Ember.observer('subject', function() {
+            let filter = this.get('subject');
+            if (!filter || filter === 'true' || typeof filter === 'object') return;
+            this.set(`activeFilters.subjects`, filter.split('OR'));
+            this.notifyPropertyChange('activeFilters');
+            this.loadPage();
+    })),
+    typeChanged: Ember.on('init', Ember.observer('type', function() {
+            let filter = this.get('type');
+            if (!filter || filter === 'true' || typeof filter === 'object') return;
+            this.set(`activeFilters.types`, filter.split('OR'));
+            this.notifyPropertyChange('activeFilters');
+            this.loadPage();
+    })),
+    providerChanged: Ember.on('init', Ember.observer('provider', function() {
+            let filter = this.get('provider');
+            if (!filter || filter === 'true' || typeof filter === 'object') return;
+            if (!this.get('theme.isProvider')) {
+                this.set(`activeFilters.providers`, filter.split('OR'));
+                this.notifyPropertyChange('activeFilters');
+                this.loadPage();
+            }
+
+    })),
     scrollToResults() {
         Ember.$('html, body').scrollTop(Ember.$('.results-top').position().top);
     },
@@ -588,7 +610,7 @@ export default Ember.Component.extend({
             });
             this.set('activeFilters', restoreActiveFilters);
         },
-        // Adapted from preprints/registries - modifies activeFilters
+        // Adapted from preprints - modifies preprints and registries filters (provider/subject and provider/type)
         updateFilters(filterType, item) {
             item = typeof item === 'object' ? item.text : item;
             const filters = Ember.$.extend(true, [], this.get(`activeFilters.${filterType}`));
@@ -596,7 +618,23 @@ export default Ember.Component.extend({
             const action = hasItem ? 'remove' : 'push';
             filters[`${action}Object`](item);
             this.set(`activeFilters.${filterType}`, filters);
+            this.send('updateQueryParams', filterType, filters);
             this.notifyPropertyChange('activeFilters');
         },
+        updateQueryParams(pluralFilter, query) {
+            const filter = Ember.String.singularize(pluralFilter);
+            if (pluralFilter !== 'providers' || !this.get('theme.isProvider')) {
+                this.set(`${filter}`, query.join('OR'));
+                this.send('modifyRegistrationType', filter, query);
+            }
+        },
+        // For REGISTRIES only. Modify type if sole provider is not OSF
+        modifyRegistrationType(filter, query) {
+            if (filter === 'provider' && this.get('consumingService') === 'registries') {
+                if (query !== ['OSF']) {
+                    this.set('type', '');
+                }
+            }
+        }
     }
 });
