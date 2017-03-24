@@ -576,9 +576,12 @@ export default Ember.Component.extend({
             this.loadPage();
         },
         modifyRegistrationType(filter, query) {
-            // For REGISTRIES only - Modifies "type" query param in Registries, if sole provider is not "OSF"
+            // For REGISTRIES only - modifies "type" query param if "provider" query param changes.
+            // Registries are unusual, since the OSF Registration Type facet depends upon the Providers facet
             if (filter === 'provider' && this.get('consumingService') === 'registries') {
-                if (query !== ['OSF']) {
+                if (query.length === 1 && query[0] === 'OSF') {
+                    this.set('type', this.get('activeFilters.types').join('OR'));
+                } else {
                     this.set('type', '');
                 }
             }
