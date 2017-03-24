@@ -9,6 +9,18 @@
         "paths": [
             "addon"
         ],
-        "outdir": "docs/"
+        "outdir": "docs/",
+        "external": {
+            "data": [
+                {
+                    "base": "https://emberjs.com/api/",
+                    "json": "http://builds.emberjs.com/tags/v2.8.0/ember-docs.json"
+                },
+                {
+                    "base": "https://emberjs.com/api/data/",
+                    "json": "http://builds.emberjs.com/tags/v2.8.0/ember-data-docs.json"
+                }
+            ]
+        }
     }
 }
