@@ -6,13 +6,13 @@
             <h4>
                 {{#if detailRoute}}
                     {{#if osfID}}
-                        {{#link-to detailRoute osfID}}{{result.title}}{{/link-to}}
+                        {{#link-to detailRoute osfID invokeAction=(action 'click' 'link' 'Discover - Result Title' osfID)}}{{result.title}}{{/link-to}}
                     {{else}}
-                        {{#link-to detailRoute result.id}}{{result.title}}{{/link-to}}
+                        {{#link-to detailRoute result.id invokeAction=(action 'click' 'link' 'Discover - Result Title' result.id)}}{{result.title}}{{/link-to}}
                     {{/if}}
                 {{else}}
                     {{#if hyperlink}}
-                        <a href='{{hyperlink}}'>{{result.title}}</a>
+                        <a href='{{hyperlink}}' onclick={{action 'click' 'link' (concat 'Discover - Result Title: ' hyperlink) result.id}}>{{result.title}}</a>
                     {{else}}
                         <span>{{result.title}}</span>
                     {{/if}}
@@ -90,7 +90,7 @@
                 {{#if result.hyperLinks}}
                     <ul class="preprints-block-list m-t-sm">
                         {{#each result.hyperLinks as |link|}}
-                            <li><a href='{{link.url}}'>{{link.url}}</a></li>
+                            <li><a href='{{link.url}}' onclick={{action 'click' 'link' (concat 'Discover - Result Hyperlink: ' link.url) result.id}}>{{link.url}}</a></li>
                         {{/each}}
                     </ul>
                 {{/if}}

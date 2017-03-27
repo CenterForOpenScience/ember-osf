@@ -14,7 +14,7 @@
                         <h1> {{discoverHeader}} </h1> {{!Discover Page Header text}}
                     {{/if}}
                      {{!POWERED BY SHARE}}
-                    <p class="lead">{{poweredBy}} <a href="https://share.osf.io/" id='share-logo' class="share-logo" title="SHARE"></a></p>
+                    <p class="lead">{{poweredBy}} <a href="https://share.osf.io/" id='share-logo' class="share-logo" title="SHARE" onclick={{action "click" "link" "Discover - SHARE Logo"}}></a></p>
                 </div>
             </div>
         </div>
@@ -27,7 +27,7 @@
                         {{!HELP BUTTON}}
                         <button class="btn btn-default" type="button" {{action 'toggleShowLuceneHelp'}}> <i class="fa fa-question text-muted"></i></button>
                         {{!SEARCH BUTTON}}
-                        <button class="btn btn-default" type="button"> {{searchButton}} </button>
+                        <button class="btn btn-default" type="button" {{action "search"}}> {{searchButton}} </button>
                     </span>
                 </div>
                 {{!Lucene search help modal}}

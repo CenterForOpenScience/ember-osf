@@ -2,6 +2,7 @@ import Ember from 'ember';
 import layout from './template';
 import config from 'ember-get-config';
 import moment from 'moment';
+import Analytics from '../../mixins/analytics';
 import { getUniqueList, getSplitParams, encodeParams } from '../../utils/elastic-query';
 
 /**
@@ -55,7 +56,7 @@ import { getUniqueList, getSplitParams, encodeParams } from '../../utils/elastic
 const MAX_SOURCES = 500;
 let filterQueryParams = ['subject', 'provider', 'tags', 'sources', 'publishers', 'funders', 'institutions', 'organizations', 'language', 'contributors', 'type'];
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(Analytics, {
     layout,
     theme: Ember.inject.service(),
     i18n: Ember.inject.service(),
@@ -514,6 +515,17 @@ export default Ember.Component.extend({
             this.get('debouncedLoadPage')();
         }, 500);
     },
+    trackDebouncedSearch() {
+        // For use in tracking debounced search of registries in Keen and GA
+        Ember.get(this, 'metrics')
+            .trackEvent({
+                category: 'input',
+                action: 'onkeyup',
+                label: 'Discover - Search',
+                extra: this.get('q')
+
+            });
+    },
     transformTypes(obj) {
         // Ember-SHARE method
         if (typeof (obj) !== 'object') {
@@ -559,7 +571,12 @@ export default Ember.Component.extend({
                 }
 
             });
-            this.set('activeFilters', restoreActiveFilters);
+            this.set('activeFilters', restoreActiveFilters);Ember.get(this, 'metrics')
+                .trackEvent({
+                    category: 'button',
+                    action: 'click',
+                    label: 'Discover - Clear Filters'
+                });
         },
         filtersChanged() {
             // Ember SHARE action. Fired in faceted-search component when Ember-SHARE facets are modified.
@@ -598,11 +615,26 @@ export default Ember.Component.extend({
             this.get('facetFilters');
         },
         search() {
+            // Only want to track search here when button clicked. Keypress search tracking is debounced in trackSearch
+            Ember.get(this, 'metrics')
+                .trackEvent({
+                    category: 'button',
+                    action: 'click',
+                    label: 'Discover - Search',
+                    extra: this.get('q')
+                });
+
             this.search();
         },
         selectSortOption(option) {
             // Runs when sort option changed in dropdown
             this.set('sort', option);
+            Ember.get(this, 'metrics')
+                .trackEvent({
+                    category: 'dropdown',
+                    action: 'select',
+                    label: `Sort by: ${option || 'relevance'}`
+                });
             this.search();
         },
         setLoadPage(pageNumber) {
@@ -627,6 +659,8 @@ export default Ember.Component.extend({
             if (event.keyCode < 49 && !(event.keyCode === 8 || event.keyCode === 32)) {
                 return;
             }
+            // Tracks search on keypress, debounced
+            Ember.run.debounce(this, this.trackDebouncedSearch, 3000);
             this.search();
         },
         updateFilters(filterType, item) {
@@ -639,6 +673,13 @@ export default Ember.Component.extend({
             this.set(`activeFilters.${filterType}`, filters);
             this.send('updateQueryParams', filterType, filters);
             this.notifyPropertyChange('activeFilters');
+
+            Ember.get(this, 'metrics')
+                .trackEvent({
+                    category: 'filter',
+                    action: hasItem ? 'remove' : 'add',
+                    label: `Discover - ${filterType} ${item}`
+                });
         },
         updateParams(key, value) {
             // Ember SHARE action. Updates query params in URL.

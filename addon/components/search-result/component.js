@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import layout from './template';
+import Analytics from '../../mixins/analytics';
 
 /**
  * Adapted from Ember-SHARE and Ember Preprints
@@ -17,7 +18,7 @@ import layout from './template';
  * ```
  * @class search-result
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend(Analytics, {
     layout,
     maxTags: 10,
     maxSubjects: 10,
@@ -132,6 +133,13 @@ export default Ember.Component.extend({
         },
         toggleShowBody() {
             this.set('showBody', !this.showBody);
+            Ember.get(this, 'metrics')
+                .trackEvent({
+                    category: 'result',
+                    action: !this.showBody ? 'contract' : 'expand',
+                    label: `Discover - ${this.result.title}`,
+                    extra: this.result.id
+                });
         },
         select(item) {
             this.attrs.select(item);
