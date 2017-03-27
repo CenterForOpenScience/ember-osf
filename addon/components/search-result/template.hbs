@@ -4,12 +4,10 @@
         <div class="col-xs-12">
             {{!Title}}
             <h4>
-                {{#if detailRoute}}
-                    {{#if osfID}}
-                        {{#link-to detailRoute osfID invokeAction=(action 'click' 'link' 'Discover - Result Title' osfID)}}{{result.title}}{{/link-to}}
-                    {{else}}
-                        {{#link-to detailRoute result.id invokeAction=(action 'click' 'link' 'Discover - Result Title' result.id)}}{{result.title}}{{/link-to}}
-                    {{/if}}
+                {{#if (and detailRoute osfID)}}
+                    {{#link-to detailRoute osfID invokeAction=(action 'click' 'link' 'Discover - Result Title' osfID)}}{{result.title}}{{/link-to}}
+                {{else if (and detailRoute (eq currentService 'retraction_watch'))}}
+                     {{#link-to detailRoute result.id invokeAction=(action 'click' 'link' 'Discover - Result Title' result.id)}}{{result.title}}{{/link-to}}
                 {{else}}
                     {{#if hyperlink}}
                         <a href='{{hyperlink}}' onclick={{action 'click' 'link' (concat 'Discover - Result Title: ' hyperlink) result.id}}>{{result.title}}</a>
