@@ -13,6 +13,7 @@ import Analytics from '../../mixins/analytics';
  *      result=result
  *      queryParams=queryParams
  *      filterReplace=filterReplace
+ *      currentService=currentService
  *      updateFilters=(action 'updateFilters')
  * }}
  * ```

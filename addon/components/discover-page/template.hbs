@@ -167,7 +167,7 @@
                 {{else}}
                     <div class="results-top">
                         {{#each results as |result|}}
-                            {{search-result queryParams=queryParams detailRoute=detailRoute filterReplace=filterReplace addFilter='addFilter' updateFilters=(action 'updateFilters') result=result}}
+                            {{search-result queryParams=queryParams detailRoute=detailRoute filterReplace=filterReplace addFilter='addFilter' updateFilters=(action 'updateFilters') result=result currentService=currentService}}
                         {{/each}}
                     </div>
                     <div class="pull-right text-right">
