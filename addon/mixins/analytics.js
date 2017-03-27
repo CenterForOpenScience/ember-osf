@@ -29,6 +29,9 @@ export default Ember.Mixin.create({
             return true;
         },
         track(category, action, label, extra) {
+            if (extra && extra.toString() === '[object MouseEvent]') {
+                extra = null;
+            }
             Ember.get(this, 'metrics')
                 .trackEvent({
                     category,
