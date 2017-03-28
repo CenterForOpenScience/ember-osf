@@ -1,12 +1,12 @@
 import Ember from 'ember';
-import hostAppName from 'ember-osf/mixins/host-app-name';
+import hostAppName from 'dummy/mixins/host-app-name';
 import { module, test } from 'qunit';
 
 module('Unit | Mixin | host app name');
 
-// Replace this with your real tests.
-test('it works', function(assert) {
-    let appName = Ember.Object.extend(hostAppName);
-    let name = appName.create();
-    assert.ok(name);
+test('host-app-name mixin holds the hosting application name', function(assert) {
+    let objectA = Ember.Component.extend(hostAppName);
+    let componentA = objectA.create();
+    assert.equal(hostAppName.detect(componentA), true);
+    assert.equal(componentA.get('hostAppName'), 'Dummy App');
 });
