@@ -1,2 +1,12 @@
 {{!Copied from Ember-SHARE}}
-{{label}}
+<div class='type-filter-option {{if selected 'active'}}'>
+    {{#if collapsible}}
+        <i class='fa expand-icon clickable {{if toggleState 'fa-plus' 'fa-minus'}}' {{action 'toggleBody'}}></i>
+    {{/if}}
+    <span class={{if selected 'bubble'}}>
+        <a class='clickable' {{action 'click'}}>{{label}}</a>
+        {{#if selected}}
+            <i class='fa fa-times close-icon clickable' {{action 'click'}}></i>
+        {{/if}}
+    </span>
+</div>

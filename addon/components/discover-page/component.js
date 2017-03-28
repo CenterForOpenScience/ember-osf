@@ -24,13 +24,12 @@ import { getUniqueList, getSplitParams, encodeParams } from '../../utils/elastic
  *  on the left-hand side of the discover page. Sort options are the sort dropdown options.  The lockedParams are the
  *  query parameters that are always locked in your application. Each query parameter must be passed in individually,
  *  so they are reflected in the URL.  Logo and custom colors must be placed in the consuming application's stylesheet. Individual components
- *  can additionally be overridden in your application.  Your searchUrl must be defined in your config/environment.js file.
+ *  can additionally be overridden in your application.
  *
  * Sample usage:
  * ```handlebars
  *{{discover-page
  *    activeFilters=activeFilters
- *    clearFiltersButton=clearFiltersButton
  *    consumingService=consumingService
  *    detailRoute=detailRoute
  *    discoverHeader=discoverHeader
@@ -43,7 +42,6 @@ import { getUniqueList, getSplitParams, encodeParams } from '../../utils/elastic
  *    provider=provider
  *    q=q
  *    queryParams=queryParams
- *    searchButton=searchButton
  *    searchPlaceholder=searchPlaceholder
  *    showActiveFilters=showActiveFilters
  *    sortOptions=sortOptions
@@ -64,16 +62,42 @@ export default Ember.Component.extend(Analytics, {
     // ************************************************************
     // PROPERTIES
     // ************************************************************
-    activeFilters: { providers: [], subjects: [], types: [] }, // Active filters - currently for PREPRINTS and REGISTRIES.  Ember-SHARE's equivalent is facetStates.
-    clearFiltersButton: Ember.computed('i18n.locale', function() { // Text for clearFilters button. Can override in consuming application.
-        return this.get('i18n').t('eosf.components.discoverPage.activeFilters.button');
-    }),
-    consumingService: null, // Consuming service, like "preprints" or "registries". TODO Need to pull from config instead.
-    contributors: '', // Query parameter
-    detailRoute: null, // Name of detail route for consuming application, like "content" or "detail". Override if search result title should link to detail route.
-    discoverHeader: null, // Text header for top of discover page
-    end: '', // Query parameter
-    facets: Ember.computed('processedTypes', function() {  // Default search facets (from Ember-SHARE) - pass in as property to component.
+    /**
+     * Primary filters for service - currently setup for PREPRINTS and REGISTRIES. Ember-SHARE's equivalent is facetStates.
+     * @property {Object} activeFilters
+     * @default { providers: [], subjects: [], types: [] }
+     */
+    activeFilters: { providers: [], subjects: [], types: [] },
+    /**
+     * Consuming app, like "preprints" or "registries".
+     * @property {string} consumingService
+     */
+    consumingService: null, // TODO Need to pull from config instead.
+    /**
+     * Contributors query parameter.  If "contributors" is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {String} contributors
+     */
+    contributors: '',
+    /**
+     * Name of detail route for consuming application, like "content" or "detail". Override if search result title should link to detail route.
+     * @property {String} detailRoute
+     */
+    detailRoute: null,
+    /**
+     * Text header for top of discover page.
+     * @property {String} discoverHeader
+     */
+    discoverHeader: null,
+    /**
+     * End query parameter.  If "end" is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {String} end
+     */
+    end: '',
+    /**
+     * A list of the components to be used for the search facets.
+     * @property {Array} facets
+     */
+    facets: Ember.computed('processedTypes', function() {
         return [
             { key: 'sources', title: 'Source', component: 'search-facet-source' },
             { key: 'date', title: 'Date', component: 'search-facet-daterange' },
@@ -85,48 +109,115 @@ export default Ember.Component.extend(Analytics, {
             { key: 'contributors', title: 'People', component: 'search-facet-typeahead', base: 'agents', type: 'person' },
         ];
     }),
-    facetStatesArray: [], // Ember-SHARE property.  Modified when query params in URL change.
-    filterMap: {}, // For PREPRINTS and REGISTRIES. A mapping of activeFilters to facet names expected by SHARE. Ex. {'providers': 'sources'}
-    filterReplace: {},  // For PREPRINTS and REGISTRIES. A mapping of filter names for front-end display. Ex. {OSF: 'OSF Preprints'}
-    funders: '', // Query parameter
-    institutions: '', // Query parameter
-    language: '', // Query parameter
+    /**
+     * For PREPRINTS ONLY.  Pass in the providers fetched in preprints app so they can be used in the provider carousel
+     * @property {Object} fetchedProviders
+     */
+    fetchedProviders: null,
+    /**
+     * For PREPRINTS and REGISTRIES. A mapping of activeFilters to facet names expected by SHARE. Ex. {'providers': 'sources'}
+     * @property {Object} filterMap
+     */
+    filterMap: {},
+    /**
+     * For PREPRINTS and REGISTRIES. A mapping of filter names for front-end display. Ex. {OSF: 'OSF Preprints'}.
+     * @property {Object} filterReplace
+     */
+    filterReplace: {},
+    /**
+     * Funders query parameter.  If "funders" is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {String} funders
+     */
+    funders: '',
+    /**
+     * Institutions query parameter.  If "institutions" is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {String} institutions
+     */
+    institutions: '',
+    /**
+     * Language query parameter.  If "language" is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {String} language
+     */
+    language: '',
     loading: true,
-    lockedParams: {}, // Locked portions of search query that user cannot change.  Example: {'sources': 'PubMed Central'} will make PMC a locked source.
-    noResults: Ember.computed('i18n.locale', function() { // Text to display if no results found
-        return this.get('i18n').t('eosf.components.discoverPage.broadenSearch');
-    }),
+    /**
+     * Locked portions of search query that user cannot change.  Example: {'sources': 'PubMed Central'} will make PMC a locked source.
+     * @property {Object} lockedParams
+     */
+    lockedParams: {},
     numberOfResults: 0,  // Number of search results returned
     numberOfSources: 0, // Number of sources
-    organizations: '', // Query parameter
-    page: 1, // Query parameter
-    poweredBy: Ember.computed('i18n.locale', function() { // Powered by text
-        return this.get('i18n').t('eosf.components.discoverPage.poweredBy');
-    }),
-    publishers: '', // Query parameter
-    provider: '', // Query parameter
+    /**
+     * Organizations query parameter.  If "organizations" is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {String} organizations
+     */
+    organizations: '',
+     /**
+     * Page query parameter.  If "page" is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {String} page
+     */
+    page: 1,
+    /**
+     * Provider query parameter.  If "provider" is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {String} provider
+     */
+    provider: '',
     providerName: null, // For PREPRINTS and REGISTRIES. Provider name, if theme.isProvider, ex: psyarxiv
-    q: '', // Query parameter
-    queryParams:  Ember.computed(function() { // Query params.  Declare on consuming application's controller for query params to be active in that route.
+        /**
+     * Publishers query parameter.  If "publishers" is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {String} publishers
+     */
+    publishers: '',
+    /**
+     * q query parameter.  If "q" is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {String} q
+     */
+    q: '',
+    /**
+     *  Declare on consuming application's controller for query params to be active in that route.
+     * @property {Array} queryParams
+     */
+    queryParams:  Ember.computed(function() {
         let allParams = ['q', 'start', 'end', 'sort', 'page'];
         allParams.push(...filterQueryParams);
         return allParams;
     }),
     results: Ember.ArrayProxy.create({ content: [] }), // Results from SHARE query
-    searchButton: Ember.computed('i18n.locale', function() { // Search button text
-        return this.get('i18n').t('eosf.components.discoverPage.search');
-    }),
+    /**
+     * Search bar placeholder
+     * @property {String} searchPlaceholder
+     */
     searchPlaceholder: Ember.computed('i18n.locale', function() { // Search bar placeholder text
         return this.get('i18n').t('eosf.components.discoverPage.searchPlaceholder');
     }),
+    /**
+     * Total search results descriptor, "searchable preprints", for example.
+     * @property {String} shareTotalText
+     */
     shareTotalText: Ember.computed('i18n.locale', function() {
         return this.get('i18n').t('eosf.components.discoverPage.shareTotalText');
     }),
-    showActiveFilters: false, // For PREPRINTS and REGISTRIES.  Displays activeFilters box above search facets.
+    /**
+     * For PREPRINTS and REGISTRIES.  Displays activeFilters box above search facets.
+     * @property {boolean} showActiveFilters
+     */
+    showActiveFilters: false,
     showLuceneHelp: false, // Is Lucene Search help modal open?
-    size: 10, // Query parameter
-    sort: '', // Query parameter
-    sortOptions: [{ // Default sort options, can override
+    /**
+     * Size query parameter.  If "size" is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {String} size
+     */
+    size: 10,
+    /**
+     * Sort query parameter.  If "sort" is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {String} sort
+     */
+    sort: '',
+    /**
+     * Sort dropdown options
+     * @property {Array} sortOptions
+     */
+    sortOptions: [{
         display: 'Relevance',
         sortBy: ''
     }, {
@@ -142,12 +233,32 @@ export default Ember.Component.extend(Analytics, {
         display: 'Ingest Date (Desc)',
         sortBy: '-date_created'
     }],
-    sources: '', // Query parameter
-    start: '', // Query parameter
-    subject: '', // Query parameter
-    tags: '', // Query parameter
+    /**
+     * Sources query parameter.  If "sources" is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {String} sources
+     */
+    sources: '',
+    /**
+     * Start query parameter.  If "start" is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {String} start
+     */
+    start: '',
+    /**
+     * Subject query parameter.  If "subject" is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {String} subject
+     */
+    subject: '',
+    /**
+     * Tags query parameter.  If "tags" is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {String} tags
+     */
+    tags: '',
     took: 0,
-    type: '', // Query parameter
+    /**
+     * type query parameter.  If "type" is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {String} type
+     */
+    type: '',
 
     // ************************************************************
     // COMPUTED PROPERTIES and OBSERVERS
@@ -179,16 +290,15 @@ export default Ember.Component.extend(Analytics, {
             facetStates[param] = getSplitParams(this.get(param));
         }
         facetStates.date = { start: this.get('start'), end: this.get('end') };
-
-        Ember.run.once(this, function() {
-            let facets = this.get('facetStates');
-            let facetArray = [];
-            for (let key of Object.keys(facets)) {
-                facetArray.push({ key: key, value: facets[key] });
-            }
-            this.set('facetStatesArray', facetArray);
-        });
         return facetStates;
+    }),
+    facetStatesArray: Ember.computed('facetStates', function() { // Modified when query params in URL change.
+        let facets = this.get('facetStates');
+        let facetArray = [];
+        for (let key of Object.keys(facets)) {
+            facetArray.push({ key: key, value: facets[key] });
+        }
+        return facetArray;
     }),
     hiddenPages: Ember.computed('clampedPages', 'totalPages', function() {
         // Ember-SHARE property. Returns pages of hidden search results.
@@ -199,39 +309,34 @@ export default Ember.Component.extend(Analytics, {
         }
         return null;
     }),
-    noResultsMessage: Ember.computed('numberOfResults', function() {
-        // Property that determines if no results message should be displayed to user
-        return this.get('numberOfResults') > 0 ? '' : this.get('noResults');
-    }),
     providerChanged: Ember.on('init', Ember.observer('provider', function() {
         // For PREPRINTS and REGISTRIES - watches provider query param for changes and modifies activeFilters
         let filter = this.get('provider');
         if (!filter || filter === 'true' || typeof filter === 'object') return;
         if (!this.get('theme.isProvider')) {
             this.set(`activeFilters.providers`, filter.split('OR'));
-            this.notifyPropertyChange('activeFilters');
             this.loadPage();
         }
     })),
     processedTypes: Ember.computed('types', function() {
         // Ember-SHARE property
-        return this.transformTypes(this.get('types'));
+        const types = this.get('types') && this.get('types').CreativeWork ? this.get('types').CreativeWork.children : {};
+        return this.transformTypes(types);
     }),
-    reloadSearch: Ember.observer('activeFilters', function() {
+    reloadSearch: Ember.observer('activeFilters.providers.@each', 'activeFilters.subjects.@each', 'activeFilters.types.@each', function() {
         // For PREPRINTS and REGISTRIES.  Reloads page if activeFilters change.
         this.set('page', 1);
         this.loadPage();
     }),
     searchUrl: Ember.computed(function() {
         // Pulls SHARE search url from config file.
-        return config.SHARE.searchUrl;
+        return config.OSF.shareSearchUrl;
     }),
     subjectChanged: Ember.on('init', Ember.observer('subject', function() {
         // For PREPRINTS - watches subject query param for changes and modifies activeFilters
         let filter = this.get('subject');
         if (!filter || filter === 'true' || typeof filter === 'object') return;
         this.set(`activeFilters.subjects`, filter.split('OR'));
-        this.notifyPropertyChange('activeFilters');
         this.loadPage();
     })),
     typeChanged: Ember.on('init', Ember.observer('type', function() {
@@ -239,7 +344,6 @@ export default Ember.Component.extend(Analytics, {
         let filter = this.get('type');
         if (!filter || filter === 'true' || typeof filter === 'object') return;
         this.set(`activeFilters.types`, filter.split('OR'));
-        this.notifyPropertyChange('activeFilters');
         this.loadPage();
     })),
     totalPages: Ember.computed('numberOfResults', 'size', function() {
@@ -378,7 +482,7 @@ export default Ember.Component.extend(Analytics, {
     getTypes() {
         // Ember-SHARE method
         return Ember.$.ajax({
-            url: config.SHARE.apiUrl + '/schema/creativework/hierarchy/',
+            url: config.OSF.shareApiUrl + '/schema/creativework/hierarchy/',
             crossDomain: true,
             type: 'GET',
             contentType: 'application/vnd.api+json',
@@ -423,7 +527,7 @@ export default Ember.Component.extend(Analytics, {
                     hyperLinks: [// Links that are hyperlinks from hit._source.lists.links
                         {
                             type: 'share',
-                            url: config.SHARE.baseUrl + `${hit._source.type}` + '/' + hit._id
+                            url: config.OSF.shareBaseUrl + `${hit._source.type}` + '/' + hit._id
                         }
                     ],
                     infoLinks: [], // Links that are not hyperlinks  hit._source.lists.links
@@ -445,7 +549,7 @@ export default Ember.Component.extend(Analytics, {
                   .map(contributor => ({
                         users: Object.keys(contributor)
                           .reduce(
-                              (acc, key) => Ember.merge(acc, { [key.camelize()]: contributor[key] }),
+                              (acc, key) => Ember.merge(acc, { [Ember.String.camelize(key)]: contributor[key] }),
                               { bibliographic: contributor.relation !== 'contributor' }
                           )
                     })) : [];
@@ -510,7 +614,7 @@ export default Ember.Component.extend(Analytics, {
             this.set('page', 1);
         }
         this.set('loading', true);
-        this.get('results').clear();
+        this.set('results', []);
         Ember.run.debounce(() => {
             this.get('debouncedLoadPage')();
         }, 500);
@@ -666,13 +770,12 @@ export default Ember.Component.extend(Analytics, {
         updateFilters(filterType, item) {
             // For PREPRINTS and REGISTRIES.  Modifies activeFilters.
             item = typeof item === 'object' ? item.text : item;
-            const filters = Ember.$.extend(true, [], this.get(`activeFilters.${filterType}`));
+            const filters = Ember.$.extend(true, Ember.A(), this.get(`activeFilters.${filterType}`));
             const hasItem = filters.includes(item);
             const action = hasItem ? 'remove' : 'push';
             filters[`${action}Object`](item);
             this.set(`activeFilters.${filterType}`, filters);
             this.send('updateQueryParams', filterType, filters);
-            this.notifyPropertyChange('activeFilters');
 
             Ember.get(this, 'metrics')
                 .trackEvent({

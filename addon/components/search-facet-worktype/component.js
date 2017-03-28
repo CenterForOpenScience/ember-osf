@@ -17,8 +17,11 @@ import { termsFilter, getUniqueList } from '../../utils/elastic-query';
  * ```
  * @class search-facet-worktype
  */
+
 export default Ember.Component.extend({
     layout,
+    category: 'filter-facets',
+
     init() {
         this._super(...arguments);
         this.send('setState', this.get('state'));
@@ -29,11 +32,12 @@ export default Ember.Component.extend({
     }),
 
     changed: Ember.observer('state', function() {
-        let state = Ember.isBlank(this.get('state')) ? [] : this.get('state');
+        let state = this.get('state');
+        state = Ember.isBlank(state) ? [] : state;
         let previousState = this.get('previousState') || [];
 
         if (Ember.compare(previousState, state) !== 0) {
-            let value = this.get('state') || [];
+            let value = state || [];
             this.send('setState', value);
         }
     }),
@@ -54,7 +58,7 @@ export default Ember.Component.extend({
 
         toggle(type) {
             let selected = this.get('selected');
-            selected = selected.contains(type) ? [] : [type];
+            selected = selected.includes(type) ? [] : [type];
             this.send('setState', selected);
         }
     }

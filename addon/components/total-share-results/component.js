@@ -68,7 +68,7 @@ export default Ember.Component.extend({
         }
         Ember.$.ajax({
             type: 'POST',
-            url: config.SHARE.searchUrl,
+            url: config.OSF.shareSearchUrl,
             data: JSON.stringify(getTotalPayload),
             contentType: 'application/json',
             crossDomain: true,

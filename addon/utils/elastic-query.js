@@ -34,7 +34,12 @@ function termsFilter(field, terms, all = true) {
         if (all) {
             return terms.map(term => {
                 let filter = { term: {} };
-                filter.term[field] = term;
+                // creative work filter should not include subtypes
+                if (term === 'creative work' && field === 'types') {
+                    filter.term.type = term;
+                } else {
+                    filter.term[field] = term;
+                }
                 return filter;
             });
         } else {

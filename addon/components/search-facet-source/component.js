@@ -24,7 +24,7 @@ export default TypeaheadComponent.extend({
 
     sourcesList: Ember.computed('aggregations', function() {
         let data = this.get('aggregations.sources.buckets');
-        return data ? data.mapBy('key') : [];
+        return data ? data.map(next => next.key) : [];
     }),
 
     dataChanged: Ember.observer('aggregations', function() {
@@ -57,7 +57,7 @@ export default TypeaheadComponent.extend({
                 type: 'donut',
                 onclick: (d) => {
                     let selected = this.get('selected');
-                    if (!selected.contains(d.name)) {
+                    if (!selected.includes(d.name)) {
                         this.send('changeFilter', [d.name, ...selected]);
                     }
                 }

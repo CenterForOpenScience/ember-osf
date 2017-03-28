@@ -6,14 +6,12 @@ moduleForComponent('search-facet-worktype', 'Integration | Component | search fa
 });
 
 test('it renders', function(assert) {
-
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
     this.set('key', 'type');
     this.set('title', 'Type');
     this.set('state', ['Publication']);
     this.set('filter', '');
     this.set('onChange', () => {});
+    this.set('data', {'presentation': {} });
 
     this.render(hbs`{{search-facet-worktype
         key=key
@@ -21,7 +19,8 @@ test('it renders', function(assert) {
         filter=filter
         onChange=(action onChange)
         selected=selected
+        data=data
     }}`);
 
-  assert.equal(document.getElementsByTagName('button')[1].innerText, 'Publication');
+  assert.equal(this.$('.type-filter-option')[0].innerText, 'Presentation');
 });

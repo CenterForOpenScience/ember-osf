@@ -22,7 +22,8 @@ export default {
         components: {
             searchResult: {
                 addedOn: 'Added on',
-                lastEdited: 'Last edited'
+                lastEdited: 'Last edited',
+                showResult: 'Expand search result'
 
             },
             discoverPage: {
@@ -42,7 +43,17 @@ export default {
                 noResultsFound: 'No results found.',
                 broadenSearch: 'Try broadening your search terms',
                 shareUnavailable: 'Search is Unavailable',
-                shareUnavailableDescription: 'SHARE Search is temporarily unavailable. We have been notified and are working to fix the problem. Please try again later.'
+                luceneHelp: 'Lucene search help',
+                removeProvider: 'Remove provider',
+                removeSubject: 'Remove subject',
+                removeRegistrationType: 'Remove registration type',
+                shareUnavailableDescription: 'SHARE Search is temporarily unavailable. We have been notified and are working to fix the problem. Please try again later.',
+                searchLoading: 'Search loading',
+                sortSearchResults: 'Sort search results'
+
+            },
+            searchFacetDaterange: {
+                modifyDate: 'Modify daterange'
             },
             searchHelpModal: {
                 close: 'Close',

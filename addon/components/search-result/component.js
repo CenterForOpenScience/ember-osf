@@ -13,7 +13,7 @@ import Analytics from '../../mixins/analytics';
  *      result=result
  *      queryParams=queryParams
  *      filterReplace=filterReplace
- *      currentService=currentService
+ *      consumingService=consumingService
  *      updateFilters=(action 'updateFilters')
  * }}
  * ```
@@ -26,7 +26,21 @@ export default Ember.Component.extend(Analytics, {
     maxCreators: 10,
     maxDescription: 300,
     showBody: false,
+    /**
+     * Array of query params being used in consuming app
+     * @property {Array} queryParams
+     */
     queryParams: null,
+    /**
+     * Search result from SHARE
+     * @property {Object} result
+     */
+    result: null,
+    /**
+     * Consuming app, like "preprints" or "registries".
+     * @property {string} consumingService
+     */
+    consumingService: null, // TODO Need to pull from config instead.
     providerUrlRegex: {
         //'bioRxiv': '', doesnt currently have urls
         Cogprints: /cogprints/,
@@ -35,7 +49,11 @@ export default Ember.Component.extend(Analytics, {
         arXiv: /arxivj/,
         'ClinicalTrials.gov': /http:\/\/clinicaltrials.gov/,
     },
-    detailRoute: null, // Add name of route you want search-result to if route exists in consuming app
+    /**
+     * Name of detail route for consuming application, if you want search result to link to a route in the consuming spp
+     * @property {String} detailRoute
+     */
+    detailRoute: null,
     footerIcon: Ember.computed('showBody', function() {
         return this.get('showBody') ? 'caret-up' : 'caret-down';
     }),
@@ -56,7 +74,9 @@ export default Ember.Component.extend(Analytics, {
         return this.get('safeDescription').slice(0, this.get('maxDescription'));
     }),
     allCreators: Ember.computed('result.lists.contributors', function() {
-        return (this.get('result.lists.contributors') || []).filterBy('relation', 'creator').sortBy('order_cited');
+        return (this.get('result.lists.contributors') || []).filter(contrib => contrib.relation === 'creator').sort(function(a, b) {
+            return a.order_cited - b.order_cited;
+        });
     }),
     extraCreators: Ember.computed('allCreators', function() {
         return this.get('allCreators').slice(this.get('maxCreators'));
@@ -127,6 +147,15 @@ export default Ember.Component.extend(Analytics, {
     }),
     didRender() {
         MathJax.Hub.Queue(['Typeset', MathJax.Hub, this.$()[0]]);  // jshint ignore: line
+    },
+    compare(first, second, param) {
+        if (first[param] < second[param]) {
+            return -1;
+        } else if (first[param] > second[param]) {
+            return 1;
+        } else {
+            return 0;
+        }
     },
     actions: {
         addFilter(type, filter) {

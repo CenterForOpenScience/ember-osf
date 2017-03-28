@@ -2,7 +2,7 @@ import Ember from 'ember';
 import layout from './template';
 
 /**
- * Copied from Ember-SHARE.  Worktype button (selected computed property modified)
+ * Copied from Ember-SHARE.  Worktype button.
  *
  * ```handlebars
  * {{search-facet-worktype-button
@@ -16,22 +16,30 @@ import layout from './template';
  * ```
  * @class search-facet-worktype-button
  */
+
 export default Ember.Component.extend({
     layout,
-    tagName: 'button',
-    classNames: ['btn', 'btn-default', 'btn-sm'],
-    classNameBindings: ['selected:active'],
-
     selected: Ember.computed('selectedTypes.[]', function() {
         let selectedTypes = this.get('selectedTypes');
-        if (selectedTypes) {
-            return selectedTypes.includes(this.get('type'));
-        }
-        return false;
+        return selectedTypes && selectedTypes.includes(this.get('type'));
     }),
 
-    click() {
-        this.$().blur();
-        this.sendAction('onClick', this.get('type'));
+    label: Ember.computed('type', function() {
+        if (this.get('type') === 'creative work') {
+            return 'Not Categorized';
+        }
+        // title case work types: 'creative work' --> 'Creative Work'
+        return this.get('type').replace(/\w\S*/g, function(str) {return Ember.String.capitalize(str);});
+    }),
+
+    actions: {
+        click() {
+            this.$().blur();
+            this.sendAction('onClick', this.get('type'));
+        },
+
+        toggleBody() {
+            this.sendAction('toggleCollapse');
+        }
     }
 });

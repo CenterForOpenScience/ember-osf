@@ -2,5 +2,7 @@
 <div class='date-range'>
     {{fa-icon 'calendar'}}
     {{pickerValue}}
-    {{fa-icon 'caret-down' class='pull-right'}}
+    <span aria-label={{t 'eosf.components.searchFacetDaterange.modifyDate'}}>
+        {{fa-icon 'caret-down' class='pull-right' ariaHidden=false}}
+    </span>
 </div>

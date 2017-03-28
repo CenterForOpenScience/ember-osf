@@ -1,0 +1,40 @@
+.clickable {
+    cursor: pointer;
+}
+
+.close-icon {
+    color: red;
+    padding-left: 15px;
+}
+
+.bubble {
+    background-color: white;
+    border: .5px solid #ccc;
+    border-radius: 10px;
+    padding-left: 8px;
+    padding-right: 8px;
+    margin-left: -9px;
+}
+
+.type-filter-option {
+    padding-bottom: 5px;
+}
+
+.expand-icon {
+    font-size: 10px;
+    color: dimgray;
+    margin-left: -15px;
+    padding-right: 3px;
+}
+
+a {
+    color: dimgray;
+}
+
+.bubble > a {
+    color: black;
+}
+
+.active {
+    color: black;
+}

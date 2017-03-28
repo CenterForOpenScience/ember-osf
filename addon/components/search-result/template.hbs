@@ -6,7 +6,7 @@
             <h4>
                 {{#if (and detailRoute osfID)}}
                     {{#link-to detailRoute osfID invokeAction=(action 'click' 'link' 'Discover - Result Title' osfID)}}{{result.title}}{{/link-to}}
-                {{else if (and detailRoute (eq currentService 'retraction_watch'))}}
+                {{else if (and detailRoute (eq consumingService 'retraction_watch'))}}
                     {{#link-to detailRoute result.id}}{{result.title}}{{/link-to}}
                 {{else}}
                     {{#if hyperlink}}
@@ -119,6 +119,6 @@
     </div>
 
     <div class="text-center" {{action "toggleShowBody"}}>
-        <a href=''>{{fa-icon footerIcon size=1}}</a>
+        <button class='toggleShowResult btn btn-link' aria-label={{t 'eosf.components.searchResult.showResult'}}>{{fa-icon footerIcon size=1 ariaHidden=false}}</button>
     </div>
 </div>

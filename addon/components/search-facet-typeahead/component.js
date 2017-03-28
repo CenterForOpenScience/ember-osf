@@ -59,12 +59,12 @@ export default Ember.Component.extend({
     },
 
     handleTypeaheadResponse(response) {
-        return getUniqueList(response.hits.hits.mapBy('_source.name'));
+        return getUniqueList(response.hits.hits.map(next => next._source.name));
     },
 
     typeaheadQueryUrl() {
         let base = this.get('options.base') || this.get('key');
-        return config.SHARE.apiUrl + `/search/${base}/_search`;
+        return config.OSF.shareApiUrl + `/search/${base}/_search`;
     },
 
     buildTypeaheadQuery(text) {
