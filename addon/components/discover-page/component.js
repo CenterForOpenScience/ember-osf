@@ -423,7 +423,7 @@ export default Ember.Component.extend(Analytics, {
                     hyperLinks: [// Links that are hyperlinks from hit._source.lists.links
                         {
                             type: 'share',
-                            url: config.SHARE.baseUrl + 'preprint/' + hit._id
+                            url: config.SHARE.baseUrl + `${hit._source.type}` + '/' + hit._id
                         }
                     ],
                     infoLinks: [], // Links that are not hyperlinks  hit._source.lists.links
