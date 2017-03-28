@@ -1,4 +1,5 @@
-/* jshint node: true */
+/* eslint-env node */
+/* eslint no-console: ["error", { allow: ["warn", "error"] }] */
 'use strict';
 var path = require('path');
 var config = require('config');

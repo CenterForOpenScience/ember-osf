@@ -105,7 +105,7 @@ export default Ember.Mixin.create({
          * @param {Boolean} sendEmail Whether user will receive an email when added. "default: true"
          * @return {Promise} Returns a promise that resolves to the newly created contributor object.
          */
-        addContributor(userId, permission, isBibliographic, sendEmail) { // jshint ignore:line
+        addContributor() {
             return this.get('_node').addContributor(...arguments);
         },
         /**
@@ -116,7 +116,7 @@ export default Ember.Mixin.create({
          * @param {Boolean} sendEmail Whether user will receive an email when added. "default: true"
          * @return {Promise} Returns a promise that resolves to an array of added contributors
          */
-        addContributors(contributors, sendEmail) { // jshint ignore:line
+        addContributors() {
             return this.get('_node').addContributors(...arguments);
         },
         /**
@@ -141,7 +141,7 @@ export default Ember.Mixin.create({
          * @return {Promise} Returns a promise that resolves to the updated node
          * with edited contributor relationships.
          */
-        updateContributors(contributors, permissionsChanges, bibliographicChanges) {  // jshint ignore:line
+        updateContributors() {
             return this.get('_node').updateContributors(...arguments);
         },
 
@@ -155,7 +155,7 @@ export default Ember.Mixin.create({
          * @return {Promise} Returns a promise that resolves to the updated node
          * with edited contributor relationships.
          */
-        updateContributor(contributor, permissions, bibliographic) { // jshint ignore:line
+        updateContributor() {
             return this.get('_node').updateContributor(...arguments);
         },
         /**

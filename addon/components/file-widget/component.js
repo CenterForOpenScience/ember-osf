@@ -62,12 +62,6 @@ export default Ember.Component.extend({
         selectNodeFile(file) {
             this.send('selectFile', file.get('links.download'));
         },
-        selectNode(node) {
-            console.log(node);
-        },
-        selectFile(url) {
-            console.log(url);
-        },
         preUpload() {
             return new Ember.RSVP.Promise((resolve) => resolve());
         }
