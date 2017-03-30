@@ -58,9 +58,12 @@
     cursor: pointer;
     color: white;
     text-decoration: none;
-    outline:none;
-    &:hover {
+    &:hover{
         color: rgba(255, 255, 255, 0.8) !important;
+        outline: none;
+        text-decoration: none;
+    }
+    &:focus {
         outline: none;
     }
 }
