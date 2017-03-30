@@ -152,7 +152,7 @@ export default Ember.Component.extend(Analytics, {
      * @property {String} organizations
      */
     organizations: '',
-     /**
+    /**
      * Page query parameter.  If "page" is one of your query params, it must be passed to the component so it can be reflected in the URL.
      * @property {String} page
      */
@@ -163,7 +163,7 @@ export default Ember.Component.extend(Analytics, {
      */
     provider: '',
     providerName: null, // For PREPRINTS and REGISTRIES. Provider name, if theme.isProvider, ex: psyarxiv
-        /**
+    /**
      * Publishers query parameter.  If "publishers" is one of your query params, it must be passed to the component so it can be reflected in the URL.
      * @property {String} publishers
      */
