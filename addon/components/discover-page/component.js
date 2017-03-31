@@ -314,8 +314,7 @@ export default Ember.Component.extend(Analytics, {
         let filter = this.get('provider');
         if (!filter || filter === 'true' || typeof filter === 'object') return;
         if (!this.get('theme.isProvider')) {
-            this.set(`activeFilters.providers`, filter.split('OR'));
-            this.loadPage();
+            this.setActiveFiltersAndReload('activeFilters.providers', filter.split('OR'));
         }
     })),
     processedTypes: Ember.computed('types', function() {
@@ -336,15 +335,13 @@ export default Ember.Component.extend(Analytics, {
         // For PREPRINTS - watches subject query param for changes and modifies activeFilters
         let filter = this.get('subject');
         if (!filter || filter === 'true' || typeof filter === 'object') return;
-        this.set(`activeFilters.subjects`, filter.split('OR'));
-        this.loadPage();
+        this.setActiveFiltersAndReload('activeFilters.subjects', filter.split('OR'));
     })),
     typeChanged: Ember.on('init', Ember.observer('type', function() {
         // For REGISTRIES - watches type query param for changes and modifies activeFilters
         let filter = this.get('type');
         if (!filter || filter === 'true' || typeof filter === 'object') return;
-        this.set(`activeFilters.types`, filter.split('OR'));
-        this.loadPage();
+        this.setActiveFiltersAndReload('activeFilters.types', filter.split('OR'));
     })),
     totalPages: Ember.computed('numberOfResults', 'size', function() {
         // Total pages of search results
@@ -499,7 +496,6 @@ export default Ember.Component.extend(Analytics, {
         this.set('firstLoad', true);
         this.set('facetFilters', Ember.Object.create());
         this.getTypes();
-        this.set('debouncedLoadPage', this.loadPage.bind(this));
         this.getCounts();
         this.loadProvider();
         this.loadPage();
@@ -615,9 +611,15 @@ export default Ember.Component.extend(Analytics, {
         }
         this.set('loading', true);
         this.set('results', []);
-        Ember.run.debounce(() => {
-            this.get('debouncedLoadPage')();
-        }, 500);
+        Ember.run.debounce(this, this.loadPage, 500);
+    },
+    setActiveFiltersAndReload(activeFilterName, proposedFilters) {
+        // If activeFilter is not equal to proposedFilter, update the activeFilter and reload search
+        const currentFilters = this.get(activeFilterName);
+        if (Ember.compare(currentFilters, proposedFilters) !== 0) {
+            this.set(activeFilterName, proposedFilters);
+            this.loadPage();
+        }
     },
     trackDebouncedSearch() {
         // For use in tracking debounced search of registries in Keen and GA
