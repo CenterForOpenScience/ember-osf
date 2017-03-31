@@ -3,44 +3,64 @@ $osf-teal-navbar: #2E6A74;
 $osf-highlight-navbar: #5A8288;
 $osf-dark-blue-navbar: #263947;
 
-.new-osf-navbar-styling {
+.osf-nav-wrapper {
     /* Overrides the overall navbar color */
     .navbar-inverse {
         background-color: $osf-dark-blue-navbar;
-    }
-
-    /* Enlarges OSF Font and toggles placement of brand */
-    .navbar-brand {
-        font-size: 28px;
-        margin-top: -1.5px;
-    }
-
-    /* Enlarges OSF logo and modifies placement */
-    .osf-navbar-logo {
-        width: 35px;
-        height: 35px;
-        margin-top: -3px;
-        margin-left: -4px;
-    }
-
-    /* Changes formatting of buttons that look like links in the navbar*/
-    .navbar-inverse .btn-link {
-        color: white;
-        text-decoration: none;
-        &:hover {
-            color: rgba(255, 255, 255, 0.8);
+        // Specifies color and hover interactions of buttons that look like links (primary dropdown caret, auth dropdown)
+        .btn-link {
+            color: white;
+            &:hover,&:focus {
+                color: rgba(255, 255, 255, 0.8);
+                text-decoration: none;
+            }
+            // Formats search button (that looks like link) that opens search dropdown for HOME service
+            &.search-toggle {
+                font-size: 16px;
+                margin-top: 10px;
+                margin-left: 7px;
+                margin-right: 7px;
+                &:focus, &:active {
+                    outline: none;
+                }
+            }
+        }
+        // Specifies font size of links and removes underline on hover
+        a {
+            font-size: 16px;
+            &:hover, &:active, &:focus {
+                text-decoration: none;
+            }
         }
     }
 
-    /* Defines position of primary navigation: dropdown toggle (caret) */
-    .primary-nav {
-        float: left;
-        /* Overrides vertical and horizontal position of dropdown caret for service menu */
-        li.dropdown {
-            margin-left: -52px;
-            padding-top: 10px;
-            list-style-type: none;
-            font-size: 15px;
+    .navbar-header {
+         /* Enlarges OSF Font */
+        .navbar-brand {
+            font-size: 28px;
+             /* Enlarges OSF logo and modifies placement */
+            .osf-navbar-logo {
+                width: 35px;
+                height: 35px;
+                margin-top: -4px;
+                margin-left: -4px;
+            }
+        }
+         /* Defines position of dropdown toggle (caret) for primary navigation*/
+        .primary-nav {
+            float: left;
+            margin-top: 9px;
+            margin-left: -9px;
+        }
+        /* Defines location and styling of current service name. PREPRINTS, for example. */
+        .service-name {
+            float: left;
+            margin-top: 13px;
+            margin-left: 5px;
+            text-decoration: none;
+            a {
+                font-size: 18px;
+            }
         }
     }
 
@@ -49,41 +69,22 @@ $osf-dark-blue-navbar: #263947;
         background-color: $osf-teal-navbar;
         &.service-dropdown {
             li > a {
-               font-size: 16px;
+               font-size: 18px;
             }
-            top: 58px;
+            top: 54px;
             left: -14.5px;
         }
         &.auth-dropdown {
-            li > a {
-               font-size: 15px;
-            }
             top: 60px;
-            left: 15px;
+            left: 22.5px;
         }
     }
-
-    a.service-name {
-        text-decoration: none;
-        &:hover {
-            text-decoration: none;
-        }
-    }
-
-    /* Overrides background of dropdown-toggle when active - needed for auth navbar */
-     .navbar-nav > .open > a,
-     .navbar-nav > .open > a:focus,
-     .navbar-nav > .open > a:hover {
-         background: transparent;
-         box-shadow: none;
-     }
 
     /* Overrides color of dropdown list hover (applies to both service and auth dropdowns) */
     .dropdown-menu > li > a:hover,
     .dropdown-menu > li > a:focus {
-          background-image: -webkit-linear-gradient(top, $osf-highlight-navbar 0%, $osf-highlight-navbar 100%);
-          background-image: -o-linear-gradient(top, $osf-highlight-navbar 0%, $osf-highlight-navbar 100%);
-          background-image: linear-gradient(to bottom, $osf-highlight-navbar 0%, $osf-highlight-navbar 100%);
+        background-image: none;
+        background-color: $osf-highlight-navbar;
     }
 
     /* Adds css triangle to service dropdown */
@@ -91,143 +92,31 @@ $osf-dark-blue-navbar: #263947;
         :after {
             position: absolute;
             display: inline-block;
-            border-right: 6px solid transparent;
-            border-bottom: 6px solid $osf-teal-navbar;
-            border-left: 6px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 8px solid $osf-teal-navbar;
+            border-left: 8px solid transparent;
             content: '';
-            top: -4px;
-            left: 21.5px;
-
+            top: -8px;
+            left: 22px;
         }
     }
-
-    /* Defines the color, shape, vertical spacing for teal secondary navigation */
-    .current-service-bar {
-        color: white;
-        background-color: $osf-teal-navbar;
-        margin-top: 8.5px;
-        border-radius: 5px;
-        font-size: 16px;
-        padding-top: 6px;
-        padding-bottom: 6px;
-
-        /* Overrides positioning and font-size of secondary links inside secondary navigation bar */
-        .navbar-collapse {
-            font-size: 15px;
-            margin-top: -15px;
-            margin-bottom: -20px;
-            padding-left: 0;
-            margin-right: 5px;
-        }
-    }
-
-    /* Formats positioning of secondary navigation links on xs screen */
-    .secondary-navigation-collapsed {
-        margin-left: 18px;
-        font-size: 15px;
-        li {
-            padding-top: 6px;
-            padding-bottom: 6px;
-            a {
-                text-decoration: none;
-            }
-        }
-    }
-
-    a.navbar-service::before {
-        content: "/";
-        padding-right: 8px;
-        color: #ccc;
-    }
-
-    #navbarScope a.nav-user-dropdown {
-        padding-top: 12px;
-        padding-bottom: 11px;
-    }
-
-    #navbarScope .btn-top-signup {
-        padding: 2px 20px;
-        margin-top: 5px;
-        line-height: 1.7;
-        background-color: #5cb85c;
-        border-color: #4cae4c;
-    }
-
-    #navbarScope .btn-top-login {
-        padding: 2px 30px;
-        margin-top: 5px;
-        line-height: 1.7;
-    }
-
 
     /* Overrides for signup button */
     #navbarScope .btn-top-signup {
-        padding: 5px 10px;
-        margin-top: 3px;
-        left: -10px;
-        background-color: #5CB85C;
+        padding: 4px 12px;
+        margin-top:5px;
+        font-size: 15px;
     }
 
     /* Overrides for Sign in button */
     #navbarScope .btn-top-login {
-        padding: 5px 10px;
-        margin-top: 3px;
-        left: -10px;
-        background-color: #5BC0DE;
-    }
-
-    /***********************************************
-     Responsive changes to teal secondary navbar
-    ***********************************************/
-    /* xs screen formatting */
-    @media (max-width: 280px) {
-        .current-service-bar {
-            width: 100px;
-            margin-left: 135px;
-        }
-    }
-
-     /* xs screen formatting */
-    @media (min-width: 281px) {
-        .current-service-bar {
-            width: 110px;
-            margin-left: 140px;
-        }
-    }
-
-     /* More xs screen resizing of teal secondary navbar */
-    @media (min-width: 310px) { .current-service-bar { width: 80px;} }
-    @media (min-width: 340px) { .current-service-bar { width: 110px;} }
-    @media (min-width: 370px) { .current-service-bar { width: 140px;} }
-    @media (min-width: 400px) { .current-service-bar { width: 170px;} }
-    @media (min-width: 430px) { .current-service-bar { width: 200px;} }
-    @media (min-width: 460px) { .current-service-bar { width: 230px;} }
-    @media (min-width: 490px) { .current-service-bar { width: 260px;} }
-    @media (min-width: 520px) { .current-service-bar { width: 290px;} }
-    @media (min-width: 550px) { .current-service-bar { width: 320px;} }
-    @media (min-width: 580px) { .current-service-bar { width: 350px;} }
-    @media (min-width: 610px) { .current-service-bar { width: 380px;} }
-    @media (min-width: 640px) { .current-service-bar { width: 410px;} }
-    @media (min-width: 670px) { .current-service-bar { width: 440px;} }
-    @media (min-width: 700px) { .current-service-bar { width: 470px;} }
-    @media (min-width: 730px) { .current-service-bar { width: 500px;} }
-    @media (min-width: 760px) { .current-service-bar { width: 530px;} }
-
-
-    @media (max-width: 768px) {
-        /* Overrides positioning of signup/sign in buttons on xs screen */
-        .btn-top-signup {
-            margin-left: 14px;
-        }
+        padding: 2px 15px;
+        margin-top: 5px;
+        font-size: 15px;
     }
 
      /* sm screen formatting */
     @media screen and (min-width: 768px) {
-        .current-service-bar {
-            width: 405px;
-            margin-left: 123px;
-        }
-
         /* Adds css triangle to auth dropdown - only on sm screens and greater */
         .dropdown-menu.auth-dropdown {
             :after {
@@ -238,29 +127,8 @@ $osf-dark-blue-navbar: #263947;
                 border-left: 6px solid transparent;
                 content: '';
                 top: -4px;
-                left: 128.5px;
+                left: 128px;
             }
-        }
-    }
-
-    /* md screen formatting */
-    @media screen and (min-width: 992px) {
-        .current-service-bar {
-            width: 625px;
-        }
-    }
-
-    /* lg screen formatting */
-    @media screen and (min-width: 1200px) {
-        .current-service-bar {
-            width:825px;
-        }
-    }
-
-     /* xl screen formatting */
-    @media screen and (min-width: 1600px) {
-        .current-service-bar {
-            width: 1225px;
         }
     }
 }

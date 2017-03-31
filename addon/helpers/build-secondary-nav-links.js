@@ -11,16 +11,16 @@ import serviceLinks from '../const/service-links';
  *
  * @class buildSecondaryNavLinks
  * @param {String} currentService name of current service (HOME, PREPRINTS, REGISTRIES, or MEETINGS)
- * @param {Object} session Injected session
  * @return {Array} Returns array of secondary link information
  */
 
-export default Ember.Helper.extend({
+export default Ember.Helper.extend({  // Helper defined using a class, so can inject dependencies.
     i18n: Ember.inject.service(),
-    compute(params) {
+    session: Ember.inject.service(),
+    compute(params) { // Helpers defined using a class need a compute function
         const i18n = this.get('i18n');
         const currentService = params[0].toUpperCase();
-        const session = params[1];
+        const session = this.get('session');
         let links = Ember.Object.create({
             HOME: [
                 {
@@ -67,11 +67,12 @@ export default Ember.Helper.extend({
             ]
         });
 
-        if (!session.isAuthenticated) {
+        // If unauthenticated, add support link to HOME links. (If authenticated, support link can be found under Auth dropdown)
+        if (!session.get('isAuthenticated')) {
             links.HOME.push(
                 {
                     name: i18n.t('eosf.navbar.support'),
-                    href: serviceLinks.support
+                    href: serviceLinks.osfSupport
                 }
             );
         }

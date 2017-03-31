@@ -1,10 +1,9 @@
-
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
 import tHelper from "ember-i18n/helper";
 
-/// Stub i18n service
+// Stub i18n service
 const i18nStub = Ember.Service.extend({
     t: function(word) {
         const translated = {
@@ -18,24 +17,29 @@ const i18nStub = Ember.Service.extend({
     }
 });
 
+// Session Stub No Auth
+const sessionStubUnauthenticated = Ember.Service.extend({
+    isAuthenticated: false
+});
+
+// Session Stub Auth
+const sessionStubAuthenticated = Ember.Service.extend({
+    isAuthenticated: true
+});
+
 moduleForComponent('build-secondary-navLinks', 'build-secondary-navLinks', {
     integration: true,
 
     beforeEach() {
-    // register the helper:
-    this.registry.register('helper:t', tHelper);
+        // register the helper:
+        this.registry.register('helper:t', tHelper);
         this.register('service:i18n', i18nStub);
-       this.inject.service('i18n', { as: 'i18n' });
-  }
+        this.inject.service('i18n', { as: 'i18n' });
+    }
 });
 
 test('returns preprints service links', function(assert) {
-    let session = Ember.Object.create({
-        isAuthenticated: true
-    });
-
     this.set('currentService', 'PREPRINTS');
-    this.set('session', session);
         this.render(hbs`
             {{#each (build-secondary-navLinks currentService session) as |navLink|}}
                 {{navLink.name}}
@@ -47,12 +51,10 @@ test('returns preprints service links', function(assert) {
 
 
 test('returns home service links, authenticated', function(assert) {
-    let session = Ember.Object.create({
-        isAuthenticated: true
-    });
+    this.register('service:session', sessionStubAuthenticated);
+    this.inject.service('session', { as: 'sessionStub' });
 
     this.set('currentService', 'HOME');
-    this.set('session', session);
         this.render(hbs`
             {{#each (build-secondary-navLinks currentService session) as |navLink|}}
                 {{navLink.name}}
@@ -64,12 +66,9 @@ test('returns home service links, authenticated', function(assert) {
 
 
 test('returns home service links, unauthenticated', function(assert) {
-    let session = Ember.Object.create({
-        isAuthenticated: false
-    });
-
+     this.register('service:session', sessionStubUnauthenticated);
+    this.inject.service('session', { as: 'sessionStub' });
     this.set('currentService', 'HOME');
-    this.set('session', session);
         this.render(hbs`
             {{#each (build-secondary-navLinks currentService session) as |navLink|}}
                 {{navLink.name}}
@@ -80,12 +79,7 @@ test('returns home service links, unauthenticated', function(assert) {
 });
 
 test('returns Registries service links', function(assert) {
-    let session = Ember.Object.create({
-        isAuthenticated: true
-    });
-
     this.set('currentService', 'REGISTRIES');
-    this.set('session', session);
         this.render(hbs`
             {{#each (build-secondary-navLinks currentService session) as |navLink|}}
                 {{navLink.name}}
@@ -96,12 +90,7 @@ test('returns Registries service links', function(assert) {
 });
 
 test('returns meetings service links', function(assert) {
-    let session = Ember.Object.create({
-        isAuthenticated: true
-    });
-
     this.set('currentService', 'MEETINGS');
-    this.set('session', session);
         this.render(hbs`
             {{#each (build-secondary-navLinks currentService session) as |navLink|}}
                 {{navLink.name}}

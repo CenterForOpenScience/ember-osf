@@ -1,74 +1,55 @@
-<div class="new-osf-navbar-styling">
+<div class="osf-nav-wrapper">
     <nav class="navbar navbar-inverse navbar-fixed-top" id="navbarScope" role="navigation">
         <div class="container">
             <div class="navbar-header">
-                {{!Toggle navigation button for xs screens}}
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".secondary-navigation" {{action 'closeSearch'}} aria-label={{t 'eosf.navbar.toggleSecondary'}}>
+                {{!TOGGLE NAVIGATION BUTTON - XS SCREEN}}
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#secondary-navigation" {{action 'closeSearch'}} aria-label={{t 'eosf.navbar.toggleSecondary'}}>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                {{!OSF Brand}}
+                {{!OSF BRAND}}
                 <a class="navbar-brand" href="/" aria-label={{t 'eosf.navbar.goHome'}}><span class="osf-navbar-logo"></span> OSF </a>
-                {{!Primary navigation - toggle between OSF, Preprints, Registries, and Meetings}}
-                <ul class="primary-nav">
-                    <li class="dropdown">
-                        <button class="dropdown-toggle btn-link" data-toggle="dropdown" role="button" aria-expanded="false" aria-label={{t 'eosf.navbar.togglePrimary'}} onclick={{action 'closeSecondaryAndSearch'}}><span class="caret"></span></button>
-                        <ul class="dropdown-menu service-dropdown" role="menu">
-                            {{#each osfServices as |service|}}
-                                <li><a href="{{service.url}}" onclick={{action "switchService" service.name}}>OSF<b>{{service.name}}</b></a></li>
-                            {{/each}}
-                        </ul>
-                    </li>
-                </ul>
-                {{!Secondary navigation - displays corresponding links for selected service}}
-                <div class="current-service-bar">
-                    {{!Name of current service}}
-                    <a href="{{currentServiceLink}}" class="service-name"><strong>{{currentService}}</strong></a>
-                    <div id="navbar" class="navbar-collapse collapse navbar-right hidden-xs">
-                        <ul class="nav navbar-nav">
-                            {{!Corresponding service links - Hidden on XS Screens}}
-                            {{#each (build-secondary-navLinks currentService session) as |navLink|}}
-                                {{#if (and (eq currentService 'HOME') (eq navLink.name.string 'Search'))}}
-                                    <li>
-                                        {{!If search link on Home service, toggle search window}}
-                                        <a href="{{navLink.href}}" onclick={{action 'toggleSearch'}}>
-                                            {{navLink.name}}
-                                        </a>
-                                    </li>
-                                {{else}}
-                                    <li><a href="{{navLink.href}}"> {{navLink.name}}</a></li>
-                                {{/if}}
-                            {{/each}}
-                        </ul>
-                    </div>
+                {{!PRIMARY NAVIGATION - TOGGLE BETWEEN HOME, PREPRINTS, REGISTRIES, and MEETINGS}}
+                <div class="dropdown primary-nav">
+                    <button class="dropdown-toggle btn-link" data-toggle="dropdown" role="button" aria-expanded="false" aria-label={{t 'eosf.navbar.togglePrimary'}} onclick={{action 'closeSecondaryAndSearch'}}>
+                        <span class="fa fa-caret-down fa-2x"></span>
+                    </button>
+                    <ul class="dropdown-menu service-dropdown" role="menu">
+                        {{#each osfServices as |service|}}
+                            <li><a a href="{{service.url}}"onclick={{action "switchService" service.name}}>OSF<b>{{service.name}}</b></a></li>
+                        {{/each}}
+                    </ul>
+                </div>
+                {{!NAME OF CURRENT SERVICE - HOME, PREPRINTS, REGISTRIES, or MEETINGS}}
+                <div class="service-name">
+                    <a href="{{currentServiceLink}}"><strong>{{currentService}}</strong></a>
                 </div>
             </div>
-            <div class="navbar-collapse collapse navbar-right secondary-navigation">
+            <div class="navbar-collapse collapse navbar-right" id="secondary-navigation">
                 <ul class="nav navbar-nav">
-                    {{!Corresponding service links, only visible on XS Screens}}
-                    <div class="visible-xs secondary-navigation-collapsed">
-                        {{#each (build-secondary-navLinks currentService session) as |navLink|}}
-                            {{#if (and (eq currentService 'HOME') (eq navLink.name.string "Search"))}}
-                                <li>
-                                    {{!If search link on Home service, toggle search window}}
-                                    <a href="{{navLink.href}}" onclick={{action 'toggleSearch'}}>
-                                        {{navLink.name}}
-                                    </a>
-                                </li>
-                            {{else}}
-                                <li><a href="{{navLink.href}}"> {{navLink.name}}</a></li>
-                            {{/if}}
-                        {{/each}}
-                    </div>
-                    {{!Auth navbar}}
+                    {{!SECONDARY NAVIGATION - displays corresponding links for selected service}}
+                    {{#each (build-secondary-navLinks currentService) as |navLink|}}
+                        {{#if (and (eq currentService 'HOME') (eq navLink.name.string "Search"))}}
+                            <li>
+                                {{!TOGGLE SEARCH BUTTON FOR HOME SERVICE}}
+                                <button class="btn-link search-toggle" onclick={{action 'toggleSearch'}}>
+                                    {{navLink.name}}
+                                </button>
+                            </li>
+                        {{else}}
+                            {{!SERVICE LINK}}
+                            <li><a href="{{navLink.href}}"> {{navLink.name}}</a></li>
+                        {{/if}}
+                    {{/each}}
+                    {{!AUTH NAVBAR}}
                     {{navbar-auth-dropdown signupUrl=signupUrl loginAction=loginAction closeOtherNavigation=(action 'closeSearch')}}
                 </ul>
             </div>
         </div>
     </nav>
     {{#if showSearch}}
-        {{!Search dropdown - redirects to /search/?q=search_query}}
+        {{!SEARCH DROPDOWN (FOR HOME SERVICE) - redirects to /search/?q=search_query}}
         {{search-dropdown action='toggleSearch'}}
     {{/if}}
 </div>
