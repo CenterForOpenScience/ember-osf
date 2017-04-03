@@ -17,7 +17,7 @@
                     </button>
                     <ul class="dropdown-menu service-dropdown" role="menu">
                         {{#each osfServices as |service|}}
-                            <li><a a href="{{service.url}}"onclick={{action "switchService" service.name}}>OSF<b>{{service.name}}</b></a></li>
+                            <li><a onclick={{action "switchService" service.name}}>OSF<b>{{service.name}}</b></a></li>
                         {{/each}}
                     </ul>
                 </div>

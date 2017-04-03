@@ -5,7 +5,7 @@ import permissions from 'ember-osf/const/permissions';
 
 FactoryGuy.define('node', {
     default: {
-        title: () => faker.lorem.words(4).join(' '),
+        title: () => faker.lorem.words(4),
         description: () => faker.lorem.paragraphs(2, '\n'),
         // Extracted from Node model CATEGORY_MAP as of May 24, 2016
         category: () => faker.random.arrayElement(

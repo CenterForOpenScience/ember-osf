@@ -93,7 +93,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
      * @param {String} url
      * @param {Boolean} isBulk
      **/
-    _createRelated(store, snapshot, createdSnapshots, relationship, url, isBulk = false) { // jshint ignore:line
+    _createRelated(store, snapshot, createdSnapshots, relationship, url) { //, isBulk = false) {
         // TODO support bulk create?
         // if (isBulk) {
         //
@@ -183,7 +183,7 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
      * @param {String} url
      * @param {Boolean} isBulk
      **/
-    _deleteRelated(store, snapshot, deletedSnapshots, relationship, url, isBulk = false) { // jshint ignore:line
+    _deleteRelated(store, snapshot, deletedSnapshots) { //, relationship, url, isBulk = false) {
         return this._removeRelated(...arguments).then(() => {
             deletedSnapshots.forEach(s => s.record.unloadRecord());
         });
