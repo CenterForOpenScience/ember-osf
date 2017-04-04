@@ -5,7 +5,7 @@
             <div class="col-xs-12 text-center">
                 {{#if (or theme.isProvider providerLogo)}} {{!Provider Logo, if exists}}
                     <div class="col-xs-6 text-right">
-                        <div class="provider-brand" style="height: 140px; background-position-x: right;"></div>
+                        <div class="provider-brand" id="provider-brand-background"></div>
                     </div>
                 {{/if}}
                 <div class={{if (or theme.isProvider providerLogo) 'col-xs-6 text-left'}}>
@@ -41,7 +41,7 @@
         {{!CAROUSEL WITH PREPRINT PROVIDERS - PREPRINTS ONLY}}
         {{#if (eq consumingService 'preprints')}}
             <div class="row m-t-xs m-b-md">
-                <div class="col-xs-10 col-xs-offset-1" style="text-align: center;">
+                <div class="col-xs-10 col-xs-offset-1 text-center">
                     {{#if (not theme.isProvider)}}
                         <h3>{{t 'eosf.components.discoverPage.partnerRepositories'}}</h3>
                         <div class="row">

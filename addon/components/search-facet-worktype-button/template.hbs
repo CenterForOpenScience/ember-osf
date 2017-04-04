@@ -1,12 +1,16 @@
-{{!Copied from Ember-SHARE}}
+{{!Adapted from Ember-SHARE}}
 <div class='type-filter-option {{if selected 'active'}}'>
     {{#if collapsible}}
-        <i class='fa expand-icon clickable {{if toggleState 'fa-plus' 'fa-minus'}}' {{action 'toggleBody'}}></i>
+        <button class="btn-link" aria-label={{t 'eosf.components.searchFacetWorktypeButton.expandWorktype'}}>
+            <i class='fa expand-icon clickable {{if toggleState 'fa-plus' 'fa-minus'}}' {{action 'toggleBody'}}></i>
+        </button>
     {{/if}}
     <span class={{if selected 'bubble'}}>
-        <a class='clickable' {{action 'click'}}>{{label}}</a>
+        <button class='clickable btn-link' {{action 'click'}}>{{label}}</button>
         {{#if selected}}
-            <i class='fa fa-times close-icon clickable' {{action 'click'}}></i>
+            <button class="btn-link" aria-label={{t 'eosf.components.searchFacetWorktypeButton.removeWorktypeFilter'}}>
+                <i class='fa fa-times close-icon clickable' {{action 'click'}}></i>
+            </button>
         {{/if}}
     </span>
 </div>

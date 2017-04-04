@@ -69,6 +69,9 @@
         "waterbutlerUrl": "OSF_FILE_URL",
         "helpUrl": "OSF_HELP_URL",
         "cookieLoginUrl": "OSF_COOKIE_LOGIN_URL",
-        "oauthUrl": "OSF_OAUTH_URL"
+        "oauthUrl": "OSF_OAUTH_URL",
+        "shareBaseUrl": "SHARE_BASE_URL",
+        "shareApiUrl": "SHARE_API_URL",
+        "shareSearchUrl": "SHARE_SEARCH_URL"
     }
 }

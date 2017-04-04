@@ -5,12 +5,14 @@ moduleForComponent('search-facet-locked', 'Integration | Component | search face
   integration: true
 });
 
-test('it renders', function(assert) {
+test('search-facet-locked displays locked item', function(assert) {
+    this.set('options', {
+        locked_items: ['PubMed Central']
+    });
+    this.render(hbs`{{search-facet-locked
+        options=options
+    }}`);
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
-
-  this.render(hbs`{{search-facet-locked}}`);
-
-  assert.equal(this.$().text().trim(), '');
+    assert.equal(this.$().text().trim(), 'PubMed Central');
 });
+

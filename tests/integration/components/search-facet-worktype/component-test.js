@@ -22,5 +22,5 @@ test('it renders', function(assert) {
         data=data
     }}`);
 
-  assert.equal(this.$('.type-filter-option')[0].innerText, 'Presentation');
+  assert.equal(this.$('.type-filter-option')[0].innerText.trim(), 'Presentation');
 });

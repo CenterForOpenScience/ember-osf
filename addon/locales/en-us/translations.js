@@ -55,6 +55,10 @@ export default {
             searchFacetDaterange: {
                 modifyDate: 'Modify daterange'
             },
+            searchFacetWorktypeButton: {
+                expandWorktype: 'Expand or contract worktype',
+                removeWorktypeFilter: 'Remove worktype filter'
+            },
             searchHelpModal: {
                 close: 'Close',
                 searchHelp: 'Search help',

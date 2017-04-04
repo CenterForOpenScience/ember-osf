@@ -6,7 +6,7 @@ import Ember from 'ember';
  */
 
 /**
- * numberFormat helper. Replaces long provider names without messing with search filter logic
+ * numberFormat helper.
  *
  * @class filterReplace
  * @param {Integer} number

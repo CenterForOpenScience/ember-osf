@@ -2366,6 +2366,12 @@ ember-data@2.7.0:
     semver "^5.1.0"
     silent-error "^1.0.0"
 
+ember-disable-prototype-extensions@^1.0.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/ember-disable-prototype-extensions/-/ember-disable-prototype-extensions-1.1.0.tgz#86081c8cf6741f26e4b89e2b004f761174313e01"
+  dependencies:
+    ember-cli-babel "^5.1.5"
+
 ember-disable-proxy-controllers@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/ember-disable-proxy-controllers/-/ember-disable-proxy-controllers-1.0.1.tgz#1254eeec0ba025c24eb9e8da611afa7b38754281"

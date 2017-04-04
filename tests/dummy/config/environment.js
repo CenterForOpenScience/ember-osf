@@ -42,12 +42,6 @@ module.exports = function(environment) {
         baseURL: '/',
         locationType: 'auto',
 
-        SHARE: {
-            baseUrl: 'https://staging-share.osf.io/',
-            apiUrl: 'https://staging-share.osf.io/api/v2',
-            searchUrl: 'https://staging-share.osf.io/api/v2/search/creativeworks/_search'
-        },
-
         EmberENV: {
             FEATURES: {
                 // Here you can enable experimental features on an ember canary build
@@ -82,12 +76,6 @@ module.exports = function(environment) {
         // Testem prefers this...
         ENV.baseURL = '/';
         ENV.locationType = 'none';
-
-        ENV.SHARE = {
-            baseURL: '/nowhere/',
-            searchUrl: '/nowhere/',
-            baseUrl: '/nowhere/'
-        };
 
         ENV.OSF = {
             url: '/nowhere',

@@ -294,11 +294,7 @@ export default Ember.Component.extend(Analytics, {
     }),
     facetStatesArray: Ember.computed('facetStates', function() { // Modified when query params in URL change.
         let facets = this.get('facetStates');
-        let facetArray = [];
-        for (let key of Object.keys(facets)) {
-            facetArray.push({ key: key, value: facets[key] });
-        }
-        return facetArray;
+        return Object.keys(facets).map((key) => ({ key, value: facets[key] }));
     }),
     hiddenPages: Ember.computed('clampedPages', 'totalPages', function() {
         // Ember-SHARE property. Returns pages of hidden search results.
@@ -358,7 +354,9 @@ export default Ember.Component.extend(Analytics, {
          *  Builds the locked portion of the query.  For example, in preprints, type=preprint
          *  is something that cannot be modified by the user.
          *
-         *  Takes in a dictionary of locked param keys matched to the locked value.
+         *  @method buildLockedQueryBody
+         *  @param {Object} lockedParams - Locked param keys matched to the locked value.
+         *  @return {Object} queryBody - locked portion of query body
         */
         let queryBody = [];
         Object.keys(lockedParams).forEach(key => {
@@ -404,7 +402,12 @@ export default Ember.Component.extend(Analytics, {
         });
     },
     getQueryBody() {
-        // Builds query body for SHARE
+        /**
+         * Builds query body to send to SHARE from a combination of locked Params, facetFilters and activeFilters
+         *
+         * @method getQueryBody
+         * @return queryBody
+         */
         let filters = this.buildLockedQueryBody(this.get('lockedParams')); // Empty list if no locked query parameters
         // From Ember-SHARE. Looks at facetFilters (partial SHARE queries already built) and adds them to query body
         let facetFilters = this.get('facetFilters');
@@ -572,7 +575,7 @@ export default Ember.Component.extend(Analytics, {
             if (this.get('totalPages') && this.get('totalPages') < this.get('page')) {
                 this.search();
             }
-        }, (errorResponse) => {
+        }).fail((errorResponse) => {
             this.setProperties({
                 loading: false,
                 firstLoad: false,
@@ -603,7 +606,7 @@ export default Ember.Component.extend(Analytics, {
     },
     scrollToResults() {
         // Scrolls to top of search results
-        Ember.$('html, body').scrollTop(Ember.$('.results-top').position().top);
+        Ember.$('html, body').scrollTop(this.$('.results-top').position().top);
     },
     search() {
         if (!this.get('firstLoad')) {
