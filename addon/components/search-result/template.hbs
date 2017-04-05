@@ -6,7 +6,7 @@
             <h4>
                 {{#if (and detailRoute osfID)}}
                     {{#link-to detailRoute osfID invokeAction=(action 'click' 'link' 'Discover - Result Title' osfID)}}{{result.title}}{{/link-to}}
-                {{else if (and detailRoute (eq consumingService 'retraction_watch'))}}
+                {{else if (and detailRoute (eq hostAppName 'Retraction Watch'))}}
                     {{#link-to detailRoute result.id}}{{result.title}}{{/link-to}}
                 {{else}}
                     {{#if hyperlink}}

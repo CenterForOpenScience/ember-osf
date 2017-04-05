@@ -3,6 +3,7 @@ import layout from './template';
 import config from 'ember-get-config';
 import moment from 'moment';
 import Analytics from '../../mixins/analytics';
+import hostAppName from '../../mixins/host-app-name';
 import { getUniqueList, getSplitParams, encodeParams } from '../../utils/elastic-query';
 
 /**
@@ -30,7 +31,6 @@ import { getUniqueList, getSplitParams, encodeParams } from '../../utils/elastic
  * ```handlebars
  *{{discover-page
  *    activeFilters=activeFilters
- *    consumingService=consumingService
  *    detailRoute=detailRoute
  *    discoverHeader=discoverHeader
  *    facets=facets
@@ -54,7 +54,7 @@ import { getUniqueList, getSplitParams, encodeParams } from '../../utils/elastic
 const MAX_SOURCES = 500;
 let filterQueryParams = ['subject', 'provider', 'tags', 'sources', 'publishers', 'funders', 'institutions', 'organizations', 'language', 'contributors', 'type'];
 
-export default Ember.Component.extend(Analytics, {
+export default Ember.Component.extend(Analytics, hostAppName, {
     layout,
     theme: Ember.inject.service(),
     i18n: Ember.inject.service(),
@@ -68,11 +68,6 @@ export default Ember.Component.extend(Analytics, {
      * @default { providers: [], subjects: [], types: [] }
      */
     activeFilters: { providers: [], subjects: [], types: [] },
-    /**
-     * Consuming app, like "preprints" or "registries".
-     * @property {string} consumingService
-     */
-    consumingService: null, // TODO Need to pull from config instead.
     /**
      * Contributors query parameter.  If "contributors" is one of your query params, it must be passed to the component so it can be reflected in the URL.
      * @property {String} contributors
@@ -704,7 +699,7 @@ export default Ember.Component.extend(Analytics, {
         modifyRegistrationType(filter, query) {
             // For REGISTRIES only - modifies "type" query param if "provider" query param changes.
             // Registries are unusual, since the OSF Registration Type facet depends upon the Providers facet
-            if (filter === 'provider' && this.get('consumingService') === 'registries') {
+            if (filter === 'provider' && this.get('hostAppName') === 'Registries') {
                 if (query.length === 1 && query[0] === 'OSF') {
                     this.set('type', this.get('activeFilters.types').join('OR'));
                 } else {

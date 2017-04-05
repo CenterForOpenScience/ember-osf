@@ -34,12 +34,12 @@
                 {{search-help-modal isOpen=showLuceneHelp}}
 
                 {{!NUMBER OF SEARCHABLE RESULTS}}
-                {{total-share-results consumingService=consumingService shareTotalText=shareTotalText}}
+                {{total-share-results}}
             </div>
         </div>
 
         {{!CAROUSEL WITH PREPRINT PROVIDERS - PREPRINTS ONLY}}
-        {{#if (eq consumingService 'preprints')}}
+        {{#if (eq hostAppName 'Preprints')}}
             <div class="row m-t-xs m-b-md">
                 <div class="col-xs-10 col-xs-offset-1 text-center">
                     {{#if (not theme.isProvider)}}
@@ -141,7 +141,7 @@
                 }}
 
                 {{!ADD PREPRINT BUTTON - Preprints Only }}
-                {{#if (eq consumingService 'preprints')}}
+                {{#if (eq hostAppName 'Preprints')}}
                     {{add-preprint-box}}
                 {{/if}}
 

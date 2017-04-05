@@ -66,6 +66,10 @@ export default {
                 searchUsesThe: 'Search uses the ',
                 searchSyntax: 'search syntax',
                 helpDescription: 'This gives you many options, but can be very simple as well. Examples of valid searches include:'
+            },
+            totalShareResults: {
+                'searchable': 'searchable',
+                'events': 'events'
             }
         }
     }

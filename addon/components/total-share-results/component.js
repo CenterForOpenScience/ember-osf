@@ -1,46 +1,61 @@
 import Ember from 'ember';
 import config from 'ember-get-config';
 import layout from './template';
+import hostAppName from '../../mixins/host-app-name';
 
 /**
- * Adapted from Registries - displays total search results
+ * Adapted from Registries - displays total search results.  Currently can pull number of preprints, registries, or retractions
+ * available for search, depending on consuming application. Otherwise, just returns number of all SHARE results.
  *
  * ```handlebars
  *  {{total-share-results
- *      shareTotal=shareTotal
- *      shareTotalText=shareTotalText
  * }}
  * ```
  * @class search-result
  */
-export default Ember.Component.extend({
+const serviceMap = {
+    Preprints: 'preprint',
+    Registries: 'registration',
+    'Retraction Watch': 'retraction'
+};
+
+export default Ember.Component.extend(hostAppName, {
     layout,
+    i18n: Ember.inject.service(),
     theme: Ember.inject.service(),
     shareTotal: null,
-    consumingService: null,
-    resourceType: Ember.computed('consumingService', function() {
-        const consumingService = this.get('consumingService');
-        const serviceMap = {
-            preprints: 'preprint',
-            registries: 'registration'
-        };
-        if (consumingService) {
-            return serviceMap[consumingService] || null;
+    shareTotalText: Ember.computed(function() {
+        // Returns description of results found: "searchable preprints", for example.
+        const hostAppName = this.get('hostAppName');
+        let item = null;
+        if (hostAppName) {
+            item = serviceMap[hostAppName] || null;
+        }
+        return `${this.get('i18n').t('eosf.components.totalShareResults.searchable')} ${item ? Ember.Inflector.inflector.pluralize(item) : this.get('i18n').t('eosf.components.totalShareResults.events')}`;
+    }),
+    resourceType: Ember.computed('hostAppName', function() {
+
+        const hostAppName = this.get('hostAppName');
+        if (hostAppName) {
+            return serviceMap[hostAppName] || null;
         } else {
-            return consumingService;
+            return null;
         }
     }),
     init() {
         // Fetch total number of preprints. Allow elasticsearch failure to pass silently.
         // This is considered to be a one-time fetch, and therefore is run in controller init.
         this._super(...arguments);
-        const filter = [
-            {
-                term: {
-                    types: this.get('resourceType')
+        const filter = Ember.A();
+        const resourceType = this.get('resourceType');
+        if (resourceType) {
+            filter.pushObject(
+                {
+                    term: {
+                        types: resourceType
+                    }
                 }
-            }
-        ];
+        )}
 
         const getTotalPayload = {
             size: 0,

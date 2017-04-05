@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import layout from './template';
 import Analytics from '../../mixins/analytics';
+import hostAppName from '../../mixins/host-app-name';
 
 /**
  * Adapted from Ember-SHARE and Ember Preprints
@@ -13,13 +14,12 @@ import Analytics from '../../mixins/analytics';
  *      result=result
  *      queryParams=queryParams
  *      filterReplace=filterReplace
- *      consumingService=consumingService
  *      updateFilters=(action 'updateFilters')
  * }}
  * ```
  * @class search-result
  */
-export default Ember.Component.extend(Analytics, {
+export default Ember.Component.extend(Analytics, hostAppName, {
     layout,
     maxTags: 10,
     maxSubjects: 10,
@@ -36,11 +36,6 @@ export default Ember.Component.extend(Analytics, {
      * @property {Object} result
      */
     result: null,
-    /**
-     * Consuming app, like "preprints" or "registries".
-     * @property {string} consumingService
-     */
-    consumingService: null, // TODO Need to pull from config instead.
     providerUrlRegex: {
         //'bioRxiv': '', doesnt currently have urls
         Cogprints: /cogprints/,
