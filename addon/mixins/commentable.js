@@ -84,7 +84,7 @@ export default Ember.Mixin.create({
          */
         reportComment() {
             // TODO: Implement
-            console.log('Consider this comment reported');
+            // console.log('Consider this comment reported');
         }
     }
 });
