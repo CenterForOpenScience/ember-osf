@@ -11,7 +11,7 @@ import hostAppName from '../../mixins/host-app-name';
  *  {{total-share-results
  * }}
  * ```
- * @class search-result
+ * @class total-share-results
  */
 const serviceMap = {
     Preprints: 'preprint',
