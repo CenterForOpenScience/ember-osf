@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 import Ember from 'ember';
 import layout from './template';
 import config from 'ember-get-config';
@@ -533,7 +535,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
                         result.hyperLinks.push({ url: identifier });
                     } else {
                         const spl = identifier.split('://');
-                        const [type, uri, ..._] = spl; // jshint ignore:line
+                        const [type, uri, ..._] = spl;
                         result.infoLinks.push({ type, uri });
                     }
                 });
