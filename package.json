@@ -37,7 +37,7 @@
     "ember-ajax": "0.7.1",
     "ember-bootstrap": "0.7.2",
     "ember-browserify": "^1.1.13",
-    "ember-cli": "^2.4.3",
+    "ember-cli": "2.11.1",
     "ember-cli-app-version": "^1.0.0",
     "ember-cli-bootstrap-sassy": "0.5.3",
     "ember-cli-code-coverage": "0.3.11",
