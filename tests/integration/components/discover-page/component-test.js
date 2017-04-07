@@ -9,7 +9,7 @@ moduleForComponent('discover-page', 'Integration | Component | discover page', {
 test('it renders', function(assert) {
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
-    Ember.run(() => {
+    Ember.run.later(() => {
         this.set('facets', [{
             key: 'sources', title: 'Sources', component: 'search-facet-locked', locked_items: ['PubMedCentral']
         }]);
@@ -22,10 +22,7 @@ test('it renders', function(assert) {
         }}`);
 
         let placeholder = this.$('input#searchBox.form-control')[0].placeholder;
-
         assert.equal(placeholder, 'Test Placeholder');
-
-    });
-
+    })
 
 });
