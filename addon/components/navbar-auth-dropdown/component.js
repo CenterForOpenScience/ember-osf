@@ -63,7 +63,7 @@ export default Ember.Component.extend({
     actions: {
         logout() {
             const redirectUrl = this.get('redirectUrl');
-            const query = redirectUrl ? '?' + Ember.$.param({ redirect_url: redirectUrl }) : '';
+            const query = redirectUrl ? '?' + Ember.$.param({ next_url: redirectUrl }) : '';
             // TODO: May not work well if logging out from page that requires login- check?
             this.get('session').invalidate()
                 .then(() => window.location.href = `${config.OSF.url}logout/${query}`);

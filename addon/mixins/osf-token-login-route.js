@@ -35,6 +35,6 @@ export default Ember.Mixin.create({
         }
 
         return this.get('session').authenticate('authenticator:osf-token', accessToken)
-            .catch(err => console.log('Authentication failed: ', err));
+            .catch(err => Ember.Logger.log('Authentication failed: ', err));
     }
 });
