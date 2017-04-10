@@ -59,7 +59,10 @@ export default Ember.Component.extend(Analytics, hostAppName, {
         return this.get('result.description').length > this.get('maxDescription');
     }),
     abbreviation: Ember.computed('result.description', function() {
-        return this.get('result.description').slice(0, this.get('maxDescription'));
+        let desc = this.get('result.description');
+        if (desc) {
+            return this.get('result.description').slice(0, this.get('maxDescription'));
+        }
     }),
     allCreators: Ember.computed('result.lists.contributors', function() {
         return (this.get('result.lists.contributors') || []).filter(contrib => contrib.relation === 'creator').sort(function(a, b) {

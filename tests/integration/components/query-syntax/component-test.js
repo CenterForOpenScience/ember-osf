@@ -12,5 +12,5 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{query-syntax}}`);
 
-  assert.ok(this.$().text().trim().includes('Could not perform search query.'));
+  assert.ok(this.$().text().trim().includes('giraffe'));
 });
