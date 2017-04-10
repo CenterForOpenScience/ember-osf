@@ -52,21 +52,14 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     footerIcon: Ember.computed('showBody', function() {
         return this.get('showBody') ? 'caret-up' : 'caret-down';
     }),
-
     type: Ember.computed('result.type', function() {
         return this.get('result.type').replace(/\w\S*/g, function(str) {return str.capitalize();});
     }),
-    safeTitle: Ember.computed('result.title', function() {
-        return Ember.String.htmlSafe(this.get('result.title')).string;
+    abbreviated: Ember.computed('result.description', function() {
+        return this.get('result.description').length > this.get('maxDescription');
     }),
-    safeDescription: Ember.computed('result.description', function() {
-        return Ember.String.htmlSafe(this.get('result.description')).string;
-    }),
-    abbreviated: Ember.computed('safeDescription', function() {
-        return this.get('safeDescription').length > this.get('maxDescription');
-    }),
-    abbreviation: Ember.computed('safeDescription', function() {
-        return this.get('safeDescription').slice(0, this.get('maxDescription'));
+    abbreviation: Ember.computed('result.description', function() {
+        return this.get('result.description').slice(0, this.get('maxDescription'));
     }),
     allCreators: Ember.computed('result.lists.contributors', function() {
         return (this.get('result.lists.contributors') || []).filter(contrib => contrib.relation === 'creator').sort(function(a, b) {
@@ -157,7 +150,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
             this.sendAction('addFilter', type, filter);
         },
         toggleShowBody() {
-            this.set('showBody', !this.showBody);
+            this.toggleProperty('showBody');
             Ember.get(this, 'metrics')
                 .trackEvent({
                     category: 'result',

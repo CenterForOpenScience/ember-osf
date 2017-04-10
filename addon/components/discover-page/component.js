@@ -73,6 +73,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     /**
      * Contributors query parameter.  If "contributors" is one of your query params, it must be passed to the component so it can be reflected in the URL.
      * @property {String} contributors
+     * @default ''
      */
     contributors: '',
     /**
@@ -88,11 +89,23 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     /**
      * End query parameter.  If "end" is one of your query params, it must be passed to the component so it can be reflected in the URL.
      * @property {String} end
+     * @default ''
      */
     end: '',
     /**
-     * A list of the components to be used for the search facets.
+     * A list of the components to be used for the search facets.  Each list item should be a dictionary including the key (SHARE filter),
+     * title (search-facet heading in UI), and component (name of component).
      * @property {Array} facets
+     * @default [
+            { key: 'sources', title: 'Source', component: 'search-facet-source' },
+            { key: 'date', title: 'Date', component: 'search-facet-daterange' },
+            { key: 'type', title: 'Type', component: 'search-facet-worktype', data: this.get('processedTypes') },
+            { key: 'tags', title: 'Tag', component: 'search-facet-typeahead' },
+            { key: 'publishers', title: 'Publisher', component: 'search-facet-typeahead', base: 'agents', type: 'publisher' },
+            { key: 'funders', title: 'Funder', component: 'search-facet-typeahead', base: 'agents', type: 'funder' },
+            { key: 'language', title: 'Language', component: 'search-facet-language' },
+            { key: 'contributors', title: 'People', component: 'search-facet-typeahead', base: 'agents', type: 'person' }
+        ]
      */
     facets: Ember.computed('processedTypes', function() {
         return [
@@ -124,16 +137,20 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     /**
      * Funders query parameter.  If "funders" is one of your query params, it must be passed to the component so it can be reflected in the URL.
      * @property {String} funders
+     * @default ''
      */
     funders: '',
     /**
      * Institutions query parameter.  If "institutions" is one of your query params, it must be passed to the component so it can be reflected in the URL.
      * @property {String} institutions
+     * @default ''
      */
     institutions: '',
+
     /**
      * Language query parameter.  If "language" is one of your query params, it must be passed to the component so it can be reflected in the URL.
      * @property {String} language
+     * @default ''
      */
     language: '',
     loading: true,
@@ -147,27 +164,32 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     /**
      * Organizations query parameter.  If "organizations" is one of your query params, it must be passed to the component so it can be reflected in the URL.
      * @property {String} organizations
+     * @default ''
      */
     organizations: '',
     /**
      * Page query parameter.  If "page" is one of your query params, it must be passed to the component so it can be reflected in the URL.
-     * @property {String} page
+     * @property {Integer} page
+     * @default 1
      */
     page: 1,
     /**
      * Provider query parameter.  If "provider" is one of your query params, it must be passed to the component so it can be reflected in the URL.
      * @property {String} provider
+     * @default ''
      */
     provider: '',
     providerName: null, // For PREPRINTS and REGISTRIES. Provider name, if theme.isProvider, ex: psyarxiv
     /**
      * Publishers query parameter.  If "publishers" is one of your query params, it must be passed to the component so it can be reflected in the URL.
      * @property {String} publishers
+     * @default ''
      */
     publishers: '',
     /**
      * q query parameter.  If "q" is one of your query params, it must be passed to the component so it can be reflected in the URL.
      * @property {String} q
+     * @default ''
      */
     q: '',
     /**
@@ -181,18 +203,11 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     }),
     results: Ember.ArrayProxy.create({ content: [] }), // Results from SHARE query
     /**
-     * Search bar placeholder
+     * Search bar placeholder - for example, "Search preprints..."
      * @property {String} searchPlaceholder
      */
     searchPlaceholder: Ember.computed('i18n.locale', function() { // Search bar placeholder text
         return this.get('i18n').t('eosf.components.discoverPage.searchPlaceholder');
-    }),
-    /**
-     * Total search results descriptor, "searchable preprints", for example.
-     * @property {String} shareTotalText
-     */
-    shareTotalText: Ember.computed('i18n.locale', function() {
-        return this.get('i18n').t('eosf.components.discoverPage.shareTotalText');
     }),
     /**
      * For PREPRINTS and REGISTRIES.  Displays activeFilters box above search facets.
@@ -202,17 +217,35 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     showLuceneHelp: false, // Is Lucene Search help modal open?
     /**
      * Size query parameter.  If "size" is one of your query params, it must be passed to the component so it can be reflected in the URL.
-     * @property {String} size
+     * @property {Integer} size
+     * @default 10
      */
     size: 10,
     /**
      * Sort query parameter.  If "sort" is one of your query params, it must be passed to the component so it can be reflected in the URL.
      * @property {String} sort
+     * @default ''
      */
     sort: '',
     /**
-     * Sort dropdown options
+     * Sort dropdown options - Array of dictionaries.  Each dictionary should have display and sortBy keys.
      * @property {Array} sortOptions
+     * @default [{
+        display: 'Relevance',
+        sortBy: ''
+    }, {
+        display: 'Date Updated (Desc)',
+        sortBy: '-date_updated'
+    }, {
+        display: 'Date Updated (Asc)',
+        sortBy: 'date_updated'
+    }, {
+        display: 'Ingest Date (Asc)',
+        sortBy: 'date_created'
+    }, {
+        display: 'Ingest Date (Desc)',
+        sortBy: '-date_created'
+    }]
      */
     sortOptions: [{
         display: 'Relevance',
@@ -233,27 +266,32 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     /**
      * Sources query parameter.  If "sources" is one of your query params, it must be passed to the component so it can be reflected in the URL.
      * @property {String} sources
+     * @default ''
      */
     sources: '',
     /**
      * Start query parameter.  If "start" is one of your query params, it must be passed to the component so it can be reflected in the URL.
      * @property {String} start
+     * @default ''
      */
     start: '',
     /**
      * Subject query parameter.  If "subject" is one of your query params, it must be passed to the component so it can be reflected in the URL.
      * @property {String} subject
+     * @default ''
      */
     subject: '',
     /**
      * Tags query parameter.  If "tags" is one of your query params, it must be passed to the component so it can be reflected in the URL.
      * @property {String} tags
+     * @default ''
      */
     tags: '',
     took: 0,
     /**
      * type query parameter.  If "type" is one of your query params, it must be passed to the component so it can be reflected in the URL.
      * @property {String} type
+     * @default ''
      */
     type: '',
 
@@ -422,19 +460,19 @@ export default Ember.Component.extend(Analytics, hostAppName, {
         // For PREPRINTS and REGISTRIES.  Adds activeFilters to query body.
         const activeFilters = this.get('activeFilters');
         const filterMap = this.get('filterMap');
-        for (const key in filterMap) {
+        Object.keys(filterMap).forEach(key => {
             const val = filterMap[key];
             const filterList = activeFilters[key];
 
             if (!filterList.length || (key === 'providers' && this.get('theme.isProvider')))
-                continue;
+                return;
 
             filters.push({
                 terms: {
                     [val]: filterList
                 }
             });
-        }
+        });
 
         // For PREPRINTS and REGISTRIES. If theme.isProvider, add this provider to the query body
         if (this.get('theme.isProvider') && this.get('providerName') !== null) {
@@ -503,7 +541,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     loadPage() {
         let queryBody = JSON.stringify(this.getQueryBody());
         this.set('loading', true);
-        return Ember.$.ajax({
+        let jqDeferred = Ember.$.ajax({
             url: this.get('searchUrl'),
             crossDomain: true,
             type: 'POST',
@@ -587,13 +625,14 @@ export default Ember.Component.extend(Analytics, hostAppName, {
                 this.set('shareDown', true);
             }
         });
+        return new Ember.RSVP.Promise((resolve, reject) => {
+            jqDeferred.done((value) => resolve(value));
+            jqDeferred.fail((reason) => reject(reason));
+        });
     },
     loadProvider() {
-        /**
-         *  For PREPRINTS and REGISTRIES
-         *  Loads preprint provider if theme.isProvider
-         *  Needed because theme's provider was not loading before SHARE was queried.
-         */
+        // For PREPRINTS and REGISTRIES - Loads preprint provider if theme.isProvider
+        // Needed because theme's provider was not loading before SHARE was queried.
         if (this.get('theme.isProvider')) {
             this.get('theme.provider').then(provider => {
                 this.set('providerName', provider.get('name'));
@@ -756,12 +795,9 @@ export default Ember.Component.extend(Analytics, hostAppName, {
             this.toggleProperty('showLuceneHelp');
         },
         typing(val, event) {
-            /**
-             * Fires on keyup in search bar.
-             *
-             * Ignores all keycodes that don't result in the value changing
-             * 8 == Backspace, 32 == Space
-             */
+             // Fires on keyup in search bar
+             // Ignores all keycodes that don't result in the value changing
+             // 8 == Backspace, 32 == Space
             if (event.keyCode < 49 && !(event.keyCode === 8 || event.keyCode === 32)) {
                 return;
             }

@@ -1,11 +1,21 @@
 import Ember from 'ember';
 import moment from 'moment';
 
-/*
- * @function dateRangeFilter
+/**
+ * @module ember-osf
+ * @submodule utils
+ */
+
+/**
+ * @class elastic-query
+ */
+
+/**
+ * @method dateRangeFilter
  * @param String field Name of the date field to filter
  * @param Object start Beginning of date range
  * @param Object end End of date range
+ * @return filter
  */
 function dateRangeFilter(field, start, end) {
     if (start && end) {
@@ -20,11 +30,13 @@ function dateRangeFilter(field, start, end) {
     }
 }
 
-/*
- * @function termsFilter
+
+/**
+ * @method termsFilter
  * @param String field Name of the field to filter
  * @param Array terms List of terms to match
  * @param Boolean [all] If true (default), return an array of filters to match results with *all* of the terms. Otherwise, return a single filter to match results with *any* of the terms.
+ * @return filter
  */
 function termsFilter(field, terms, all = true) {
     if (terms && terms.length) {

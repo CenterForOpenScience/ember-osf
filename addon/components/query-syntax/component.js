@@ -3,5 +3,6 @@ import layout from './template';
 
 // Adapted from Ember-SHARE
 export default Ember.Component.extend({
-    layout
+    layout,
+    i18n: Ember.inject.service()
 });

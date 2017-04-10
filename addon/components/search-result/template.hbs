@@ -5,14 +5,14 @@
             {{!Title}}
             <h4>
                 {{#if (and detailRoute osfID)}}
-                    {{#link-to detailRoute osfID invokeAction=(action 'click' 'link' 'Discover - Result Title' osfID)}}{{result.title}}{{/link-to}}
+                    {{#link-to detailRoute osfID invokeAction=(action 'click' 'link' 'Discover - Result Title' osfID)}}{{fix-special-char result.title}}{{/link-to}}
                 {{else if (and detailRoute (eq hostAppName 'Retraction Watch'))}}
-                    {{#link-to detailRoute result.id}}{{result.title}}{{/link-to}}
+                    {{#link-to detailRoute result.id}}{{fix-special-char result.title}}{{/link-to}}
                 {{else}}
                     {{#if hyperlink}}
-                        <a href='{{hyperlink}}' onclick={{action 'click' 'link' (concat 'Discover - Result Title: ' hyperlink) result.id}}>{{result.title}}</a>
+                        <a href='{{hyperlink}}' onclick={{action 'click' 'link' (concat 'Discover - Result Title: ' hyperlink) result.id}}>{{fix-special-char result.title}}</a>
                     {{else}}
-                        <span>{{result.title}}</span>
+                        <span>{{fix-special-char result.title}}</span>
                     {{/if}}
                 {{/if}}
                 {{#if result.withdrawn}}
@@ -53,7 +53,7 @@
             <p>
                 <div class="text-muted m-t-sm">
                     {{#if showBody}}
-                        {{safeDescription}}
+                        {{fix-special-char result.description}}
                     {{else}}
                          {{#if abbreviation}}
                              {{abbreviation}}
