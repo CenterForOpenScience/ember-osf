@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "bootstrap": "~3.3.5",
-    "osf-style": "https://github.com/pattisdr/osf-style.git#82881e2e9e099b0a22d30ff615ca8716e463335f"
+    "osf-style": "https://github.com/pattisdr/osf-style.git#32b2584d0087db6895645a5c58518861cbe7d004"
   },
   "resolutions": {
     "jquery": "~2.1.3"
