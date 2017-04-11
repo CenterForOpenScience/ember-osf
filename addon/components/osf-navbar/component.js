@@ -46,10 +46,6 @@ export default Ember.Component.extend({
     }),
     showSearch: false,
     actions: {
-        // Switches to new service
-        switchService(serviceName) {
-            this.set('currentService', serviceName);
-        },
         // Toggles whether search bar is displayed (for searching OSF)
         toggleSearch() {
             this.toggleProperty('showSearch');
