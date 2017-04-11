@@ -42,7 +42,6 @@ export default Ember.Component.extend({
     serviceLinks: Ember.computed(function() {
         return serviceLinks;
     }),
-
     gravatarUrl: Ember.computed('user', function() {
         let imgLink = this.get('user.links.profile_image');
 
