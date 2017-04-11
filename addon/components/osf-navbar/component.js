@@ -2,6 +2,7 @@ import Ember from 'ember';
 import layout from './template';
 import osfServices from '../../const/osf-services';
 import serviceLinks from '../../const/service-links';
+import hostAppName from '../../mixins/host-app-name';
 import config from 'ember-get-config';
 
 /**
@@ -17,13 +18,12 @@ import config from 'ember-get-config';
  * ```handlebars
  * {{osf-navbar
  *   loginAction=loginAction
- *   currentService=currentService (pass in service in all caps, ex. REGISTRIES, HOME, MEETINGS, PREPRINTS)
  * }}
  * ```
  *
  * @class osf-navbar
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend(hostAppName, {
     layout,
     session: Ember.inject.service(),
     osfServices: Ember.computed(function() {
@@ -33,7 +33,13 @@ export default Ember.Component.extend({
         return serviceLinks;
     }),
     host: config.OSF.url,
-    currentService: 'HOME', // Pass in name of current service
+    currentService: Ember.computed(function() { // Pulls current service name from consuming service's config file
+        let appName = this.get('hostAppName') || 'Home';
+        if (appName === 'Dummy App') {
+            appName = 'Home';
+        }
+        return appName.toUpperCase();
+    }),
     currentServiceLink: Ember.computed('serviceLinks', 'currentService', function() {
         const serviceMapping = {
             HOME: 'osfHome',
