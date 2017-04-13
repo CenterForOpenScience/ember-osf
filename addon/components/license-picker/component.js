@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import _ from 'lodash/lodash';
 import layout from './template';
 
 export default Ember.Component.extend({
@@ -12,6 +13,16 @@ export default Ember.Component.extend({
     showCopyrightHolders: true,
     showCategories: true,
     allowDismiss: false,
+    init() {
+        this._super(...arguments);
+        // Debouncing autosave prevents a request per keystroke, only sending it
+        // when the user is done typing (trailing=true), debounce timer can be tweaked.
+        this.set('debouncedAutosave', _.debounce(() => {
+            if (this.get('autosave')) {
+                this.get('actions.save').bind(this)();
+            }
+        }, 500, {trailing: true}));
+    },
     showOtherFields: Ember.observer('nodeLicense', 'nodeLicense.text', function() {
         let text = this.get('nodeLicense.text');
         if (!text) {
@@ -60,11 +71,7 @@ export default Ember.Component.extend({
         return text;
     }),
     licenseEdited: Ember.observer('copyrightHolders', 'nodeLicense', 'year', function() {
-        Ember.run.debounce(this, function() {
-            if (this.get('autosave')) {
-                this.get('actions.save').bind(this)();
-            }
-        }, 250);
+        this.get('debouncedAutosave')();
     }),
     year: null,
     copyrightHolders: null,
