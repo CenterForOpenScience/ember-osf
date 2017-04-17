@@ -1671,13 +1671,13 @@ debug@2.3.3:
   dependencies:
     ms "0.7.2"
 
-debug@2.6.1:
+debug@2.6.1, debug@^2.1.3:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.1.tgz#79855090ba2c4e3115cc7d8769491d58f0491351"
   dependencies:
     ms "0.7.2"
 
-debug@^2.1.0, debug@^2.1.1, debug@^2.1.3, debug@^2.2.0:
+debug@^2.1.0, debug@^2.1.1, debug@^2.2.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.0.tgz#bc596bcabe7617f11d9fa15361eded5608b8499b"
   dependencies:
@@ -2454,7 +2454,7 @@ ember-lodash@4.17.0:
     ember-cli-babel "^5.1.6"
     lodash-es "^4.17.2"
 
-ember-markdown-it@^0.0.5:
+ember-markdown-it@0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/ember-markdown-it/-/ember-markdown-it-0.0.5.tgz#f2626c4d9bcb869425e484e7135049340eac8465"
   dependencies:
@@ -5423,15 +5423,15 @@ q@^1.1.2:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/q/-/q-1.4.1.tgz#55705bcd93c5f3673530c2c2cbc0c2b3addc286e"
 
-qs@6.2.0, qs@^6.2.0, qs@~6.2.0:
+qs@6.2.0:
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.2.0.tgz#3b7848c03c2dece69a9522b0fae8c4126d745f3b"
 
-qs@6.2.1:
+qs@6.2.1, qs@~6.2.0:
   version "6.2.1"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.2.1.tgz#ce03c5ff0935bc1d9d69a9f14cbd18e568d67625"
 
-qs@~6.3.0:
+qs@^6.2.0, qs@~6.3.0:
   version "6.3.0"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.3.0.tgz#f403b264f23bc01228c74131b407f18d5ea5d442"
 
