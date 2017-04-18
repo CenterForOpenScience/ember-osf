@@ -2454,12 +2454,6 @@ ember-lodash@4.17.0:
     ember-cli-babel "^5.1.6"
     lodash-es "^4.17.2"
 
-ember-markdown-it@0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/ember-markdown-it/-/ember-markdown-it-0.0.5.tgz#f2626c4d9bcb869425e484e7135049340eac8465"
-  dependencies:
-    ember-cli-babel "^5.1.7"
-
 ember-metrics@^0.8.1:
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/ember-metrics/-/ember-metrics-0.8.1.tgz#f571bc884c101880cf5ab857ef11048fcb284e35"

@@ -1,5 +1,5 @@
+/* jshint ignore:start */
 import Ember from 'ember';
-import markdownit from 'markdown-it';
 
 const { htmlSafe } = Ember.String;
 
@@ -31,3 +31,4 @@ export function markdownViewer(params) {
 }
 
 export default Ember.Helper.helper(markdownViewer);
+/* jshint ignore:end */

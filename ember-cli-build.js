@@ -35,5 +35,8 @@ module.exports = function(defaults) {
 
     app.import(path.join(app.bowerDirectory, 'osf-style/css/base.css'));
     app.import('vendor/assets/ember-osf.css');
+
+    app.import(path.join(app.bowerDirectory, 'markdown-it/dist/markdown-it.js'));
+
     return app.toTree();
 };
