@@ -20,3 +20,13 @@ test('test emphasize rendering', function(assert) {
     let result = markdownViewer(['*test emphasize*']);
     assert.equal(result.toString().trim(), htmlSafe('<p><em>test emphasize</em></p>').toString().trim());
 });
+
+
+test('test code rendering', function(assert) {
+    let result = markdownViewer(['```javascript' +
+    '(function(){' +
+            'console.log(test code);' +
+        '});' +
+    '```']);
+    assert.equal(result.toString().trim(), htmlSafe('<p><code>javascript(function(){console.log(test code);});</code></p>').toString().trim());
+});

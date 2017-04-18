@@ -24,7 +24,7 @@ export function markdownViewer(params) {
         // This is only for full CommonMark compatibility.
 
         breaks: false,      // Convert '\n' in paragraphs into <br>
-    }).disable(['image', 'link']);
+    }).disable(['image', 'link', 'code']);
     const renderedHtml = html.render(markdown);
 
     return htmlSafe(renderedHtml);
