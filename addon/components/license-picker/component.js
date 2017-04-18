@@ -38,8 +38,19 @@ export default Ember.Component.extend({
     copyrightHoldersRequired: Ember.computed('nodeLicense', function() {
         return this.get('nodeLicense.requiredFields') && this.get('nodeLicense.requiredFields').indexOf('copyrightHolders') !== -1;
     }),
+    _updateNodeLicense(licenses) {
+        this.set('licensesAvailable', licenses);
+        if (!this.get('currentValues.licenseType.id')) { //if not resolved properly
+            this.set('nodeLicense', this.get('licensesAvailable.firstObject'));
+        } else {
+            this.set('nodeLicense', this.get('currentValues.licenseType'));
+        }
+        this.set('skipAutosave', false);
+    },
     didReceiveAttrs() {
         this.set('skipAutosave', true); //Skip autosave while receiving data, assumes data passed down is already stored.
+        // It's important that toggling skipAutsave to false is done as the last .set called in didReceiveAttrs. Right now it's
+        // part of _updateNodeLicense
         if (!this.get('currentValues.year')) {
             let date = new Date();
             this.set('year', String(date.getUTCFullYear()));
@@ -51,22 +62,10 @@ export default Ember.Component.extend({
         }
         if (!this.get('licenses')) {
             this.get('store').query('license', { 'page[size]': 20 }).then(ret => {
-                this.set('licensesAvailable', ret);
-                if (!this.get('currentValues.licenseType.id')) { //if not resolved properly
-                    this.set('nodeLicense', this.get('licensesAvailable.firstObject'));
-                } else {
-                    this.set('nodeLicense', this.get('currentValues.licenseType'));
-                }
-                this.set('skipAutosave', false);
+                this.get('_updateNodeLicense').bind(this)(ret);
             });
         } else {
-            this.set('licensesAvailable', this.get('licenses'));
-            if (!this.get('currentValues.licenseType.id')) { //if not resolved properly
-                this.set('nodeLicense', this.get('licensesAvailable.firstObject'));
-            } else {
-                this.set('nodeLicense', this.get('currentValues.licenseType'));
-            }
-            this.set('skipAutosave', false);
+            this.get('_updateNodeLicense').bind(this)(this.get('licenses'));
         }
     },
     nodeLicenseText: Ember.computed('nodeLicense', 'nodeLicense.text', 'year', 'copyrightHolders', function() {
