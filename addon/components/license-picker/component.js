@@ -2,16 +2,21 @@ import Ember from 'ember';
 import _ from 'lodash';
 import layout from './template';
 
-function skipAutosave(ctx, fn) {
+function skipAutosave(ctx, fn, as) {
     ctx.set('_skipAutosave', true);
     let ret = null;
-    ret = fn.bind(ctx)();
-    if (ret && ret.constructor.name === 'Promise') {
-        //Ensures that autosave gets turned on after promise resolves if fn is aynchronous
-        ret.then(() => ctx.set('_skipAutosave', false));
-    } else {
-        ctx.set('_skipAutosave', false);
-    }
+    console.log('Start Skip');
+    if (as) {
+    ret = fn.bind(ctx)().then(() => {    console.log('End Skip (as)'); ctx.set('_skipAutosave', false)});
+} else {
+    console.log('End Skip (s)');
+    fn.bind(ctx);
+    // ctx.set('_skipAutosave', false);
+}
+    // } else {
+    //     console.log('End Skip (s)');
+    //     ctx.set('_skipAutosave', false);
+    // }
     return ret;
 }
 
@@ -33,6 +38,7 @@ export default Ember.Component.extend({
         // Debouncing autosave prevents a request per keystroke, only sending it
         // when the user is done typing (trailing=true), debounce timer can be tweaked.
         this.set('debouncedAutosave', _.debounce(() => {
+            console.log('asdjiasjdiajsidjaisjdiajsdijais')
             if (this.get('autosave')) {
                 this.get('actions.save').bind(this)();
             }
@@ -44,8 +50,8 @@ export default Ember.Component.extend({
         });
         skipAutosave(this, () =>
             this.get('store').query('license', { 'page[size]': 20 })
-            .then(ret => this.get('_updateNodeLicense').bind(this)(ret))
-        );
+            .then(ret => {console.log('Resolve Get Licenses'); return this.get('_updateNodeLicense').bind(this)(ret)}),
+        true);
     },
     showOtherFields: Ember.observer('nodeLicense', 'nodeLicense.text', function() {
         let text = this.get('nodeLicense.text');
@@ -62,18 +68,27 @@ export default Ember.Component.extend({
         return this.get('nodeLicense.requiredFields') && this.get('nodeLicense.requiredFields').indexOf('copyrightHolders') !== -1;
     }),
     _updateNodeLicense(licenses) {
-        this.set('licensesAvailable', licenses);
-        if (!this.get('currentValues.licenseType.id')) { //if not resolved properly
-            this.set('nodeLicense', this.get('licensesAvailable.firstObject'));
-        } else {
-            this.set('nodeLicense', this.get('currentValues.licenseType'));
-        }
+        return new Ember.RSVP.Promise((resolve) => {
+            this.set('licensesAvailable', licenses);
+            console.log('updateNodeLicense');
+            if (!this.get('currentValues.licenseType.id')) { //if not resolved properly
+                this.set('nodeLicense', this.get('licensesAvailable.firstObject'));
+            } else {
+                this.set('nodeLicense', this.get('currentValues.licenseType'));
+            }
+            resolve();
+        });
     },
     _updateYear: Ember.observer('currentValues.year', function() {
-        skipAutosave(this, () => this.set('year', this.get('currentValues.year')));
+        skipAutosave(this, () =>
+             new Ember.RSVP.Promise((resolve) => {
+                 this.set('year', this.get('currentValues.year'));
+                 resolve();
+             })
+         , true);
     }),
     _updateCopyrightHolders: Ember.observer('currentValues.copyrightHolders', function() {
-        skipAutosave(this, () => this.set('copyrightHolders', this.get('currentValues.copyrightHolders')));
+        // skipAutosave(this, () => {console.log('_updateYear'); this.set('copyrightHolders', this.get('currentValues.copyrightHolders'))});
     }),
     _updateLicense: Ember.observer('licenses', function() {
         skipAutosave(this, () => this.get('_updateNodeLicense').bind(this)(this.get('licenses')));
@@ -87,6 +102,7 @@ export default Ember.Component.extend({
         return text;
     }),
     licenseEdited: Ember.observer('copyrightHolders', 'nodeLicense', 'year', function() {
+        debugger;
         if (!this.get('_skipAutosave')) {
             this.get('debouncedAutosave')();
         }
