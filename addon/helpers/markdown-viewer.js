@@ -6,7 +6,7 @@ const { htmlSafe } = Ember.String;
 export function markdownViewer(params) {
 
     const [markdown] = params;
-    const html = markdownit({
+    const html = markdownit('zero', {
         html: false,        // Enable HTML tags in source
 
         linkify: false,     // Autoconvert URL-like text to links
@@ -24,7 +24,7 @@ export function markdownViewer(params) {
         // This is only for full CommonMark compatibility.
 
         breaks: true,      // Convert '\n' in paragraphs into <br>
-    }).disable(['image', 'code', 'link', 'blockquote', 'heading']);
+    }).enable(['list', 'newline', 'emphasis', 'paragraph']);
     const renderedHtml = html.render(markdown);
 
     return htmlSafe(renderedHtml);
