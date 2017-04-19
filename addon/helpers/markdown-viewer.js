@@ -1,8 +1,19 @@
-/* jshint ignore:start */
 import Ember from 'ember';
 
 const { htmlSafe } = Ember.String;
 
+/**
+Render markdown text for selected rules.
+
+ Usage example:
+ ```handlebars
+ This is the text we want to render: {{markdown-viewer '*text is italic*'}}
+ ```
+
+ @class markdown-viewer-helper
+ @uses markdownit
+ */
+/* global markdownit */
 export function markdownViewer(params) {
 
     const [markdown] = params;
@@ -31,4 +42,3 @@ export function markdownViewer(params) {
 }
 
 export default Ember.Helper.helper(markdownViewer);
-/* jshint ignore:end */
