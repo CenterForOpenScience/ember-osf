@@ -23,8 +23,8 @@ export function markdownViewer(params) {
         xhtmlOut: false,    // Use '/' to close single tags (<br />).
         // This is only for full CommonMark compatibility.
 
-        breaks: false,      // Convert '\n' in paragraphs into <br>
-    }).disable(['image', 'link', 'code']);
+        breaks: true,      // Convert '\n' in paragraphs into <br>
+    }).disable(['image', 'code', 'link', 'blockquote', 'heading']);
     const renderedHtml = html.render(markdown);
 
     return htmlSafe(renderedHtml);

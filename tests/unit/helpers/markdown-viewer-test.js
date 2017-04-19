@@ -6,27 +6,12 @@ module('Unit | Helper | markdown viewer helper');
 
 const htmlSafe = Ember.String.htmlSafe;
 
-test('test h1 rendering', function(assert) {
-    let result = markdownViewer(['# test h1']);
-    assert.equal(result.toString().trim(), htmlSafe('<h1>test h1</h1>').toString().trim());
-});
-
-test('test h2 rendering', function(assert) {
-    let result = markdownViewer(['## test h2']);
-    assert.equal(result.toString().trim(), htmlSafe('<h2>test h2</h2>').toString().trim());
+test('test emphasize rendering', function(assert) {
+    let result = markdownViewer(['*test italic*']);
+    assert.equal(result.toString().trim(), htmlSafe('<p><em>test italic</em></p>').toString().trim());
 });
 
 test('test emphasize rendering', function(assert) {
-    let result = markdownViewer(['*test emphasize*']);
-    assert.equal(result.toString().trim(), htmlSafe('<p><em>test emphasize</em></p>').toString().trim());
-});
-
-
-test('test code rendering', function(assert) {
-    let result = markdownViewer(['```javascript' +
-    '(function(){' +
-            'console.log(test code);' +
-        '});' +
-    '```']);
-    assert.equal(result.toString().trim(), htmlSafe('<p><code>javascript(function(){console.log(test code);});</code></p>').toString().trim());
+    let result = markdownViewer(['**test bold**']);
+    assert.equal(result.toString().trim(), htmlSafe('<p><strong>test bold</strong></p>').toString().trim());
 });
