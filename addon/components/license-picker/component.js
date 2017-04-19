@@ -5,10 +5,11 @@ import layout from './template';
 function skipAutosave(ctx, fn) {
     ctx.set('_skipAutosave', true);
     let ret = null;
-    try {
-        ret = fn.bind(ctx)().then(() => ctx.set('_skipAutosave', false));
-    } catch (ex) {
-        ret = fn.bind(ctx)();
+    ret = fn.bind(ctx)();
+    if (ret && ret.constructor.name === 'Promise') {
+        //Ensures that autosave gets turned on after promise resolves if fn is aynchronous
+        ret.then(() => ctx.set('_skipAutosave', false));
+    } else {
         ctx.set('_skipAutosave', false);
     }
     return ret;
