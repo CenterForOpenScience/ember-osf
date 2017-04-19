@@ -3,6 +3,7 @@ import faker from 'faker';
 
 FactoryGuy.define('comment-report', {
     default: {
-        category: () => faker.random.arrayElement(['hate', 'spam', 'violence'])
+        category: () => faker.random.arrayElement(['hate', 'spam', 'violence']),
+        text: FactoryGuy.belongsTo('comment')
     },
 });
