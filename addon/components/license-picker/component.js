@@ -2,21 +2,10 @@ import Ember from 'ember';
 import _ from 'lodash';
 import layout from './template';
 
-function skipAutosave(ctx, fn, as) {
+function skipAutosave(ctx, fn) {
     ctx.set('_skipAutosave', true);
-    let ret = null;
-    console.log('Start Skip');
-    if (as) {
-    ret = fn.bind(ctx)().then(() => {    console.log('End Skip (as)'); ctx.set('_skipAutosave', false)});
-} else {
-    console.log('End Skip (s)');
-    fn.bind(ctx);
-    // ctx.set('_skipAutosave', false);
-}
-    // } else {
-    //     console.log('End Skip (s)');
-    //     ctx.set('_skipAutosave', false);
-    // }
+    const ret = fn.bind(ctx)();
+    ctx.set('_skipAutosave', false);
     return ret;
 }
 
@@ -38,21 +27,25 @@ export default Ember.Component.extend({
         // Debouncing autosave prevents a request per keystroke, only sending it
         // when the user is done typing (trailing=true), debounce timer can be tweaked.
         this.set('debouncedAutosave', _.debounce(() => {
-            console.log('asdjiasjdiajsidjaisjdiajsdijais')
             if (this.get('autosave')) {
                 this.get('actions.save').bind(this)();
             }
         }, 500, {trailing: true}));
-
-        skipAutosave(this, () => {
+    },
+    didReceiveAttrs() {
+        if (!this.get('currentValues.year') && !this.get('year')) {
             let date = new Date();
             this.set('year', String(date.getUTCFullYear()));
-        });
-        skipAutosave(this, () =>
-            this.get('store').query('license', { 'page[size]': 20 })
-            .then(ret => {console.log('Resolve Get Licenses'); return this.get('_updateNodeLicense').bind(this)(ret)}),
-        true);
+        }
+        if (!this.get('licenses') && this.get('licensesAvailable').length === 0) {
+            this.get('store').query('license', { 'page[size]': 20 }).then(ret => this.get('_updateNodeLicense').bind(this)(ret));
+        } else if (this.get('licenses')) {
+            this.get('_updateNodeLicense').bind(this)(this.get('licenses'));
+        }
     },
+    _nodeLicense: Ember.observer('licenses', function() {
+
+    }),
     showOtherFields: Ember.observer('nodeLicense', 'nodeLicense.text', function() {
         let text = this.get('nodeLicense.text');
         if (!text) {
@@ -68,30 +61,29 @@ export default Ember.Component.extend({
         return this.get('nodeLicense.requiredFields') && this.get('nodeLicense.requiredFields').indexOf('copyrightHolders') !== -1;
     }),
     _updateNodeLicense(licenses) {
-        return new Ember.RSVP.Promise((resolve) => {
-            this.set('licensesAvailable', licenses);
-            console.log('updateNodeLicense');
-            if (!this.get('currentValues.licenseType.id')) { //if not resolved properly
-                this.set('nodeLicense', this.get('licensesAvailable.firstObject'));
-            } else {
-                this.set('nodeLicense', this.get('currentValues.licenseType'));
-            }
-            resolve();
-        });
+        this.set('licensesAvailable', licenses);
+        if (!this.get('currentValues.licenseType.id')) { //if not resolved properly
+            this.set('nodeLicense', this.get('licensesAvailable.firstObject'));
+        } else {
+            skipAutosave(this,
+                () => this.set('nodeLicense', this.get('currentValues.licenseType'))
+            );
+        }
     },
     _updateYear: Ember.observer('currentValues.year', function() {
         skipAutosave(this, () =>
-             new Ember.RSVP.Promise((resolve) => {
-                 this.set('year', this.get('currentValues.year'));
-                 resolve();
-             })
-         , true);
+            this.set('year', this.get('currentValues.year'))
+        );
     }),
     _updateCopyrightHolders: Ember.observer('currentValues.copyrightHolders', function() {
-        // skipAutosave(this, () => {console.log('_updateYear'); this.set('copyrightHolders', this.get('currentValues.copyrightHolders'))});
+        skipAutosave(this, () =>
+            this.set('copyrightHolders', this.get('currentValues.copyrightHolders'))
+        );
     }),
     _updateLicense: Ember.observer('licenses', function() {
-        skipAutosave(this, () => this.get('_updateNodeLicense').bind(this)(this.get('licenses')));
+        skipAutosave(this, () =>
+            this.get('_updateNodeLicense').bind(this)(this.get('licenses'))
+        );
     }),
     nodeLicenseText: Ember.computed('nodeLicense', 'nodeLicense.text', 'year', 'copyrightHolders', function() {
         let text = this.get('nodeLicense.text');
@@ -102,13 +94,10 @@ export default Ember.Component.extend({
         return text;
     }),
     licenseEdited: Ember.observer('copyrightHolders', 'nodeLicense', 'year', function() {
-        debugger;
         if (!this.get('_skipAutosave')) {
             this.get('debouncedAutosave')();
         }
     }),
-    year: null,
-    copyrightHolders: null,
     actions: {
         selectLicense(license) {
             this.set('nodeLicense', license);
