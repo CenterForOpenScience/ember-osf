@@ -26,14 +26,10 @@ import config from 'ember-get-config';
 export default Ember.Component.extend(hostAppName, {
     layout,
     session: Ember.inject.service(),
-    osfServices: Ember.computed(function() {
-        return osfServices;
-    }),
-    serviceLinks: Ember.computed(function() {
-        return serviceLinks;
-    }),
+    osfServices: osfServices,
+    serviceLinks: serviceLinks,
     host: config.OSF.url,
-    currentService: Ember.computed(function() { // Pulls current service name from consuming service's config file
+    currentService: Ember.computed('hostAppName', function() { // Pulls current service name from consuming service's config file
         let appName = this.get('hostAppName') || 'Home';
         if (appName === 'Dummy App') {
             appName = 'Home';
@@ -58,7 +54,7 @@ export default Ember.Component.extend(hostAppName, {
             this.send('closeSecondaryNavigation');
         },
         closeSecondaryNavigation() {
-            Ember.$('.navbar-collapse').collapse('hide');
+            this.$('.navbar-collapse').collapse('hide');
         },
         closeSearch() {
             this.set('showSearch', false);

@@ -39,9 +39,7 @@ export default Ember.Component.extend({
      */
     signupUrl: config.OSF.url + 'register',
 
-    serviceLinks: Ember.computed(function() {
-        return serviceLinks;
-    }),
+    serviceLinks: serviceLinks,
     gravatarUrl: Ember.computed('user', function() {
         let imgLink = this.get('user.links.profile_image');
 
