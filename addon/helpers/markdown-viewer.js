@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import markdownit from 'markdown-it';
 
 const { htmlSafe } = Ember.String;
 
@@ -14,6 +13,7 @@ Render markdown text for selected rules.
  @class markdown-viewer-helper
  @uses markdownit
  */
+/* global markdownit */
 export function markdownViewer(params) {
 
     const [markdown] = params;
