@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import serviceLinks from '../const/service-links';
+import { serviceLinks } from '../const/service-links';
 
 /**
  * @module ember-osf

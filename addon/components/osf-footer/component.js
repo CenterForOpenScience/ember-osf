@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import layout from './template';
-import serviceLinks from '../../const/service-links';
+import { serviceLinks } from '../../const/service-links';
 
 /**
  * @module ember-osf

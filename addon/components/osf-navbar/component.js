@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import layout from './template';
-import osfServices from '../../const/osf-services';
-import serviceLinks from '../../const/service-links';
+import { serviceLinks, osfServices } from '../../const/service-links';
 import hostAppName from '../../mixins/host-app-name';
 import config from 'ember-get-config';
 
