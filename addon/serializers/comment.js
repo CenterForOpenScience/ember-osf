@@ -2,7 +2,7 @@ import Ember from 'ember';
 import OsfSerializer from './osf-serializer';
 
 export default OsfSerializer.extend({
-    serialize(snapshot, options) {  // jshint ignore:line
+    serialize(snapshot) {
         // Add relationships field to identify comment target
         let serialized = this._super(...arguments);
 
