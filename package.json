@@ -73,7 +73,8 @@
     "loader": "2.1.0",
     "loader.js": "4.0.3",
     "moment": "^2.13.0",
-    "phantomjs-prebuilt": "^2.1.7"
+    "phantomjs-prebuilt": "^2.1.7",
+    "yuidocjs": "^0.10.2"
   },
   "keywords": [
     "ember-addon"
