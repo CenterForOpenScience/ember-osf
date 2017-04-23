@@ -26,6 +26,6 @@ export default Ember.Mixin.create({
 
         // Block transition until auth attempt resolves. If auth fails, let the page load normally.
         return this.get('session').authenticate('authenticator:osf-cookie')
-            .catch(err => console.log('Authentication failed: ', err));
+            .catch(err => Ember.Logger.log('Authentication failed: ', err));
     }
 });

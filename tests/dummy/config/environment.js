@@ -1,4 +1,4 @@
-/* jshint node: true */
+/* eslint-env node */
 
 module.exports = function(environment) {
 
@@ -38,6 +38,7 @@ module.exports = function(environment) {
             }
         ],
         modulePrefix: 'dummy',
+        appName: 'Dummy App',
         environment: environment,
         baseURL: '/',
         locationType: 'auto',

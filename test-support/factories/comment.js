@@ -28,5 +28,9 @@ FactoryGuy.define('comment', {
             page: 'files'
         },
         // TODO: Add a hasReplies trait in the future to support replies- can we make reply page type match the specified parent type?
+        // Not sure if reply needs to have same page type for hasReplies to be useful. Can always make manual replies with relevant type
+        hasReplies: {
+            replies: FactoryGuy.hasMany('comment', 3)
+        }
     }
 });
