@@ -11,7 +11,7 @@
     "docs": "yuidoc --lint && yuidoc",
     "start": "ember server",
     "check-style": "eslint .",
-    "test": "yarn run check-style && ember test",
+    "test": "yarn run check-style && yuidoc --lint && ember test",
     "test:cover": "COVERAGE=true yarn test",
     "bump-version": "npm --no-git-tag-version version ",
     "preversion": "git-branch-is develop && yarn test",

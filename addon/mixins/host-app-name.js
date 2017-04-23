@@ -26,8 +26,8 @@ import Ember from 'ember';
  * ```
  * The above example will result in both component A and component B sharing the same attribute hostAppName.
  *
+ * @class host-app-name
  */
-
 export default Ember.Mixin.create({
     /**
      * The name of the hosting app is stored in the config/environment.js. Use the package ember-get-config to

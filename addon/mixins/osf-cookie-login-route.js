@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 /**
- * @module ember
+ * @module ember-osf
  * @submodule mixins
  */
 
