@@ -16,6 +16,7 @@
 .npmrc
 npm-debug.log
 testem.log
+.idea
 
 # Never commit configuration or private settings
 config/*.yml
