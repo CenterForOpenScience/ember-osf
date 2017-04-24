@@ -22,6 +22,7 @@ const DATE_FORMAT = 'Y-MM-DD';
  */
 export default Ember.Component.extend({
     layout,
+    i18n: Ember.inject.service(),
 
     init() {
         this._super(...arguments);
@@ -106,7 +107,7 @@ export default Ember.Component.extend({
     },
 
     noFilter() {
-        this.set('pickerValue', 'All time');
+        this.set('pickerValue', `${this.get('i18n').t('eosf.components.searchFacetDaterange.allTime')}`);
     },
 
     actions: {

@@ -21,6 +21,7 @@ import TypeaheadComponent from '../search-facet-typeahead/component';
 export default TypeaheadComponent.extend({
     layout,
     c3: Ember.inject.service(),
+    i18n: Ember.inject.service(),
 
     sourcesList: Ember.computed('aggregations', function() {
         let data = this.get('aggregations.sources.buckets');
@@ -34,7 +35,7 @@ export default TypeaheadComponent.extend({
 
     updateDonut(data) {
         let columns = data.map(({ key, doc_count }) => [key, doc_count]); // jscs:ignore
-        let title = columns.length + (columns.length === 1 ? ' Source' : ' Sources');
+        let title = columns.length + (columns.length === 1 ? ` ${this.get('i18n').t('eosf.components.searchFacetSource.source')}` : ` ${this.get('i18n').t('eosf.components.searchFacetSource.sources')}` );
 
         let donut = this.get('donut');
         if (!donut) {

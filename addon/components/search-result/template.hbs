@@ -16,7 +16,7 @@
                     {{/if}}
                 {{/if}}
                 {{#if result.withdrawn}}
-                    <span class='label label-default'> Withdrawn </span>
+                    <span class='label label-default'> {{t 'eosf.components.searchResult.withdrawn'}} </span>
                 {{/if}}
             </h4>
 
@@ -104,9 +104,9 @@
                 {{!Tags}}
                 {{#each tags as |tag|}}
                     {{#if tagsInQueryParams}}
-                        <a class="filter" {{action 'addFilter' 'tags' tag}}>
+                        <button class="filter btn-link" {{action 'addFilter' 'tags' tag}}>
                             <span class="badge">{{fix-special-char tag}}</span>
-                        </a>
+                        </button>
                     {{else}}
                         <span class="badge">{{fix-special-char tag}}</span>
                     {{/if}}

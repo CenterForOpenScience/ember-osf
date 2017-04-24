@@ -20,6 +20,7 @@ import layout from './template';
  */
 export default Ember.Component.extend({
     layout,
+    i18n: Ember.inject.service(),
 
     init() {
         this._super(...arguments);
@@ -31,12 +32,10 @@ export default Ember.Component.extend({
     },
 
     placeholder: Ember.computed(function() {
-        return 'Add ' + this.get('options.title') + ' filter';
+        return `${this.get('i18n').t('eosf.components.searchFacetLanguage.add')} ` + this.get('options.title') + ' filter';
     }),
 
-    languages: Ember.computed(function() {
-        return langs.names();
-    }),
+    languages: langs.names(),
 
     changed: Ember.observer('state', function() {
         let state = Ember.isBlank(this.get('state')) ? [] : this.get('state');

@@ -27,6 +27,11 @@
     color: #333333 ;
 }
 
+::placeholder { // Chrome supports in v 57?
+    color: #333333;
+    opacity: 1;
+}
+
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
     color: #333333 ;
 }

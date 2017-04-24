@@ -109,14 +109,14 @@ export default Ember.Component.extend(Analytics, hostAppName, {
      */
     facets: Ember.computed('processedTypes', function() {
         return [
-            { key: 'sources', title: 'Source', component: 'search-facet-source' },
-            { key: 'date', title: 'Date', component: 'search-facet-daterange' },
-            { key: 'type', title: 'Type', component: 'search-facet-worktype', data: this.get('processedTypes') },
-            { key: 'tags', title: 'Tag', component: 'search-facet-typeahead' },
-            { key: 'publishers', title: 'Publisher', component: 'search-facet-typeahead', base: 'agents', type: 'publisher' },
-            { key: 'funders', title: 'Funder', component: 'search-facet-typeahead', base: 'agents', type: 'funder' },
-            { key: 'language', title: 'Language', component: 'search-facet-language' },
-            { key: 'contributors', title: 'People', component: 'search-facet-typeahead', base: 'agents', type: 'person' },
+            { key: 'sources', title: `${this.get('i18n').t('eosf.components.discoverPage.source')}`, component: 'search-facet-source' },
+            { key: 'date', title: `${this.get('i18n').t('eosf.components.discoverPage.date')}`, component: 'search-facet-daterange' },
+            { key: 'type', title: `${this.get('i18n').t('eosf.components.discoverPage.type')}`, component: 'search-facet-worktype', data: this.get('processedTypes') },
+            { key: 'tags', title: `${this.get('i18n').t('eosf.components.discoverPage.tag')}`, component: 'search-facet-typeahead' },
+            { key: 'publishers', title: `${this.get('i18n').t('eosf.components.discoverPage.publisher')}`, component: 'search-facet-typeahead', base: 'agents', type: 'publisher' },
+            { key: 'funders', title: `${this.get('i18n').t('eosf.components.discoverPage.funder')}`, component: 'search-facet-typeahead', base: 'agents', type: 'funder' },
+            { key: 'language', title: `${this.get('i18n').t('eosf.components.discoverPage.language')}`, component: 'search-facet-language' },
+            { key: 'contributors', title: `${this.get('i18n').t('eosf.components.discoverPage.people')}`, component: 'search-facet-typeahead', base: 'agents', type: 'person' },
         ];
     }),
     /**
@@ -696,12 +696,12 @@ export default Ember.Component.extend(Analytics, hostAppName, {
         clearFilters() {
             // Clears facetFilters for SHARE-type facets
             this.set('facetFilters', Ember.Object.create());
-            for (var param in filterQueryParams) {
+            filterQueryParams.forEach(param => {
                 let key = filterQueryParams[param];
                 if (filterQueryParams.indexOf(key) > -1) {
                     this.set(key, '');
                 }
-            }
+            });
             this.set('start', '');
             this.set('end', '');
             this.set('sort', '');
@@ -716,7 +716,8 @@ export default Ember.Component.extend(Analytics, hostAppName, {
                 }
 
             });
-            this.set('activeFilters', restoreActiveFilters);Ember.get(this, 'metrics')
+            this.set('activeFilters', restoreActiveFilters);
+            Ember.get(this, 'metrics')
                 .trackEvent({
                     category: 'button',
                     action: 'click',

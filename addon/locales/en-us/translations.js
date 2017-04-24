@@ -23,7 +23,8 @@ export default {
             searchResult: {
                 addedOn: 'Added on',
                 lastEdited: 'Last edited',
-                showResult: 'Expand search result'
+                showResult: 'Expand search result',
+                withdrawn: 'Withdrawn'
 
             },
             discoverPage: {
@@ -48,7 +49,15 @@ export default {
                 removeRegistrationType: 'Remove registration type',
                 shareUnavailableDescription: 'SHARE Search is temporarily unavailable. We have been notified and are working to fix the problem. Please try again later.',
                 searchLoading: 'Search loading',
-                sortSearchResults: 'Sort search results'
+                sortSearchResults: 'Sort search results',
+                source: `Source`,
+                date: `Date`,
+                type: `Type`,
+                tag: `Tag`,
+                publisher: `Publisher`,
+                funder: `Funder`,
+                language: `Language`,
+                people: `People`
 
             },
             querySyntax: {
@@ -109,10 +118,19 @@ export default {
                 boostingDesc3: "Boost results with",
                 boostingDesc4: "higher than results with just",
                 moreInformation: "More Information",
-                moreInfoQuerySyntax: "For more details about query syntax, see the"
+                moreInfoQuerySyntax: "For more details about query syntax, see the",
+                documentation: "documentation"
             },
             searchFacetDaterange: {
-                modifyDate: 'Modify daterange'
+                modifyDate: 'Modify daterange',
+                allTime: 'All time'
+            },
+            searchFacetLanguage: {
+                add: 'Add'
+            },
+            searchFacetSource: {
+                'source': 'Source',
+                'sources': 'Sources'
             },
             searchFacetWorktypeButton: {
                 expandWorktype: 'Expand or contract worktype',

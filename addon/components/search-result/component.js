@@ -26,6 +26,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     maxCreators: 10,
     maxDescription: 300,
     showBody: false,
+    i18n: Ember.inject.service(),
     /**
      * Array of query params being used in consuming app
      * @property {Array} queryParams

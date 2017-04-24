@@ -12,6 +12,9 @@
     .filter {
         cursor: pointer;
         text-decoration: none;
+        outline: none;
+        margin: 0px;
+        padding: 0px;
     }
     .subject-preview { // Copied from ember-preprints
         display: inline-block;
