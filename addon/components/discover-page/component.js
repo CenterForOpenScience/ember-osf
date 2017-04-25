@@ -466,6 +466,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
         Object.keys(filterMap).forEach(key => {
             const val = filterMap[key];
             const filterList = activeFilters[key];
+            this.set(key, filterList.join('OR'));
 
             if (!filterList.length || (key === 'providers' && this.get('theme.isProvider')))
                 return;
@@ -700,10 +701,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
             // Clears facetFilters for SHARE-type facets
             this.set('facetFilters', Ember.Object.create());
             filterQueryParams.forEach(param => {
-                let key = filterQueryParams[param];
-                if (filterQueryParams.indexOf(key) > -1) {
-                    this.set(key, '');
-                }
+                this.set(param, '');
             });
             this.set('start', '');
             this.set('end', '');
