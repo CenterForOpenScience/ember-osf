@@ -423,7 +423,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
                 }
             }
         });
-        return Ember.$.ajax({
+        let jqDeferred = Ember.$.ajax({
             url: this.get('searchUrl'),
             crossDomain: true,
             type: 'POST',
@@ -435,6 +435,9 @@ export default Ember.Component.extend(Analytics, hostAppName, {
                 numberOfSources: json.aggregations.sources.value
             });
         });
+        return new Ember.RSVP.Promise(resolve => {
+            jqDeferred.done((value) => resolve(value));
+        })
     },
     getQueryBody() {
         /**

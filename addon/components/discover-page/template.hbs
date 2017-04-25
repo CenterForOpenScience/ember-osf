@@ -108,17 +108,17 @@
                                     {{filter-replace filter filterReplace}}
                                     {{#unless theme.isProvider}}
                                         {{!ACTIVE PROVIDER FILTERS}}
-                                        <span class='pointer' aria-label={{t 'eosf.components.discoverPage.removeProvider'}}>{{fa-icon 'times-circle' ariaHidden=false click=(action 'updateFilters' 'providers' filter)}}</span>
+                                        <button class='removeActiveFilter' aria-label={{t 'eosf.components.discoverPage.removeProvider'}}>{{fa-icon 'times-circle' ariaHidden=false click=(action 'updateFilters' 'providers' filter)}}</button>
                                     {{/unless}}
                                 </span>
                             {{/each}}
                             {{#each activeFilters.subjects as |filter|}}
                                 {{!ACTIVE SUBJECT FILTERS}}
-                                <span class='preprint-filter subject-filter'>{{filter}} <span class='pointer' aria-label={{t 'eosf.components.discoverPage.removeSubject'}}>{{fa-icon 'times-circle' ariaHidden=false click=(action 'updateFilters' 'subjects' filter)}}</span></span>
+                                <span class='preprint-filter subject-filter'>{{filter}} <button class='removeActiveFilter' aria-label={{t 'eosf.components.discoverPage.removeSubject'}}>{{fa-icon 'times-circle' ariaHidden=false click=(action 'updateFilters' 'subjects' filter)}}</button></span>
                             {{/each}}
                             {{!ACTIVE TYPE FILTERS}}
                             {{#each activeFilters.types as |filter|}}
-                                <span class='preprint-filter type-filter'>{{filter}} <span class='pointer' aria-label={{t 'eosf.components.discoverPage.removeRegistrationType'}}>{{fa-icon 'times-circle' ariaHidden=false click=(action 'updateFilters' 'types' filter)}}</span></span>
+                                <span class='preprint-filter type-filter'>{{filter}} <button class='removeActiveFilter' aria-label={{t 'eosf.components.discoverPage.removeRegistrationType'}}>{{fa-icon 'times-circle' ariaHidden=false click=(action 'updateFilters' 'types' filter)}}</button></span>
                             {{/each}}
                         </div>
                     </div>

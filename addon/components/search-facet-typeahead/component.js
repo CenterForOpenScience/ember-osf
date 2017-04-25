@@ -97,7 +97,7 @@ export default Ember.Component.extend({
 
         var data = JSON.stringify(this.buildTypeaheadQuery(term));
 
-        return Ember.$.ajax({
+        let jqDeferred = Ember.$.ajax({
             url: this.typeaheadQueryUrl(),
             crossDomain: true,
             type: 'POST',
@@ -107,6 +107,11 @@ export default Ember.Component.extend({
             resolve(this.handleTypeaheadResponse(json)),
             reject
         );
+
+        return new Ember.RSVP.Promise((resolve, reject) => {
+            jqDeferred.done((value) => resolve(value));
+            jqDeferred.fail((reason) => reject(reason));
+        });
     },
 
     actions: {

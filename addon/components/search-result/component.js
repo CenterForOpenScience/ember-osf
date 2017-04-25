@@ -2,6 +2,7 @@ import Ember from 'ember';
 import layout from './template';
 import Analytics from '../../mixins/analytics';
 import hostAppName from '../../mixins/host-app-name';
+import providerRegex from 'ember-osf/const/providerRegex';
 
 /**
  * Adapted from Ember-SHARE and Ember Preprints
@@ -37,14 +38,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
      * @property {Object} result
      */
     result: null,
-    providerUrlRegex: {
-        //'bioRxiv': '', doesnt currently have urls
-        Cogprints: /cogprints/,
-        OSF: /https?:\/\/((?!api).)*osf.io/, // Doesn't match api.osf urls
-        PeerJ: /peerj/,
-        arXiv: /arxivj/,
-        'ClinicalTrials.gov': /http:\/\/clinicaltrials.gov/,
-    },
+    providerUrlRegex: providerRegex,
     /**
      * Name of detail route for consuming application, if you want search result to link to a route in the consuming spp
      * @property {String} detailRoute
@@ -119,7 +113,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
 
         re = re || this.providerUrlRegex.OSF;
 
-        const identifiers = this.get('result.identifiers').filter(ident => ident.startsWith('http://'));
+        const identifiers = this.get('result.identifiers').filter(ident => ident.startsWith('http://') || ident.startsWith('https://') );
 
         for (let j = 0; j < identifiers.length; j++)
             if (re.test(identifiers[j]))
