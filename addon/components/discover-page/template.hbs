@@ -150,9 +150,7 @@
             <div class="col-sm-8 col-xs-12">  {{!RIGHT PANEL - SEARCH RESULTS}}
                 {{#if loading}} {{!SEARCH LOADING}}
                     <div class="text-center p-v-md" aria-label={{t 'eosf.components.discoverPage.searchLoading'}}>
-                        <div class="ball-scale ball-dark">
-                            <div></div>
-                        </div>
+                        {{fa-icon 'spinner' ariaHidden=false pulse=true size=3}}
                     </div>
                 {{else}}
                     {{#if numberOfResults}} {{!RESULTS FOUND}}
