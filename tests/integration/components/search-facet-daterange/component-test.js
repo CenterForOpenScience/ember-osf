@@ -1,8 +1,24 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import tHelper from "ember-i18n/helper";
+import Ember from 'ember';
 
+// Stub i18n service
+const i18nStub = Ember.Service.extend({
+    t: function(word) {
+        const translated = {
+            'eosf.components.searchFacetDaterange.allTime': 'All time',
+        };
+        return translated[word];
+    }
+});
 moduleForComponent('search-facet-daterange', 'Integration | Component | search facet daterange', {
-  integration: true
+    integration: true,
+    beforeEach() {
+        this.registry.register('helper:t', tHelper);
+        this.register('service:i18n', i18nStub);
+        this.inject.service('i18n', { as: 'i18n' });
+    }
 });
 
 test('it renders', function(assert) {
