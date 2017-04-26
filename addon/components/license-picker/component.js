@@ -55,8 +55,12 @@ export default Ember.Component.extend({
         }
         return this.get('licensesAvailable.firstObject');
     }),
-    year: Ember.computed.alias('currentValues.year'),
-    copyrightHolders: Ember.computed.alias('currentValues.copyrightHolders'),
+    year: Ember.computed('currentValues.year', function() {
+        return this.get('currentValues.year');
+    }),
+    copyrightHolders: Ember.computed('currentValues.copyrightHolders', function() {
+        return this.get('currentValues.copyrightHolders');
+    }),
     nodeLicenseText: Ember.computed('nodeLicense', 'nodeLicense.text', 'year', 'copyrightHolders', function() {
         let text = this.get('nodeLicense.text');
         if (text) {
@@ -67,8 +71,8 @@ export default Ember.Component.extend({
     }),
     licenseEdited: Ember.observer('copyrightHolders', 'nodeLicense', 'year', function() {
         if (
-            (this.get('copyrightHolders') !== this.get('currentValues.copyrightHolders')) ||
-            (this.get('year') !== this.get('currentValues.year')) ||
+            (this.get('copyrightHolders') && (this.get('copyrightHolders') !== this.get('currentValues.copyrightHolders'))) ||
+            (this.get('year') && (this.get('year') !== this.get('currentValues.year'))) ||
             (this.get('currentValues.licenseType.id') && this.get('nodeLicense.id') !== this.get('currentValues.licenseType.id'))
         ) {
             this.get('debouncedAutosave')();
