@@ -2,7 +2,34 @@ import Ember from 'ember';
 import _ from 'lodash';
 import layout from './template';
 
+/**
+* @module ember-osf
+* @submodule components
+*/
 
+/**
+* Widget to select a license on a project or preprint with the ability
+* to only allow a subset of licenses and to autosave or save explictly
+* ```handlebars
+* {{license-picker
+*   licenses=availableLicenses
+*   currentValues=basicsLicense
+*   showCategories=false
+*   editLicense=(action 'editLicense')
+*   allowDismiss=false
+*   autosave=true
+*   showBorder=false
+*   pressSubmit=(action 'saveBasics')}}
+* ```
+* @class license-picker
+* @param {DS.Model} licenses Which Licenses are available to be selected
+* @param {Object} currentValues The values that are currently on the model, as strings (copyrightHolders joined as a string)
+* @param {boolean} showCategories whether the licenses available in the dropdown are separated by categories
+* @param {action} editLicense function to be called when the license details are changed (either on submit or autosaving)
+* @param {boolean} autosave whether the component should call the save function on every change or offer an explicit save button
+* @param {boolean} showBorder frame the widget in a border
+* @param {action} pressSubmit what should be called if Enter is pressed
+*/
 export default Ember.Component.extend({
     layout,
     store: Ember.inject.service(),
