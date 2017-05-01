@@ -1,0 +1,52 @@
+.clickable {
+    cursor: pointer;
+    &.btn-link {
+        color: dimgray;
+        outline: none;
+        &:active, &:focus {
+            color: black;
+            text-decoration: none;
+        }
+    }
+}
+
+.bubble {
+    > .btn-link {
+        color: black;
+    }
+}
+
+.close-icon {
+    color: red;
+    padding-left: 15px;
+}
+
+.bubble {
+    background-color: white;
+    border: .5px solid #ccc;
+    border-radius: 10px;
+    padding-left: 8px;
+    padding-right: 8px;
+    margin-left: -9px;
+}
+
+.type-filter-option {
+    margin: 2px;
+    .btn-link {
+        background: none;
+        border: none;
+        display: inline;
+        font: inherit;
+        outline:none;
+        margin: 0;
+        padding: 0;
+        outline-offset: 0;
+    }
+}
+
+.expand-icon {
+    font-size: 10px;
+    color: dimgray;
+    margin-left: -15px;
+    padding-right: 3px;
+}
