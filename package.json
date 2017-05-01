@@ -8,10 +8,10 @@
   },
   "scripts": {
     "build": "ember build",
-    "docs": "yuidoc",
+    "docs": "yuidoc --lint && yuidoc",
     "start": "ember server",
     "check-style": "eslint .",
-    "test": "yarn run check-style && ember test",
+    "test": "yarn run check-style && yuidoc --lint && ember test",
     "test:cover": "COVERAGE=true yarn test",
     "bump-version": "npm --no-git-tag-version version ",
     "preversion": "git-branch-is develop && yarn test",
@@ -74,7 +74,8 @@
     "loader.js": "4.0.3",
     "moment": "^2.13.0",
     "pagination-pager": "2.4.2",
-    "phantomjs-prebuilt": "^2.1.7"
+    "phantomjs-prebuilt": "^2.1.7",
+    "yuidocjs": "^0.10.2"
   },
   "keywords": [
     "ember-addon"
