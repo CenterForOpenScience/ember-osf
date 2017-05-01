@@ -1,0 +1,23 @@
+{{!Copied from Ember-SHARE}}
+<div class="p-t-md">
+    {{#each facets as |facet|}}
+        <div class='panel panel-default'>
+            <div class='panel-heading'>
+                {{facet.title}}
+            </div>
+            <div class='panel-body individual-facet'>
+                {{component facet.component
+                key=facet.key
+                options=facet
+                aggregations=aggregations
+                state=(get facetStates facet.key)
+                filter=(get facetFilters facet.key)
+                updateFilters=updateFilters
+                activeFilters=activeFilters
+                filterReplace=filterReplace
+                onChange=(action 'facetChanged')
+                data=facet.data}}
+            </div>
+        </div>
+    {{/each}}
+</div>

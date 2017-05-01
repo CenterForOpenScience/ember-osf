@@ -1,0 +1,85 @@
+/* Override styles in consuming application to change appearance of discover page  */
+
+/* Header panel  */
+.search-header {
+    padding-top: 120px;
+    background: white;
+    background-size: cover;
+}
+
+.share-logo {
+    width: 46px;
+    height: 22px;
+    background: url('../assets/img/share-logo-icon.png') no-repeat;
+    display: inline-block;
+    background-size: contain;
+    vertical-align: middle;
+}
+
+.search-main {
+    background-color: #F5F5F5;
+    border-top: 1px solid #DDDDDD;
+    border-bottom: 1px solid #dedede;
+    .filter-heading {
+        background-color: #efefef;
+    }
+    label {
+        font-weight: normal;
+    }
+    .preprint-search-sidebar ul {
+        padding-left: 25px;
+        li {
+            list-style: none;
+        }
+    }
+    .search-result {
+        margin-bottom: 10px;
+        word-wrap: break-word;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        box-shadow : 0 1px 2px #ddd;
+        border: none;
+        h4 {
+            font-weight: normal;
+        }
+    }
+}
+
+.search-sidebar {
+    background-color: white !important;
+}
+
+.pagination-format {
+    background-color: white;
+    border: 1px solid #DDDDDD;
+}
+
+.listOption.btn-link {
+    cursor: pointer;
+    color: black;
+    text-decoration: none;
+    &:focus {
+        outline: none;
+    }
+}
+
+#provider-brand-background {
+    height: 140px;
+    background-position-x: right;
+}
+
+#sortByOptionList {
+    background-color: #EFEFEF;
+    li {
+        &:hover {
+            background-color: #D9D9D9;
+        }
+    }
+}
+
+button.removeActiveFilter {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    cursor: pointer;
+}

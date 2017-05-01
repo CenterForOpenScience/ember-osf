@@ -1,0 +1,182 @@
+{{!Component builds DISCOVER PAGE - Blend of Ember-SHARE, Preprints, and Registries Discover pages}}
+<div class="search-header">
+    <div class="container">
+        <div class="row m-v-md"> {{!BRANDING}}
+            <div class="col-xs-12 text-center">
+                {{#if (or theme.isProvider providerLogo)}} {{!Provider Logo, if exists}}
+                    <div class="col-xs-6 text-right">
+                        <div class="provider-brand" id="provider-brand-background"></div>
+                    </div>
+                {{/if}}
+                <div class={{if (or theme.isProvider providerLogo) 'col-xs-6 text-left'}}>
+                    <div class="registries-brand m-t-lg"></div> {{!REGISTRIES ONLY}}
+                    {{#if discoverHeader}}
+                        <h1> {{discoverHeader}} </h1> {{!Discover Page Header text}}
+                    {{/if}}
+                     {{!POWERED BY SHARE}}
+                    <p class="lead">{{t 'eosf.components.discoverPage.poweredBy'}} <a href="https://share.osf.io/" id='share-logo' class="share-logo" title="SHARE" onclick={{action "click" "link" "Discover - SHARE Logo"}}></a></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row m-t-md m-b-lg text-center"> {{!SEARCH}}
+            <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+                <div class="input-group input-group-lg"> {{!SEARCH BAR}}
+                    {{input id="searchBox" value=q class="form-control" key-up='typing' placeholder=searchPlaceholder}}
+                    <span class="input-group-btn">
+                        {{!HELP BUTTON}}
+                        <button class="btn btn-default" type="button" aria-label={{t 'eosf.components.discoverPage.luceneHelp'}} {{action 'toggleShowLuceneHelp'}}> <i class="fa fa-question text-muted"></i></button>
+                        {{!SEARCH BUTTON}}
+                        <button class="btn btn-default" type="button" {{action "search"}}> {{t 'eosf.components.discoverPage.search'}} </button>
+                    </span>
+                </div>
+                {{!Lucene search help modal}}
+                {{search-help-modal isOpen=showLuceneHelp}}
+
+                {{!NUMBER OF SEARCHABLE RESULTS}}
+                {{total-share-results}}
+            </div>
+        </div>
+
+        {{!CAROUSEL WITH PREPRINT PROVIDERS - PREPRINTS ONLY}}
+        {{#if (eq hostAppName 'Preprints')}}
+            <div class="row m-t-xs m-b-md">
+                <div class="col-xs-10 col-xs-offset-1 text-center">
+                    {{#if (not theme.isProvider)}}
+                        <h3>{{t 'eosf.components.discoverPage.partnerRepositories'}}</h3>
+                        <div class="row">
+                            {{provider-carousel
+                                providers=fetchedProviders
+                                lightLogo=false
+                            }}
+                        </div>
+                    {{/if}}
+                </div>
+            </div>
+        {{/if}}
+
+        <div class="row p-v-sm">
+            {{#if (not showActiveFilters)}}
+                <div class="col-xs-6">
+                    {{!CLEAR FILTERS BUTTON - ONLY IF ACTIVE FILTERS NOT SHOWN}}
+                    <button {{action 'clearFilters'}} class='btn btn-default clear-filters'>
+                        {{t 'eosf.components.discoverPage.activeFilters.button'}}
+                    </button>
+                </div>
+            {{/if}}
+
+            <div class="col-sm-6 pull-right">
+                <div class="dropdown pull-right">
+                    {{!SORT BY BUTTON}}
+                    <button class="btn btn-default dropdown-toggle" type="button" id="sortBy" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="true">
+                        {{t 'eosf.components.discoverPage.sortBy'}}: {{sort-option-display sortOptions sort}}
+                        <span class="caret" aria-label={{t 'eosf.components.discoverPage.sortSearchResults'}}></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right" id="sortByOptionList" aria-labelledby="sortBy">
+                        {{#each sortOptions as |sortChoice|}}
+                            <li><button class="btn btn-link listOption"{{action "selectSortOption" sortChoice.sortBy}}>{{sortChoice.display}}</button></li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="search-main p-v-xl">
+    <div class="container">
+        <div class="row search-results-section">
+            <div class="col-sm-4 col-xs-12 search-sidebar"> {{!LEFT PANEL - SEARCH FACETS}}
+                {{! ACTIVE FILTERS - FOR PREPRINTS, REGISTRIES}}
+                {{#if showActiveFilters}}
+                    <div id="activeFilters" class="well well-sm p-md">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h4>{{t "eosf.components.discoverPage.activeFilters.heading"}}:</h4>
+                            </div>
+                            <div class="col-sm-6">
+                                <span class="pull-right">
+                                    {{!CLEAR FILTERS BUTTON}}
+                                    <button type="button" class="btn btn-default btn-sm" {{action "clearFilters"}}>{{t 'eosf.components.discoverPage.activeFilters.button'}} {{fa-icon "remove"}}</button>
+                                </span>
+                            </div>
+                        </div>
+                        <div id="activeFiltersList">
+                            {{#each activeFilters.providers as |filter|}}
+                                <span class='preprint-filter provider-filter'>
+                                    {{filter-replace filter filterReplace}}
+                                    {{#unless theme.isProvider}}
+                                        {{!ACTIVE PROVIDER FILTERS}}
+                                        <button class='removeActiveFilter' aria-label={{t 'eosf.components.discoverPage.removeProvider'}}>{{fa-icon 'times-circle' ariaHidden=false click=(action 'updateFilters' 'providers' filter)}}</button>
+                                    {{/unless}}
+                                </span>
+                            {{/each}}
+                            {{#each activeFilters.subjects as |filter|}}
+                                {{!ACTIVE SUBJECT FILTERS}}
+                                <span class='preprint-filter subject-filter'>{{filter}} <button class='removeActiveFilter' aria-label={{t 'eosf.components.discoverPage.removeSubject'}}>{{fa-icon 'times-circle' ariaHidden=false click=(action 'updateFilters' 'subjects' filter)}}</button></span>
+                            {{/each}}
+                            {{!ACTIVE TYPE FILTERS}}
+                            {{#each activeFilters.types as |filter|}}
+                                <span class='preprint-filter type-filter'>{{filter}} <button class='removeActiveFilter' aria-label={{t 'eosf.components.discoverPage.removeRegistrationType'}}>{{fa-icon 'times-circle' ariaHidden=false click=(action 'updateFilters' 'types' filter)}}</button></span>
+                            {{/each}}
+                        </div>
+                    </div>
+                {{/if}}
+
+                {{!SEARCH FACETS}}
+                {{#if showActiveFilters}}
+                    <h4> {{t 'eosf.components.discoverPage.refineSearch'}} </h4>
+                {{/if}}
+                {{faceted-search
+                    onChange='filtersChanged'
+                    updateParams='updateParams'
+                    filters=facetFilters
+                    facetStates=facetStates
+                    facets=facets
+                    aggregations=aggregations
+                    activeFilters=activeFilters
+                    updateFilters=(action 'updateFilters')
+                    filterReplace=filterReplace
+                }}
+
+                {{!ADD PREPRINT BUTTON - Preprints Only }}
+                {{#if (eq hostAppName 'Preprints')}}
+                    {{add-preprint-box}}
+                {{/if}}
+
+            </div>
+
+            <div class="col-sm-8 col-xs-12">  {{!RIGHT PANEL - SEARCH RESULTS}}
+                {{#if loading}} {{!SEARCH LOADING}}
+                    <div class="text-center p-v-md" aria-label={{t 'eosf.components.discoverPage.searchLoading'}}>
+                        {{fa-icon 'spinner' ariaHidden=false pulse=true size=3}}
+                    </div>
+                {{else}}
+                    {{#if numberOfResults}} {{!RESULTS FOUND}}
+                        <div class="results-top">
+                            {{#each results as |result|}}
+                                {{search-result queryParams=queryParams detailRoute=detailRoute filterReplace=filterReplace addFilter='addFilter' updateFilters=(action 'updateFilters') result=result currentService=currentService}}
+                            {{/each}}
+                        </div>
+                        <div class="pull-right text-right">
+                            {{pagination-pager count=clampedPages current=page change=(action 'setLoadPage')}}
+                        </div>
+                    {{else if queryError}} {{!PROBLEM WITH SEARCH QUERY}}
+                        {{query-syntax message=queryError}}
+                    {{else if shareDown}} {{!SHARE IS DOWN}}
+                        <div class="text-muted text-center">
+                            <p class="lead ">{{t 'eosf.components.discoverPage.shareUnavailable'}}</p>
+                            <p> {{t 'eosf.components.discoverPage.shareUnavailableDescription'}}</p>
+                        </div>
+                    {{else}} {{!NO RESULTS FOUND}}
+                        <div class="text-muted text-center">
+                            <p class="lead ">{{t "eosf.components.discoverPage.noResultsFound"}}</p>
+                            <p>{{t 'eosf.components.discoverPage.broadenSearch'}}</p>
+                        </div>
+                    {{/if}}
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</div>

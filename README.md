@@ -134,6 +134,22 @@ to fetch all nodes (or at least the first page of results). If you need to fetch
 information about how to handle pagination. Ember-osf also provides support for 
 [paginated relationship requests](https://github.com/mdehoog/ember-data-has-many-query) via a third-party addon.
 
+### MathJax
+
+We use [MathJax](https://www.mathjax.org/) to make math look pretty in all browsers.  If you want this in your application, copy this section into the `<head>` element of your `index.html` file:
+
+```
+<script type="text/javascript"
+    src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true},
+        skipStartupTypeset: true
+    });
+</script>
+```
+
 ### Advanced: using components and styles
 Some of the ember-osf components require additional configuration to take advantage of premade widgets or styles.
  
