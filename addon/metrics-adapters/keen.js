@@ -19,7 +19,7 @@ export default BaseAdapter.extend({
         window.contextVars = {};
         window.contextVars.currentUser = this.userContextVars();
         window.contextVars.node = this.nodeContextVars(node);
-        return this.KeenTracker().getInstance().trackPrivateEvent('front-end-events', { interaction: properties }, node);
+        return this.KeenTracker().getInstance().trackPrivateEvent('front-end-events', { interaction: properties });
     },
 
     trackPage(properties) {
@@ -39,7 +39,7 @@ export default BaseAdapter.extend({
         window.contextVars = {};
         window.contextVars.currentUser = this.userContextVars();
         window.contextVars.node = this.nodeContextVars(node);
-        return this.KeenTracker().getInstance().trackPrivateEvent(collection, properties, node);
+        return this.KeenTracker().getInstance().trackEvents(collection, properties);
     },
 
     willDestroy() {},
@@ -229,6 +229,14 @@ export default BaseAdapter.extend({
                         _this.trackPublicEvent('pageviews', data);
                     }
                     _this.trackPrivateEvent('pageviews', data);
+                };
+
+                _this.trackEvents = function (collection, properties) {
+                    var _this = this;
+                    if (_get(window, 'contextVars.node.isPublic', true)) {
+                        _this.trackPublicEvent(collection, properties);
+                    }
+                    _this.trackPrivateEvent(collection, properties);
                 };
 
                 _this.trackPrivateEvent = function(collection, event) {

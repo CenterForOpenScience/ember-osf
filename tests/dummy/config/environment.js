@@ -78,6 +78,19 @@ module.exports = function(environment) {
         ENV.baseURL = '/';
         ENV.locationType = 'none';
 
+        ENV.OSF = {
+            url: '/nowhere',
+            apiUrl: 'http://localhost:8000',
+            renderUrl: '/nowhere',
+            waterbutlerUrl: '/nowhere',
+            helpUrl: '/nowhere',
+            cookieLoginUrl: '/nowhere',
+            oauthUrl: '/nowhere',
+            shareBaseUrl: '/nowhere',
+            shareApiUrl: '/nowhere',
+            shareSearchUrl: '/nowhere'
+        };
+
         // keep test console output quieter
         ENV.APP.LOG_ACTIVE_GENERATION = false;
         ENV.APP.LOG_VIEW_LOOKUPS = false;
