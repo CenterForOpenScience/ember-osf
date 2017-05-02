@@ -5,21 +5,12 @@ moduleForComponent('new-navbar-auth-dropdown', 'Integration | Component | new na
   integration: true
 });
 
-test('it renders', function(assert) {
+test('it renders', function (assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+    this.set('loginAction', ()=>{});
+    this.render(hbs`{{new-navbar-auth-dropdown loginAction=loginAction}}`);
 
-  this.render(hbs`{{new-navbar-auth-dropdown}}`);
-
-  assert.equal(this.$().text().trim(), '');
-
-  // Template block usage:
-  this.render(hbs`
-    {{#new-navbar-auth-dropdown}}
-      template block text
-    {{/new-navbar-auth-dropdown}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
+    assert.notEqual(this.$().text().trim(), '');
 });
