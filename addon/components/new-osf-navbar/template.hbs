@@ -1,0 +1,55 @@
+<div class="osf-nav-wrapper">
+    <nav class="navbar navbar-inverse navbar-fixed-top" id="navbarScope" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                {{!TOGGLE NAVIGATION BUTTON - XS SCREEN}}
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#secondary-navigation" {{action 'closeSearch'}} aria-label={{t 'eosf.navbar.toggleSecondary'}}>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                {{!OSF BRAND}}
+                <a class="navbar-brand" href="/" aria-label={{t 'eosf.navbar.goHome'}}><span class="osf-navbar-logo"></span> OSF </a>
+                {{!PRIMARY NAVIGATION - TOGGLE BETWEEN HOME, PREPRINTS, REGISTRIES, and MEETINGS}}
+                <div class="dropdown primary-nav">
+                    <button class="dropdown-toggle btn-link" data-toggle="dropdown" role="button" aria-expanded="false" aria-label={{t 'eosf.navbar.togglePrimary'}} onclick={{action 'closeSecondaryAndSearch'}}>
+                        <span class="fa fa-caret-down fa-2x"></span>
+                    </button>
+                    <ul class="dropdown-menu service-dropdown" role="menu">
+                        {{#each osfServices as |service|}}
+                            <li><a href="{{service.url}}">OSF<b>{{service.name}}</b></a></li>
+                        {{/each}}
+                    </ul>
+                </div>
+                {{!NAME OF CURRENT SERVICE - HOME, PREPRINTS, REGISTRIES, or MEETINGS}}
+                <div class="service-name">
+                    <a href="{{currentServiceLink}}"><strong>{{currentService}}</strong></a>
+                </div>
+            </div>
+            <div class="navbar-collapse collapse navbar-right" id="secondary-navigation">
+                <ul class="nav navbar-nav">
+                    {{!SECONDARY NAVIGATION - displays corresponding links for selected service}}
+                    {{#each (build-secondary-navLinks currentService) as |navLink|}}
+                        {{#if (and (eq currentService 'HOME') (eq navLink.name.string "Search"))}}
+                            <li>
+                                {{!TOGGLE SEARCH BUTTON FOR HOME SERVICE}}
+                                <button class="btn-link search-toggle" onclick={{action 'toggleSearch'}}>
+                                    {{navLink.name}}
+                                </button>
+                            </li>
+                        {{else}}
+                            {{!SERVICE LINK}}
+                            <li><a href="{{navLink.href}}"> {{navLink.name}}</a></li>
+                        {{/if}}
+                    {{/each}}
+                    {{!AUTH NAVBAR}}
+                    {{navbar-auth-dropdown signupUrl=signupUrl loginAction=loginAction closeOtherNavigation=(action 'closeSearch')}}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    {{#if showSearch}}
+        {{!SEARCH DROPDOWN (FOR HOME SERVICE) - redirects to /search/?q=search_query}}
+        {{search-dropdown action='toggleSearch'}}
+    {{/if}}
+</div>

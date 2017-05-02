@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import layout from './template';
 import config from 'ember-get-config';
+import { serviceLinks } from '../../const/service-links';
 
 /**
  * @module ember-osf
@@ -23,7 +24,7 @@ export default Ember.Component.extend({
     layout,
     session: Ember.inject.service(),
     currentUser: Ember.inject.service(),
-
+    i18n: Ember.inject.service(),
     tagName: 'li',
     classNames: ['dropdown'],
     classNameBindings: ['notAuthenticated:sign-in'],
@@ -38,6 +39,7 @@ export default Ember.Component.extend({
      */
     signupUrl: config.OSF.url + 'register',
 
+    serviceLinks: serviceLinks,
     gravatarUrl: Ember.computed('user', function() {
         let imgLink = this.get('user.links.profile_image');
 
