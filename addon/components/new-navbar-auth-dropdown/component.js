@@ -13,7 +13,7 @@ import { serviceLinks } from '../../const/service-links';
  *
  * Sample usage:
  * ```handlebars
- * {{navbar-auth-dropdown
+ * {{new-navbar-auth-dropdown
  *   loginAction=loginAction
  *   redirectUrl=redirectUrl}}
  * ```
