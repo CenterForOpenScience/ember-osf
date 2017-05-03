@@ -27,7 +27,8 @@
                         {{~author-link contributor=creator}}
                     {{~/each}}
                 </ul>
-                {{#if extraCreators}} {{!+5, for example}}
+                {{! +5, for example }}
+                {{#if extraCreators}}
                     <span class="text-muted">+{{extraCreators.length}}</span>
                 {{/if}}
             </div>
@@ -39,7 +40,7 @@
             {{#if subjects}}
                 <div class="m-t-sm">
                     {{#each subjects as |subject|}}
-                        <span class='subject-preview pointer' onclick={{action updateFilters 'subjects' subject.text}}>
+                        <span role="button" class="subject-preview pointer" onclick={{action updateFilters 'subjects' subject.text}}>
                             {{subject.text}}
                         </span>
                     {{/each}}
@@ -77,7 +78,8 @@
                     {{/if}}
                 </span>
                 <span class="pull-right">
-                    {{#if result.dateModified}} {{! moment-format will use current time if null}}
+                    {{#if result.dateModified}}
+                        {{! moment-format will use current time if null}}
                         <span>{{moment-format result.dateModified "MMMM YYYY"}}</span>
                     {{/if}}
                 </span>
@@ -118,7 +120,9 @@
         </div>
     </div>
 
-    <div class="text-center" {{action "toggleShowBody"}}>
-        <button class='toggleShowResult btn btn-link' aria-label={{t 'eosf.components.searchResult.showResult'}}>{{fa-icon footerIcon size=1 ariaHidden=false}}</button>
+    <div class="text-center">
+        <button class='toggleShowResult btn btn-link' aria-label={{t 'eosf.components.searchResult.showResult'}} {{action 'toggleShowBody'}}>
+            {{fa-icon footerIcon size=1 ariaHidden=false}}
+        </button>
     </div>
 </div>

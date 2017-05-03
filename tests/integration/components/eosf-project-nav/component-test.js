@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-import { moduleForComponent, test, skip } from 'ember-qunit';
+import { moduleForComponent, skip } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
 import FactoryGuy, { manualSetup } from 'ember-data-factory-guy';
