@@ -15,7 +15,7 @@ export default Ember.Component.extend({
     layout,
     isOpen: false,
     currentPath: Ember.computed(function() {
-        return Ember.getOwner(this).lookup('controller:application').currentPath;
+        return window.location.origin + window.location.pathname;
     }),
     actions: {
         close() {
