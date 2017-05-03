@@ -124,11 +124,13 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     // Determines whether tags in search results should be links - preprints and registries are not using tag filter right now
     tagsInQueryParams: Ember.computed('queryParams', function() {
         let foundTags = false;
-        this.get('queryParams').forEach(param => {
-            if (param === 'tags') {
-                foundTags = true;
-            }
-        });
+        if (this.get('queryParams')) {
+            this.get('queryParams').forEach(param => {
+                if (param === 'tags') {
+                    foundTags = true;
+                }
+            });
+        }
         return foundTags;
     }),
     didRender() {
