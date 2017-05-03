@@ -10,11 +10,21 @@
     {{content-for "head"}}
     {{content-for "test-head"}}
 
+
     <link rel="stylesheet" href="{{rootURL}}assets/vendor.css">
     <link rel="stylesheet" href="{{rootURL}}assets/dummy.css">
     <link rel="stylesheet" href="{{rootURL}}assets/test-support.css">
 
     {{content-for "head-footer"}}
+    <script type="text/javascript"
+        src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true},
+            skipStartupTypeset: true
+        });
+    </script>
     {{content-for "test-head-footer"}}
   </head>
   <body>

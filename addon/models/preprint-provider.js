@@ -6,6 +6,7 @@ export default OsfModel.extend({
     logoPath: DS.attr('string'),
     bannerPath: DS.attr('string'),
     description: DS.attr('fixstring'),
+    domain: DS.attr('string'),
     example: DS.attr('fixstring'),
     advisoryBoard: DS.attr('string'),
     emailContact: DS.attr('fixstring'),

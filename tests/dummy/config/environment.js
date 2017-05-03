@@ -1,4 +1,4 @@
-/* jshint node: true */
+/* eslint-env node */
 
 module.exports = function(environment) {
 
@@ -38,6 +38,7 @@ module.exports = function(environment) {
             }
         ],
         modulePrefix: 'dummy',
+        appName: 'Dummy App',
         environment: environment,
         rootURL: '/',
         locationType: 'auto',
@@ -76,6 +77,19 @@ module.exports = function(environment) {
         // Testem prefers this...
         ENV.rootURL = '/';
         ENV.locationType = 'none';
+
+        ENV.OSF = {
+            url: '/nowhere',
+            apiUrl: 'http://localhost:8000',
+            renderUrl: '/nowhere',
+            waterbutlerUrl: '/nowhere',
+            helpUrl: '/nowhere',
+            cookieLoginUrl: '/nowhere',
+            oauthUrl: '/nowhere',
+            shareBaseUrl: '/nowhere',
+            shareApiUrl: '/nowhere',
+            shareSearchUrl: '/nowhere'
+        };
 
         // keep test console output quieter
         ENV.APP.LOG_ACTIVE_GENERATION = false;

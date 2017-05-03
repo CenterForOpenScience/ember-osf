@@ -1,3 +1,5 @@
+/* global Dropzone */
+
 import Ember from 'ember';
 import config from 'ember-get-config';
 
@@ -32,10 +34,7 @@ export default Ember.Component.extend({
         let preUpload = this.get('preUpload');
         let dropzoneOptions = this.get('options') || {};
 
-        if (!this.get('buildUrl') && !preUpload && !dropzoneOptions.url) {
-            console.error('Need to define url somewhere');
-        }
-        let drop = new Dropzone(`#${this.elementId}`, {  // jshint ignore:line
+        let drop = new Dropzone(`#${this.elementId}`, {
             url: file => typeof this.get('buildUrl') === 'function' ? this.get('buildUrl')(file) : this.get('buildUrl'),
             autoProcessQueue: false,
             dictDefaultMessage: this.get('defaultMessage') || 'Drop files here to upload'
