@@ -33,7 +33,9 @@
             </div>
 
             {{!Last edited on on}}
-            <div class="m-t-sm"> <em> {{t "eosf.components.searchResult.lastEdited"}}: {{moment-format result.date_modified 'YYYY-MM-DD'}} </em> </div>
+            {{#if result.date_updated}}
+                <div class="m-t-sm"> <em> {{t "eosf.components.searchResult.lastEdited"}}: {{moment-format result.date_updated 'YYYY-MM-DD'}} </em> </div>
+            {{/if}}
 
             {{!Disciplines}}
             {{#if subjects}}
