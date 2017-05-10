@@ -1,17 +1,26 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
-import FactoryGuy, { manualSetup } from 'ember-data-factory-guy';
 
 moduleForComponent('search-result', 'Integration | Component | search result', {
     integration: true,
     beforeEach: function() {
         let noop = () => {};
         this.set('noop', noop);
-        manualSetup(this.container);
     }
 });
 
-let result = FactoryGuy.make('share-search-result');
+let result = Ember.Object.extend({
+    identifiers: [],
+    contributors: [{ users: ({ bibliographic: 'Todd Frak', name: 'Todd Frak', identifiers: 'kjhg85' }) }],
+    subjects: [({ text: 'psychology' })],
+    providers: [{ name: 'test provider1' }, { name: 'test provider2' }],
+    infoLinks: [{ type: 'url', uri: 'test URI1' }, { type: 'test', uri: 'testURI2' }],
+    title: 'Tests to live by',
+    date: '04-19-2017',
+    dateModified: '04-20-2017',
+    abstract: "This is just a test",
+    description: 'test text to test'
+});
 
 function render(context, componentArgs) {
     return context.render(Ember.HTMLBars.compile(`{{search-result
