@@ -13,11 +13,10 @@ import hostAppName from '../../mixins/host-app-name';
  * ```
  * @class total-share-results
  */
-const serviceMap = {
+const serviceMap = Ember.Object.create({
     Preprints: 'preprint',
     Registries: 'registration',
-    'Retraction Watch': 'retraction'
-};
+});
 
 export default Ember.Component.extend(hostAppName, {
     layout,
@@ -25,16 +24,12 @@ export default Ember.Component.extend(hostAppName, {
     theme: Ember.inject.service(),
     shareTotal: null,
     shareTotalText: Ember.computed(function() {
-        // Returns description of results found: "searchable preprints", for example.
-        const hostAppName = this.get('hostAppName');
-        let item = null;
-        if (hostAppName) {
-            item = serviceMap[hostAppName] || null;
-        }
-        return `${this.get('i18n').t('eosf.components.totalShareResults.searchable')} ${item ? Ember.Inflector.inflector.pluralize(item) : this.get('i18n').t('eosf.components.totalShareResults.events')}`;
+        // Returns translation text name : searchablePreprints, for example.
+        const hostAppName = this.get('hostAppName') || null;
+        const translation = 'eosf.components.totalShareResults.searchable';
+        return Object.keys(serviceMap).includes(hostAppName) ? `${translation}${hostAppName}`: `${translation}Events`;
     }),
     resourceType: Ember.computed('hostAppName', function() {
-
         const hostAppName = this.get('hostAppName');
         if (hostAppName) {
             return serviceMap[hostAppName] || null;

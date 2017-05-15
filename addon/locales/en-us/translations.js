@@ -176,8 +176,9 @@ export default {
                 helpDescription: 'This gives you many options, but can be very simple as well. Examples of valid searches include:'
             },
             totalShareResults: {
-                'searchable': 'searchable',
-                'events': 'events'
+                'searchablePreprints': `{{count}} searchable preprints`,
+                'searchableRegistries': `{{count}} searchable registrations`,
+                'searchableEvents': `{{count}} searchable events`,
             }
         }
     }
