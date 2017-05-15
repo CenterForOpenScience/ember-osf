@@ -5,7 +5,7 @@ import { module, test } from 'qunit';
 module('Unit | Helper | get display name');
 
 test('username greater than 40 chars', function(assert) {
-    const name = Array(40).join("a");
+    const name = Array(50).join("a");
     let result = getDisplayName([name]);
     assert.strictEqual(result, 'aaaaaaaaaaaaaaaaaaaa...aaaaaaaaaaaaaaa');
 });
