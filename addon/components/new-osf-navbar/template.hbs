@@ -9,7 +9,18 @@
                     <span class="icon-bar"></span>
                 </button>
                 {{!OSF BRAND}}
-                <a class="navbar-brand" href="/" aria-label={{t 'eosf.navbar.goHome'}}><span class="osf-navbar-logo"></span> OSF </a>
+                <a class="navbar-brand" href="/" aria-label={{t 'eosf.navbar.goHome'}}>
+                    <span class="osf-navbar-logo"></span>
+                </a>
+
+                {{!NAME OF CURRENT SERVICE - HOME, PREPRINTS, REGISTRIES, or MEETINGS}}
+                <div class="service-name">
+                    <a href="{{currentServiceLink}}">
+                        <span class="hidden-xs"> OSF </span>
+                        <span class="current-service-margin"><strong>{{currentService}}</strong></span>
+                    </a>
+                </div>
+
                 {{!PRIMARY NAVIGATION - TOGGLE BETWEEN HOME, PREPRINTS, REGISTRIES, and MEETINGS}}
                 <div class="dropdown primary-nav">
                     <button class="dropdown-toggle btn-link" data-toggle="dropdown" role="button" aria-expanded="false" aria-label={{t 'eosf.navbar.togglePrimary'}} onclick={{action 'closeSecondaryAndSearch'}}>
@@ -20,10 +31,6 @@
                             <li><a href="{{service.url}}">OSF<b>{{service.name}}</b></a></li>
                         {{/each}}
                     </ul>
-                </div>
-                {{!NAME OF CURRENT SERVICE - HOME, PREPRINTS, REGISTRIES, or MEETINGS}}
-                <div class="service-name">
-                    <a href="{{currentServiceLink}}"><strong>{{currentService}}</strong></a>
                 </div>
             </div>
             <div class="navbar-collapse collapse navbar-right" id="secondary-navigation">
