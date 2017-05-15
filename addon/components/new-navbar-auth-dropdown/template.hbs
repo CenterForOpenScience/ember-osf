@@ -3,7 +3,7 @@
     <button class="dropdown-toggle nav-user-dropdown btn-link" data-toggle="dropdown" role="button" aria-expanded="false" aria-label={{t 'eosf.authDropdown.toggleAuthDropdown'}} {{action closeOtherNavigation}}>
         <span class="osf-gravatar">
             <img src="{{gravatarUrl}}" alt="User gravatar">
-        </span> {{user.fullName}}
+        </span> {{get-display-name user.fullName}}
         <span class="caret"></span>
     </button>
     <ul class="dropdown-menu auth-dropdown" role="menu">
