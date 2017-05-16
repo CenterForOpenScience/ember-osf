@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>addon/components/search-facet-typeahead/component.js - Ember OSF Addon</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.5.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/ajax-helpers.html">ajax-helpers</a></li>
+                                <li><a href="../classes/Analytics.html">Analytics</a></li>
+                                <li><a href="../classes/auth.html">auth</a></li>
+                                <li><a href="../classes/author-link.html">author-link</a></li>
+                                <li><a href="../classes/CasAuthenticatedRouteMixin.html">CasAuthenticatedRouteMixin</a></li>
+                                <li><a href="../classes/Citation.html">Citation</a></li>
+                                <li><a href="../classes/citation-widget.html">citation-widget</a></li>
+                                <li><a href="../classes/Collection.html">Collection</a></li>
+                                <li><a href="../classes/Comment.html">Comment</a></li>
+                                <li><a href="../classes/comment-detail.html">comment-detail</a></li>
+                                <li><a href="../classes/comment-form.html">comment-form</a></li>
+                                <li><a href="../classes/comment-pane.html">comment-pane</a></li>
+                                <li><a href="../classes/CommentableMixin.html">CommentableMixin</a></li>
+                                <li><a href="../classes/CommentReport.html">CommentReport</a></li>
+                                <li><a href="../classes/Contributor.html">Contributor</a></li>
+                                <li><a href="../classes/current-user.html">current-user</a></li>
+                                <li><a href="../classes/discover-page.html">discover-page</a></li>
+                                <li><a href="../classes/DraftRegistration.html">DraftRegistration</a></li>
+                                <li><a href="../classes/dropzone-widget.html">dropzone-widget</a></li>
+                                <li><a href="../classes/elastic-query.html">elastic-query</a></li>
+                                <li><a href="../classes/elem-id.html">elem-id</a></li>
+                                <li><a href="../classes/eosf-project-nav.html">eosf-project-nav</a></li>
+                                <li><a href="../classes/faceted-search.html">faceted-search</a></li>
+                                <li><a href="../classes/FetchAllRouteMixin.html">FetchAllRouteMixin</a></li>
+                                <li><a href="../classes/File.html">File</a></li>
+                                <li><a href="../classes/file-browser.html">file-browser</a></li>
+                                <li><a href="../classes/file-browser-icon.html">file-browser-icon</a></li>
+                                <li><a href="../classes/file-chooser component.html">file-chooser component</a></li>
+                                <li><a href="../classes/file-manager.html">file-manager</a></li>
+                                <li><a href="../classes/file-renderer.html">file-renderer</a></li>
+                                <li><a href="../classes/file-version.html">file-version</a></li>
+                                <li><a href="../classes/file-widget.html">file-widget</a></li>
+                                <li><a href="../classes/FileCacheBypassMixin.html">FileCacheBypassMixin</a></li>
+                                <li><a href="../classes/FileItemMixin.html">FileItemMixin</a></li>
+                                <li><a href="../classes/FileProvider.html">FileProvider</a></li>
+                                <li><a href="../classes/FileVersion.html">FileVersion</a></li>
+                                <li><a href="../classes/filterReplace.html">filterReplace</a></li>
+                                <li><a href="../classes/fix-special-char.html">fix-special-char</a></li>
+                                <li><a href="../classes/fix-special-char-helper.html">fix-special-char-helper</a></li>
+                                <li><a href="../classes/fixstring.html">fixstring</a></li>
+                                <li><a href="../classes/GenericDataADapter.html">GenericDataADapter</a></li>
+                                <li><a href="../classes/HostAppNameMixin.html">HostAppNameMixin</a></li>
+                                <li><a href="../classes/ifFilter.html">ifFilter</a></li>
+                                <li><a href="../classes/InfinityCustomMixin.html">InfinityCustomMixin</a></li>
+                                <li><a href="../classes/Institution.html">Institution</a></li>
+                                <li><a href="../classes/license-picker.html">license-picker</a></li>
+                                <li><a href="../classes/Log.html">Log</a></li>
+                                <li><a href="../classes/Metaschema.html">Metaschema</a></li>
+                                <li><a href="../classes/navbar-auth-dropdown.html">navbar-auth-dropdown</a></li>
+                                <li><a href="../classes/Node.html">Node</a></li>
+                                <li><a href="../classes/NodeActionsMixin.html">NodeActionsMixin</a></li>
+                                <li><a href="../classes/NodeLink.html">NodeLink</a></li>
+                                <li><a href="../classes/oauth-popup.html">oauth-popup</a></li>
+                                <li><a href="../classes/osf-copyright.html">osf-copyright</a></li>
+                                <li><a href="../classes/osf-footer.html">osf-footer</a></li>
+                                <li><a href="../classes/osf-mode-footer.html">osf-mode-footer</a></li>
+                                <li><a href="../classes/osf-navbar.html">osf-navbar</a></li>
+                                <li><a href="../classes/osf-paginator.html">osf-paginator</a></li>
+                                <li><a href="../classes/OsfAdapter.html">OsfAdapter</a></li>
+                                <li><a href="../classes/OsfAgnosticAuthController.html">OsfAgnosticAuthController</a></li>
+                                <li><a href="../classes/OsfAgnosticAuthRoute.html">OsfAgnosticAuthRoute</a></li>
+                                <li><a href="../classes/OsfCookieAuthenticator.html">OsfCookieAuthenticator</a></li>
+                                <li><a href="../classes/OsfCookieAuthorizer.html">OsfCookieAuthorizer</a></li>
+                                <li><a href="../classes/OsfCookieLoginController.html">OsfCookieLoginController</a></li>
+                                <li><a href="../classes/OsfCookieLoginRoute.html">OsfCookieLoginRoute</a></li>
+                                <li><a href="../classes/OsfModel.html">OsfModel</a></li>
+                                <li><a href="../classes/OsfSerializer.html">OsfSerializer</a></li>
+                                <li><a href="../classes/OsfTokenAuthenticator.html">OsfTokenAuthenticator</a></li>
+                                <li><a href="../classes/OsfTokenAuthorizer.html">OsfTokenAuthorizer</a></li>
+                                <li><a href="../classes/OsfTokenLoginControllerMixin.html">OsfTokenLoginControllerMixin</a></li>
+                                <li><a href="../classes/OsfTokenLoginRouteMixin.html">OsfTokenLoginRouteMixin</a></li>
+                                <li><a href="../classes/PaginatedControllerMixin.html">PaginatedControllerMixin</a></li>
+                                <li><a href="../classes/PaginatedRouteMixin.html">PaginatedRouteMixin</a></li>
+                                <li><a href="../classes/pagination-control.html">pagination-control</a></li>
+                                <li><a href="../classes/permissions.html">permissions</a></li>
+                                <li><a href="../classes/Preprint.html">Preprint</a></li>
+                                <li><a href="../classes/providerRegex.html">providerRegex</a></li>
+                                <li><a href="../classes/Registration.html">Registration</a></li>
+                                <li><a href="../classes/RegistrationActionsMixin.html">RegistrationActionsMixin</a></li>
+                                <li><a href="../classes/search-dropdown.html">search-dropdown</a></li>
+                                <li><a href="../classes/search-facet-daterange.html">search-facet-daterange</a></li>
+                                <li><a href="../classes/search-facet-language.html">search-facet-language</a></li>
+                                <li><a href="../classes/search-facet-locked.html">search-facet-locked</a></li>
+                                <li><a href="../classes/search-facet-source.html">search-facet-source</a></li>
+                                <li><a href="../classes/search-facet-typeahead.html">search-facet-typeahead</a></li>
+                                <li><a href="../classes/search-facet-worktype.html">search-facet-worktype</a></li>
+                                <li><a href="../classes/search-facet-worktype-button.html">search-facet-worktype-button</a></li>
+                                <li><a href="../classes/search-facet-worktype-hierarchy.html">search-facet-worktype-hierarchy</a></li>
+                                <li><a href="../classes/search-help-modal.html">search-help-modal</a></li>
+                                <li><a href="../classes/search-result.html">search-result</a></li>
+                                <li><a href="../classes/sign-up.html">sign-up</a></li>
+                                <li><a href="../classes/sortOptionDisplay.html">sortOptionDisplay</a></li>
+                                <li><a href="../classes/TaggableMixin.html">TaggableMixin</a></li>
+                                <li><a href="../classes/tags-widget.html">tags-widget</a></li>
+                                <li><a href="../classes/Taxonomy.html">Taxonomy</a></li>
+                                <li><a href="../classes/theme.html">theme</a></li>
+                                <li><a href="../classes/total-share-results.html">total-share-results</a></li>
+                                <li><a href="../classes/User.html">User</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/adapters.html">adapters</a></li>
+                                <li><a href="../modules/authenticators.html">authenticators</a></li>
+                                <li><a href="../modules/authorizers.html">authorizers</a></li>
+                                <li><a href="../modules/components.html">components</a></li>
+                                <li><a href="../modules/const.html">const</a></li>
+                                <li><a href="../modules/ember-osf.html">ember-osf</a></li>
+                                <li><a href="../modules/helpers.html">helpers</a></li>
+                                <li><a href="../modules/mixins.html">mixins</a></li>
+                                <li><a href="../modules/models.html">models</a></li>
+                                <li><a href="../modules/serializers.html">serializers</a></li>
+                                <li><a href="../modules/services.html">services</a></li>
+                                <li><a href="../modules/transforms.html">transforms</a></li>
+                                <li><a href="../modules/utils.html">utils</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: addon/components/search-facet-typeahead/component.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+import layout from &#x27;./template&#x27;;
+import Ember from &#x27;ember&#x27;;
+import config from &#x27;ember-get-config&#x27;;
+import { termsFilter, getUniqueList } from &#x27;../../utils/elastic-query&#x27;;
+
+/**
+ * Copied from Ember-SHARE.  Typeahead facet - used for items like organization, tags, people filter.
+ *
+ * &#x60;&#x60;&#x60;handlebars
+ * {{search-facet-typeahead
+ *      key=facet.key
+ *      options=facet
+ *      aggregations=aggregations
+ *      state=(get facetStates facet.key)
+ *      filter=(get facetFilters facet.key)
+ *      onChange=(action &#x27;facetChanged&#x27;)
+ * }}
+ * &#x60;&#x60;&#x60;
+ * @class search-facet-typeahead
+ */
+const RESULTS = 20;
+
+export default Ember.Component.extend({
+    layout,
+
+    filterType: Ember.computed(function() {
+        return termsFilter;
+    }),
+
+    init() {
+        this._super(...arguments);
+        this.send(&#x27;changeFilter&#x27;, this.get(&#x27;state&#x27;));
+    },
+
+    placeholder: Ember.computed(function() {
+        return &#x27;Add &#x27; + this.get(&#x27;options.title&#x27;) + &#x27; filter&#x27;;
+    }),
+
+    selected: Ember.computed(&#x27;state&#x27;, function() {
+        let value = this.get(&#x27;state&#x27;);
+        return value ? value : [];
+    }),
+
+    changed: Ember.observer(&#x27;state&#x27;, function() {
+        let state = Ember.isBlank(this.get(&#x27;state&#x27;)) ? [] : this.get(&#x27;state&#x27;);
+        let previousState = this.get(&#x27;previousState&#x27;) || [];
+
+        if (Ember.compare(previousState, state) !== 0) {
+            let value = this.get(&#x27;state&#x27;);
+            this.send(&#x27;changeFilter&#x27;, value ? value : []);
+        }
+    }),
+
+    buildQueryObjectMatch(selected) {
+        let key = this.get(&#x27;key&#x27;);
+        let newValue = !selected[0] ? [] : selected;
+        let newFilter = this.get(&#x27;filterType&#x27;)(key, getUniqueList(newValue));
+        return { filter: newFilter, value: newValue };
+    },
+
+    handleTypeaheadResponse(response) {
+        return getUniqueList(response.hits.hits.map(next =&gt; next._source.name));
+    },
+
+    typeaheadQueryUrl() {
+        let base = this.get(&#x27;options.base&#x27;) || this.get(&#x27;key&#x27;);
+        return config.OSF.shareApiUrl + &#x60;/search/${base}/_search&#x60;;
+    },
+
+    buildTypeaheadQuery(text) {
+        const match = {
+            match: {
+                &#x27;name.autocomplete&#x27;: {
+                    query: text,
+                    operator: &#x27;and&#x27;,
+                    fuzziness: &#x27;AUTO&#x27;
+                }
+            }
+        };
+        const type = this.get(&#x27;options.type&#x27;);
+        if (type) {
+            return {
+                size: RESULTS,
+                query: {
+                    bool: {
+                        must: [match],
+                        filter: [{ term: { types: type } }]
+                    }
+                }
+            };
+        }
+        return { size: RESULTS, query: match };
+    },
+
+    _performSearch(term, resolve, reject) {
+        if (Ember.isBlank(term)) { return []; }
+
+        var data = JSON.stringify(this.buildTypeaheadQuery(term));
+
+        let jqDeferred = Ember.$.ajax({
+            url: this.typeaheadQueryUrl(),
+            crossDomain: true,
+            type: &#x27;POST&#x27;,
+            contentType: &#x27;application/json&#x27;,
+            data: data
+        }).then((json) =&gt;
+            resolve(this.handleTypeaheadResponse(json)),
+            reject
+        );
+
+        return new Ember.RSVP.Promise((resolve, reject) =&gt; {
+            jqDeferred.done((value) =&gt; resolve(value));
+            jqDeferred.fail((reason) =&gt; reject(reason));
+        });
+    },
+
+    actions: {
+        changeFilter(selected) {
+            let { filter: filter, value: value } = this.buildQueryObjectMatch(selected);
+            this.set(&#x27;previousState&#x27;, this.get(&#x27;state&#x27;));
+            this.sendAction(&#x27;onChange&#x27;, this.get(&#x27;key&#x27;), filter, value);
+        },
+
+        elasticSearch(term) {
+            return new Ember.RSVP.Promise((resolve, reject) =&gt; {
+                Ember.run.debounce(this, this._performSearch, term, resolve, reject, 250);
+            });
+        }
+    }
+});
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>
