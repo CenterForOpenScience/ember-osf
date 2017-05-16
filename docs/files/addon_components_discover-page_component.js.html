@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>addon/components/discover-page/component.js - Ember OSF Addon</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.5.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/ajax-helpers.html">ajax-helpers</a></li>
+                                <li><a href="../classes/Analytics.html">Analytics</a></li>
+                                <li><a href="../classes/auth.html">auth</a></li>
+                                <li><a href="../classes/author-link.html">author-link</a></li>
+                                <li><a href="../classes/CasAuthenticatedRouteMixin.html">CasAuthenticatedRouteMixin</a></li>
+                                <li><a href="../classes/Citation.html">Citation</a></li>
+                                <li><a href="../classes/citation-widget.html">citation-widget</a></li>
+                                <li><a href="../classes/Collection.html">Collection</a></li>
+                                <li><a href="../classes/Comment.html">Comment</a></li>
+                                <li><a href="../classes/comment-detail.html">comment-detail</a></li>
+                                <li><a href="../classes/comment-form.html">comment-form</a></li>
+                                <li><a href="../classes/comment-pane.html">comment-pane</a></li>
+                                <li><a href="../classes/CommentableMixin.html">CommentableMixin</a></li>
+                                <li><a href="../classes/CommentReport.html">CommentReport</a></li>
+                                <li><a href="../classes/Contributor.html">Contributor</a></li>
+                                <li><a href="../classes/current-user.html">current-user</a></li>
+                                <li><a href="../classes/discover-page.html">discover-page</a></li>
+                                <li><a href="../classes/DraftRegistration.html">DraftRegistration</a></li>
+                                <li><a href="../classes/dropzone-widget.html">dropzone-widget</a></li>
+                                <li><a href="../classes/elastic-query.html">elastic-query</a></li>
+                                <li><a href="../classes/elem-id.html">elem-id</a></li>
+                                <li><a href="../classes/eosf-project-nav.html">eosf-project-nav</a></li>
+                                <li><a href="../classes/faceted-search.html">faceted-search</a></li>
+                                <li><a href="../classes/FetchAllRouteMixin.html">FetchAllRouteMixin</a></li>
+                                <li><a href="../classes/File.html">File</a></li>
+                                <li><a href="../classes/file-browser.html">file-browser</a></li>
+                                <li><a href="../classes/file-browser-icon.html">file-browser-icon</a></li>
+                                <li><a href="../classes/file-chooser component.html">file-chooser component</a></li>
+                                <li><a href="../classes/file-manager.html">file-manager</a></li>
+                                <li><a href="../classes/file-renderer.html">file-renderer</a></li>
+                                <li><a href="../classes/file-version.html">file-version</a></li>
+                                <li><a href="../classes/file-widget.html">file-widget</a></li>
+                                <li><a href="../classes/FileCacheBypassMixin.html">FileCacheBypassMixin</a></li>
+                                <li><a href="../classes/FileItemMixin.html">FileItemMixin</a></li>
+                                <li><a href="../classes/FileProvider.html">FileProvider</a></li>
+                                <li><a href="../classes/FileVersion.html">FileVersion</a></li>
+                                <li><a href="../classes/filterReplace.html">filterReplace</a></li>
+                                <li><a href="../classes/fix-special-char.html">fix-special-char</a></li>
+                                <li><a href="../classes/fix-special-char-helper.html">fix-special-char-helper</a></li>
+                                <li><a href="../classes/fixstring.html">fixstring</a></li>
+                                <li><a href="../classes/GenericDataADapter.html">GenericDataADapter</a></li>
+                                <li><a href="../classes/HostAppNameMixin.html">HostAppNameMixin</a></li>
+                                <li><a href="../classes/ifFilter.html">ifFilter</a></li>
+                                <li><a href="../classes/InfinityCustomMixin.html">InfinityCustomMixin</a></li>
+                                <li><a href="../classes/Institution.html">Institution</a></li>
+                                <li><a href="../classes/license-picker.html">license-picker</a></li>
+                                <li><a href="../classes/Log.html">Log</a></li>
+                                <li><a href="../classes/Metaschema.html">Metaschema</a></li>
+                                <li><a href="../classes/navbar-auth-dropdown.html">navbar-auth-dropdown</a></li>
+                                <li><a href="../classes/Node.html">Node</a></li>
+                                <li><a href="../classes/NodeActionsMixin.html">NodeActionsMixin</a></li>
+                                <li><a href="../classes/NodeLink.html">NodeLink</a></li>
+                                <li><a href="../classes/oauth-popup.html">oauth-popup</a></li>
+                                <li><a href="../classes/osf-copyright.html">osf-copyright</a></li>
+                                <li><a href="../classes/osf-footer.html">osf-footer</a></li>
+                                <li><a href="../classes/osf-mode-footer.html">osf-mode-footer</a></li>
+                                <li><a href="../classes/osf-navbar.html">osf-navbar</a></li>
+                                <li><a href="../classes/osf-paginator.html">osf-paginator</a></li>
+                                <li><a href="../classes/OsfAdapter.html">OsfAdapter</a></li>
+                                <li><a href="../classes/OsfAgnosticAuthController.html">OsfAgnosticAuthController</a></li>
+                                <li><a href="../classes/OsfAgnosticAuthRoute.html">OsfAgnosticAuthRoute</a></li>
+                                <li><a href="../classes/OsfCookieAuthenticator.html">OsfCookieAuthenticator</a></li>
+                                <li><a href="../classes/OsfCookieAuthorizer.html">OsfCookieAuthorizer</a></li>
+                                <li><a href="../classes/OsfCookieLoginController.html">OsfCookieLoginController</a></li>
+                                <li><a href="../classes/OsfCookieLoginRoute.html">OsfCookieLoginRoute</a></li>
+                                <li><a href="../classes/OsfModel.html">OsfModel</a></li>
+                                <li><a href="../classes/OsfSerializer.html">OsfSerializer</a></li>
+                                <li><a href="../classes/OsfTokenAuthenticator.html">OsfTokenAuthenticator</a></li>
+                                <li><a href="../classes/OsfTokenAuthorizer.html">OsfTokenAuthorizer</a></li>
+                                <li><a href="../classes/OsfTokenLoginControllerMixin.html">OsfTokenLoginControllerMixin</a></li>
+                                <li><a href="../classes/OsfTokenLoginRouteMixin.html">OsfTokenLoginRouteMixin</a></li>
+                                <li><a href="../classes/PaginatedControllerMixin.html">PaginatedControllerMixin</a></li>
+                                <li><a href="../classes/PaginatedRouteMixin.html">PaginatedRouteMixin</a></li>
+                                <li><a href="../classes/pagination-control.html">pagination-control</a></li>
+                                <li><a href="../classes/permissions.html">permissions</a></li>
+                                <li><a href="../classes/Preprint.html">Preprint</a></li>
+                                <li><a href="../classes/providerRegex.html">providerRegex</a></li>
+                                <li><a href="../classes/Registration.html">Registration</a></li>
+                                <li><a href="../classes/RegistrationActionsMixin.html">RegistrationActionsMixin</a></li>
+                                <li><a href="../classes/search-dropdown.html">search-dropdown</a></li>
+                                <li><a href="../classes/search-facet-daterange.html">search-facet-daterange</a></li>
+                                <li><a href="../classes/search-facet-language.html">search-facet-language</a></li>
+                                <li><a href="../classes/search-facet-locked.html">search-facet-locked</a></li>
+                                <li><a href="../classes/search-facet-source.html">search-facet-source</a></li>
+                                <li><a href="../classes/search-facet-typeahead.html">search-facet-typeahead</a></li>
+                                <li><a href="../classes/search-facet-worktype.html">search-facet-worktype</a></li>
+                                <li><a href="../classes/search-facet-worktype-button.html">search-facet-worktype-button</a></li>
+                                <li><a href="../classes/search-facet-worktype-hierarchy.html">search-facet-worktype-hierarchy</a></li>
+                                <li><a href="../classes/search-help-modal.html">search-help-modal</a></li>
+                                <li><a href="../classes/search-result.html">search-result</a></li>
+                                <li><a href="../classes/sign-up.html">sign-up</a></li>
+                                <li><a href="../classes/sortOptionDisplay.html">sortOptionDisplay</a></li>
+                                <li><a href="../classes/TaggableMixin.html">TaggableMixin</a></li>
+                                <li><a href="../classes/tags-widget.html">tags-widget</a></li>
+                                <li><a href="../classes/Taxonomy.html">Taxonomy</a></li>
+                                <li><a href="../classes/theme.html">theme</a></li>
+                                <li><a href="../classes/total-share-results.html">total-share-results</a></li>
+                                <li><a href="../classes/User.html">User</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/adapters.html">adapters</a></li>
+                                <li><a href="../modules/authenticators.html">authenticators</a></li>
+                                <li><a href="../modules/authorizers.html">authorizers</a></li>
+                                <li><a href="../modules/components.html">components</a></li>
+                                <li><a href="../modules/const.html">const</a></li>
+                                <li><a href="../modules/ember-osf.html">ember-osf</a></li>
+                                <li><a href="../modules/helpers.html">helpers</a></li>
+                                <li><a href="../modules/mixins.html">mixins</a></li>
+                                <li><a href="../modules/models.html">models</a></li>
+                                <li><a href="../modules/serializers.html">serializers</a></li>
+                                <li><a href="../modules/services.html">services</a></li>
+                                <li><a href="../modules/transforms.html">transforms</a></li>
+                                <li><a href="../modules/utils.html">utils</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: addon/components/discover-page/component.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/* eslint-disable no-unused-vars */
+
+import Ember from &#x27;ember&#x27;;
+import layout from &#x27;./template&#x27;;
+import config from &#x27;ember-get-config&#x27;;
+import moment from &#x27;moment&#x27;;
+import Analytics from &#x27;../../mixins/analytics&#x27;;
+import hostAppName from &#x27;../../mixins/host-app-name&#x27;;
+import { getUniqueList, getSplitParams, encodeParams } from &#x27;../../utils/elastic-query&#x27;;
+
+/**
+ * @module ember-osf
+ * @submodule components
+ */
+
+/**
+ *  Discover-page component. Builds a search interface utilizing SHARE.
+ *  See retraction-watch, registries, and preprints discover pages for working examples.
+ *
+ *  Majority adapted from Ember-SHARE https://github.com/CenterForOpenScience/ember-share, with additions from PREPRINTS
+ *  and REGISTRIES discover pages. Original Ember-SHARE facets and PREPRINTS/REGISTRIES facets behave differently at this time.
+ *  You can build a discover-page that uses Ember-SHARE type facets -OR- PREPRINTS/REGISTRIES type facets.  Would not recommend
+ *  mixing until code is combined.
+ *
+ *  How to Use:
+ *  Pass in custom text like searchPlaceholder.  The facets property will enable you to customize the filters
+ *  on the left-hand side of the discover page. Sort options are the sort dropdown options.  The lockedParams are the
+ *  query parameters that are always locked in your application. Each query parameter must be passed in individually,
+ *  so they are reflected in the URL.  Logo and custom colors must be placed in the consuming application&#x27;s stylesheet. Individual components
+ *  can additionally be overridden in your application.
+ *
+ * Sample usage:
+ * &#x60;&#x60;&#x60;handlebars
+ *{{discover-page
+ *    activeFilters=activeFilters
+ *    detailRoute=detailRoute
+ *    discoverHeader=discoverHeader
+ *    facets=facets
+ *    fetchedProviders=model
+ *    filterMap=filterMap
+ *    filterReplace=filterReplace
+ *    lockedParams=lockedParams
+ *    page=page
+ *    provider=provider
+ *    q=q
+ *    queryParams=queryParams
+ *    searchPlaceholder=searchPlaceholder
+ *    showActiveFilters=showActiveFilters
+ *    sortOptions=sortOptions
+ *    subject=subject
+* }}
+ * &#x60;&#x60;&#x60;
+ * @class discover-page
+ */
+
+const MAX_SOURCES = 500;
+let filterQueryParams = [&#x27;subject&#x27;, &#x27;provider&#x27;, &#x27;tags&#x27;, &#x27;sources&#x27;, &#x27;publishers&#x27;, &#x27;funders&#x27;, &#x27;institutions&#x27;, &#x27;organizations&#x27;, &#x27;language&#x27;, &#x27;contributors&#x27;, &#x27;type&#x27;];
+
+export default Ember.Component.extend(Analytics, hostAppName, {
+    layout,
+    theme: Ember.inject.service(),
+    i18n: Ember.inject.service(),
+    classNames: [&#x27;discover-page&#x27;],
+    // ************************************************************
+    // PROPERTIES
+    // ************************************************************
+    /**
+     * Primary filters for service - currently setup for PREPRINTS and REGISTRIES. Ember-SHARE&#x27;s equivalent is facetStates.
+     * @property {Object} activeFilters
+     * @default { providers: [], subjects: [], types: [] }
+     */
+    activeFilters: { providers: [], subjects: [], types: [] },
+    /**
+     * Contributors query parameter.  If &quot;contributors&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {String} contributors
+     * @default &#x27;&#x27;
+     */
+    contributors: &#x27;&#x27;,
+    /**
+     * Name of detail route for consuming application, like &quot;content&quot; or &quot;detail&quot;. Override if search result title should link to detail route.
+     * @property {String} detailRoute
+     */
+    detailRoute: null,
+    /**
+     * Text header for top of discover page.
+     * @property {String} discoverHeader
+     */
+    discoverHeader: null,
+    /**
+     * End query parameter.  If &quot;end&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {String} end
+     * @default &#x27;&#x27;
+     */
+    end: &#x27;&#x27;,
+    /**
+     * A list of the components to be used for the search facets.  Each list item should be a dictionary including the key (SHARE filter),
+     * title (search-facet heading in UI), and component (name of component).
+     * @property {Array} facets
+     * @default [
+            { key: &#x27;sources&#x27;, title: &#x27;Source&#x27;, component: &#x27;search-facet-source&#x27; },
+            { key: &#x27;date&#x27;, title: &#x27;Date&#x27;, component: &#x27;search-facet-daterange&#x27; },
+            { key: &#x27;type&#x27;, title: &#x27;Type&#x27;, component: &#x27;search-facet-worktype&#x27;, data: this.get(&#x27;processedTypes&#x27;) },
+            { key: &#x27;tags&#x27;, title: &#x27;Tag&#x27;, component: &#x27;search-facet-typeahead&#x27; },
+            { key: &#x27;publishers&#x27;, title: &#x27;Publisher&#x27;, component: &#x27;search-facet-typeahead&#x27;, base: &#x27;agents&#x27;, type: &#x27;publisher&#x27; },
+            { key: &#x27;funders&#x27;, title: &#x27;Funder&#x27;, component: &#x27;search-facet-typeahead&#x27;, base: &#x27;agents&#x27;, type: &#x27;funder&#x27; },
+            { key: &#x27;language&#x27;, title: &#x27;Language&#x27;, component: &#x27;search-facet-language&#x27; },
+            { key: &#x27;contributors&#x27;, title: &#x27;People&#x27;, component: &#x27;search-facet-typeahead&#x27;, base: &#x27;agents&#x27;, type: &#x27;person&#x27; }
+        ]
+     */
+    facets: Ember.computed(&#x27;processedTypes&#x27;, function() {
+        return [
+            { key: &#x27;sources&#x27;, title: &#x60;${this.get(&#x27;i18n&#x27;).t(&#x27;eosf.components.discoverPage.source&#x27;)}&#x60;, component: &#x27;search-facet-source&#x27; },
+            { key: &#x27;date&#x27;, title: &#x60;${this.get(&#x27;i18n&#x27;).t(&#x27;eosf.components.discoverPage.date&#x27;)}&#x60;, component: &#x27;search-facet-daterange&#x27; },
+            { key: &#x27;type&#x27;, title: &#x60;${this.get(&#x27;i18n&#x27;).t(&#x27;eosf.components.discoverPage.type&#x27;)}&#x60;, component: &#x27;search-facet-worktype&#x27;, data: this.get(&#x27;processedTypes&#x27;) },
+            { key: &#x27;tags&#x27;, title: &#x60;${this.get(&#x27;i18n&#x27;).t(&#x27;eosf.components.discoverPage.tag&#x27;)}&#x60;, component: &#x27;search-facet-typeahead&#x27; },
+            { key: &#x27;publishers&#x27;, title: &#x60;${this.get(&#x27;i18n&#x27;).t(&#x27;eosf.components.discoverPage.publisher&#x27;)}&#x60;, component: &#x27;search-facet-typeahead&#x27;, base: &#x27;agents&#x27;, type: &#x27;publisher&#x27; },
+            { key: &#x27;funders&#x27;, title: &#x60;${this.get(&#x27;i18n&#x27;).t(&#x27;eosf.components.discoverPage.funder&#x27;)}&#x60;, component: &#x27;search-facet-typeahead&#x27;, base: &#x27;agents&#x27;, type: &#x27;funder&#x27; },
+            { key: &#x27;language&#x27;, title: &#x60;${this.get(&#x27;i18n&#x27;).t(&#x27;eosf.components.discoverPage.language&#x27;)}&#x60;, component: &#x27;search-facet-language&#x27; },
+            { key: &#x27;contributors&#x27;, title: &#x60;${this.get(&#x27;i18n&#x27;).t(&#x27;eosf.components.discoverPage.people&#x27;)}&#x60;, component: &#x27;search-facet-typeahead&#x27;, base: &#x27;agents&#x27;, type: &#x27;person&#x27; },
+        ];
+    }),
+    /**
+     * For PREPRINTS ONLY.  Pass in the providers fetched in preprints app so they can be used in the provider carousel
+     * @property {Object} fetchedProviders
+     */
+    fetchedProviders: null,
+    /**
+     * For PREPRINTS and REGISTRIES. A mapping of activeFilters to facet names expected by SHARE. Ex. {&#x27;providers&#x27;: &#x27;sources&#x27;}
+     * @property {Object} filterMap
+     */
+    filterMap: {},
+    /**
+     * For PREPRINTS and REGISTRIES. A mapping of filter names for front-end display. Ex. {OSF: &#x27;OSF Preprints&#x27;}.
+     * @property {Object} filterReplace
+     */
+    filterReplace: {},
+    /**
+     * Funders query parameter.  If &quot;funders&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {String} funders
+     * @default &#x27;&#x27;
+     */
+    funders: &#x27;&#x27;,
+    /**
+     * Institutions query parameter.  If &quot;institutions&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {String} institutions
+     * @default &#x27;&#x27;
+     */
+    institutions: &#x27;&#x27;,
+
+    /**
+     * Language query parameter.  If &quot;language&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {String} language
+     * @default &#x27;&#x27;
+     */
+    language: &#x27;&#x27;,
+    loading: true,
+    /**
+     * Locked portions of search query that user cannot change.  Example: {&#x27;sources&#x27;: &#x27;PubMed Central&#x27;} will make PMC a locked source.
+     * @property {Object} lockedParams
+     */
+    lockedParams: {},
+    numberOfResults: 0,  // Number of search results returned
+    numberOfSources: 0, // Number of sources
+    /**
+     * Organizations query parameter.  If &quot;organizations&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {String} organizations
+     * @default &#x27;&#x27;
+     */
+    organizations: &#x27;&#x27;,
+    /**
+     * Page query parameter.  If &quot;page&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {Integer} page
+     * @default 1
+     */
+    page: 1,
+    /**
+     * Provider query parameter.  If &quot;provider&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {String} provider
+     * @default &#x27;&#x27;
+     */
+    provider: &#x27;&#x27;,
+    providerName: null, // For PREPRINTS and REGISTRIES. Provider name, if theme.isProvider, ex: psyarxiv
+    /**
+     * Publishers query parameter.  If &quot;publishers&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {String} publishers
+     * @default &#x27;&#x27;
+     */
+    publishers: &#x27;&#x27;,
+    /**
+     * q query parameter.  If &quot;q&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {String} q
+     * @default &#x27;&#x27;
+     */
+    q: &#x27;&#x27;,
+    /**
+     *  Declare on consuming application&#x27;s controller for query params to be active in that route.
+     * @property {Array} queryParams
+     */
+    queryParams:  Ember.computed(function() {
+        let allParams = [&#x27;q&#x27;, &#x27;start&#x27;, &#x27;end&#x27;, &#x27;sort&#x27;, &#x27;page&#x27;];
+        allParams.push(...filterQueryParams);
+        return allParams;
+    }),
+    results: Ember.ArrayProxy.create({ content: [] }), // Results from SHARE query
+    /**
+     * Search bar placeholder - for example, &quot;Search preprints...&quot;
+     * @property {String} searchPlaceholder
+     */
+    searchPlaceholder: Ember.computed(&#x27;i18n.locale&#x27;, function() { // Search bar placeholder text
+        return this.get(&#x27;i18n&#x27;).t(&#x27;eosf.components.discoverPage.searchPlaceholder&#x27;);
+    }),
+    /**
+     * For PREPRINTS and REGISTRIES.  Displays activeFilters box above search facets.
+     * @property {boolean} showActiveFilters
+     */
+    showActiveFilters: false,
+    showLuceneHelp: false, // Is Lucene Search help modal open?
+    /**
+     * Size query parameter.  If &quot;size&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {Integer} size
+     * @default 10
+     */
+    size: 10,
+    /**
+     * Sort query parameter.  If &quot;sort&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {String} sort
+     * @default &#x27;&#x27;
+     */
+    sort: &#x27;&#x27;,
+    /**
+     * Sort dropdown options - Array of dictionaries.  Each dictionary should have display and sortBy keys.
+     * @property {Array} sortOptions
+     * @default [{
+        display: &#x27;Relevance&#x27;,
+        sortBy: &#x27;&#x27;
+    }, {
+        display: &#x27;Date Updated (Desc)&#x27;,
+        sortBy: &#x27;-date_updated&#x27;
+    }, {
+        display: &#x27;Date Updated (Asc)&#x27;,
+        sortBy: &#x27;date_updated&#x27;
+    }, {
+        display: &#x27;Ingest Date (Asc)&#x27;,
+        sortBy: &#x27;date_created&#x27;
+    }, {
+        display: &#x27;Ingest Date (Desc)&#x27;,
+        sortBy: &#x27;-date_created&#x27;
+    }]
+     */
+    sortOptions: [{
+        display: &#x27;Relevance&#x27;,
+        sortBy: &#x27;&#x27;
+    }, {
+        display: &#x27;Date Updated (Desc)&#x27;,
+        sortBy: &#x27;-date_updated&#x27;
+    }, {
+        display: &#x27;Date Updated (Asc)&#x27;,
+        sortBy: &#x27;date_updated&#x27;
+    }, {
+        display: &#x27;Ingest Date (Asc)&#x27;,
+        sortBy: &#x27;date_created&#x27;
+    }, {
+        display: &#x27;Ingest Date (Desc)&#x27;,
+        sortBy: &#x27;-date_created&#x27;
+    }],
+    /**
+     * Sources query parameter.  If &quot;sources&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {String} sources
+     * @default &#x27;&#x27;
+     */
+    sources: &#x27;&#x27;,
+    /**
+     * Start query parameter.  If &quot;start&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {String} start
+     * @default &#x27;&#x27;
+     */
+    start: &#x27;&#x27;,
+    /**
+     * Subject query parameter.  If &quot;subject&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {String} subject
+     * @default &#x27;&#x27;
+     */
+    subject: &#x27;&#x27;,
+    /**
+     * Tags query parameter.  If &quot;tags&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {String} tags
+     * @default &#x27;&#x27;
+     */
+    tags: &#x27;&#x27;,
+    took: 0,
+    /**
+     * type query parameter.  If &quot;type&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.
+     * @property {String} type
+     * @default &#x27;&#x27;
+     */
+    type: &#x27;&#x27;,
+
+    // ************************************************************
+    // COMPUTED PROPERTIES and OBSERVERS
+    // ************************************************************
+
+    // TODO update this property if a solution is found for the elastic search limitation.
+    // Ticket: SHARE-595
+    clampedPages: Ember.computed(&#x27;totalPages&#x27;, &#x27;size&#x27;, function() {
+        // Total pages of search results, unless total is greater than the max pages allowed.
+        let maxPages = Math.ceil(10000 / this.get(&#x27;size&#x27;));
+        let totalPages = this.get(&#x27;totalPages&#x27;);
+        return totalPages &lt; maxPages ? totalPages : maxPages;
+    }),
+    elasticAggregations: Ember.computed(function() {
+        // Ember-SHARE property.
+        return {
+            sources: {
+                terms: {
+                    field: &#x27;sources&#x27;,
+                    size: MAX_SOURCES
+                }
+            }
+        };
+    }),
+    facetStates: Ember.computed(...filterQueryParams, &#x27;end&#x27;, &#x27;start&#x27;, function() {
+        // Ember-SHARE property.  Watches query params in URL and modifies facetStates
+        let facetStates = {};
+        for (let param of filterQueryParams) {
+            facetStates[param] = getSplitParams(this.get(param));
+        }
+        facetStates.date = { start: this.get(&#x27;start&#x27;), end: this.get(&#x27;end&#x27;) };
+        return facetStates;
+    }),
+    facetStatesArray: Ember.computed(&#x27;facetStates&#x27;, function() { // Modified when query params in URL change.
+        let facets = this.get(&#x27;facetStates&#x27;);
+        return Object.keys(facets).map((key) =&gt; ({ key, value: facets[key] }));
+    }),
+    hiddenPages: Ember.computed(&#x27;clampedPages&#x27;, &#x27;totalPages&#x27;, function() {
+        // Ember-SHARE property. Returns pages of hidden search results.
+        const total = this.get(&#x27;totalPages&#x27;);
+        const max = this.get(&#x27;clampedPages&#x27;);
+        if (total !== max) {
+            return total - max;
+        }
+        return null;
+    }),
+    providerChanged: Ember.on(&#x27;init&#x27;, Ember.observer(&#x27;provider&#x27;, function() {
+        // For PREPRINTS and REGISTRIES - watches provider query param for changes and modifies activeFilters
+        let filter = this.get(&#x27;provider&#x27;);
+        if (!filter || filter === &#x27;true&#x27; || typeof filter === &#x27;object&#x27;) return;
+        if (!this.get(&#x27;theme.isProvider&#x27;)) {
+            this.setActiveFiltersAndReload(&#x27;activeFilters.providers&#x27;, filter.split(&#x27;OR&#x27;));
+        }
+    })),
+    processedTypes: Ember.computed(&#x27;types&#x27;, function() {
+        // Ember-SHARE property
+        const types = this.get(&#x27;types&#x27;) &amp;&amp; this.get(&#x27;types&#x27;).CreativeWork ? this.get(&#x27;types&#x27;).CreativeWork.children : {};
+        return this.transformTypes(types);
+    }),
+    reloadSearch: Ember.observer(&#x27;activeFilters.providers.@each&#x27;, &#x27;activeFilters.subjects.@each&#x27;, &#x27;activeFilters.types.@each&#x27;, function() {
+        // For PREPRINTS and REGISTRIES.  Reloads page if activeFilters change.
+        this.set(&#x27;page&#x27;, 1);
+        this.loadPage();
+    }),
+    searchUrl: Ember.computed(function() {
+        // Pulls SHARE search url from config file.
+        return config.OSF.shareSearchUrl;
+    }),
+    subjectChanged: Ember.on(&#x27;init&#x27;, Ember.observer(&#x27;subject&#x27;, function() {
+        // For PREPRINTS - watches subject query param for changes and modifies activeFilters
+        let filter = this.get(&#x27;subject&#x27;);
+        if (!filter || filter === &#x27;true&#x27; || typeof filter === &#x27;object&#x27;) return;
+        this.setActiveFiltersAndReload(&#x27;activeFilters.subjects&#x27;, filter.split(&#x27;OR&#x27;));
+    })),
+    typeChanged: Ember.on(&#x27;init&#x27;, Ember.observer(&#x27;type&#x27;, function() {
+        // For REGISTRIES - watches type query param for changes and modifies activeFilters
+        let filter = this.get(&#x27;type&#x27;);
+        if (!filter || filter === &#x27;true&#x27; || typeof filter === &#x27;object&#x27;) return;
+        this.setActiveFiltersAndReload(&#x27;activeFilters.types&#x27;, filter.split(&#x27;OR&#x27;));
+    })),
+    totalPages: Ember.computed(&#x27;numberOfResults&#x27;, &#x27;size&#x27;, function() {
+        // Total pages of search results
+        return Math.ceil(this.get(&#x27;numberOfResults&#x27;) / this.get(&#x27;size&#x27;));
+    }),
+
+    // ************************************************************
+    // Discover-page METHODS and HOOKS
+    // ************************************************************
+
+    buildLockedQueryBody(lockedParams) {
+        /**
+         *  For PREPRINTS, REGISTRIES, RETRACTION WATCH - services where portion of query is restricted.
+         *  Builds the locked portion of the query.  For example, in preprints, type=preprint
+         *  is something that cannot be modified by the user.
+         *
+         *  @method buildLockedQueryBody
+         *  @param {Object} lockedParams - Locked param keys matched to the locked value.
+         *  @return {Object} queryBody - locked portion of query body
+        */
+        let queryBody = [];
+        Object.keys(lockedParams).forEach(key =&gt; {
+            let query = {};
+            let queryKey = [&#x60;${key}&#x60;];
+            if (key === &#x27;tags&#x27;) {
+                queryKey = key;
+            } else if (key === &#x27;contributors&#x27;) {
+                queryKey = &#x27;lists.contributors.name&#x27;;
+            }
+
+            query[queryKey] = lockedParams[key];
+            queryBody.push({
+                term: query
+            });
+        });
+        return queryBody;
+    },
+    getCounts() {
+        // Ember-SHARE method
+        let queryBody = JSON.stringify({
+            size: 0,
+            aggregations: {
+                sources: {
+                    cardinality: {
+                        field: &#x27;sources&#x27;,
+                        precision_threshold: MAX_SOURCES
+                    }
+                }
+            }
+        });
+        let jqDeferred = Ember.$.ajax({
+            url: this.get(&#x27;searchUrl&#x27;),
+            crossDomain: true,
+            type: &#x27;POST&#x27;,
+            contentType: &#x27;application/json&#x27;,
+            data: queryBody
+        }).then((json) =&gt; {
+            this.setProperties({
+                numberOfEvents: json.hits.total,
+                numberOfSources: json.aggregations.sources.value
+            });
+        });
+        return new Ember.RSVP.Promise(resolve =&gt; {
+            jqDeferred.done((value) =&gt; resolve(value));
+        })
+    },
+    getQueryBody() {
+        /**
+         * Builds query body to send to SHARE from a combination of locked Params, facetFilters and activeFilters
+         *
+         * @method getQueryBody
+         * @return queryBody
+         */
+        let filters = this.buildLockedQueryBody(this.get(&#x27;lockedParams&#x27;)); // Empty list if no locked query parameters
+        // From Ember-SHARE. Looks at facetFilters (partial SHARE queries already built) and adds them to query body
+        let facetFilters = this.get(&#x27;facetFilters&#x27;);
+        for (let k of Object.keys(facetFilters)) {
+            let filter = facetFilters[k];
+            if (filter) {
+                if (Ember.$.isArray(filter)) {
+                    filters = filters.concat(filter);
+                } else {
+                    filters.push(filter);
+                }
+            }
+        }
+
+        // For PREPRINTS and REGISTRIES.  Adds activeFilters to query body.
+        const activeFilters = this.get(&#x27;activeFilters&#x27;);
+        const filterMap = this.get(&#x27;filterMap&#x27;);
+        Object.keys(filterMap).forEach(key =&gt; {
+            const val = filterMap[key];
+            const filterList = activeFilters[key];
+            this.set(key, filterList.join(&#x27;OR&#x27;));
+
+            if (!filterList.length || (key === &#x27;providers&#x27; &amp;&amp; this.get(&#x27;theme.isProvider&#x27;)))
+                return;
+
+            filters.push({
+                terms: {
+                    [val]: filterList
+                }
+            });
+        });
+
+        // For PREPRINTS and REGISTRIES. If theme.isProvider, add this provider to the query body
+        if (this.get(&#x27;theme.isProvider&#x27;) &amp;&amp; this.get(&#x27;providerName&#x27;) !== null) {
+            filters.push({
+                terms: {
+                    sources: [this.get(&#x27;providerName&#x27;)]
+                }
+            });
+        }
+
+        let query = {
+            query_string: {
+                query: this.get(&#x27;q&#x27;) || &#x27;*&#x27;
+            }
+        };
+        if (filters.length) {
+            query = {
+                bool: {
+                    must: query,
+                    filter: filters
+                }
+            };
+        }
+
+        let page = this.get(&#x27;page&#x27;);
+        let queryBody = {
+            query,
+            from: (page - 1) * this.get(&#x27;size&#x27;)
+        };
+        if (this.get(&#x27;sort&#x27;)) {
+            let sortBy = {};
+            sortBy[this.get(&#x27;sort&#x27;).replace(/^-/, &#x27;&#x27;)] = this.get(&#x27;sort&#x27;)[0] === &#x27;-&#x27; ? &#x27;desc&#x27; : &#x27;asc&#x27;;
+            queryBody.sort = sortBy;
+        }
+        if (page === 1 || this.get(&#x27;firstLoad&#x27;)) {
+            queryBody.aggregations = this.get(&#x27;elasticAggregations&#x27;);
+        }
+
+        this.set(&#x27;displayQueryBody&#x27;, { query });
+        return this.set(&#x27;queryBody&#x27;, queryBody);
+    },
+    getTypes() {
+        // Ember-SHARE method
+        return Ember.$.ajax({
+            url: config.OSF.shareApiUrl + &#x27;/schema/creativework/hierarchy/&#x27;,
+            crossDomain: true,
+            type: &#x27;GET&#x27;,
+            contentType: &#x27;application/vnd.api+json&#x27;,
+        }).then((json) =&gt; {
+            if (json.data) {
+                this.set(&#x27;types&#x27;, json.data);
+            }
+        });
+    },
+    init() {
+        //TODO Sort initial results on date_modified
+        // Runs on initial render.
+        this._super(...arguments);
+        this.set(&#x27;firstLoad&#x27;, true);
+        this.set(&#x27;facetFilters&#x27;, Ember.Object.create());
+        this.getTypes();
+        this.getCounts();
+        this.loadProvider();
+        this.loadPage();
+    },
+    loadPage() {
+        let queryBody = JSON.stringify(this.getQueryBody());
+        this.set(&#x27;loading&#x27;, true);
+        let jqDeferred = Ember.$.ajax({
+            url: this.get(&#x27;searchUrl&#x27;),
+            crossDomain: true,
+            type: &#x27;POST&#x27;,
+            contentType: &#x27;application/json&#x27;,
+            data: queryBody
+        }).then((json) =&gt; {
+            if (this.isDestroyed || this.isDestroying) return;
+            let results = json.hits.hits.map(hit =&gt; {
+                // HACK: Make share data look like apiv2 preprints data
+                let result = Ember.merge(hit._source, {
+                    id: hit._id,
+                    type: &#x27;elastic-search-result&#x27;,
+                    workType: hit._source[&#x27;@type&#x27;],
+                    abstract: hit._source.description,
+                    subjects: hit._source.subjects.map(each =&gt; ({ text: each })),
+                    providers: hit._source.sources.map(item =&gt; ({ name: item })), // For PREPRINTS, REGISTRIES
+                    hyperLinks: [// Links that are hyperlinks from hit._source.lists.links
+                        {
+                            type: &#x27;share&#x27;,
+                            url: config.OSF.shareBaseUrl + &#x60;${hit._source.type}&#x60; + &#x27;/&#x27; + hit._id
+                        }
+                    ],
+                    infoLinks: [], // Links that are not hyperlinks  hit._source.lists.links
+                    registrationType: hit._source.registration_type // For REGISTRIES
+                });
+
+                hit._source.identifiers.forEach(function(identifier) {
+                    if (identifier.startsWith(&#x27;http://&#x27;)) {
+                        result.hyperLinks.push({ url: identifier });
+                    } else {
+                        const spl = identifier.split(&#x27;://&#x27;);
+                        const [type, uri, ..._] = spl;
+                        result.infoLinks.push({ type, uri });
+                    }
+                });
+
+                result.contributors = result.lists.contributors ? result.lists.contributors
+                  .sort((b, a) =&gt; (b.order_cited || -1) - (a.order_cited || -1))
+                  .map(contributor =&gt; ({
+                        users: Object.keys(contributor)
+                          .reduce(
+                              (acc, key) =&gt; Ember.merge(acc, { [Ember.String.camelize(key)]: contributor[key] }),
+                              { bibliographic: contributor.relation !== &#x27;contributor&#x27; }
+                          )
+                    })) : [];
+
+                // Temporary fix to handle half way migrated SHARE ES
+                // Only false will result in a false here.
+                result.contributors.map(contributor =&gt; contributor.users.bibliographic = !(contributor.users.bibliographic === false));  // jshint ignore:line
+
+                return result;
+            });
+
+            if (json.aggregations) {
+                this.set(&#x27;aggregations&#x27;, json.aggregations);
+            }
+            this.setProperties({
+                numberOfResults: json.hits.total,
+                took: moment.duration(json.took).asSeconds(),
+                loading: false,
+                firstLoad: false,
+                results: results,
+                queryError: false,
+                shareDown: false,
+            });
+            if (this.get(&#x27;totalPages&#x27;) &amp;&amp; this.get(&#x27;totalPages&#x27;) &lt; this.get(&#x27;page&#x27;)) {
+                this.search();
+            }
+        }).fail((errorResponse) =&gt; {
+            this.setProperties({
+                loading: false,
+                firstLoad: false,
+                numberOfResults: 0,
+                results: []
+            });
+            if (errorResponse.status === 400) {
+                // If issue with search query, for example, invalid lucene search syntax
+                this.set(&#x27;queryError&#x27;, true);
+            } else {
+                // SHARE is Down
+                this.set(&#x27;shareDown&#x27;, true);
+            }
+        });
+        return new Ember.RSVP.Promise((resolve, reject) =&gt; {
+            jqDeferred.done((value) =&gt; resolve(value));
+            jqDeferred.fail((reason) =&gt; reject(reason));
+        });
+    },
+    loadProvider() {
+        // For PREPRINTS and REGISTRIES - Loads preprint provider if theme.isProvider
+        // Needed because theme&#x27;s provider was not loading before SHARE was queried.
+        if (this.get(&#x27;theme.isProvider&#x27;)) {
+            this.get(&#x27;theme.provider&#x27;).then(provider =&gt; {
+                this.set(&#x27;providerName&#x27;, provider.get(&#x27;name&#x27;));
+                this.loadPage();
+            });
+        }
+    },
+    scrollToResults() {
+        // Scrolls to top of search results
+        Ember.$(&#x27;html, body&#x27;).scrollTop(this.$(&#x27;.results-top&#x27;).position().top);
+    },
+    search() {
+        if (!this.get(&#x27;firstLoad&#x27;)) {
+            this.set(&#x27;page&#x27;, 1);
+        }
+        this.set(&#x27;loading&#x27;, true);
+        this.set(&#x27;results&#x27;, []);
+        Ember.run.debounce(this, this.loadPage, 500);
+    },
+    setActiveFiltersAndReload(activeFilterName, proposedFilters) {
+        // If activeFilter is not equal to proposedFilter, update the activeFilter and reload search
+        const currentFilters = this.get(activeFilterName);
+        if (Ember.compare(currentFilters, proposedFilters) !== 0) {
+            this.set(activeFilterName, proposedFilters);
+            this.loadPage();
+        }
+    },
+    trackDebouncedSearch() {
+        // For use in tracking debounced search of registries in Keen and GA
+        Ember.get(this, &#x27;metrics&#x27;)
+            .trackEvent({
+                category: &#x27;input&#x27;,
+                action: &#x27;onkeyup&#x27;,
+                label: &#x27;Discover - Search&#x27;,
+                extra: this.get(&#x27;q&#x27;)
+
+            });
+    },
+    transformTypes(obj) {
+        // Ember-SHARE method
+        if (typeof (obj) !== &#x27;object&#x27;) {
+            return obj;
+        }
+
+        for (let key in obj) {
+            let lowKey = key.replace(/([A-Z])/g, &#x27; $1&#x27;).trim().toLowerCase();
+            obj[lowKey] = this.transformTypes(obj[key]);
+            if (key !== lowKey) {
+                delete obj[key];
+            }
+        }
+        return obj;
+    },
+    actions: {
+        addFilter(type, filterValue) {
+            // Ember-SHARE action. Used to add filter from the search results.
+            let currentValue = getSplitParams(this.get(type)) || [];
+            let newValue = getUniqueList([filterValue].concat(currentValue));
+            this.set(type, encodeParams(newValue));
+        },
+        clearFilters() {
+            // Clears facetFilters for SHARE-type facets
+            this.set(&#x27;facetFilters&#x27;, Ember.Object.create());
+            filterQueryParams.forEach(param =&gt; {
+                this.set(param, &#x27;&#x27;);
+            });
+            this.set(&#x27;start&#x27;, &#x27;&#x27;);
+            this.set(&#x27;end&#x27;, &#x27;&#x27;);
+            this.set(&#x27;sort&#x27;, &#x27;&#x27;);
+            this.search();
+            // For PREPRINTS and REGISTRIES. Clears activeFilters.
+            let restoreActiveFilters = {};
+            Object.keys(this.get(&#x27;activeFilters&#x27;)).forEach(filter =&gt; {
+                if (filter === &#x27;providers&#x27;) {
+                    restoreActiveFilters[filter] = this.get(&#x27;theme.isProvider&#x27;) ? this.get(&#x27;activeFilters.providers&#x27;) : [];
+                } else {
+                    restoreActiveFilters[filter] = [];
+                }
+
+            });
+            this.set(&#x27;activeFilters&#x27;, restoreActiveFilters);
+            Ember.get(this, &#x27;metrics&#x27;)
+                .trackEvent({
+                    category: &#x27;button&#x27;,
+                    action: &#x27;click&#x27;,
+                    label: &#x27;Discover - Clear Filters&#x27;
+                });
+        },
+        filtersChanged() {
+            // Ember SHARE action. Fired in faceted-search component when Ember-SHARE facets are modified.
+            this.search();
+        },
+        loadPage(newPage, scroll = true) {
+            if (newPage === this.get(&#x27;page&#x27;) || newPage &lt; 1 || newPage &gt; this.get(&#x27;totalPages&#x27;)) {
+                return;
+            }
+            this.set(&#x27;page&#x27;, newPage);
+            if (scroll) {
+                this.scrollToResults();
+            }
+            this.loadPage();
+        },
+        modifyRegistrationType(filter, query) {
+            // For REGISTRIES only - modifies &quot;type&quot; query param if &quot;provider&quot; query param changes.
+            // Registries are unusual, since the OSF Registration Type facet depends upon the Providers facet
+            if (filter === &#x27;provider&#x27; &amp;&amp; this.get(&#x27;hostAppName&#x27;) === &#x27;Registries&#x27;) {
+                if (query.length === 1 &amp;&amp; query[0] === &#x27;OSF&#x27;) {
+                    this.set(&#x27;type&#x27;, this.get(&#x27;activeFilters.types&#x27;).join(&#x27;OR&#x27;));
+                } else {
+                    this.set(&#x27;type&#x27;, &#x27;&#x27;);
+                }
+            }
+        },
+        removeFilter(type, filterValue) {
+            // Ember-SHARE action.  Could be used to remove filters in Active Filters box (when Ember-SHARE and PREPRINTS/REGISTRIES code here is integrated)
+            let currentValue = getSplitParams(this.get(type)) || [];
+            let index = currentValue.indexOf(filterValue);
+            if (index &gt; -1) {
+                currentValue.splice(index, 1);
+            }
+            currentValue = currentValue.length ? encodeParams(currentValue) : &#x27;&#x27;;
+            this.set(type, currentValue);
+            this.get(&#x27;facetFilters&#x27;);
+        },
+        search() {
+            // Only want to track search here when button clicked. Keypress search tracking is debounced in trackSearch
+            Ember.get(this, &#x27;metrics&#x27;)
+                .trackEvent({
+                    category: &#x27;button&#x27;,
+                    action: &#x27;click&#x27;,
+                    label: &#x27;Discover - Search&#x27;,
+                    extra: this.get(&#x27;q&#x27;)
+                });
+
+            this.search();
+        },
+        selectSortOption(option) {
+            // Runs when sort option changed in dropdown
+            this.set(&#x27;sort&#x27;, option);
+            Ember.get(this, &#x27;metrics&#x27;)
+                .trackEvent({
+                    category: &#x27;dropdown&#x27;,
+                    action: &#x27;select&#x27;,
+                    label: &#x60;Sort by: ${option || &#x27;relevance&#x27;}&#x60;
+                });
+            this.search();
+        },
+        setLoadPage(pageNumber) {
+            // Adapted from PREPRINTS for pagination. When paginating, sets page and scrolls to top of results.
+            this.set(&#x27;page&#x27;, pageNumber);
+            if (scroll) {
+                this.scrollToResults();
+            }
+            this.loadPage();
+        },
+        toggleShowLuceneHelp() {
+            // Toggles display of Lucene Search help modal
+            this.toggleProperty(&#x27;showLuceneHelp&#x27;);
+        },
+        typing(val, event) {
+             // Fires on keyup in search bar
+             // Ignores all keycodes that don&#x27;t result in the value changing
+             // 8 == Backspace, 32 == Space
+            if (event.keyCode &lt; 49 &amp;&amp; !(event.keyCode === 8 || event.keyCode === 32)) {
+                return;
+            }
+            // Tracks search on keypress, debounced
+            Ember.run.debounce(this, this.trackDebouncedSearch, 3000);
+            this.search();
+        },
+        updateFilters(filterType, item) {
+            // For PREPRINTS and REGISTRIES.  Modifies activeFilters.
+            item = typeof item === &#x27;object&#x27; ? item.text : item;
+            const filters = Ember.$.extend(true, Ember.A(), this.get(&#x60;activeFilters.${filterType}&#x60;));
+            const hasItem = filters.includes(item);
+            const action = hasItem ? &#x27;remove&#x27; : &#x27;push&#x27;;
+            filters[&#x60;${action}Object&#x60;](item);
+            this.set(&#x60;activeFilters.${filterType}&#x60;, filters);
+            this.send(&#x27;updateQueryParams&#x27;, filterType, filters);
+
+            Ember.get(this, &#x27;metrics&#x27;)
+                .trackEvent({
+                    category: &#x27;filter&#x27;,
+                    action: hasItem ? &#x27;remove&#x27; : &#x27;add&#x27;,
+                    label: &#x60;Discover - ${filterType} ${item}&#x60;
+                });
+        },
+        updateParams(key, value) {
+            // Ember SHARE action. Updates query params in URL.
+            if (key === &#x27;date&#x27;) {
+                this.set(&#x27;start&#x27;, value.start);
+                this.set(&#x27;end&#x27;, value.end);
+            } else {
+                value = value ? encodeParams(value) : &#x27;&#x27;;
+                this.set(key, value);
+            }
+        },
+        updateQueryParams(pluralFilter, query) {
+            // For PREPRINTS and REGISTRIES.  Used to modify query parameters in URL when activeFilters change.
+            const filter = Ember.String.singularize(pluralFilter);
+            if (pluralFilter !== &#x27;providers&#x27; || !this.get(&#x27;theme.isProvider&#x27;)) {
+                this.set(&#x60;${filter}&#x60;, query.join(&#x27;OR&#x27;));
+                this.send(&#x27;modifyRegistrationType&#x27;, filter, query);
+            }
+        }
+    }
+});
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

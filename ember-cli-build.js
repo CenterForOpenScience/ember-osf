@@ -6,7 +6,9 @@ module.exports = function(defaults) {
     var app = new EmberAddon(defaults, {
         sassOptions: {
             includePaths: [
-                'tests/dummy/app/components'
+                'tests/dummy/app/components',
+                'bower_components/c3',
+                'bower_components/bootstrap-daterangepicker',
             ]
         },
 
@@ -29,10 +31,16 @@ module.exports = function(defaults) {
     app.import(path.join(app.bowerDirectory, 'dropzone/dist/basic.css'));
     app.import(path.join(app.bowerDirectory, 'dropzone/dist/dropzone.css'));
     app.import(path.join(app.bowerDirectory, 'dropzone/dist/dropzone.js'));
+    app.import(path.join(app.bowerDirectory, 'bootstrap-daterangepicker/daterangepicker.js'));
+    app.import(path.join(app.bowerDirectory, 'lodash/lodash.js'));
 
     app.import(path.join(app.bowerDirectory, 'jquery.tagsinput/src/jquery.tagsinput.js'));
-
+    app.import(path.join(app.bowerDirectory, 'c3/c3.js'));
+    app.import(path.join(app.bowerDirectory, 'd3/d3.js'));
     app.import(path.join(app.bowerDirectory, 'osf-style/css/base.css'));
     app.import('vendor/assets/ember-osf.css');
+    app.import({
+        test: path.join(app.bowerDirectory, 'ember/ember-template-compiler.js')
+    });
     return app.toTree();
 };

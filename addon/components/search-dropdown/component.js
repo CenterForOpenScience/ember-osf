@@ -12,7 +12,7 @@ import config from 'ember-get-config';
  *
  * Sample usage:
  * ```handlebars
- *   {{#search-dropdown action='toggleSearch'}}
+ *   {{search-dropdown action='toggleSearch'}}
  * ```
  * @class search-dropdown
  */
