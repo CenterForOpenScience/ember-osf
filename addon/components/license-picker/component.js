@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import _ from 'lodash';
 import layout from './template';
 
 /**
@@ -73,6 +72,12 @@ export default Ember.Component.extend({
             text = text.replace(/({{copyrightHolders}})/g, this.get('copyrightHolders') || '');
         }
         return text;
+    }),
+    yearRequired: Ember.computed('nodeLicense', function() {
+        return this.get('nodeLicense.requiredFields') && this.get('nodeLicense.requiredFields').indexOf('year') !== -1;
+    }),
+    copyrightHoldersRequired: Ember.computed('nodeLicense', function() {
+        return this.get('nodeLicense.requiredFields') && this.get('nodeLicense.requiredFields').indexOf('copyrightHolders') !== -1;
     }),
     licenseEdited: Ember.observer('copyrightHolders', 'nodeLicense', 'year', function() {
         Ember.run.debounce(this, function() {
