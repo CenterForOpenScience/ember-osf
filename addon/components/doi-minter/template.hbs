@@ -1,0 +1,21 @@
+<a href="#" {{action 'toggleDOIModal'}}> Create DOI </a>
+
+<div id="ember-bootstrap-modal-container">
+    {{#bs-modal open=isOpen body=false header=false footer=false}}
+        {{#bs-modal-header}}
+            <h3 class="modal-title">Create identifiers</h3>
+        {{/bs-modal-header}}
+        {{#bs-modal-body}}
+            Are you sure you want to create a DOI for this {{resourceType}}? DOI identifiers are persistent and will always resolve to this {{resourceType}}.
+        {{/bs-modal-body}}
+
+        {{#bs-modal-footer}}
+            <div align="right">
+                <button {{action 'close'}} class="btn btn-default"> Cancel </button>
+                <button class="btn btn-primary" {{action 'createDOI'}}> Create </button>
+            </div>
+        {{/bs-modal-footer}}
+    {{/bs-modal}}
+
+</div>
+
