@@ -1,6 +1,34 @@
 import Ember from 'ember';
 import layout from './template';
 
+/**
+* @module ember-osf
+* @submodule components
+*/
+
+/**
+* Widget to select a license on a project or preprint with the ability
+* to only allow a subset of licenses and to autosave or save explictly
+* ```handlebars
+* {{license-picker
+*   licenses=availableLicenses
+*   currentValues=basicsLicense
+*   showCategories=false
+*   editLicense=(action 'editLicense')
+*   allowDismiss=false
+*   autosave=true
+*   showBorder=false
+*   pressSubmit=(action 'saveBasics')}}
+* ```
+* @class license-picker
+* @param {DS.Model} licenses Which Licenses are available to be selected
+* @param {Object} currentValues The values that are currently on the model, as strings (copyrightHolders joined as a string)
+* @param {boolean} showCategories whether the licenses available in the dropdown are separated by categories
+* @param {action} editLicense function to be called when the license details are changed (either on submit or autosaving)
+* @param {boolean} autosave whether the component should call the save function on every change or offer an explicit save button
+* @param {boolean} showBorder frame the widget in a border
+* @param {action} pressSubmit what should be called if Enter is pressed
+*/
 export default Ember.Component.extend({
     layout,
     store: Ember.inject.service(),
@@ -12,20 +40,6 @@ export default Ember.Component.extend({
     showCopyrightHolders: true,
     showCategories: true,
     allowDismiss: false,
-    showOtherFields: Ember.observer('nodeLicense', 'nodeLicense.text', function() {
-        let text = this.get('nodeLicense.text');
-        if (!text) {
-            return;
-        }
-        this.set('showYear', text.indexOf('{{year}}') !== -1);
-        this.set('showCopyrightHolders', text.indexOf('{{copyrightHolders}}') !== -1);
-    }),
-    yearRequired: Ember.computed('nodeLicense', function() {
-        return this.get('nodeLicense.requiredFields') && this.get('nodeLicense.requiredFields').indexOf('year') !== -1;
-    }),
-    copyrightHoldersRequired: Ember.computed('nodeLicense', function() {
-        return this.get('nodeLicense.requiredFields') && this.get('nodeLicense.requiredFields').indexOf('copyrightHolders') !== -1;
-    }),
     didReceiveAttrs() {
         if (!this.get('licenses')) {
             this.get('store').query('license', { 'page[size]': 20 }).then(ret => {
@@ -59,6 +73,12 @@ export default Ember.Component.extend({
         }
         return text;
     }),
+    yearRequired: Ember.computed('nodeLicense', function() {
+        return this.get('nodeLicense.requiredFields') && this.get('nodeLicense.requiredFields').indexOf('year') !== -1;
+    }),
+    copyrightHoldersRequired: Ember.computed('nodeLicense', function() {
+        return this.get('nodeLicense.requiredFields') && this.get('nodeLicense.requiredFields').indexOf('copyrightHolders') !== -1;
+    }),
     licenseEdited: Ember.observer('copyrightHolders', 'nodeLicense', 'year', function() {
         Ember.run.debounce(this, function() {
             if (this.get('autosave')) {
@@ -68,6 +88,14 @@ export default Ember.Component.extend({
     }),
     year: null,
     copyrightHolders: null,
+    showOtherFields: Ember.observer('nodeLicense', 'nodeLicense.text', function() {
+        let text = this.get('nodeLicense.text');
+        if (!text) {
+            return;
+        }
+        this.set('showYear', text.indexOf('{{year}}') !== -1);
+        this.set('showCopyrightHolders', text.indexOf('{{copyrightHolders}}') !== -1);
+    }),
     actions: {
         selectLicense(license) {
             this.set('nodeLicense', license);

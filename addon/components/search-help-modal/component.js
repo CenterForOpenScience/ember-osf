@@ -14,9 +14,10 @@ import layout from './template';
 export default Ember.Component.extend({
     layout,
     isOpen: false,
-    currentPath: Ember.computed(function() {
-        return Ember.getOwner(this).lookup('controller:application').currentPath;
-    }),
+    init() {
+        this._super(...arguments);
+        this.set('currentPath', `${window.location.origin}${window.location.pathname}`);
+    },
     actions: {
         close() {
             this.set('isOpen', false);

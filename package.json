@@ -1,6 +1,6 @@
 {
   "name": "ember-osf",
-  "version": "0.4.0",
+  "version": "0.5.4",
   "description": "Reusable ember models and components for interacting with the Open Science Framework",
   "directories": {
     "doc": "docs",
@@ -16,6 +16,7 @@
     "bump-version": "npm --no-git-tag-version version ",
     "preversion": "git-branch-is develop && yarn test",
     "postversion": "yarn run docs",
+    "postinstall": "npm rebuild node-sass",
     "make-release": "git-branch-is develop && git flow release start $npm_package_version && git flow release finish $npm_package_version"
   },
   "repository": {
