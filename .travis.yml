@@ -6,25 +6,17 @@ dist: trusty
 env:
   global:
     - SUPPRESS_NO_CONFIG_WARNING=true
+    - PERSONAL_ACCESS_TOKEN=TEST_TOKEN
 
 cache:
   yarn: true
   directories:
     - node_modules
-    - travis_phantomjs
     - $HOME/.cache # includes bowers cache
 
 before_install:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
-
-  # Upgrade PhantomJS to v2.1.1.
-  - "export PHANTOMJS_VERSION=2.1.1"
-  - "export PATH=$PWD/travis_phantomjs/phantomjs-$PHANTOMJS_VERSION-linux-x86_64/bin:$PATH"
-  - "if [ $(phantomjs --version) != $PHANTOMJS_VERSION ]; then rm -rf $PWD/travis_phantomjs; mkdir -p $PWD/travis_phantomjs; fi"
-  - "if [ $(phantomjs --version) != $PHANTOMJS_VERSION ]; then wget https://github.com/Medium/phantomjs/releases/download/v$PHANTOMJS_VERSION/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2 -O $PWD/travis_phantomjs/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2; fi"
-  - "if [ $(phantomjs --version) != $PHANTOMJS_VERSION ]; then tar -xvf $PWD/travis_phantomjs/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2 -C $PWD/travis_phantomjs; fi"
-  - "phantomjs --version"
 
 install:
   - curl -o- -L https://yarnpkg.com/install.sh | bash
