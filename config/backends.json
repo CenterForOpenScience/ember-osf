@@ -30,7 +30,10 @@
         "waterbutlerUrl": "https://staging2-files.osf.io/",
         "helpUrl": "http://help.osf.io",
         "cookieLoginUrl": "https://staging2-accounts.osf.io/login",
-        "oauthUrl": "https://staging2-accounts.osf.io/oauth2/authorize"
+        "oauthUrl": "https://staging2-accounts.osf.io/oauth2/authorize",
+        "shareBaseUrl": "https://staging-share.osf.io/",
+        "shareApiUrl": "https://staging-share.osf.io/api/v2",
+        "shareSearchUrl": "https://staging-share.osf.io/api/v2/search/creativeworks/_search"
     },
     "stage3": {
         "url": "https://staging3.osf.io/",
@@ -39,7 +42,10 @@
         "waterbutlerUrl": "https://staging3-files.osf.io/",
         "helpUrl": "http://help.osf.io",
         "cookieLoginUrl": "https://staging3-accounts.osf.io/login",
-        "oauthUrl": "https://staging3-accounts.osf.io/oauth2/authorize"
+        "oauthUrl": "https://staging3-accounts.osf.io/oauth2/authorize",
+        "shareBaseUrl": "https://staging-share.osf.io/",
+        "shareApiUrl": "https://staging-share.osf.io/api/v2",
+        "shareSearchUrl": "https://staging-share.osf.io/api/v2/search/creativeworks/_search"
     },
     "prod": {
         "url": "https://osf.io/",
@@ -60,7 +66,10 @@
         "waterbutlerUrl": "https://test-files.osf.io/",
         "helpUrl": "http://help.osf.io",
         "cookieLoginUrl": "https://test-accounts.osf.io/login",
-        "oauthUrl": "https://test-accounts.osf.io/oauth2/authorize"
+        "oauthUrl": "https://test-accounts.osf.io/oauth2/authorize",
+        "shareBaseUrl": "https://staging-share.osf.io/",
+        "shareApiUrl": "https://staging-share.osf.io/api/v2",
+        "shareSearchUrl": "https://staging-share.osf.io/api/v2/search/creativeworks/_search"
     },
     "env": {
         "url": "OSF_URL",
