@@ -17,6 +17,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "FileProvider",
         "FileVersion",
         "GenericDataADapter",
+        "HostAppNameMixin",
         "InfinityCustomMixin",
         "Institution",
         "Log",
@@ -47,14 +48,18 @@ YUI.add("yuidoc-meta", function(Y) {
         "User",
         "ajax-helpers",
         "auth",
+        "author-link",
         "citation-widget",
         "comment-detail",
         "comment-form",
         "comment-pane",
         "current-user",
+        "discover-page",
         "dropzone-widget",
+        "elastic-query",
         "elem-id",
         "eosf-project-nav",
+        "faceted-search",
         "file-browser",
         "file-browser-icon",
         "file-chooser component",
@@ -62,9 +67,12 @@ YUI.add("yuidoc-meta", function(Y) {
         "file-renderer",
         "file-version",
         "file-widget",
+        "filterReplace",
         "fix-special-char",
         "fix-special-char-helper",
         "fixstring",
+        "ifFilter",
+        "license-picker",
         "navbar-auth-dropdown",
         "oauth-popup",
         "osf-copyright",
@@ -74,9 +82,23 @@ YUI.add("yuidoc-meta", function(Y) {
         "osf-paginator",
         "pagination-control",
         "permissions",
+        "providerRegex",
         "search-dropdown",
+        "search-facet-daterange",
+        "search-facet-language",
+        "search-facet-locked",
+        "search-facet-source",
+        "search-facet-typeahead",
+        "search-facet-worktype",
+        "search-facet-worktype-button",
+        "search-facet-worktype-hierarchy",
+        "search-help-modal",
+        "search-result",
         "sign-up",
-        "tags-widget"
+        "sortOptionDisplay",
+        "tags-widget",
+        "theme",
+        "total-share-results"
     ],
     "modules": [
         "adapters",
@@ -84,9 +106,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "authorizers",
         "components",
         "const",
-        "ember",
         "ember-osf",
-        "ember-preprints",
         "helpers",
         "mixins",
         "models",
@@ -99,69 +119,62 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "adapters",
             "name": "adapters",
-            "description": "Base adapter class for all OSF APIv2 endpoints"
+            "description": "Adapters that control how the addon communicates with the OSF"
         },
         {
             "displayName": "authenticators",
             "name": "authenticators",
-            "description": "Ember-simple-auth compatible authenticator based on session cookie.\n\nIntended to be used with the authorizer of the same name."
+            "description": "Support various forms of authentication to the OSF, such as `token` and `cookie`"
         },
         {
             "displayName": "authorizers",
             "name": "authorizers",
-            "description": "Ember-simple-auth compatible authorizer based on session cookie.\n\nIntended to be used with the authenticator of the same name."
+            "description": "Support sending authorized requests to the OSF via various means"
         },
         {
             "displayName": "components",
             "name": "components",
-            "description": "Lists citations for node in APA, MLA, and Chicago formats"
+            "description": "Reusable UI elements"
         },
         {
             "displayName": "const",
-            "name": "const"
-        },
-        {
-            "displayName": "ember",
-            "name": "ember"
+            "name": "const",
+            "description": "Predefined constants that are frequently referenced"
         },
         {
             "displayName": "ember-osf",
             "name": "ember-osf",
-            "description": "Helper functions for asynchronous behavior"
-        },
-        {
-            "displayName": "ember-preprints",
-            "name": "ember-preprints"
+            "description": "Reusable ember models and components for interacting with the Open Science Framework"
         },
         {
             "displayName": "helpers",
             "name": "helpers",
-            "description": "Generate a unique HTML element ID for this element. Given \"someid\" for component instance 123, returns \"ember123-someid\"\n\nUseful to ensure unique IDs, eg for when component is reused in page."
+            "description": "Handlebars template helpers"
         },
         {
             "displayName": "mixins",
             "name": "mixins",
-            "description": "Analytics mixin. Provides actions that can be used in templates to track events (can send to multiple\nanalytics services)"
+            "description": "Reusable logic that can be added to routes, controllers, or components"
         },
         {
             "displayName": "models",
             "name": "models",
-            "description": "Model for OSF APIv2 citation styles"
+            "description": "Ember-data models for interacting with the OSF APIv2"
         },
         {
             "displayName": "serializers",
             "name": "serializers",
-            "description": "Base serializer class for all OSF APIv2 endpoints. Provides custom behaviors for embeds, relationships, and pagination."
+            "description": "Ember-data serializer logic that governs how data passes to or from the server"
         },
         {
             "displayName": "services",
             "name": "services",
-            "description": "Access information about the currently logged in user"
+            "description": "Manage behaviors that require coordinating shared state or namespaced logic across the application"
         },
         {
             "displayName": "transforms",
             "name": "transforms",
-            "description": "Custom string field transform that uses the `fix-special-char` utility function to clean up malformed text sent\nfrom the server. This allows string fields to be correctly and transparently used in templates without manually fixing\nthese characters for display on each use.\n\n This transform is used when `fixstring` is passed as the type parameter to the DS.attr function.\n  ```app/models/score.js\n   import DS from 'ember-data';\n   export default DS.Model.extend({\n      astring: DS.attr('fixstring'),\n   });\n ```"
+            "description": "Control how ember-data serializes and deserializes fields"
         },
         {
             "displayName": "utils",

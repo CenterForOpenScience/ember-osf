@@ -12,27 +12,32 @@ import config from 'ember-get-config';
  *
  * Sample usage:
  * ```handlebars
- *   {{#search-dropdown action='toggleSearch'}}
+ *   {{search-dropdown action='toggleSearch'}}
  * ```
  * @class search-dropdown
  */
 export default Ember.Component.extend({
     layout,
     host: config.OSF.url,
+    i18n: Ember.inject.service(),
     query: null,
+    isOpen: false, // is help modal open?
     actions: {
         // Runs toggleSearch in parent component, osf-navbar
         toggleSearch() {
             this.sendAction('action');
-        },
-        updateQuery(value) {
-            this.set('query', value);
         },
         search() {
             var query = this.get('query');
             if (query) {
                 window.location.href = this.host + 'search/?q=' + query;
             }
+        },
+        close() {
+            this.set('isOpen', false);
+        },
+        toggleHelpModal() {
+            this.toggleProperty('isOpen');
         }
     }
 });
