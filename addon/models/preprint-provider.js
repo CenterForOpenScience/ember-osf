@@ -18,6 +18,9 @@ export default OsfModel.extend({
     aboutLink: DS.attr('fixstring'),
     headerText: DS.attr('fixstring'),
     subjectsAcceptable: DS.attr(),
+    footerLinks: DS.attr('string'),
+    allowSubmissions: DS.attr('boolean'),
+    additionalProviders: DS.attr(),
     // Relationships
     taxonomies: DS.hasMany('taxonomy'),
     preprints: DS.hasMany('preprint', { inverse: 'provider', async: true }),
