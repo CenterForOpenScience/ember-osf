@@ -15,6 +15,7 @@ export default OsfModel.extend({
     socialTwitter: DS.attr('fixstring'),
     socialFacebook: DS.attr('fixstring'),
     socialInstagram: DS.attr('fixstring'),
+    blogUrl: DS.attr('fixstring'),
     aboutLink: DS.attr('fixstring'),
     headerText: DS.attr('fixstring'),
     subjectsAcceptable: DS.attr(),
