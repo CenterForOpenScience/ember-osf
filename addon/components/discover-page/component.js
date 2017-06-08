@@ -48,6 +48,7 @@ import { getUniqueList, getSplitParams, encodeParams } from '../../utils/elastic
  *    showActiveFilters=showActiveFilters
  *    sortOptions=sortOptions
  *    subject=subject
+ *    themeProvider=themeProvider
 * }}
  * ```
  * @class discover-page
@@ -286,6 +287,12 @@ export default Ember.Component.extend(Analytics, hostAppName, {
      * @default ''
      */
     tags: '',
+    /**
+     * themeProvider
+     * @property {Object} Preprint provider loaded from theme servicer
+     * @default ''
+     */
+    themeProvider: null,
     took: 0,
     /**
      * type query parameter.  If "type" is one of your query params, it must be passed to the component so it can be reflected in the URL.
@@ -477,11 +484,13 @@ export default Ember.Component.extend(Analytics, hostAppName, {
             });
         });
 
-        // For PREPRINTS and REGISTRIES. If theme.isProvider, add this provider to the query body
-        if (this.get('theme.isProvider') && this.get('providerName') !== null) {
+        // For PREPRINTS and REGISTRIES. If theme.isProvider, add provider(s) to query body
+        if (this.get('theme.isProvider') && this.get('themeProvider.name') !== null) {
+            const themeProvider = this.get('themeProvider');
+            const sources = (themeProvider.get('additionalProviders') || []).length ? themeProvider.get('additionalProviders') : [themeProvider.get('name')];
             filters.push({
                 terms: {
-                    sources: [this.get('providerName')]
+                    sources: sources
                 }
             });
         }
