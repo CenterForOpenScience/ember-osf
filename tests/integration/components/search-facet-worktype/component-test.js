@@ -11,7 +11,7 @@ test('it renders', function(assert) {
     this.set('state', ['Publication']);
     this.set('filter', '');
     this.set('onChange', () => {});
-    this.set('data', {'presentation': {} });
+    this.set('processedTypes', {'presentation': {} });
 
     this.render(hbs`{{search-facet-worktype
         key=key
@@ -19,7 +19,7 @@ test('it renders', function(assert) {
         filter=filter
         onChange=(action onChange)
         selected=selected
-        data=data
+        processedTypes=processedTypes
     }}`);
 
   assert.equal(this.$('.type-filter-option')[0].innerText.trim(), 'Presentation');
