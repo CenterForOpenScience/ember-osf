@@ -482,6 +482,8 @@ export default Ember.Component.extend(Analytics, hostAppName, {
         // For PREPRINTS and REGISTRIES. If theme.isProvider, add provider(s) to query body
         if (this.get('theme.isProvider') && this.get('themeProvider.name') !== null) {
             const themeProvider = this.get('themeProvider');
+            // Regular preprint providers will have their search results restricted to the one provider.
+            // If the provider has additionalProviders, all of these providers will be added to the "sources" SHARE query
             const sources = (themeProvider.get('additionalProviders') || []).length ? themeProvider.get('additionalProviders') : [themeProvider.get('name')];
             filters.push({
                 terms: {
