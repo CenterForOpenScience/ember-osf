@@ -141,7 +141,7 @@
                 }}
 
                 {{!ADD PREPRINT BUTTON - Preprints Only }}
-                {{#if (eq hostAppName 'Preprints')}}
+                {{#if (and (eq hostAppName 'Preprints') themeProvider.allowSubmissions)}}
                     {{add-preprint-box}}
                 {{/if}}
 
