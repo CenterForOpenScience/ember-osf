@@ -289,7 +289,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     tags: '',
     /**
      * themeProvider
-     * @property {Object} Preprint provider loaded from theme servicer
+     * @property {Object} Preprint provider loaded from theme service. Should be passed into component so it is loaded before SHARE is queried.
      * @default ''
      */
     themeProvider: null,
