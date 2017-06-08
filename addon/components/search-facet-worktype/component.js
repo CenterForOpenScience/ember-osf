@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import layout from './template';
 import { termsFilter, getUniqueList } from '../../utils/elastic-query';
+import config from 'ember-get-config';
 
 /**
  * Copied from Ember-SHARE.  Type facet.
@@ -21,12 +22,46 @@ import { termsFilter, getUniqueList } from '../../utils/elastic-query';
 export default Ember.Component.extend({
     layout,
     category: 'filter-facets',
+    types: null,
 
     init() {
+        this.getTypes();
         this._super(...arguments);
         this.send('setState', this.get('state'));
     },
+    getTypes() {
+        // Ember-SHARE method
+        return Ember.$.ajax({
+            url: config.OSF.shareApiUrl + '/schema/creativework/hierarchy/',
+            crossDomain: true,
+            type: 'GET',
+            contentType: 'application/vnd.api+json',
+        }).then((json) => {
+            if (json.data) {
+                this.set('types', json.data);
+            }
+        });
+    },
+    processedTypes: Ember.computed('types', function() {
+        // Ember-SHARE property
+        const types = this.get('types') && this.get('types').CreativeWork ? this.get('types').CreativeWork.children : {};
+        return this.transformTypes(types);
+    }),
+    transformTypes(obj) {
+        // Ember-SHARE method
+        if (typeof (obj) !== 'object') {
+            return obj;
+        }
 
+        for (let key in obj) {
+            let lowKey = key.replace(/([A-Z])/g, ' $1').trim().toLowerCase();
+            obj[lowKey] = this.transformTypes(obj[key]);
+            if (key !== lowKey) {
+                delete obj[key];
+            }
+        }
+        return obj;
+    },
     selected: Ember.computed('state', function() {
         return this.get('state') || [];
     }),

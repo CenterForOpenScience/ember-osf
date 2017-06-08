@@ -108,11 +108,11 @@ export default Ember.Component.extend(Analytics, hostAppName, {
             { key: 'contributors', title: 'People', component: 'search-facet-typeahead', base: 'agents', type: 'person' }
         ]
      */
-    facets: Ember.computed('processedTypes', function() {
+    facets: Ember.computed(function() {
         return [
             { key: 'sources', title: `${this.get('i18n').t('eosf.components.discoverPage.source')}`, component: 'search-facet-source' },
             { key: 'date', title: `${this.get('i18n').t('eosf.components.discoverPage.date')}`, component: 'search-facet-daterange' },
-            { key: 'type', title: `${this.get('i18n').t('eosf.components.discoverPage.type')}`, component: 'search-facet-worktype', data: this.get('processedTypes') },
+            { key: 'type', title: `${this.get('i18n').t('eosf.components.discoverPage.type')}`, component: 'search-facet-worktype', },
             { key: 'tags', title: `${this.get('i18n').t('eosf.components.discoverPage.tag')}`, component: 'search-facet-typeahead' },
             { key: 'publishers', title: `${this.get('i18n').t('eosf.components.discoverPage.publisher')}`, component: 'search-facet-typeahead', base: 'agents', type: 'publisher' },
             { key: 'funders', title: `${this.get('i18n').t('eosf.components.discoverPage.funder')}`, component: 'search-facet-typeahead', base: 'agents', type: 'funder' },
@@ -354,11 +354,6 @@ export default Ember.Component.extend(Analytics, hostAppName, {
             this.setActiveFiltersAndReload('activeFilters.providers', filter.split('OR'));
         }
     })),
-    processedTypes: Ember.computed('types', function() {
-        // Ember-SHARE property
-        const types = this.get('types') && this.get('types').CreativeWork ? this.get('types').CreativeWork.children : {};
-        return this.transformTypes(types);
-    }),
     reloadSearch: Ember.observer('activeFilters.providers.@each', 'activeFilters.subjects.@each', 'activeFilters.types.@each', function() {
         // For PREPRINTS and REGISTRIES.  Reloads page if activeFilters change.
         this.set('page', 1);
@@ -526,26 +521,12 @@ export default Ember.Component.extend(Analytics, hostAppName, {
         this.set('displayQueryBody', { query });
         return this.set('queryBody', queryBody);
     },
-    getTypes() {
-        // Ember-SHARE method
-        return Ember.$.ajax({
-            url: config.OSF.shareApiUrl + '/schema/creativework/hierarchy/',
-            crossDomain: true,
-            type: 'GET',
-            contentType: 'application/vnd.api+json',
-        }).then((json) => {
-            if (json.data) {
-                this.set('types', json.data);
-            }
-        });
-    },
     init() {
         //TODO Sort initial results on date_modified
         // Runs on initial render.
         this._super(...arguments);
         this.set('firstLoad', true);
         this.set('facetFilters', Ember.Object.create());
-        this.getTypes();
         this.getCounts();
         this.loadPage();
     },
@@ -671,21 +652,6 @@ export default Ember.Component.extend(Analytics, hostAppName, {
                 extra: this.get('q')
 
             });
-    },
-    transformTypes(obj) {
-        // Ember-SHARE method
-        if (typeof (obj) !== 'object') {
-            return obj;
-        }
-
-        for (let key in obj) {
-            let lowKey = key.replace(/([A-Z])/g, ' $1').trim().toLowerCase();
-            obj[lowKey] = this.transformTypes(obj[key]);
-            if (key !== lowKey) {
-                delete obj[key];
-            }
-        }
-        return obj;
     },
     actions: {
         addFilter(type, filterValue) {
