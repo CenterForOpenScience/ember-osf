@@ -179,7 +179,6 @@ export default Ember.Component.extend(Analytics, hostAppName, {
      * @default ''
      */
     provider: '',
-    providerName: null, // For PREPRINTS and REGISTRIES. Provider name, if theme.isProvider, ex: psyarxiv
     /**
      * Publishers query parameter.  If "publishers" is one of your query params, it must be passed to the component so it can be reflected in the URL.
      * @property {String} publishers
@@ -539,7 +538,6 @@ export default Ember.Component.extend(Analytics, hostAppName, {
         this.set('facetFilters', Ember.Object.create());
         this.getTypes();
         this.getCounts();
-        this.loadProvider();
         this.loadPage();
     },
     loadPage() {
@@ -633,16 +631,6 @@ export default Ember.Component.extend(Analytics, hostAppName, {
             jqDeferred.done((value) => resolve(value));
             jqDeferred.fail((reason) => reject(reason));
         });
-    },
-    loadProvider() {
-        // For PREPRINTS and REGISTRIES - Loads preprint provider if theme.isProvider
-        // Needed because theme's provider was not loading before SHARE was queried.
-        if (this.get('theme.isProvider')) {
-            this.get('theme.provider').then(provider => {
-                this.set('providerName', provider.get('name'));
-                this.loadPage();
-            });
-        }
     },
     scrollToResults() {
         // Scrolls to top of search results
