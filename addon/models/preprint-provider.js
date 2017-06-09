@@ -12,6 +12,7 @@ export default OsfModel.extend({
     footerLinks: DS.attr('string'),
     allowSubmissions: DS.attr('boolean'),
     additionalProviders: DS.attr(),
+    shareSource: DS.attr('string'),
     // Relationships
     taxonomies: DS.hasMany('taxonomy'),
     preprints: DS.hasMany('preprint', { inverse: 'provider', async: true }),
