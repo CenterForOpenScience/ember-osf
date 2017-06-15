@@ -27,7 +27,7 @@ const sessionStubAuthenticated = Ember.Service.extend({
     isAuthenticated: true
 });
 
-moduleForComponent('build-secondary-navLinks', 'build-secondary-navLinks', {
+moduleForComponent('build-secondary-nav-links', 'build-secondary-nav-links', {
     integration: true,
 
     beforeEach() {
@@ -41,7 +41,7 @@ moduleForComponent('build-secondary-navLinks', 'build-secondary-navLinks', {
 test('returns preprints service links', function(assert) {
     this.set('currentService', 'PREPRINTS');
         this.render(hbs`
-            {{#each (build-secondary-navLinks currentService session) as |navLink|}}
+            {{#each (build-secondary-nav-links currentService session) as |navLink|}}
                 {{navLink.name}}
             {{/each}}
         `);
@@ -56,7 +56,7 @@ test('returns home service links, authenticated', function(assert) {
 
     this.set('currentService', 'HOME');
         this.render(hbs`
-            {{#each (build-secondary-navLinks currentService session) as |navLink|}}
+            {{#each (build-secondary-nav-links currentService session) as |navLink|}}
                 {{navLink.name}}
             {{/each}}
         `);
@@ -70,7 +70,7 @@ test('returns home service links, unauthenticated', function(assert) {
     this.inject.service('session', { as: 'sessionStub' });
     this.set('currentService', 'HOME');
         this.render(hbs`
-            {{#each (build-secondary-navLinks currentService session) as |navLink|}}
+            {{#each (build-secondary-nav-links currentService session) as |navLink|}}
                 {{navLink.name}}
             {{/each}}
         `);
@@ -81,7 +81,7 @@ test('returns home service links, unauthenticated', function(assert) {
 test('returns Registries service links', function(assert) {
     this.set('currentService', 'REGISTRIES');
         this.render(hbs`
-            {{#each (build-secondary-navLinks currentService session) as |navLink|}}
+            {{#each (build-secondary-nav-links currentService session) as |navLink|}}
                 {{navLink.name}}
             {{/each}}
         `);
@@ -92,7 +92,7 @@ test('returns Registries service links', function(assert) {
 test('returns meetings service links', function(assert) {
     this.set('currentService', 'MEETINGS');
         this.render(hbs`
-            {{#each (build-secondary-navLinks currentService session) as |navLink|}}
+            {{#each (build-secondary-nav-links currentService session) as |navLink|}}
                 {{navLink.name}}
             {{/each}}
         `);

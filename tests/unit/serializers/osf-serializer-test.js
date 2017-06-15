@@ -1,8 +1,9 @@
 import { moduleFor, test } from 'ember-qunit';
-import { faker } from 'ember-cli-mirage';
+import faker from 'faker';
+
 moduleFor('serializer:osf-serializer');
 
-test('#_mergeFields adds links to attributes if included in payload', function(assert) {
+test('#_mergeFields adds links to attributes if included in payload', function (assert) {
     let payload = {
         id: faker.random.uuid(),
         type: 'base',
