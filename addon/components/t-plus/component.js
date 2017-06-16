@@ -27,7 +27,7 @@ const tPlus = Ember.Component.extend({
         // let language = require(`../locales.${locale}.translations`); //TODO: look into dynamic loading of different languages, allowing
         //                                                              //allowing for preprintWords to be defined in the translations file
         // this.set('preprintWords', language.preprintWords);
-        this.set('preprintWords', preprintWords[locale]);
+        this.set('preprintWords', preprintWords[locale] ? preprintWords[locale] : preprintWords.en);
     },
     translation: Ember.computed('text', function(){
         let theme = this.get('theme');
