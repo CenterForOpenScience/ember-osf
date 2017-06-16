@@ -21,7 +21,7 @@ export default {
         },
         navbar: {
             add: 'Add',
-            addAPreprint: 'Add a preprint',
+            addAPreprint: 'Add a {{preprintWords.preprint}}',
             browse: 'Browse',
             cancelSearch: 'Cancel search',
             donate: 'Donate',
@@ -178,7 +178,7 @@ export default {
                 helpDescription: 'This gives you many options, but can be very simple as well. Examples of valid searches include:'
             },
             totalShareResults: {
-                'searchablePreprints': `{{count}} searchable preprints`,
+                'searchablePreprints': `{{count}} searchable {{preprintWords.preprints}}`,
                 'searchableRegistries': `{{count}} searchable registrations`,
                 'searchableEvents': `{{count}} searchable events`,
             }
