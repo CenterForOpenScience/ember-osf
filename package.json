@@ -25,7 +25,7 @@
   },
   "engineStrict": true,
   "engines": {
-    "node": ">=6"
+    "node": ">=8"
   },
   "author": "Center for Open Science",
   "license": "Apache-2.0",
