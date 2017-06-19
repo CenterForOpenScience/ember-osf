@@ -1,27 +1,33 @@
 {{!Component builds DISCOVER PAGE - Blend of Ember-SHARE, Preprints, and Registries Discover pages}}
 <div class="search-header">
     <div class="container">
-        <div class="row m-v-md"> {{!BRANDING}}
+        {{!BRANDING}}
+        <div class="row m-v-md">
             <div class="col-xs-12 text-center">
-                {{#if (or theme.isProvider providerLogo)}} {{!Provider Logo, if exists}}
+                {{!Provider Logo, if exists}}
+                {{#if (or theme.isProvider providerLogo)}}
                     <div class="col-xs-6 text-right">
                         <div class="provider-brand" id="provider-brand-background"></div>
                     </div>
                 {{/if}}
                 <div class={{if (or theme.isProvider providerLogo) 'col-xs-6 text-left'}}>
-                    <div class="registries-brand m-t-lg"></div> {{!REGISTRIES ONLY}}
+                    {{!REGISTRIES ONLY}}
+                    <div class="registries-brand m-t-lg"></div>
+                    {{!Discover Page Header text}}
                     {{#if discoverHeader}}
-                        <h1> {{discoverHeader}} </h1> {{!Discover Page Header text}}
+                        <h1> {{discoverHeader}} </h1>
                     {{/if}}
-                     {{!POWERED BY SHARE}}
+                    {{!POWERED BY SHARE}}
                     <p class="lead">{{t-plus 'eosf.components.discoverPage.poweredBy'}} <a href="https://share.osf.io/" id='share-logo' class="share-logo" title="SHARE" onclick={{action "click" "link" "Discover - SHARE Logo"}}></a></p>
                 </div>
             </div>
         </div>
 
-        <div class="row m-t-md m-b-lg text-center"> {{!SEARCH}}
+        {{!SEARCH}}
+        <div class="row m-t-md m-b-lg text-center">
             <div class="col-xs-12 col-sm-8 col-sm-offset-2">
-                <div class="input-group input-group-lg"> {{!SEARCH BAR}}
+                {{!SEARCH BAR}}
+                <div class="input-group input-group-lg">
                     {{input id="searchBox" value=q class="form-control" key-up='typing' placeholder=searchPlaceholder}}
                     <span class="input-group-btn">
                         {{!HELP BUTTON}}
@@ -87,7 +93,8 @@
 <div class="search-main p-v-xl">
     <div class="container">
         <div class="row search-results-section">
-            <div class="col-sm-4 col-xs-12 search-sidebar"> {{!LEFT PANEL - SEARCH FACETS}}
+            {{!LEFT PANEL - SEARCH FACETS}}
+            <div class="col-sm-4 col-xs-12 search-sidebar">
                 {{! ACTIVE FILTERS - FOR PREPRINTS, REGISTRIES}}
                 {{#if showActiveFilters}}
                     <div id="activeFilters" class="well well-sm p-md">
@@ -147,13 +154,16 @@
 
             </div>
 
-            <div class="col-sm-8 col-xs-12">  {{!RIGHT PANEL - SEARCH RESULTS}}
-                {{#if loading}} {{!SEARCH LOADING}}
+            {{!RIGHT PANEL - SEARCH RESULTS}}
+            <div class="col-sm-8 col-xs-12">
+                {{!SEARCH LOADING}}
+                {{#if loading}}
                     <div class="text-center p-v-md" aria-label={{t-plus 'eosf.components.discoverPage.searchLoading'}}>
                         {{fa-icon 'spinner' ariaHidden=false pulse=true size=3}}
                     </div>
                 {{else}}
-                    {{#if numberOfResults}} {{!RESULTS FOUND}}
+                    {{#if numberOfResults}}
+                        {{!RESULTS FOUND}}
                         <div class="results-top">
                             {{#each results as |result|}}
                                 {{search-result themeProvider=themeProvider queryParams=queryParams detailRoute=detailRoute filterReplace=filterReplace addFilter='addFilter' updateFilters=(action 'updateFilters') result=result currentService=currentService}}
@@ -162,14 +172,16 @@
                         <div class="pull-right text-right">
                             {{pagination-pager count=clampedPages current=page change=(action 'setLoadPage')}}
                         </div>
-                    {{else if queryError}} {{!PROBLEM WITH SEARCH QUERY}}
+                    {{else if queryError}}
+                        {{!PROBLEM WITH SEARCH QUERY}}
                         {{query-syntax message=queryError}}
-                    {{else if shareDown}} {{!SHARE IS DOWN}}
+                    {{else if shareDown}}
                         <div class="text-muted text-center">
                             <p class="lead ">{{t-plus 'eosf.components.discoverPage.shareUnavailable'}}</p>
                             <p> {{t-plus 'eosf.components.discoverPage.shareUnavailableDescription'}}</p>
                         </div>
-                    {{else}} {{!NO RESULTS FOUND}}
+                    {{else}}
+                        {{!NO RESULTS FOUND}}
                         <div class="text-muted text-center">
                             <p class="lead ">{{t-plus "eosf.components.discoverPage.noResultsFound"}}</p>
                             <p>{{t-plus 'eosf.components.discoverPage.broadenSearch'}}</p>

@@ -18,7 +18,7 @@
         <p><label>Date Registered: </label> {{moment-format user.dateRegistered}}</p>
     </div>
     <p class="btn-group">
-        <a href="{{user.links.html}}" target="_blank" class="btn btn-default">
+        <a href="{{user.links.html}}" target="_blank" rel="noopener" class="btn btn-default">
             View on OSF
         </a>
         {{link-to 'Detail' 'users.detail' user.id class="btn btn-primary"}}
