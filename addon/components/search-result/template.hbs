@@ -16,7 +16,7 @@
                     {{/if}}
                 {{/if}}
                 {{#if result.withdrawn}}
-                    <span class='label label-default'> {{t 'eosf.components.searchResult.withdrawn'}} </span>
+                    <span class='label label-default'> {{t-plus 'eosf.components.searchResult.withdrawn'}} </span>
                 {{/if}}
             </h4>
 
@@ -34,7 +34,7 @@
 
             {{!Last edited on on}}
             {{#if result.date_updated}}
-                <div class="m-t-sm"> <em> {{t "eosf.components.searchResult.lastEdited"}}: {{moment-format result.date_updated 'YYYY-MM-DD'}} </em> </div>
+                <div class="m-t-sm"> <em> {{t-plus "eosf.components.searchResult.lastEdited"}}: {{moment-format result.date_updated 'YYYY-MM-DD'}} </em> </div>
             {{/if}}
 
             {{!Disciplines}}
@@ -121,6 +121,6 @@
     </div>
 
     <div class="text-center" {{action "toggleShowBody"}}>
-        <button class='toggleShowResult btn btn-link' aria-label={{t 'eosf.components.searchResult.showResult'}}>{{fa-icon footerIcon size=1 ariaHidden=false}}</button>
+        <button class='toggleShowResult btn btn-link' aria-label={{t-plus 'eosf.components.searchResult.showResult'}}>{{fa-icon footerIcon size=1 ariaHidden=false}}</button>
     </div>
 </div>

@@ -2,13 +2,13 @@
 <div id="ember-bootstrap-modal-container">
     {{#bs-modal open=isOpen body=false header=false footer=false}}
         {{#bs-modal-header}}
-            <h3 class="modal-title">{{t 'eosf.components.searchHelpModal.searchHelp'}}</h3>
+            <h3 class="modal-title">{{t-plus 'eosf.components.searchHelpModal.searchHelp'}}</h3>
         {{/bs-modal-header}}
         {{#bs-modal-body}}
-            <h4> {{t 'eosf.components.searchHelpModal.queries'}} </h4>
+            <h4> {{t-plus 'eosf.components.searchHelpModal.queries'}} </h4>
             <p>
-                {{t 'eosf.components.searchHelpModal.searchUsesThe'}} <a href="http://extensions.xwiki.org/xwiki/bin/view/Extension/Search+Application+Query+Syntax">Lucene {{t 'eosf.components.searchHelpModal.searchSyntax'}}</a>.
-                {{t 'eosf.components.searchHelpModal.helpDescription'}}
+                {{t-plus 'eosf.components.searchHelpModal.searchUsesThe'}} <a href="http://extensions.xwiki.org/xwiki/bin/view/Extension/Search+Application+Query+Syntax">Lucene {{t-plus 'eosf.components.searchHelpModal.searchSyntax'}}</a>.
+                {{t-plus 'eosf.components.searchHelpModal.helpDescription'}}
             </p>
             <ul>
                 <li><a href={{concat currentPath '?q=repro*'}}>repro*</a></li>
@@ -18,7 +18,7 @@
         {{/bs-modal-body}}
         {{#bs-modal-footer}}
             <div align="right">
-                <button {{action 'close'}} class="btn btn-default"> {{t 'eosf.components.searchHelpModal.close'}} </button>
+                <button {{action 'close'}} class="btn btn-default"> {{t-plus 'eosf.components.searchHelpModal.close'}} </button>
             </div>
         {{/bs-modal-footer}}
     {{/bs-modal}}
