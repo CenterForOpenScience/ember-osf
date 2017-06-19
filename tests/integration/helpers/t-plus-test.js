@@ -5,34 +5,34 @@ import hbs from 'htmlbars-inline-precompile';
 moduleForComponent('t-plus', 'helper:t-plus', {
     integration: true,
     beforeEach() {
-        let i18n = this.container.lookup('service:i18n');
+        let i18n = this.i18n = this.container.lookup('service:i18n');
         i18n.set('locale', 'en');
-        Ember.run(i18n, 'addTranslations', {'general.help': 'What is a {{preprintWords.preprint}}?'});
+        Ember.run(i18n, 'addTranslations', 'en', {'general.help': 'What is a {{preprintWords.preprint}}?'});
+        this.theme = this.container.lookup('service:theme');
     },
 
     afterEach() {
         Ember.run(this.i18n, 'destroy');
+        Ember.run(this.theme, 'destroy');
     }
 });
 
 
-test('it works with defaults 11', function(assert) {
+test('t-plus it works with defaults', function(assert) {
     this.render(hbs`{{t-plus 'general.help'}}`);
     assert.equal(this.$().text().trim(), 'What is a preprint?');
 });
 
-test('provider wants paper 11', function(assert) {
-    this.inject.service('theme');
-    this.theme.set('provider', {
+test('t-plus, provider wants paper', function(assert) {
+    this.get('theme').set('provider', {
         preprintWord: 'paper'
     });
 
     this.render(hbs`{{t-plus 'general.help'}}`);
-    assert.equal(this.$().text().trim(), 'What is a preprint?');
+    assert.equal(this.$().text().trim(), 'What is a paper?');
 });
 
-test('provider wants preprints 11', function(assert) {
-    this.inject.service('theme');
+test('t-plus, provider wants preprints', function(assert) {
     this.theme.set('provider', {
         preprintWord: 'preprint'
     });
