@@ -3,13 +3,13 @@
         <div class="container">
             <div class="navbar-header">
                 {{!TOGGLE NAVIGATION BUTTON - XS SCREEN}}
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#secondary-navigation" {{action 'closeSearch'}} aria-label={{t 'eosf.navbar.toggleSecondary'}}>
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#secondary-navigation" {{action 'closeSearch'}} aria-label={{t-plus 'eosf.navbar.toggleSecondary'}}>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
                 {{!OSF BRAND}}
-                <a class="navbar-brand" href="/" aria-label={{t 'eosf.navbar.goHome'}}>
+                <a class="navbar-brand" href="/" aria-label={{t-plus 'eosf.navbar.goHome'}}>
                     <span class="osf-navbar-logo"></span>
                 </a>
 
@@ -23,7 +23,7 @@
 
                 {{!PRIMARY NAVIGATION - TOGGLE BETWEEN HOME, PREPRINTS, REGISTRIES, and MEETINGS}}
                 <div class="dropdown primary-nav">
-                    <button class="dropdown-toggle btn-link" data-toggle="dropdown" role="button" aria-expanded="false" aria-label={{t 'eosf.navbar.togglePrimary'}} onclick={{action 'closeSecondaryAndSearch'}}>
+                    <button class="dropdown-toggle btn-link" data-toggle="dropdown" role="button" aria-expanded="false" aria-label={{t-plus 'eosf.navbar.togglePrimary'}} onclick={{action 'closeSecondaryAndSearch'}}>
                         <span class="fa fa-caret-down fa-2x"></span>
                     </button>
                     <ul class="dropdown-menu service-dropdown" role="menu">
