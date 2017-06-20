@@ -555,7 +555,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
                     hyperLinks: [// Links that are hyperlinks from hit._source.lists.links
                         {
                             type: 'share',
-                            url: config.OSF.shareBaseUrl + `${hit._source.type}` + '/' + hit._id
+                            url: config.OSF.shareBaseUrl + `${hit._source.type.replace(/ /g,'')}` + '/' + hit._id
                         }
                     ],
                     infoLinks: [], // Links that are not hyperlinks  hit._source.lists.links
