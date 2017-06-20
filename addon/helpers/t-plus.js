@@ -21,10 +21,10 @@ const preprintWords = {
 export default tHelper.extend({
     theme: Ember.inject.service(),
     compute(_, params) {
-        let locale = this.get('i18n.locale') || 'en';
-        let preprintWord = this.get('theme.provider.preprintWord') || 'preprint';
+        let locale = preprintWords[this.get('i18n.locale')] || preprintWords.en;
+        let preprintWord = locale[this.get('theme.provider.preprintWord')] || locale.preprint;
         params = params || {};
-        params.preprintWords = preprintWords[locale][preprintWord];
+        params.preprintWords = preprintWord;
         return this._super(_, params);
     }
 })
