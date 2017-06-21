@@ -7,6 +7,11 @@
         margin-bottom: 0;
     }
 
+    .heading {
+        padding: 8px 15px;
+        list-style: none;
+    }
+
     .file-browser-list {
         position: relative;
         height: 500px;
@@ -14,7 +19,12 @@
 
     .file-browser-item {
         height: 30px;
-        padding: 3px;
+        padding: 8px 15px;
+        list-style: none;
+    }
+
+    .file-browser-item.selected {
+        background-color: #E0EBF3;
     }
 
     .file-browser-item:hover {

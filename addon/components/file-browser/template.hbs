@@ -8,11 +8,47 @@
         </li>
     {{/each}}
 </ol>
-
-{{#if selectedItems}}
-    {{! TODO: show available actions for selected files }}
-{{/if}}
-
+<div class='breadcrumb row'>
+<div class= 'pull-right'>
+    {{#if selectedItems}}
+        {{! TODO: show available actions for selected files }}
+        {{#if (eq selectedItems.length 1)}}
+            <div class='btn'>Download</div>
+            <div class='btn'>View</div>
+            <div class='btn'>Delete</div>
+        {{else}}
+            <div class='btn'>Delete multiple</div>
+        {{/if}}
+    {{else}}
+        <div class='btn'>Upload</div>
+        <div class='btn'>Download as zip</div>
+    {{/if}}
+    <div class='btn'>Filter</div>
+    <div class='btn'>i</div>
+</div>
+</div>
+<div class='heading'>
+    <div class="row">
+        <div class="col-xs-5">
+            Name
+        </div>
+        <div class="col-xs-2">
+            Share Link
+        </div>
+        <div class="col-xs-1">
+            Size
+        </div>
+        <div class="col-xs-1">
+            Version
+        </div>
+        <div class="col-xs-1">
+            Downloads
+        </div>
+        <div class="col-xs-2">
+            Date Modified
+        </div>
+    </div>
+</div>
 <div class='file-browser-list'>
     {{#ember-collection
         items=items
@@ -24,7 +60,9 @@
             navigateToItem=(action 'navigateToItem')
             selectItem=(action 'selectItem')
             openItem=(action 'openItem')
+            class=(if item.isSelected 'selected')
         }}
+        <hr>
     {{/ember-collection}}
     {{#unless itemsLoaded}}
         {{fa-icon 'spinner' size=3 pulse=true}}

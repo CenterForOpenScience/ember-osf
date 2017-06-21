@@ -1,3 +1,24 @@
 {{! TODO: configurable columns }}
-{{file-browser-icon item=item}}
-<a {{action 'open'}} role="link">{{item.itemName}}</a>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-5">
+            {{file-browser-icon item=item}}
+            <a {{action 'open'}} role="link">{{item.itemName}}</a>
+        </div>
+        <div class="col-xs-2">
+            <a href="{{item.path}}">Link</a>
+        </div>
+        <div class="col-xs-1">
+            <p>{{item.size}}</p>
+        </div>
+        <div class="col-xs-1">
+            1
+        </div>
+        <div class="col-xs-1">
+            <p>{{item.extra.downloads}}</p>
+        </div>
+        <div class="col-xs-2">
+            <!-- <p>{{item.dateModified}}</p> -->
+        </div>
+    </div>
+</div>

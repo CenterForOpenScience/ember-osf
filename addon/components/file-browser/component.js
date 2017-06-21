@@ -87,7 +87,7 @@ export default Ember.Component.extend({
     layout,
     classNames: ['file-browser'],
     itemHeight: 30,
-
+    columns: [40, 15, 7.5, 10, 7.5, 20],
     breadcrumbs: null,
 
     rootItem: Ember.computed('breadcrumbs.[]', {
@@ -112,7 +112,8 @@ export default Ember.Component.extend({
 
     actions: {
         selectItem(item) {
-            item.set('isSelected', true);
+            item.toggleProperty('isSelected');
+            // item.set('isSelected', true);
             if (item.get('isFile') && this.get('selectFile')) {
                 this.sendAction('selectFile', unwrapItem(item));
             }
@@ -130,6 +131,9 @@ export default Ember.Component.extend({
             }
             if (item.get('canHaveChildren')) {
                 this.send('navigateToItem', item);
+                for (item of this.get('items')) {
+                    item.set('isSelected', false);
+                }
             }
         },
 
@@ -143,6 +147,8 @@ export default Ember.Component.extend({
                 let slicedBread = breadcrumbs.slice(0, index + 1);
                 this.set('breadcrumbs', Ember.A(slicedBread));
             }
+            // this.set('currentParent', item);
+
         },
 
         navigateUp() {
