@@ -50,11 +50,24 @@
     </div>
 </div>
 <div class='file-browser-list'>
-    {{#ember-collection
-        items=items
-        cell-layout=(fixed-grid-layout itemWidth itemHeight)
-        as |item|
-    }}
+        <!-- {{#ember-collection
+            items=items
+            cell-layout=(fixed-grid-layout itemWidth itemHeight)
+            as |item|
+        }}
+
+            {{file-browser-item
+                item=item
+                navigateToItem=(action 'navigateToItem')
+                selectItem=(action 'selectItem')
+                openItem=(action 'openItem')
+                class=(if item.isSelected 'selected')
+                selectMultiple=(action 'selectMultiple')
+            }}
+            <hr>
+        {{/ember-collection}}
+         -->
+        {{#each items as |item|}}
         {{file-browser-item
             item=item
             navigateToItem=(action 'navigateToItem')
@@ -64,8 +77,8 @@
             selectMultiple=(action 'selectMultiple')
         }}
         <hr>
-    {{/ember-collection}}
-    {{#unless itemsLoaded}}
-        {{fa-icon 'spinner' size=3 pulse=true}}
-    {{/unless}}
+        {{/each}}
+        {{#unless itemsLoaded}}
+            {{fa-icon 'spinner' size=3 pulse=true}}
+        {{/unless}}
 </div>

@@ -8,7 +8,6 @@
     }
 
     .heading {
-        // padding: 8px 15px;
         list-style: none;
     }
 
@@ -21,12 +20,19 @@
         height: 30px;
         // padding: 8px 15px;
         // list-style: none;
+        a {
+            color: black;
+        }
     }
 
-    .file-browser-item.selected {
-        background-color: #E0EBF3; /* $color-hover; */
-        // background-color: #337AB7;
-        // color: white;
+    .file-browser-item.selected,
+    .file-browser-item.selected:hover {
+
+        background-color: #337AB7;
+        color: white;
+        a {
+            color: white;
+        }
     }
 
     .file-browser-item:hover {
@@ -42,9 +48,5 @@
         display: inline-block;
         cursor: pointer;
         text-align: right;
-    }
-
-    .selected {
-        background-color: #337AB7; /* $color-select; */
     }
 }

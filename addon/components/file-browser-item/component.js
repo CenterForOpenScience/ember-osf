@@ -17,24 +17,13 @@ export default Ember.Component.extend({
         let index = selectedItems.indexOf(this.get('item'));
         return index > -1;
     }),
-
     click(e) {
         if (e.shiftKey || e.metaKey) {
-            this.sendAction('selectMultiple', this.get('item'));
+            this.sendAction('selectMultiple', this.get('item'), e.metaKey);
         } else {
             this.sendAction('selectItem', this.get('item'));
         }
     },
-
-    doubleClick() {
-        let item = this.get('item');
-        if (item.get('canHaveChildren')) {
-            this.sendAction('navigateToItem', item);
-        } else {
-            this.sendAction('openItem', item);
-        }
-    },
-
     actions: {
         open() {
             this.sendAction('openItem', this.get('item'));

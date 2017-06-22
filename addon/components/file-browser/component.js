@@ -126,28 +126,30 @@ export default Ember.Component.extend({
                 for (var item_ of this.get('selectedItems')) {
                     item_.set('isSelected', item_ === item);
                 }
-                item.set('isSelected', true);
-            } else {
-                item.toggleProperty('isSelected');
             }
-        },
-        selectMultiple(item) {
             item.set('isSelected', true);
+        },
+        selectMultiple(item, toggle) {
+            if (toggle) {
+                item.toggleProperty('isSelected');
+            } else {
+                item.set('isSelected', true);
+            }
         },
 
         openItem(item) {
-            if (item.get('isFile') && this.get('openFile')) {
-                this.sendAction('openFile', unwrapItem(item));
-            }
-            if (item.get('isNode') && this.get('openNode')) {
-                this.sendAction('openNode', unwrapItem(item));
-            }
-            if (item.get('canHaveChildren')) {
-                this.send('navigateToItem', item);
-                for (item of this.get('items')) {
-                    item.set('isSelected', false);
-                }
-            }
+            // if (item.get('isFile') && this.get('openFile')) {
+            this.sendAction('openFile', unwrapItem(item));
+            // }
+            // if (item.get('isNode') && this.get('openNode')) {
+            //     this.sendAction('openNode', unwrapItem(item));
+            // }
+            // if (item.get('canHaveChildren')) {
+            //     this.send('navigateToItem', item);
+            //     for (item of this.get('items')) {
+            //         item.set('isSelected', false);
+            //     }
+            // }
         },
 
         navigateToItem(item) {
