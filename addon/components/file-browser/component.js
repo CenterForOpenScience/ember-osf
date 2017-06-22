@@ -101,7 +101,7 @@ export default Ember.Component.extend({
     }),
     atRoot: Ember.computed.equal('breadcrumbs.length', 1),
     currentParent: Ember.computed.readOnly('breadcrumbs.lastObject'),
-    items: Ember.computed.readOnly('currentParent.childItems'),
+    items: Ember.computed.readOnly('currentParent.childItems.firstObject.childItems'),
     itemsLoaded: Ember.computed.readOnly('currentParent.childItemsLoaded'),
     selectedItems: Ember.computed.filterBy('items', 'isSelected', true),
 
@@ -111,15 +111,28 @@ export default Ember.Component.extend({
     }),
 
     actions: {
+        // selectItem(item) {
+        //     item.toggleProperty('isSelected');
+        //     // item.set('isSelected', true);
+        //     if (item.get('isFile') && this.get('selectFile')) {
+        //         this.sendAction('selectFile', unwrapItem(item));
+        //     }
+        //     if (item.get('isNode') && this.get('selectNode')) {
+        //         this.sendAction('selectNode', unwrapItem(item));
+        //     }
+        // },
         selectItem(item) {
-            item.toggleProperty('isSelected');
-            // item.set('isSelected', true);
-            if (item.get('isFile') && this.get('selectFile')) {
-                this.sendAction('selectFile', unwrapItem(item));
+            if (this.get('selectedItems.length')) {
+                for (var item_ of this.get('selectedItems')) {
+                    item_.set('isSelected', item_ === item);
+                }
+                item.set('isSelected', true);
+            } else {
+                item.toggleProperty('isSelected');
             }
-            if (item.get('isNode') && this.get('selectNode')) {
-                this.sendAction('selectNode', unwrapItem(item));
-            }
+        },
+        selectMultiple(item) {
+            item.set('isSelected', true);
         },
 
         openItem(item) {

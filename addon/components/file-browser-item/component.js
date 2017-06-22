@@ -18,8 +18,12 @@ export default Ember.Component.extend({
         return index > -1;
     }),
 
-    click() {
-        this.sendAction('selectItem', this.get('item'));
+    click(e) {
+        if (e.shiftKey || e.metaKey) {
+            this.sendAction('selectMultiple', this.get('item'));
+        } else {
+            this.sendAction('selectItem', this.get('item'));
+        }
     },
 
     doubleClick() {

@@ -8,7 +8,7 @@
     }
 
     .heading {
-        padding: 8px 15px;
+        // padding: 8px 15px;
         list-style: none;
     }
 
@@ -19,16 +19,22 @@
 
     .file-browser-item {
         height: 30px;
-        padding: 8px 15px;
-        list-style: none;
+        // padding: 8px 15px;
+        // list-style: none;
     }
 
     .file-browser-item.selected {
-        background-color: #E0EBF3;
+        background-color: #E0EBF3; /* $color-hover; */
+        // background-color: #337AB7;
+        // color: white;
     }
 
     .file-browser-item:hover {
         background-color: #E0EBF3; /* $color-hover; */
+        color: black;
+        a: {
+            color: inherit;
+        }
     }
 
     .file-browser-icon {
