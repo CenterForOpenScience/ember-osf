@@ -102,7 +102,7 @@ export default Ember.Component.extend({
     }),
     atRoot: Ember.computed.equal('breadcrumbs.length', 1),
     currentParent: Ember.computed.readOnly('breadcrumbs.lastObject'),
-    items: Ember.computed.readOnly('currentParent.childItems.firstObject.childItems'),
+    items: Ember.computed.reads('currentParent.childItems.firstObject.childItems'),
     itemsLoaded: Ember.computed.readOnly('currentParent.childItemsLoaded'),
     selectedItems: Ember.computed.filterBy('items', 'isSelected', true),
     loadedChanged: Ember.observer('itemsLoaded', function() {
@@ -169,6 +169,10 @@ export default Ember.Component.extend({
         },
         deleteItems() {
 
+        },
+        sort(by, order) {
+            let sorted = this.get('items').sortBy(by);
+            this.set('items', order === 'asc' ? sorted : sorted.reverse());
         },
         navigateToItem(item) {
             let breadcrumbs = this.get('breadcrumbs');

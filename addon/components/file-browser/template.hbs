@@ -32,6 +32,8 @@
     <div class="row heading">
         <div class="col-xs-5 file-browser-header header">
             Name
+            {{fa-icon 'chevron-up' click=(action 'sort' 'itemName' 'asc')}}
+            {{fa-icon 'chevron-down' click=(action 'sort' 'itemName' 'des')}}
         </div>
         <div class="col-xs-2 file-browser-header header">
             Share Link
@@ -46,7 +48,9 @@
             Downloads
         </div>
         <div class="col-xs-2 file-browser-header header">
-            Date Modified
+            Modified
+            {{fa-icon 'chevron-up' click=(action 'sort' 'dateModified' 'asc')}}
+            {{fa-icon 'chevron-down' click=(action 'sort' 'dateModified' 'des')}}
         </div>
     </div>
 
