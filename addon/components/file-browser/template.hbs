@@ -14,18 +14,18 @@
     {{#if selectedItems}}
         {{! TODO: show available actions for selected files }}
         {{#if (eq selectedItems.length 1)}}
-            <div class='btn text-success'>{{fa-icon "download"}} Download</div>
-            <div class='btn text-success'>{{fa-icon "file-o"}} View</div>
-            <div class='btn text-danger'>{{fa-icon "trash"}} Delete</div>
+            <button {{action 'downloadItem'}} class='btn text-success'>{{fa-icon "download"}} Download</button>
+            <button {{action 'viewItem'}} class='btn text-success'>{{fa-icon "file-o"}} View</button>
+            <button {{action 'deleteItem'}} class='btn text-danger'>{{fa-icon "trash"}} Delete</button>
         {{else}}
-            <div class='btn text-danger'>{{fa-icon "trash"}} Delete multiple</div>
+            <button {{action 'deleteItems'}} class='btn text-danger'>{{fa-icon "trash"}} Delete multiple</button>
         {{/if}}
     {{else}}
-        <div class='btn text-success'>{{fa-icon "upload"}} Upload</div>
-        <div class='btn text-success'>{{fa-icon "download"}} Download as zip</div>
+        <button {{action ''}} class='btn text-success'>{{fa-icon "upload"}} Upload</button>
+        <button {{action ''}} class='btn text-success'>{{fa-icon "download"}} Download as zip</button>
     {{/if}}
-    <div class='btn text-primary'>{{fa-icon "search"}} Filter</div>
-    <div class='btn text-primary'>{{fa-icon "info"}}</div>
+    <button {{action ''}} class='btn text-primary'>{{fa-icon "search"}} Filter</button>
+    <button {{action ''}} class='btn text-primary'>{{fa-icon "info"}}</button>
 </div>
 </div>
 

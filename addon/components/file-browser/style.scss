@@ -63,17 +63,23 @@
     }
 
     .file-browser-item {
-        height: 30px;
+        height: 35px;
 
-        margin-right: 5px;
-        margin-left: 5px;
+        // padding-right: 5px;
+        // padding-left: 5px;
         // padding: 8px 15px;
         // list-style: none;
         a {
             color: black;
         }
+        border-bottom: 1px solid #f5f5f5;
+        line-height: 27px;
 
-        border-bottom: 1px solid rgb(245, 245, 245);
+    }
+    .file-browser-item > .row {
+        padding: 0px;
+        padding-top: 2px;
+        padding-bottom: 4px;
     }
 
     .file-browser-item.selected,
