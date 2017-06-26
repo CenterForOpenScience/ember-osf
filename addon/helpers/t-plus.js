@@ -14,6 +14,18 @@ const preprintWords = {
             preprints: 'papers',
             Preprint: 'Paper',
             Preprints: 'Papers'
+        },
+        thesis: {
+            preprint: 'thesis',
+            preprints: 'theses',
+            Preprint: 'Thesis',
+            Preprints: 'Theses'
+        },
+        none: {
+            preprint: '',
+            preprints: '',
+            Preprint: '',
+            Preprints: ''
         }
     }
 }
