@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.5.0</em>
+            <em>API Docs for: 0.6.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -42,6 +42,7 @@
                                 <li><a href="../classes/Analytics.html">Analytics</a></li>
                                 <li><a href="../classes/auth.html">auth</a></li>
                                 <li><a href="../classes/author-link.html">author-link</a></li>
+                                <li><a href="../classes/buildSecondaryNavLinks.html">buildSecondaryNavLinks</a></li>
                                 <li><a href="../classes/CasAuthenticatedRouteMixin.html">CasAuthenticatedRouteMixin</a></li>
                                 <li><a href="../classes/Citation.html">Citation</a></li>
                                 <li><a href="../classes/citation-widget.html">citation-widget</a></li>
@@ -61,7 +62,6 @@
                                 <li><a href="../classes/elem-id.html">elem-id</a></li>
                                 <li><a href="../classes/eosf-project-nav.html">eosf-project-nav</a></li>
                                 <li><a href="../classes/faceted-search.html">faceted-search</a></li>
-                                <li><a href="../classes/FetchAllRouteMixin.html">FetchAllRouteMixin</a></li>
                                 <li><a href="../classes/File.html">File</a></li>
                                 <li><a href="../classes/file-browser.html">file-browser</a></li>
                                 <li><a href="../classes/file-browser-icon.html">file-browser-icon</a></li>
@@ -79,6 +79,7 @@
                                 <li><a href="../classes/fix-special-char-helper.html">fix-special-char-helper</a></li>
                                 <li><a href="../classes/fixstring.html">fixstring</a></li>
                                 <li><a href="../classes/GenericDataADapter.html">GenericDataADapter</a></li>
+                                <li><a href="../classes/getDisplayName.html">getDisplayName</a></li>
                                 <li><a href="../classes/HostAppNameMixin.html">HostAppNameMixin</a></li>
                                 <li><a href="../classes/ifFilter.html">ifFilter</a></li>
                                 <li><a href="../classes/InfinityCustomMixin.html">InfinityCustomMixin</a></li>
@@ -87,6 +88,7 @@
                                 <li><a href="../classes/Log.html">Log</a></li>
                                 <li><a href="../classes/Metaschema.html">Metaschema</a></li>
                                 <li><a href="../classes/navbar-auth-dropdown.html">navbar-auth-dropdown</a></li>
+                                <li><a href="../classes/new-navbar-auth-dropdown.html">new-navbar-auth-dropdown</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
                                 <li><a href="../classes/NodeActionsMixin.html">NodeActionsMixin</a></li>
                                 <li><a href="../classes/NodeLink.html">NodeLink</a></li>
@@ -96,6 +98,7 @@
                                 <li><a href="../classes/osf-mode-footer.html">osf-mode-footer</a></li>
                                 <li><a href="../classes/osf-navbar.html">osf-navbar</a></li>
                                 <li><a href="../classes/osf-paginator.html">osf-paginator</a></li>
+                                <li><a href="../classes/osf-services.html">osf-services</a></li>
                                 <li><a href="../classes/OsfAdapter.html">OsfAdapter</a></li>
                                 <li><a href="../classes/OsfAgnosticAuthController.html">OsfAgnosticAuthController</a></li>
                                 <li><a href="../classes/OsfAgnosticAuthRoute.html">OsfAgnosticAuthRoute</a></li>
@@ -128,6 +131,7 @@
                                 <li><a href="../classes/search-facet-worktype-hierarchy.html">search-facet-worktype-hierarchy</a></li>
                                 <li><a href="../classes/search-help-modal.html">search-help-modal</a></li>
                                 <li><a href="../classes/search-result.html">search-result</a></li>
+                                <li><a href="../classes/service-links.html">service-links</a></li>
                                 <li><a href="../classes/sign-up.html">sign-up</a></li>
                                 <li><a href="../classes/sortOptionDisplay.html">sortOptionDisplay</a></li>
                                 <li><a href="../classes/TaggableMixin.html">TaggableMixin</a></li>
@@ -191,7 +195,6 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import Ember from &#x27;ember&#x27;;
-import _ from &#x27;lodash&#x27;;
 import layout from &#x27;./template&#x27;;
 
 /**
@@ -233,52 +236,30 @@ export default Ember.Component.extend({
     showCopyrightHolders: true,
     showCategories: true,
     allowDismiss: false,
-    init() {
-        this._super(...arguments);
-        // Debouncing autosave prevents a request per keystroke, only sending it
-        // when the user is done typing (trailing=true), debounce timer can be tweaked.
-        this.set(&#x27;debouncedAutosave&#x27;, _.debounce(() =&gt; {
-            if (this.get(&#x27;autosave&#x27;)) {
-                this.get(&#x27;actions.save&#x27;).bind(this)();
-            }
-        }, 500, {trailing: true}));
-    },
     didReceiveAttrs() {
-        if (!this.get(&#x27;currentValues.year&#x27;) &amp;&amp; !this.get(&#x27;year&#x27;)) {
-            let date = new Date();
-            this.set(&#x27;year&#x27;, String(date.getUTCFullYear()));
-        }
-        if (!this.get(&#x27;licenses&#x27;) &amp;&amp; this.get(&#x27;licensesAvailable&#x27;).length === 0) {
-            this.get(&#x27;store&#x27;).query(&#x27;license&#x27;, { &#x27;page[size]&#x27;: 20 }).then(ret =&gt; this.set(&#x27;licensesAvailable&#x27;, ret));
-        } else if (this.get(&#x27;licenses&#x27;)) {
+        if (!this.get(&#x27;licenses&#x27;)) {
+            this.get(&#x27;store&#x27;).query(&#x27;license&#x27;, { &#x27;page[size]&#x27;: 20 }).then(ret =&gt; {
+                this.set(&#x27;licensesAvailable&#x27;, ret);
+            });
+        } else {
             this.set(&#x27;licensesAvailable&#x27;, this.get(&#x27;licenses&#x27;));
         }
+        if (!this.get(&#x27;currentValues.year&#x27;)) {
+            let date = new Date();
+            this.set(&#x27;year&#x27;, String(date.getUTCFullYear()));
+        } else {
+            this.set(&#x27;year&#x27;, this.get(&#x27;currentValues.year&#x27;));
+        }
+        if (this.get(&#x27;currentValues.copyrightHolders&#x27;)) {
+            this.set(&#x27;copyrightHolders&#x27;, this.get(&#x27;currentValues.copyrightHolders&#x27;));
+        }
     },
-    showOtherFields: Ember.observer(&#x27;nodeLicense&#x27;, &#x27;nodeLicense.text&#x27;, function() {
-        let text = this.get(&#x27;nodeLicense.text&#x27;);
-        if (!text) {
-            return;
+    _setNodeLicense: Ember.observer(&#x27;licensesAvailable&#x27;, &#x27;currentValues.licenseType&#x27;, function() {
+        if (!this.get(&#x27;currentValues.licenseType.id&#x27;)) { //if not resolved properly
+            this.set(&#x27;nodeLicense&#x27;, this.get(&#x27;licensesAvailable.firstObject&#x27;));
+        } else {
+            this.set(&#x27;nodeLicense&#x27;, this.get(&#x27;currentValues.licenseType&#x27;));
         }
-        this.set(&#x27;showYear&#x27;, text.indexOf(&#x27;{{year}}&#x27;) !== -1);
-        this.set(&#x27;showCopyrightHolders&#x27;, text.indexOf(&#x27;{{copyrightHolders}}&#x27;) !== -1);
-    }),
-    yearRequired: Ember.computed(&#x27;nodeLicense&#x27;, function() {
-        return this.get(&#x27;nodeLicense.requiredFields&#x27;) &amp;&amp; this.get(&#x27;nodeLicense.requiredFields&#x27;).indexOf(&#x27;year&#x27;) !== -1;
-    }),
-    copyrightHoldersRequired: Ember.computed(&#x27;nodeLicense&#x27;, function() {
-        return this.get(&#x27;nodeLicense.requiredFields&#x27;) &amp;&amp; this.get(&#x27;nodeLicense.requiredFields&#x27;).indexOf(&#x27;copyrightHolders&#x27;) !== -1;
-    }),
-    nodeLicense: Ember.computed(&#x27;licensesAvailable&#x27;, &#x27;currentValues.licenseType&#x27;, function() {
-        if (this.get(&#x27;currentValues.licenseType.id&#x27;)) {
-            return this.get(&#x27;currentValues.licenseType&#x27;);
-        }
-        return this.get(&#x27;licensesAvailable.firstObject&#x27;);
-    }),
-    year: Ember.computed(&#x27;currentValues.year&#x27;, function() {
-        return this.get(&#x27;currentValues.year&#x27;);
-    }),
-    copyrightHolders: Ember.computed(&#x27;currentValues.copyrightHolders&#x27;, function() {
-        return this.get(&#x27;currentValues.copyrightHolders&#x27;);
     }),
     nodeLicenseText: Ember.computed(&#x27;nodeLicense&#x27;, &#x27;nodeLicense.text&#x27;, &#x27;year&#x27;, &#x27;copyrightHolders&#x27;, function() {
         let text = this.get(&#x27;nodeLicense.text&#x27;);
@@ -288,14 +269,28 @@ export default Ember.Component.extend({
         }
         return text;
     }),
+    yearRequired: Ember.computed(&#x27;nodeLicense&#x27;, function() {
+        return this.get(&#x27;nodeLicense.requiredFields&#x27;) &amp;&amp; this.get(&#x27;nodeLicense.requiredFields&#x27;).indexOf(&#x27;year&#x27;) !== -1;
+    }),
+    copyrightHoldersRequired: Ember.computed(&#x27;nodeLicense&#x27;, function() {
+        return this.get(&#x27;nodeLicense.requiredFields&#x27;) &amp;&amp; this.get(&#x27;nodeLicense.requiredFields&#x27;).indexOf(&#x27;copyrightHolders&#x27;) !== -1;
+    }),
     licenseEdited: Ember.observer(&#x27;copyrightHolders&#x27;, &#x27;nodeLicense&#x27;, &#x27;year&#x27;, function() {
-        if (
-            (this.get(&#x27;copyrightHolders&#x27;) &amp;&amp; (this.get(&#x27;copyrightHolders&#x27;) !== this.get(&#x27;currentValues.copyrightHolders&#x27;))) ||
-            (this.get(&#x27;year&#x27;) &amp;&amp; (this.get(&#x27;year&#x27;) !== this.get(&#x27;currentValues.year&#x27;))) ||
-            (this.get(&#x27;currentValues.licenseType.id&#x27;) &amp;&amp; this.get(&#x27;nodeLicense.id&#x27;) !== this.get(&#x27;currentValues.licenseType.id&#x27;))
-        ) {
-            this.get(&#x27;debouncedAutosave&#x27;)();
+        Ember.run.debounce(this, function() {
+            if (this.get(&#x27;autosave&#x27;)) {
+                this.get(&#x27;actions.save&#x27;).bind(this)();
+            }
+        }, 250);
+    }),
+    year: null,
+    copyrightHolders: null,
+    showOtherFields: Ember.observer(&#x27;nodeLicense&#x27;, &#x27;nodeLicense.text&#x27;, function() {
+        let text = this.get(&#x27;nodeLicense.text&#x27;);
+        if (!text) {
+            return;
         }
+        this.set(&#x27;showYear&#x27;, text.indexOf(&#x27;{{year}}&#x27;) !== -1);
+        this.set(&#x27;showCopyrightHolders&#x27;, text.indexOf(&#x27;{{copyrightHolders}}&#x27;) !== -1);
     }),
     actions: {
         selectLicense(license) {
