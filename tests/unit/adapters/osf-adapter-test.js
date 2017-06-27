@@ -1,8 +1,8 @@
 import Ember from 'ember';
 
-import { moduleFor } from 'ember-qunit';
-import test from 'dummy/tests/ember-sinon-qunit/test';
-import FactoryGuy, { manualSetup } from 'ember-data-factory-guy';
+import {moduleFor, skip} from 'ember-qunit';
+import test from 'ember-sinon-qunit/test-support/test';
+import FactoryGuy, {manualSetup} from 'ember-data-factory-guy';
 
 import DS from 'ember-data';
 import JSONAPIAdapter from 'ember-data/adapters/json-api';
@@ -23,12 +23,12 @@ moduleFor('adapter:osf-adapter', 'Unit | Adapter | osf adapter', {
     }
 });
 
-test('#buildURL appends a trailing slash if missing', function(assert) {
+test('#buildURL appends a trailing slash if missing', function (assert) {
     var url = 'http://localhost:8000/v2/users/me';
     this.stub(
         DS.JSONAPIAdapter.prototype,
         'buildURL',
-        function() {
+        function () {
             return url;
         }
     );
@@ -44,12 +44,12 @@ test('#buildURL appends a trailing slash if missing', function(assert) {
     assert.equal(result.slice(-1), '/');
 });
 
-test('#buildURL _only_ appends a trailing slash if missing', function(assert) {
+test('#buildURL _only_ appends a trailing slash if missing', function (assert) {
     var url = 'http://localhost:8000/v2/users/me/';
     this.stub(
         DS.JSONAPIAdapter.prototype,
         'buildURL',
-        function() {
+        function () {
             return url;
         }
     );
@@ -64,7 +64,7 @@ test('#buildURL _only_ appends a trailing slash if missing', function(assert) {
     assert.equal(url, result);
 });
 
-test('#buildURL uses relationship links if available for delete, update, and find', function(assert) {
+test('#buildURL uses relationship links if available for delete, update, and find', function (assert) {
     let url = 'http://localhost:8000/v2/users/me/rel/';
     let adapter = this.subject();
     let user = FactoryGuy.make('user', {
@@ -83,7 +83,7 @@ test('#buildURL uses relationship links if available for delete, update, and fin
     });
 });
 
-test('#buildURL uses snapshot.adapterOptions.url if available', function(assert) {
+test('#buildURL uses snapshot.adapterOptions.url if available', function (assert) {
     let url = 'http://localhost:8000/v2/users/me/rel/';
     let adapter = this.subject();
     let user = FactoryGuy.make('user', {
@@ -103,7 +103,7 @@ test('#buildURL uses snapshot.adapterOptions.url if available', function(assert)
     assert.equal(url, result);
 });
 
-test('#buildURL uses snapshot.adapterOptions.url if available', function(assert) {
+test('#buildURL uses snapshot.adapterOptions.url if available', function (assert) {
     let url = 'http://localhost:8000/v2/users/me/rel/';
     let adapter = this.subject();
     let user = FactoryGuy.make('user', {
@@ -123,7 +123,7 @@ test('#buildURL uses snapshot.adapterOptions.url if available', function(assert)
     assert.equal(url, result);
 });
 
-test('#_buildRelationshipURL uses relationshipLinks', function(assert) {
+test('#_buildRelationshipURL uses relationshipLinks', function (assert) {
     let url = 'http://localhost:8000/v2/users/me/foo-bar-baz/';
     let adapter = this.subject();
     let user = FactoryGuy.make('user', {
@@ -151,7 +151,7 @@ test('#_buildRelationshipURL uses relationshipLinks', function(assert) {
     assert.equal(url, result);
 });
 
-test('#_createRelated maps over each createdSnapshots and adds records to the parent\'s canonical state', function(assert) {
+test('#_createRelated maps over each createdSnapshots and adds records to the parent\'s canonical state', function (assert) {
     assert.expect(5);
     this.inject.service('store');
     let store = this.store;
@@ -194,7 +194,7 @@ test('#_createRelated maps over each createdSnapshots and adds records to the pa
     });
 });
 
-test('#_createRelated passes the nested:true as an adapterOption to save', function(assert) {
+test('#_createRelated passes the nested:true as an adapterOption to save', function (assert) {
     this.inject.service('store');
     let store = this.store;
 
@@ -235,7 +235,7 @@ test('#_createRelated passes the nested:true as an adapterOption to save', funct
     });
 });
 
-test('#_addRelated defers to _doRelatedRequest and adds records to the parent\'s canonical state', function(assert) {
+test('#_addRelated defers to _doRelatedRequest and adds records to the parent\'s canonical state', function (assert) {
     assert.expect(3);
 
     let node = FactoryGuy.make('node');
@@ -260,7 +260,7 @@ test('#_addRelated defers to _doRelatedRequest and adds records to the parent\'s
     });
 });
 
-test('#_updateRelated defers to _doRelatedRequest, pushes the update response into the store, and updates the parent\'s canonicalState', function(assert) {
+test('#_updateRelated defers to _doRelatedRequest, pushes the update response into the store, and updates the parent\'s canonicalState', function (assert) {
     this.inject.service('store');
     let store = this.store;
 
@@ -300,7 +300,7 @@ test('#_updateRelated defers to _doRelatedRequest, pushes the update response in
 });
 
 
-test('#_removeRelated defers to _doRelatedRequest, and removes the records from the parent\'s canonicalState', function(assert) {
+test('#_removeRelated defers to _doRelatedRequest, and removes the records from the parent\'s canonicalState', function (assert) {
     assert.expect(3);
 
     let node = FactoryGuy.make('node', 'hasInstitution');
@@ -326,7 +326,7 @@ test('#_removeRelated defers to _doRelatedRequest, and removes the records from 
     });
 });
 
-test('#_deleteRelated defers to _doRelatedRequest, and unloads the deleted records', function(assert) {
+test('#_deleteRelated defers to _doRelatedRequest, and unloads the deleted records', function (assert) {
     assert.expect(2);
     let node = FactoryGuy.make('node', 'hasContributors');
     let contrib = node.get('contributors').objectAt(1);
@@ -347,7 +347,7 @@ test('#_deleteRelated defers to _doRelatedRequest, and unloads the deleted recor
     });
 });
 
-test('#_doRelatedRequest with array', function(assert) {
+test('#_doRelatedRequest with array', function (assert) {
     let adapter = this.subject();
 
     this.inject.service('store');
@@ -377,7 +377,7 @@ test('#_doRelatedRequest with array', function(assert) {
     assert.equal(data[2].attributes.title, children[2].get('title'));
 });
 
-test('#_doRelatedRequest with single snapshot', function(assert) {
+test('#_doRelatedRequest with single snapshot', function (assert) {
     let adapter = this.subject();
 
     this.inject.service('store');
@@ -406,7 +406,7 @@ test('#_doRelatedRequest with single snapshot', function(assert) {
     assert.equal(data.attributes.title, child.get('title'));
 });
 
-test('#_handleRelatedRequest makes correct calls for each change argument', function(assert) {
+test('#_handleRelatedRequest makes correct calls for each change argument', function (assert) {
     let adapter = this.subject();
 
     this.inject.service('store');
@@ -442,7 +442,7 @@ test('#_handleRelatedRequest makes correct calls for each change argument', func
     }
 });
 
-test('#_handleRelatedRequest checks if relationship supports bulk', function(assert) {
+test('#_handleRelatedRequest checks if relationship supports bulk', function (assert) {
     let adapter = this.subject();
 
     this.inject.service('store');
@@ -483,41 +483,46 @@ test('#_handleRelatedRequest checks if relationship supports bulk', function(ass
     }
 });
 
-test('#updateRecord handles both dirtyRelationships and the parent record', function(assert) {
-    let adapter = this.subject();
+test('#updateRecord handles both dirtyRelationships and the parent record', function (assert) {
+    assert.expect(2);
 
     this.inject.service('store');
-    let store = this.store;
 
-    let node = FactoryGuy.make('node');
+    const store = this.store;
+    const adapter = this.subject();
+    const node = FactoryGuy.make('node');
+
     Ember.run(() => node.set('title', 'The meaning of life'));
+
     node.set('_dirtyRelationships', {
         children: {
             update: null
         }
     });
 
-    var handleRelatedStub = this.stub(adapter, '_handleRelatedRequest', () => []);
+    const handleRelatedStub = this.stub(adapter, '_handleRelatedRequest', () => []);
     // Have to stub apply due to ...arguments usage
-    this.stub(JSONAPIAdapter.prototype.updateRecord, 'apply', () => {
-        return Ember.RSVP.resolve(42);
-    });
+    this.stub(JSONAPIAdapter.prototype.updateRecord, 'apply', () => Ember.RSVP.resolve(42));
 
-    var ss = node._internalModel.createSnapshot();
-    adapter.updateRecord(store, node, ss).then(res => {
-	// Note: 42 comes from promise resolution of stubbed updateRecord above
-        assert.equal(res, 42);
-        assert.ok(handleRelatedStub.calledWith(
-            store,
-            node,
-            ss,
-            'children',
-            'update'
-        ));
-    });
+    const ss = node._internalModel.createSnapshot();
+
+    return adapter
+        .updateRecord(store, node, ss).then(res => {
+            // Note: 42 comes from promise resolution of stubbed updateRecord above
+            assert.equal(res, 42);
+            assert.ok(
+                handleRelatedStub.calledWith(
+                    store,
+                    node,
+                    ss,
+                    'children',
+                    'update'
+                )
+            );
+        });
 });
 
-test('#ajaxOptions adds bulk contentType if request is bulk', function(assert) {
+test('#ajaxOptions adds bulk contentType if request is bulk', function (assert) {
     let adapter = this.subject();
     var opts = adapter.ajaxOptions(null, null, {
         isBulk: true
@@ -525,28 +530,39 @@ test('#ajaxOptions adds bulk contentType if request is bulk', function(assert) {
     assert.equal(opts.contentType, 'application/vnd.api+json; ext=bulk');
 });
 
-test('#findRecord can embed(via include) data with findRecord', function(assert) {
-    this.inject.service('store');
-    let store = this.store;
+skip('#findRecord can embed(via include) data with findRecord', function (assert) {
+    const done = assert.async();
+    assert.expect(1);
 
-    let node = FactoryGuy.make('node');
-    var children;
     Ember.run(() => {
-        children = [
-            store.createRecord('node', {
-                title: 'Foo'
-            }),
-            store.createRecord('node', {
-                title: 'Bar'
+        this.inject.service('store');
+        const store = this.store;
+        const node = FactoryGuy.make('node');
+        let children;
+
+        return Ember.RSVP.Promise
+            .all([
+                store.createRecord('node', {
+                    title: 'Foo'
+                }),
+                store.createRecord('node', {
+                    title: 'Bar'
+                })
+            ])
+            .then(res => {
+                children = res;
+                return node.get('children').pushObjects(res);
             })
-        ];
-    });
-    node.get('children').pushObjects(children);
-
-    Ember.run(() => {
-        node.set('title', 'Parent');
-        store.findRecord('node', node.id, {include: 'children'}).then(res => {
-            assert.equal(res.get('children').toArray()[0].get('title'), children[0].get('title'));
-        });
+            .then(() => {
+                node.set('title', 'Parent');
+                return store.findRecord('node', node.id, {include: 'children'});
+            })
+            .then(res => {
+                assert.equal(
+                    res.get('children').toArray()[0].get('title'),
+                    children[0].get('title')
+                );
+            })
+            .then(done);
     });
 });

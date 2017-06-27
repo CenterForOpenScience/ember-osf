@@ -21,20 +21,21 @@
             <a href="{{host}}settings/"><i class="fa fa-cog fa-lg p-r-xs"></i> Settings</a>
         </li>
         <li>
-            <a onclick={{action 'logout'}}><i class="fa fa-sign-out fa-lg p-r-xs"></i> Log out</a>
+            <a onclick={{action 'logout'}} role="button"><i class="fa fa-sign-out fa-lg p-r-xs"></i> Log out</a>
         </li>
     </ul>
 {{else if allowLogin}}
-    {{#if institution}}  {{! TODO: How does the page know whether this is an institution view? Implement in the future }}
+    {{#if institution}}
+        {{! TODO: How does the page know whether this is an institution view? Implement in the future }}
         <div class="btn-group">
             <a href="${domain}login/?campaign=institution&redirect_url=${redirect_url}" class="btn btn-info btn-top-login">
-                Sign in <span class="hidden-xs"><i class="fa fa-arrow-right"></i></span>
+                Sign In <span class="hidden-xs"><i class="fa fa-arrow-right"></i></span>
             </a>
         </div>
     {{else}}
         <div class="col-sm-12">
             <a href="{{signupUrl}}" class="btn btn-success btn-top-signup m-r-xs">Sign Up</a>
-            <a {{action loginAction}} class="btn btn-info btn-top-login m-r-xs">Sign in</a>
+            <button {{action loginAction}} class="btn btn-info btn-top-login m-r-xs">Sign In</button>
         </div>
     {{/if}}
 {{/if}}

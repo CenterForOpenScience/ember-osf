@@ -35,5 +35,5 @@ test('it renders', function(assert) {
   
   }}`);
 
-  assert.equal(document.getElementsByTagName('button')[1].firstChild.nodeValue, 'PubMedCentral');
+  assert.equal(document.querySelector('.individual-facet button').textContent, 'PubMedCentral');
 });

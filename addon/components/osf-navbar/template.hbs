@@ -1,4 +1,4 @@
-<div class="osf-nav-wrapper">
+<div>
     <nav class="navbar navbar-inverse navbar-fixed-top" id="navbarScope" role="navigation">
         <div class="container">
             <div class="navbar-header">
@@ -8,15 +8,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                {{#unless hideSearch}}
-                    {{#unless onSearchPage}}
-                        {{!-- TODO: Replace usage of knockout--}}
-                        <span class="visible-xs" data-bind="click : toggleSearch, css: searchCSS">
-                            <a class="osf-xs-search pull-right" {{action "toggleSearch"}} style="padding-top: 12px" >
-                                <span rel="tooltip" data-placement="bottom" title="Search OSF" class="fa fa-search fa-lg fa-inverse" ></span>
-                            </a>
-                        </span>
-                    {{/unless}}
+                {{#unless (and hideSearch onSearchPage)}}
+                    {{!-- TODO: Replace usage of knockout--}}
+                    <span class="visible-xs" data-bind="click : toggleSearch, css: searchCSS">
+                        <a class="osf-xs-search pull-right" {{action "toggleSearch"}} role="link" style="padding-top: 12px;">
+                            <span rel="tooltip" data-placement="bottom" title="Search OSF" class="fa fa-search fa-lg fa-inverse"></span>
+                        </a>
+                    </span>
                 {{/unless}}
                 <a class="navbar-brand hidden-sm hidden-xs" href="/"><span class="osf-navbar-logo" width="27"></span> Open Science Framework</a>
                 <a class="navbar-brand visible-sm visible-xs" href="/"><span class="osf-navbar-logo" width="27"></span> OSF</a>
@@ -47,7 +45,7 @@
                     {{#unless hideSearch}}
                         {{#unless onSearchPage}}
                             <li class="hidden-xs">
-                                <a onclick={{action "toggleSearch"}}>
+                                <a onclick={{action "toggleSearch"}} role="link">
                                     <span rel="tooltip" data-placement="bottom" title="Search OSF" class="fa fa-search fa-lg" ></span>
                                 </a>
                             </li>

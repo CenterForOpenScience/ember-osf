@@ -40,7 +40,7 @@ module.exports = function(environment) {
         modulePrefix: 'dummy',
         appName: 'Dummy App',
         environment: environment,
-        baseURL: '/',
+        rootURL: '/',
         locationType: 'auto',
 
         EmberENV: {
@@ -75,7 +75,7 @@ module.exports = function(environment) {
 
     if (environment === 'test') {
         // Testem prefers this...
-        ENV.baseURL = '/';
+        ENV.rootURL = '/';
         ENV.locationType = 'none';
 
         ENV.OSF = {

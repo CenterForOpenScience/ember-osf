@@ -1,17 +1,24 @@
 language: node_js
 
-sudo: false
+sudo: required
 dist: trusty
+addons:
+  chrome: stable
 
 env:
   global:
     - SUPPRESS_NO_CONFIG_WARNING=true
+    - PERSONAL_ACCESS_TOKEN=TEST_TOKEN
 
 cache:
   yarn: true
   directories:
     - node_modules
     - $HOME/.cache # includes bowers cache
+
+before_install:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
 
 install:
   - curl -o- -L https://yarnpkg.com/install.sh | bash

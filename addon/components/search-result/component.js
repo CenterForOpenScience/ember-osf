@@ -3,6 +3,7 @@ import layout from './template';
 import Analytics from '../../mixins/analytics';
 import hostAppName from '../../mixins/host-app-name';
 import providerRegex from 'ember-osf/const/providerRegex';
+import moment from 'moment';
 
 /**
  * Adapted from Ember-SHARE and Ember Preprints
@@ -43,7 +44,12 @@ export default Ember.Component.extend(Analytics, hostAppName, {
      * Name of detail route for consuming application, if you want search result to link to a route in the consuming spp
      * @property {String} detailRoute
      */
-    detailRoute: null,
+     detailRoute: null,
+    /**
+     * Provider loaded from theme service. Passed in from consuming application.
+    * @property {Object} themeProvider
+    */
+    themeProvider: null,
     footerIcon: Ember.computed('showBody', function() {
         return this.get('showBody') ? 'caret-up' : 'caret-down';
     }),
@@ -121,9 +127,13 @@ export default Ember.Component.extend(Analytics, hostAppName, {
 
         return identifiers[0];
     }),
-    // Determines whether tags in search results should be links - preprints and registries are not using tag filter right now
-    tagsInQueryParams: Ember.computed('queryParams', function() {
-        return (this.get('queryParams') || []).includes('tags');
+    // Determines whether tags in search results should be links - preprints and registries are not using tag filter right now.
+    // NEW: Preprint providers with additionalProviders are using tags, however.
+    tagsInQueryParams: Ember.computed('queryParams', 'themeProvider', function() {
+        return (this.get('queryParams') || []).includes('tags') && (this.get('themeProvider.additionalProviders') || []).length;
+    }),
+    dateUpdated: Ember.computed('result.date_updated', function() {
+        return moment(this.get('result.date_updated')).utc().format('YYYY-MM-DD');
     }),
     didRender() {
         MathJax.Hub.Queue(['Typeset', MathJax.Hub, this.$()[0]]);  // jshint ignore: line
