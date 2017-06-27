@@ -87,10 +87,8 @@ export default Ember.Component.extend({
     // TODO: Improve documentation in the future
     layout,
     classNames: ['file-browser'],
-    itemHeight: 30,
-    columns: [40, 15, 7.5, 10, 7.5, 20],
     breadcrumbs: null,
-
+    filtering: false,
     rootItem: Ember.computed('breadcrumbs.[]', {
         get() {
             return this.get('breadcrumbs.firstObject');
@@ -100,16 +98,19 @@ export default Ember.Component.extend({
             this.set('breadcrumbs', Ember.A([wrappedItem]));
         }
     }),
+    filter: null,
     atRoot: Ember.computed.equal('breadcrumbs.length', 1),
     currentParent: Ember.computed.readOnly('breadcrumbs.lastObject'),
-    items: Ember.computed.reads('currentParent.childItems.firstObject.childItems'),
+    _items: Ember.computed.reads('currentParent.childItems.firstObject.childItems'),
     itemsLoaded: Ember.computed.readOnly('currentParent.childItemsLoaded'),
     selectedItems: Ember.computed.filterBy('items', 'isSelected', true),
     loadedChanged: Ember.observer('itemsLoaded', function() {
         let containerWidth = this.$().width();
         this.set('itemWidth', containerWidth);
     }),
-
+    items: Ember.computed('_items', 'filter', function() {
+        return this.get('filter') ? this.get('_items').filter(i => i.get('name').indexOf(this.get('filter')) !== -1) : this.get('_items');
+    }),
     actions: {
         selectItem(item) {
             if (this.get('selectedItems.length')) {
@@ -153,7 +154,7 @@ export default Ember.Component.extend({
             window.location = downloadLink;
         },
         deleteItem(){
-            let url = this.get('selectedItems.firstObject.links.download')
+            let url = this.get('selectedItems.firstObject.links.download');
             authenticatedAJAX({
                 url: url,
                 type: 'DELETE',
@@ -161,18 +162,34 @@ export default Ember.Component.extend({
             })
             .done(function(data) {
                 console.log(data);
-                debugger;
             })
             .fail(function(data){
                 console.log(data);
             });
         },
         deleteItems() {
-
+            for (var item_ of this.get('selectedItems')) {
+                let url = item_.get('links.download');
+                authenticatedAJAX({
+                    url: url,
+                    type: 'DELETE',
+                    xhrFields: {withCredentials: true}
+                })
+                .done(function(data) {
+                    console.log(data);
+                })
+                .fail(function(data){
+                    console.log(data);
+                });
+            }
         },
         sort(by, order) {
-            let sorted = this.get('items').sortBy(by);
-            this.set('items', order === 'asc' ? sorted : sorted.reverse());
+            let sorted = this.get('_items').sortBy(by);
+            this.set('_items', order === 'asc' ? sorted : sorted.reverse());
+        },
+        openFilter() {
+            this.set('filter', null);
+            this.toggleProperty('filtering');
         },
         navigateToItem(item) {
             let breadcrumbs = this.get('breadcrumbs');

@@ -1,66 +1,61 @@
-<!-- <ol class='breadcrumb'>
-    {{#each breadcrumbs as |item|}}
-        <li>
-            <a {{action 'navigateToItem' item}} role="link">
-                {{file-browser-icon item=item}}
-                {{item.itemName}}
-            </a>
-        </li>
-    {{/each}}
-</ol> -->
-
-<div class="other-heading row" style="margin-bottom:10px">
-<div class= 'pull-right'>
-    {{#if selectedItems}}
-        {{! TODO: show available actions for selected files }}
-        {{#if (eq selectedItems.length 1)}}
-            <button {{action 'downloadItem'}} class='btn text-success'>{{fa-icon "download"}} Download</button>
-            <button {{action 'viewItem'}} class='btn text-success'>{{fa-icon "file-o"}} View</button>
-            <button {{action 'deleteItem'}} class='btn text-danger'>{{fa-icon "trash"}} Delete</button>
-        {{else}}
-            <button {{action 'deleteItems'}} class='btn text-danger'>{{fa-icon "trash"}} Delete multiple</button>
-        {{/if}}
+<div class="actions-header row" style="margin-bottom:10px">
+    {{#if filtering}}
+        <div class="col-xs-9 filter-input">
+            <!-- <div style="width:100%;display:inline;" class="pull-right form-control" -->
+                {{input placeholder="Filter" value=filter type="text"}}
+            <!-- </div> -->
+        </div>
+        <div class='col-xs-3'>
+            <button {{action 'openFilter'}} class='btn pull-right'>{{fa-icon "times"}}</button>
+        </div>
     {{else}}
-        <button {{action ''}} class='btn text-success'>{{fa-icon "upload"}} Upload</button>
-        <button {{action ''}} class='btn text-success'>{{fa-icon "download"}} Download as zip</button>
+        <div class='pull-right'>
+            {{#if selectedItems}}
+                {{! TODO: show available actions for selected files }}
+                {{#if (eq selectedItems.length 1)}}
+                    <button {{action 'downloadItem'}} class='btn text-success'>{{fa-icon "download"}} Download</button>
+                    <button {{action 'viewItem'}} class='btn text-success'>{{fa-icon "file-o"}} View</button>
+                    <button {{action 'deleteItem'}} class='btn text-danger'>{{fa-icon "trash"}} Delete</button>
+                {{else}}
+                    <button {{action 'deleteItems'}} class='btn text-danger'>{{fa-icon "trash"}} Delete multiple</button>
+                {{/if}}
+            {{else}}
+                <button {{action ''}} class='btn text-success'>{{fa-icon "upload"}} Upload</button>
+                <button {{action ''}} class='btn text-success'>{{fa-icon "download"}} Download as zip</button>
+            {{/if}}
+            <button {{action 'openFilter'}} class='btn text-primary'>{{fa-icon "search"}} Filter</button>
+            <button {{action ''}} class='btn text-primary'>{{fa-icon "info"}}</button>
+        </div>
     {{/if}}
-    <button {{action ''}} class='btn text-primary'>{{fa-icon "search"}} Filter</button>
-    <button {{action ''}} class='btn text-primary'>{{fa-icon "info"}}</button>
-</div>
 </div>
 
-    <div class="row heading">
-        <div class="col-xs-5 file-browser-header header">
-            Name
-            {{fa-icon 'chevron-up' click=(action 'sort' 'itemName' 'asc')}}
-            {{fa-icon 'chevron-down' click=(action 'sort' 'itemName' 'des')}}
-        </div>
-        <div class="col-xs-2 file-browser-header header">
-            Share Link
-        </div>
-        <div class="col-xs-1 file-browser-header header">
-            Size
-        </div>
-        <div class="col-xs-1 file-browser-header header">
-            Version
-        </div>
-        <div class="col-xs-1 file-browser-header header">
-            Downloads
-        </div>
-        <div class="col-xs-2 file-browser-header header">
-            Modified
-            {{fa-icon 'chevron-up' click=(action 'sort' 'dateModified' 'asc')}}
-            {{fa-icon 'chevron-down' click=(action 'sort' 'dateModified' 'des')}}
-        </div>
+<div class="row column-labels-header">
+    <div class="col-xs-5 file-browser-header header">
+        Name
+        {{fa-icon 'chevron-up' click=(action 'sort' 'itemName' 'asc')}}
+        {{fa-icon 'chevron-down' click=(action 'sort' 'itemName' 'des')}}
     </div>
+    <div class="col-xs-2 file-browser-header header">
+        Share Link
+    </div>
+    <div class="col-xs-1 file-browser-header header">
+        Size
+    </div>
+    <div class="col-xs-1 file-browser-header header">
+        Version
+    </div>
+    <div class="col-xs-1 file-browser-header header">
+        Downloads
+    </div>
+    <div class="col-xs-2 file-browser-header header">
+        Modified
+        {{fa-icon 'chevron-up' click=(action 'sort' 'dateModified' 'asc')}}
+        {{fa-icon 'chevron-down' click=(action 'sort' 'dateModified' 'des')}}
+    </div>
+</div>
 
 <div class='file-browser-list'>
-        <!-- {{#ember-collection
-            items=items
-            cell-layout=(fixed-grid-layout itemWidth itemHeight)
-            as |item|
-        }}
-
+        {{#each items as |item|}}
             {{file-browser-item
                 item=item
                 navigateToItem=(action 'navigateToItem')
@@ -69,18 +64,6 @@
                 class=(if item.isSelected 'selected')
                 selectMultiple=(action 'selectMultiple')
             }}
-            <hr>
-        {{/ember-collection}}
-         -->
-        {{#each items as |item|}}
-        {{file-browser-item
-            item=item
-            navigateToItem=(action 'navigateToItem')
-            selectItem=(action 'selectItem')
-            openItem=(action 'openItem')
-            class=(if item.isSelected 'selected')
-            selectMultiple=(action 'selectMultiple')
-        }}
         {{/each}}
         {{#unless itemsLoaded}}
             {{fa-icon 'spinner' size=3 pulse=true}}
