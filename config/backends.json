@@ -55,7 +55,7 @@
         "helpUrl": "http://help.osf.io",
         "cookieLoginUrl": "https://accounts.osf.io/login",
         "oauthUrl": "https://accounts.osf.io/oauth2/authorize",
-        "shareBaseUrl": "https://share.osf.io",
+        "shareBaseUrl": "https://share.osf.io/",
         "shareApiUrl": "https://share.osf.io/api/v2",
         "shareSearchUrl": "https://share.osf.io/api/v2/search/creativeworks/_search"
     },
