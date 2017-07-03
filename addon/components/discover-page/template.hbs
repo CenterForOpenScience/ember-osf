@@ -40,7 +40,9 @@
                 {{search-help-modal isOpen=showLuceneHelp}}
 
                 {{!NUMBER OF SEARCHABLE RESULTS}}
-                {{total-share-results}}
+                {{#if (not theme.isProvider)}}
+                    {{total-share-results}}
+                {{/if}}
             </div>
         </div>
 
