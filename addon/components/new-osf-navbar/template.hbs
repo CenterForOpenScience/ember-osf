@@ -48,12 +48,12 @@
                             {{!SERVICE LINK}}
                             <li>
                                 <a href="{{navLink.href}}">
-                                    {{#if (eq navLink.name (t 'eosf.navbar.addAPreprint'))}}
+                                    {{#if (eq navLink.type 'addAPreprint')}}
                                         <span class="hidden-xs hidden-sm">
-                                            {{t 'eosf.navbar.add'}}
+                                            {{navLink.name}}
                                         </span>
                                         <span class="hidden-md hidden-lg hidden-xl">
-                                            {{navLink.name}}
+                                            {{t 'eosf.navbar.add'}}
                                         </span>
                                     {{else}}
                                         {{navLink.name}}
