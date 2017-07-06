@@ -109,8 +109,11 @@ export default Ember.Component.extend({
         this.set('itemWidth', containerWidth);
     }),
     items: Ember.computed('_items', 'filter', function() {
+        //look at ways to use the api to filter
         return this.get('filter') ? this.get('_items').filter(i => i.get('name').indexOf(this.get('filter')) !== -1) : this.get('_items');
     }),
+    //infinite scrolling
+    //typeahead of filtering with only a single page load, lazy loading of the pages
     actions: {
         selectItem(item) {
             if (this.get('selectedItems.length')) {
