@@ -390,7 +390,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     buildLockedQueryBody(lockedParams) {
         /**
          *  For PREPRINTS, REGISTRIES, RETRACTION WATCH - services where portion of query is restricted.
-         *  Builds the locked portion of the query.  For example, in preprints, types=['preprint', 'thesis']
+         *  Builds the locked portion of the query.  For example, in preprints, type=preprint
          *  is something that cannot be modified by the user.
          *
          *  @method buildLockedQueryBody
@@ -406,9 +406,10 @@ export default Ember.Component.extend(Analytics, hostAppName, {
             } else if (key === 'contributors') {
                 queryKey = 'lists.contributors.name';
             }
+
             query[queryKey] = lockedParams[key];
             queryBody.push({
-                terms: query
+                term: query
             });
         });
         return queryBody;
@@ -442,7 +443,67 @@ export default Ember.Component.extend(Analytics, hostAppName, {
             jqDeferred.done((value) => resolve(value));
         })
     },
-    getQueryBody() {
+    getPreprintSources(){
+        var getProvidersPayload = '{"from": 0,"query": {"bool": {"must": {"query_string": {"query": "*"}}, "filter": [{"term": {"types": "preprint"}}]}},"aggregations": {"sources": {"terms": {"field": "sources","size": 200}}}}';
+        const themeProvider = this.get('themeProvider');
+
+        //Grab all share preprint providers
+        let sources = Ember.$.ajax({
+                url: this.get('searchUrl'),
+                crossDomain: true,
+                type: 'POST',
+                contentType: 'application/json',
+                data: getProvidersPayload
+        }).then(results => {
+            const shareSources = results.aggregations.sources.buckets.map(
+                item => item.key);
+
+            //Grab OSF providers
+            let osfProviderIds = [themeProvider.get('name')];
+            let osfProviderSources = [themeProvider.get('shareSource') || themeProvider.get('name')];
+            this.get('fetchedProviders').forEach(provider => {
+                osfProviderIds.push(provider.get('name'));
+                osfProviderSources.push(provider.get('shareSource') || provider.get('name'));
+            });
+            // Filter out OSF provider names and repeats
+            const providers = shareSources
+                    .filter(source => !osfProviderIds.includes(source) && !osfProviderSources.includes(source));
+            return providers.concat(osfProviderSources);
+        });
+        return sources;
+    },
+    buildQueryBody(filters){
+        let query = {
+            query_string: {
+                query: this.get('q') || '*'
+            }
+        };
+        if (filters.length) {
+            query = {
+                bool: {
+                    must: query,
+                    filter: filters
+                }
+            };
+        }
+
+        let page = this.get('page');
+        let queryBody = {
+            query,
+            from: (page - 1) * this.get('size')
+        };
+        if (this.get('sort')) {
+            let sortBy = {};
+            sortBy[this.get('sort').replace(/^-/, '')] = this.get('sort')[0] === '-' ? 'desc' : 'asc';
+            queryBody.sort = sortBy;
+        }
+        if (page === 1 || this.get('firstLoad')) {
+            queryBody.aggregations = this.get('elasticAggregations');
+        }
+
+        return queryBody;
+    },
+    getQueryBody(){
         /**
          * Builds query body to send to SHARE from a combination of locked Params, facetFilters and activeFilters
          *
@@ -497,6 +558,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
                 });
             }
         });
+
         // For PREPRINTS and REGISTRIES. If theme.isProvider, add provider(s) to query body
         if (this.get('theme.isProvider') && this.get('themeProvider.name') !== null) {
             const themeProvider = this.get('themeProvider');
@@ -509,35 +571,21 @@ export default Ember.Component.extend(Analytics, hostAppName, {
                 }
             });
         }
-        let query = {
-            query_string: {
-                query: this.get('q') || '*'
-            }
-        };
-        if (filters.length) {
-            query = {
-                bool: {
-                    must: query,
-                    filter: filters
-                }
-            };
-        }
-        let page = this.get('page');
-        let queryBody = {
-            query,
-            from: (page - 1) * this.get('size')
-        };
-        if (this.get('sort')) {
-            let sortBy = {};
-            sortBy[this.get('sort').replace(/^-/, '')] = this.get('sort')[0] === '-' ? 'desc' : 'asc';
-            queryBody.sort = sortBy;
-        }
-        if (page === 1 || this.get('firstLoad')) {
-            queryBody.aggregations = this.get('elasticAggregations');
-        }
 
-        this.set('displayQueryBody', { query });
-        return this.set('queryBody', queryBody);
+        if (this.get('themeProvider.id') === 'osf') {
+            let queryBody = this.getPreprintSources().then(sources => {
+                filters.push({
+                    terms: {
+                        sources: sources
+                    }
+                });
+                return this.buildQueryBody(filters)
+            });
+
+            return Promise.resolve(queryBody);
+        } else {
+            return Promise.resolve(this.buildQueryBody(filters));
+        }
     },
     init() {
         //TODO Sort initial results on date_modified
@@ -549,14 +597,31 @@ export default Ember.Component.extend(Analytics, hostAppName, {
         this.loadPage();
     },
     loadPage() {
-        let queryBody = JSON.stringify(this.getQueryBody());
         this.set('loading', true);
-        let jqDeferred = Ember.$.ajax({
-            url: this.get('searchUrl'),
-            crossDomain: true,
-            type: 'POST',
-            contentType: 'application/json',
-            data: queryBody
+        this.getQueryBody().then(body => {
+            return JSON.stringify(body);
+        }).then(queryBody => {
+            return Ember.$.ajax({
+                url: this.get('searchUrl'),
+                crossDomain: true,
+                type: 'POST',
+                contentType: 'application/json',
+                data: queryBody
+            }).fail((errorResponse) => {
+                this.setProperties({
+                loading: false,
+                firstLoad: false,
+                numberOfResults: 0,
+                results: []
+                });
+                if (errorResponse.status === 400) {
+                    // If issue with search query, for example, invalid lucene search syntax
+                    this.set('queryError', true);
+                } else {
+                    // SHARE is Down
+                    this.set('shareDown', true);
+                }
+            });
         }).then((json) => {
             if (this.isDestroyed || this.isDestroying) return;
             let results = json.hits.hits.map(hit => {
@@ -621,24 +686,6 @@ export default Ember.Component.extend(Analytics, hostAppName, {
             if (this.get('totalPages') && this.get('totalPages') < this.get('page')) {
                 this.search();
             }
-        }).fail((errorResponse) => {
-            this.setProperties({
-                loading: false,
-                firstLoad: false,
-                numberOfResults: 0,
-                results: []
-            });
-            if (errorResponse.status === 400) {
-                // If issue with search query, for example, invalid lucene search syntax
-                this.set('queryError', true);
-            } else {
-                // SHARE is Down
-                this.set('shareDown', true);
-            }
-        });
-        return new Ember.RSVP.Promise((resolve, reject) => {
-            jqDeferred.done((value) => resolve(value));
-            jqDeferred.fail((reason) => reject(reason));
         });
     },
     scrollToResults() {
