@@ -108,9 +108,9 @@ export default Ember.Component.extend({
         let containerWidth = this.$().width();
         this.set('itemWidth', containerWidth);
     }),
-    items: Ember.computed('_items', 'filter', function() {
+    items: Ember.computed('_items', 'textValue', 'filtering', function() {
         //look at ways to use the api to filter
-        return this.get('filter') ? this.get('_items').filter(i => i.get('name').indexOf(this.get('filter')) !== -1) : this.get('_items');
+        return this.get('textValue') && this.get('filtering') ? this.get('_items').filter(i => i.get('name').indexOf(this.get('textValue')) !== -1) : this.get('_items');
     }),
     //infinite scrolling
     //typeahead of filtering with only a single page load, lazy loading of the pages
@@ -157,17 +157,19 @@ export default Ember.Component.extend({
             window.location = downloadLink;
         },
         deleteItem(){
-            let url = this.get('selectedItems.firstObject.links.download');
+            let item = this.get('selectedItems.firstObject')
+            let url = item.get('links.download');
+
             authenticatedAJAX({
                 url: url,
                 type: 'DELETE',
                 xhrFields: {withCredentials: true}
             })
-            .done(function(data) {
-                console.log(data);
+            .done(data => {
+                this.get('items').removeObject(item);
             })
             .fail(function(data){
-                console.log(data);
+                console.warn('Failed to upload ');
             });
         },
         deleteItems() {
@@ -190,10 +192,16 @@ export default Ember.Component.extend({
             let sorted = this.get('_items').sortBy(by);
             this.set('_items', order === 'asc' ? sorted : sorted.reverse());
         },
-        openFilter() {
-            this.set('filter', null);
-            this.toggleProperty('filtering');
+        openText(which) {
+            this.set('textValue', null);
+            this.set(which, true);
         },
+        closeText() {
+            this.set('textValue', null);
+            this.set('filtering', false);
+            this.set('renaming', false);
+        },
+
         navigateToItem(item) {
             let breadcrumbs = this.get('breadcrumbs');
             let index = breadcrumbs.indexOf(item);
