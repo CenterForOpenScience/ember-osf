@@ -89,6 +89,7 @@ export default Ember.Component.extend({
     classNames: ['file-browser'],
     breadcrumbs: null,
     filtering: false,
+    renaming: false,
     rootItem: Ember.computed('breadcrumbs.[]', {
         get() {
             return this.get('breadcrumbs.firstObject');
@@ -111,6 +112,9 @@ export default Ember.Component.extend({
     items: Ember.computed('_items', 'textValue', 'filtering', function() {
         //look at ways to use the api to filter
         return this.get('textValue') && this.get('filtering') ? this.get('_items').filter(i => i.get('name').indexOf(this.get('textValue')) !== -1) : this.get('_items');
+    }),
+    textFieldOpen: Ember.computed('filtering', 'renaming', function() {
+        return this.get('filtering') ? 'filtering' : (this.get('renaming') ? 'renaming' : false);
     }),
     //infinite scrolling
     //typeahead of filtering with only a single page load, lazy loading of the pages
@@ -192,14 +196,9 @@ export default Ember.Component.extend({
             let sorted = this.get('_items').sortBy(by);
             this.set('_items', order === 'asc' ? sorted : sorted.reverse());
         },
-        openText(which) {
+        toggleText(which) {
             this.set('textValue', null);
-            this.set(which, true);
-        },
-        closeText() {
-            this.set('textValue', null);
-            this.set('filtering', false);
-            this.set('renaming', false);
+            this.toggleProperty(which);
         },
 
         navigateToItem(item) {

@@ -1,10 +1,10 @@
 <div class="actions-header row" style="margin-bottom:10px">
-    {{#if (or filtering renaming)}}
+    {{#if textFieldOpen}}
         <div class="col-xs-9 filter-input">
             {{input placeholder=(if filtering "Filter" selectedItems.firstObject.itemName) class='form-control' value=textValue type="text"}}
         </div>
         <div class='col-xs-3'>
-            <button {{action 'closeText'}} class='btn pull-right'>{{fa-icon "times"}}</button>
+            <button {{action 'toggleText' textFieldOpen}} class='btn pull-right'>{{fa-icon "times"}}</button>
             {{#if renaming}}
                 <button {{action 'rename'}} class='btn pull-right'>{{fa-icon "pencil"}}</button>
             {{/if}}
@@ -15,7 +15,7 @@
                 {{! TODO: show available actions for selected files }}
                 {{#if (eq selectedItems.length 1)}}
                     <button {{action 'downloadItem'}} class='btn text-success'>{{fa-icon "download"}} Download</button>
-                    <button {{action 'openText' 'renaming'}} class='btn text-success'>{{fa-icon "pencil"}} Rename</button>
+                    <button {{action 'toggleText' 'renaming'}} class='btn text-success'>{{fa-icon "pencil"}} Rename</button>
                     <button {{action 'viewItem'}} class='btn text-success'>{{fa-icon "file-o"}} View</button>
                     <button {{action 'deleteItem'}} class='btn text-danger'>{{fa-icon "trash"}} Delete</button>
                 {{else}}
@@ -25,7 +25,7 @@
                 <button {{action ''}} class='btn text-success'>{{fa-icon "upload"}} Upload</button>
                 <button {{action ''}} class='btn text-success'>{{fa-icon "download"}} Download as zip</button>
             {{/if}}
-            <button {{action 'openText' 'filtering'}} class='btn text-primary'>{{fa-icon "search"}} Filter</button>
+            <button {{action 'toggleText' 'filtering'}} class='btn text-primary'>{{fa-icon "search"}} Filter</button>
             <button {{action ''}} class='btn text-primary'>{{fa-icon "info"}}</button>
         </div>
     {{/if}}
@@ -57,6 +57,8 @@
 </div>
 
 <div class='file-browser-list'>
+    <div id='#shading'></div>
+    <div class='items'>
         {{#each items as |item|}}
             {{file-browser-item
                 item=item
@@ -70,4 +72,5 @@
         {{#unless itemsLoaded}}
             {{fa-icon 'spinner' size=3 pulse=true}}
         {{/unless}}
+    </div>
 </div>
