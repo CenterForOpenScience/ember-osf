@@ -42,7 +42,7 @@
             {{#if subjects}}
                 <div class="m-t-sm">
                     {{#each subjects as |subject|}}
-                        <span role="button" class="subject-preview pointer" onclick={{action updateFilters 'subjects' subject.text}}>
+                        <span role="button" class="subject-preview pointer" onclick={{action updateFilters 'subjects' (or subject.value subject.text)}}>
                             {{subject.text}}
                         </span>
                     {{/each}}

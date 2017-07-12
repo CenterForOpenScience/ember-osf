@@ -86,7 +86,22 @@ export default Ember.Component.extend(Analytics, hostAppName, {
         return (this.get('result.tags') || []).slice(0, this.get('maxTags'));
     }),
     subjects: Ember.computed('result.subjects', function() {
-        return (this.get('result.subjects') || []).slice(0, this.get('maxSubjects'));
+        // TODO: how to check if this app actually uses custom taxonomies
+        let subs = this.get('result.subjects');
+        let uniqueSubs = {}
+        subs.map(e => {
+            let tax, subjects;
+            [tax, ...subjects] = e.text.split('/');
+            for (var i = 0; i < subjects.length; i++) {
+                uniqueSubs[subjects[i]] = {
+                    text: subjects[i],
+                    value: [tax, ...subjects.slice(0, i+1)].join('/'),
+                    taxonomy: tax
+                }
+            }
+        });
+        uniqueSubs = Object.keys(uniqueSubs).map(e => uniqueSubs[e]);
+        return (uniqueSubs || []).slice(0, this.get('maxSubjects'));
     }),
     extraSubjects: Ember.computed('result.subjects', function() {
         return (this.get('result.subjects') || []).slice(this.get('maxSubjects'));
