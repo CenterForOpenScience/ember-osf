@@ -46,7 +46,20 @@
                             </li>
                         {{else}}
                             {{!SERVICE LINK}}
-                            <li><a href="{{navLink.href}}"> {{navLink.name}}</a></li>
+                            <li>
+                                <a href="{{navLink.href}}">
+                                    {{#if (eq navLink.type 'addAPreprint')}}
+                                        <span class="hidden-xs hidden-sm">
+                                            {{navLink.name}}
+                                        </span>
+                                        <span class="hidden-md hidden-lg hidden-xl">
+                                            {{t 'eosf.navbar.add'}}
+                                        </span>
+                                    {{else}}
+                                        {{navLink.name}}
+                                    {{/if}}
+                                </a>
+                            </li>
                         {{/if}}
                     {{/each}}
                     {{!AUTH NAVBAR}}
