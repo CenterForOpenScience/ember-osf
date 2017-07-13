@@ -17,16 +17,16 @@
                     <button {{action 'downloadItem'}} class='btn text-success'>{{fa-icon "download"}} Download</button>
                     <button {{action 'toggleText' 'renaming'}} class='btn text-success'>{{fa-icon "pencil"}} Rename</button>
                     <button {{action 'viewItem'}} class='btn text-success'>{{fa-icon "file-o"}} View</button>
-                    <button {{action 'deleteItem'}} class='btn text-danger'>{{fa-icon "trash"}} Delete</button>
+                    <button {{action 'openModal' 'delete'}} class='btn text-danger'>{{fa-icon "trash"}} Delete</button>
                 {{else}}
-                    <button {{action 'deleteItems'}} class='btn text-danger'>{{fa-icon "trash"}} Delete multiple</button>
+                    <button {{action 'openModal' 'deleteMultiple'}} class='btn text-danger'>{{fa-icon "trash"}} Delete multiple</button>
                 {{/if}}
             {{else}}
                 <button {{action ''}} class='btn text-success'>{{fa-icon "upload"}} Upload</button>
                 <button {{action ''}} class='btn text-success'>{{fa-icon "download"}} Download as zip</button>
             {{/if}}
             <button {{action 'toggleText' 'filtering'}} class='btn text-primary'>{{fa-icon "search"}} Filter</button>
-            <button {{action ''}} class='btn text-primary'>{{fa-icon "info"}}</button>
+            <button {{action 'openModal' 'info'}} class='btn text-primary'>{{fa-icon "info"}}</button>
         </div>
     {{/if}}
 </div>
@@ -57,7 +57,64 @@
 </div>
 
 <div class='file-browser-list'>
-    <div id='#shading'></div>
+    {{#if modalOpen}}
+        <div id="modal">
+            <div class="modal-content">
+                {{! modalId }}
+                {{#if (eq modalOpen 'info')}}
+                    <div class="modal-header">
+                        <h3 class="modal-title break-word">How to Use the File Browser</h3>
+                        <button {{action 'closeModal'}} class="close">
+                            {{fa-icon "times"}}
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p><b>Select rows:</b> Click on a row (outside the add-on, file, or folder name) to show further actions in the toolbar. Use Command or Shift keys to select multiple files.</p>
+                        <p><b>Open files:</b> Click a file name to go to view the file in the OSF.</p>
+                        <p><b>Open files in new tab:</b> Press Command (Ctrl in Windows) and click a file name to open it in a new tab.</p>
+                        <p><b>Download as zip:</b> Click on the row of an add-on or folder and click the Download as Zip button in the toolbar. <i>Not available for all storage add-ons.</i></p>
+                        <p><b>Copy files:</b> Press Option (Alt in Windows) while dragging a file to a new folder or component. <i>Only for contributors with write access.</i></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button {{action 'closeModal'}} class='btn modal-btn btn-secondary'>Close</button>
+                    </div>
+                {{else if (eq modalOpen 'delete')}}
+                    <div class="modal-header">
+                        <h3 class="modal-title break-word">Delete "{{selectedItems.firstObject.itemName}}"?</h3>
+                        <button {{action 'closeModal'}} class="close">
+                            {{fa-icon "times"}}
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>This action is irreversible.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href='' {{action 'closeModal'}} class='btn modal-btn btn-default'>Cancel</a>
+                        <a href='' {{action 'closeModal' 'deleteItem'}} class='btn modal-btn btn-danger'>Delete</a>
+                    </div>
+                {{else if (eq modalOpen 'deleteMultiple')}}
+                    <div class="modal-header">
+                        <h3 class="modal-title break-word">Delete multiple?</h3>
+                        <button {{action 'closeModal'}} class="close">
+                            {{fa-icon "times"}}
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>This action is irreversible.</p>
+                        {{#each selectedItems as | item |}}
+                            <b>{{item.itemName}}</b>
+                            <hr style='margin-top: 5px'>
+                        {{/each}}
+                    </div>
+                    <div class="modal-footer">
+                        <a href='' {{action 'closeModal'}} class='btn modal-btn btn-default'>Cancel</a>
+                        <a href='' {{action 'closeModal' 'deleteItem'}} class='btn modal-btn btn-danger'>Delete</a>
+                    </div>
+                {{/if}}
+            </div>
+        </div>
+        <div class='shade'></div>
+    {{/if}}
     <div class='items'>
         {{#each items as |item|}}
             {{file-browser-item

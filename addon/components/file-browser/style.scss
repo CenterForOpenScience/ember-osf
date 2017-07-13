@@ -14,7 +14,7 @@
         margin-bottom: 0;
     }
 
-    .btn {
+    .btn:not(.modal-btn) {
         padding: 5px 10px;
         display: inline-block;
         box-shadow: 0 0 2px #BBB;
@@ -117,5 +117,17 @@
         display: inline-block;
         cursor: pointer;
         text-align: right;
+    }
+
+    #modal {
+        width: 75%;
+        height: 80%;
+        z-index: 2;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
     }
 }

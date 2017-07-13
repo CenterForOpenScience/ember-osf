@@ -100,6 +100,7 @@ export default Ember.Component.extend({
         }
     }),
     filter: null,
+    modalOpen: false,
     atRoot: Ember.computed.equal('breadcrumbs.length', 1),
     currentParent: Ember.computed.readOnly('breadcrumbs.lastObject'),
     _items: Ember.computed.reads('currentParent.childItems.firstObject.childItems'),
@@ -174,7 +175,7 @@ export default Ember.Component.extend({
             })
             .fail(function(data){
                 console.warn('Failed to upload ');
-            });
+            }).then(() => this.set('modalOpen', false));
         },
         deleteItems() {
             for (var item_ of this.get('selectedItems')) {
@@ -200,7 +201,12 @@ export default Ember.Component.extend({
             this.set('textValue', null);
             this.toggleProperty(which);
         },
-
+        openModal(modalType) {
+            this.set('modalOpen', modalType);
+        },
+        closeModal(pre) {
+            this.set('modalOpen', false);
+        },
         navigateToItem(item) {
             let breadcrumbs = this.get('breadcrumbs');
             let index = breadcrumbs.indexOf(item);
