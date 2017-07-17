@@ -91,7 +91,7 @@ export default Ember.Component.extend({
     dropzoneOptions: {
         createImageThumbnails: false,
         method: 'PUT',
-        withCredentials: true
+        withCredentials: true,
     },
     currentUser: Ember.inject.service(),
     uploadUrl: null,

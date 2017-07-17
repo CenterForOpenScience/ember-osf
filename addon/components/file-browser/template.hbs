@@ -1,3 +1,12 @@
+{{#dropzone-widget
+    buildUrl=(action 'buildUrl')
+    options=dropzoneOptions
+    addedfile=(action 'addedFile')
+    uploadprogress=(action 'uploadProgress')
+    success=(action 'success')
+    error=(action 'error')
+    dropzone=false
+}}
 <div class="actions-header row" style="margin-bottom:10px">
     {{#if textFieldOpen}}
         <div class="col-xs-9 filter-input">
@@ -22,7 +31,7 @@
                     <button {{action 'openModal' 'deleteMultiple'}} class='btn text-danger'>{{fa-icon "trash"}} Delete multiple</button>
                 {{/if}}
             {{else}}
-                <button id="upload-button" class='btn text-success'>{{fa-icon "upload"}} Upload</button>
+                <button class='dz-message btn text-success'>{{fa-icon "upload"}} Upload</button>
                 <button class='btn text-success'>{{fa-icon "download"}} Download as zip</button>
             {{/if}}
             <button {{action 'toggleText' 'filtering'}} class='btn text-primary'>{{fa-icon "search"}} Filter</button>
@@ -56,16 +65,6 @@
     </div>
 </div>
 
-<div id='previewTemplate' class='hidden'></div>
-{{#dropzone-widget
-    buildUrl=(action 'buildUrl')
-    options=dropzoneOptions
-    addedfile=(action 'addedFile')
-    uploadprogress=(action 'uploadProgress')
-    success=(action 'success')
-    error=(action 'error')
-    dropzone=false
-}}
     <div class='file-browser-list'>
         {{#if modalOpen}}
             <div id="modal">
@@ -155,6 +154,7 @@
             {{#unless itemsLoaded}}
                 {{fa-icon 'spinner' size=3 pulse=true}}
             {{/unless}}
+
         </div>
     </div>
 {{/dropzone-widget}}
