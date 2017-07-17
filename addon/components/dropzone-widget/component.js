@@ -29,7 +29,8 @@ import layout from './template';
 export default Ember.Component.extend({
     layout,
     session: Ember.inject.service(),
-    classNames: ['dropzone'],
+    classNamesBindings: ['dropzone'],
+    dropzone: true,
     didInsertElement() {
         let preUpload = this.get('preUpload');
         let dropzoneOptions = this.get('options') || {};

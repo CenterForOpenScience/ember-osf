@@ -86,10 +86,26 @@ function unwrapItem(item) {
 export default Ember.Component.extend({
     // TODO: Improve documentation in the future
     layout,
+    store: Ember.inject.service(),
     classNames: ['file-browser'],
+    dropzoneOptions: {
+        createImageThumbnails: false,
+        method: 'PUT',
+        withCredentials: true
+    },
+    currentUser: Ember.inject.service(),
+    uploadUrl: null,
+    didReceiveAttrs() {
+        this.get('currentUser').load().then(user => {
+            //Hopefully this is done by the time user can upload. Alternatives include adding a loading indicator to the upload button or
+            //changin dropzone widget code to take promises
+            this.set('uploadUrl', user.get('links.relationships.files.links.upload.href'));
+        })
+    },
     breadcrumbs: null,
     filtering: false,
     renaming: false,
+    uploading: Ember.A(),
     rootItem: Ember.computed('breadcrumbs.[]', {
         get() {
             return this.get('breadcrumbs.firstObject');
@@ -120,6 +136,30 @@ export default Ember.Component.extend({
     //infinite scrolling
     //typeahead of filtering with only a single page load, lazy loading of the pages
     actions: {
+        //dropzone listeners
+        addedFile(_, __, file) {
+            this.get('uploading').pushObject(file);
+        },
+        uploadProgress(_, __, file, progress) {
+            Ember.$('#uploading-' + file.size).css('width', progress + '%');
+        },
+        error(_, __, file, response) {
+            this.get('uploading').removeObject(file);
+            //send warning on failure
+            //TODO failure sucess messaging engine
+        },
+        success(_, __, file, response) {
+            this.get('uploading').removeObject(file);
+            response.data.type = 'file'; //
+
+            let item = this.get('store').push(response)
+            this.get('_items').pushObject(item);
+        },
+        buildUrl(files) {
+            return this.get('uploadUrl') + '?' + Ember.$.param({
+                name: files[0].name
+            });
+        },
         selectItem(item) {
             if (this.get('selectedItems.length')) {
                 for (var item_ of this.get('selectedItems')) {
