@@ -100,6 +100,8 @@ export default Ember.Component.extend({
             //Hopefully this is done by the time user can upload. Alternatives include adding a loading indicator to the upload button or
             //changin dropzone widget code to take promises
             this.set('uploadUrl', user.get('links.relationships.files.links.upload.href'));
+            loadAll(user, 'files', this.get('_items'));
+
         })
     },
     breadcrumbs: null,
@@ -119,8 +121,8 @@ export default Ember.Component.extend({
     modalOpen: false,
     atRoot: Ember.computed.equal('breadcrumbs.length', 1),
     currentParent: Ember.computed.readOnly('breadcrumbs.lastObject'),
-    _items: Ember.computed.reads('currentParent.childItems.firstObject.childItems'),
-    itemsLoaded: Ember.computed.readOnly('currentParent.childItemsLoaded'),
+    _items: Ember.A(),//Ember.computed.reads('currentParent.childItems.firstObject.childItems'),
+    itemsLoaded: true,//Ember.computed.readOnly('currentParent.childItemsLoaded'),
     selectedItems: Ember.computed.filterBy('items', 'isSelected', true),
     loadedChanged: Ember.observer('itemsLoaded', function() {
         let containerWidth = this.$().width();
@@ -142,6 +144,12 @@ export default Ember.Component.extend({
         },
         uploadProgress(_, __, file, progress) {
             Ember.$('#uploading-' + file.size).css('width', progress + '%');
+        },
+        dragEnter() {
+            this.set('dropping', true);
+        },
+        dragLeave() {
+            this.set('dropping', false);
         },
         error(_, __, file, response) {
             this.get('uploading').removeObject(file);

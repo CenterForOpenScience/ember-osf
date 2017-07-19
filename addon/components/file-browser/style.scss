@@ -8,6 +8,29 @@
         display: none;
     }
 
+    .upload-drop {
+        padding: 50px;
+        margin: 50px;
+        text-align: center;
+        font-size: 200%;
+        color: white;
+        .upload-text {
+            margin: 20px;
+        }
+    }
+
+    .file-placeholder {
+        padding: 50px;
+        margin: 50px;
+        background: #f5f5f5;
+        text-align: center;
+        border: 5px dashed #c7c7c7;
+        .file-placeholder-text {
+            margin: 20px;
+            font-size: 200%;
+        }
+    }
+
     a {
         cursor: pointer;
     }

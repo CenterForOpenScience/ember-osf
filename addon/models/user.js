@@ -30,6 +30,8 @@ export default OsfModel.extend({
     nodes: DS.hasMany('nodes'),
     registrations: DS.hasMany('registrations'),
 
+    files: DS.hasMany('files'),
+
     affiliatedInstitutions: DS.hasMany('institutions', {
         inverse: 'users'
     }),

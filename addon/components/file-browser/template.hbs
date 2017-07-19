@@ -6,6 +6,8 @@
     success=(action 'success')
     error=(action 'error')
     dropzone=false
+    dragenter=(action 'dragEnter')
+    dragleave=(action 'dragLeave')
 }}
 <div class="actions-header row" style="margin-bottom:10px">
     {{#if textFieldOpen}}
@@ -64,8 +66,8 @@
         {{fa-icon 'chevron-down' click=(action 'sort' 'dateModified' 'des')}}
     </div>
 </div>
-
-    <div class='file-browser-list'>
+<div class='file-browser-list'>
+    {{#if (or items.length uploading.length)}}
         {{#if modalOpen}}
             <div id="modal">
                 <div class="modal-content">
@@ -122,7 +124,12 @@
                     {{/if}}
                 </div>
             </div>
-            <div class='shade'></div>
+        {{/if}}
+        {{#if (or modalOpen dropping)}}
+            <div class='shade'>{{#if dropping}}<div class='upload-drop'>
+                <div class='upload-text'>{{fa-icon 'upload' size=5}}</div>
+                <div class='upload-text'>Drop file to upload</div></div>
+            {{/if}}</div>
         {{/if}}
         <div class='items'>
             {{#each uploading as |file|}}
@@ -154,7 +161,12 @@
             {{#unless itemsLoaded}}
                 {{fa-icon 'spinner' size=3 pulse=true}}
             {{/unless}}
-
         </div>
-    </div>
+    {{else}}
+        <div class='file-placeholder'>
+            <div>{{fa-icon 'upload' size=5}}</div>
+            <div class='file-placeholder-text'>Drop files here to upload</div>
+        </div>
+    {{/if}}
+</div>
 {{/dropzone-widget}}

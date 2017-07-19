@@ -35,6 +35,7 @@ export default Ember.Component.extend({
         let preUpload = this.get('preUpload');
         let dropzoneOptions = this.get('options') || {};
 
+        // Needs to be refactored if we want to support multiple file uploads
         let drop = new Dropzone(`#${this.elementId}`, {
             url: file => typeof this.get('buildUrl') === 'function' ? this.get('buildUrl')(file) : this.get('buildUrl'),
             autoProcessQueue: false,
