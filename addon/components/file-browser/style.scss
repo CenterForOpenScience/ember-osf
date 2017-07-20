@@ -74,6 +74,8 @@
 
     .items {
         z-index: 0;
+        height: 100%;
+        overflow: scroll;
     }
 
     .shade {
@@ -101,7 +103,11 @@
 
     .file-browser-item {
         height: 35px;
-
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
         // padding-right: 5px;
         // padding-left: 5px;
         // padding: 8px 15px;
