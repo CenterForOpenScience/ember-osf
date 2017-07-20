@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.5.0</em>
+            <em>API Docs for: 0.6.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -42,6 +42,7 @@
                                 <li><a href="../classes/Analytics.html">Analytics</a></li>
                                 <li><a href="../classes/auth.html">auth</a></li>
                                 <li><a href="../classes/author-link.html">author-link</a></li>
+                                <li><a href="../classes/buildSecondaryNavLinks.html">buildSecondaryNavLinks</a></li>
                                 <li><a href="../classes/CasAuthenticatedRouteMixin.html">CasAuthenticatedRouteMixin</a></li>
                                 <li><a href="../classes/Citation.html">Citation</a></li>
                                 <li><a href="../classes/citation-widget.html">citation-widget</a></li>
@@ -61,7 +62,6 @@
                                 <li><a href="../classes/elem-id.html">elem-id</a></li>
                                 <li><a href="../classes/eosf-project-nav.html">eosf-project-nav</a></li>
                                 <li><a href="../classes/faceted-search.html">faceted-search</a></li>
-                                <li><a href="../classes/FetchAllRouteMixin.html">FetchAllRouteMixin</a></li>
                                 <li><a href="../classes/File.html">File</a></li>
                                 <li><a href="../classes/file-browser.html">file-browser</a></li>
                                 <li><a href="../classes/file-browser-icon.html">file-browser-icon</a></li>
@@ -79,6 +79,7 @@
                                 <li><a href="../classes/fix-special-char-helper.html">fix-special-char-helper</a></li>
                                 <li><a href="../classes/fixstring.html">fixstring</a></li>
                                 <li><a href="../classes/GenericDataADapter.html">GenericDataADapter</a></li>
+                                <li><a href="../classes/getDisplayName.html">getDisplayName</a></li>
                                 <li><a href="../classes/HostAppNameMixin.html">HostAppNameMixin</a></li>
                                 <li><a href="../classes/ifFilter.html">ifFilter</a></li>
                                 <li><a href="../classes/InfinityCustomMixin.html">InfinityCustomMixin</a></li>
@@ -87,6 +88,7 @@
                                 <li><a href="../classes/Log.html">Log</a></li>
                                 <li><a href="../classes/Metaschema.html">Metaschema</a></li>
                                 <li><a href="../classes/navbar-auth-dropdown.html">navbar-auth-dropdown</a></li>
+                                <li><a href="../classes/new-navbar-auth-dropdown.html">new-navbar-auth-dropdown</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
                                 <li><a href="../classes/NodeActionsMixin.html">NodeActionsMixin</a></li>
                                 <li><a href="../classes/NodeLink.html">NodeLink</a></li>
@@ -96,6 +98,7 @@
                                 <li><a href="../classes/osf-mode-footer.html">osf-mode-footer</a></li>
                                 <li><a href="../classes/osf-navbar.html">osf-navbar</a></li>
                                 <li><a href="../classes/osf-paginator.html">osf-paginator</a></li>
+                                <li><a href="../classes/osf-services.html">osf-services</a></li>
                                 <li><a href="../classes/OsfAdapter.html">OsfAdapter</a></li>
                                 <li><a href="../classes/OsfAgnosticAuthController.html">OsfAgnosticAuthController</a></li>
                                 <li><a href="../classes/OsfAgnosticAuthRoute.html">OsfAgnosticAuthRoute</a></li>
@@ -128,6 +131,7 @@
                                 <li><a href="../classes/search-facet-worktype-hierarchy.html">search-facet-worktype-hierarchy</a></li>
                                 <li><a href="../classes/search-help-modal.html">search-help-modal</a></li>
                                 <li><a href="../classes/search-result.html">search-result</a></li>
+                                <li><a href="../classes/service-links.html">service-links</a></li>
                                 <li><a href="../classes/sign-up.html">sign-up</a></li>
                                 <li><a href="../classes/sortOptionDisplay.html">sortOptionDisplay</a></li>
                                 <li><a href="../classes/TaggableMixin.html">TaggableMixin</a></li>
@@ -231,6 +235,7 @@ can additionally be overridden in your application.</p>
  showActiveFilters=showActiveFilters
  sortOptions=sortOptions
  subject=subject
+ themeProvider=themeProvider
 }}
 </code></pre>
 
@@ -329,6 +334,10 @@ can additionally be overridden in your application.</p>
 
                             </li>
                             <li class="index-item property">
+                                <a href="#property_Preprint provider loaded from theme service. Should be passed from consuming service so it is loaded before SHARE is queried.">Preprint provider loaded from theme service. Should be passed from consuming service so it is loaded before SHARE is queried.</a>
+
+                            </li>
+                            <li class="index-item property">
                                 <a href="#property_provider">provider</a>
 
                             </li>
@@ -417,7 +426,7 @@ can additionally be overridden in your application.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l387"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:387</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l388"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:388</code></a>
         </p>
 
 
@@ -481,7 +490,7 @@ is something that cannot be modified by the user.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l443"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:443</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l444"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:444</code></a>
         </p>
 
 
@@ -521,7 +530,7 @@ is something that cannot be modified by the user.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l67"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:67</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l68"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:68</code></a>
         </p>
 
 
@@ -547,7 +556,7 @@ is something that cannot be modified by the user.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l73"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:73</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l74"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:74</code></a>
         </p>
 
 
@@ -573,7 +582,7 @@ is something that cannot be modified by the user.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l79"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:79</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l80"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:80</code></a>
         </p>
 
 
@@ -598,7 +607,7 @@ is something that cannot be modified by the user.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l84"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:84</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l85"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:85</code></a>
         </p>
 
 
@@ -623,7 +632,7 @@ is something that cannot be modified by the user.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l89"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:89</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l90"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:90</code></a>
         </p>
 
 
@@ -649,7 +658,7 @@ is something that cannot be modified by the user.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l95"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:95</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l96"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:96</code></a>
         </p>
 
 
@@ -685,7 +694,7 @@ title (search-facet heading in UI), and component (name of component).</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l122"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:122</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l123"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:123</code></a>
         </p>
 
 
@@ -710,7 +719,7 @@ title (search-facet heading in UI), and component (name of component).</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l127"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:127</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l128"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:128</code></a>
         </p>
 
 
@@ -735,7 +744,7 @@ title (search-facet heading in UI), and component (name of component).</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l132"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:132</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l133"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:133</code></a>
         </p>
 
 
@@ -760,7 +769,7 @@ title (search-facet heading in UI), and component (name of component).</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l137"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:137</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l138"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:138</code></a>
         </p>
 
 
@@ -786,7 +795,7 @@ title (search-facet heading in UI), and component (name of component).</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l143"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:143</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l144"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:144</code></a>
         </p>
 
 
@@ -812,7 +821,7 @@ title (search-facet heading in UI), and component (name of component).</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l150"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:150</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l151"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:151</code></a>
         </p>
 
 
@@ -838,7 +847,7 @@ title (search-facet heading in UI), and component (name of component).</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l157"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:157</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l158"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:158</code></a>
         </p>
 
 
@@ -863,7 +872,7 @@ title (search-facet heading in UI), and component (name of component).</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l164"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:164</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l165"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:165</code></a>
         </p>
 
 
@@ -889,7 +898,7 @@ title (search-facet heading in UI), and component (name of component).</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l170"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:170</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l171"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:171</code></a>
         </p>
 
 
@@ -904,6 +913,32 @@ title (search-facet heading in UI), and component (name of component).</p>
 
 
 </div>
+<div id="property_Preprint provider loaded from theme service. Should be passed from consuming service so it is loaded before SHARE is queried." class="property item">
+    <h3 class="name"><code>Preprint provider loaded from theme service. Should be passed from consuming service so it is loaded before SHARE is queried.</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_components_discover-page_component.js.html#l290"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:290</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>themeProvider</p>
+
+    </div>
+
+        <p><strong>Default:</strong> &#x27;&#x27;</p>
+
+
+</div>
 <div id="property_provider" class="property item">
     <h3 class="name"><code>provider</code></h3>
     <span class="type"><a href="https://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
@@ -915,7 +950,7 @@ title (search-facet heading in UI), and component (name of component).</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l176"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:176</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l177"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:177</code></a>
         </p>
 
 
@@ -1265,7 +1300,7 @@ title (search-facet heading in UI), and component (name of component).</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l291"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:291</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l297"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:297</code></a>
         </p>
 
 

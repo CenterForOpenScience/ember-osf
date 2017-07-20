@@ -8,6 +8,7 @@ export default OsfModel.extend({
     domainRedirectEnabled: DS.attr('boolean'),
     example: DS.attr('fixstring'),
     advisoryBoard: DS.attr('string'),
+    emailSupport: DS.attr('fixstring'),
     subjectsAcceptable: DS.attr(),
     footerLinks: DS.attr('string'),
     allowSubmissions: DS.attr('boolean'),

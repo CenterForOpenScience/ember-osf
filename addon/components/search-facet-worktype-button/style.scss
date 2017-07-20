@@ -25,9 +25,9 @@
     background-color: white;
     border: .5px solid #ccc;
     border-radius: 10px;
-    padding-left: 8px;
-    padding-right: 8px;
-    margin-left: -9px;
+    padding-left: 6px;
+    padding-right: 6px;
+    margin-left: -7px;
 }
 
 .type-filter-option {
@@ -36,17 +36,15 @@
         background: none;
         border: none;
         display: inline;
-        font: inherit;
         outline:none;
         margin: 0;
         padding: 0;
         outline-offset: 0;
     }
-}
-
-.expand-icon {
-    font-size: 10px;
-    color: dimgray;
-    margin-left: -15px;
-    padding-right: 3px;
+    .expand-icon {
+        font-size: 10px;
+        color: dimgray;
+        margin-left: -18px;
+        margin-right: 6px;
+    }
 }

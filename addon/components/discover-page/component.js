@@ -555,7 +555,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
                     hyperLinks: [// Links that are hyperlinks from hit._source.lists.links
                         {
                             type: 'share',
-                            url: config.OSF.shareBaseUrl + `${hit._source.type}` + '/' + hit._id
+                            url: config.OSF.shareBaseUrl + `${hit._source.type.replace(/ /g,'')}` + '/' + hit._id
                         }
                     ],
                     infoLinks: [], // Links that are not hyperlinks  hit._source.lists.links
@@ -760,17 +760,6 @@ export default Ember.Component.extend(Analytics, hostAppName, {
         toggleShowLuceneHelp() {
             // Toggles display of Lucene Search help modal
             this.toggleProperty('showLuceneHelp');
-        },
-        typing(val, event) {
-             // Fires on keyup in search bar
-             // Ignores all keycodes that don't result in the value changing
-             // 8 == Backspace, 32 == Space
-            if (event.keyCode < 49 && !(event.keyCode === 8 || event.keyCode === 32)) {
-                return;
-            }
-            // Tracks search on keypress, debounced
-            Ember.run.debounce(this, this.trackDebouncedSearch, 3000);
-            this.search();
         },
         updateFilters(filterType, item) {
             // For PREPRINTS and REGISTRIES.  Modifies activeFilters.

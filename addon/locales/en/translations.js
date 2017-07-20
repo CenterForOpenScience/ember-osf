@@ -20,6 +20,7 @@ export default {
             buttonSubmit: 'Create account'
         },
         navbar: {
+            add: 'Add',
             addAPreprint: 'Add a {{preprintWords.preprint}}',
             browse: 'Browse',
             cancelSearch: 'Cancel search',
