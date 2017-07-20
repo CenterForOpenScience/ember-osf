@@ -101,7 +101,7 @@
                         </div>
                         <div class="modal-footer">
                             <a href='' {{action 'closeModal'}} class='btn modal-btn btn-default'>Cancel</a>
-                            <a href='' {{action 'closeModal' 'deleteItem'}} class='btn modal-btn btn-danger'>Delete</a>
+                            <a href='' {{action 'deleteItem'}} class='btn modal-btn btn-danger'>Delete</a>
                         </div>
                     {{else if (eq modalOpen 'deleteMultiple')}}
                         <div class="modal-header">
@@ -119,7 +119,7 @@
                         </div>
                         <div class="modal-footer">
                             <a href='' {{action 'closeModal'}} class='btn modal-btn btn-default'>Cancel</a>
-                            <a href='' {{action 'closeModal' 'deleteItem'}} class='btn modal-btn btn-danger'>Delete</a>
+                            <a href='' {{action 'deleteItems'}} class='btn modal-btn btn-danger'>Delete</a>
                         </div>
                     {{/if}}
                 </div>

@@ -1,0 +1,1 @@
+export { default } from 'ember-osf/components/growl-box/component';

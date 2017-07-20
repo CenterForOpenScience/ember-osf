@@ -135,6 +135,9 @@ export default Ember.Component.extend({
     textFieldOpen: Ember.computed('filtering', 'renaming', function() {
         return this.get('filtering') ? 'filtering' : (this.get('renaming') ? 'renaming' : false);
     }),
+    _error(message) {
+        //send message
+    },
     //infinite scrolling
     //typeahead of filtering with only a single page load, lazy loading of the pages
     actions: {
@@ -149,9 +152,11 @@ export default Ember.Component.extend({
             this.set('dropping', true);
         },
         dragLeave() {
+            //TODO this is not being triggered consistently enough. How fix?
             this.set('dropping', false);
         },
         error(_, __, file, response) {
+            debugger;
             this.get('uploading').removeObject(file);
             //send warning on failure
             //TODO failure sucess messaging engine
@@ -218,11 +223,11 @@ export default Ember.Component.extend({
                 type: 'DELETE',
                 xhrFields: {withCredentials: true}
             })
-            .done(data => {
-                this.get('items').removeObject(item);
+            .success(data => {
+                this.get('_items').removeObject(item);
             })
-            .fail(function(data){
-                console.warn('Failed to upload ');
+            .fail(data => {
+
             }).then(() => this.set('modalOpen', false));
         },
         deleteItems() {
@@ -233,12 +238,12 @@ export default Ember.Component.extend({
                     type: 'DELETE',
                     xhrFields: {withCredentials: true}
                 })
-                .done(function(data) {
-                    console.log(data);
+                .success(data => {
+                    this.get('_items').removeObject(item_);
                 })
-                .fail(function(data){
-                    console.log(data);
-                });
+                .fail(data => {
+                    debugger
+                }).then(() => this.set('modalOpen', false));
             }
         },
         sort(by, order) {
