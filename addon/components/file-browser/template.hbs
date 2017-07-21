@@ -43,32 +43,32 @@
 </div>
 {{#if (if-filter 'header' display)}}
     <div class="row column-labels-header">
-        <div class="col-xs-5 file-browser-header header">
+        <div class="col-xs-{{nameColumnWidth}} file-browser-header header">
             Name
             {{fa-icon 'chevron-up' click=(action 'sort' 'itemName' 'asc')}}
             {{fa-icon 'chevron-down' click=(action 'sort' 'itemName' 'des')}}
         </div>
-        {{#if (if-filter 'share-link' display)}}
+        {{#if (if-filter 'share-link-column' display)}}
             <div class="col-xs-2 file-browser-header header">
                 Share Link
             </div>
         {{/if}}
-        {{#if (if-filter 'size' display)}}
+        {{#if (if-filter 'size-column' display)}}
             <div class="col-xs-1 file-browser-header header">
                 Size
             </div>
         {{/if}}
-        {{#if (if-filter 'version' display)}}
+        {{#if (if-filter 'version-column' display)}}
             <div class="col-xs-1 file-browser-header header">
                 Version
             </div>
         {{/if}}
-        {{#if (if-filter 'downloads' display)}}
+        {{#if (if-filter 'downloads-column' display)}}
             <div class="col-xs-1 file-browser-header header">
                 Downloads
             </div>
         {{/if}}
-        {{#if (if-filter 'modified'  display)}}
+        {{#if (if-filter 'modified-column'  display)}}
             <div class="col-xs-2 file-browser-header header">
                 Modified
                 {{fa-icon 'chevron-up' click=(action 'sort' 'dateModified' 'asc')}}
@@ -168,6 +168,7 @@
                     class=(if item.isSelected 'selected')
                     selectMultiple=(action 'selectMultiple')
                     display=display
+                    nameColumnWidth=nameColumnWidth
                 }}
             {{/each}}
             {{#unless itemsLoaded}}

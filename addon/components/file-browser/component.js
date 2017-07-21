@@ -86,7 +86,7 @@ function unwrapItem(item) {
 export default Ember.Component.extend({
     // TODO: Improve documentation in the future
     layout,
-    display: ['header', 'share-link', 'size', 'version', 'downloads', 'modified', 'delete-button', 'rename-button', 'download-button', 'view-button', 'info-button', 'upload-button'], //Can be overwritten to have a trimmed down display, these are all the options available to be displayed
+    display: Ember.A(['header', 'share-link-column', 'size-column', 'version-column', 'downloads-column', 'modified-column', 'delete-button', 'rename-button', 'download-button', 'view-button', 'info-button', 'upload-button']), //Can be overwritten to have a trimmed down display, these are all the options available to be displayed
     store: Ember.inject.service(),
     classNames: ['file-browser'],
     dropzoneOptions: {
@@ -135,6 +135,11 @@ export default Ember.Component.extend({
     }),
     textFieldOpen: Ember.computed('filtering', 'renaming', function() {
         return this.get('filtering') ? 'filtering' : (this.get('renaming') ? 'renaming' : false);
+    }),
+    nameColumnWidth: Ember.computed('display', function() {
+        let display = this.get('display');
+        let width = 5 + 2 * !display.includes('share-link-column') + !display.includes('size-column') + !display.includes('version-column') + !display.includes('downloads-column') + 2 * !display.includes('modified-column');
+        return width;
     }),
     _error(message) {
         //send message

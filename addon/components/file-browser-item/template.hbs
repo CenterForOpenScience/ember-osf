@@ -1,31 +1,31 @@
 {{! TODO: configurable columns }}
 
 <div class="row">
-    <div class="col-xs-5 file-browser-header">
+    <div class="col-xs-{{nameColumnWidth}} file-browser-header">
         {{file-browser-icon item=item}}
         <a {{action 'open'}} role="link">{{item.itemName}}</a>
     </div>
-    {{#if (if-filter 'share-link' display)}}
+    {{#if (if-filter 'share-link-column' display)}}
         <div class="col-xs-2 file-browser-header">
             <a href="{{item.path}}">Link</a>
         </div>
     {{/if}}
-    {{#if (if-filter 'size' display)}}
+    {{#if (if-filter 'size-column' display)}}
         <div class="col-xs-1 file-browser-header">
             {{item.size}}
         </div>
     {{/if}}
-    {{#if (if-filter 'version' display)}}
+    {{#if (if-filter 'version-column' display)}}
         <div class="col-xs-1 file-browser-header">
             TODO
         </div>
     {{/if}}
-    {{#if (if-filter 'downloads' display)}}
+    {{#if (if-filter 'downloads-column' display)}}
         <div class="col-xs-1 file-browser-header">
             {{item.extra.downloads}}
         </div>
     {{/if}}
-    {{#if (if-filter 'modified' display)}}
+    {{#if (if-filter 'modified-column' display)}}
         <div class="col-xs-2 file-browser-header">
             {{item.dateModified}}
         </div>

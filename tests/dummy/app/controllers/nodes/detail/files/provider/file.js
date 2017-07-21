@@ -6,6 +6,7 @@ import TaggableMixin from 'ember-osf/mixins/taggable-mixin';
 export default Ember.Controller.extend(CommentableMixin, TaggableMixin, {
     fileManager: Ember.inject.service(),
     session: Ember.inject.service(),
+    display: Ember.A([]),
 
     checkedIn: Ember.computed.none('model.checkout'),
     canCheckIn: Ember.computed('model.checkout',
