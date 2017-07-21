@@ -487,6 +487,12 @@ export default Ember.Component.extend(Analytics, hostAppName, {
                         should: matched
                     }
                 });
+            } else {
+                filters.push({
+                    terms: {
+                        [val]: filterList
+                    }
+                });
             }
         });
 
