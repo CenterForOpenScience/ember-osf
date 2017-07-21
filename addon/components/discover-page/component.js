@@ -473,13 +473,13 @@ export default Ember.Component.extend(Analytics, hostAppName, {
 
             if (val == 'subjects') {
                 var matched = [];
-                $.each(filterList, function(key, value){
+                for (let filter of filterList) {
                     matched.push({
                         match: {
-                            [val]: value
+                            [val]: filter
                         }
                     });
-                });
+                }
 
                 filters.push({
                     bool: {
