@@ -472,11 +472,28 @@ export default Ember.Component.extend(Analytics, hostAppName, {
             if (!filterList.length || (key === 'providers' && this.get('theme.isProvider')))
                 return;
 
-            filters.push({
-                terms: {
-                    [val]: filterList
+            if (val == 'subjects') {
+                var matched = [];
+                for (let filter of filterList) {
+                    matched.push({
+                        match: {
+                            [val]: filter
+                        }
+                    });
                 }
-            });
+
+                filters.push({
+                    bool: {
+                        should: matched
+                    }
+                });
+            } else {
+                filters.push({
+                    terms: {
+                        [val]: filterList
+                    }
+                });
+            }
         });
 
         // For PREPRINTS and REGISTRIES. If theme.isProvider, add provider(s) to query body
