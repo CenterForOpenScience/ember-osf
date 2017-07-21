@@ -5,18 +5,29 @@
         {{file-browser-icon item=item}}
         <a {{action 'open'}} role="link">{{item.itemName}}</a>
     </div>
-    <div class="col-xs-2 file-browser-header">
-        <a href="{{item.path}}">Link</a>
-    </div>
-    <div class="col-xs-1 file-browser-header">
-        {{item.size}}
-    </div>
-    <div class="col-xs-1 file-browser-header">
-        1
-    </div>
-    <div class="col-xs-1 file-browser-header">
-        {{item.extra.downloads}}
-    </div>
-    <div class="col-xs-2 file-browser-header">{{item.dateModified}}
-    </div>
+    {{#if (if-filter 'share-link' display)}}
+        <div class="col-xs-2 file-browser-header">
+            <a href="{{item.path}}">Link</a>
+        </div>
+    {{/if}}
+    {{#if (if-filter 'size' display)}}
+        <div class="col-xs-1 file-browser-header">
+            {{item.size}}
+        </div>
+    {{/if}}
+    {{#if (if-filter 'version' display)}}
+        <div class="col-xs-1 file-browser-header">
+            TODO
+        </div>
+    {{/if}}
+    {{#if (if-filter 'downloads' display)}}
+        <div class="col-xs-1 file-browser-header">
+            {{item.extra.downloads}}
+        </div>
+    {{/if}}
+    {{#if (if-filter 'modified' display)}}
+        <div class="col-xs-2 file-browser-header">
+            {{item.dateModified}}
+        </div>
+    {{/if}}
 </div>

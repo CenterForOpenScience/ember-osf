@@ -86,6 +86,7 @@ function unwrapItem(item) {
 export default Ember.Component.extend({
     // TODO: Improve documentation in the future
     layout,
+    display: ['header', 'share-link', 'size', 'version', 'downloads', 'modified', 'delete-button', 'rename-button', 'download-button', 'view-button', 'info-button', 'upload-button'], //Can be overwritten to have a trimmed down display, these are all the options available to be displayed
     store: Ember.inject.service(),
     classNames: ['file-browser'],
     dropzoneOptions: {

@@ -25,47 +25,58 @@
             {{#if selectedItems}}
                 {{! TODO: show available actions for selected files }}
                 {{#if (eq selectedItems.length 1)}}
-                    <button {{action 'downloadItem'}} class='btn text-success'>{{fa-icon "download"}} Download</button>
-                    <button {{action 'toggleText' 'renaming'}} class='btn text-success'>{{fa-icon "pencil"}} Rename</button>
-                    <button {{action 'viewItem'}} class='btn text-success'>{{fa-icon "file-o"}} View</button>
-                    <button {{action 'openModal' 'delete'}} class='btn text-danger'>{{fa-icon "trash"}} Delete</button>
+                    {{#if (if-filter 'download-button' display)}}<button {{action 'downloadItem'}} class='btn text-success'>{{fa-icon "download"}} Download</button>{{/if}}
+                    {{#if (if-filter 'rename-button' display)}}<button {{action 'toggleText' 'renaming'}} class='btn text-success'>{{fa-icon "pencil"}} Rename</button>{{/if}}
+                    {{#if (if-filter 'view-button' display)}}<button {{action 'viewItem'}} class='btn text-success'>{{fa-icon "file-o"}} View</button>{{/if}}
+                    {{#if (if-filter 'delete-button' display)}}<button {{action 'openModal' 'delete'}} class='btn text-danger'>{{fa-icon "trash"}} Delete</button>{{/if}}
                 {{else}}
-                    <button {{action 'openModal' 'deleteMultiple'}} class='btn text-danger'>{{fa-icon "trash"}} Delete multiple</button>
+                    {{#if (if-filter 'delete-button' display)}}<button {{action 'openModal' 'deleteMultiple'}} class='btn text-danger'>{{fa-icon "trash"}} Delete multiple</button>{{/if}}
                 {{/if}}
             {{else}}
-                <button class='dz-message btn text-success'>{{fa-icon "upload"}} Upload</button>
-                <button class='btn text-success'>{{fa-icon "download"}} Download as zip</button>
+                {{#if (if-filter 'upload-button' display)}}<button class='dz-message btn text-success'>{{fa-icon "upload"}} Upload</button>{{/if}}
+                {{#if (if-filter 'download-button' display)}}<button class='btn text-success'>{{fa-icon "download"}} Download as zip</button>{{/if}}
             {{/if}}
             <button {{action 'toggleText' 'filtering'}} class='btn text-primary'>{{fa-icon "search"}} Filter</button>
-            <button {{action 'openModal' 'info'}} class='btn text-primary'>{{fa-icon "info"}}</button>
+            {{#if (if-filter 'info-button' display)}}<button {{action 'openModal' 'info'}} class='btn text-primary'>{{fa-icon "info"}}</button>{{/if}}
         </div>
     {{/if}}
 </div>
-
-<div class="row column-labels-header">
-    <div class="col-xs-5 file-browser-header header">
-        Name
-        {{fa-icon 'chevron-up' click=(action 'sort' 'itemName' 'asc')}}
-        {{fa-icon 'chevron-down' click=(action 'sort' 'itemName' 'des')}}
+{{#if (if-filter 'header' display)}}
+    <div class="row column-labels-header">
+        <div class="col-xs-5 file-browser-header header">
+            Name
+            {{fa-icon 'chevron-up' click=(action 'sort' 'itemName' 'asc')}}
+            {{fa-icon 'chevron-down' click=(action 'sort' 'itemName' 'des')}}
+        </div>
+        {{#if (if-filter 'share-link' display)}}
+            <div class="col-xs-2 file-browser-header header">
+                Share Link
+            </div>
+        {{/if}}
+        {{#if (if-filter 'size' display)}}
+            <div class="col-xs-1 file-browser-header header">
+                Size
+            </div>
+        {{/if}}
+        {{#if (if-filter 'version' display)}}
+            <div class="col-xs-1 file-browser-header header">
+                Version
+            </div>
+        {{/if}}
+        {{#if (if-filter 'downloads' display)}}
+            <div class="col-xs-1 file-browser-header header">
+                Downloads
+            </div>
+        {{/if}}
+        {{#if (if-filter 'modified'  display)}}
+            <div class="col-xs-2 file-browser-header header">
+                Modified
+                {{fa-icon 'chevron-up' click=(action 'sort' 'dateModified' 'asc')}}
+                {{fa-icon 'chevron-down' click=(action 'sort' 'dateModified' 'des')}}
+            </div>
+        {{/if}}
     </div>
-    <div class="col-xs-2 file-browser-header header">
-        Share Link
-    </div>
-    <div class="col-xs-1 file-browser-header header">
-        Size
-    </div>
-    <div class="col-xs-1 file-browser-header header">
-        Version
-    </div>
-    <div class="col-xs-1 file-browser-header header">
-        Downloads
-    </div>
-    <div class="col-xs-2 file-browser-header header">
-        Modified
-        {{fa-icon 'chevron-up' click=(action 'sort' 'dateModified' 'asc')}}
-        {{fa-icon 'chevron-down' click=(action 'sort' 'dateModified' 'des')}}
-    </div>
-</div>
+{{/if}}
 <div class='file-browser-list'>
     {{#if (or items.length uploading.length)}}
         {{#if modalOpen}}
@@ -156,6 +167,7 @@
                     openItem=(action 'openItem')
                     class=(if item.isSelected 'selected')
                     selectMultiple=(action 'selectMultiple')
+                    display=display
                 }}
             {{/each}}
             {{#unless itemsLoaded}}
