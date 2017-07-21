@@ -468,6 +468,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
             const val = filterMap[key];
             const filterList = activeFilters[key];
             this.set(key, filterList.join('OR'));
+
             if (!filterList.length || (key === 'providers' && this.get('theme.isProvider')))
                 return;
 
@@ -571,6 +572,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
                     infoLinks: [], // Links that are not hyperlinks  hit._source.lists.links
                     registrationType: hit._source.registration_type // For REGISTRIES
                 });
+
                 hit._source.identifiers.forEach(function(identifier) {
                     if (identifier.startsWith('http://')) {
                         result.hyperLinks.push({ url: identifier });
