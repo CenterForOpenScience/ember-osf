@@ -123,7 +123,7 @@
                             {{/each}}
                             {{#each activeFilters.subjects as |filter|}}
                                 {{!ACTIVE SUBJECT FILTERS}}
-                                <span class='preprint-filter subject-filter'>{{filter}} <span class='removeActiveFilter' aria-label={{t 'eosf.components.discoverPage.removeSubject'}}>{{fa-icon 'times-circle' ariaHidden=false tagName='button' click=(action 'updateFilters' 'subjects' filter)}}</span></span>
+                                <span class='preprint-filter subject-filter'>{{custom-taxonomy-filter filter}} <span class='removeActiveFilter' aria-label={{t 'eosf.components.discoverPage.removeSubject'}}>{{fa-icon 'times-circle' ariaHidden=false tagName='button' click=(action 'updateFilters' 'subjects' filter)}}</span></span>
                             {{/each}}
                             {{!ACTIVE TYPE FILTERS}}
                             {{#each activeFilters.types as |filter|}}
