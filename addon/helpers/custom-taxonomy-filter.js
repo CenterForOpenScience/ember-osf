@@ -1,6 +1,5 @@
 import Ember from 'ember';
 
-var customTaxonomies = ['bepress'];
 
 export function customTaxonomyFilter(params/*, hash*/) {
     let words = params[0].split('|');
