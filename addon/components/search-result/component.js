@@ -90,12 +90,12 @@ export default Ember.Component.extend(Analytics, hostAppName, {
         let uniqueSubs = {}
         subs.map(e => {
             let tax, subjects;
-            [tax, ...subjects] = e.text.split('/');
+            [tax, ...subjects] = e.text.split('|');
             if (subjects.length) { //accounting for non-custom taxonomy subjects, if we ever get back to that
                 for (var i = 0; i < subjects.length; i++) {
                     uniqueSubs[subjects[i]] = {
                         text: subjects[i],
-                        value: [tax, ...subjects.slice(0, i+1)].join('/'),
+                        value: [tax, ...subjects.slice(0, i+1)].join('|'),
                         taxonomy: tax
                     }
                 }
