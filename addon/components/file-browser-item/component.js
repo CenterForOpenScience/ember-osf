@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import moment from 'moment'
 import layout from './template';
 import humanFileSize from 'ember-osf/utils/human-file-size';
 /**
@@ -20,13 +21,19 @@ export default Ember.Component.extend({
     size: Ember.computed('item.size', function() {
         return humanFileSize(this.get('item.size'), true);
     }),
+    date: Ember.computed('item.dateModified', function() {
+        let date = this.get('item.dateModified');
+        return moment(date).utc().format('YYYY-MM-DD, h:mm:ss a')
+    }),
     didReceiveAttrs() {
-        this.get('item.versions').then(versions => {
-            //Assumes first item is latest version
-            let version = versions.objectAt(0);
-            this.set('versionId', version.get('id'));
-            this.set('versionLink', version.get('links.html'));
-        })
+        if (this.get('display').indexOf('version-column') !== -1) {
+            this.get('item.versions').then(versions => {
+                //Assumes first item is latest version
+                let version = versions.objectAt(0);
+                this.set('versionId', version.get('id'));
+                this.set('versionLink', version.get('links.html'));
+            });
+        }
     },
     click(e) {
         if (e.shiftKey || e.metaKey) {
