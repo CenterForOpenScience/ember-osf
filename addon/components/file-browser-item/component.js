@@ -20,6 +20,14 @@ export default Ember.Component.extend({
     size: Ember.computed('item.size', function() {
         return humanFileSize(this.get('item.size'), true);
     }),
+    didReceiveAttrs() {
+        this.get('item.versions').then(versions => {
+            //Assumes first item is latest version
+            let version = versions.objectAt(0);
+            this.set('versionId', version.get('id'));
+            this.set('versionLink', version.get('links.html'));
+        })
+    },
     click(e) {
         if (e.shiftKey || e.metaKey) {
             this.sendAction('selectMultiple', this.get('item'), e.metaKey);

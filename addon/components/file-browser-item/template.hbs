@@ -17,7 +17,12 @@
     {{/if}}
     {{#if (if-filter 'version-column' display)}}
         <div class="col-xs-1 file-browser-header">
-            TODO
+            {{#if versionId}}
+                <a href='{{versionLink}}' style='color: #337ab7; font-weight: 700;'>{{versionId}}</a>
+            {{else}}
+                <!-- Whats the best indicator for loading here -->
+                {{fa-icon "circle-o-notch" pulse=true}}
+            {{/if}}
         </div>
     {{/if}}
     {{#if (if-filter 'downloads-column' display)}}
