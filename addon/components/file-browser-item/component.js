@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import layout from './template';
-
+import humanFileSize from 'ember-osf/utils/human-file-size';
 /**
  * @module ember-osf
  * @submodule components
@@ -16,6 +16,9 @@ export default Ember.Component.extend({
         let selectedItems = this.get('selectedItems');
         let index = selectedItems.indexOf(this.get('item'));
         return index > -1;
+    }),
+    size: Ember.computed('item.size', function() {
+        return humanFileSize(this.get('item.size'), true);
     }),
     click(e) {
         if (e.shiftKey || e.metaKey) {
