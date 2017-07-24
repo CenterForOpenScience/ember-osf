@@ -16,43 +16,43 @@ import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
 let FileItem = Ember.ObjectProxy.extend({
     isSelected: false,
 
-    // TODO (Abram) update childItems when `children` or `files` changes
-    // TODO (Abram) catch and display errors
-    childItems: Ember.computed('_files.[]', '_children.[]', function() {
-        let files = this._setupLoadAll('files', '_files', '_filesLoaded');
-        let children = this._setupLoadAll('children', '_children', '_childrenLoaded');
-
-        let wrappedItems = Ember.A();
-        if (files) {
-            wrappedItems.addObjects(files.map(wrapItem));
-        }
-        if (children) {
-            wrappedItems.addObjects(children.map(wrapItem));
-        }
-        return wrappedItems;
-    }),
-    _files: null,
-    _children: null,
-
-    childItemsLoaded: Ember.computed.and('_filesLoaded', '_childrenLoaded'),
-    _filesLoaded: false,
-    _childrenLoaded: false,
-
-    _setupLoadAll(relationship, destName, loaded) {
-        let dest = this.get(destName);
-        if (dest === null) {
-            let model = this.get('content');
-            if (relationship in model) {
-                dest = this.set(destName, Ember.A());
-                loadAll(model, relationship, dest).then(() => {
-                    this.set(loaded, true);
-                });
-            } else {
-                this.set(loaded, true);
-            }
-        }
-        return dest;
-    }
+    // // TODO (Abram) update childItems when `children` or `files` changes
+    // // TODO (Abram) catch and display errors
+    // childItems: Ember.computed('_files.[]', '_children.[]', function() {
+    //     let files = this._setupLoadAll('files', '_files', '_filesLoaded');
+    //     let children = this._setupLoadAll('children', '_children', '_childrenLoaded');
+    //
+    //     let wrappedItems = Ember.A();
+    //     if (files) {
+    //         wrappedItems.addObjects(files.map(wrapItem));
+    //     }
+    //     if (children) {
+    //         wrappedItems.addObjects(children.map(wrapItem));
+    //     }
+    //     return wrappedItems;
+    // }),
+    // _files: null,
+    // _children: null,
+    //
+    // childItemsLoaded: Ember.computed.and('_filesLoaded', '_childrenLoaded'),
+    // _filesLoaded: false,
+    // _childrenLoaded: false,
+    //
+    // _setupLoadAll(relationship, destName, loaded) {
+    //     let dest = this.get(destName);
+    //     if (dest === null) {
+    //         let model = this.get('content');
+    //         if (relationship in model) {
+    //             dest = this.set(destName, Ember.A());
+    //             loadAll(model, relationship, dest).then(() => {
+    //                 this.set(loaded, true);
+    //             });
+    //         } else {
+    //             this.set(loaded, true);
+    //         }
+    //     }
+    //     return dest;
+    // }
 });
 
 function wrapItem(item) {
@@ -86,7 +86,8 @@ function unwrapItem(item) {
 export default Ember.Component.extend({
     // TODO: Improve documentation in the future
     layout,
-    display: Ember.A(['header', 'share-link-column', 'size-column', 'version-column', 'downloads-column', 'modified-column', 'delete-button', 'rename-button', 'download-button', 'view-button', 'info-button', 'upload-button']), //Can be overwritten to have a trimmed down display, these are all the options available to be displayed
+    //Can be overwritten to have a trimmed down display, these are all the options available to be displayed
+    display: Ember.A(['header', 'share-link-column', 'size-column', 'version-column', 'downloads-column', 'modified-column', 'delete-button', 'rename-button', 'download-button', 'view-button', 'info-button', 'upload-button']),
     store: Ember.inject.service(),
     classNames: ['file-browser'],
     dropzoneOptions: {
@@ -101,7 +102,9 @@ export default Ember.Component.extend({
             //Hopefully this is done by the time user can upload. Alternatives include adding a loading indicator to the upload button or
             //changin dropzone widget code to take promises
             this.set('uploadUrl', user.get('links.relationships.files.links.upload.href'));
-            loadAll(user, 'files', this.get('_items'));
+            loadAll(user, 'files', this.get('_items')).then(() => {
+                this.set('loaded', true);
+            });
 
         })
     },
@@ -109,19 +112,19 @@ export default Ember.Component.extend({
     filtering: false,
     renaming: false,
     uploading: Ember.A(),
-    rootItem: Ember.computed('breadcrumbs.[]', {
-        get() {
-            return this.get('breadcrumbs.firstObject');
-        },
-        set(_, item) {
-            let wrappedItem = wrapItem(item);
-            this.set('breadcrumbs', Ember.A([wrappedItem]));
-        }
-    }),
+    // rootItem: Ember.computed('breadcrumbs.[]', {
+    //     get() {
+    //         return this.get('breadcrumbs.firstObject');
+    //     },
+    //     set(_, item) {
+    //         let wrappedItem = wrapItem(item);
+    //         this.set('breadcrumbs', Ember.A([wrappedItem]));
+    //     }
+    // }),
     filter: null,
     modalOpen: false,
-    atRoot: Ember.computed.equal('breadcrumbs.length', 1),
-    currentParent: Ember.computed.readOnly('breadcrumbs.lastObject'),
+    // atRoot: Ember.computed.equal('breadcrumbs.length', 1),
+    // currentParent: Ember.computed.readOnly('breadcrumbs.lastObject'),
     _items: Ember.A(),//Ember.computed.reads('currentParent.childItems.firstObject.childItems'),
     itemsLoaded: true,//Ember.computed.readOnly('currentParent.childItemsLoaded'),
     selectedItems: Ember.computed.filterBy('items', 'isSelected', true),
@@ -144,6 +147,9 @@ export default Ember.Component.extend({
     _error(message) {
         //send message
     },
+    browserState: Ember.computed('loaded', '_items', function() {
+        return this.get('loaded') ? (this.get('_items').length ? (this.get('items').length ? 'show' : 'filtered') : 'empty') : 'loading';
+    }),
     //infinite scrolling
     //typeahead of filtering with only a single page load, lazy loading of the pages
     actions: {

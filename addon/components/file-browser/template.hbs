@@ -78,7 +78,15 @@
     </div>
 {{/if}}
 <div class='file-browser-list'>
-    {{#if (or items.length uploading.length)}}
+    {{#if (eq browserState 'loading')}}
+        {{fa-icon 'spinner' size=3 pulse=true}}
+    {{else if (eq browserState 'empty')}}
+        <div class='file-placeholder'>
+            <div>{{fa-icon 'upload' size=5}}</div>
+            <div class='file-placeholder-text'>Drop files here to upload</div>
+        </div>
+    {{else}}
+
         {{#if modalOpen}}
             <div id="modal">
                 <div class="modal-content">
@@ -171,15 +179,8 @@
                     nameColumnWidth=nameColumnWidth
                 }}
             {{/each}}
-            {{#unless itemsLoaded}}
-                {{fa-icon 'spinner' size=3 pulse=true}}
-            {{/unless}}
-        </div>
-    {{else}}
-        <div class='file-placeholder'>
-            <div>{{fa-icon 'upload' size=5}}</div>
-            <div class='file-placeholder-text'>Drop files here to upload</div>
         </div>
     {{/if}}
+
 </div>
 {{/dropzone-widget}}
