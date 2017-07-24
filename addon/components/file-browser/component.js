@@ -102,6 +102,7 @@ export default Ember.Component.extend({
             //Hopefully this is done by the time user can upload. Alternatives include adding a loading indicator to the upload button or
             //changin dropzone widget code to take promises
             this.set('uploadUrl', user.get('links.relationships.files.links.upload.href'));
+            this.set('downloadUrl', user.get('links.relationships.files.links.upload.href') + '?zip=');
             loadAll(user, 'files', this.get('_items')).then(() => {
                 this.set('loaded', true);
             });

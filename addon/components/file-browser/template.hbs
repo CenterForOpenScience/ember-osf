@@ -34,7 +34,7 @@
                 {{/if}}
             {{else}}
                 {{#if (if-filter 'upload-button' display)}}<button class='dz-message btn text-success'>{{fa-icon "upload"}} Upload</button>{{/if}}
-                {{#if (if-filter 'download-button' display)}}<button class='btn text-success'>{{fa-icon "download"}} Download as zip</button>{{/if}}
+                {{#if (if-filter 'download-button' display)}}<a href='{{downloadUrl}}' class='btn text-success'>{{fa-icon "download"}} Download as zip</a>{{/if}}
             {{/if}}
             <button {{action 'toggleText' 'filtering'}} class='btn text-primary'>{{fa-icon "search"}} Filter</button>
             {{#if (if-filter 'info-button' display)}}<button {{action 'openModal' 'info'}} class='btn text-primary'>{{fa-icon "info"}}</button>{{/if}}
