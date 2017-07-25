@@ -228,7 +228,7 @@ export default Ember.Component.extend({
             window.location = downloadLink;
         },
         deleteItem(){
-            let item = this.get('selectedItems.firstObject')
+            let item = this.get('selectedItems.firstObject');
             let url = item.get('links.download');
 
             authenticatedAJAX({
@@ -258,6 +258,32 @@ export default Ember.Component.extend({
                     debugger
                 }).then(() => this.set('modalOpen', false));
             }
+        },
+        rename() {
+            let item = this.get('selectedItems.firstObject');
+            let url = item.get('links.upload');
+            let rename = this.get('textValue');
+            this.set('textValue', null);
+            this.toggleProperty('renaming');
+            authenticatedAJAX({
+                url: url,
+                type: 'POST',
+                xhrFields: {withCredentials: true},
+                headers: {
+                    'Content-Type': 'Application/json'
+                },
+                data: JSON.stringify({
+                    action: 'rename',
+                    rename: rename,
+                    conflict: 'replace'
+                })
+            })
+            .success(data => {
+                item.set('itemName', rename);
+            })
+            .fail(data => {
+                console.log('welp');
+            }).then(() => this.set('modalOpen', false));
         },
         sort(by, order) {
             let sorted = this.get('_items').sortBy(by);
