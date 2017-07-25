@@ -1,6 +1,24 @@
 import Ember from 'ember';
 import layout from './template';
 
+const iconForType = {
+    image: ['png', 'jpeg', 'jpg', 'tiff', 'gif', 'bmp'],
+    pdf: ['pdf'],
+    word: ['doc', 'docx', 'dotx', 'dot', 'docm'],
+    code: ['py', 'js', 'css', 'html', 'awk', 'bat', 'c', 'cpp', 'h', 'hdl', 'java', 'jar', 'mk', 'pl', 'sh', 'coffee', 'ipynb', 'lua', 'm', 'php', 'pyc', 'r', 'rb'],
+    video: ['mov', 'mkv', 'flv', 'avi', 'mp4'],
+    powerpoint: ['ppt', 'pptx', 'pptm', 'potx'],
+    audio: ['mp3', 'wav', 'flac', 'aiff', 'wma'],
+    excel: ['xlsx', 'xlsm', 'xltx', 'xltm', 'csv'],
+    text: ['txt', 'md', 'rtf']
+};
+
+const typeToIcon = {};
+for (let icon in iconForType) {
+    for (let type of iconForType[icon]) {
+        typeToIcon[type] = icon;
+    }
+}
 /**
  * @module ember-osf
  * @submodule components
@@ -33,7 +51,10 @@ export default Ember.Component.extend({
         if (this.get('item.isFolder')) {
             return 'folder';
         }
-        // TODO file types
-        return 'file-o';
+
+        let type = this.get('item.itemName').split('.').slice(-1)[0].toLowerCase();
+        let icon = typeToIcon[type];
+
+        return 'file' + (icon ? '-' + icon : '') + '-o';
     })
 });

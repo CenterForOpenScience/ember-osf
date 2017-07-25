@@ -108,10 +108,7 @@
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
-        // padding-right: 5px;
-        // padding-left: 5px;
-        // padding: 8px 15px;
-        // list-style: none;
+
         a {
             color: black;
         }
@@ -134,6 +131,9 @@
 
         background-color: #337AB7;
         color: white;
+        .link-url {
+            color: black;
+        }
         a {
             color: white;
         }
