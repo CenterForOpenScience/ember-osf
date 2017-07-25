@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import moment from 'moment'
 import layout from './template';
+import pathJoin from 'ember-osf/utils/path-join';
 import humanFileSize from 'ember-osf/utils/human-file-size';
 /**
  * @module ember-osf
@@ -24,6 +25,10 @@ export default Ember.Component.extend({
     date: Ember.computed('item.dateModified', function() {
         let date = this.get('item.dateModified');
         return moment(date).utc().format('YYYY-MM-DD, h:mm:ss a')
+    }),
+    link: Ember.computed('item.path', function() {
+        let link = this.get('item.path');
+        return pathJoin(window.location.origin, link);
     }),
     didReceiveAttrs() {
         if (this.get('display').indexOf('version-column') !== -1) {

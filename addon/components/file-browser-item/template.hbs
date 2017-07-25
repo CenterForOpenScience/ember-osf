@@ -1,13 +1,14 @@
-{{! TODO: configurable columns }}
-
 <div class="row">
     <div class="col-xs-{{nameColumnWidth}} file-browser-header">
         {{file-browser-icon item=item}}
         <a {{action 'open'}} role="link">{{item.itemName}}</a>
     </div>
     {{#if (if-filter 'share-link-column' display)}}
-        <div class="col-xs-2 file-browser-header">
-            <a href="{{item.path}}">Link</a>
+        <div class="col-xs-2 file-browser-header link-column">
+            <div class='btn-group'>
+                {{#copy-button class='btn btn-default btn-sm' clipboardText=link}}{{fa-icon 'files-o'}}{{/copy-button}}
+                <input class="link-url" type="text" value='{{link}}' readonly="readonly">
+            </div>
         </div>
     {{/if}}
     {{#if (if-filter 'size-column' display)}}
@@ -18,7 +19,7 @@
     {{#if (if-filter 'version-column' display)}}
         <div class="col-xs-1 file-browser-header">
             {{#if versionId}}
-                <a href='{{versionLink}}' style='color: #337ab7; font-weight: 700;'>{{versionId}}</a>
+                <a class='version-link' href='{{versionLink}}'>{{versionId}}</a>
             {{else}}
                 <!-- Whats the best indicator for loading here -->
                 {{fa-icon "circle-o-notch" pulse=true}}

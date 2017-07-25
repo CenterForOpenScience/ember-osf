@@ -115,6 +115,10 @@
         a {
             color: black;
         }
+        a.version-link {
+            color: #337ab7;
+            font-weight: 700;
+        }
         border-bottom: 1px solid #f5f5f5;
         line-height: 27px;
 
@@ -148,6 +152,21 @@
         display: inline-block;
         cursor: pointer;
         text-align: right;
+    }
+
+    .file-browser-header.link-column {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .btn.btn-default.btn-sm.copy-btn {
+        margin: 0;
+    }
+
+    .link-url {
+        background-color: #F5F5F5;
+        word-break: normal!important;
+        width: calc(100% - 35px);
     }
 
     #modal {
