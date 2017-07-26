@@ -11,13 +11,16 @@ import humanFileSize from 'ember-osf/utils/human-file-size';
 export default Ember.Component.extend({
     layout,
     classNames: ['file-browser-item'],
-
     selected: Ember.computed('selectedItems.[]', function() {
         // TODO: This would be better if selectedItems were a hash. Can Ember
         // observe when properties are added to or removed from an object?
         let selectedItems = this.get('selectedItems');
         let index = selectedItems.indexOf(this.get('item'));
         return index > -1;
+    }),
+    _flashTiming: Ember.observer('flash.message', function() {
+        //setTimeout
+        //set flash to null
     }),
     size: Ember.computed('item.size', function() {
         return humanFileSize(this.get('item.size'), true);

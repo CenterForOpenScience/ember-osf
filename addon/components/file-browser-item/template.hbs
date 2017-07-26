@@ -1,39 +1,45 @@
 <div class="row">
-    <div class="col-xs-{{nameColumnWidth}} file-browser-header">
-        {{file-browser-icon item=item}}
-        <a {{action 'open'}} role="link">{{item.itemName}}</a>
-    </div>
-    {{#if (if-filter 'share-link-column' display)}}
-        <div class="col-xs-2 file-browser-header link-column">
-            <div class='btn-group'>
-                {{#copy-button class='btn btn-default btn-sm' clipboardText=link}}{{fa-icon 'files-o'}}{{/copy-button}}
-                <input class="link-url" type="text" value='{{link}}' readonly="readonly">
+    {{#unless flash.message}}
+        <div class="col-xs-{{nameColumnWidth}} file-browser-header">
+            {{file-browser-icon item=item}}
+            <a {{action 'open'}} role="link">{{item.itemName}}</a>
+        </div>
+        {{#if (if-filter 'share-link-column' display)}}
+            <div class="col-xs-2 file-browser-header link-column">
+                <div class='btn-group'>
+                    {{#copy-button class='btn btn-default btn-sm' clipboardText=link}}{{fa-icon 'files-o'}}{{/copy-button}}
+                    <input class="link-url" type="text" value='{{link}}' readonly="readonly">
+                </div>
             </div>
+        {{/if}}
+        {{#if (if-filter 'size-column' display)}}
+            <div class="col-xs-1 file-browser-header">
+                {{size}}
+            </div>
+        {{/if}}
+        {{#if (if-filter 'version-column' display)}}
+            <div class="col-xs-1 file-browser-header">
+                {{#if versionId}}
+                    <a class='version-link' href='{{versionLink}}'>{{versionId}}</a>
+                {{else}}
+                    <!-- Whats the best indicator for loading here -->
+                    {{fa-icon "circle-o-notch" pulse=true}}
+                {{/if}}
+            </div>
+        {{/if}}
+        {{#if (if-filter 'downloads-column' display)}}
+            <div class="col-xs-1 file-browser-header">
+                {{item.extra.downloads}}
+            </div>
+        {{/if}}
+        {{#if (if-filter 'modified-column' display)}}
+            <div class="col-xs-2 file-browser-header">
+                {{date}}
+            </div>
+        {{/if}}
+    {{else}}
+        <div class='flash-message-{{flash.type}}'>
+            <p class='flash-message'>{{flash.message}}
         </div>
-    {{/if}}
-    {{#if (if-filter 'size-column' display)}}
-        <div class="col-xs-1 file-browser-header">
-            {{size}}
-        </div>
-    {{/if}}
-    {{#if (if-filter 'version-column' display)}}
-        <div class="col-xs-1 file-browser-header">
-            {{#if versionId}}
-                <a class='version-link' href='{{versionLink}}'>{{versionId}}</a>
-            {{else}}
-                <!-- Whats the best indicator for loading here -->
-                {{fa-icon "circle-o-notch" pulse=true}}
-            {{/if}}
-        </div>
-    {{/if}}
-    {{#if (if-filter 'downloads-column' display)}}
-        <div class="col-xs-1 file-browser-header">
-            {{item.extra.downloads}}
-        </div>
-    {{/if}}
-    {{#if (if-filter 'modified-column' display)}}
-        <div class="col-xs-2 file-browser-header">
-            {{date}}
-        </div>
-    {{/if}}
+    {{/unless}}
 </div>
