@@ -259,14 +259,11 @@ export default Ember.Component.extend({
                 }).then(() => this.set('modalOpen', false));
             }
         },
-        rename() {
+        _rename(conflict) {
             let item = this.get('selectedItems.firstObject');
-            let url = item.get('links.upload');
-            let rename = this.get('textValue');
-            this.set('textValue', null);
-            this.toggleProperty('renaming');
+            this.set('modalOpen', false);
             authenticatedAJAX({
-                url: url,
+                url: item.get('links.upload'),
                 type: 'POST',
                 xhrFields: {withCredentials: true},
                 headers: {
@@ -274,16 +271,39 @@ export default Ember.Component.extend({
                 },
                 data: JSON.stringify({
                     action: 'rename',
-                    rename: rename,
-                    conflict: 'replace'
+                    rename: this.get('textValue'),
+                    conflict: conflict || 'replace'
                 })
             })
-            .success(data => {
-                item.set('itemName', rename);
+            .success(response => {
+                item.set('itemName', response.data.attributes.name);
             })
             .fail(data => {
                 console.log('welp');
-            }).then(() => this.set('modalOpen', false));
+            });
+            this.set('textValue', null);
+            this.toggleProperty('renaming');
+        },
+        rename() {
+            let item = this.get('selectedItems.firstObject');
+            let rename = this.get('textValue');
+            let conflict = false;
+            for (let item of this.get('_items')) {
+                if (item.get('itemName') === rename) {
+                    conflict = true;
+                    break;
+                }
+            }
+            if (conflict) {
+                this.set('modalOpen', 'renameConflict');
+            } else {
+                this.send('_rename', 'replace');
+            }
+        },
+        cancelRename() {
+            this.set('textValue', null);
+            this.toggleProperty('renaming')
+            this.set('modalOpen', false);
         },
         sort(by, order) {
             let sorted = this.get('_items').sortBy(by);

@@ -139,6 +139,22 @@
                             <a href='' {{action 'closeModal'}} class='btn modal-btn btn-default'>Cancel</a>
                             <a href='' {{action 'deleteItems'}} class='btn modal-btn btn-danger'>Delete</a>
                         </div>
+                    {{else if (eq modalOpen 'renameConflict')}}
+                        <div class="modal-header">
+                            <h3 class="modal-title break-word">An item named {{textValue}} already exists in this location.</h3>
+                            <button {{action 'closeModal'}} class="close">
+                                {{fa-icon "times"}}
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>"Keep Both" will retain both files (and their version histories) in this location.</p>
+                            <p>"Replace" will overwrite the existing file in this location. You will lose previous versions of the overwritten file. You will keep previous versions of the moved file.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a href='' {{action 'cancelRename'}} class='btn modal-btn btn-default'>Cancel</a>
+                            <a href='' {{action '_rename' 'keep'}} class='btn modal-btn btn-primary'>Keep both</a>
+                            <a href='' {{action '_rename' 'replace'}} class='btn modal-btn btn-primary'>Replace</a>
+                        </div>
                     {{/if}}
                 </div>
             </div>
