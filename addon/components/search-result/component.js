@@ -85,8 +85,8 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     tags: Ember.computed('result.tags', function() {
         return (this.get('result.tags') || []).slice(0, this.get('maxTags'));
     }),
-    subjects: Ember.computed('result.subjects', function() {
-        let subs = this.get('result.subjects');
+    subjects: Ember.computed('result.subjects', 'result.subject_synonyms', 'themeProvider', function() {
+        let subs = this.get('themeProvider.id') === 'osf' && this.get('result.subject_synonyms').length ? this.get('result.subject_synonyms') : this.get('result.subjects');
         let uniqueSubs = {}
         subs.map(e => {
             let tax, subjects;
