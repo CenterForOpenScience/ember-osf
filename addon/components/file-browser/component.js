@@ -178,7 +178,7 @@ export default Ember.Component.extend({
             this.get('uploading').removeObject(file);
             response.data.type = 'file'; //
 
-            let item = this.get('store').push(response)
+            let item = this.get('store').push(response);
             this.get('_items').pushObject(item);
         },
         buildUrl(files) {
@@ -277,6 +277,10 @@ export default Ember.Component.extend({
             })
             .success(response => {
                 item.set('itemName', response.data.attributes.name);
+                item.set('flash', {
+                    message: 'Rename successful',
+                    type: 'success'
+                });
             })
             .fail(data => {
                 console.log('welp');

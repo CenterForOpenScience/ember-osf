@@ -1,5 +1,5 @@
 <div class="row">
-    {{#unless flash.message}}
+    {{#unless item.flash.message}}
         <div class="col-xs-{{nameColumnWidth}} file-browser-header">
             {{file-browser-icon item=item}}
             <a {{action 'open'}} role="link">{{item.itemName}}</a>
@@ -38,8 +38,8 @@
             </div>
         {{/if}}
     {{else}}
-        <div class='flash-message-{{flash.type}}'>
-            <p class='flash-message'>{{flash.message}}
+        <div class='flash-message-{{item.flash.type}}'>
+            <p class='flash-message'>{{item.flash.message}}</p>
         </div>
     {{/unless}}
 </div>
