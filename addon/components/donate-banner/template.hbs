@@ -1,4 +1,4 @@
-<div id="osfDonateBanner">
+<div class="donate-banner {{bannerBackground}}">
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
@@ -6,8 +6,10 @@
                     <div class="row">
                         <div class="col-md-12 m-v-sm">
                             <div class="conference-centering">
-                                <p></p>
-                                <a href="https://cos.io/donate"></a>
+                                <p class="donate-text">
+                                    {{bannerText}}
+                                    <a href="https://cos.io/donate" {{action 'click' 'link' 'DonateBanner - Donate Now!' preventDefault=false}}>Donate Now!</a>
+                                </p>
                             </div>
                         </div>
                     </div>
