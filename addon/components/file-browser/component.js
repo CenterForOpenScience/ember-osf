@@ -237,7 +237,14 @@ export default Ember.Component.extend({
                 xhrFields: {withCredentials: true}
             })
             .success(data => {
-                this.get('_items').removeObject(item);
+                //TODO rethink the flash system, this seems gross nooddly
+                item.set('flash', {
+                    message: 'This file has been deleted',
+                    type: 'danger'
+                });
+                setTimeout(() => {
+                    this.get('_items').removeObject(item);
+                }, 1800);
             })
             .fail(data => {
 

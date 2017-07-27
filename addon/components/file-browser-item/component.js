@@ -22,7 +22,9 @@ export default Ember.Component.extend({
         console.log('observer actually getting hit');
         setTimeout(() => {
             let item = this.get('item');
-            item.set('flash', null);
+            if (item) {
+                item.set('flash', null);
+            }
         }, 2000);
         //setTimeout
         //set flash to null
