@@ -52,7 +52,9 @@ export default Ember.Component.extend({
             return 'folder';
         }
 
-        let type = this.get('item.itemName').split('.').slice(-1)[0].toLowerCase();
+        let type = this.get('item.itemName');
+
+        type = type ? type.split('.').slice(-1)[0].toLowerCase() : 'NOT_AN_ACTUAL_TYPE';
         let icon = typeToIcon[type];
 
         return 'file' + (icon ? '-' + icon : '') + '-o';

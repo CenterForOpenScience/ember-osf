@@ -115,6 +115,17 @@ export default Ember.Component.extend({
             this.get('_items').pushObject(item);
         },
         buildUrl(files) {
+            let name = files[0].name;
+            let conflictingItem = false;
+            for (let file of this.get('_items')) {
+                if (name === file.get('itemName')) {
+                    conflictingItem = file;
+                    break;
+                }
+            }
+            if (conflictingItem) {
+                return conflictingItem.get('links.upload') + '?kind=file';
+            }
             return this.get('uploadUrl') + '?' + Ember.$.param({
                 name: files[0].name
             });
@@ -180,7 +191,10 @@ export default Ember.Component.extend({
                 }, 1800);
             })
             .fail(data => {
-
+                item.set('flash', {
+                    message: 'Delete failed',
+                    type: 'danger'
+                })
             }).then(() => this.set('modalOpen', false));
         },
         deleteItems() {
@@ -228,8 +242,11 @@ export default Ember.Component.extend({
                     type: 'success'
                 });
             })
-            .fail(data => {
-                console.log('welp');
+            .fail(() => {
+                item.set('flash', {
+                    message: 'Failed to rename item',
+                    type: 'danger'
+                })
             });
             this.set('textValue', null);
             this.toggleProperty('renaming');

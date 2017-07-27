@@ -19,12 +19,7 @@
         {{/if}}
         {{#if (if-filter 'version-column' display)}}
             <div class="col-xs-1 file-browser-header">
-                {{#if versionId}}
-                    <a class='version-link' href='{{versionLink}}'>{{versionId}}</a>
-                {{else}}
-                    <!-- Whats the best indicator for loading here -->
-                    {{fa-icon "circle-o-notch" pulse=true}}
-                {{/if}}
+                <a class='version-link' href='{{versionLink}}'>{{item.currentVersion}}</a>
             </div>
         {{/if}}
         {{#if (if-filter 'downloads-column' display)}}

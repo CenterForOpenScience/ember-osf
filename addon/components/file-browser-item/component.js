@@ -40,16 +40,9 @@ export default Ember.Component.extend({
         let link = this.get('item.path');
         return pathJoin(window.location.origin, link);
     }),
-    didReceiveAttrs() {
-        if (this.get('display').indexOf('version-column') !== -1) {
-            this.get('item.versions').then(versions => {
-                //Assumes first item is latest version
-                let version = versions.objectAt(0);
-                this.set('versionId', version.get('id'));
-                this.set('versionLink', version.get('links.html'));
-            });
-        }
-    },
+    versionLink: Ember.computed('item.currentVersion', function() {
+        return this.get('item.path') + '?revision=' + this.get('item.currentVersion');
+    }),
     click(e) {
         if (e.shiftKey || e.metaKey) {
             this.sendAction('selectMultiple', this.get('item'), e.metaKey);
