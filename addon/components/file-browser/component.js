@@ -5,73 +5,6 @@ import loadAll from 'ember-osf/utils/load-relationship';
 import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
 
 /**
- * @module ember-osf
- * @submodule components
- */
-
-/*
- * Wrapper for file items. Includes state for the item's row.
- *
- */
-let FileItem = Ember.ObjectProxy.extend({
-    isSelected: false,
-
-    // // TODO (Abram) update childItems when `children` or `files` changes
-    // // TODO (Abram) catch and display errors
-    // childItems: Ember.computed('_files.[]', '_children.[]', function() {
-    //     let files = this._setupLoadAll('files', '_files', '_filesLoaded');
-    //     let children = this._setupLoadAll('children', '_children', '_childrenLoaded');
-    //
-    //     let wrappedItems = Ember.A();
-    //     if (files) {
-    //         wrappedItems.addObjects(files.map(wrapItem));
-    //     }
-    //     if (children) {
-    //         wrappedItems.addObjects(children.map(wrapItem));
-    //     }
-    //     return wrappedItems;
-    // }),
-    // _files: null,
-    // _children: null,
-    //
-    // childItemsLoaded: Ember.computed.and('_filesLoaded', '_childrenLoaded'),
-    // _filesLoaded: false,
-    // _childrenLoaded: false,
-    //
-    // _setupLoadAll(relationship, destName, loaded) {
-    //     let dest = this.get(destName);
-    //     if (dest === null) {
-    //         let model = this.get('content');
-    //         if (relationship in model) {
-    //             dest = this.set(destName, Ember.A());
-    //             loadAll(model, relationship, dest).then(() => {
-    //                 this.set(loaded, true);
-    //             });
-    //         } else {
-    //             this.set(loaded, true);
-    //         }
-    //     }
-    //     return dest;
-    // }
-});
-
-function wrapItem(item) {
-    if (item instanceof FileItem) {
-        return item;
-    }
-    return FileItem.create({
-        content: item
-    });
-}
-
-function unwrapItem(item) {
-    if (item instanceof FileItem) {
-        return item.get('content');
-    }
-    return item;
-}
-
-/**
  * File browser widget
  *
  * Sample usage:
@@ -218,10 +151,10 @@ export default Ember.Component.extend({
         },
         viewItem() {
             let item = this.get('selectedItems.firstObject');
-            this.sendAction('openItem', unwrapItem(item));
+            this.sendAction('openItem', item);
         },
         openItem(item) {
-            this.sendAction('openFile', unwrapItem(item));
+            this.sendAction('openFile', item);
         },
         downloadItem() {
             let downloadLink = this.get('selectedItems.firstObject.links.download');
@@ -259,7 +192,13 @@ export default Ember.Component.extend({
                     xhrFields: {withCredentials: true}
                 })
                 .success(data => {
-                    this.get('_items').removeObject(item_);
+                    item_.set('flash', {
+                        message: 'This file has been deleted',
+                        type: 'danger'
+                    });
+                    setTimeout(() => {
+                        this.get('_items').removeObject(item_);
+                    }, 1800);
                 })
                 .fail(data => {
                     debugger
@@ -285,7 +224,7 @@ export default Ember.Component.extend({
             .success(response => {
                 item.set('itemName', response.data.attributes.name);
                 item.set('flash', {
-                    message: 'Rename successful',
+                    message: 'Successfully renamed',
                     type: 'success'
                 });
             })
@@ -330,26 +269,10 @@ export default Ember.Component.extend({
         closeModal(pre) {
             this.set('modalOpen', false);
         },
-        navigateToItem(item) {
-            let breadcrumbs = this.get('breadcrumbs');
-            let index = breadcrumbs.indexOf(item);
-            if (index === -1) {
-                // TODO: Valid to assume item is a child of currentParent?
-                breadcrumbs.pushObject(item);
-            } else {
-                let slicedBread = breadcrumbs.slice(0, index + 1);
-                this.set('breadcrumbs', Ember.A(slicedBread));
+        textValueKeypress(e) {
+            if (this.get('renaming')) {
+                this.send('rename');
             }
-            // this.set('currentParent', item);
-
-        },
-
-        navigateUp() {
-            let breadcrumbs = this.get('breadcrumbs');
-            if (breadcrumbs.length === 1) {
-                return;
-            }
-            breadcrumbs.popObject();
         }
     }
 });

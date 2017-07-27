@@ -12,7 +12,7 @@
 <div class="actions-header row" style="margin-bottom:10px">
     {{#if textFieldOpen}}
         <div class="col-xs-9 filter-input">
-            {{input placeholder=(if filtering "Filter" selectedItems.firstObject.itemName) class='form-control' value=textValue type="text"}}
+            {{input placeholder=(if filtering "Filter" selectedItems.firstObject.itemName) class='form-control' value=textValue type="text" enter=(action "textValueKeypress")}}
         </div>
         <div class='col-xs-3'>
             <button {{action 'toggleText' textFieldOpen}} class='btn pull-right'>{{fa-icon "times"}}</button>
@@ -185,7 +185,6 @@
             {{#each items as |item|}}
                 {{file-browser-item
                     item=item
-                    navigateToItem=(action 'navigateToItem')
                     selectItem=(action 'selectItem')
                     openItem=(action 'openItem')
                     class=(if item.isSelected 'selected')
