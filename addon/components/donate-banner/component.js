@@ -23,7 +23,7 @@ export default Ember.Component.extend(AnalyticsMixin, {
     init() {
         this._super();
 
-        let currentDate = new Date();
+        let currentDate = this.get('currentDate') ? this.get('currentDate') : new Date();
 
         let changeDates = this.get('changeDates');
 
@@ -32,7 +32,9 @@ export default Ember.Component.extend(AnalyticsMixin, {
                     && !(currentDate > changeDates[5].date)) {
 
                 this.set('bannerBackground', 'banner-' + x);
-                this.set('bannerText', changeDates[x].text);
+                this.set('beforeText', changeDates[x].beforeText);
+                this.set('afterText', changeDates[x].afterText);
+                this.set('linkText', changeDates[x].linkText);
                 this.set('style', 'display:""');
                 break;
 
@@ -47,47 +49,60 @@ export default Ember.Component.extend(AnalyticsMixin, {
     attributeBindings: ['style'],
     display: '',
     bannerBackground: '',
-    bannerText: '',
+    beforeText: '',
+    afterText: '',
+    linkText: '',
+    currentDate: null,
 
     changeDates: Ember.A([
         {
             'date': new Date('July 27, 2017'),
-            'text': 'The Center for Open Science (COS) created the OSF and ' +
-                    'a suite of of free products to advance the work of ' +
-                    'the research community. If you value these tools, ' +
-                    'please make a gift to support COS’s efforts to improve ' +
-                    'and scale these services. '
+            'beforeText': 'The Center for Open Science (COS) created the OSF and ' +
+                        'a suite of of free products to advance the work of ' +
+                        'the research community. If you value these tools, ' +
+                        'please make a gift to support COS’s efforts to improve ' +
+                        'and scale these services. ',
+            'afterText': '',
+            'linkText': 'Donate Now!'
         },
         {
             'date': new Date('August 3, 2017'),
-            'text': 'Thousands of researchers, use the OSF and its related ' +
-                    'services daily. If you value the OSF, make a donation ' +
-                    'to support the Center for Open Science and its ongoing ' +
-                    'efforts to improve and advance these public goods. '
+            'beforeText': 'Thousands of researchers use the OSF and its related ' +
+                          'services daily. If you value the OSF, ',
+            'afterText':  ' to support the Center for Open Science ' +
+                          'and its ongoing efforts to improve and advance ' +
+                          'these public goods. ',
+            'linkText':   'make a donation'
         },
         {
             'date': new Date('August 10, 2017'),
-            'text': 'The Center for Open Science (COS) created the OSF and ' +
-                    'its related services as public goods. While these ' +
-                    'services will always be free to use they are not free ' +
-                    'to build, improve and maintain. Please support the OSF ' +
-                    'and COS with a donation today. '
+            'beforeText': 'The Center for Open Science (COS) created the ' +
+                          'OSF and its related services as public goods. ' +
+                          'While these services will always be free to use ' +
+                          'they are not free to build, improve and maintain. ',
+            'afterText':  '',
+            'linkText':   'Please support the OSF and COS with a donation today.'
         },
         {
             'date': new Date('August 17, 2017'),
-            'text': 'The Center for Open Science launched the OSF with the ' +
-                    'goal of creating a service where the entire research ' +
-                    'cycle is supported and barriers to accessing data are ' +
-                    'removed. Support COS’s efforts to advance the work of ' +
-                    'researchers with a gift today! '
+            'beforeText': 'The Center for Open Science launched the ' +
+                          'OSF with the goal of creating a service where ' +
+                          'the entire research cycle is supported and ' +
+                          'barriers to accessing data are removed. ',
+            'afterText':  ' to advance the work of researchers with ' +
+                          'a gift today!',
+            'linkText':   "Support COS's efforts"
         },
         {
             'date': new Date('August 24, 2017'),
-            'text': 'At the Center for Open Science (COS), we envision a ' +
-                    'future in which ideas, processes, and outcomes of ' +
-                    'research are free and open to all. COS relies on ' +
-                    'contributions to build the free products you use and ' +
-                    'love. Help make the vision a reality with a gift today. '
+            'beforeText': 'At the Center for Open Science (COS), we ' +
+                          'envision a future in which ideas, processes ' +
+                          'and outcomes of research are free and open to ' +
+                          'all. COS relies on contributions to build the ' +
+                          'free products you use and love. Help make the ' +
+                          'vision a reality with a ',
+            'afterText': '',
+            'linkText': 'gift today.'
         },
         {
             'date': new Date('August 31, 2017')
