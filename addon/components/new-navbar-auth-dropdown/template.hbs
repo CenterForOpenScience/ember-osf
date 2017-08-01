@@ -1,6 +1,6 @@
 {{# if session.isAuthenticated }}
     {{! TODO: Replace display name functionality if possible- for now truncate via CSS at end of label }}
-    <button class="dropdown-toggle nav-user-dropdown btn-link" data-toggle="dropdown" role="button" aria-expanded="false" aria-label={{t-plus 'eosf.authDropdown.toggleAuthDropdown'}} {{action closeOtherNavigation}}>
+    <button class="dropdown-toggle nav-user-dropdown btn-link" data-toggle="dropdown" role="button" aria-expanded="false" aria-label={{t 'eosf.authDropdown.toggleAuthDropdown'}} {{action closeOtherNavigation}}>
         <span class="osf-gravatar">
             <img src="{{gravatarUrl}}" alt="User gravatar">
         </span> {{get-display-name user.fullName}}
@@ -11,14 +11,14 @@
             <li style="margin-left:10%;">{{headline}}</li>
         {{/if}}
         <li>
-            <a href="{{serviceLinks.profile}}"><i class="fa fa-user fa-lg p-r-xs"></i> {{t-plus 'eosf.authDropdown.myProfile'}}</a>
+            <a href="{{serviceLinks.profile}}"><i class="fa fa-user fa-lg p-r-xs"></i> {{t 'eosf.authDropdown.myProfile'}}</a>
         </li>
         <li>
-            <a href="{{serviceLinks.osfSupport}}"><i class="fa fa-life-ring fa-lg p-r-xs"></i> {{t-plus 'eosf.authDropdown.osfSupport'}}</a>
+            <a href="{{serviceLinks.osfSupport}}"><i class="fa fa-life-ring fa-lg p-r-xs"></i> {{t 'eosf.authDropdown.osfSupport'}}</a>
         </li>
 
         <li>
-            <a href="{{serviceLinks.settings}}"><i class="fa fa-cog fa-lg p-r-xs"></i> {{t-plus 'eosf.authDropdown.settings'}}</a>
+            <a href="{{serviceLinks.settings}}"><i class="fa fa-cog fa-lg p-r-xs"></i> {{t 'eosf.authDropdown.settings'}}</a>
         </li>
         <li>
             <a class="logoutLink" onclick={{action 'logout'}} role="button"><i class="fa fa-sign-out fa-lg p-r-xs"></i> {{t 'eosf.authDropdown.logOut'}}</a>
@@ -29,7 +29,7 @@
         {{! TODO: How does the page know whether this is an institution view? Implement in the future }}
         <div class="btn-group">
             <a href="${domain}login/?campaign=institution&redirect_url=${redirect_url}" class="btn btn-info btn-top-login">
-                {{t-plus 'eosf.authDropdown.signIn'}} <span class="hidden-xs"><i class="fa fa-arrow-right"></i></span>
+                {{t 'eosf.authDropdown.signIn'}} <span class="hidden-xs"><i class="fa fa-arrow-right"></i></span>
             </a>
         </div>
     {{else}}
