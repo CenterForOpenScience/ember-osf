@@ -30,7 +30,12 @@ export default Ember.Component.extend({
     },
     currentUser: Ember.inject.service(),
     uploadUrl: null,
-    didReceiveAttrs() {
+    didReceiveAttrs(args) {
+        if (args.newAttrs.items) { //Allow non-quickfiels widgets eventually
+            this.set('loaded', true);
+            this.set('_items', args.newAttrs.items);
+            return;
+        }
         if (this.get('_items').length) {
             this.set('loaded', true);
             return;
@@ -109,12 +114,33 @@ export default Ember.Component.extend({
             debugger;
             this.get('uploading').removeObject(file);
             //send warning on failure
-            //TODO failure sucess messaging engine
+            //TODO failure success messaging engine
         },
         success(_, __, file, response) {
             this.get('uploading').removeObject(file);
+            let data = response.data.attributes;
+            //OPTIONS (some not researched)
+            //Ember store method for passing updated attributes (either with a query for the object, or iterating to find matching)
+            //Manually updating the object based on new attrs
+            //Making an additional request anytime success is done, finding the file detail page based on path
+            let path = data.path; //THERE SHOULD BE A BETTER WAY OF DOING THIS
+            let conflictingItem = false;
+            for (let file of this.get('_items')) {
+                if (path === file.get('path')) {
+                    conflictingItem = file;
+                    break;
+                }
+            }
+            if (conflictingItem) {
+                conflictingItem.setProperties({
+                    size: data.size,
+                    currentVersion: data.extra.version,
+                    dateModified: data.modified_utc
+                })
+                return;
+            }
             response.data.type = 'file'; //
-
+            response.data.attributes.currentVersion = '1';
             let item = this.get('store').push(response);
             this.get('_items').pushObject(item);
         },
