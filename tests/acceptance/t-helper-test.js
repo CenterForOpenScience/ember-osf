@@ -1,8 +1,9 @@
+import { test } from 'qunit';
+import moduleForAcceptance from '../../tests/helpers/module-for-acceptance';
 import Ember from 'ember';
-import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('t', 'helper:t', {
+moduleForAcceptance('Acceptance | t helper', {
     integration: true,
     beforeEach() {
         let i18n = this.i18n = this.container.lookup('service:i18n');
@@ -16,7 +17,6 @@ moduleForComponent('t', 'helper:t', {
         Ember.run(this.theme, 'destroy');
     }
 });
-
 
 test('t it works with defaults', function(assert) {
     this.render(hbs`{{t 'general.help'}}`);
