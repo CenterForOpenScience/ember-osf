@@ -8,6 +8,32 @@ export default {
     // },
     //
     // "key.with.interpolation": "Text with {{anInterpolation}}"
+    preprintWords: {
+        preprint: {
+            preprint: 'preprint',
+            preprints: 'preprints',
+            Preprint: 'Preprint',
+            Preprints: 'Preprints'
+        },
+        paper: {
+            preprint: 'paper',
+            preprints: 'papers',
+            Preprint: 'Paper',
+            Preprints: 'Papers'
+        },
+        thesis: {
+            preprint: 'thesis',
+            preprints: 'theses',
+            Preprint: 'Thesis',
+            Preprints: 'Theses'
+        },
+        none: {
+            preprint: '',
+            preprints: '',
+            Preprint: '',
+            Preprints: ''
+        }
+    },
     eosf: {
         signup: {
             headingTitle: 'Create a free account',

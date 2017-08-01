@@ -5,13 +5,13 @@
             <div class="col-md-12">
                 <form class="input-group" {{action "search" on="submit"}}>
                     {{!Search bar}}
-                    {{input value=query name='search-placeholder' class='osf-search-input form-control' placeholder=(t-plus 'eosf.navbar.searchTheOSF')}}
-                    <label id="searchBarLabel" class="search-label-placeholder" for="search-placeholder">{{t-plus 'eosf.navbar.search'}}</label>
+                    {{input value=query name='search-placeholder' class='osf-search-input form-control' placeholder=(t 'eosf.navbar.searchTheOSF')}}
+                    <label id="searchBarLabel" class="search-label-placeholder" for="search-placeholder">{{t 'eosf.navbar.search'}}</label>
                     <span class="input-group-btn">
                         {{!Submit search, search help, and cancel search buttons}}
-                        <button type="submit" class="btn osf-search-btn" aria-label={{t-plus 'eosf.navbar.sendSearch'}}><i class="fa fa-arrow-circle-right fa-lg"></i></button>
-                        <button type="button" class="btn osf-search-btn" aria-label={{t-plus 'eosf.navbar.searchHelp'}} data-toggle="modal" {{action 'toggleHelpModal'}}><i class="fa fa-question fa-lg"></i></button>
-                        <button type="button" class="btn osf-search-btn" aria-label={{t-plus 'eosf.navbar.cancelSearch'}} onclick={{action "toggleSearch"}}><i class="fa fa-times fa-lg"></i></button>
+                        <button type="submit" class="btn osf-search-btn" aria-label={{t 'eosf.navbar.sendSearch'}}><i class="fa fa-arrow-circle-right fa-lg"></i></button>
+                        <button type="button" class="btn osf-search-btn" aria-label={{t 'eosf.navbar.searchHelp'}} data-toggle="modal" {{action 'toggleHelpModal'}}><i class="fa fa-question fa-lg"></i></button>
+                        <button type="button" class="btn osf-search-btn" aria-label={{t 'eosf.navbar.cancelSearch'}} onclick={{action "toggleSearch"}}><i class="fa fa-times fa-lg"></i></button>
                     </span>
                 </form>
             </div>
@@ -23,13 +23,13 @@
 <div id="ember-bootstrap-modal-container">
     {{#bs-modal open=isOpen body=false header=false footer=false}}
         {{#bs-modal-header}}
-            <h3 class="modal-title">{{t-plus 'eosf.searchHelpModal.searchHelp'}}</h3>
+            <h3 class="modal-title">{{t 'eosf.searchHelpModal.searchHelp'}}</h3>
         {{/bs-modal-header}}
         {{#bs-modal-body}}
-            <h4> {{t-plus 'eosf.searchHelpModal.queries'}} </h4>
+            <h4> {{t 'eosf.searchHelpModal.queries'}} </h4>
             <p>
-                {{t-plus 'eosf.searchHelpModal.searchUsesThe'}} <a href="http://extensions.xwiki.org/xwiki/bin/view/Extension/Search+Application+Query+Syntax">Lucene {{t-plus 'eosf.searchHelpModal.searchSyntax'}}</a>.
-                {{t-plus 'eosf.searchHelpModal.helpDescription'}}
+                {{t 'eosf.searchHelpModal.searchUsesThe'}} <a href="http://extensions.xwiki.org/xwiki/bin/view/Extension/Search+Application+Query+Syntax">Lucene {{t 'eosf.searchHelpModal.searchSyntax'}}</a>.
+                {{t 'eosf.searchHelpModal.helpDescription'}}
             </p>
             <ul>
                 <li><a href="{{host}}search/?q=repro*">repro*</a></li>
@@ -40,7 +40,7 @@
 
         {{#bs-modal-footer}}
             <div align="right">
-                <button {{action 'close'}} class="btn btn-default"> {{t-plus 'eosf.searchHelpModal.close'}} </button>
+                <button {{action 'close'}} class="btn btn-default"> {{t 'eosf.searchHelpModal.close'}} </button>
             </div>
         {{/bs-modal-footer}}
     {{/bs-modal}}
