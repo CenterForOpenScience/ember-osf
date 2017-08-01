@@ -31,6 +31,10 @@ export default Ember.Component.extend({
     currentUser: Ember.inject.service(),
     uploadUrl: null,
     didReceiveAttrs() {
+        if (this.get('_items').length) {
+            this.set('loaded', true);
+            return;
+        }
         this.get('currentUser').load().then(user => {
             //Hopefully this is done by the time user can upload. Alternatives include adding a loading indicator to the upload button or
             //changin dropzone widget code to take promises
