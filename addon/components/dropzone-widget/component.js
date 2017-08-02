@@ -31,7 +31,11 @@ export default Ember.Component.extend({
     session: Ember.inject.service(),
     classNameBindings: ['dropzone'],
     dropzone: true,
+    enable: true,
     didInsertElement() {
+        if (!this.get('enable')) {
+            return;
+        }
         let preUpload = this.get('preUpload');
         let dropzoneOptions = this.get('options') || {};
 
