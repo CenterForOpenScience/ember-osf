@@ -6,8 +6,10 @@
     success=(action 'success')
     error=(action 'error')
     dropzone=false
-    dragenter=(action 'dragEnter')
-    dragleave=(action 'dragLeave')
+    dragenter=(action 'dragStart')
+    dragover=(action 'dragStart')
+    dragleave=(action 'dragEnd')
+    drop=(action 'dragEnd')
 }}
 <div class="actions-header row" style="margin-bottom:10px">
     {{#if textFieldOpen}}

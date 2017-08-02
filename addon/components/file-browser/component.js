@@ -118,10 +118,10 @@ export default Ember.Component.extend({
         uploadProgress(_, __, file, progress) {
             Ember.$('#uploading-' + file.size).css('width', progress + '%');
         },
-        dragEnter() {
+        dragStart() {
             this.set('dropping', true);
         },
-        dragLeave() {
+        dragEnd() {
             //TODO this is not being triggered consistently enough. How fix?
             this.set('dropping', false);
         },
