@@ -228,7 +228,7 @@ export default Ember.Component.extend({
             }).then(() => this.set('modalOpen', false));
         },
         deleteItems() {
-            for (var item_ of this.get('selectedItems')) {
+            for (let item_ of this.get('selectedItems')) {
                 let url = item_.get('links.download');
                 authenticatedAJAX({
                     url: url,
