@@ -25,16 +25,30 @@
             {{#if selectedItems}}
                 {{! TODO: show available actions for selected files }}
                 {{#if (eq selectedItems.length 1)}}
-                    {{#if (if-filter 'download-button' display)}}<button {{action 'downloadItem'}} class='btn text-success'>{{fa-icon "download"}} Download</button>{{/if}}
-                    {{#if (if-filter 'rename-button' display)}}<button {{action 'toggleText' 'renaming'}} class='btn text-success'>{{fa-icon "pencil"}} Rename</button>{{/if}}
-                    {{#if (if-filter 'view-button' display)}}<button {{action 'viewItem'}} class='btn text-success'>{{fa-icon "file-o"}} View</button>{{/if}}
-                    {{#if (if-filter 'delete-button' display)}}<button {{action 'openModal' 'delete'}} class='btn text-danger'>{{fa-icon "trash"}} Delete</button>{{/if}}
+                    {{#if (if-filter 'download-button' display)}}
+                        <button {{action 'downloadItem'}} class='btn text-success'>{{fa-icon "download"}} Download</button>
+                    {{/if}}
+                    {{#if (and edit (if-filter 'rename-button' display))}}
+                        <button {{action 'toggleText' 'renaming'}} class='btn text-success'>{{fa-icon "pencil"}} Rename</button>
+                    {{/if}}
+                    {{#if (if-filter 'view-button' display)}}
+                        <button {{action 'viewItem'}} class='btn text-success'>{{fa-icon "file-o"}} View</button>
+                    {{/if}}
+                    {{#if (and edit (if-filter 'delete-button' display))}}
+                        <button {{action 'openModal' 'delete'}} class='btn text-danger'>{{fa-icon "trash"}} Delete</button>
+                    {{/if}}
                 {{else}}
-                    {{#if (if-filter 'delete-button' display)}}<button {{action 'openModal' 'deleteMultiple'}} class='btn text-danger'>{{fa-icon "trash"}} Delete multiple</button>{{/if}}
+                    {{#if (and edit (if-filter 'delete-button' display))}}
+                        <button {{action 'openModal' 'deleteMultiple'}} class='btn text-danger'>{{fa-icon "trash"}} Delete multiple</button>
+                    {{/if}}
                 {{/if}}
             {{else}}
-                {{#if (if-filter 'upload-button' display)}}<button class='dz-message btn text-success'>{{fa-icon "upload"}} Upload</button>{{/if}}
-                {{#if (if-filter 'download-button' display)}}<a href='{{downloadUrl}}' class='btn text-success'>{{fa-icon "download"}} Download as zip</a>{{/if}}
+                {{#if (and edit (if-filter 'upload-button' display))}}
+                    <button class='dz-message btn text-success'>{{fa-icon "upload"}} Upload</button>
+                {{/if}}
+                {{#if (if-filter 'download-button' display)}}
+                    <a href='{{downloadUrl}}' class='btn text-success'>{{fa-icon "download"}} Download as zip</a>
+                {{/if}}
             {{/if}}
             <button {{action 'toggleText' 'filtering'}} class='btn text-primary'>{{fa-icon "search"}} Filter</button>
             {{#if (if-filter 'info-button' display)}}<button {{action 'openModal' 'info'}} class='btn text-primary'>{{fa-icon "info"}}</button>{{/if}}
