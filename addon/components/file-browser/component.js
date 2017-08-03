@@ -22,6 +22,7 @@ export default Ember.Component.extend({
     //Can be overwritten to have a trimmed down display, these are all the options available to be displayed
     display: Ember.A(['header', 'share-link-column', 'size-column', 'version-column', 'downloads-column', 'modified-column', 'delete-button', 'rename-button', 'download-button', 'view-button', 'info-button', 'upload-button']),
     store: Ember.inject.service(),
+    growler: Ember.inject.service(),
     classNames: ['file-browser'],
     dropzoneOptions: {
         createImageThumbnails: false,
@@ -32,6 +33,15 @@ export default Ember.Component.extend({
     uploadUrl: null,
     edit: false,
     didReceiveAttrs(args) {
+        this.get('growler').growl({
+            message: 'ay lmao'
+        })
+        this.get('growler').growl({
+            message: 'ay lmao'
+        })
+        this.get('growler').growl({
+            message: 'ay lmao'
+        })
         if (args.newAttrs.items) { //Allow non-quickfiels widgets eventually
             this.set('loaded', true);
             this.set('_items', args.newAttrs.items);

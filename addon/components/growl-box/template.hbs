@@ -1,4 +1,11 @@
-<div class="alert alert-{{type}}" role="alert">
-    <span class="sr-only">Error:</span>
-    {{message}}
+<div class='growl-box pull-right'>
+    {{#each growler.growls as | growl |}}
+        <div class="alert alert-{{growl.type}}" role="alert">
+            {{growl.message}}
+            {{#if growl.dismissable}}
+            <!-- dismiss (set dismiised to true on the object) -->
+                <a href='' {{action 'dismiss' growl}}>{{fa-icon 'times'}}</a>
+            {{/if}}
+        </div>
+    {{/each}}
 </div>

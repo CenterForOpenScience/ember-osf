@@ -19,15 +19,12 @@ export default Ember.Component.extend({
         return index > -1;
     }),
     _flashTiming: Ember.observer('item.flash.message', function() {
-        console.log('observer actually getting hit');
         setTimeout(() => {
             let item = this.get('item');
             if (item) {
                 item.set('flash', null);
             }
-        }, 2000);
-        //setTimeout
-        //set flash to null
+        }, this.get('item.flash.time') || 2000);
     }),
     size: Ember.computed('item.size', function() {
         return humanFileSize(this.get('item.size'), true);

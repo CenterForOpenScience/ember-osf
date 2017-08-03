@@ -3,6 +3,10 @@ import layout from './template';
 
 export default Ember.Component.extend({
     layout,
-    type: 'danger',
-    message: 'You dun goofed'
+    growler: Ember.inject.service(),
+    actions: {
+        dismiss(growl) {
+            growl.set('dismissed', true);
+        }
+    }
 });
