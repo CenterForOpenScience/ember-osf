@@ -46,20 +46,28 @@
                             </li>
                         {{else}}
                             {{!SERVICE LINK}}
-                            <li>
-                                <a href="{{navLink.href}}">
-                                    {{#if (eq navLink.type 'addAPreprint')}}
-                                        <span class="hidden-xs hidden-sm">
-                                            {{navLink.name}}
-                                        </span>
-                                        <span class="hidden-md hidden-lg hidden-xl">
-                                            {{t 'eosf.navbar.add'}}
-                                        </span>
-                                    {{else}}
+                            {{#if (eq navLink.type 'donateToCOS')}}
+                                <li class="navbar-donate-button">
+                                    <a href="{{navLink.href}}">
                                         {{navLink.name}}
-                                    {{/if}}
-                                </a>
-                            </li>
+                                    </a>
+                                </li>
+                            {{else}}
+                                <li>
+                                    <a href="{{navLink.href}}">
+                                        {{#if (eq navLink.type 'addAPreprint')}}
+                                            <span class="hidden-xs hidden-sm">
+                                                {{navLink.name}}
+                                            </span>
+                                            <span class="hidden-md hidden-lg hidden-xl">
+                                                {{t 'eosf.navbar.add'}}
+                                            </span>
+                                        {{else}}
+                                            {{navLink.name}}
+                                        {{/if}}
+                                    </a>
+                                </li>
+                            {{/if}}
                         {{/if}}
                     {{/each}}
                     {{!AUTH NAVBAR}}
