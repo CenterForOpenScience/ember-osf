@@ -46,7 +46,7 @@
                             </li>
                         {{else}}
                             {{!SERVICE LINK}}
-                            {{#if (eq navLink.name.string "Donate")}}
+                            {{#if (eq navLink.type 'donateToCOS')}}
                                 <li class="navbar-donate-button">
                                     <a href="{{navLink.href}}">
                                         {{navLink.name}}

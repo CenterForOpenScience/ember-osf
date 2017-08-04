@@ -33,7 +33,8 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
                 },
                 {
                     name: i18n.t('eosf.navbar.donate'),
-                    href: 'https://cos.io/donate'
+                    href: 'https://cos.io/donate',
+                    type: 'donateToCOS'
                 },
 
             ],
@@ -53,7 +54,8 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
                 },
                 {
                     name: i18n.t('eosf.navbar.donate'),
-                    href: 'https://cos.io/donate'
+                    href: 'https://cos.io/donate',
+                    type: 'donateToCOS'
                 },
 
             ],
@@ -68,7 +70,8 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
                 },
                 {
                     name: i18n.t('eosf.navbar.donate'),
-                    href: 'https://cos.io/donate'
+                    href: 'https://cos.io/donate',
+                    type: 'donateToCOS'
                 },
 
             ],
@@ -79,7 +82,8 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
                 },
                 {
                     name: i18n.t('eosf.navbar.donate'),
-                    href: 'https://cos.io/donate'
+                    href: 'https://cos.io/donate',
+                    type: 'donateToCOS'
                 },
 
             ]
