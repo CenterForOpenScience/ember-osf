@@ -33,15 +33,6 @@ export default Ember.Component.extend({
     uploadUrl: null,
     edit: false,
     didReceiveAttrs(args) {
-        this.get('growler').growl({
-            message: 'ay lmao'
-        })
-        this.get('growler').growl({
-            message: 'ay lmao'
-        })
-        this.get('growler').growl({
-            message: 'ay lmao'
-        })
         if (args.newAttrs.items) { //Allow non-quickfiels widgets eventually
             this.set('loaded', true);
             this.set('_items', args.newAttrs.items);
@@ -80,21 +71,10 @@ export default Ember.Component.extend({
     filtering: false,
     renaming: false,
     uploading: Ember.A(),
-    // rootItem: Ember.computed('breadcrumbs.[]', {
-    //     get() {
-    //         return this.get('breadcrumbs.firstObject');
-    //     },
-    //     set(_, item) {
-    //         let wrappedItem = wrapItem(item);
-    //         this.set('breadcrumbs', Ember.A([wrappedItem]));
-    //     }
-    // }),
     filter: null,
     modalOpen: false,
-    // atRoot: Ember.computed.equal('breadcrumbs.length', 1),
-    // currentParent: Ember.computed.readOnly('breadcrumbs.lastObject'),
-    _items: Ember.A(),//Ember.computed.reads('currentParent.childItems.firstObject.childItems'),
-    itemsLoaded: true,//Ember.computed.readOnly('currentParent.childItemsLoaded'),
+    _items: Ember.A(),
+    itemsLoaded: true,
     selectedItems: Ember.computed.filterBy('items', 'isSelected', true),
     loadedChanged: Ember.observer('itemsLoaded', function() {
         let containerWidth = this.$().width();
@@ -112,14 +92,9 @@ export default Ember.Component.extend({
         let width = 5 + 2 * !display.includes('share-link-column') + !display.includes('size-column') + !display.includes('version-column') + !display.includes('downloads-column') + 2 * !display.includes('modified-column');
         return width;
     }),
-    _error(message) {
-        //send message
-    },
     browserState: Ember.computed('loaded', '_items', function() {
         return this.get('loaded') ? (this.get('_items').length ? (this.get('items').length ? 'show' : 'filtered') : 'empty') : 'loading';
     }),
-    //infinite scrolling
-    //typeahead of filtering with only a single page load, lazy loading of the pages
     actions: {
         //dropzone listeners
         addedFile(_, __, file) {
@@ -132,14 +107,13 @@ export default Ember.Component.extend({
             this.set('dropping', true);
         },
         dragEnd() {
-            //TODO this is not being triggered consistently enough. How fix?
             this.set('dropping', false);
         },
         error(_, __, file, response) {
-            debugger;
             this.get('uploading').removeObject(file);
-            //send warning on failure
-            //TODO failure success messaging engine
+            this.get('growler').growl({
+                message: response
+            });
         },
         success(_, __, file, response) {
             this.get('uploading').removeObject(file);
@@ -249,7 +223,7 @@ export default Ember.Component.extend({
                 item.set('flash', {
                     message: 'Delete failed',
                     type: 'danger'
-                })
+                });
             }).then(() => this.set('modalOpen', false));
         },
         deleteItems() {
@@ -270,7 +244,10 @@ export default Ember.Component.extend({
                     }, 1800);
                 })
                 .fail(data => {
-                    debugger
+                    item.set('flash', {
+                        message: 'Delete failed',
+                        type: 'danger'
+                    });
                 }).then(() => this.set('modalOpen', false));
             }
         },

@@ -4,7 +4,7 @@
             {{growl.message}}
             {{#if growl.dismissable}}
             <!-- dismiss (set dismiised to true on the object) -->
-                <a href='' {{action 'dismiss' growl}}>{{fa-icon 'times'}}</a>
+                <button class='close' {{action 'dismiss' growl}}>{{fa-icon 'times'}}</button>
             {{/if}}
         </div>
     {{/each}}

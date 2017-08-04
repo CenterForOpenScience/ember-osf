@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 const Growl = Ember.Object.extend({
-    timer: null,
+    timer: 5000,
     type: 'danger',
     message: 'Something went wrong.',
     dismissed: false,
