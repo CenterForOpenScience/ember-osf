@@ -12,206 +12,207 @@
     drop=(action 'dragEnd')
     enable=true
 }}
-<div class="actions-header row" style="margin-bottom:10px">
-    {{#if textFieldOpen}}
-        <div class="col-xs-9 filter-input">
-            {{input placeholder=(if filtering "Filter" selectedItems.firstObject.itemName) class='form-control' value=textValue type="text" enter=(action "textValueKeypress")}}
-        </div>
-        <div class='col-xs-3'>
-            <button {{action 'toggleText' textFieldOpen}} class='btn pull-right'>{{fa-icon "times"}}</button>
-            {{#if renaming}}
-                <button {{action 'rename'}} class='btn pull-right'>{{fa-icon "pencil"}}</button>
-            {{/if}}
-        </div>
-    {{else}}
-        <div class='pull-right'>
-            {{#if selectedItems}}
-                {{! TODO: show available actions for selected files }}
-                {{#if (eq selectedItems.length 1)}}
-                    {{#if (if-filter 'download-button' display)}}
-                        <button {{action 'downloadItem'}} class='btn text-success'>{{fa-icon "download"}} Download</button>
-                    {{/if}}
-                    {{#if (and edit (if-filter 'rename-button' display))}}
-                        <button {{action 'toggleText' 'renaming'}} class='btn text-success'>{{fa-icon "pencil"}} Rename</button>
-                    {{/if}}
-                    {{#if (if-filter 'view-button' display)}}
-                        <button {{action 'viewItem'}} class='btn text-success'>{{fa-icon "file-o"}} View</button>
-                    {{/if}}
-                    {{#if (and edit (if-filter 'delete-button' display))}}
-                        <button {{action 'openModal' 'delete'}} class='btn text-danger'>{{fa-icon "trash"}} Delete</button>
+    <div class="actions-header row" style="margin-bottom:10px">
+        {{#if textFieldOpen}}
+            <div class="col-xs-9 filter-input">
+                {{input placeholder=(if filtering "Filter" selectedItems.firstObject.itemName) class='form-control' value=textValue type="text" enter=(action "textValueKeypress")}}
+            </div>
+            <div class='col-xs-3'>
+                <button {{action 'toggleText' textFieldOpen}} class='btn pull-right'>{{fa-icon "times"}}</button>
+                {{#if renaming}}
+                    <button {{action 'rename'}} class='btn pull-right'>{{fa-icon "pencil"}}</button>
+                {{/if}}
+            </div>
+        {{else}}
+            <div class='pull-right'>
+                {{#if selectedItems}}
+                    {{! TODO: show available actions for selected files }}
+                    {{#if (eq selectedItems.length 1)}}
+                        {{#if (if-filter 'download-button' display)}}
+                            <button {{action 'downloadItem'}} class='btn text-success'>{{fa-icon "download"}} Download</button>
+                        {{/if}}
+                        {{#if (and edit (if-filter 'rename-button' display))}}
+                            <button {{action 'toggleText' 'renaming'}} class='btn text-success'>{{fa-icon "pencil"}} Rename</button>
+                        {{/if}}
+                        {{#if (if-filter 'view-button' display)}}
+                            <button {{action 'viewItem'}} class='btn text-success'>{{fa-icon "file-o"}} View</button>
+                        {{/if}}
+                        {{#if (and edit (if-filter 'delete-button' display))}}
+                            <button {{action 'openModal' 'delete'}} class='btn text-danger'>{{fa-icon "trash"}} Delete</button>
+                        {{/if}}
+                    {{else}}
+                        {{#if (and edit (if-filter 'delete-button' display))}}
+                            <button {{action 'openModal' 'deleteMultiple'}} class='btn text-danger'>{{fa-icon "trash"}} Delete multiple</button>
+                        {{/if}}
                     {{/if}}
                 {{else}}
-                    {{#if (and edit (if-filter 'delete-button' display))}}
-                        <button {{action 'openModal' 'deleteMultiple'}} class='btn text-danger'>{{fa-icon "trash"}} Delete multiple</button>
+                    {{#if (and edit (if-filter 'upload-button' display))}}
+                        <button class='dz-message btn text-success'>{{fa-icon "upload"}} Upload</button>
+                    {{/if}}
+                    {{#if (if-filter 'download-button' display)}}
+                        <a href='{{downloadUrl}}' class='btn text-success'>{{fa-icon "download"}} Download as zip</a>
                     {{/if}}
                 {{/if}}
-            {{else}}
-                {{#if (and edit (if-filter 'upload-button' display))}}
-                    <button class='dz-message btn text-success'>{{fa-icon "upload"}} Upload</button>
-                {{/if}}
-                {{#if (if-filter 'download-button' display)}}
-                    <a href='{{downloadUrl}}' class='btn text-success'>{{fa-icon "download"}} Download as zip</a>
-                {{/if}}
-            {{/if}}
-            <button {{action 'toggleText' 'filtering'}} class='btn text-primary'>{{fa-icon "search"}} Filter</button>
-            {{#if (if-filter 'info-button' display)}}<button {{action 'openModal' 'info'}} class='btn text-primary'>{{fa-icon "info"}}</button>{{/if}}
-        </div>
-    {{/if}}
-</div>
-{{#if (if-filter 'header' display)}}
-    <div class="row column-labels-header">
-        <div class="col-xs-{{nameColumnWidth}} file-browser-header header">
-            Name
-            {{fa-icon 'chevron-up' click=(action 'sort' 'itemName' 'asc')}}
-            {{fa-icon 'chevron-down' click=(action 'sort' 'itemName' 'des')}}
-        </div>
-        {{#if (if-filter 'share-link-column' display)}}
-            <div class="col-xs-2 file-browser-header header">
-                Share Link
-            </div>
-        {{/if}}
-        {{#if (if-filter 'size-column' display)}}
-            <div class="col-xs-1 file-browser-header header">
-                Size
-            </div>
-        {{/if}}
-        {{#if (if-filter 'version-column' display)}}
-            <div class="col-xs-1 file-browser-header header">
-                Version
-            </div>
-        {{/if}}
-        {{#if (if-filter 'downloads-column' display)}}
-            <div class="col-xs-1 file-browser-header header">
-                Downloads
-            </div>
-        {{/if}}
-        {{#if (if-filter 'modified-column'  display)}}
-            <div class="col-xs-2 file-browser-header header">
-                Modified
-                {{fa-icon 'chevron-up' click=(action 'sort' 'dateModified' 'asc')}}
-                {{fa-icon 'chevron-down' click=(action 'sort' 'dateModified' 'des')}}
+                <button {{action 'toggleText' 'filtering'}} class='btn text-primary'>{{fa-icon "search"}} Filter</button>
+                {{#if (if-filter 'info-button' display)}}<button {{action 'openModal' 'info'}} class='btn text-primary'>{{fa-icon "info"}}</button>{{/if}}
             </div>
         {{/if}}
     </div>
-{{/if}}
-<div class='file-browser-list'>
-    {{#if (eq browserState 'loading')}}
-        {{fa-icon 'spinner' size=3 pulse=true}}
-    {{else if (eq browserState 'empty')}}
-        <div class='file-placeholder'>
-            <div>{{fa-icon 'upload' size=5}}</div>
-            <div class='file-placeholder-text'>Drop files here to upload</div>
+    {{#if (if-filter 'header' display)}}
+        <div class="row column-labels-header">
+            <div class="col-xs-{{nameColumnWidth}} file-browser-header header">
+                Name
+                {{fa-icon 'chevron-up' click=(action 'sort' 'itemName' 'asc')}}
+                {{fa-icon 'chevron-down' click=(action 'sort' 'itemName' 'des')}}
+            </div>
+            {{#if (if-filter 'share-link-column' display)}}
+                <div class="col-xs-2 file-browser-header header">
+                    Share Link
+                </div>
+            {{/if}}
+            {{#if (if-filter 'size-column' display)}}
+                <div class="col-xs-1 file-browser-header header">
+                    Size
+                </div>
+            {{/if}}
+            {{#if (if-filter 'version-column' display)}}
+                <div class="col-xs-1 file-browser-header header">
+                    Version
+                </div>
+            {{/if}}
+            {{#if (if-filter 'downloads-column' display)}}
+                <div class="col-xs-1 file-browser-header header">
+                    Downloads
+                </div>
+            {{/if}}
+            {{#if (if-filter 'modified-column'  display)}}
+                <div class="col-xs-2 file-browser-header header">
+                    Modified
+                    {{fa-icon 'chevron-up' click=(action 'sort' 'dateModified' 'asc')}}
+                    {{fa-icon 'chevron-down' click=(action 'sort' 'dateModified' 'des')}}
+                </div>
+            {{/if}}
         </div>
-    {{else}}
-        {{#if modalOpen}}
-            <div id="modal">
-                <div class="modal-content">
-                    {{! modalId }}
-                    {{#if (eq modalOpen 'info')}}
-                        <div class="modal-header">
-                            <h3 class="modal-title break-word">How to Use the File Browser</h3>
-                            <button {{action 'closeModal'}} class="close">
-                                {{fa-icon "times"}}
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p><b>Select rows:</b> Click on a row (outside the add-on, file, or folder name) to show further actions in the toolbar. Use Command or Shift keys to select multiple files.</p>
-                            <p><b>Open files:</b> Click a file name to go to view the file in the OSF.</p>
-                            <p><b>Open files in new tab:</b> Press Command (Ctrl in Windows) and click a file name to open it in a new tab.</p>
-                            <p><b>Download as zip:</b> Click on the row of an add-on or folder and click the Download as Zip button in the toolbar. <i>Not available for all storage add-ons.</i></p>
-                            <p><b>Copy files:</b> Press Option (Alt in Windows) while dragging a file to a new folder or component. <i>Only for contributors with write access.</i></p>
-                        </div>
-                        <div class="modal-footer">
-                            <button {{action 'closeModal'}} class='btn modal-btn btn-secondary'>Close</button>
-                        </div>
-                    {{else if (eq modalOpen 'delete')}}
-                        <div class="modal-header">
-                            <h3 class="modal-title break-word">Delete "{{selectedItems.firstObject.itemName}}"?</h3>
-                            <button {{action 'closeModal'}} class="close">
-                                {{fa-icon "times"}}
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p>This action is irreversible.</p>
-                        </div>
-                        <div class="modal-footer">
-                            <a href='' {{action 'closeModal'}} class='btn modal-btn btn-default'>Cancel</a>
-                            <a href='' {{action 'deleteItem'}} class='btn modal-btn btn-danger'>Delete</a>
-                        </div>
-                    {{else if (eq modalOpen 'deleteMultiple')}}
-                        <div class="modal-header">
-                            <h3 class="modal-title break-word">Delete multiple?</h3>
-                            <button {{action 'closeModal'}} class="close">
-                                {{fa-icon "times"}}
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p>This action is irreversible.</p>
-                            {{#each selectedItems as | item |}}
-                                <b>{{item.itemName}}</b>
-                                <hr style='margin-top: 5px'>
-                            {{/each}}
-                        </div>
-                        <div class="modal-footer">
-                            <a href='' {{action 'closeModal'}} class='btn modal-btn btn-default'>Cancel</a>
-                            <a href='' {{action 'deleteItems'}} class='btn modal-btn btn-danger'>Delete</a>
-                        </div>
-                    {{else if (eq modalOpen 'renameConflict')}}
-                        <div class="modal-header">
-                            <h3 class="modal-title break-word">An item named {{textValue}} already exists in this location.</h3>
-                            <button {{action 'closeModal'}} class="close">
-                                {{fa-icon "times"}}
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p>"Keep Both" will retain both files (and their version histories) in this location.</p>
-                            <p>"Replace" will overwrite the existing file in this location. You will lose previous versions of the overwritten file. You will keep previous versions of the moved file.</p>
-                        </div>
-                        <div class="modal-footer">
-                            <a href='' {{action 'cancelRename'}} class='btn modal-btn btn-default'>Cancel</a>
-                            <a href='' {{action '_rename' 'keep'}} class='btn modal-btn btn-primary'>Keep both</a>
-                            <a href='' {{action '_rename' 'replace'}} class='btn modal-btn btn-primary'>Replace</a>
+    {{/if}}
+    <div class='file-browser-list'>
+        {{#if (eq browserState 'loading')}}
+            {{fa-icon 'spinner' size=3 pulse=true}}
+        {{else if (eq browserState 'empty')}}
+            <div class='file-placeholder'>
+                <div>{{fa-icon 'upload' size=5}}</div>
+                <div class='file-placeholder-text'>Drop files here to upload</div>
+            </div>
+        {{else}}
+            {{#if modalOpen}}
+                <div id="modal">
+                    <div class="modal-content">
+                        {{! modalId }}
+                        {{#if (eq modalOpen 'info')}}
+                            <div class="modal-header">
+                                <h3 class="modal-title break-word">How to Use the File Browser</h3>
+                                <button {{action 'closeModal'}} class="close">
+                                    {{fa-icon "times"}}
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p><b>Select rows:</b> Click on a row (outside the add-on, file, or folder name) to show further actions in the toolbar. Use Command or Shift keys to select multiple files.</p>
+                                <p><b>Open files:</b> Click a file name to go to view the file in the OSF.</p>
+                                <p><b>Open files in new tab:</b> Press Command (Ctrl in Windows) and click a file name to open it in a new tab.</p>
+                                <p><b>Download as zip:</b> Click on the row of an add-on or folder and click the Download as Zip button in the toolbar. <i>Not available for all storage add-ons.</i></p>
+                                <p><b>Copy files:</b> Press Option (Alt in Windows) while dragging a file to a new folder or component. <i>Only for contributors with write access.</i></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button {{action 'closeModal'}} class='btn modal-btn btn-secondary'>Close</button>
+                            </div>
+                        {{else if (eq modalOpen 'delete')}}
+                            <div class="modal-header">
+                                <h3 class="modal-title break-word">Delete "{{selectedItems.firstObject.itemName}}"?</h3>
+                                <button {{action 'closeModal'}} class="close">
+                                    {{fa-icon "times"}}
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>This action is irreversible.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <a href='' {{action 'closeModal'}} class='btn modal-btn btn-default'>Cancel</a>
+                                <a href='' {{action 'deleteItem'}} class='btn modal-btn btn-danger'>Delete</a>
+                            </div>
+                        {{else if (eq modalOpen 'deleteMultiple')}}
+                            <div class="modal-header">
+                                <h3 class="modal-title break-word">Delete multiple?</h3>
+                                <button {{action 'closeModal'}} class="close">
+                                    {{fa-icon "times"}}
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>This action is irreversible.</p>
+                                {{#each selectedItems as | item |}}
+                                    <b>{{item.itemName}}</b>
+                                    <hr style='margin-top: 5px'>
+                                {{/each}}
+                            </div>
+                            <div class="modal-footer">
+                                <a href='' {{action 'closeModal'}} class='btn modal-btn btn-default'>Cancel</a>
+                                <a href='' {{action 'deleteItems'}} class='btn modal-btn btn-danger'>Delete</a>
+                            </div>
+                        {{else if (eq modalOpen 'renameConflict')}}
+                            <div class="modal-header">
+                                <h3 class="modal-title break-word">An item named {{textValue}} already exists in this location.</h3>
+                                <button {{action 'closeModal'}} class="close">
+                                    {{fa-icon "times"}}
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>"Keep Both" will retain both files (and their version histories) in this location.</p>
+                                <p>"Replace" will overwrite the existing file in this location. You will lose previous versions of the overwritten file. You will keep previous versions of the moved file.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <a href='' {{action 'cancelRename'}} class='btn modal-btn btn-default'>Cancel</a>
+                                <a href='' {{action '_rename' 'keep'}} class='btn modal-btn btn-primary'>Keep both</a>
+                                <a href='' {{action '_rename' 'replace'}} class='btn modal-btn btn-primary'>Replace</a>
+                            </div>
+                        {{/if}}
+                    </div>
+                </div>
+            {{/if}}
+            {{#if (or modalOpen dropping)}}
+                <div class='shade'>
+                    {{#if dropping}}
+                        <div class='upload-drop'>
+                            <div class='upload-text'>{{fa-icon 'upload' size=5}}</div>
+                            <div class='upload-text'>Drop file to upload</div>
                         </div>
                     {{/if}}
                 </div>
+            {{/if}}
+            <div class='items'>
+                {{#each uploading as |file|}}
+                    <div class="row">
+                        <div class="col-xs-5 file-browser-header">
+                            {{file-browser-icon item=file}}
+                            {{file.name}}
+                        </div>
+                        <div class="col-xs-5">
+                            <div class="progress">
+                                <div id="uploading-{{file.size}}" class="progress-bar" role="progressbar"></div>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 file-browser-header"></div>
+                    </div>
+                {{/each}}
+                {{#each items as |item|}}
+                    {{file-browser-item
+                        item=item
+                        selectItem=(action 'selectItem')
+                        openItem=(action 'openItem')
+                        class=(if item.isSelected 'selected')
+                        selectMultiple=(action 'selectMultiple')
+                        display=display
+                        nameColumnWidth=nameColumnWidth
+                    }}
+                {{/each}}
             </div>
         {{/if}}
-        {{#if (or modalOpen dropping)}}
-            <div class='shade'>{{#if dropping}}<div class='upload-drop'>
-                <div class='upload-text'>{{fa-icon 'upload' size=5}}</div>
-                <div class='upload-text'>Drop file to upload</div></div>
-            {{/if}}</div>
-        {{/if}}
-        <div class='items'>
-            {{#each uploading as |file|}}
-                <div class="row">
-                    <div class="col-xs-5 file-browser-header">
-                        {{file-browser-icon item=file}}
-                        {{file.name}}
-
-                    </div>
-                    <div class="col-xs-5">
-                        <div class="progress">
-                            <div id="uploading-{{file.size}}" class="progress-bar" role="progressbar"></div>
-                        </div>
-                    </div>
-
-                    <div class="col-xs-2 file-browser-header"></div>
-                </div>
-            {{/each}}
-            {{#each items as |item|}}
-                {{file-browser-item
-                    item=item
-                    selectItem=(action 'selectItem')
-                    openItem=(action 'openItem')
-                    class=(if item.isSelected 'selected')
-                    selectMultiple=(action 'selectMultiple')
-                    display=display
-                    nameColumnWidth=nameColumnWidth
-                }}
-            {{/each}}
-        </div>
-    {{/if}}
-
-</div>
+    </div>
 {{/dropzone-widget}}

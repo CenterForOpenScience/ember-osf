@@ -3,7 +3,6 @@
         <div class="alert alert-{{growl.type}}" role="alert">
             {{growl.message}}
             {{#if growl.dismissable}}
-            <!-- dismiss (set dismiised to true on the object) -->
                 <button class='close' {{action 'dismiss' growl}}>{{fa-icon 'times'}}</button>
             {{/if}}
         </div>

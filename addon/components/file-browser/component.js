@@ -209,7 +209,7 @@ export default Ember.Component.extend({
                 type: 'DELETE',
                 xhrFields: {withCredentials: true}
             })
-            .success(data => {
+            .success(() => {
                 //TODO rethink the flash system, this seems gross nooddly
                 item.set('flash', {
                     message: 'This file has been deleted',
@@ -219,7 +219,7 @@ export default Ember.Component.extend({
                     this.get('_items').removeObject(item);
                 }, 1800);
             })
-            .fail(data => {
+            .fail(() => {
                 item.set('flash', {
                     message: 'Delete failed',
                     type: 'danger'
@@ -234,7 +234,7 @@ export default Ember.Component.extend({
                     type: 'DELETE',
                     xhrFields: {withCredentials: true}
                 })
-                .success(data => {
+                .success(() => {
                     item_.set('flash', {
                         message: 'This file has been deleted',
                         type: 'danger'
@@ -243,8 +243,8 @@ export default Ember.Component.extend({
                         this.get('_items').removeObject(item_);
                     }, 1800);
                 })
-                .fail(data => {
-                    item.set('flash', {
+                .fail(() => {
+                    item_.set('flash', {
                         message: 'Delete failed',
                         type: 'danger'
                     });
@@ -284,7 +284,6 @@ export default Ember.Component.extend({
             this.toggleProperty('renaming');
         },
         rename() {
-            let item = this.get('selectedItems.firstObject');
             let rename = this.get('textValue');
             let conflict = false;
             for (let item of this.get('_items')) {
@@ -315,10 +314,10 @@ export default Ember.Component.extend({
         openModal(modalType) {
             this.set('modalOpen', modalType);
         },
-        closeModal(pre) {
+        closeModal() {
             this.set('modalOpen', false);
         },
-        textValueKeypress(e) {
+        textValueKeypress() {
             if (this.get('renaming')) {
                 this.send('rename');
             }

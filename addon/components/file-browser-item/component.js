@@ -27,7 +27,7 @@ export default Ember.Component.extend({
         }, this.get('item.flash.time') || 2000);
     }),
     size: Ember.computed('item.size', function() {
-        return humanFileSize(this.get('item.size'), true);
+        return this.get('item.size') ? humanFileSize(this.get('item.size'), true) : '';
     }),
     date: Ember.computed('item.dateModified', function() {
         let date = this.get('item.dateModified');
@@ -35,7 +35,7 @@ export default Ember.Component.extend({
     }),
     link: Ember.computed('item.path', function() {
         let link = this.get('item.path');
-        return pathJoin(window.location.origin, link);
+        return link ? pathJoin(window.location.origin, link) : 'No link available';
     }),
     versionLink: Ember.computed('item.currentVersion', function() {
         return this.get('item.path') + '?revision=' + this.get('item.currentVersion');

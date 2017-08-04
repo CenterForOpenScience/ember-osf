@@ -1,4 +1,5 @@
-import humanFileSize from 'dummy/utils/human-file-size';
+import humanFileSize from 'ember-osf/utils/human-file-size';
+
 import { module, test } from 'qunit';
 
 module('Unit | Utility | human file size');
