@@ -30,7 +30,12 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
                 {
                     name: i18n.t('eosf.navbar.search'),
                     href: '#'
-                }
+                },
+                {
+                    name: i18n.t('eosf.navbar.donate'),
+                    href: 'https://cos.io/donate',
+                    type: 'donateToCOS'
+                },
 
             ],
             PREPRINTS: [
@@ -47,6 +52,11 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
                     name: i18n.t('eosf.navbar.support'),
                     href: serviceLinks.preprintsSupport
                 },
+                {
+                    name: i18n.t('eosf.navbar.donate'),
+                    href: 'https://cos.io/donate',
+                    type: 'donateToCOS'
+                },
 
             ],
             REGISTRIES: [
@@ -58,13 +68,24 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
                     name: i18n.t('eosf.navbar.support'),
                     href: serviceLinks.registriesSupport
                 },
+                {
+                    name: i18n.t('eosf.navbar.donate'),
+                    href: 'https://cos.io/donate',
+                    type: 'donateToCOS'
+                },
 
             ],
             MEETINGS: [
                 {
                     name: i18n.t('eosf.navbar.search'),
                     href: serviceLinks.meetingsHome
-                }
+                },
+                {
+                    name: i18n.t('eosf.navbar.donate'),
+                    href: 'https://cos.io/donate',
+                    type: 'donateToCOS'
+                },
+
             ]
         });
 
