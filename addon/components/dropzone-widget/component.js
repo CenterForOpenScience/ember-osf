@@ -32,10 +32,7 @@ export default Ember.Component.extend({
     classNameBindings: ['dropzone'],
     dropzone: true,
     enable: true,
-    didInsertElement() {
-        if (!this.get('enable')) {
-            return;
-        }
+    loadDropzone() {
         let preUpload = this.get('preUpload');
         let dropzoneOptions = this.get('options') || {};
 
@@ -74,5 +71,18 @@ export default Ember.Component.extend({
                 drop.on(event, (...args) => this.get(event)(this, drop, ...args));
             }
         });
+    },
+    _wasEnabled: Ember.observer('enable', function() {
+        if (this.get('enable') && this.get('loaded') && !this.get('attached')) {
+            this.set('attached', true);
+            this.loadDropzone();
+        }
+    }),
+    didInsertElement() {
+        this.set('loaded', true);
+        if (!this.get('enable')) {
+            return;
+        }
+        this.loadDropzone();
     }
 });
