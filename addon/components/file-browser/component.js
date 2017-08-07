@@ -200,10 +200,7 @@ export default Ember.Component.extend({
             let downloadLink = this.get('selectedItems.firstObject.links.download');
             window.location = downloadLink;
         },
-        deleteItem(){
-            let item = this.get('selectedItems.firstObject');
-            let url = item.get('links.download');
-
+        _deleteItem(item, url) {
             authenticatedAJAX({
                 url: url,
                 type: 'DELETE',
@@ -224,32 +221,20 @@ export default Ember.Component.extend({
                     message: 'Delete failed',
                     type: 'danger'
                 });
-            }).then(() => this.set('modalOpen', false));
+            });
+        },
+        deleteItem(){
+            let item = this.get('selectedItems.firstObject');
+            let url = item.get('links.download');
+            this.send('_deleteItem', item, url);
+            this.set('modalOpen', false);
         },
         deleteItems() {
             for (let item_ of this.get('selectedItems')) {
                 let url = item_.get('links.download');
-                authenticatedAJAX({
-                    url: url,
-                    type: 'DELETE',
-                    xhrFields: {withCredentials: true}
-                })
-                .success(() => {
-                    item_.set('flash', {
-                        message: 'This file has been deleted',
-                        type: 'danger'
-                    });
-                    setTimeout(() => {
-                        this.get('_items').removeObject(item_);
-                    }, 1800);
-                })
-                .fail(() => {
-                    item_.set('flash', {
-                        message: 'Delete failed',
-                        type: 'danger'
-                    });
-                }).then(() => this.set('modalOpen', false));
+                this.send('_deleteItem', item_, url);
             }
+            this.set('modalOpen', false);
         },
         _rename(conflict) {
             let item = this.get('selectedItems.firstObject');
@@ -288,6 +273,11 @@ export default Ember.Component.extend({
             let conflict = false;
             for (let item of this.get('_items')) {
                 if (item.get('itemName') === rename) {
+                    if (item === this.get('selectedItems.firstObject')) {
+                        this.set('textValue', null);
+                        this.toggleProperty('renaming');
+                        return;
+                    }
                     conflict = true;
                     break;
                 }
