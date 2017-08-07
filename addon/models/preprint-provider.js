@@ -8,6 +8,7 @@ export default OsfModel.extend({
     domainRedirectEnabled: DS.attr('boolean'),
     example: DS.attr('fixstring'),
     advisoryBoard: DS.attr('string'),
+    emailSupport: DS.attr('fixstring'),
     subjectsAcceptable: DS.attr(),
     footerLinks: DS.attr('string'),
     allowSubmissions: DS.attr('boolean'),
@@ -15,6 +16,7 @@ export default OsfModel.extend({
     shareSource: DS.attr('string'),
     // Relationships
     taxonomies: DS.hasMany('taxonomy'),
+    highlightedTaxonomies: DS.hasMany('taxonomy'),
     preprints: DS.hasMany('preprint', { inverse: 'provider', async: true }),
     licensesAcceptable: DS.hasMany('license', { inverse: null }),
 });

@@ -472,11 +472,28 @@ export default Ember.Component.extend(Analytics, hostAppName, {
             if (!filterList.length || (key === 'providers' && this.get('theme.isProvider')))
                 return;
 
-            filters.push({
-                terms: {
-                    [val]: filterList
+            if (val == 'subjects') {
+                var matched = [];
+                for (let filter of filterList) {
+                    matched.push({
+                        match: {
+                            [val]: filter
+                        }
+                    });
                 }
-            });
+
+                filters.push({
+                    bool: {
+                        should: matched
+                    }
+                });
+            } else {
+                filters.push({
+                    terms: {
+                        [val]: filterList
+                    }
+                });
+            }
         });
 
         // For PREPRINTS and REGISTRIES. If theme.isProvider, add provider(s) to query body
@@ -551,11 +568,12 @@ export default Ember.Component.extend(Analytics, hostAppName, {
                     workType: hit._source['@type'],
                     abstract: hit._source.description,
                     subjects: hit._source.subjects.map(each => ({ text: each })),
+                    subject_synonyms: hit._source.subject_synonyms.map(each => ({ text: each })),
                     providers: hit._source.sources.map(item => ({ name: item })), // For PREPRINTS, REGISTRIES
                     hyperLinks: [// Links that are hyperlinks from hit._source.lists.links
                         {
                             type: 'share',
-                            url: config.OSF.shareBaseUrl + `${hit._source.type}` + '/' + hit._id
+                            url: config.OSF.shareBaseUrl + `${hit._source.type.replace(/ /g,'')}` + '/' + hit._id
                         }
                     ],
                     infoLinks: [], // Links that are not hyperlinks  hit._source.lists.links
@@ -760,17 +778,6 @@ export default Ember.Component.extend(Analytics, hostAppName, {
         toggleShowLuceneHelp() {
             // Toggles display of Lucene Search help modal
             this.toggleProperty('showLuceneHelp');
-        },
-        typing(val, event) {
-             // Fires on keyup in search bar
-             // Ignores all keycodes that don't result in the value changing
-             // 8 == Backspace, 32 == Space
-            if (event.keyCode < 49 && !(event.keyCode === 8 || event.keyCode === 32)) {
-                return;
-            }
-            // Tracks search on keypress, debounced
-            Ember.run.debounce(this, this.trackDebouncedSearch, 3000);
-            this.search();
         },
         updateFilters(filterType, item) {
             // For PREPRINTS and REGISTRIES.  Modifies activeFilters.

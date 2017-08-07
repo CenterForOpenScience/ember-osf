@@ -40,7 +40,7 @@ export default Ember.Mixin.create({
             let routing = this.get('routing');
             let params = Object.values(transition.params).filter(param => Object.values(param).length);
             let url = routing.generateURL(transition.targetName, params, transition.queryParams);
-            window.location = getAuthUrl(url);
+            window.location = getAuthUrl(window.location.origin + url);
         } else {
             return this._super(...arguments);
         }

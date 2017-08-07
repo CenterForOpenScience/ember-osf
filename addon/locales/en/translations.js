@@ -20,9 +20,11 @@ export default {
             buttonSubmit: 'Create account'
         },
         navbar: {
+            add: 'Add',
             addAPreprint: 'Add a preprint',
             browse: 'Browse',
             cancelSearch: 'Cancel search',
+            donate: 'Donate',
             goHome: 'Go home',
             myProjects: 'My Projects',
             search: 'Search',

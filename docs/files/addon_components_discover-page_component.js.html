@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.5.0</em>
+            <em>API Docs for: 0.6.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -42,6 +42,7 @@
                                 <li><a href="../classes/Analytics.html">Analytics</a></li>
                                 <li><a href="../classes/auth.html">auth</a></li>
                                 <li><a href="../classes/author-link.html">author-link</a></li>
+                                <li><a href="../classes/buildSecondaryNavLinks.html">buildSecondaryNavLinks</a></li>
                                 <li><a href="../classes/CasAuthenticatedRouteMixin.html">CasAuthenticatedRouteMixin</a></li>
                                 <li><a href="../classes/Citation.html">Citation</a></li>
                                 <li><a href="../classes/citation-widget.html">citation-widget</a></li>
@@ -61,7 +62,6 @@
                                 <li><a href="../classes/elem-id.html">elem-id</a></li>
                                 <li><a href="../classes/eosf-project-nav.html">eosf-project-nav</a></li>
                                 <li><a href="../classes/faceted-search.html">faceted-search</a></li>
-                                <li><a href="../classes/FetchAllRouteMixin.html">FetchAllRouteMixin</a></li>
                                 <li><a href="../classes/File.html">File</a></li>
                                 <li><a href="../classes/file-browser.html">file-browser</a></li>
                                 <li><a href="../classes/file-browser-icon.html">file-browser-icon</a></li>
@@ -79,6 +79,7 @@
                                 <li><a href="../classes/fix-special-char-helper.html">fix-special-char-helper</a></li>
                                 <li><a href="../classes/fixstring.html">fixstring</a></li>
                                 <li><a href="../classes/GenericDataADapter.html">GenericDataADapter</a></li>
+                                <li><a href="../classes/getDisplayName.html">getDisplayName</a></li>
                                 <li><a href="../classes/HostAppNameMixin.html">HostAppNameMixin</a></li>
                                 <li><a href="../classes/ifFilter.html">ifFilter</a></li>
                                 <li><a href="../classes/InfinityCustomMixin.html">InfinityCustomMixin</a></li>
@@ -87,6 +88,7 @@
                                 <li><a href="../classes/Log.html">Log</a></li>
                                 <li><a href="../classes/Metaschema.html">Metaschema</a></li>
                                 <li><a href="../classes/navbar-auth-dropdown.html">navbar-auth-dropdown</a></li>
+                                <li><a href="../classes/new-navbar-auth-dropdown.html">new-navbar-auth-dropdown</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
                                 <li><a href="../classes/NodeActionsMixin.html">NodeActionsMixin</a></li>
                                 <li><a href="../classes/NodeLink.html">NodeLink</a></li>
@@ -96,6 +98,7 @@
                                 <li><a href="../classes/osf-mode-footer.html">osf-mode-footer</a></li>
                                 <li><a href="../classes/osf-navbar.html">osf-navbar</a></li>
                                 <li><a href="../classes/osf-paginator.html">osf-paginator</a></li>
+                                <li><a href="../classes/osf-services.html">osf-services</a></li>
                                 <li><a href="../classes/OsfAdapter.html">OsfAdapter</a></li>
                                 <li><a href="../classes/OsfAgnosticAuthController.html">OsfAgnosticAuthController</a></li>
                                 <li><a href="../classes/OsfAgnosticAuthRoute.html">OsfAgnosticAuthRoute</a></li>
@@ -128,6 +131,7 @@
                                 <li><a href="../classes/search-facet-worktype-hierarchy.html">search-facet-worktype-hierarchy</a></li>
                                 <li><a href="../classes/search-help-modal.html">search-help-modal</a></li>
                                 <li><a href="../classes/search-result.html">search-result</a></li>
+                                <li><a href="../classes/service-links.html">service-links</a></li>
                                 <li><a href="../classes/sign-up.html">sign-up</a></li>
                                 <li><a href="../classes/sortOptionDisplay.html">sortOptionDisplay</a></li>
                                 <li><a href="../classes/TaggableMixin.html">TaggableMixin</a></li>
@@ -240,6 +244,7 @@ import { getUniqueList, getSplitParams, encodeParams } from &#x27;../../utils/el
  *    showActiveFilters=showActiveFilters
  *    sortOptions=sortOptions
  *    subject=subject
+ *    themeProvider=themeProvider
 * }}
  * &#x60;&#x60;&#x60;
  * @class discover-page
@@ -299,11 +304,11 @@ export default Ember.Component.extend(Analytics, hostAppName, {
             { key: &#x27;contributors&#x27;, title: &#x27;People&#x27;, component: &#x27;search-facet-typeahead&#x27;, base: &#x27;agents&#x27;, type: &#x27;person&#x27; }
         ]
      */
-    facets: Ember.computed(&#x27;processedTypes&#x27;, function() {
+    facets: Ember.computed(function() {
         return [
             { key: &#x27;sources&#x27;, title: &#x60;${this.get(&#x27;i18n&#x27;).t(&#x27;eosf.components.discoverPage.source&#x27;)}&#x60;, component: &#x27;search-facet-source&#x27; },
             { key: &#x27;date&#x27;, title: &#x60;${this.get(&#x27;i18n&#x27;).t(&#x27;eosf.components.discoverPage.date&#x27;)}&#x60;, component: &#x27;search-facet-daterange&#x27; },
-            { key: &#x27;type&#x27;, title: &#x60;${this.get(&#x27;i18n&#x27;).t(&#x27;eosf.components.discoverPage.type&#x27;)}&#x60;, component: &#x27;search-facet-worktype&#x27;, data: this.get(&#x27;processedTypes&#x27;) },
+            { key: &#x27;type&#x27;, title: &#x60;${this.get(&#x27;i18n&#x27;).t(&#x27;eosf.components.discoverPage.type&#x27;)}&#x60;, component: &#x27;search-facet-worktype&#x27;, },
             { key: &#x27;tags&#x27;, title: &#x60;${this.get(&#x27;i18n&#x27;).t(&#x27;eosf.components.discoverPage.tag&#x27;)}&#x60;, component: &#x27;search-facet-typeahead&#x27; },
             { key: &#x27;publishers&#x27;, title: &#x60;${this.get(&#x27;i18n&#x27;).t(&#x27;eosf.components.discoverPage.publisher&#x27;)}&#x60;, component: &#x27;search-facet-typeahead&#x27;, base: &#x27;agents&#x27;, type: &#x27;publisher&#x27; },
             { key: &#x27;funders&#x27;, title: &#x60;${this.get(&#x27;i18n&#x27;).t(&#x27;eosf.components.discoverPage.funder&#x27;)}&#x60;, component: &#x27;search-facet-typeahead&#x27;, base: &#x27;agents&#x27;, type: &#x27;funder&#x27; },
@@ -371,7 +376,6 @@ export default Ember.Component.extend(Analytics, hostAppName, {
      * @default &#x27;&#x27;
      */
     provider: &#x27;&#x27;,
-    providerName: null, // For PREPRINTS and REGISTRIES. Provider name, if theme.isProvider, ex: psyarxiv
     /**
      * Publishers query parameter.  If &quot;publishers&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.
      * @property {String} publishers
@@ -479,6 +483,12 @@ export default Ember.Component.extend(Analytics, hostAppName, {
      * @default &#x27;&#x27;
      */
     tags: &#x27;&#x27;,
+    /**
+     * themeProvider
+     * @property {Object} Preprint provider loaded from theme service. Should be passed from consuming service so it is loaded before SHARE is queried.
+     * @default &#x27;&#x27;
+     */
+    themeProvider: null,
     took: 0,
     /**
      * type query parameter.  If &quot;type&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.
@@ -540,11 +550,6 @@ export default Ember.Component.extend(Analytics, hostAppName, {
             this.setActiveFiltersAndReload(&#x27;activeFilters.providers&#x27;, filter.split(&#x27;OR&#x27;));
         }
     })),
-    processedTypes: Ember.computed(&#x27;types&#x27;, function() {
-        // Ember-SHARE property
-        const types = this.get(&#x27;types&#x27;) &amp;&amp; this.get(&#x27;types&#x27;).CreativeWork ? this.get(&#x27;types&#x27;).CreativeWork.children : {};
-        return this.transformTypes(types);
-    }),
     reloadSearch: Ember.observer(&#x27;activeFilters.providers.@each&#x27;, &#x27;activeFilters.subjects.@each&#x27;, &#x27;activeFilters.types.@each&#x27;, function() {
         // For PREPRINTS and REGISTRIES.  Reloads page if activeFilters change.
         this.set(&#x27;page&#x27;, 1);
@@ -670,11 +675,15 @@ export default Ember.Component.extend(Analytics, hostAppName, {
             });
         });
 
-        // For PREPRINTS and REGISTRIES. If theme.isProvider, add this provider to the query body
-        if (this.get(&#x27;theme.isProvider&#x27;) &amp;&amp; this.get(&#x27;providerName&#x27;) !== null) {
+        // For PREPRINTS and REGISTRIES. If theme.isProvider, add provider(s) to query body
+        if (this.get(&#x27;theme.isProvider&#x27;) &amp;&amp; this.get(&#x27;themeProvider.name&#x27;) !== null) {
+            const themeProvider = this.get(&#x27;themeProvider&#x27;);
+            // Regular preprint providers will have their search results restricted to the one provider.
+            // If the provider has additionalProviders, all of these providers will be added to the &quot;sources&quot; SHARE query
+            const sources = (themeProvider.get(&#x27;additionalProviders&#x27;) || []).length ? themeProvider.get(&#x27;additionalProviders&#x27;) : [themeProvider.get(&#x27;name&#x27;)];
             filters.push({
                 terms: {
-                    sources: [this.get(&#x27;providerName&#x27;)]
+                    sources: sources
                 }
             });
         }
@@ -710,28 +719,13 @@ export default Ember.Component.extend(Analytics, hostAppName, {
         this.set(&#x27;displayQueryBody&#x27;, { query });
         return this.set(&#x27;queryBody&#x27;, queryBody);
     },
-    getTypes() {
-        // Ember-SHARE method
-        return Ember.$.ajax({
-            url: config.OSF.shareApiUrl + &#x27;/schema/creativework/hierarchy/&#x27;,
-            crossDomain: true,
-            type: &#x27;GET&#x27;,
-            contentType: &#x27;application/vnd.api+json&#x27;,
-        }).then((json) =&gt; {
-            if (json.data) {
-                this.set(&#x27;types&#x27;, json.data);
-            }
-        });
-    },
     init() {
         //TODO Sort initial results on date_modified
         // Runs on initial render.
         this._super(...arguments);
         this.set(&#x27;firstLoad&#x27;, true);
         this.set(&#x27;facetFilters&#x27;, Ember.Object.create());
-        this.getTypes();
         this.getCounts();
-        this.loadProvider();
         this.loadPage();
     },
     loadPage() {
@@ -757,7 +751,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
                     hyperLinks: [// Links that are hyperlinks from hit._source.lists.links
                         {
                             type: &#x27;share&#x27;,
-                            url: config.OSF.shareBaseUrl + &#x60;${hit._source.type}&#x60; + &#x27;/&#x27; + hit._id
+                            url: config.OSF.shareBaseUrl + &#x60;${hit._source.type.replace(/ /g,&#x27;&#x27;)}&#x60; + &#x27;/&#x27; + hit._id
                         }
                     ],
                     infoLinks: [], // Links that are not hyperlinks  hit._source.lists.links
@@ -826,16 +820,6 @@ export default Ember.Component.extend(Analytics, hostAppName, {
             jqDeferred.fail((reason) =&gt; reject(reason));
         });
     },
-    loadProvider() {
-        // For PREPRINTS and REGISTRIES - Loads preprint provider if theme.isProvider
-        // Needed because theme&#x27;s provider was not loading before SHARE was queried.
-        if (this.get(&#x27;theme.isProvider&#x27;)) {
-            this.get(&#x27;theme.provider&#x27;).then(provider =&gt; {
-                this.set(&#x27;providerName&#x27;, provider.get(&#x27;name&#x27;));
-                this.loadPage();
-            });
-        }
-    },
     scrollToResults() {
         // Scrolls to top of search results
         Ember.$(&#x27;html, body&#x27;).scrollTop(this.$(&#x27;.results-top&#x27;).position().top);
@@ -866,21 +850,6 @@ export default Ember.Component.extend(Analytics, hostAppName, {
                 extra: this.get(&#x27;q&#x27;)
 
             });
-    },
-    transformTypes(obj) {
-        // Ember-SHARE method
-        if (typeof (obj) !== &#x27;object&#x27;) {
-            return obj;
-        }
-
-        for (let key in obj) {
-            let lowKey = key.replace(/([A-Z])/g, &#x27; $1&#x27;).trim().toLowerCase();
-            obj[lowKey] = this.transformTypes(obj[key]);
-            if (key !== lowKey) {
-                delete obj[key];
-            }
-        }
-        return obj;
     },
     actions: {
         addFilter(type, filterValue) {

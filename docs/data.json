@@ -4,7 +4,7 @@
         "description": "Ember components for interacting with the Open Science Framework",
         "url": "https://github.com/CenterForOpenScience/ember-osf",
         "logo": "https://cdn.cos.io/static/images/cos_wide.png",
-        "version": "0.5.0"
+        "version": "0.6.0"
     },
     "files": {
         "addon/adapters/osf-adapter.js": {
@@ -220,6 +220,22 @@
             "fors": {},
             "namespaces": {}
         },
+        "addon/components/new-navbar-auth-dropdown/component.js": {
+            "name": "addon/components/new-navbar-auth-dropdown/component.js",
+            "modules": {},
+            "classes": {
+                "new-navbar-auth-dropdown": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/components/new-osf-navbar/component.js": {
+            "name": "addon/components/new-osf-navbar/component.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "addon/components/oauth-popup/component.js": {
             "name": "addon/components/oauth-popup/component.js",
             "modules": {},
@@ -429,11 +445,30 @@
             "fors": {},
             "namespaces": {}
         },
-        "addon/helpers/elem-id.js": {
-            "name": "addon/helpers/elem-id.js",
+        "addon/const/service-links.js": {
+            "name": "addon/const/service-links.js",
+            "modules": {},
+            "classes": {
+                "service-links": 1,
+                "osf-services": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/helpers/build-secondary-nav-links.js": {
+            "name": "addon/helpers/build-secondary-nav-links.js",
             "modules": {
                 "helpers": 1
             },
+            "classes": {
+                "buildSecondaryNavLinks": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/helpers/elem-id.js": {
+            "name": "addon/helpers/elem-id.js",
+            "modules": {},
             "classes": {
                 "elem-id": 1
             },
@@ -452,6 +487,15 @@
             "modules": {},
             "classes": {
                 "fix-special-char-helper": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/helpers/get-display-name.js": {
+            "name": "addon/helpers/get-display-name.js",
+            "modules": {},
+            "classes": {
+                "getDisplayName": 1
             },
             "fors": {},
             "namespaces": {}
@@ -508,15 +552,6 @@
             "modules": {},
             "classes": {
                 "CommentableMixin": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "addon/mixins/fetch-all-route.js": {
-            "name": "addon/mixins/fetch-all-route.js",
-            "modules": {},
-            "classes": {
-                "FetchAllRouteMixin": 1
             },
             "fors": {},
             "namespaces": {}
@@ -977,11 +1012,12 @@
                 "file-widget": 1,
                 "license-picker": 1,
                 "navbar-auth-dropdown": 1,
+                "new-navbar-auth-dropdown": 1,
+                "osf-navbar": 1,
                 "oauth-popup": 1,
                 "osf-copyright": 1,
                 "osf-footer": 1,
                 "osf-mode-footer": 1,
-                "osf-navbar": 1,
                 "osf-paginator": 1,
                 "pagination-control": 1,
                 "search-dropdown": 1,
@@ -1000,15 +1036,18 @@
                 "total-share-results": 1,
                 "permissions": 1,
                 "providerRegex": 1,
+                "service-links": 1,
+                "osf-services": 1,
+                "buildSecondaryNavLinks": 1,
                 "elem-id": 1,
                 "filterReplace": 1,
                 "fix-special-char-helper": 1,
+                "getDisplayName": 1,
                 "ifFilter": 1,
                 "sortOptionDisplay": 1,
                 "Analytics": 1,
                 "CasAuthenticatedRouteMixin": 1,
                 "CommentableMixin": 1,
-                "FetchAllRouteMixin": 1,
                 "FileCacheBypassMixin": 1,
                 "FileItemMixin": 1,
                 "GenericDataADapter": 1,
@@ -1136,11 +1175,12 @@
                 "file-widget": 1,
                 "license-picker": 1,
                 "navbar-auth-dropdown": 1,
+                "new-navbar-auth-dropdown": 1,
+                "osf-navbar": 1,
                 "oauth-popup": 1,
                 "osf-copyright": 1,
                 "osf-footer": 1,
                 "osf-mode-footer": 1,
-                "osf-navbar": 1,
                 "osf-paginator": 1,
                 "pagination-control": 1,
                 "search-dropdown": 1,
@@ -1162,15 +1202,17 @@
             "elements": {},
             "classes": {
                 "permissions": 1,
-                "providerRegex": 1
+                "providerRegex": 1,
+                "service-links": 1,
+                "osf-services": 1
             },
             "fors": {},
             "is_submodule": 1,
             "namespaces": {},
             "module": "ember-osf",
             "namespace": "",
-            "file": "addon/const/providerRegex.js",
-            "line": 7,
+            "file": "addon/const/service-links.js",
+            "line": 38,
             "description": "Predefined constants that are frequently referenced"
         },
         "helpers": {
@@ -1178,8 +1220,10 @@
             "submodules": {},
             "elements": {},
             "classes": {
+                "buildSecondaryNavLinks": 1,
                 "elem-id": 1,
                 "filterReplace": 1,
+                "getDisplayName": 1,
                 "ifFilter": 1,
                 "sortOptionDisplay": 1
             },
@@ -1200,7 +1244,6 @@
                 "Analytics": 1,
                 "CasAuthenticatedRouteMixin": 1,
                 "CommentableMixin": 1,
-                "FetchAllRouteMixin": 1,
                 "FileCacheBypassMixin": 1,
                 "FileItemMixin": 1,
                 "HostAppNameMixin": 1,
@@ -1575,7 +1618,7 @@
             "namespace": "",
             "file": "addon/components/discover-page/component.js",
             "line": 16,
-            "description": "Discover-page component. Builds a search interface utilizing SHARE.\nSee retraction-watch, registries, and preprints discover pages for working examples.\n\nMajority adapted from Ember-SHARE https://github.com/CenterForOpenScience/ember-share, with additions from PREPRINTS\nand REGISTRIES discover pages. Original Ember-SHARE facets and PREPRINTS/REGISTRIES facets behave differently at this time.\nYou can build a discover-page that uses Ember-SHARE type facets -OR- PREPRINTS/REGISTRIES type facets.  Would not recommend\nmixing until code is combined.\n\nHow to Use:\nPass in custom text like searchPlaceholder.  The facets property will enable you to customize the filters\non the left-hand side of the discover page. Sort options are the sort dropdown options.  The lockedParams are the\nquery parameters that are always locked in your application. Each query parameter must be passed in individually,\nso they are reflected in the URL.  Logo and custom colors must be placed in the consuming application's stylesheet. Individual components\ncan additionally be overridden in your application.\n\n Sample usage:\n ```handlebars\n{{discover-page\n  activeFilters=activeFilters\n  detailRoute=detailRoute\n  discoverHeader=discoverHeader\n  facets=facets\n  fetchedProviders=model\n  filterMap=filterMap\n  filterReplace=filterReplace\n  lockedParams=lockedParams\n  page=page\n  provider=provider\n  q=q\n  queryParams=queryParams\n  searchPlaceholder=searchPlaceholder\n  showActiveFilters=showActiveFilters\n  sortOptions=sortOptions\n  subject=subject\n }}\n ```"
+            "description": "Discover-page component. Builds a search interface utilizing SHARE.\nSee retraction-watch, registries, and preprints discover pages for working examples.\n\nMajority adapted from Ember-SHARE https://github.com/CenterForOpenScience/ember-share, with additions from PREPRINTS\nand REGISTRIES discover pages. Original Ember-SHARE facets and PREPRINTS/REGISTRIES facets behave differently at this time.\nYou can build a discover-page that uses Ember-SHARE type facets -OR- PREPRINTS/REGISTRIES type facets.  Would not recommend\nmixing until code is combined.\n\nHow to Use:\nPass in custom text like searchPlaceholder.  The facets property will enable you to customize the filters\non the left-hand side of the discover page. Sort options are the sort dropdown options.  The lockedParams are the\nquery parameters that are always locked in your application. Each query parameter must be passed in individually,\nso they are reflected in the URL.  Logo and custom colors must be placed in the consuming application's stylesheet. Individual components\ncan additionally be overridden in your application.\n\n Sample usage:\n ```handlebars\n{{discover-page\n  activeFilters=activeFilters\n  detailRoute=detailRoute\n  discoverHeader=discoverHeader\n  facets=facets\n  fetchedProviders=model\n  filterMap=filterMap\n  filterReplace=filterReplace\n  lockedParams=lockedParams\n  page=page\n  provider=provider\n  q=q\n  queryParams=queryParams\n  searchPlaceholder=searchPlaceholder\n  showActiveFilters=showActiveFilters\n  sortOptions=sortOptions\n  subject=subject\n  themeProvider=themeProvider\n }}\n ```"
         },
         "dropzone-widget": {
             "name": "dropzone-widget",
@@ -1723,7 +1766,7 @@
             "submodule": "components",
             "namespace": "",
             "file": "addon/components/license-picker/component.js",
-            "line": 10,
+            "line": 9,
             "description": "Widget to select a license on a project or preprint with the ability\nto only allow a subset of licenses and to autosave or save explictly\n```handlebars\n{{license-picker\n  licenses=availableLicenses\n  currentValues=basicsLicense\n  showCategories=false\n  editLicense=(action 'editLicense')\n  allowDismiss=false\n  autosave=true\n  showBorder=false\n  pressSubmit=(action 'saveBasics')}}\n```",
             "params": [
                 {
@@ -1778,6 +1821,36 @@
             "line": 10,
             "description": "Display the login dropdown on the navbar\n\nSample usage:\n```handlebars\n{{navbar-auth-dropdown\n  loginAction=loginAction\n  redirectUrl=redirectUrl}}\n```"
         },
+        "new-navbar-auth-dropdown": {
+            "name": "new-navbar-auth-dropdown",
+            "shortname": "new-navbar-auth-dropdown",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "components",
+            "namespace": "",
+            "file": "addon/components/new-navbar-auth-dropdown/component.js",
+            "line": 11,
+            "description": "Display the login dropdown on the navbar\n\nSample usage:\n```handlebars\n{{new-navbar-auth-dropdown\n  loginAction=loginAction\n  redirectUrl=redirectUrl}}\n```"
+        },
+        "osf-navbar": {
+            "name": "osf-navbar",
+            "shortname": "osf-navbar",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "components",
+            "namespace": "",
+            "file": "addon/components/osf-navbar/component.js",
+            "line": 10,
+            "description": "Display the OSF navbar\n\nSample usage:\n```handlebars\n{{osf-navbar\n  loginAction=loginAction\n  hideSearch=true}}\n```"
+        },
         "oauth-popup": {
             "name": "oauth-popup",
             "shortname": "oauth-popup",
@@ -1820,7 +1893,7 @@
             "submodule": "components",
             "namespace": "",
             "file": "addon/components/osf-footer/component.js",
-            "line": 9,
+            "line": 10,
             "description": "Display the OSF footer"
         },
         "osf-mode-footer": {
@@ -1837,21 +1910,6 @@
             "file": "addon/components/osf-mode-footer/component.js",
             "line": 11,
             "description": "If development mode, display a red banner in the footer"
-        },
-        "osf-navbar": {
-            "name": "osf-navbar",
-            "shortname": "osf-navbar",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "ember-osf",
-            "submodule": "components",
-            "namespace": "",
-            "file": "addon/components/osf-navbar/component.js",
-            "line": 10,
-            "description": "Display the OSF navbar\n\nSample usage:\n```handlebars\n{{osf-navbar\n  loginAction=loginAction\n  hideSearch=true}}\n```"
         },
         "osf-paginator": {
             "name": "osf-paginator",
@@ -1996,7 +2054,7 @@
             "module": "ember-osf",
             "namespace": "",
             "file": "addon/components/search-facet-worktype/component.js",
-            "line": 5,
+            "line": 6,
             "description": "Copied from Ember-SHARE.  Type facet.\n\n```handlebars\n{{search-facet-worktype\n     key=facet.key\n     options=facet\n     aggregations=aggregations\n     state=(get facetStates facet.key)\n     filter=(get facetFilters facet.key)\n     onChange=(action 'facetChanged')\n}}\n```"
         },
         "search-facet-worktype-button": {
@@ -2052,7 +2110,7 @@
             "module": "ember-osf",
             "namespace": "",
             "file": "addon/components/search-result/component.js",
-            "line": 7,
+            "line": 8,
             "description": "Adapted from Ember-SHARE and Ember Preprints\nUsed for search results on discover page.\n\n```handlebars\n{{search-result\n     detailRoute=detailRoute\n     addFilter='addFilter'\n     result=result\n     queryParams=queryParams\n     filterReplace=filterReplace\n     updateFilters=(action 'updateFilters')\n}}\n```"
         },
         "sign-up": {
@@ -2128,6 +2186,60 @@
             "file": "addon/const/providerRegex.js",
             "line": 7
         },
+        "service-links": {
+            "name": "service-links",
+            "shortname": "service-links",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "const",
+            "namespace": "",
+            "file": "addon/const/service-links.js",
+            "line": 8
+        },
+        "osf-services": {
+            "name": "osf-services",
+            "shortname": "osf-services",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "const",
+            "namespace": "",
+            "file": "addon/const/service-links.js",
+            "line": 38
+        },
+        "buildSecondaryNavLinks": {
+            "name": "buildSecondaryNavLinks",
+            "shortname": "buildSecondaryNavLinks",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "helpers",
+            "namespace": "",
+            "file": "addon/helpers/build-secondary-nav-links.js",
+            "line": 9,
+            "description": "Returns secondary links corresponding to a given service",
+            "params": [
+                {
+                    "name": "currentService",
+                    "description": "name of current service (HOME, PREPRINTS, REGISTRIES, or MEETINGS)",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "Returns array of secondary link information",
+                "type": "Array"
+            }
+        },
         "elem-id": {
             "name": "elem-id",
             "shortname": "elem-id",
@@ -2202,6 +2314,32 @@
             "uses": [
                 "fix-special-char"
             ]
+        },
+        "getDisplayName": {
+            "name": "getDisplayName",
+            "shortname": "getDisplayName",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "helpers",
+            "namespace": "",
+            "file": "addon/helpers/get-display-name.js",
+            "line": 8,
+            "description": "Return the username to display in the navbar. Shortens long usernames.",
+            "params": [
+                {
+                    "name": "username",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "Username if less than 40 characters, otherwise, returns truncated username",
+                "type": "String"
+            }
         },
         "ifFilter": {
             "name": "ifFilter",
@@ -2315,27 +2453,6 @@
             "line": 8,
             "description": "Controller mixin that implements basic commenting functionality. Uses the base model in the route model hook.",
             "extends": "Ember.Mixin"
-        },
-        "FetchAllRouteMixin": {
-            "name": "FetchAllRouteMixin",
-            "shortname": "FetchAllRouteMixin",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "ember-osf",
-            "submodule": "mixins",
-            "namespace": "",
-            "file": "addon/mixins/fetch-all-route.js",
-            "line": 9,
-            "description": "The FetchAllRouteMixin supports loading *all* records from a specified model or relationship.\nEssentially, it un-paginates an API\n\nThis may be useful for select applications (such as frontend-powered search boxes), but is strongly discouraged\nfor most applications. Consider using available pagination functionality instead.",
-            "access": "public",
-            "tagname": "",
-            "extends": "Ember.Mixin",
-            "uses": [
-                "InfinityCustom"
-            ]
         },
         "FileCacheBypassMixin": {
             "name": "FileCacheBypassMixin",
@@ -3440,7 +3557,7 @@
         },
         {
             "file": "addon/components/discover-page/component.js",
-            "line": 67,
+            "line": 68,
             "description": "Primary filters for service - currently setup for PREPRINTS and REGISTRIES. Ember-SHARE's equivalent is facetStates.",
             "itemtype": "property",
             "name": "activeFilters",
@@ -3452,7 +3569,7 @@
         },
         {
             "file": "addon/components/discover-page/component.js",
-            "line": 73,
+            "line": 74,
             "description": "Contributors query parameter.  If \"contributors\" is one of your query params, it must be passed to the component so it can be reflected in the URL.",
             "itemtype": "property",
             "name": "contributors",
@@ -3464,7 +3581,7 @@
         },
         {
             "file": "addon/components/discover-page/component.js",
-            "line": 79,
+            "line": 80,
             "description": "Name of detail route for consuming application, like \"content\" or \"detail\". Override if search result title should link to detail route.",
             "itemtype": "property",
             "name": "detailRoute",
@@ -3475,7 +3592,7 @@
         },
         {
             "file": "addon/components/discover-page/component.js",
-            "line": 84,
+            "line": 85,
             "description": "Text header for top of discover page.",
             "itemtype": "property",
             "name": "discoverHeader",
@@ -3486,7 +3603,7 @@
         },
         {
             "file": "addon/components/discover-page/component.js",
-            "line": 89,
+            "line": 90,
             "description": "End query parameter.  If \"end\" is one of your query params, it must be passed to the component so it can be reflected in the URL.",
             "itemtype": "property",
             "name": "end",
@@ -3498,7 +3615,7 @@
         },
         {
             "file": "addon/components/discover-page/component.js",
-            "line": 95,
+            "line": 96,
             "description": "A list of the components to be used for the search facets.  Each list item should be a dictionary including the key (SHARE filter),\ntitle (search-facet heading in UI), and component (name of component).",
             "itemtype": "property",
             "name": "facets",
@@ -3510,7 +3627,7 @@
         },
         {
             "file": "addon/components/discover-page/component.js",
-            "line": 122,
+            "line": 123,
             "description": "For PREPRINTS ONLY.  Pass in the providers fetched in preprints app so they can be used in the provider carousel",
             "itemtype": "property",
             "name": "fetchedProviders",
@@ -3521,7 +3638,7 @@
         },
         {
             "file": "addon/components/discover-page/component.js",
-            "line": 127,
+            "line": 128,
             "description": "For PREPRINTS and REGISTRIES. A mapping of activeFilters to facet names expected by SHARE. Ex. {'providers': 'sources'}",
             "itemtype": "property",
             "name": "filterMap",
@@ -3532,7 +3649,7 @@
         },
         {
             "file": "addon/components/discover-page/component.js",
-            "line": 132,
+            "line": 133,
             "description": "For PREPRINTS and REGISTRIES. A mapping of filter names for front-end display. Ex. {OSF: 'OSF Preprints'}.",
             "itemtype": "property",
             "name": "filterReplace",
@@ -3543,7 +3660,7 @@
         },
         {
             "file": "addon/components/discover-page/component.js",
-            "line": 137,
+            "line": 138,
             "description": "Funders query parameter.  If \"funders\" is one of your query params, it must be passed to the component so it can be reflected in the URL.",
             "itemtype": "property",
             "name": "funders",
@@ -3555,7 +3672,7 @@
         },
         {
             "file": "addon/components/discover-page/component.js",
-            "line": 143,
+            "line": 144,
             "description": "Institutions query parameter.  If \"institutions\" is one of your query params, it must be passed to the component so it can be reflected in the URL.",
             "itemtype": "property",
             "name": "institutions",
@@ -3567,7 +3684,7 @@
         },
         {
             "file": "addon/components/discover-page/component.js",
-            "line": 150,
+            "line": 151,
             "description": "Language query parameter.  If \"language\" is one of your query params, it must be passed to the component so it can be reflected in the URL.",
             "itemtype": "property",
             "name": "language",
@@ -3579,7 +3696,7 @@
         },
         {
             "file": "addon/components/discover-page/component.js",
-            "line": 157,
+            "line": 158,
             "description": "Locked portions of search query that user cannot change.  Example: {'sources': 'PubMed Central'} will make PMC a locked source.",
             "itemtype": "property",
             "name": "lockedParams",
@@ -3590,7 +3707,7 @@
         },
         {
             "file": "addon/components/discover-page/component.js",
-            "line": 164,
+            "line": 165,
             "description": "Organizations query parameter.  If \"organizations\" is one of your query params, it must be passed to the component so it can be reflected in the URL.",
             "itemtype": "property",
             "name": "organizations",
@@ -3602,7 +3719,7 @@
         },
         {
             "file": "addon/components/discover-page/component.js",
-            "line": 170,
+            "line": 171,
             "description": "Page query parameter.  If \"page\" is one of your query params, it must be passed to the component so it can be reflected in the URL.",
             "itemtype": "property",
             "name": "page",
@@ -3614,7 +3731,7 @@
         },
         {
             "file": "addon/components/discover-page/component.js",
-            "line": 176,
+            "line": 177,
             "description": "Provider query parameter.  If \"provider\" is one of your query params, it must be passed to the component so it can be reflected in the URL.",
             "itemtype": "property",
             "name": "provider",
@@ -3767,7 +3884,19 @@
         },
         {
             "file": "addon/components/discover-page/component.js",
-            "line": 291,
+            "line": 290,
+            "description": "themeProvider",
+            "itemtype": "property",
+            "name": "Preprint provider loaded from theme service. Should be passed from consuming service so it is loaded before SHARE is queried.",
+            "type": "Object",
+            "default": "''",
+            "class": "discover-page",
+            "module": "ember-osf",
+            "submodule": "components"
+        },
+        {
+            "file": "addon/components/discover-page/component.js",
+            "line": 297,
             "description": "type query parameter.  If \"type\" is one of your query params, it must be passed to the component so it can be reflected in the URL.",
             "itemtype": "property",
             "name": "type",
@@ -3779,7 +3908,7 @@
         },
         {
             "file": "addon/components/discover-page/component.js",
-            "line": 387,
+            "line": 388,
             "description": "For PREPRINTS, REGISTRIES, RETRACTION WATCH - services where portion of query is restricted.\nBuilds the locked portion of the query.  For example, in preprints, type=preprint\nis something that cannot be modified by the user.",
             "itemtype": "method",
             "name": "buildLockedQueryBody",
@@ -3800,7 +3929,7 @@
         },
         {
             "file": "addon/components/discover-page/component.js",
-            "line": 443,
+            "line": 444,
             "description": "Builds query body to send to SHARE from a combination of locked Params, facetFilters and activeFilters",
             "itemtype": "method",
             "name": "getQueryBody",
@@ -3833,6 +3962,17 @@
             "submodule": "components"
         },
         {
+            "file": "addon/components/new-navbar-auth-dropdown/component.js",
+            "line": 34,
+            "description": "The URL to use for signup. May be overridden, eg for special campaign pages",
+            "itemtype": "property",
+            "name": "signupUrl",
+            "type": "{String}",
+            "class": "new-navbar-auth-dropdown",
+            "module": "ember-osf",
+            "submodule": "components"
+        },
+        {
             "file": "addon/components/osf-navbar/component.js",
             "line": 26,
             "description": "Whether search icons and functionality show up",
@@ -3845,7 +3985,7 @@
         },
         {
             "file": "addon/components/search-result/component.js",
-            "line": 31,
+            "line": 32,
             "description": "Array of query params being used in consuming app",
             "itemtype": "property",
             "name": "queryParams",
@@ -3855,7 +3995,7 @@
         },
         {
             "file": "addon/components/search-result/component.js",
-            "line": 36,
+            "line": 37,
             "description": "Search result from SHARE",
             "itemtype": "property",
             "name": "result",
@@ -3865,11 +4005,21 @@
         },
         {
             "file": "addon/components/search-result/component.js",
-            "line": 42,
+            "line": 43,
             "description": "Name of detail route for consuming application, if you want search result to link to a route in the consuming spp",
             "itemtype": "property",
             "name": "detailRoute",
             "type": "String",
+            "class": "search-result",
+            "module": "ember-osf"
+        },
+        {
+            "file": "addon/components/search-result/component.js",
+            "line": 48,
+            "description": "Provider loaded from theme service. Passed in from consuming application.",
+            "itemtype": "property",
+            "name": "themeProvider",
+            "type": "Object",
             "class": "search-result",
             "module": "ember-osf"
         },
@@ -3904,6 +4054,30 @@
             "name": "providerUrlRegex",
             "type": "{Object}",
             "class": "providerRegex",
+            "module": "ember-osf",
+            "submodule": "const"
+        },
+        {
+            "file": "addon/const/service-links.js",
+            "line": 12,
+            "description": "Provides some common osf links in a central location",
+            "itemtype": "property",
+            "name": "service-links",
+            "final": 1,
+            "type": "{Object}",
+            "class": "service-links",
+            "module": "ember-osf",
+            "submodule": "const"
+        },
+        {
+            "file": "addon/const/service-links.js",
+            "line": 42,
+            "description": "Provides list of OSF services and their links",
+            "itemtype": "property",
+            "name": "osfServices",
+            "final": 1,
+            "type": "{Array}",
+            "class": "osf-services",
             "module": "ember-osf",
             "submodule": "const"
         },
@@ -4043,126 +4217,6 @@
             "submodule": "mixins"
         },
         {
-            "file": "addon/mixins/fetch-all-route.js",
-            "line": 22,
-            "description": "The name of the URL parameter used by the API to control number of results per page",
-            "itemtype": "property",
-            "name": "perPageParam",
-            "type": "String",
-            "default": "page[size]",
-            "class": "FetchAllRouteMixin",
-            "module": "ember-osf",
-            "submodule": "mixins"
-        },
-        {
-            "file": "addon/mixins/fetch-all-route.js",
-            "line": 28,
-            "description": "The name of the URL parameter used by the API to control the page requested",
-            "itemtype": "property",
-            "name": "pageParam",
-            "type": "String",
-            "default": "page",
-            "class": "FetchAllRouteMixin",
-            "module": "ember-osf",
-            "submodule": "mixins"
-        },
-        {
-            "file": "addon/mixins/fetch-all-route.js",
-            "line": 34,
-            "description": "The name of the payload field that specifies how many pages are to be loaded. For OSF APIv2, this calculated field is added by serializer.",
-            "itemtype": "property",
-            "name": "totalPagesParam",
-            "type": "String",
-            "default": "meta.total",
-            "class": "FetchAllRouteMixin",
-            "module": "ember-osf",
-            "submodule": "mixins"
-        },
-        {
-            "file": "addon/mixins/fetch-all-route.js",
-            "line": 42,
-            "description": "If a string is provided, will set infinite fetch on the relationship with the specified name,\nfrom the model specified in the route's model hook",
-            "itemtype": "property",
-            "name": "relationshipToFetch",
-            "type": "String",
-            "default": "null",
-            "class": "FetchAllRouteMixin",
-            "module": "ember-osf",
-            "submodule": "mixins"
-        },
-        {
-            "file": "addon/mixins/fetch-all-route.js",
-            "line": 52,
-            "description": "Relationship querying reloads the relationship, so it can not be used as an in-place storage for the de-paginated list of records\nAs an ugly workaround, provide a new storage place that will not reflect mutations or updates to the list",
-            "itemtype": "property",
-            "name": "allRelated",
-            "class": "FetchAllRouteMixin",
-            "module": "ember-osf",
-            "submodule": "mixins"
-        },
-        {
-            "file": "addon/mixins/fetch-all-route.js",
-            "line": 60,
-            "description": "Sets up fetch-all query for a relationship field.",
-            "access": "public",
-            "tagname": "",
-            "itemtype": "method",
-            "name": "setupRelationshipFetch",
-            "params": [
-                {
-                    "name": "controller",
-                    "description": ""
-                },
-                {
-                    "name": "model",
-                    "description": ""
-                }
-            ],
-            "class": "FetchAllRouteMixin",
-            "module": "ember-osf",
-            "submodule": "mixins"
-        },
-        {
-            "file": "addon/mixins/fetch-all-route.js",
-            "line": 90,
-            "description": "Event listener that fetches more results automatically\nAs written, this does not handle fetch errors, and will not retry once an error is encountered",
-            "itemtype": "method",
-            "name": "infinityModelUpdated",
-            "class": "FetchAllRouteMixin",
-            "module": "ember-osf",
-            "submodule": "mixins"
-        },
-        {
-            "file": "addon/mixins/fetch-all-route.js",
-            "line": 100,
-            "description": "Model queries pass unchanged, but relationship queries require custom transformations to work with Ember-infinity\n\nember-data-has-many-query returns a DS.ManyArray, but Ember-infinity will not work unless given an ArrayProxy instance (with .content)",
-            "itemtype": "method",
-            "name": "afterInfinityModel",
-            "params": [
-                {
-                    "name": "infinityModelPromiseResult",
-                    "description": ""
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "*"
-            },
-            "class": "FetchAllRouteMixin",
-            "module": "ember-osf",
-            "submodule": "mixins"
-        },
-        {
-            "file": "addon/mixins/fetch-all-route.js",
-            "line": 123,
-            "description": "Convenience action for clickable buttons, mainly for use with debugging",
-            "itemtype": "method",
-            "name": "getMore",
-            "class": "FetchAllRouteMixin",
-            "module": "ember-osf",
-            "submodule": "mixins"
-        },
-        {
             "file": "addon/mixins/host-app-name.js",
             "line": 31,
             "description": "The name of the hosting app is stored in the config/environment.js. Use the package ember-get-config to\ngain access to the app's config file.",
@@ -4187,7 +4241,7 @@
         },
         {
             "file": "addon/mixins/infinity-custom.js",
-            "line": 29,
+            "line": 38,
             "description": "Use the infinityModel method in the place of `this.store.find('model')` to\ninitialize the Infinity Model for your route.",
             "itemtype": "method",
             "name": "infinityModel",
@@ -4218,7 +4272,7 @@
         },
         {
             "file": "addon/mixins/infinity-custom.js",
-            "line": 73,
+            "line": 82,
             "description": "request the next page from the adapter",
             "access": "private",
             "tagname": "",
