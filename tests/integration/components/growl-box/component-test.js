@@ -4,17 +4,18 @@ import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('growl-box', 'Integration | Component | growl box', {
     integration: true,
-    afterEach: function() {
+    beforeEach() {
         this.inject.service('growler');
+    },
+    afterEach() {
         Ember.run.next(() => {
-            this.get('growler').set('_growls', Ember.A()); //Clean up growls after every test
+            this.get('growler').clean();
         });
     }
 });
 //will not test for self-removal, all growls will be permanent to prevent
 
 test('default growl', function(assert) {
-    this.inject.service('growler');
 
     this.render(hbs`{{growl-box}}`);
     assert.equal(this.$().text().trim(), '');
@@ -30,7 +31,6 @@ test('default growl', function(assert) {
 });
 
 test('pass in success class', function(assert) {
-    this.inject.service('growler');
 
     Ember.run(() => {
         this.get('growler').growl({
@@ -44,7 +44,6 @@ test('pass in success class', function(assert) {
 });
 
 test('pass in message', function(assert) {
-    this.inject.service('growler');
 
     Ember.run(() => {
         this.get('growler').growl({
@@ -58,7 +57,6 @@ test('pass in message', function(assert) {
 });
 
 test('make it dissapear instantaneously', function(assert) {
-    this.inject.service('growler');
 
     Ember.run(() => {
         this.get('growler').growl({
@@ -72,7 +70,6 @@ test('make it dissapear instantaneously', function(assert) {
 });
 
 test('make it non-dismissable', function(assert) {
-    this.inject.service('growler');
 
     Ember.run(() => {
         this.get('growler').growl({

@@ -19,5 +19,8 @@ export default Ember.Service.extend({
                 this.get('_growls').removeObject(growl);
             }, growl.get('timer'));
         }
+    },
+    clean() {
+        this.get('_growls').clear();
     }
 });
