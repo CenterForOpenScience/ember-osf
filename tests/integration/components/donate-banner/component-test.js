@@ -8,7 +8,7 @@ moduleForComponent('donate-banner', 'Integration | Component | donate banner', {
 
 test('it renders', function(assert) {
 
-    this.set('testDate', new Date(2017, 8, 7));
+    this.set('testDate', new Date(2017, 7, 7));
 
     this.render(hbs`{{donate-banner currentDate=testDate}}`);
 
@@ -18,7 +18,7 @@ test('it renders', function(assert) {
 
 test('does not show', function(assert) {
 
-    this.set('testDate', new Date(2017, 6, 7));
+    this.set('testDate', new Date(2017, 5, 7));
 
     this.render(hbs`{{donate-banner currentDate=testDate}}`);
 
