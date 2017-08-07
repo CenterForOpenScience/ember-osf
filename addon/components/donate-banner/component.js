@@ -58,7 +58,7 @@ export default Ember.Component.extend(AnalyticsMixin, {
 
     changeDates: Ember.A([
         {
-            'date': new Date(2017, 8, 7),
+            'date': new Date(2017, 7, 7),
             'beforeText': 'The Center for Open Science (COS) created the OSF and ' +
                         'a suite of of free products to advance the work of ' +
                         'the research community. If you value these tools, ' +
@@ -68,7 +68,7 @@ export default Ember.Component.extend(AnalyticsMixin, {
             'linkText': 'Donate Now!'
         },
         {
-            'date': new Date(2017, 8, 14),
+            'date': new Date(2017, 7, 14),
             'beforeText': 'Thousands of researchers use the OSF and its related ' +
                           'services daily. If you value the OSF, ',
             'afterText':  ' to support the Center for Open Science ' +
@@ -77,7 +77,7 @@ export default Ember.Component.extend(AnalyticsMixin, {
             'linkText':   'make a donation'
         },
         {
-            'date': new Date(2017, 8, 21),
+            'date': new Date(2017, 7, 21),
             'beforeText': 'The Center for Open Science (COS) created the ' +
                           'OSF and its related services as public goods. ' +
                           'While these services will always be free to use ' +
@@ -86,7 +86,7 @@ export default Ember.Component.extend(AnalyticsMixin, {
             'linkText':   'Please support the OSF and COS with a donation today.'
         },
         {
-            'date': new Date(2017, 8, 28),
+            'date': new Date(2017, 7, 28),
             'beforeText': 'The Center for Open Science launched the ' +
                           'OSF with the goal of creating a service where ' +
                           'the entire research cycle is supported and ' +
@@ -96,7 +96,7 @@ export default Ember.Component.extend(AnalyticsMixin, {
             'linkText':   "Support COS's efforts"
         },
         {
-            'date': new Date(2017, 9, 4),
+            'date': new Date(2017, 8, 4),
             'beforeText': 'At the Center for Open Science (COS), we ' +
                           'envision a future in which ideas, processes ' +
                           'and outcomes of research are free and open to ' +
@@ -107,7 +107,7 @@ export default Ember.Component.extend(AnalyticsMixin, {
             'linkText': 'gift today.'
         },
         {
-            'date': new Date(2017, 9, 11)
+            'date': new Date(2017, 8, 11)
         }
     ]),
 });
