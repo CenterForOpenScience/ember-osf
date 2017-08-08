@@ -135,8 +135,8 @@
                                 <p>This action is irreversible.</p>
                             </div>
                             <div class="modal-footer">
-                                <a href='' {{action 'closeModal'}} class='btn modal-btn btn-default'>Cancel</a>
-                                <a href='' {{action 'deleteItem'}} class='btn modal-btn btn-danger'>Delete</a>
+                                <button {{action 'closeModal'}} class='btn modal-btn btn-default'>Cancel</button>
+                                <button {{action 'deleteItem'}} class='btn modal-btn btn-danger'>Delete</button>
                             </div>
                         {{else if (eq modalOpen 'deleteMultiple')}}
                             <div class="modal-header">
@@ -153,8 +153,8 @@
                                 {{/each}}
                             </div>
                             <div class="modal-footer">
-                                <a href='' {{action 'closeModal'}} class='btn modal-btn btn-default'>Cancel</a>
-                                <a href='' {{action 'deleteItems'}} class='btn modal-btn btn-danger'>Delete</a>
+                                <button {{action 'closeModal'}} class='btn modal-btn btn-default'>Cancel</button>
+                                <button {{action 'deleteItems'}} class='btn modal-btn btn-danger'>Delete</button>
                             </div>
                         {{else if (eq modalOpen 'renameConflict')}}
                             <div class="modal-header">
@@ -168,9 +168,9 @@
                                 <p>"Replace" will overwrite the existing file in this location. You will lose previous versions of the overwritten file. You will keep previous versions of the moved file.</p>
                             </div>
                             <div class="modal-footer">
-                                <a href='' {{action 'cancelRename'}} class='btn modal-btn btn-default'>Cancel</a>
-                                <a href='' {{action '_rename' 'keep'}} class='btn modal-btn btn-primary'>Keep both</a>
-                                <a href='' {{action '_rename' 'replace'}} class='btn modal-btn btn-primary'>Replace</a>
+                                <button {{action 'cancelRename'}} class='btn modal-btn btn-default'>Cancel</button>
+                                <button {{action '_rename' 'keep'}} class='btn modal-btn btn-primary'>Keep both</button>
+                                <button {{action '_rename' 'replace'}} class='btn modal-btn btn-primary'>Replace</button>
                             </div>
                         {{/if}}
                     </div>

@@ -13,7 +13,6 @@ moduleForComponent('growl-box', 'Integration | Component | growl box', {
         });
     }
 });
-//will not test for self-removal, all growls will be permanent to prevent
 
 test('default growl', function(assert) {
 
