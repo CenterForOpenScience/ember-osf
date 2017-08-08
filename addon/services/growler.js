@@ -8,6 +8,19 @@ const Growl = Ember.Object.extend({
     dismissable: true
 })
 
+/**
+ * @module ember-osf
+ * @submodule services
+ */
+
+/**
+ * Can be called to 'growl' error and success messages app-wide. Needs growl-box
+ * to be present in the template to output growls.
+ * Example use: this.get('growler').growl({message: 'Request timed out.'})
+ *
+ * @class growler
+ * @extends Ember.Service
+ */
 export default Ember.Service.extend({
     _growls: Ember.A(),
     growls: Ember.computed.filterBy('_growls', 'dismissed', false),

@@ -12,9 +12,6 @@ moduleForComponent('file-browser-item', 'Integration | Component | file browser 
             currentVersion: 2,
             extra: {
                 downloads: 192830
-            },
-            set(attribute, value) {
-                this[attribute] = value;
             }
         }
         this.set('item', item);

@@ -1,3 +1,21 @@
+/**
+ * @module ember-osf
+ * @submodule utils
+ */
+
+/**
+ * @class human-file-size
+ */
+
+/**
+ * Borrowed from osf code, transforms received number of bytes size into human-
+ * readable sizing.
+ *
+ * @method humanFileSize
+ * @param {Number|String} bytes Number of bytes
+ * @param {Boolean} bool Whether to use 1000 as the base for conversion or 1024
+ * @return {String}
+ */
 export default function humanFileSize(bytes, si) {
 //Borrowed from osfHelpers:
 //https://github.com/CenterForOpenScience/osf.io/blob/develop/website/static/js/osfHelpers.js#L645

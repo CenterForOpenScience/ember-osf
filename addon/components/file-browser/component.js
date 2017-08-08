@@ -9,10 +9,7 @@ import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
  *
  * Sample usage:
  * ```handlebars
- * {{file-browser
- *  rootItem=item
- *  openFile=(action 'openFile')
- *  openNode=(action 'openNode')}}
+ * {{file-browser}}
  * ```
  * @class file-browser
  */
