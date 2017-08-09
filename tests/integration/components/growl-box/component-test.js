@@ -11,6 +11,7 @@ moduleForComponent('growl-box', 'Integration | Component | growl box', {
         Ember.run.next(() => {
             this.get('growler').clean();
         });
+        Ember.run(this.get('growler'), 'destroy');
     }
 });
 

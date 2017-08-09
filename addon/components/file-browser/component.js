@@ -89,7 +89,6 @@ export default Ember.Component.extend({
         return width;
     }),
     browserState: Ember.computed('loaded', '_items', function() {
-        debugger;
         return this.get('loaded') ? (this.get('_items').length ? (this.get('items').length ? 'show' : 'filtered') : 'empty') : 'loading';
     }),
     actions: {
