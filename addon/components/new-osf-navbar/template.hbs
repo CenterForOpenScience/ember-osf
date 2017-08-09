@@ -23,12 +23,12 @@
 
                 {{!PRIMARY NAVIGATION - TOGGLE BETWEEN HOME, PREPRINTS, REGISTRIES, and MEETINGS}}
                 <div class="dropdown primary-nav">
-                    <button class="dropdown-toggle btn-link" data-toggle="dropdown" role="button" aria-expanded="false" aria-label={{t 'eosf.navbar.togglePrimary'}} onclick={{action 'closeSecondaryAndSearch'}}>
+                    <button class="dropdown-toggle btn-link" data-toggle="dropdown" role="button" aria-expanded="false" aria-label={{t 'eosf.navbar.togglePrimary'}} {{action 'closeSecondaryAndSearch'}} {{action 'click' 'button' 'Navbar - Dropdown Arrow'}}>
                         <span class="fa fa-caret-down fa-2x"></span>
                     </button>
                     <ul class="dropdown-menu service-dropdown" role="menu">
                         {{#each osfServices as |service|}}
-                            <li><a href="{{service.url}}">OSF<b>{{service.name}}</b></a></li>
+                            <li><a href="{{service.url}}" {{action 'click' 'link' (concat 'Navbar - ' service.name) preventDefault=false}}>OSF<b>{{service.name}}</b></a></li>
                         {{/each}}
                     </ul>
                 </div>
@@ -40,7 +40,7 @@
                         {{#if (and (eq currentService 'HOME') (eq navLink.type "search"))}}
                             <li>
                                 {{!TOGGLE SEARCH BUTTON FOR HOME SERVICE}}
-                                <button class="btn-link search-toggle" onclick={{action 'toggleSearch'}}>
+                                <button class="btn-link search-toggle" {{action 'toggleSearch'}} {{action 'click' 'button' (concat 'Navbar - ' currentService navLink.name)}}>
                                     {{t navLink.name}}
                                 </button>
                             </li>
@@ -48,13 +48,13 @@
                             {{!SERVICE LINK}}
                             {{#if (eq navLink.type 'donateToCOS')}}
                                 <li class="navbar-donate-button">
-                                    <a href="{{navLink.href}}">
+                                    <a href="{{navLink.href}}" {{action 'click' 'link' (concat 'Navbar - ' navLink.name) preventDefault=false}}>
                                         {{t navLink.name}}
                                     </a>
                                 </li>
                             {{else}}
                                 <li>
-                                    <a href="{{navLink.href}}">
+                                    <a href="{{navLink.href}}" {{action 'click' 'link' (concat 'Navbar - ' navlink.name) preventDefault=false}}>
                                         {{#if (eq navLink.type 'addAPreprint')}}
                                             <span class="hidden-xs hidden-sm">
                                                 {{t navLink.name}}
