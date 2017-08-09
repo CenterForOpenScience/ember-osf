@@ -30,9 +30,9 @@ export default Ember.Component.extend({
     uploadUrl: null,
     edit: false,
     didReceiveAttrs(args) {
-        if (args.newAttrs.items) { //Allow non-quickfiels widgets eventually
+        if (args.newAttrs.newItems) { //Allow non-quickfiels widgets eventually
             this.set('loaded', true);
-            this.set('_items', args.newAttrs.items);
+            this.set('_items', args.newAttrs.newItems);
             return;
         }
         if (args.newAttrs.userId) {
@@ -64,7 +64,6 @@ export default Ember.Component.extend({
 
         })
     },
-    breadcrumbs: null,
     filtering: false,
     renaming: false,
     uploading: Ember.A(),
@@ -90,6 +89,7 @@ export default Ember.Component.extend({
         return width;
     }),
     browserState: Ember.computed('loaded', '_items', function() {
+        debugger;
         return this.get('loaded') ? (this.get('_items').length ? (this.get('items').length ? 'show' : 'filtered') : 'empty') : 'loading';
     }),
     actions: {
