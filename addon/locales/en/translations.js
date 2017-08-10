@@ -47,7 +47,7 @@ export default {
         },
         navbar: {
             add: 'Add',
-            addAPreprint: 'Add a {{preprintWords.preprint}}',
+            addAPreprint: 'Add a preprint',
             browse: 'Browse',
             cancelSearch: 'Cancel search',
             donate: 'Donate',
