@@ -4,26 +4,24 @@ Automatically expose translations for addon in a way that can be merged in with 
  */
 import Ember from 'ember';
 import en from 'ember-osf/locales/en/translations';
-import tHelper from 'ember-i18n/helper';
-
 
 export function initialize(appInstance) {
-    tHelper.reopen({
+    const i18n = appInstance.lookup('service:i18n');
+    i18n.reopen({
         theme: Ember.inject.service(),
-        compute(_, params) {
-            let translations = this.get('i18n._locale.translations');
+        t(_, data) {
+            let translations = this.get('_locale.translations');
             let preprintWord = this.get('theme.provider.preprintWord') || 'preprint';
-            params = params || {};
-            params.preprintWords = {
+            data = data || {};
+            data.preprintWords = {
                 preprint: translations[`preprintWords.${preprintWord}.preprint`],
                 preprints: translations[`preprintWords.${preprintWord}.preprints`],
                 Preprint: translations[`preprintWords.${preprintWord}.Preprint`],
                 Preprints: translations[`preprintWords.${preprintWord}.Preprints`]
             };
-            return this._super(_, params);
+            return this._super(_, data);
         }
     });
-    const i18n = appInstance.lookup('service:i18n');
     i18n.addTranslations('en', en);
 }
 
