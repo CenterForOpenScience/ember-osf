@@ -15,10 +15,8 @@ import { serviceLinks } from '../const/service-links';
  */
 
 export default Ember.Helper.extend({  // Helper defined using a class, so can inject dependencies.
-    i18n: Ember.inject.service(),
     session: Ember.inject.service(),
     compute(params) { // Helpers defined using a class need a compute function
-        const i18n = this.get('i18n');
         const currentService = params[0].toUpperCase();
         const session = this.get('session');
         let links = Ember.Object.create({
