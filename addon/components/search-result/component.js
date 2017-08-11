@@ -29,6 +29,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     maxDescription: 300,
     showBody: false,
     i18n: Ember.inject.service(),
+    store: Ember.inject.service(),
     /**
      * Array of query params being used in consuming app
      * @property {Array} queryParams
@@ -50,6 +51,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     * @property {Object} themeProvider
     */
     themeProvider: null,
+    filteredProviders: null,
     footerIcon: Ember.computed('showBody', function() {
         return this.get('showBody') ? 'caret-up' : 'caret-down';
     }),
@@ -132,22 +134,28 @@ export default Ember.Component.extend(Analytics, hostAppName, {
         return false;
     }),
     hyperlink: Ember.computed('result', function() {
-        let re = null;
-        for (let i = 0; i < this.get('result.providers.length'); i++) {
-            //If the result has multiple providers, and one of them matches, use the first one found.
-            re = this.providerUrlRegex[this.get('result.providers')[i].name];
-            if (re) break;
-        }
-
-        re = re || this.providerUrlRegex.OSF;
-
+        let urlRegex = /(?:https?:)?(?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n]+)(?:\/)/;
+        let re, url, returnedUrl = null;
+        const list = this.get('filteredProviders');
         const identifiers = this.get('result.identifiers').filter(ident => ident.startsWith('http://') || ident.startsWith('https://') );
-
-        for (let j = 0; j < identifiers.length; j++)
-            if (re.test(identifiers[j]))
-                return identifiers[j];
-
-        return identifiers[0];
+        for (let x = 0; x < identifiers.length; x++) {
+            url = identifiers[x].match(urlRegex);
+            if (list.includes(url[0]))
+                returnedUrl = identifiers[x];
+        }
+        if (!returnedUrl) {
+            for (let i = 0; i < this.get('result.providers.length'); i++) {
+                //If the result has multiple providers, and one of them matches, use the first one found.
+                re = this.providerUrlRegex[this.get('result.providers')[i].name];
+                if (re) break;
+            }
+            re = re || this.providerUrlRegex.OSF;
+            for (let j = 0; j < identifiers.length; j++)
+                if (re.test(identifiers[j]))
+                    return identifiers[j];
+            returnedUrl = identifiers[0];
+        }
+        return returnedUrl;
     }),
     // Determines whether tags in search results should be links - preprints and registries are not using tag filter right now.
     // NEW: Preprint providers with additionalProviders are using tags, however.
