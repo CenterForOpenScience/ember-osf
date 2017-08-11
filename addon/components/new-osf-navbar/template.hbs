@@ -37,11 +37,11 @@
                 <ul class="nav navbar-nav">
                     {{!SECONDARY NAVIGATION - displays corresponding links for selected service}}
                     {{#each (build-secondary-nav-links currentService) as |navLink|}}
-                        {{#if (and (eq currentService 'HOME') (eq navLink.name.string "Search"))}}
+                        {{#if (and (eq currentService 'HOME') (eq navLink.type "search"))}}
                             <li>
                                 {{!TOGGLE SEARCH BUTTON FOR HOME SERVICE}}
                                 <button class="btn-link search-toggle" onclick={{action 'toggleSearch'}}>
-                                    {{navLink.name}}
+                                    {{t navLink.name}}
                                 </button>
                             </li>
                         {{else}}
@@ -49,7 +49,7 @@
                             {{#if (eq navLink.type 'donateToCOS')}}
                                 <li class="navbar-donate-button">
                                     <a href="{{navLink.href}}">
-                                        {{navLink.name}}
+                                        {{t navLink.name}}
                                     </a>
                                 </li>
                             {{else}}
@@ -57,13 +57,13 @@
                                     <a href="{{navLink.href}}">
                                         {{#if (eq navLink.type 'addAPreprint')}}
                                             <span class="hidden-xs hidden-sm">
-                                                {{navLink.name}}
+                                                {{t navLink.name}}
                                             </span>
                                             <span class="hidden-md hidden-lg hidden-xl">
                                                 {{t 'eosf.navbar.add'}}
                                             </span>
                                         {{else}}
-                                            {{navLink.name}}
+                                            {{t navLink.name}}
                                         {{/if}}
                                     </a>
                                 </li>

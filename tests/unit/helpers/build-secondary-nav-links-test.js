@@ -42,7 +42,7 @@ test('returns preprints service links', function(assert) {
     this.set('currentService', 'PREPRINTS');
         this.render(hbs`
             {{#each (build-secondary-nav-links currentService session) as |navLink|}}
-                {{navLink.name}}
+                {{t navLink.name}}
             {{/each}}
         `);
 
@@ -57,7 +57,7 @@ test('returns home service links, authenticated', function(assert) {
     this.set('currentService', 'HOME');
         this.render(hbs`
             {{#each (build-secondary-nav-links currentService session) as |navLink|}}
-                {{navLink.name}}
+                {{t navLink.name}}
             {{/each}}
         `);
 
@@ -71,7 +71,7 @@ test('returns home service links, unauthenticated', function(assert) {
     this.set('currentService', 'HOME');
         this.render(hbs`
             {{#each (build-secondary-nav-links currentService session) as |navLink|}}
-                {{navLink.name}}
+                {{t navLink.name}}
             {{/each}}
         `);
 
@@ -82,7 +82,7 @@ test('returns Registries service links', function(assert) {
     this.set('currentService', 'REGISTRIES');
         this.render(hbs`
             {{#each (build-secondary-nav-links currentService session) as |navLink|}}
-                {{navLink.name}}
+                {{t navLink.name}}
             {{/each}}
         `);
 
@@ -93,7 +93,7 @@ test('returns meetings service links', function(assert) {
     this.set('currentService', 'MEETINGS');
         this.render(hbs`
             {{#each (build-secondary-nav-links currentService session) as |navLink|}}
-                {{navLink.name}}
+                {{t navLink.name}}
             {{/each}}
         `);
 

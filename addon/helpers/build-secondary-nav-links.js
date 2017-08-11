@@ -24,15 +24,16 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
         let links = Ember.Object.create({
             HOME: [
                 {
-                    name: `${session.get('isAuthenticated') ? i18n.t('eosf.navbar.myProjects') : i18n.t('eosf.navbar.browse')}`,
+                    name: `${session.get('isAuthenticated') ? 'eosf.navbar.myProjects' : 'eosf.navbar.browse'}`,
                     href: `${session.get('isAuthenticated') ? serviceLinks.myProjects : serviceLinks.exploreActivity}`
                 },
                 {
-                    name: i18n.t('eosf.navbar.search'),
-                    href: '#'
+                    name: 'eosf.navbar.search',
+                    href: '#',
+                    type: 'search'
                 },
                 {
-                    name: i18n.t('eosf.navbar.donate'),
+                    name: 'eosf.navbar.donate',
                     href: 'https://cos.io/donate',
                     type: 'donateToCOS'
                 },
@@ -40,20 +41,21 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
             ],
             PREPRINTS: [
                 {
-                    name: i18n.t('eosf.navbar.addAPreprint'),
+                    name: 'eosf.navbar.addAPreprint',
                     href: serviceLinks.preprintsSubmit,
                     type: 'addAPreprint'
                 },
                 {
-                    name: i18n.t('eosf.navbar.search'),
-                    href: serviceLinks.preprintsDiscover
+                    name: 'eosf.navbar.search',
+                    href: serviceLinks.preprintsDiscover,
+                    type: 'search'
                 },
                 {
-                    name: i18n.t('eosf.navbar.support'),
+                    name: 'eosf.navbar.support',
                     href: serviceLinks.preprintsSupport
                 },
                 {
-                    name: i18n.t('eosf.navbar.donate'),
+                    name: 'eosf.navbar.donate',
                     href: 'https://cos.io/donate',
                     type: 'donateToCOS'
                 },
@@ -61,15 +63,16 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
             ],
             REGISTRIES: [
                 {
-                    name: i18n.t('eosf.navbar.search'),
-                    href: serviceLinks.registriesDiscover
+                    name: 'eosf.navbar.search',
+                    href: serviceLinks.registriesDiscover,
+                    type: 'search'
                 },
                 {
-                    name: i18n.t('eosf.navbar.support'),
+                    name: 'eosf.navbar.support',
                     href: serviceLinks.registriesSupport
                 },
                 {
-                    name: i18n.t('eosf.navbar.donate'),
+                    name: 'eosf.navbar.donate',
                     href: 'https://cos.io/donate',
                     type: 'donateToCOS'
                 },
@@ -77,11 +80,12 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
             ],
             MEETINGS: [
                 {
-                    name: i18n.t('eosf.navbar.search'),
-                    href: serviceLinks.meetingsHome
+                    name: 'eosf.navbar.search',
+                    href: serviceLinks.meetingsHome,
+                    type: 'search'
                 },
                 {
-                    name: i18n.t('eosf.navbar.donate'),
+                    name: 'eosf.navbar.donate',
                     href: 'https://cos.io/donate',
                     type: 'donateToCOS'
                 },
@@ -93,7 +97,7 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
         if (!session.get('isAuthenticated')) {
             links.HOME.push(
                 {
-                    name: i18n.t('eosf.navbar.support'),
+                    name: 'eosf.navbar.support',
                     href: serviceLinks.osfSupport
                 }
             );
