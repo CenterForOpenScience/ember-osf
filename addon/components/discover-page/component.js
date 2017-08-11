@@ -203,13 +203,6 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     }),
     results: Ember.ArrayProxy.create({ content: [] }), // Results from SHARE query
     /**
-     * Search bar placeholder - for example, "Search preprints..."
-     * @property {String} searchPlaceholder
-     */
-    searchPlaceholder: Ember.computed('i18n.locale', function() { // Search bar placeholder text
-        return this.get('i18n').t('eosf.components.discoverPage.searchPlaceholder');
-    }),
-    /**
      * For PREPRINTS and REGISTRIES.  Displays activeFilters box above search facets.
      * @property {boolean} showActiveFilters
      */
