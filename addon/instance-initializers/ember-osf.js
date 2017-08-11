@@ -9,8 +9,7 @@ import tHelper from 'ember-i18n/helper';
 export function initialize(appInstance) {
     tHelper.reopen({
         theme: Ember.inject.service(),
-        compute(_, data, provider) {
-            // let _super = this._super.bind(this);
+        compute(_, data) {
             data = data || {};
             let translations = this.get('i18n._locale.translations');
             let preprintWord = this.get('theme.provider.preprintWord');
@@ -21,15 +20,12 @@ export function initialize(appInstance) {
                 Preprints: translations[`preprintWords.${preprintWord}.Preprints`]
             });
             if (!preprintWord) {
-                if (!provider) {
-                    this.get('theme.provider').then(provider => {
-                        preprintWord = provider.get('preprintWord') || 'preprint';
-                        data.preprintWords = getTerms();
-                        this.recompute(_, data, provider);
-                    });
-                    return null;
-                }
-                preprintWord = provider.get('preprintWord') || 'preprint';
+                this.get('theme.provider').then(provider => {
+                    preprintWord = provider.get('preprintWord') || 'preprint';
+                    data.preprintWords = getTerms();
+                    this.recompute();
+                });
+                return null;
             }
             data.preprintWords = getTerms();
             return this._super(_, data);
