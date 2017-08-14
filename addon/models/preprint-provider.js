@@ -15,6 +15,13 @@ export default OsfModel.extend({
     additionalProviders: DS.attr(),
     shareSource: DS.attr('string'),
     preprintWord: DS.attr('string'),
+
+    // Reviews settings
+    reviewsWorkflow: DS.attr('string'),
+    reviewsCommentsPrivate: DS.attr('boolean'),
+    reviewsCommentsAnonymous: DS.attr('boolean'),
+    permissions: DS.attr(),
+
     // Relationships
     taxonomies: DS.hasMany('taxonomy'),
     highlightedTaxonomies: DS.hasMany('taxonomy'),

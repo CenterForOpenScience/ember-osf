@@ -27,10 +27,12 @@ export default OsfModel.extend({
     isPublished: DS.attr('boolean'),
     isPreprintOrphan: DS.attr('boolean'),
     licenseRecord: DS.attr(),
+    reviewsState: DS.attr('string'),
 
     // Relationships
     node: DS.belongsTo('node', { inverse: null, async: true }),
     license: DS.belongsTo('license', { inverse: null }),
     primaryFile: DS.belongsTo('file', { inverse: null }),
     provider: DS.belongsTo('preprint-provider', { inverse: 'preprints', async: true }),
+    reviewLogs: DS.hasMany('review-log', { inverse: 'reviewable', async: true }),
 });
