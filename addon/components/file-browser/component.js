@@ -20,6 +20,7 @@ export default Ember.Component.extend({
     display: Ember.A(['header', 'share-link-column', 'size-column', 'version-column', 'downloads-column', 'modified-column', 'delete-button', 'rename-button', 'download-button', 'view-button', 'info-button', 'upload-button']),
     store: Ember.inject.service(),
     growler: Ember.inject.service(),
+    toast: Ember.inject.service(),
     classNames: ['file-browser'],
     dropzoneOptions: {
         createImageThumbnails: false,
@@ -107,9 +108,10 @@ export default Ember.Component.extend({
         },
         error(_, __, file, response) {
             this.get('uploading').removeObject(file);
-            this.get('growler').growl({
-                message: response
-            });
+            // this.get('growler').growl({
+                // message: response
+            // });
+            this.get('toast').error(response);
         },
         success(_, __, file, response) {
             this.get('uploading').removeObject(file);
@@ -137,7 +139,9 @@ export default Ember.Component.extend({
             response.data.type = 'file'; //
             response.data.attributes.currentVersion = '1';
             let item = this.get('store').push(response);
+            item.set('links', response.data.links); //Push doesnt pass it links
             this.get('_items').pushObject(item);
+            this.notifyPropertyChange('_items');
         },
         buildUrl(files) {
             let name = files[0].name;
@@ -210,6 +214,7 @@ export default Ember.Component.extend({
                 });
                 setTimeout(() => {
                     this.get('_items').removeObject(item);
+                    this.notifyPropertyChange('_items');
                 }, 1800);
             })
             .fail(() => {

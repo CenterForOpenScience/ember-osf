@@ -98,10 +98,27 @@
         {{#if (eq browserState 'loading')}}
             {{fa-icon 'spinner' size=3 pulse=true}}
         {{else if (eq browserState 'empty')}}
-            <div class='file-placeholder'>
-                <div>{{fa-icon 'upload' size=5}}</div>
-                <div class='file-placeholder-text'>Drop files here to upload</div>
-            </div>
+            {{#if uploading.length}}
+                {{#each uploading as |file|}}
+                    <div class="row">
+                        <div class="col-xs-5 file-browser-header">
+                            {{file-browser-icon item=file}}
+                            {{file.name}}
+                        </div>
+                        <div class="col-xs-5">
+                            <div class="progress">
+                                <div id="uploading-{{file.size}}" class="progress-bar" role="progressbar"></div>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 file-browser-header"></div>
+                    </div>
+                {{/each}}
+            {{else}}
+                <div class='file-placeholder'>
+                    <div>{{fa-icon 'upload' size=5}}</div>
+                    <div class='file-placeholder-text'>Drop files here to upload</div>
+                </div>
+            {{/if}}
         {{else}}
             {{#if modalOpen}}
                 <div id="modal">
