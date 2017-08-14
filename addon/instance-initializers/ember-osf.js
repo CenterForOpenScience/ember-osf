@@ -28,10 +28,34 @@ export function initialize(appInstance) {
                 return null;
             }
             data.preprintWords = getTerms();
-            return this._super(_, data);
+            return this._super(_, data, true);
         }
     });
     const i18n = appInstance.lookup('service:i18n');
+    i18n.reopen({
+        theme: Ember.inject.service(),
+        store: Ember.inject.service(),
+        t(_, data, skip) {
+            data = data || {};
+            if (typeof data.preprintWords !== 'undefined' || skip) {
+                return this._super(_, data);
+            }
+            let translations = this.get('_locale.translations');
+            let providerId = this.get('theme.id');
+            let provider = this.get('store').peekRecord('preprint-provider', providerId);
+            let preprintWord = 'default';
+            if (provider) {
+                preprintWord = provider.get('preprintWord');
+            }
+            data.preprintWords = {
+                preprint: translations[`preprintWords.${preprintWord}.preprint`],
+                preprints: translations[`preprintWords.${preprintWord}.preprints`],
+                Preprint: translations[`preprintWords.${preprintWord}.Preprint`],
+                Preprints: translations[`preprintWords.${preprintWord}.Preprints`]
+            };
+            return this._super(_, data);
+        }
+    });
     i18n.addTranslations('en', en);
 }
 

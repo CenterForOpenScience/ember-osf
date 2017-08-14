@@ -32,6 +32,12 @@ export default {
             preprints: '',
             Preprint: '',
             Preprints: ''
+        },
+        default: {
+            preprint: 'document',
+            preprints: 'documents',
+            Preprint: 'Document',
+            Preprints: 'Documents'
         }
     },
     eosf: {
