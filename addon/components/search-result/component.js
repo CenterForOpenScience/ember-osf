@@ -29,7 +29,6 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     maxDescription: 300,
     showBody: false,
     i18n: Ember.inject.service(),
-    store: Ember.inject.service(),
     /**
      * Array of query params being used in consuming app
      * @property {Array} queryParams
@@ -51,7 +50,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     * @property {Object} themeProvider
     */
     themeProvider: null,
-    filteredProviders: null,
+    domainRedirectProviders: null,
     footerIcon: Ember.computed('showBody', function() {
         return this.get('showBody') ? 'caret-up' : 'caret-down';
     }),
@@ -134,25 +133,32 @@ export default Ember.Component.extend(Analytics, hostAppName, {
         return false;
     }),
     hyperlink: Ember.computed('result', function() {
-        let urlRegex = /(?:https?:)?(?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n]+)(?:\/)/;
-        let re, url, returnedUrl = null;
-        const list = this.get('filteredProviders');
+        let urlRegex = /^https?:\/\/[^\/]+\//;
+        let returnedUrl = null;
+        const domainRedirectList = this.get('domainRedirectProviders');
         const identifiers = this.get('result.identifiers').filter(ident => ident.startsWith('http://') || ident.startsWith('https://') );
-        for (let x = 0; x < identifiers.length; x++) {
-            url = identifiers[x].match(urlRegex);
-            if (list.includes(url[0]))
-                returnedUrl = identifiers[x];
+        for (let identifier of identifiers) {
+            // If the identifier's url matches a branded url, then use that
+            let url = identifier.match(urlRegex);
+            if (url.length && domainRedirectList.includes(url[0])) {
+                returnedUrl = identifier;
+            }
         }
         if (!returnedUrl) {
-            for (let i = 0; i < this.get('result.providers.length'); i++) {
-                //If the result has multiple providers, and one of them matches, use the first one found.
-                re = this.providerUrlRegex[this.get('result.providers')[i].name];
-                if (re) break;
+            let re = null;
+            for (let providerVal of this.get('result.providers')) {
+                // If the result has multiple providers and one of them matches use the first one found
+                re = this.providerUrlRegex[providerVal.name];
+                if (re) {
+                    break;
+                }
             }
             re = re || this.providerUrlRegex.OSF;
-            for (let j = 0; j < identifiers.length; j++)
-                if (re.test(identifiers[j]))
-                    return identifiers[j];
+            for (let identifier of identifiers) {
+                if (re.test(identifier)) {
+                    return identifier;
+                }
+            }
             returnedUrl = identifiers[0];
         }
         return returnedUrl;

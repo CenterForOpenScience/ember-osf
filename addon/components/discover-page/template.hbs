@@ -168,7 +168,7 @@
                         {{!RESULTS FOUND}}
                         <div class="results-top">
                             {{#each results as |result|}}
-                                {{search-result themeProvider=themeProvider queryParams=queryParams detailRoute=detailRoute filterReplace=filterReplace addFilter='addFilter' updateFilters=(action 'updateFilters') result=result currentService=currentService filteredProviders=filteredProviders}}
+                                {{search-result themeProvider=themeProvider queryParams=queryParams detailRoute=detailRoute filterReplace=filterReplace addFilter='addFilter' updateFilters=(action 'updateFilters') result=result currentService=currentService domainRedirectProviders=domainRedirectProviders}}
                             {{/each}}
                         </div>
                         <div class="pull-right text-right">
