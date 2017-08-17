@@ -561,7 +561,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
                     workType: hit._source['@type'],
                     abstract: hit._source.description,
                     subjects: hit._source.subjects.map(each => ({ text: each })),
-                    subject_synonyms: hit._source.subject_synonyms.map(each => ({ text: each })),
+                    subject_synonyms: hit._source.subject_synonyms ? hit._source.subject_synonyms.map(each => ({ text: each })) : [],
                     providers: hit._source.sources.map(item => ({ name: item })), // For PREPRINTS, REGISTRIES
                     hyperLinks: [// Links that are hyperlinks from hit._source.lists.links
                         {
