@@ -4,8 +4,7 @@
 var path = require('path');
 var config = require('config');
 var Funnel = require('broccoli-funnel');
-var mergeTrees = require('broccoli-merge-trees');
-var compileSass = require('broccoli-sass-source-maps');
+var BroccoliMergeTrees = require('broccoli-merge-trees');
 
 // Fetch a list of known backends. The user can always choose to override any of these URLs via ENV vars
 var knownBackends = require('./config/backends');
@@ -54,7 +53,7 @@ module.exports = {
         }
 
         if (BACKEND === 'local') {
-            backendUrlConfig.accessToken = eitherConfig('PERSONAL_ACCESS_TOKEN');
+            // backendUrlConfig.accessToken = eitherConfig('PERSONAL_ACCESS_TOKEN');
             backendUrlConfig.isLocal = true;
         } else if (BACKEND === 'prod') {
             console.warn("WARNING: you've specified production as a backend. Please do not use production for testing or development purposes");
@@ -85,48 +84,40 @@ module.exports = {
             authenticator: `authenticator:osf-${defaultAuthorizationType}`
         };
     },
-    afterInstall: function(options) {
-        if (options['ember-osf'].includeStyles) {
-            this.addAddonToProject('ember-font-awesome');
-        }
-    },
-    included: function(app) {
-        // Documentation of the `included` hook is mostly in the comment
-        // threads of `ember-cli` issues on github. For example:
-        // https://github.com/ember-cli/ember-cli/issues/3531#issuecomment-81133458
-        this._super.included.apply(this, arguments);
 
-        if (app.options['ember-osf'] && app.options['ember-osf'].includeStyles) {
-            app.options['ember-font-awesome'] = {
-                useScss: true
-            };
-        }
-        return app;
+    // Needed to make Ember CLI SASS happy
+    // https://github.com/aexmachina/ember-cli-sass#addon-usage
+    included: function(/* app */) {
+      this._super.included.apply(this, arguments);
     },
-    treeForAddon: function(tree) {
-        this.addonTree = tree;
-        return this._super.treeForAddon.apply(this, arguments);
+    // Outputs all pod scss files into the addon style tree.
+    // This allows the addon to build by itself
+    treeForAddonStyles: function(tree) {
+      let addonPodStyles = new Funnel(this._treePathFor('addon'), {
+        annotation: 'Ember OSF Addon Pod Styles',
+        include: ['components/**/*.scss'],
+      });
+
+      return new BroccoliMergeTrees([tree, addonPodStyles], {
+        annotation: 'Ember OSF Merged Styles'
+      });
     },
-    treeForVendor: function(tree) {
-        var addonStyleTree = this._treeFor('addon-styles');
-        var addonPodStyles = new Funnel(path.resolve(this.root, 'addon'), {
-            include: [
-                'components/**/*css'
-            ]
-        });
-        var addonCss = compileSass(
-            [addonStyleTree, addonPodStyles],
-            'addon.scss',
-            'assets/ember-osf.css',
-            {
-                annotation: 'EmberOsf Sass Tree'
-            });
-        return mergeTrees([tree, addonCss].filter(Boolean));
-    },
-    treeForPublic() {
-        var assetDir = path.join(path.resolve(this.root, ''), 'addon/assets');
-        return new Funnel(assetDir, {
-            destDir: 'assets/'
-        });
+
+    // Outputs all pod scss files into the style tree but prefixed with ember-osf
+    // This allows apps using this addon to import all the scss they want using "@import 'ember-osf'"
+    // The actual 'ember-osf' namespace is exported by app/styles/_ember-osf.scss
+    treeForStyles: function(tree) {
+      tree = this._super.treeForStyles.apply(this, arguments);
+
+      let addonPodStyles = new Funnel(this._treePathFor('addon'), {
+        destDir: path.join(tree.destDir, 'ember-osf'),
+        annotation: 'Ember OSF Pod Styles',
+        include: ['components/**/*.scss'],
+      });
+
+      return new BroccoliMergeTrees([tree, addonPodStyles], {
+        annotation: 'Ember OSF Merged Styles'
+      });
+
     }
 };
