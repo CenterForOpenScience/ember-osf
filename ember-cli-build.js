@@ -28,6 +28,8 @@ module.exports = function(defaults) {
           includePolyfill: true
       },
 
+      // Exclude any additional assets
+      // The host application should be responsible for importing them
       'ember-bootstrap': {
         'bootstrapVersion': 3,
         'importBootstrapFont': false,
@@ -44,8 +46,6 @@ module.exports = function(defaults) {
     app.import(path.join(app.bowerDirectory, 'jquery.tagsinput/src/jquery.tagsinput.js'));
     app.import(path.join(app.bowerDirectory, 'c3/c3.js'));
     app.import(path.join(app.bowerDirectory, 'd3/d3.js'));
-    // app.import(path.join(app.bowerDirectory, 'osf-style/css/base.css'));
-    // app.import('vendor/assets/ember-osf.css');
     app.import({
         test: path.join(app.bowerDirectory, 'ember/ember-template-compiler.js')
     });
