@@ -140,7 +140,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
         for (let identifier of identifiers) {
             // If the identifier's url matches a branded url, then use that
             let url = identifier.match(urlRegex);
-            if (url.length && domainRedirectList.includes(url[0])) {
+            if (url && domainRedirectList.includes(url[0])) {
                 returnedUrl = identifier;
             }
         }
