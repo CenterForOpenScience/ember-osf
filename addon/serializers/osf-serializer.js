@@ -21,6 +21,9 @@ export default DS.JSONAPISerializer.extend({
         }
     },
 
+    // Map from relationship field name to type. Override to serialize relationships.
+    relationshipTypes: {},
+
     /**
      * Extract information about records embedded inside this request
      * @method _extractEmbeds
@@ -99,8 +102,20 @@ export default DS.JSONAPISerializer.extend({
                 }
             }
         }
-        // Don't send relationships to the server; this can lead to 500 errors.
-        delete serialized.data.relationships;
+
+        // Only serialize dirty, whitelisted relationships
+        serialized.data.relationships = {};
+        for (const relationship in snapshot.record._dirtyRelationships) {
+            const type = this.get('relationshipTypes')[relationship];
+            if (type) {
+                serialized.data.relationships[Ember.String.underscore(relationship)] = {
+                    data: {
+                        id: snapshot.belongsTo(relationship, { id: true }),
+                        type
+                    }
+                };
+            }
+        }
         return serialized;
     },
 
