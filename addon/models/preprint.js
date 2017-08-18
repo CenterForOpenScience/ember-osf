@@ -35,4 +35,5 @@ export default OsfModel.extend({
     primaryFile: DS.belongsTo('file', { inverse: null }),
     provider: DS.belongsTo('preprint-provider', { inverse: 'preprints', async: true }),
     reviewLogs: DS.hasMany('review-log', { inverse: 'reviewable', async: true }),
+    contributors: DS.hasMany('contributors', { async: true }),
 });
