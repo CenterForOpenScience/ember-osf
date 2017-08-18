@@ -50,7 +50,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     * @property {Object} themeProvider
     */
     themeProvider: null,
-    domainRedirectProviders: null,
+    domainRedirectProviders: [],
     footerIcon: Ember.computed('showBody', function() {
         return this.get('showBody') ? 'caret-up' : 'caret-down';
     }),
@@ -134,34 +134,29 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     }),
     hyperlink: Ember.computed('result', function() {
         let urlRegex = /^https?:\/\/[^\/]+\//;
-        let returnedUrl = null;
         const domainRedirectList = this.get('domainRedirectProviders');
         const identifiers = this.get('result.identifiers').filter(ident => ident.startsWith('http://') || ident.startsWith('https://') );
         for (let identifier of identifiers) {
             // If the identifier's url matches a branded url, then use that
             let url = identifier.match(urlRegex);
             if (url && domainRedirectList.includes(url[0])) {
-                returnedUrl = identifier;
+                return identifier;
             }
         }
-        if (!returnedUrl) {
-            let re = null;
-            for (let providerVal of this.get('result.providers')) {
-                // If the result has multiple providers and one of them matches use the first one found
-                re = this.providerUrlRegex[providerVal.name];
-                if (re) {
-                    break;
-                }
+        let re = this.providerUrlRegex.OSF;
+        for (let provider of this.get('result.providers')) {
+            // If the result has multiple providers and one of them matches use the first one found
+            if (this.providerUrlRegex.hasOwnProperty(provider.name)) {
+                re = this.providerUrlRegex[provider.name];
+                break;
             }
-            re = re || this.providerUrlRegex.OSF;
-            for (let identifier of identifiers) {
-                if (re.test(identifier)) {
-                    return identifier;
-                }
-            }
-            returnedUrl = identifiers[0];
         }
-        return returnedUrl;
+        for (let identifier of identifiers) {
+            if (re.test(identifier)) {
+                return identifier;
+            }
+        }
+        return identifiers[0];
     }),
     // Determines whether tags in search results should be links - preprints and registries are not using tag filter right now.
     // NEW: Preprint providers with additionalProviders are using tags, however.
