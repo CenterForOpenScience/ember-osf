@@ -90,6 +90,14 @@ module.exports = {
     included: function(/* app */) {
       this._super.included.apply(this, arguments);
     },
+
+    // TODO Filter out unused components and junk
+    // https://github.com/kaliber5/ember-bootstrap/blob/master/index.js#L221
+    // treeForAddon: function(tree) {
+    //   tree = this._super.treeForAddon.apply(this, arguments);
+    //   return tree;
+    // },
+
     // Outputs all pod scss files into the addon style tree.
     // This allows the addon to build by itself
     treeForAddonStyles: function(tree) {
