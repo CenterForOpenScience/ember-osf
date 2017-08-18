@@ -10,7 +10,7 @@
     dragover=(action 'dragStart')
     dragleave=(action 'dragEnd')
     drop=(action 'dragEnd')
-    enable=true
+    enable=edit
 }}
     <div class="actions-header row" style="margin-bottom:10px">
         {{#if textFieldOpen}}
@@ -114,10 +114,16 @@
                     </div>
                 {{/each}}
             {{else}}
-                <div class='file-placeholder'>
-                    <div>{{fa-icon 'upload' size=5}}</div>
-                    <div class='file-placeholder-text'>Drop files here to upload</div>
-                </div>
+                {{#if edit}}
+                    <div class='file-placeholder'>
+                        <div>{{fa-icon 'upload' size=5}}</div>
+                        <div class='file-placeholder-text'>Drop files here to upload</div>
+                    </div>
+                {{else}}
+                    <div class='file-placeholder'>
+                        <div class='file-placeholder-text'>This user has not uploaded any quickfiles</div>
+                    </div>
+                {{/if}}
             {{/if}}
         {{else}}
             {{#if modalOpen}}

@@ -7,7 +7,7 @@ export default Ember.Controller.extend(CommentableMixin, TaggableMixin, {
     fileManager: Ember.inject.service(),
     session: Ember.inject.service(),
     display: Ember.A([]),
-
+    userId: 'zva8y',
     checkedIn: Ember.computed.none('model.checkout'),
     canCheckIn: Ember.computed('model.checkout',
                                'session.data.authenticated.id', function() {

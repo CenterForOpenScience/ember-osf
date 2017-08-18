@@ -20,6 +20,9 @@ export function initialize(appInstance) {
                 Preprints: translations[`preprintWords.${preprintWord}.Preprints`]
             });
             if (!preprintWord) {
+                if (!this.get('theme.provider')) {
+                    return this._super(_, data, true);
+                }
                 this.get('theme.provider').then(provider => {
                     preprintWord = provider.get('preprintWord') || 'preprint';
                     data.preprintWords = getTerms();

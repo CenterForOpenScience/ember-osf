@@ -46,5 +46,6 @@ export default OsfModel.extend(FileItemMixin, {
     versions: DS.hasMany('file-version'),
     comments: DS.hasMany('comment'),
     node: DS.belongsTo('node'),  // TODO: In the future apiv2 may also need to support this pointing at nodes OR registrations
+    user: DS.belongsTo('user'),
     checkout: DS.attr('fixstring')
 });
