@@ -10,6 +10,8 @@ export function initialize(appInstance) {
     tHelper.reopen({
         theme: Ember.inject.service(),
         compute(_, data) {
+            if (!this.get('theme.provider')) return this._super(_, data, true);
+
             data = data || {};
             let translations = this.get('i18n._locale.translations');
             let preprintWord = this.get('theme.provider.preprintWord');
