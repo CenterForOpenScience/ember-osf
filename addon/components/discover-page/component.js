@@ -125,6 +125,16 @@ export default Ember.Component.extend(Analytics, hostAppName, {
      * @property {Object} fetchedProviders
      */
     fetchedProviders: null,
+    domainRedirectProviders: Ember.computed(function() {
+        let providerDomains = [];
+        let providers = this.get('fetchedProviders');
+        for (let providerVal of providers) {
+            if (providerVal.get('domain') && providerVal.get('domainRedirectEnabled') === true) {
+                providerDomains.push(providerVal.get('domain'));
+            }
+        }
+        return providerDomains;
+    }),
     /**
      * For PREPRINTS and REGISTRIES. A mapping of activeFilters to facet names expected by SHARE. Ex. {'providers': 'sources'}
      * @property {Object} filterMap
