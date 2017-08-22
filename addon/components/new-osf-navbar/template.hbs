@@ -28,7 +28,7 @@
                     </button>
                     <ul class="dropdown-menu service-dropdown" role="menu">
                         {{#each osfServices as |service|}}
-                            <li><a href="{{service.url}}" {{action 'click' 'link' (concat 'Navbar - ' service.name) preventDefault=false}}>OSF<b>{{service.name}}</b></a></li>
+                            <li><a href="{{service.url}}" onclick={{action 'click' 'link' (concat 'Navbar - ' service.name)}}>OSF<b>{{service.name}}</b></a></li>
                         {{/each}}
                     </ul>
                 </div>
@@ -48,13 +48,13 @@
                             {{!SERVICE LINK}}
                             {{#if (eq navLink.type 'donateToCOS')}}
                                 <li class="navbar-donate-button">
-                                    <a href="{{navLink.href}}" {{action 'click' 'link' (concat 'Navbar - ' navLink.name) preventDefault=false}}>
+                                    <a href="{{navLink.href}}" onclick={{action 'click' 'link' (concat 'Navbar - ' navLink.name)}}>
                                         {{t navLink.name}}
                                     </a>
                                 </li>
                             {{else}}
                                 <li>
-                                    <a href="{{navLink.href}}" {{action 'click' 'link' (concat 'Navbar - ' navlink.name) preventDefault=false}}>
+                                    <a href="{{navLink.href}}" onclick={{action 'click' 'link' (concat 'Navbar - ' navlink.name)}}>
                                         {{#if (eq navLink.type 'addAPreprint')}}
                                             <span class="hidden-xs hidden-sm">
                                                 {{t navLink.name}}
