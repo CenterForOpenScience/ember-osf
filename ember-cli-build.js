@@ -27,14 +27,6 @@ module.exports = function(defaults) {
         'ember-cli-babel': {
             includePolyfill: true
         },
-
-        // Exclude any additional assets
-        // The host application should be responsible for importing them
-        'ember-bootstrap': {
-            'bootstrapVersion': 3,
-            'importBootstrapFont': false,
-            'importBootstrapCSS': false
-        }
     });
 
     app.import(path.join(app.bowerDirectory, 'dropzone/dist/basic.css'));
