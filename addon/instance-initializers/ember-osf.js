@@ -11,6 +11,7 @@ export function initialize(appInstance) {
         theme: Ember.inject.service(),
         compute(_, data) {
             data = Ember.merge({}, data);
+            if (!this.get('theme.provider')) return this._super(_, data, true);
             let translations = this.get('i18n._locale.translations');
             let preprintWord = this.get('theme.provider.preprintWord');
             let getTerms = () => ({
