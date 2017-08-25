@@ -28,6 +28,7 @@ export default OsfModel.extend({
     isPreprintOrphan: DS.attr('boolean'),
     licenseRecord: DS.attr(),
     reviewsState: DS.attr('string'),
+    dateLastTransitioned: DS.attr('date'),
 
     // Relationships
     node: DS.belongsTo('node', { inverse: null, async: true }),
