@@ -23,12 +23,12 @@
 
                 {{!PRIMARY NAVIGATION - TOGGLE BETWEEN HOME, PREPRINTS, REGISTRIES, and MEETINGS}}
                 <div class="dropdown primary-nav">
-                    <button class="dropdown-toggle btn-link" data-toggle="dropdown" role="button" aria-expanded="false" aria-label={{t 'eosf.navbar.togglePrimary'}} onclick={{action 'closeSecondaryAndSearch'}}>
+                    <button class="dropdown-toggle btn-link" data-toggle="dropdown" role="button" aria-expanded="false" aria-label={{t 'eosf.navbar.togglePrimary'}} {{action 'closeSecondaryAndSearch'}} {{action 'click' 'button' 'Navbar - Dropdown Arrow'}}>
                         <span class="fa fa-caret-down fa-2x"></span>
                     </button>
                     <ul class="dropdown-menu service-dropdown" role="menu">
                         {{#each osfServices as |service|}}
-                            <li><a href="{{service.url}}">OSF<b>{{service.name}}</b></a></li>
+                            <li><a href="{{service.url}}" onclick={{action 'click' 'link' (concat 'Navbar - ' service.name)}}>OSF<b>{{service.name}}</b></a></li>
                         {{/each}}
                     </ul>
                 </div>
@@ -37,29 +37,37 @@
                 <ul class="nav navbar-nav">
                     {{!SECONDARY NAVIGATION - displays corresponding links for selected service}}
                     {{#each (build-secondary-nav-links currentService) as |navLink|}}
-                        {{#if (and (eq currentService 'HOME') (eq navLink.name.string "Search"))}}
+                        {{#if (and (eq currentService 'HOME') (eq navLink.type "search"))}}
                             <li>
                                 {{!TOGGLE SEARCH BUTTON FOR HOME SERVICE}}
-                                <a class="search-toggle" role="button" onclick={{action 'toggleSearch'}}>
-                                    {{navLink.name}}
+                                <a role="button" class="btn-link search-toggle" {{action 'toggleSearch'}} {{action 'click' 'button' (concat 'Navbar - ' currentService navLink.name)}}>
+                                    {{t navLink.name}}
                                 </a>
                             </li>
                         {{else}}
                             {{!SERVICE LINK}}
-                            <li>
-                                <a href="{{navLink.href}}">
-                                    {{#if (eq navLink.type 'addAPreprint')}}
-                                        <span class="hidden-xs hidden-sm">
-                                            {{navLink.name}}
-                                        </span>
-                                        <span class="hidden-md hidden-lg hidden-xl">
-                                            {{t 'eosf.navbar.add'}}
-                                        </span>
-                                    {{else}}
-                                        {{navLink.name}}
-                                    {{/if}}
-                                </a>
-                            </li>
+                            {{#if (eq navLink.type 'donateToCOS')}}
+                                <li class="navbar-donate-button">
+                                    <a href="{{navLink.href}}" onclick={{action 'click' 'link' (concat 'Navbar - ' navLink.name)}}>
+                                        {{t navLink.name}}
+                                    </a>
+                                </li>
+                            {{else}}
+                                <li>
+                                    <a href="{{navLink.href}}" onclick={{action 'click' 'link' (concat 'Navbar - ' navlink.name)}}>
+                                        {{#if (eq navLink.type 'addAPreprint')}}
+                                            <span class="hidden-xs hidden-sm">
+                                                {{t navLink.name}}
+                                            </span>
+                                            <span class="hidden-md hidden-lg hidden-xl">
+                                                {{t 'eosf.navbar.add'}}
+                                            </span>
+                                        {{else}}
+                                            {{t navLink.name}}
+                                        {{/if}}
+                                    </a>
+                                </li>
+                            {{/if}}
                         {{/if}}
                     {{/each}}
                     {{!AUTH NAVBAR}}

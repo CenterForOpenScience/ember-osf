@@ -14,8 +14,10 @@ export default OsfModel.extend({
     allowSubmissions: DS.attr('boolean'),
     additionalProviders: DS.attr(),
     shareSource: DS.attr('string'),
+    preprintWord: DS.attr('string'),
     // Relationships
     taxonomies: DS.hasMany('taxonomy'),
+    highlightedTaxonomies: DS.hasMany('taxonomy'),
     preprints: DS.hasMany('preprint', { inverse: 'provider', async: true }),
     licensesAcceptable: DS.hasMany('license', { inverse: null }),
 });

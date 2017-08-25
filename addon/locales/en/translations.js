@@ -8,6 +8,38 @@ export default {
     // },
     //
     // "key.with.interpolation": "Text with {{anInterpolation}}"
+    preprintWords: {
+        preprint: {
+            preprint: 'preprint',
+            preprints: 'preprints',
+            Preprint: 'Preprint',
+            Preprints: 'Preprints'
+        },
+        paper: {
+            preprint: 'paper',
+            preprints: 'papers',
+            Preprint: 'Paper',
+            Preprints: 'Papers'
+        },
+        thesis: {
+            preprint: 'thesis',
+            preprints: 'theses',
+            Preprint: 'Thesis',
+            Preprints: 'Theses'
+        },
+        none: {
+            preprint: '',
+            preprints: '',
+            Preprint: '',
+            Preprints: ''
+        },
+        default: {
+            preprint: 'document',
+            preprints: 'documents',
+            Preprint: 'Document',
+            Preprints: 'Documents'
+        }
+    },
     eosf: {
         signup: {
             headingTitle: 'Create a free account',
@@ -21,9 +53,10 @@ export default {
         },
         navbar: {
             add: 'Add',
-            addAPreprint: 'Add a preprint',
+            addAPreprint: 'Add a {{preprintWords.preprint}}',
             browse: 'Browse',
             cancelSearch: 'Cancel search',
+            donate: 'Donate',
             goHome: 'Go home',
             myProjects: 'My Projects',
             search: 'Search',
@@ -177,7 +210,7 @@ export default {
                 helpDescription: 'This gives you many options, but can be very simple as well. Examples of valid searches include:'
             },
             totalShareResults: {
-                'searchablePreprints': `{{count}} searchable preprints`,
+                'searchablePreprints': `{{count}} searchable {{preprintWords.preprints}}`,
                 'searchableRegistries': `{{count}} searchable registrations`,
                 'searchableEvents': `{{count}} searchable events`,
             }

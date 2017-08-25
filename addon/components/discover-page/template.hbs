@@ -15,7 +15,7 @@
                     <div class="registries-brand m-t-lg"></div>
                     {{!Discover Page Header text}}
                     {{#if discoverHeader}}
-                        <h1> {{discoverHeader}} </h1>
+                        <h1> {{t discoverHeader}} </h1>
                     {{/if}}
                     {{!POWERED BY SHARE}}
                     <p class="lead">{{t 'eosf.components.discoverPage.poweredBy'}} <a href="https://share.osf.io/" id='share-logo' class="share-logo" title="SHARE" onclick={{action "click" "link" "Discover - SHARE Logo"}}></a></p>
@@ -28,7 +28,7 @@
             <div class="col-xs-12 col-sm-8 col-sm-offset-2">
                 {{!SEARCH BAR}}
                 <div class="input-group input-group-lg">
-                    {{input id="searchBox" value=q class="form-control" enter="search" placeholder=searchPlaceholder}}
+                    {{input id="searchBox" value=q class="form-control" enter="search" placeholder=(t (or searchPlaceholder 'eosf.components.discoverPage.searchPlaceholder'))}}
                     <span class="input-group-btn">
                         {{!HELP BUTTON}}
                         <button class="btn btn-default" type="button" aria-label={{t 'eosf.components.discoverPage.luceneHelp'}} {{action 'toggleShowLuceneHelp'}}> <i class="fa fa-question text-muted"></i></button>
@@ -168,7 +168,7 @@
                         {{!RESULTS FOUND}}
                         <div class="results-top">
                             {{#each results as |result|}}
-                                {{search-result themeProvider=themeProvider queryParams=queryParams detailRoute=detailRoute filterReplace=filterReplace addFilter='addFilter' updateFilters=(action 'updateFilters') result=result currentService=currentService}}
+                                {{search-result themeProvider=themeProvider queryParams=queryParams detailRoute=detailRoute filterReplace=filterReplace addFilter='addFilter' updateFilters=(action 'updateFilters') result=result currentService=currentService domainRedirectProviders=domainRedirectProviders}}
                             {{/each}}
                         </div>
                         <div class="pull-right text-right">
