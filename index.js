@@ -106,7 +106,7 @@ module.exports = {
         include: ['components/**/*.scss'],
       });
 
-      return new BroccoliMergeTrees([tree, addonPodStyles], {
+      return new BroccoliMergeTrees([tree, addonPodStyles, this._bootstrapStyles()], {
         annotation: 'Ember OSF Merged Styles'
       });
     },
@@ -123,9 +123,18 @@ module.exports = {
         include: ['components/**/*.scss'],
       });
 
-      return new BroccoliMergeTrees([tree, addonPodStyles], {
+      return new BroccoliMergeTrees([tree, addonPodStyles, this._bootstrapStyles()], {
         annotation: 'Ember OSF Merged Styles'
       });
 
+    },
+
+    _bootstrapStyles: function() {
+        let bootstrapPath = path.join(this.app.project.nodeModulesPath, 'bootstrap-sass', 'assets', 'stylesheets');
+
+        return new Funnel(bootstrapPath, {
+        annotation: 'Ember OSF Boostrap SASS',
+        include: ['**/*.scss'],
+      });
     }
 };

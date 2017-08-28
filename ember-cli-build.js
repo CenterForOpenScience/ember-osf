@@ -6,13 +6,18 @@ module.exports = function(defaults) {
     var app = new EmberAddon(defaults, {
         sassOptions: {
             includePaths: [
-                'bower_components/osf-style/sass',
-                'tests/dummy/app/components',
-                'bower_components/c3',
                 'bower_components/bootstrap-daterangepicker',
+                'bower_components/c3',
+                'bower_components/osf-style/sass',
+                'node_modules/bootstrap-sass/assets/stylesheets',
+                'tests/dummy/app/components',
             ]
         },
-
+        'ember-bootstrap': {
+            bootstrapVersion: 3,
+            importBootstrapCSS: false,
+            importBootstrapFont: false,
+        },
         // FIXME
         // FIXME Will this affect downstream consumers (when they build their apps)?
         // FIXME
