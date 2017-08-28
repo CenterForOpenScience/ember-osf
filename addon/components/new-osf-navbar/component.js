@@ -3,6 +3,7 @@ import layout from './template';
 import { serviceLinks, osfServices } from '../../const/service-links';
 import hostAppName from '../../mixins/host-app-name';
 import config from 'ember-get-config';
+import AnalyticsMixin from 'ember-osf/mixins/analytics';
 
 /**
  * @module ember-osf
@@ -22,7 +23,7 @@ import config from 'ember-get-config';
  *
  * @class osf-navbar
  */
-export default Ember.Component.extend(hostAppName, {
+export default Ember.Component.extend(hostAppName, AnalyticsMixin, {
     layout,
     session: Ember.inject.service(),
     osfServices: osfServices,
