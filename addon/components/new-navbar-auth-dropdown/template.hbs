@@ -21,7 +21,7 @@
             <a href="{{serviceLinks.settings}}" onclick={{action 'click' 'link' 'Navbar - Settings'}}><i class="fa fa-cog fa-lg p-r-xs"></i> {{t 'eosf.authDropdown.settings'}}</a>
         </li>
         <li>
-            <a class="logoutLink" onclick={{action 'logout'}} onclick={{action 'click' 'link' 'Navbar - Logout'}} role="button"><i class="fa fa-sign-out fa-lg p-r-xs"></i> {{t 'eosf.authDropdown.logOut'}}</a>
+            <a class="logoutLink" {{action 'logout'}} onclick={{action 'click' 'link' 'Navbar - Logout'}} role="button"><i class="fa fa-sign-out fa-lg p-r-xs"></i> {{t 'eosf.authDropdown.logOut'}}</a>
         </li>
     </ul>
 {{else if allowLogin}}
