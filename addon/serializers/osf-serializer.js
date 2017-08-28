@@ -106,6 +106,8 @@ export default DS.JSONAPISerializer.extend({
         // Only serialize dirty, whitelisted relationships
         serialized.data.relationships = {};
         for (const relationship in snapshot.record._dirtyRelationships) {
+            // https://stackoverflow.com/questions/29004314/why-are-object-keys-and-for-in-different
+            if (!Object.hasOwnProperty(snapshot.record._dirtyRelationships)) continue;
             const type = this.get('relationshipTypes')[relationship];
             if (type) {
                 serialized.data.relationships[Ember.String.underscore(relationship)] = {
