@@ -16,11 +16,11 @@ test('test name\'s column width', function(assert) {
 
     this.set('display', ['header', 'share-link-column']);
     this.render(hbs`{{file-browser items=items display=display}}`);
-    assert.equal(this.$('div:contains("Name")').html().split('col-xs-')[1].split(' ')[0], '10');
+    assert.equal(this.$('div:contains("Name")').html().split('col-xs-')[1].split(' ')[0], '11');
 
     //Test default behavior
     this.render(hbs`{{file-browser items=items}}`);
-    assert.equal(this.$('div:contains("Name")').html().split('col-xs-')[1].split(' ')[0], '5');
+    assert.equal(this.$('div:contains("Name")').html().split('col-xs-')[1].split(' ')[0], '6');
 });
 
 skip('filtering works', function(assert) {

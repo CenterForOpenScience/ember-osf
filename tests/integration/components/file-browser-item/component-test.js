@@ -23,7 +23,7 @@ test('it renders with all default columns', function(assert) {
     this.render(hbs`{{file-browser-item item=item}}`);
 
     assert.ok(this.$().html().indexOf('An item') !== -1, "Name of the item didn't appear, when it should've.");
-    assert.ok(this.$().html().indexOf('link-url') !== -1, "Link for the file didn't appear, when it should've.");
+    assert.ok(this.$().html().indexOf('files-o') !== -1, "Link for the file didn't appear, when it should've.");
     assert.ok(this.$().html().indexOf('kB') !== -1, "Size didn't appear, when it should've.");
     assert.ok(this.$().html().indexOf('version-link') !== -1, "Version of item didn't appear, when it should've.");
     assert.ok(this.$().html().indexOf('192830') !== -1, "Download count didn't appear, when it should've.");
@@ -36,7 +36,7 @@ test('it renders with some of the columns', function(assert) {
     this.render(hbs`{{file-browser-item item=item display=display}}`);
 
     assert.ok(this.$().html().indexOf('An item') !== -1, "Name of the item didn't appear, when it should've.");
-    assert.ok(this.$().html().indexOf('link-url') !== -1, "Link for the file didn't appear, when it should've.");
+    assert.ok(this.$().html().indexOf('files-o') !== -1, "Link for the file didn't appear, when it should've.");
     assert.ok(this.$().html().indexOf('kB') !== -1, "Size didn't appear, when it should've.");
     assert.ok(this.$().html().indexOf('version-link') === -1, "Version of item appeared when it shouldn't have.");
     assert.ok(this.$().html().indexOf('192830') === -1, "Download count appeared when it shouldn't have.");
@@ -48,7 +48,7 @@ test('always displays name', function(assert) {
     this.render(hbs`{{file-browser-item item=item display=display}}`);
 
     assert.ok(this.$().html().indexOf('An item') !== -1, "Name of the item didn't appear, when it should've.");
-    assert.ok(this.$().html().indexOf('link-url') === -1, "Link for the file appeared when it shouldn't have.");
+    assert.ok(this.$().html().indexOf('files-o') === -1, "Link for the file appeared when it shouldn't have.");
     assert.ok(this.$().html().indexOf('kB') === -1, "Size appeared when it shouldn't have.");
     assert.ok(this.$().html().indexOf('version-link') === -1, "Version of item appeared when it shouldn't have.");
     assert.ok(this.$().html().indexOf('192830') === -1, "Download count appeared when it shouldn't have.");
@@ -66,7 +66,7 @@ test('flash appears, replaces everything else', function(assert) {
     this.render(hbs`{{file-browser-item item=item}}`);
 
     assert.ok(this.$().html().indexOf('An item') === -1, "Name of the item appeared when it shouldn't have.");
-    assert.ok(this.$().html().indexOf('link-url') === -1, "Link for the file appeared when it shouldn't have.");
+    assert.ok(this.$().html().indexOf('files-o') === -1, "Link for the file appeared when it shouldn't have.");
     assert.ok(this.$().html().indexOf('kB') === -1, "Size appeared when it shouldn't have.");
     assert.ok(this.$().html().indexOf('version-link') === -1, "Version of item appeared when it shouldn't have.");
     assert.ok(this.$().html().indexOf('192830') === -1, "Download count appeared when it shouldn't have.");

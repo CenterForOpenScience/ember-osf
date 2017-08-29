@@ -41,11 +41,25 @@ export default Ember.Component.extend({
             this.set('_items', args.newAttrs.newItems.value);
             return;
         }
+        if (args.newAttrs.user) {
+            let user = args.newAttrs.user;
+            this.set('_items', Ember.A());
+            if (user.get('id') === this.get('currentUser.currentUserId')) {
+                this.set('edit', true);
+            }
+            this.set('uploadUrl', user.get('links.relationships.quickfiles.links.upload.href'));
+            this.set('downloadUrl', user.get('links.relationships.quickfiles.links.upload.href') + '?zip=');
+            loadAll(user, 'quickfiles', this.get('_items')).then(() => {
+                this.set('loaded', true);
+            });
+            return;
+        }
         if (args.newAttrs.userId) {
             this.get('store').findRecord('user', args.newAttrs.userId.value).then(user => {
                 if (user.get('id') === this.get('currentUser.currentUserId')) {
                     this.set('edit', true);
                 }
+                this.set('_items', Ember.A());
                 this.set('uploadUrl', user.get('links.relationships.quickfiles.links.upload.href'));
                 this.set('downloadUrl', user.get('links.relationships.quickfiles.links.upload.href') + '?zip=');
                 loadAll(user, 'quickfiles', this.get('_items')).then(() => {
