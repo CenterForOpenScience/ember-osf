@@ -4,14 +4,6 @@
             {{file-browser-icon item=item}}
             <a {{action 'open'}} role="link">{{item.itemName}}</a>
         </div>
-        {{#if (if-filter 'share-link-column' display)}}
-            <div class="col-xs-2 file-browser-header link-column">
-                <div class='btn-group'>
-                    {{#copy-button class='btn btn-default btn-sm' clipboardText=link}}{{fa-icon 'files-o'}}{{/copy-button}}
-                    <input class="link-url" type="text" value='{{link}}' readonly="readonly">
-                </div>
-            </div>
-        {{/if}}
         {{#if (if-filter 'size-column' display)}}
             <div class="col-xs-1 file-browser-header">
                 {{size}}
@@ -30,6 +22,13 @@
         {{#if (if-filter 'modified-column' display)}}
             <div class="col-xs-2 file-browser-header">
                 {{date}}
+            </div>
+        {{/if}}
+        {{#if (if-filter 'share-link-column' display)}}
+            <div class="col-xs-1 file-browser-header link-column">
+                <div class='btn-group'>
+                    {{#copy-button class='btn btn-default btn-sm' clipboardText=link}}{{fa-icon 'files-o'}}{{/copy-button}}
+                </div>
             </div>
         {{/if}}
     {{else}}

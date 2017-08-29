@@ -46,8 +46,8 @@ export default Ember.Component.extend({
                 if (user.get('id') === this.get('currentUser.currentUserId')) {
                     this.set('edit', true);
                 }
-                this.set('uploadUrl', user.get('links.relationships.files.links.upload.href'));
-                this.set('downloadUrl', user.get('links.relationships.files.links.upload.href') + '?zip=');
+                this.set('uploadUrl', user.get('links.relationships.quickfiles.links.upload.href'));
+                this.set('downloadUrl', user.get('links.relationships.quickfiles.links.upload.href') + '?zip=');
                 loadAll(user, 'quickfiles', this.get('_items')).then(() => {
                     this.set('loaded', true);
                 });
@@ -62,8 +62,8 @@ export default Ember.Component.extend({
             //Hopefully this is done by the time user can upload. Alternatives include adding a loading indicator to the upload button or
             //changin dropzone widget code to take promises
             this.set('edit', true);
-            this.set('uploadUrl', user.get('links.relationships.files.links.upload.href'));
-            this.set('downloadUrl', user.get('links.relationships.files.links.upload.href') + '?zip=');
+            this.set('uploadUrl', user.get('links.relationships.quickfiles.links.upload.href'));
+            this.set('downloadUrl', user.get('links.relationships.quickfiles.links.upload.href') + '?zip=');
             loadAll(user, 'quickfiles', this.get('_items')).then(() => {
                 this.set('loaded', true);
             });
@@ -91,7 +91,7 @@ export default Ember.Component.extend({
     }),
     nameColumnWidth: Ember.computed('display', function() {
         let display = this.get('display');
-        let width = 5 + 2 * !display.includes('share-link-column') + !display.includes('size-column') + !display.includes('version-column') + !display.includes('downloads-column') + 2 * !display.includes('modified-column');
+        let width = 6 + !display.includes('share-link-column') + !display.includes('size-column') + !display.includes('version-column') + !display.includes('downloads-column') + 2 * !display.includes('modified-column');
         return width;
     }),
     browserState: Ember.computed('loaded', '_items', function() {
