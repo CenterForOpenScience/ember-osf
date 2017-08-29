@@ -133,14 +133,19 @@ export default Ember.Component.extend(Analytics, hostAppName, {
         return false;
     }),
     hyperlink: Ember.computed('result', function() {
-        let urlRegex = /^https?:\/\/[^\/]+\//;
+        const urlRegex = /^https?:\/\/([^\/]+)\/(.+)$/;
         const domainRedirectList = this.get('domainRedirectProviders');
         const identifiers = this.get('result.identifiers').filter(ident => ident.startsWith('http://') || ident.startsWith('https://') );
         for (let identifier of identifiers) {
-            // If the identifier's url matches a branded url, then use that
             let url = identifier.match(urlRegex);
-            if (url && domainRedirectList.includes(url[0])) {
-                return identifier;
+            if (url) {
+                const domainRegex = new RegExp("^https?://" + url[1] + "/");
+                for (let domain of domainRedirectList) {
+                    if (domainRegex.test(domain)) {
+                        // If the domain matches use the path from the identifier concatentated to the domain
+                        return domain + url[2];
+                    }
+                }
             }
         }
         let re = this.providerUrlRegex.OSF;
