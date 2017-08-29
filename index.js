@@ -53,8 +53,10 @@ module.exports = {
         }
 
         if (BACKEND === 'local') {
-            backendUrlConfig.accessToken = eitherConfig('PERSONAL_ACCESS_TOKEN');
             backendUrlConfig.isLocal = true;
+            if (eitherConfig('PERSONAL_ACCESS_TOKEN')) {
+                backendUrlConfig.accessToken = eitherConfig('PERSONAL_ACCESS_TOKEN');
+            }
         } else if (BACKEND === 'prod') {
             console.warn("WARNING: you've specified production as a backend. Please do not use production for testing or development purposes");
         } else if (BACKEND === 'env') {
