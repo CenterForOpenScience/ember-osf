@@ -196,7 +196,7 @@ export default Ember.Component.extend({
         },
         viewItem() {
             let item = this.get('selectedItems.firstObject');
-            this.sendAction('openItem', item);
+            this.sendAction('openFile', item);
         },
         openItem(item) {
             this.sendAction('openFile', item);

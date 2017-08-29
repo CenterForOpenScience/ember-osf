@@ -34,6 +34,7 @@ export default Ember.Component.extend({
         return moment(date).utc().format('YYYY-MM-DD, h:mm:ss a')
     }),
     link: Ember.computed('item.path', function() {
+        //TODO look for guids
         let link = this.get('item.path');
         return link ? pathJoin(window.location.origin, link) : 'No link available';
     }),
