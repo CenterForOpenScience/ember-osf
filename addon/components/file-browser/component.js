@@ -68,16 +68,13 @@ export default Ember.Component.extend({
             });
             return;
         }
-        // if (this.get('_items').length) {
-        //     this.set('loaded', true);
-        //     return;
-        // }
         this.get('currentUser').load().then(user => {
             //Hopefully this is done by the time user can upload. Alternatives include adding a loading indicator to the upload button or
             //changin dropzone widget code to take promises
             this.set('edit', true);
             this.set('uploadUrl', user.get('links.relationships.quickfiles.links.upload.href'));
             this.set('downloadUrl', user.get('links.relationships.quickfiles.links.upload.href') + '?zip=');
+            this.set('_items', Ember.A());
             loadAll(user, 'quickfiles', this.get('_items')).then(() => {
                 this.set('loaded', true);
             });
@@ -225,7 +222,7 @@ export default Ember.Component.extend({
                 type: 'DELETE',
                 xhrFields: {withCredentials: true}
             })
-            .success(() => {
+            .done(() => {
                 //TODO rethink the flash system, this seems gross nooddly
                 item.set('flash', {
                     message: 'This file has been deleted',
@@ -272,7 +269,7 @@ export default Ember.Component.extend({
                     conflict: conflict || 'replace'
                 })
             })
-            .success(response => {
+            .done(response => {
                 item.set('itemName', response.data.attributes.name);
                 item.set('flash', {
                     message: 'Successfully renamed',
