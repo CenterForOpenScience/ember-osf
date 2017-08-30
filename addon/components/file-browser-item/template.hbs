@@ -1,31 +1,31 @@
 <div class="row" style='padding-top: 0px'>
     {{#unless item.flash.message}}
-        <div class="col-xs-{{nameColumnWidth}} file-browser-header">
+        <div class="col-sm-{{nameColumnWidth}} col-xs-12 file-browser-header">
             {{file-browser-icon item=item}}
             <a {{action 'open'}} role="link">{{item.itemName}}</a>
         </div>
         {{#if (if-filter 'size-column' display)}}
-            <div class="col-xs-1 file-browser-header">
+            <div class="col-sm-1 hidden-xs file-browser-header">
                 {{size}}
             </div>
         {{/if}}
         {{#if (if-filter 'version-column' display)}}
-            <div class="col-xs-1 file-browser-header">
+            <div class="col-sm-1 hidden-xs file-browser-header">
                 <a class='version-link' href='{{versionLink}}'>{{item.currentVersion}}</a>
             </div>
         {{/if}}
         {{#if (if-filter 'downloads-column' display)}}
-            <div class="col-xs-1 file-browser-header">
+            <div class="col-sm-1 hidden-xs file-browser-header">
                 {{item.extra.downloads}}
             </div>
         {{/if}}
         {{#if (if-filter 'modified-column' display)}}
-            <div class="col-xs-2 file-browser-header">
+            <div class="col-sm-2 hidden-xs file-browser-header">
                 {{date}}
             </div>
         {{/if}}
         {{#if (if-filter 'share-link-column' display)}}
-            <div class="col-xs-1 file-browser-header link-column">
+            <div class="col-sm-1 hidden-xs file-browser-header link-column">
                 <div class='btn-group'>
                     {{#copy-button class='btn btn-default btn-sm' clipboardText=link}}{{fa-icon 'files-o'}}{{/copy-button}}
                 </div>

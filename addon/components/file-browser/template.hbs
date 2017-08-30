@@ -66,29 +66,29 @@
                 {{fa-icon 'chevron-down' click=(action 'sort' 'itemName' 'des')}}
             </div>
             {{#if (if-filter 'size-column' display)}}
-                <div class="col-xs-1 file-browser-header header">
+                <div class="col-sm-1 hidden-xs file-browser-header header">
                     Size
                 </div>
             {{/if}}
             {{#if (if-filter 'version-column' display)}}
-                <div class="col-xs-1 file-browser-header header">
+                <div class="col-sm-1 hidden-xs file-browser-header header">
                     Version
                 </div>
             {{/if}}
             {{#if (if-filter 'downloads-column' display)}}
-                <div class="col-xs-1 file-browser-header header">
+                <div class="col-sm-1 hidden-xs file-browser-header header">
                     Downloads
                 </div>
             {{/if}}
             {{#if (if-filter 'modified-column'  display)}}
-                <div class="col-xs-2 file-browser-header header">
+                <div class="col-sm-2 hidden-xs file-browser-header header">
                     Modified
                     {{fa-icon 'chevron-up' click=(action 'sort' 'dateModified' 'asc')}}
                     {{fa-icon 'chevron-down' click=(action 'sort' 'dateModified' 'des')}}
                 </div>
             {{/if}}
             {{#if (if-filter 'share-link-column' display)}}
-                <div class="col-xs-1 file-browser-header header">
+                <div class="col-sm-1 hidden-xs file-browser-header header">
                     Copy button
                 </div>
             {{/if}}
