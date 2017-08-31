@@ -27,7 +27,20 @@
         {{#if (if-filter 'share-link-column' display)}}
             <div class="col-sm-1 hidden-xs file-browser-header link-column">
                 <div class='btn-group'>
-                    {{#copy-button class='btn btn-default btn-sm' clipboardText=link}}{{fa-icon 'files-o'}}{{/copy-button}}
+                    {{!#copy-button class='btn btn-default btn-sm' clipboardText=link}}
+                    <button class='btn btn-default' {{action 'copyLink'}}>
+                        {{#bs-popover placement='left' title='COPY'}}
+                            {{#if link}}
+                                {{#copy-button success=(action 'dismissPops') class='btn btn-default btn-sm' clipboardText=link}}
+                                    {{fa-icon 'files-o'}}
+                                {{/copy-button}}
+                            {{else}}
+                                Loading...
+                            {{/if}}
+                        {{/bs-popover}}
+                        Click
+                    </button>
+
                 </div>
             </div>
         {{/if}}

@@ -33,13 +33,13 @@ export default Ember.Component.extend({
         let date = this.get('item.dateModified');
         return moment(date).utc().format('YYYY-MM-DD, h:mm:ss a')
     }),
-    link: Ember.computed('item.path', function() {
-        //TODO look for guids
-        let link = this.get('item.path');
-        return link ? pathJoin(window.location.origin, link) : 'No link available';
-    }),
     versionLink: Ember.computed('item.currentVersion', function() {
         return this.get('item.path') + '?revision=' + this.get('item.currentVersion');
+    }),
+    guid: null,
+    link: Ember.computed('item', 'guid', function() {
+        let guid = this.get('item.guid') || this.get('guid');
+        return guid ? pathJoin(window.location.origin, guid) : undefined;
     }),
     click(e) {
         if (e.shiftKey || e.metaKey) {
@@ -51,6 +51,19 @@ export default Ember.Component.extend({
     actions: {
         open() {
             this.sendAction('openItem', this.get('item'));
+        },
+        copyLink() {
+            // this.send('dismissPops');
+            if (this.get('link')) {
+                return;
+            }
+            let url = this.get('item.links.info') + '?create_guid=1'
+            Ember.$.get(url, resp => {
+                this.set('guid', resp.data.attributes.guid);
+            })
+        },
+        dismissPops() {
+            Ember.$('.popover').remove();
         }
     }
 });
