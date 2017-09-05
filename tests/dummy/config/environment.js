@@ -59,10 +59,6 @@ module.exports = function(environment) {
         i18n: {
             defaultLocale: 'en-US'
         },
-
-        'ember-cli-mirage': {
-            enabled: false
-        }
     };
 
     /*if (environment === 'development') {

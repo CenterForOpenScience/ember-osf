@@ -1,29 +1,37 @@
 {{# if session.isAuthenticated }}
     {{! TODO: Replace display name functionality if possible- for now truncate via CSS at end of label }}
-    <button class="dropdown-toggle nav-user-dropdown btn-link" data-toggle="dropdown" role="button" aria-expanded="false" aria-label={{t 'eosf.authDropdown.toggleAuthDropdown'}} {{action closeOtherNavigation}}>
-        <span class="osf-gravatar">
-            <img src="{{gravatarUrl}}" alt="User gravatar">
-        </span> {{get-display-name user.fullName}}
-        <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu auth-dropdown" role="menu">
-        {{#if headline}}
-            <li style="margin-left:10%;">{{headline}}</li>
-        {{/if}}
-        <li>
-            <a href="{{serviceLinks.profile}}" onclick={{action 'click' 'link' 'Navbar - MyProfile'}}><i class="fa fa-user fa-lg p-r-xs"></i> {{t 'eosf.authDropdown.myProfile'}}</a>
-        </li>
-        <li>
-            <a href="{{serviceLinks.osfSupport}}" onclick={{action 'click' 'link' 'Navbar - Support'}}><i class="fa fa-life-ring fa-lg p-r-xs"></i> {{t 'eosf.authDropdown.osfSupport'}}</a>
-        </li>
+    {{#bs-dropdown as |dd|}}
+        {{#dd.toggle tagName="button" classNames="nav-user-dropdown btn-link"}}
+            <span class="osf-gravatar">
+                <img src="{{gravatarUrl}}" alt="User gravatar">
+            </span> {{get-display-name user.fullName}}
+            <span class="caret"></span>
+        {{/dd.toggle}}
 
-        <li>
-            <a href="{{serviceLinks.settings}}" onclick={{action 'click' 'link' 'Navbar - Settings'}}><i class="fa fa-cog fa-lg p-r-xs"></i> {{t 'eosf.authDropdown.settings'}}</a>
-        </li>
-        <li>
-            <a class="logoutLink" {{action 'logout'}} onclick={{action 'click' 'link' 'Navbar - Logout'}} role="button"><i class="fa fa-sign-out fa-lg p-r-xs"></i> {{t 'eosf.authDropdown.logOut'}}</a>
-        </li>
-    </ul>
+        {{#dd.menu align="right" as |menu|}}
+            {{#if headline}}
+                {{#menu.item style="margin-left:10%;"}}
+                    {{headline}}
+                {{/menu.item}}
+            {{/if}}
+
+            {{#menu.item}}
+                <a href="{{serviceLinks.profile}}" onclick={{action 'click' 'link' 'Navbar - MyProfile'}}><i class="fa fa-user fa-lg p-r-xs"></i> {{t 'eosf.authDropdown.myProfile'}}</a>
+            {{/menu.item}}
+
+            {{#menu.item}}
+                <a href="{{serviceLinks.osfSupport}}" onclick={{action 'click' 'link' 'Navbar - Support'}}><i class="fa fa-life-ring fa-lg p-r-xs"></i> {{t 'eosf.authDropdown.osfSupport'}}</a>
+            {{/menu.item}}
+
+            {{#menu.item}}
+                <a href="{{serviceLinks.settings}}" onclick={{action 'click' 'link' 'Navbar - Settings'}}><i class="fa fa-cog fa-lg p-r-xs"></i> {{t 'eosf.authDropdown.settings'}}</a>
+            {{/menu.item}}
+
+            {{#menu.item}}
+                <a class="logoutLink" {{action 'logout'}} onclick={{action 'click' 'link' 'Navbar - Logout'}} role="button"><i class="fa fa-sign-out fa-lg p-r-xs"></i> {{t 'eosf.authDropdown.logOut'}}</a>
+            {{/menu.item}}
+        {{/dd.menu}}
+    {{/bs-dropdown}}
 {{else if allowLogin}}
     {{#if institution}}
         {{! TODO: How does the page know whether this is an institution view? Implement in the future }}
