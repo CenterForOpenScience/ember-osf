@@ -31,9 +31,14 @@
                     <button class='btn btn-default' {{action 'copyLink'}}>
                         {{#bs-popover placement='left' title='COPY'}}
                             {{#if link}}
-                                {{#copy-button success=(action 'dismissPops') class='btn btn-default btn-sm' clipboardText=link}}
-                                    {{fa-icon 'files-o'}}
-                                {{/copy-button}}
+                                <div class="input-group">
+                                    <span class="input-group-btn">
+                                        {{#copy-button success=(action 'dismissPops') class='btn btn-default copy-btn' clipboardText=link}}
+                                            {{fa-icon 'files-o'}}
+                                        {{/copy-button}}
+                                    </span>
+                                    <input readonly="true" type="text" value="{{link}}" class="form-control">
+                                </div>
                             {{else}}
                                 Loading...
                             {{/if}}
