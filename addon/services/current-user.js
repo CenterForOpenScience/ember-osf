@@ -34,18 +34,9 @@ export default Ember.Service.extend({
      * @return {Promise}
      */
     load() {
-        return new Ember.RSVP.Promise((resolve, reject) => {
-            var currentUserId = this.get('currentUserId');
-            if (currentUserId) {
-                var currentUser = this.get('store').peekRecord('user', currentUserId);
-                if (currentUser) {
-                    resolve(currentUser);
-                } else {
-                    this.get('store').findRecord('user', currentUserId).then((user) => resolve(user), reject);
-                }
-            } else {
-                reject();
-            }
-        });
+        let userId = this.get('currentUserId');
+        let user = this.get('store').peekRecord('user', userId);
+        if (user) return Ember.RSVP.resolve(user);
+        return this.get('store').findRecord('user', userId);
     }
 });
