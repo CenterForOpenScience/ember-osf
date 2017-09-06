@@ -20,7 +20,8 @@ import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
  */
 export default Base.extend({
     // HACK: Lets us clear session manually, rather than after .invalidate method resolves
-    session: Ember.inject.service('session'),
+    store: Ember.inject.service(),
+    session: Ember.inject.service(),
 
     _test() {
         return authenticatedAJAX({
@@ -31,7 +32,9 @@ export default Base.extend({
             xhrFields: {
                 withCredentials: true
             }
-        }).then(function(res) {
+        }).then(res => {
+            // Push the result into the store for later use by the current-user service
+            this.get('store').pushPayload(res);
             return res.data;
         });
     },
