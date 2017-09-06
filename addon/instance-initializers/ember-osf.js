@@ -14,15 +14,12 @@ export function initialize(appInstance) {
             let translations = this.get('i18n._locale.translations');
             let preprintWord = this.get('theme.provider.preprintWord');
             let getTerms = () => ({
-                preprint: translations[`preprintWords.${preprintWord}.preprint`],
-                preprints: translations[`preprintWords.${preprintWord}.preprints`],
-                Preprint: translations[`preprintWords.${preprintWord}.Preprint`],
-                Preprints: translations[`preprintWords.${preprintWord}.Preprints`]
+                preprint: translations[`preprintWords.${preprintWord || 'preprint'}.preprint`],
+                preprints: translations[`preprintWords.${preprintWord || 'preprint'}.preprints`],
+                Preprint: translations[`preprintWords.${preprintWord || 'preprint'}.Preprint`],
+                Preprints: translations[`preprintWords.${preprintWord || 'preprint'}.Preprints`]
             });
-            if (!preprintWord) {
-                if (!this.get('theme.provider')) {
-                    return this._super(_, data, true);
-                }
+            if (!preprintWord && this.get('theme.provider')) {
                 this.get('theme.provider').then(provider => {
                     preprintWord = provider.get('preprintWord') || 'preprint';
                     data.preprintWords = getTerms();

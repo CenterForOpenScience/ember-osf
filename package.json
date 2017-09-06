@@ -1,6 +1,6 @@
 {
   "name": "@centerforopenscience/ember-osf",
-  "version": "0.8.5",
+  "version": "0.10.2",
   "description": "Reusable ember models and components for interacting with the Open Science Framework",
   "directories": {
     "doc": "docs",
@@ -25,7 +25,7 @@
   },
   "engineStrict": true,
   "engines": {
-    "node": ">=6"
+    "node": ">=8"
   },
   "author": "Center for Open Science",
   "license": "Apache-2.0",

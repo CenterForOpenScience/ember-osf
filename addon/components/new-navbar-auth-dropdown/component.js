@@ -2,6 +2,7 @@ import Ember from 'ember';
 import layout from './template';
 import config from 'ember-get-config';
 import { serviceLinks } from '../../const/service-links';
+import AnalyticsMixin from 'ember-osf/mixins/analytics';
 
 /**
  * @module ember-osf
@@ -20,7 +21,7 @@ import { serviceLinks } from '../../const/service-links';
  *
  * @class new-navbar-auth-dropdown
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend(AnalyticsMixin, {
     layout,
     session: Ember.inject.service(),
     currentUser: Ember.inject.service(),

@@ -109,7 +109,7 @@ module.exports = {
     },
     treeForVendor: function(tree) {
         var addonStyleTree = this._treeFor('addon-styles');
-        var addonPodStyles = new Funnel(this.addonTree, {
+        var addonPodStyles = new Funnel(path.resolve(this.root, 'addon'), {
             include: [
                 'components/**/*css'
             ]
