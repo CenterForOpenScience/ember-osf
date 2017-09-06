@@ -89,7 +89,6 @@
             {{/if}}
             {{#if (if-filter 'share-link-column' display)}}
                 <div class="col-sm-1 hidden-xs file-browser-header header">
-                    Copy button
                 </div>
             {{/if}}
         </div>
@@ -233,6 +232,7 @@
                         selectMultiple=(action 'selectMultiple')
                         display=display
                         nameColumnWidth=nameColumnWidth
+                        dismissOtherPops=(action 'dismissOtherPops')
                     }}
                 {{/each}}
             </div>

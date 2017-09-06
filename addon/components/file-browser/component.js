@@ -328,6 +328,13 @@ export default Ember.Component.extend({
             if (this.get('renaming')) {
                 this.send('rename');
             }
+        },
+        dismissOtherPops(item) {
+            for (var item_ of this.get('items')) {
+                if (item_.get('path') !== item.get('path')) {
+                    item_.set('visiblePopup', false);
+                }
+            }
         }
     }
 });

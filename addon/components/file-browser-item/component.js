@@ -53,7 +53,8 @@ export default Ember.Component.extend({
             this.sendAction('openItem', this.get('item'));
         },
         copyLink() {
-            // this.send('dismissPops');
+            this.sendAction('dismissOtherPops', this.get('item'));
+            this.set('item.visiblePopup', true);
             if (this.get('link')) {
                 return;
             }
@@ -62,8 +63,8 @@ export default Ember.Component.extend({
                 this.set('guid', resp.data.attributes.guid);
             })
         },
-        dismissPops() {
-            Ember.$('.popover').remove();
+        dismissPop() {
+            this.set('item.visiblePopup', false);
         }
     }
 });

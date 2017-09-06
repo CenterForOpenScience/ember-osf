@@ -29,11 +29,11 @@
                 <div class='btn-group'>
                     {{!#copy-button class='btn btn-default btn-sm' clipboardText=link}}
                     <button class='btn btn-default' {{action 'copyLink'}}>
-                        {{#bs-popover placement='left' title='COPY'}}
+                        {{#bs-popover placement='left' title='Share' visible=item.visiblePopup}}
                             {{#if link}}
                                 <div class="input-group">
                                     <span class="input-group-btn">
-                                        {{#copy-button success=(action 'dismissPops') class='btn btn-default copy-btn' clipboardText=link}}
+                                        {{#copy-button success=(action 'dismissPop') class='btn btn-default copy-btn' clipboardText=link}}
                                             {{fa-icon 'files-o'}}
                                         {{/copy-button}}
                                     </span>
@@ -43,7 +43,7 @@
                                 Loading...
                             {{/if}}
                         {{/bs-popover}}
-                        Click
+                        Share
                     </button>
 
                 </div>
