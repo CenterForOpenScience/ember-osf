@@ -27,7 +27,6 @@
         {{#if (if-filter 'share-link-column' display)}}
             <div class="col-sm-1 hidden-xs file-browser-header link-column">
                 <div class='btn-group'>
-                    {{!#copy-button class='btn btn-default btn-sm' clipboardText=link}}
                     <button class='btn btn-default' {{action 'copyLink'}}>
                         {{#bs-popover placement='left' title='Share' visible=item.visiblePopup}}
                             {{#if link}}

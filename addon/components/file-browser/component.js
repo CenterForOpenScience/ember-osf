@@ -32,55 +32,25 @@ export default Ember.Component.extend({
         this._super(...arguments);
     },
     currentUser: Ember.inject.service(),
-    uploadUrl: null,
-    edit: false,
-    _user: null,
-    didReceiveAttrs(args) {
-        if (args.newAttrs.newItems) { //Allow non-quickfiels widgets eventually
-            this.set('loaded', true);
-            this.set('_items', args.newAttrs.newItems.value);
-            return;
-        }
-        if (args.newAttrs.user) {
-            let user = args.newAttrs.user;
-            this.set('_items', Ember.A());
-            if (user.get('id') === this.get('currentUser.currentUserId')) {
-                this.set('edit', true);
-            }
-            this.set('uploadUrl', user.get('links.relationships.quickfiles.links.upload.href'));
-            this.set('downloadUrl', user.get('links.relationships.quickfiles.links.upload.href') + '?zip=');
-            loadAll(user, 'quickfiles', this.get('_items')).then(() => {
-                this.set('loaded', true);
-            });
-            return;
-        }
-        if (args.newAttrs.userId) {
-            this.get('store').findRecord('user', args.newAttrs.userId.value).then(user => {
-                if (user.get('id') === this.get('currentUser.currentUserId')) {
-                    this.set('edit', true);
-                }
-                this.set('_items', Ember.A());
-                this.set('uploadUrl', user.get('links.relationships.quickfiles.links.upload.href'));
-                this.set('downloadUrl', user.get('links.relationships.quickfiles.links.upload.href') + '?zip=');
-                loadAll(user, 'quickfiles', this.get('_items')).then(() => {
-                    this.set('loaded', true);
-                });
-            });
-            return;
-        }
-        this.get('currentUser').load().then(user => {
-            //Hopefully this is done by the time user can upload. Alternatives include adding a loading indicator to the upload button or
-            //changin dropzone widget code to take promises
-            this.set('edit', true);
-            this.set('uploadUrl', user.get('links.relationships.quickfiles.links.upload.href'));
-            this.set('downloadUrl', user.get('links.relationships.quickfiles.links.upload.href') + '?zip=');
-            this.set('_items', Ember.A());
-            loadAll(user, 'quickfiles', this.get('_items')).then(() => {
-                this.set('loaded', true);
-            });
-
-        })
+    edit: Ember.computed('user', function() {
+        return this.get('user.id') === this.get('currentUser.currentUserId');
+    }),
+    _loadFiles(user) {
+        //pagination? when?
+        loadAll(user, 'quickfiles', this.get('_items')).then(() => this.set('loaded', true));
     },
+    _loadUser:  Ember.on('init', Ember.observer('user', function() {
+        let user = this.get('user');
+        //items need to be reloaded when attrs are received
+        this.set('_items', Ember.A());
+        this._loadFiles(user);
+    })),
+    uploadUrl: Ember.computed('user', function() {
+        return this.get('user.links.relationships.quickfiles.links.upload.href');
+    }),
+    downloadUrl: Ember.computed('user', function() {
+        return this.get('user.links.relationships.quickfiles.links.download.href');
+    }),
     loaded: false,
     filtering: false,
     renaming: false,
