@@ -18,8 +18,8 @@ export default OsfModel.extend({
 
     // Reviews settings
     reviewsWorkflow: DS.attr('string'),
-    reviewsCommentsPrivate: DS.attr('boolean'),
-    reviewsCommentsAnonymous: DS.attr('boolean'),
+    reviewsCommentsPrivate: DS.attr('boolean', {allowNull: true}),
+    reviewsCommentsAnonymous: DS.attr('boolean', {allowNull: true}),
     permissions: DS.attr(),
 
     // Relationships
