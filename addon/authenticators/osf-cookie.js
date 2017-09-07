@@ -34,7 +34,9 @@ export default Base.extend({
             }
         }).then(res => {
             // Push the result into the store for later use by the current-user service
-            this.get('store').pushPayload(res);
+            // Note: we have to deepcopy res because pushPayload mutates our data
+            // and causes an infinite loop because reasons
+            this.get('store').pushPayload(Ember.copy(res, true));
             return res.data;
         });
     },
@@ -67,11 +69,6 @@ export default Base.extend({
      * @return {Promise}
      */
     authenticate(code) {
-        let jqDeferred = this._test(code);
-        return new Ember.RSVP.Promise((resolve, reject) => {
-            // TODO: Improve param capture
-            jqDeferred.done((value) => resolve(value));
-            jqDeferred.fail((reason) => reject(reason));
-        });
+        return this._test(code);
     }
 });
