@@ -10,7 +10,8 @@ export function initialize(appInstance) {
     tHelper.reopen({
         theme: Ember.inject.service(),
         compute(_, data) {
-            data = data || {};
+            // If data is defined, clone it because it is not extensible.
+            data = data ? Object.assign({}, data) : {};
             let translations = this.get('i18n._locale.translations');
             let preprintWord = this.get('theme.provider.preprintWord');
             let getTerms = () => ({
