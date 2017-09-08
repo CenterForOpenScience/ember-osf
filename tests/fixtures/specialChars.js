@@ -2,8 +2,9 @@
 const fixStringTestCases = [
     ['a regular string', 'a regular string'],
     ['multiple &amp; sequences all become &amp;', 'multiple & sequences all become &'],
+    ['also the brackets &lt; and &gt; are changed', 'also the brackets < and > are changed'],
     ['', ''],
-    ['for now, intentionally limit which characters are fixed &amp; &lt; &gt;', 'for now, intentionally limit which characters are fixed & &lt; &gt;'],
+    ['for now, intentionally limit which characters are fixed &amp; &lt; &gt;', 'for now, intentionally limit which characters are fixed & < >'],
     [null, null]
 ];
 

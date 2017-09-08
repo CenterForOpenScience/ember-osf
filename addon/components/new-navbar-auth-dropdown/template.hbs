@@ -11,17 +11,17 @@
             <li style="margin-left:10%;">{{headline}}</li>
         {{/if}}
         <li>
-            <a href="{{serviceLinks.profile}}"><i class="fa fa-user fa-lg p-r-xs"></i> {{t 'eosf.authDropdown.myProfile'}}</a>
+            <a href="{{serviceLinks.profile}}" onclick={{action 'click' 'link' 'Navbar - MyProfile'}}><i class="fa fa-user fa-lg p-r-xs"></i> {{t 'eosf.authDropdown.myProfile'}}</a>
         </li>
         <li>
-            <a href="{{serviceLinks.osfSupport}}"><i class="fa fa-life-ring fa-lg p-r-xs"></i> {{t 'eosf.authDropdown.osfSupport'}}</a>
+            <a href="{{serviceLinks.osfSupport}}" onclick={{action 'click' 'link' 'Navbar - Support'}}><i class="fa fa-life-ring fa-lg p-r-xs"></i> {{t 'eosf.authDropdown.osfSupport'}}</a>
         </li>
 
         <li>
-            <a href="{{serviceLinks.settings}}"><i class="fa fa-cog fa-lg p-r-xs"></i> {{t 'eosf.authDropdown.settings'}}</a>
+            <a href="{{serviceLinks.settings}}" onclick={{action 'click' 'link' 'Navbar - Settings'}}><i class="fa fa-cog fa-lg p-r-xs"></i> {{t 'eosf.authDropdown.settings'}}</a>
         </li>
         <li>
-            <a class="logoutLink" onclick={{action 'logout'}} role="button"><i class="fa fa-sign-out fa-lg p-r-xs"></i> {{t 'eosf.authDropdown.logOut'}}</a>
+            <a class="logoutLink" {{action 'logout'}} onclick={{action 'click' 'link' 'Navbar - Logout'}} role="button"><i class="fa fa-sign-out fa-lg p-r-xs"></i> {{t 'eosf.authDropdown.logOut'}}</a>
         </li>
     </ul>
 {{else if allowLogin}}
@@ -34,8 +34,8 @@
         </div>
     {{else}}
         <div>
-            <a href="{{signupUrl}}" class="btn btn-success btn-top-signup m-l-sm m-r-xs">{{t 'eosf.authDropdown.signUp'}}</a>
-            <a {{action loginAction}} class="btn btn-info btn-top-login m-r-xs" role="button">{{t 'eosf.authDropdown.signIn'}}</a>
+            <a href="{{signupUrl}}" class="btn btn-success btn-top-signup m-l-sm m-r-xs" onclick={{action 'click' 'link' 'Navbar - SignUp'}}>{{t 'eosf.authDropdown.signUp'}}</a>
+            <a {{action loginAction}} onclick={{action 'click' 'link' 'Navbar - SignIn'}} class="btn btn-info btn-top-login m-r-xs" role="button">{{t 'eosf.authDropdown.signIn'}}</a>
         </div>
     {{/if}}
 {{/if}}

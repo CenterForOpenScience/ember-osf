@@ -125,6 +125,16 @@ export default Ember.Component.extend(Analytics, hostAppName, {
      * @property {Object} fetchedProviders
      */
     fetchedProviders: null,
+    domainRedirectProviders: Ember.computed(function() {
+        let providerDomains = [];
+        let providers = this.get('fetchedProviders');
+        for (let providerVal of providers) {
+            if (providerVal.get('domain') && providerVal.get('domainRedirectEnabled') === true) {
+                providerDomains.push(providerVal.get('domain'));
+            }
+        }
+        return providerDomains;
+    }),
     /**
      * For PREPRINTS and REGISTRIES. A mapping of activeFilters to facet names expected by SHARE. Ex. {'providers': 'sources'}
      * @property {Object} filterMap
@@ -380,7 +390,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     buildLockedQueryBody(lockedParams) {
         /**
          *  For PREPRINTS, REGISTRIES, RETRACTION WATCH - services where portion of query is restricted.
-         *  Builds the locked portion of the query.  For example, in preprints, type=preprint
+         *  Builds the locked portion of the query.  For example, in preprints, types=['preprint', 'thesis']
          *  is something that cannot be modified by the user.
          *
          *  @method buildLockedQueryBody
@@ -396,10 +406,9 @@ export default Ember.Component.extend(Analytics, hostAppName, {
             } else if (key === 'contributors') {
                 queryKey = 'lists.contributors.name';
             }
-
             query[queryKey] = lockedParams[key];
             queryBody.push({
-                term: query
+                terms: query
             });
         });
         return queryBody;
@@ -488,7 +497,6 @@ export default Ember.Component.extend(Analytics, hostAppName, {
                 });
             }
         });
-
         // For PREPRINTS and REGISTRIES. If theme.isProvider, add provider(s) to query body
         if (this.get('theme.isProvider') && this.get('themeProvider.name') !== null) {
             const themeProvider = this.get('themeProvider');
@@ -501,7 +509,6 @@ export default Ember.Component.extend(Analytics, hostAppName, {
                 }
             });
         }
-
         let query = {
             query_string: {
                 query: this.get('q') || '*'
@@ -515,7 +522,6 @@ export default Ember.Component.extend(Analytics, hostAppName, {
                 }
             };
         }
-
         let page = this.get('page');
         let queryBody = {
             query,
