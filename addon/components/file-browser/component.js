@@ -41,9 +41,19 @@ export default Ember.Component.extend({
     },
     _loadUser:  Ember.on('init', Ember.observer('user', function() {
         let user = this.get('user');
+        if (!user) {
+            return;
+        }
         //items need to be reloaded when attrs are received
-        this.set('_items', Ember.A());
-        this._loadFiles(user);
+        if (user.then) {
+            user.then(user_ => {
+                this.set('_items', Ember.A());
+                this._loadFiles(user_);
+            })
+        } else {
+            this.set('_items', Ember.A());
+            this._loadFiles(user);
+        }
     })),
     uploadUrl: Ember.computed('user', function() {
         return this.get('user.links.relationships.quickfiles.links.upload.href');
