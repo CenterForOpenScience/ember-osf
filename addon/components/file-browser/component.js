@@ -41,18 +41,24 @@ export default Ember.Component.extend({
     },
     _loadUser:  Ember.on('init', Ember.observer('user', function() {
         let user = this.get('user');
-        if (!user) {
+        if (!user || this.get('loaded')) {
             return;
         }
         //items need to be reloaded when attrs are received
+        let _load = user_ => {
+            Ember.run(() => {
+                this.set('_items', Ember.A());
+                Ember.run.next(() => {
+                    this._loadFiles(user_);
+                });
+            });
+        };
         if (user.then) {
             user.then(user_ => {
-                this.set('_items', Ember.A());
-                this._loadFiles(user_);
+                _load(user_);
             })
         } else {
-            this.set('_items', Ember.A());
-            this._loadFiles(user);
+            _load(user);
         }
     })),
     uploadUrl: Ember.computed('user', function() {
