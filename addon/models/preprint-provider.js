@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import DS from 'ember-data';
 import OsfModel from 'ember-osf/models/osf-model';
 
@@ -17,10 +18,11 @@ export default OsfModel.extend({
     preprintWord: DS.attr('string'),
 
     // Reviews settings
+    permissions: DS.attr(),
     reviewsWorkflow: DS.attr('string'),
     reviewsCommentsPrivate: DS.attr('boolean', {allowNull: true}),
     reviewsCommentsAnonymous: DS.attr('boolean', {allowNull: true}),
-    permissions: DS.attr(),
+    reviewableStatusCounts: Ember.computed.alias('links.relationships.preprints.links.related.meta'),
 
     // Relationships
     taxonomies: DS.hasMany('taxonomy'),

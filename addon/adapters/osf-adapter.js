@@ -37,13 +37,13 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
      *
      * @method buildQuery
      */
-    buildQuery() {
+    buildQuery(snapshot) {
         let query = this._super(...arguments);
         if (query.include) {
             query.embed = query.include;
         }
         delete query.include;
-        return query;
+        return Ember.merge(query, Ember.getWithDefault(snapshot, 'adapterOptions.query', {}));
     },
     buildURL(modelName, id, snapshot, requestType) {
         var url = this._super(...arguments);
