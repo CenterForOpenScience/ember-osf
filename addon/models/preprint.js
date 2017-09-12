@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import DS from 'ember-data';
 import OsfModel from './osf-model';
 
@@ -37,4 +38,22 @@ export default OsfModel.extend({
     provider: DS.belongsTo('preprint-provider', { inverse: 'preprints', async: true }),
     reviewLogs: DS.hasMany('review-log', { inverse: 'reviewable', async: true }),
     contributors: DS.hasMany('contributors', { async: true }),
+
+    uniqueSubjects: Ember.computed('subjects', function() {
+        if (!this.get('subjects')) return [];
+        return this.get('subjects').reduce((acc, val) => acc.concat(val), []).uniqBy('id');
+    }),
+
+    doiUrl: Ember.computed('doi', function() {
+        return `https://dx.doi.org/${this.get('doi')}`;
+    }),
+
+    licenseText: Ember.computed('license', function() {
+        const text = this.get('license.text') || '';
+        const {year = '', copyright_holders = []} = this.get('licenseRecord');
+
+        return text
+            .replace(/({{year}})/g, year)
+            .replace(/({{copyrightHolders}})/g, copyright_holders.join(', '));
+    }),
 });
