@@ -162,10 +162,17 @@ export default Ember.Component.extend({
             });
         },
         selectItem(item) {
-            if (this.get('selectedItems.length')) {
+            if (this.get('selectedItems.length') > 1) {
                 for (var item_ of this.get('selectedItems')) {
                     item_.set('isSelected', item_ === item);
                 }
+            } else if (this.get('selectedItems.length') ===  1) {
+                if (item.get('isSelected')) {
+                    item.set('isSelected', false);
+                    return;
+                }
+                let otherItem = this.get('selectedItems.firstObject');
+                otherItem.set('isSelected', false);
             }
             item.set('isSelected', true);
             this.set('shiftAnchor', item);
