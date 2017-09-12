@@ -69,6 +69,10 @@ export default Base.extend({
      * @return {Promise}
      */
     authenticate(code) {
-        return this._test(code);
+        // NOTE: Must be wrapped in an RSVP promise
+        // _test returns a Jquery Promise but authenticate expects an RSVP Promise
+        return new Ember.RSVP.Promise((resolve, reject) =>
+            this._test(code).then(resolve).fail(reject)
+        );
     }
 });

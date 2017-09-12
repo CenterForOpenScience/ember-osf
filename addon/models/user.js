@@ -29,6 +29,7 @@ export default OsfModel.extend({
 
     nodes: DS.hasMany('nodes'),
     registrations: DS.hasMany('registrations'),
+    canViewReviews: DS.attr('boolean', {defaultValue: false}),
 
     affiliatedInstitutions: DS.hasMany('institutions', {
         inverse: 'users'
