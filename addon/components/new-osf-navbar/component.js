@@ -27,7 +27,7 @@ export default Ember.Component.extend(hostAppName, AnalyticsMixin, {
     layout,
     session: Ember.inject.service(),
     osfServices: Ember.computed('hostAppName', function() {
-        if (this.get('hostAppName') !== 'preprints') return osfServices;
+        if (this.get('hostAppName') !== 'Preprints') return osfServices;
         return osfServices.concat([{
             name: 'REVIEWS',
             url: serviceLinks.reviewsHome,
