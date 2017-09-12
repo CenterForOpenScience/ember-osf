@@ -162,6 +162,7 @@ export default Ember.Component.extend({
             });
         },
         selectItem(item) {
+            this.set('renaming', false);
             if (this.get('selectedItems.length') > 1) {
                 for (var item_ of this.get('selectedItems')) {
                     item_.set('isSelected', item_ === item);
@@ -178,6 +179,7 @@ export default Ember.Component.extend({
             this.set('shiftAnchor', item);
         },
         selectMultiple(item, toggle) {
+            this.set('renaming', false);
             if (toggle) {
                 item.toggleProperty('isSelected');
             } else {
@@ -308,7 +310,7 @@ export default Ember.Component.extend({
             this.set('_items', order === 'asc' ? sorted : sorted.reverse());
         },
         toggleText(which) {
-            this.set('textValue', null);
+            this.set('textValue', which === 'renaming' ? this.get('selectedItems.firstObject.itemName') : null);
             this.toggleProperty(which);
         },
         openModal(modalType) {
