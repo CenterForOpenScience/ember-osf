@@ -33,9 +33,6 @@ export default Ember.Component.extend({
         let date = this.get('item.dateModified');
         return moment(date).utc().format('YYYY-MM-DD, h:mm:ss a')
     }),
-    versionLink: Ember.computed('item.currentVersion', function() {
-        return this.get('item.path') + '?revision=' + this.get('item.currentVersion');
-    }),
     guid: null,
     link: Ember.computed('item', 'guid', function() {
         let guid = this.get('item.guid') || this.get('guid');
@@ -49,6 +46,9 @@ export default Ember.Component.extend({
         }
     },
     actions: {
+        openVersion() {
+            this.sendAction('openItem', this.get('item'), '?revision=' + this.get('item.currentVersion'));
+        },
         open() {
             this.sendAction('openItem', this.get('item'));
         },

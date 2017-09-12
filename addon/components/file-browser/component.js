@@ -202,8 +202,8 @@ export default Ember.Component.extend({
             let item = this.get('selectedItems.firstObject');
             this.sendAction('openFile', item);
         },
-        openItem(item) {
-            this.sendAction('openFile', item);
+        openItem(item, qparams) {
+            this.sendAction('openFile', item, qparams);
         },
         downloadItem() {
             let downloadLink = this.get('selectedItems.firstObject.links.download');

@@ -11,7 +11,7 @@
         {{/if}}
         {{#if (if-filter 'version-column' display)}}
             <div class="col-sm-1 hidden-xs file-browser-header">
-                <a class='version-link' href='{{versionLink}}'>{{item.currentVersion}}</a>
+                <a class='version-link' {{action 'openVersion'}} role="link">{{item.currentVersion}}</a>
             </div>
         {{/if}}
         {{#if (if-filter 'downloads-column' display)}}
