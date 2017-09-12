@@ -502,14 +502,15 @@ export default Ember.Component.extend(Analytics, hostAppName, {
             const themeProvider = this.get('themeProvider');
             // Regular preprint providers will have their search results restricted to the one provider.
             // If the provider has additionalProviders, all of these providers will be added to the "sources" SHARE query
+            var sources = [];
             if (this.get('theme.isProvider'))
-                var sources = (themeProvider.get('additionalProviders') || []).length ? themeProvider.get('additionalProviders') : [themeProvider.get('shareSource') || themeProvider.get('name')];
+                sources = (themeProvider.get('additionalProviders') || []).length ? themeProvider.get('additionalProviders') : [themeProvider.get('shareSource') || themeProvider.get('name')];
             else if (this.get('themeProvider.id') === 'osf') {
                 let osfProviderSources = [themeProvider.get('shareSource') || 'OSF'];
                 osfProviderSources = osfProviderSources.concat(
                   this.get('fetchedProviders').map(provider => provider.get('shareSource') || provider.get('name'))
                 );
-                var sources = this.get('whiteListedProviders') ? osfProviderSources.concat(this.get('whiteListedProviders')) : osfProviderSources;
+                sources = this.get('whiteListedProviders') ? osfProviderSources.concat(this.get('whiteListedProviders')) : osfProviderSources;
             }
             filters.push({
                 terms: {
