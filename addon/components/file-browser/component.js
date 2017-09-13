@@ -86,7 +86,7 @@ export default Ember.Component.extend({
     }),
     items: Ember.computed('_items', 'textValue', 'filtering', function() {
         //look at ways to use the api to filter
-        return this.get('textValue') && this.get('filtering') ? this.get('_items').filter(i => i.get('name').indexOf(this.get('textValue')) !== -1) : this.get('_items');
+        return this.get('textValue') && this.get('filtering') ? this.get('_items').filter(i => i.get('name').toLowerCase().indexOf(this.get('textValue').toLowerCase()) !== -1) : this.get('_items');
     }),
     textFieldOpen: Ember.computed('filtering', 'renaming', function() {
         return this.get('filtering') ? 'filtering' : (this.get('renaming') ? 'renaming' : false);
