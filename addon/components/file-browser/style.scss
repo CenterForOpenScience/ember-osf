@@ -178,7 +178,7 @@
     .copy-btn {
         height: 34px;
     }
-    
+
     #modal {
         width: 75%;
         height: 80%;
@@ -190,5 +190,14 @@
         bottom: 0;
         margin: auto;
         overflow: scroll;
+    }
+
+    .file-row-item {
+        margin-left: -10px;
+        margin-right: 0px;
+    }
+
+    .file-row-col {
+        margin-left: -1px;
     }
 }
