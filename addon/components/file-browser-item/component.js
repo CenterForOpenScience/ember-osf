@@ -10,6 +10,7 @@ import humanFileSize from 'ember-osf/utils/human-file-size';
 
 export default Ember.Component.extend({
     layout,
+    store: Ember.inject.service(),
     classNames: ['file-browser-item'],
     selected: Ember.computed('selectedItems.[]', function() {
         // TODO: This would be better if selectedItems were a hash. Can Ember
@@ -58,7 +59,13 @@ export default Ember.Component.extend({
             if (this.get('link')) {
                 return;
             }
-            let url = this.get('item.links.info') + '?create_guid=1'
+            let url = '';
+            if (this.get('item.links.info')) {
+                url = this.get('item.links.info') + '?create_guid=1';
+            } else {
+                let adapter = this.get('store').adapterFor('file');
+                url = adapter.buildURL('files', this.get('item.path').slice(1)) + '?create_guid=1';
+            }
             Ember.$.get(url, resp => {
                 this.set('guid', resp.data.attributes.guid);
             })
