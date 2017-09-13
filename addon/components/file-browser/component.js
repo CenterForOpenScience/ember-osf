@@ -29,6 +29,11 @@ export default Ember.Component.extend({
     },
     init() {
         this.set('_items', Ember.A());
+        Ember.$('body').on('click', (e) => {
+            if (Ember.$(e.target).parents('.popover.in').length === 0 && Ember.$(e.target).attr('class').indexOf('popover-toggler') === -1) {
+                this.send('dismissOtherPops');
+            }
+        });
         this._super(...arguments);
     },
     currentUser: Ember.inject.service(),
@@ -326,7 +331,7 @@ export default Ember.Component.extend({
         },
         dismissOtherPops(item) {
             for (var item_ of this.get('items')) {
-                if (item_.get('path') !== item.get('path')) {
+                if (!item || item_.get('path') !== item.get('path')) {
                     item_.set('visiblePopup', false);
                 }
             }
