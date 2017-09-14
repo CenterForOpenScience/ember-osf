@@ -147,7 +147,7 @@ export default Ember.Component.extend({
             response.data.attributes.currentVersion = '1';
             let item = this.get('store').push(response);
             item.set('links', response.data.links); //Push doesnt pass it links
-            this.get('_items').pushObject(item);
+            this.get('_items').unshiftObject(item);
             this.notifyPropertyChange('_items');
             Ember.run.next(() => item.set('flash', {
                     message: 'This file has been added',
