@@ -95,7 +95,8 @@
     {{/if}}
     <div class='file-browser-list'>
         {{#if (eq browserState 'loading')}}
-            {{fa-icon 'spinner' size=3 pulse=true}}
+            <br /><br />
+            <div style='text-align: center'>{{fa-icon 'spinner' size=4 pulse=true}}</div>
         {{else if (eq browserState 'empty')}}
             {{#if uploading.length}}
                 {{#each uploading as |file|}}
