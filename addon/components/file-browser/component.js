@@ -149,6 +149,11 @@ export default Ember.Component.extend({
             item.set('links', response.data.links); //Push doesnt pass it links
             this.get('_items').pushObject(item);
             this.notifyPropertyChange('_items');
+            Ember.run.next(() => item.set('flash', {
+                    message: 'This file has been added',
+                    type: 'success'
+                })
+            );
         },
         buildUrl(files) {
             let name = files[0].name;
