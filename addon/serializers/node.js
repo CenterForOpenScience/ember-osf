@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import OsfSerializer from './osf-serializer';
 
 export default OsfSerializer.extend({

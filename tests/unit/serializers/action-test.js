@@ -1,8 +1,8 @@
 import { moduleForModel, test } from 'ember-qunit';
 
-moduleForModel('review-log', 'Unit | Serializer | review log', {
+moduleForModel('action', 'Unit | Serializer | action', {
   // Specify the other units that are required for this test.
-  needs: ['serializer:review-log']
+  needs: ['serializer:action']
 });
 
 // Replace this with your real tests.
