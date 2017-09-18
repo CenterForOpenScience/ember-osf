@@ -30,7 +30,7 @@ export default Ember.Component.extend({
     init() {
         this.set('_items', Ember.A());
         Ember.$('body').on('click', (e) => {
-            if (Ember.$(e.target).parents('.popover.in').length === 0 && Ember.$(e.target).attr('class').indexOf('popover-toggler') === -1) {
+            if (Ember.$(e.target).parents('.popover.in').length === 0 && Ember.$(e.target).attr('class') && Ember.$(e.target).attr('class').indexOf('popover-toggler') === -1) {
                 this.send('dismissOtherPops');
             }
         });
