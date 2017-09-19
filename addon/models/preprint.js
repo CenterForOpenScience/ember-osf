@@ -44,9 +44,8 @@ export default OsfModel.extend({
         return this.get('subjects').reduce((acc, val) => acc.concat(val), []).uniqBy('id');
     }),
 
-    doiUrl: Ember.computed('doi', function() {
-        return `https://dx.doi.org/${this.get('doi')}`;
-    }),
+    articleDoiUrl: Ember.computed.alias('links.doi'),
+    preprintDoiUrl: Ember.computed.alias('links.preprint_doi'),
 
     licenseText: Ember.computed('license', function() {
         const text = this.get('license.text') || '';
