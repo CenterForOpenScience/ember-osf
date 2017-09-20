@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import layout from './template';
 import config from 'ember-get-config';
 
 const levelMap = {
@@ -8,6 +9,7 @@ const levelMap = {
 };
 
 export default Ember.Component.extend({
+    layout,
     classNames: ['alert', 'alert-dismissible', 'alert-maintenance'],
     classNameBindings: ['alertClass'],
 
