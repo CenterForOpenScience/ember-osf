@@ -12,5 +12,5 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{maintenance-banner}}`);
 
-  assert.equal(this.$().text().trim(), '');
+  assert.ok(this.$());
 });
