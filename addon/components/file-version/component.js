@@ -13,7 +13,8 @@ import layout from './template';
  * ```handlebars
  * {{file-version
  * version=version
- * download='download'}}
+ * download='download'
+ * clickable=true}}
  * ```
  * @class file-version
  */
@@ -21,6 +22,7 @@ export default Ember.Component.extend({
     layout,
     classNames: ['file-version'],
     tagName: 'tr',
+    clickable: false,
 
     actions: {
         downloadVersion(version) {
