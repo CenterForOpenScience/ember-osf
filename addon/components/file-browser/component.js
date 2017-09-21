@@ -94,6 +94,10 @@ export default Ember.Component.extend({
     nameColumnWidth: Ember.computed('display', function() {
         let display = this.get('display');
         let width = 6 + !display.includes('share-link-column') + !display.includes('size-column') + !display.includes('version-column') + !display.includes('downloads-column') + 2 * !display.includes('modified-column');
+        if (!display.includes('header')) { //Allows scrollable elements to use extra space occupied by header
+            let height = Ember.$('.file-browser-list').height();
+            Ember.$('.file-browser-list').height(height + 50);
+        }
         return width;
     }),
     browserState: Ember.computed('loaded', '_items', function() {

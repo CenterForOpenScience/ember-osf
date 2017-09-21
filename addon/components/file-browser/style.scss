@@ -3,6 +3,10 @@
 
     border-top: none;
 
+    .dropzone-area {
+        height: 100%;
+    }
+
     .dz-preview {
         visibility: hidden;
         display: none;
@@ -69,7 +73,7 @@
 
     .file-browser-list {
         position: relative;
-        height: 500px;
+        height: calc(100% - 100px);
     }
 
     .items {
