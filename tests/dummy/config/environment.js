@@ -14,6 +14,9 @@ module.exports = function(environment) {
     }
 
     var ENV = {
+        FLAG_DEFAULT: false,
+        SAMPLE_DEFAULT: false,
+        SWITCH_DEFAULT: false,
         metricsAdapters: [
             {
                 name: 'GoogleAnalytics',
@@ -59,10 +62,6 @@ module.exports = function(environment) {
         i18n: {
             defaultLocale: 'en-US'
         },
-
-        'ember-cli-mirage': {
-            enabled: false
-        }
     };
 
     /*if (environment === 'development') {
