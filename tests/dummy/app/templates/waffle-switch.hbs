@@ -6,6 +6,11 @@
 {{#each model as |switch|}}
     <hr>
     <div class="panel">
-        {{switch.name}}
+        SWITCH NAME: {{switch.name}}
+        {{#if switch.active}}
+            ACTIVE
+        {{else}}
+            INACTIVE
+        {{/if}}
     </div>
 {{/each}}
