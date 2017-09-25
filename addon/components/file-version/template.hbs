@@ -1,9 +1,26 @@
 <td>
 	{{#if clickable}}
-		<a href='{{version.url}}'>{{version.id}}</a>
+		<a {{action 'changeVersion' version.id}}>{{version.id}}</a>
 	{{else}}
 		{{version.id}}
 	{{/if}}
 </td>
-<td>{{version.size}}</td>
-<td><button {{action 'downloadVersion' version.id}}>{{fa-icon 'download'}}</button></td>
+<td>{{dateFormatted}}</td>
+<td><div class='badge'>{{version.attributes.extra.downloads}}</div></td>
+<td><button class='btn btn-primary btn-sm' {{action 'downloadVersion' version.id}}>{{fa-icon 'download'}}</button></td>
+<td>
+	<div class='input-group'>
+		<span class='input-group-btn'>
+			<button type='button' class='btn btn-default btn-sm' {{action 'copyMd5'}}>{{fa-icon 'copy'}}</button>
+		</span>
+		<input type='text' readonly='readonly' value='{{version.attributes.extra.hashes.md5}}' class='hashBox' id='md5-{{version.id}}'>
+	</div>
+</td>
+<td>
+	<div class='input-group'>
+		<span class='input-group-btn'>
+			<button type='button' class='btn btn-default btn-sm' {{action 'copySha256'}}>{{fa-icon 'copy'}}</button>
+		</span>
+		<input type='text' readonly='readonly' value='{{version.attributes.extra.hashes.sha256}}' class='hashBox' id='sha256-{{version.id}}'>
+	</div>
+</td>
