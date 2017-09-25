@@ -8,15 +8,17 @@
     <p><button onclick={{action 'createNode' title description}}>Create Node</button></p>
 </div>
 <hr>
-<p>
-    {{pagination-control
-    currentPage=page
-    pageCount=totalPages
-    next=(action 'next')
-    previous=(action 'previous')
-    goToPage=(action 'goToPage')
-    }}
-</p>
+{{#if paginationFlagActive}}
+    <p>
+        {{pagination-control
+        currentPage=page
+        pageCount=totalPages
+        next=(action 'next')
+        previous=(action 'previous')
+        goToPage=(action 'goToPage')
+        }}
+    </p>
+{{/if}}
 
 <hr>
 {{#each model as |node|}}
