@@ -24,10 +24,14 @@ export default Ember.Component.extend({
     width: '100%',
     height: '100%',
     allowfullscreen: true,
-    mfrUrl: Ember.computed('download', function() {
+    version: null,
+    mfrUrl: Ember.computed('download', 'version', function() {
         var base = config.OSF.renderUrl;
-        var download = this.get('download');
-        var renderUrl = base + '?url=' + encodeURIComponent(download + '?direct&mode=render&initialWidth=766');
+        var download = this.get('download') + '?direct&mode=render&initialWidth=766';
+        if (this.get('version')) {
+            download += '&version=' + this.get('version');
+        }
+        var renderUrl = base + '?url=' + encodeURIComponent(download);
         return renderUrl;
     })
 });
