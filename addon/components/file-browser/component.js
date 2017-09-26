@@ -19,7 +19,6 @@ export default Ember.Component.extend({
     //Can be overwritten to have a trimmed down display, these are all the options available to be displayed
     display: Ember.A(['header', 'share-link-column', 'size-column', 'version-column', 'downloads-column', 'modified-column', 'delete-button', 'rename-button', 'download-button', 'view-button', 'info-button', 'upload-button']),
     store: Ember.inject.service(),
-    growler: Ember.inject.service(),
     toast: Ember.inject.service(),
     classNames: ['file-browser'],
     dropzoneOptions: {
@@ -119,9 +118,6 @@ export default Ember.Component.extend({
         },
         error(_, __, file, response) {
             this.get('uploading').removeObject(file);
-            // this.get('growler').growl({
-                // message: response
-            // });
             this.get('toast').error(response);
         },
         success(_, __, file, response) {
