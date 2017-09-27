@@ -110,12 +110,15 @@ export default DS.JSONAPISerializer.extend({
             if (!snapshot.record._dirtyRelationships.hasOwnProperty(relationship)) continue;
             const type = this.get('relationshipTypes')[relationship];
             if (type) {
-                serialized.data.relationships[Ember.String.underscore(relationship)] = {
-                    data: {
-                        id: snapshot.belongsTo(relationship, { id: true }),
-                        type
-                    }
-                };
+                const changeLists = Object.values(snapshot.record._dirtyRelationships[relationship]);
+                if (changeLists.any(l => l.length)) {
+                    serialized.data.relationships[Ember.String.underscore(relationship)] = {
+                        data: {
+                            id: snapshot.belongsTo(relationship, { id: true }),
+                            type
+                        }
+                    };
+                }
             }
         }
         return serialized;
