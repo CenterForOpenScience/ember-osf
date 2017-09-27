@@ -1,6 +1,6 @@
 <td>
     {{#if clickable}}
-        <button type='button' class='btn btn-link' {{action 'changeVersion' version.id}}>{{version.id}}</button>
+        <button class='btn btn-link versionButton' {{action 'changeVersion' version.id}}>{{version.id}}</button>
     {{else}}
         {{version.id}}
     {{/if}}
