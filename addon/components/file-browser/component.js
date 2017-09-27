@@ -280,6 +280,20 @@ export default Ember.Component.extend({
                     message: 'Successfully renamed',
                     type: 'success'
                 });
+                if (conflict === 'replace') {
+                    const replacedItem  = this.get('_conflictingItem');
+                    if (!replacedItem) {
+                        return;
+                    }
+                    replacedItem.set('flash', {
+                        message: 'This file has been replaced',
+                        type: 'danger'
+                    });
+                    setTimeout(() => {
+                        this.get('_items').removeObject(replacedItem);
+                        this.notifyPropertyChange('_items');
+                    }, 1800);
+                }
             })
             .fail(() => {
                 item.set('flash', {
@@ -301,13 +315,14 @@ export default Ember.Component.extend({
                         return;
                     }
                     conflict = true;
+                    this.set('_conflictingItem', item);
                     break;
                 }
             }
             if (conflict) {
                 this.set('modalOpen', 'renameConflict');
             } else {
-                this.send('_rename', 'replace');
+                this.send('_rename');
             }
         },
         cancelRename() {
