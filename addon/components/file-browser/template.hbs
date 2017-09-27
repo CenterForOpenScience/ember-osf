@@ -95,9 +95,92 @@
         </div>
     {{/if}}
     <div class='file-browser-list'>
+        {{#if modalOpen}}
+            <div id="modal">
+                <div class="modal-content">
+                    {{! modalId }}
+                    {{#if (eq modalOpen 'info')}}
+                        <div class="modal-header">
+                            <h3 class="modal-title break-word">How to Use the File Browser</h3>
+                            <button {{action 'closeModal'}} class="close">
+                                {{fa-icon "times"}}
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p><b>Select rows:</b> Click on a row (outside the add-on, file, or folder name) to show further actions in the toolbar. Use Command or Shift keys to select multiple files.</p>
+                            <p><b>Open files:</b> Click a file name to go to view the file in the OSF.</p>
+                            <p><b>Open files in new tab:</b> Press Command (Ctrl in Windows) and click a file name to open it in a new tab.</p>
+                            <p><b>Download as zip:</b> Click on the row of an add-on or folder and click the Download as Zip button in the toolbar. <i>Not available for all storage add-ons.</i></p>
+                            <p><b>Copy files:</b> Press Option (Alt in Windows) while dragging a file to a new folder or component. <i>Only for contributors with write access.</i></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button {{action 'closeModal'}} class='btn modal-btn btn-secondary'>Close</button>
+                        </div>
+                    {{else if (eq modalOpen 'delete')}}
+                        <div class="modal-header">
+                            <h3 class="modal-title break-word">Delete "{{selectedItems.firstObject.itemName}}"?</h3>
+                            <button {{action 'closeModal'}} class="close">
+                                {{fa-icon "times"}}
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>This action is irreversible.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button {{action 'closeModal'}} class='btn modal-btn btn-default'>Cancel</button>
+                            <button {{action 'deleteItem'}} class='btn modal-btn btn-danger'>Delete</button>
+                        </div>
+                    {{else if (eq modalOpen 'deleteMultiple')}}
+                        <div class="modal-header">
+                            <h3 class="modal-title break-word">Delete multiple?</h3>
+                            <button {{action 'closeModal'}} class="close">
+                                {{fa-icon "times"}}
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>This action is irreversible.</p>
+                            {{#each selectedItems as | item |}}
+                                <b>{{item.itemName}}</b>
+                                <hr style='margin-top: 5px'>
+                            {{/each}}
+                        </div>
+                        <div class="modal-footer">
+                            <button {{action 'closeModal'}} class='btn modal-btn btn-default'>Cancel</button>
+                            <button {{action 'deleteItems'}} class='btn modal-btn btn-danger'>Delete</button>
+                        </div>
+                    {{else if (eq modalOpen 'renameConflict')}}
+                        <div class="modal-header">
+                            <h3 class="modal-title break-word">An item named {{textValue}} already exists in this location.</h3>
+                            <button {{action 'closeModal'}} class="close">
+                                {{fa-icon "times"}}
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>"Keep Both" will retain both files (and their version histories) in this location.</p>
+                            <p>"Replace" will overwrite the existing file in this location. You will lose previous versions of the overwritten file. You will keep previous versions of the moved file.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button {{action 'cancelRename'}} class='btn modal-btn btn-default'>Cancel</button>
+                            <button {{action '_rename' 'keep'}} class='btn modal-btn btn-primary'>Keep both</button>
+                            <button {{action '_rename' 'replace'}} class='btn modal-btn btn-primary'>Replace</button>
+                        </div>
+                    {{/if}}
+                </div>
+            </div>
+        {{/if}}
+        {{#if (or modalOpen dropping)}}
+            <div class='shade'>
+                {{#if dropping}}
+                    <div class='upload-drop'>
+                        <div class='upload-text'>{{fa-icon 'upload' size=5}}</div>
+                        <div class='upload-text'>Drop file to upload</div>
+                    </div>
+                {{/if}}
+            </div>
+        {{/if}}
         {{#if (eq browserState 'loading')}}
             <br><br>
-            <div class='ball-scale ball-dark' style='text-align: center'></div>
+            <div class='ball-scale ball-dark' style='text-align: center'><div></div></div>
         {{else if (eq browserState 'empty')}}
             {{#if uploading.length}}
                 {{#each uploading as |file|}}
@@ -117,99 +200,18 @@
             {{else}}
                 {{#if edit}}
                     <div class='file-placeholder'>
-                        <div>{{fa-icon 'upload' size=5}}</div>
-                        <div class='file-placeholder-text'>Drop files here to upload</div>
+                        <div class='file-placeholder-content'>
+                            <div>{{fa-icon 'upload' size=5}}</div>
+                            <div class='file-placeholder-text'>Drop files here to upload</div>
+                        </div>
                     </div>
                 {{else}}
                     <div class='file-placeholder'>
-                        <div class='file-placeholder-text'>This user has not uploaded any quickfiles</div>
+                        <div class='file-placeholder-text file-placeholder-content'>This user has not uploaded any quickfiles</div>
                     </div>
                 {{/if}}
             {{/if}}
         {{else}}
-            {{#if modalOpen}}
-                <div id="modal">
-                    <div class="modal-content">
-                        {{! modalId }}
-                        {{#if (eq modalOpen 'info')}}
-                            <div class="modal-header">
-                                <h3 class="modal-title break-word">How to Use the File Browser</h3>
-                                <button {{action 'closeModal'}} class="close">
-                                    {{fa-icon "times"}}
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <p><b>Select rows:</b> Click on a row (outside the add-on, file, or folder name) to show further actions in the toolbar. Use Command or Shift keys to select multiple files.</p>
-                                <p><b>Open files:</b> Click a file name to go to view the file in the OSF.</p>
-                                <p><b>Open files in new tab:</b> Press Command (Ctrl in Windows) and click a file name to open it in a new tab.</p>
-                                <p><b>Download as zip:</b> Click on the row of an add-on or folder and click the Download as Zip button in the toolbar. <i>Not available for all storage add-ons.</i></p>
-                                <p><b>Copy files:</b> Press Option (Alt in Windows) while dragging a file to a new folder or component. <i>Only for contributors with write access.</i></p>
-                            </div>
-                            <div class="modal-footer">
-                                <button {{action 'closeModal'}} class='btn modal-btn btn-secondary'>Close</button>
-                            </div>
-                        {{else if (eq modalOpen 'delete')}}
-                            <div class="modal-header">
-                                <h3 class="modal-title break-word">Delete "{{selectedItems.firstObject.itemName}}"?</h3>
-                                <button {{action 'closeModal'}} class="close">
-                                    {{fa-icon "times"}}
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <p>This action is irreversible.</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button {{action 'closeModal'}} class='btn modal-btn btn-default'>Cancel</button>
-                                <button {{action 'deleteItem'}} class='btn modal-btn btn-danger'>Delete</button>
-                            </div>
-                        {{else if (eq modalOpen 'deleteMultiple')}}
-                            <div class="modal-header">
-                                <h3 class="modal-title break-word">Delete multiple?</h3>
-                                <button {{action 'closeModal'}} class="close">
-                                    {{fa-icon "times"}}
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <p>This action is irreversible.</p>
-                                {{#each selectedItems as | item |}}
-                                    <b>{{item.itemName}}</b>
-                                    <hr style='margin-top: 5px'>
-                                {{/each}}
-                            </div>
-                            <div class="modal-footer">
-                                <button {{action 'closeModal'}} class='btn modal-btn btn-default'>Cancel</button>
-                                <button {{action 'deleteItems'}} class='btn modal-btn btn-danger'>Delete</button>
-                            </div>
-                        {{else if (eq modalOpen 'renameConflict')}}
-                            <div class="modal-header">
-                                <h3 class="modal-title break-word">An item named {{textValue}} already exists in this location.</h3>
-                                <button {{action 'closeModal'}} class="close">
-                                    {{fa-icon "times"}}
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <p>"Keep Both" will retain both files (and their version histories) in this location.</p>
-                                <p>"Replace" will overwrite the existing file in this location. You will lose previous versions of the overwritten file. You will keep previous versions of the moved file.</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button {{action 'cancelRename'}} class='btn modal-btn btn-default'>Cancel</button>
-                                <button {{action '_rename' 'keep'}} class='btn modal-btn btn-primary'>Keep both</button>
-                                <button {{action '_rename' 'replace'}} class='btn modal-btn btn-primary'>Replace</button>
-                            </div>
-                        {{/if}}
-                    </div>
-                </div>
-            {{/if}}
-            {{#if (or modalOpen dropping)}}
-                <div class='shade'>
-                    {{#if dropping}}
-                        <div class='upload-drop'>
-                            <div class='upload-text'>{{fa-icon 'upload' size=5}}</div>
-                            <div class='upload-text'>Drop file to upload</div>
-                        </div>
-                    {{/if}}
-                </div>
-            {{/if}}
             <div class='items'>
                 {{#each uploading as |file|}}
                     <div class="row">
