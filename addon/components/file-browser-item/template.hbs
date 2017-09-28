@@ -2,7 +2,7 @@
     {{#unless item.flash.message}}
         <div class="col-sm-{{nameColumnWidth}} file-row-col col-xs-12 file-browser-header">
             {{file-browser-icon item=item}}
-            <a {{action 'open'}} role="link">{{item.itemName}}</a>
+            <a {{action 'open' preventDefault='true'}} role="link">{{item.itemName}}</a>
         </div>
         {{#if (if-filter 'size-column' display)}}
             <div class="col-sm-1 file-row-col hidden-xs file-browser-header">
