@@ -27,7 +27,7 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
                 },
                 {
                     name: 'eosf.navbar.search',
-                    href: '#',
+                    href: serviceLinks.search,
                     type: 'search'
                 },
                 {
@@ -97,6 +97,14 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
                 {
                     name: 'eosf.navbar.support',
                     href: serviceLinks.osfSupport
+                }
+            );
+        }
+        if(session.get('isAuthenticated')) {
+            links.HOME.unshift(
+                {
+                    name: 'eosf.navbar.myQuickFiles',
+                    href: serviceLinks.myQuickFiles
                 }
             );
         }

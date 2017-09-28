@@ -59,6 +59,7 @@ export default {
             donate: 'Donate',
             goHome: 'Go home',
             myProjects: 'My Projects',
+            myQuickFiles: 'My Quick Files',
             search: 'Search',
             searchHelp: 'Search help',
             searchTheOSF: 'Search the OSF',
