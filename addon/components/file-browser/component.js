@@ -25,6 +25,8 @@ export default Ember.Component.extend({
         createImageThumbnails: false,
         method: 'PUT',
         withCredentials: true,
+        maxFiles: 1,
+        uploadMultiple: false
     },
     init() {
         this.set('_items', Ember.A());
@@ -113,7 +115,10 @@ export default Ember.Component.extend({
         dragStart() {
             this.set('dropping', true);
         },
-        dragEnd() {
+        dragEnd(_, drop, e) {
+            if (e.dataTransfer.items.length > 1) {
+                this.get('toast').warning('Can only upload one file at a time');
+            }
             this.set('dropping', false);
         },
         error(_, __, file, response) {
