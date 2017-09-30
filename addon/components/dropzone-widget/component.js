@@ -40,7 +40,11 @@ export default Ember.Component.extend({
         let drop = new Dropzone(`#${this.elementId}`, {
             url: file => typeof this.get('buildUrl') === 'function' ? this.get('buildUrl')(file) : this.get('buildUrl'),
             autoProcessQueue: false,
-            dictDefaultMessage: this.get('defaultMessage') || 'Drop files here to upload'
+            dictDefaultMessage: this.get('defaultMessage') || 'Drop files here to upload',
+            sending(file, xhr) {
+                // Monkey patch to send the raw file instead of formData
+                xhr.send = xhr.send.bind(xhr, file);
+            }
         });
 
         // Set osf session header
