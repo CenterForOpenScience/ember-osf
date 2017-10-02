@@ -102,11 +102,15 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
             );
         }
 
-        if (this.get('currentUser.user.canViewReviews')) {
-            links.PREPRINTS.insertAt(1, {
-                name: 'eosf.navbar.reviews',
-                href: serviceLinks.reviewsHome,
-            });
+        if (session.get('isAuthenticated')) {
+            this.get('currentUser.user').then((user) => {
+                if (user.get('canViewReviews')) {
+                    links.PREPRINTS.insertAt(1, {
+                        name: 'eosf.navbar.reviews',
+                        href: serviceLinks.reviewsHome,
+                    });
+                }
+            })
         }
 
         if (Object.keys(links).includes(currentService)) {
