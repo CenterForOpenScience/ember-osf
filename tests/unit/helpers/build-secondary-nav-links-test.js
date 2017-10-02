@@ -79,7 +79,7 @@ test('returns home service links, authenticated', function(assert) {
 
 
 test('returns home service links, unauthenticated', function(assert) {
-     this.register('service:session', sessionStubUnauthenticated);
+    this.register('service:session', sessionStubUnauthenticated);
     this.inject.service('session', { as: 'sessionStub' });
     this.set('currentService', 'HOME');
         this.render(hbs`
