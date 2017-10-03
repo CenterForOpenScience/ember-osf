@@ -36,8 +36,33 @@ export default Ember.Component.extend({
         let preUpload = this.get('preUpload');
         let dropzoneOptions = this.get('options') || {};
 
-        // Needs to be refactored if we want to support multiple file uploads
-        let drop = new Dropzone(`#${this.elementId}`, {
+        class CustomDropzone extends Dropzone {
+            drop(e) {
+                if (!e.dataTransfer ) {
+                    return;
+                }
+                this.emit("drop", e);
+                let files = e.dataTransfer.files;
+                let items = e.dataTransfer.items;
+                if (files.length === 0) {
+                    this.emit('error', 'None', 'Cannot upload directories, applications, or packages');
+                    return;
+                }
+                if (dropzoneOptions.preventMultipleFiles && items.length > 1) {
+                    this.emit('error', 'None', 'Cannot upload multiple files');
+                    return;
+                }
+                this.emit("addedfiles", files);
+                if (files.length) {
+                    if (items && items.length && (items[0].webkitGetAsEntry != null)) {
+                        this._addFilesFromItems(items);
+                    } else {
+                        this.handleFiles(files);
+                    }
+                }
+            }
+        }
+        let drop = new CustomDropzone(`#${this.elementId}`, {
             url: file => typeof this.get('buildUrl') === 'function' ? this.get('buildUrl')(file) : this.get('buildUrl'),
             autoProcessQueue: false,
             dictDefaultMessage: this.get('defaultMessage') || 'Drop files here to upload',

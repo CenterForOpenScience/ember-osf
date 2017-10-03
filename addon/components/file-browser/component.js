@@ -26,7 +26,9 @@ export default Ember.Component.extend({
         method: 'PUT',
         withCredentials: true,
         maxFiles: 1,
-        uploadMultiple: false
+        parallelUploads: 1,
+        uploadMultiple: false,
+        preventMultipleFiles: true
     },
     init() {
         this.set('_items', Ember.A());
@@ -112,13 +114,10 @@ export default Ember.Component.extend({
         uploadProgress(_, __, file, progress) {
             Ember.$('#uploading-' + file.size).css('width', progress + '%');
         },
-        dragStart() {
+        dragStart(_, __, e) {
             this.set('dropping', true);
         },
-        dragEnd(_, drop, e) {
-            if (e.dataTransfer.items.length > 1) {
-                this.get('toast').warning('Can only upload one file at a time');
-            }
+        dragEnd(_, __, e) {
             this.set('dropping', false);
         },
         error(_, __, file, response) {
