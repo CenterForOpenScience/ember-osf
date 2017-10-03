@@ -7,6 +7,23 @@ import humanFileSize from 'ember-osf/utils/human-file-size';
  * @module ember-osf
  * @submodule components
  */
+ /**
+  * Display one row of item, with its information.
+  *
+  * Sample usage:
+  * ```handlebars
+  *     {{file-browser-item
+  *        item=item
+  *        selectItem=(action 'selectItem') - Action handling clicking on the body of the row
+  *        openItem=(action 'openItem') - Action handling clicking the link-name of the file
+  *        selectMultiple=(action 'selectMultiple') Action - handling clicking multiple rows, through cmd/ctrl and/or shift
+  *        display=display Array[Strings] - Indicating which rows of information to display
+  *        nameColumnWidth=nameColumnWidth String of number - How wide is the main collumn (name)
+  *        dismissOtherPops=(action 'dismissOtherPops') Action - handling cleaning up popups created by the Share button
+  *     }}
+  * ```
+  * @class file-browser-icon
+  */
 
 export default Ember.Component.extend({
     layout,

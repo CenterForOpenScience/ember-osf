@@ -36,32 +36,19 @@ export default Ember.Component.extend({
         let preUpload = this.get('preUpload');
         let dropzoneOptions = this.get('options') || {};
 
-        class CustomDropzone extends Dropzone {
-            drop(e) {
-                if (!e.dataTransfer ) {
-                    return;
-                }
-                this.emit("drop", e);
-                let files = e.dataTransfer.files;
-                let items = e.dataTransfer.items;
-                if (files.length === 0) {
-                    this.emit('error', 'None', 'Cannot upload directories, applications, or packages');
-                    return;
-                }
-                if (dropzoneOptions.preventMultipleFiles && items.length > 1) {
-                    this.emit('error', 'None', 'Cannot upload multiple files');
-                    return;
-                }
-                this.emit("addedfiles", files);
-                if (files.length) {
-                    if (items && items.length && (items[0].webkitGetAsEntry != null)) {
-                        this._addFilesFromItems(items);
-                    } else {
-                        this.handleFiles(files);
-                    }
-                }
-            }
+        function CustomDropzone() {
+            Dropzone.call(this, ...arguments);
         }
+        CustomDropzone.prototype = Object.create(Dropzone.prototype);
+        CustomDropzone.prototype.drop = function(e) {
+            if (this.options.preventMultipleFiles && e.dataTransfer && e.dataTransfer.items.length > 1) {
+                this.emit("drop", e);
+                this.emit('error', 'None', 'Cannot upload multiple files');
+                return;
+            }
+            return Dropzone.prototype.drop.call(this, e);
+        }
+
         let drop = new CustomDropzone(`#${this.elementId}`, {
             url: file => typeof this.get('buildUrl') === 'function' ? this.get('buildUrl')(file) : this.get('buildUrl'),
             autoProcessQueue: false,
