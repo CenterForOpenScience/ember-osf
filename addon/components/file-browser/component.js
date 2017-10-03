@@ -87,6 +87,25 @@ export default Ember.Component.extend({
         let containerWidth = this.$().width();
         this.set('itemWidth', containerWidth);
     }),
+    _flashStatus: Ember.Object.create(),
+    flashStatus: Ember.computed('_flashStatus', {
+        get(_, key) {
+            return this.get(`_flashStatus.${key}`) || {};
+        },
+        set(_, key, message, type, time) {
+            this.set(`_flashStatus.${key}`, {
+                message,
+                type
+            });
+            Ember.run.later(() => this.set('_flashStatus.${key}', {
+                message: null,
+                type: null
+            }), time);
+        }
+    }),
+    flash(item, message, type, time) {
+        this.set('flashStatus', item.get('id'), message, type || 'success', time || 2000);
+    },
     items: Ember.computed('_items', 'textValue', 'filtering', function() {
         //look at ways to use the api to filter
         return this.get('textValue') && this.get('filtering') ? this.get('_items').filter(i => i.get('name').toLowerCase().indexOf(this.get('textValue').toLowerCase()) !== -1) : this.get('_items');
@@ -153,11 +172,7 @@ export default Ember.Component.extend({
             item.set('links', response.data.links); //Push doesnt pass it links
             this.get('_items').unshiftObject(item);
             this.notifyPropertyChange('_items');
-            Ember.run.next(() => item.set('flash', {
-                    message: 'This file has been added',
-                    type: 'success'
-                })
-            );
+            Ember.run.next(() => this.flash(item, 'This file has been added.'));
         },
         buildUrl(files) {
             let name = files[0].name;
@@ -232,22 +247,13 @@ export default Ember.Component.extend({
                 xhrFields: {withCredentials: true}
             })
             .done(() => {
-                //TODO rethink the flash system, this seems gross nooddly
-                item.set('flash', {
-                    message: 'This file has been deleted',
-                    type: 'danger'
-                });
-                setTimeout(() => {
+                this.flash(item, 'This file has been deleted.', 'danger');
+                Ember.run.later(() => {
                     this.get('_items').removeObject(item);
                     this.notifyPropertyChange('_items');
                 }, 1800);
             })
-            .fail(() => {
-                item.set('flash', {
-                    message: 'Delete failed',
-                    type: 'danger'
-                });
-            });
+            .fail(() => this.flash(item, 'Delete failed.', 'danger'));
         },
         deleteItem(){
             let item = this.get('selectedItems.firstObject');
@@ -280,31 +286,20 @@ export default Ember.Component.extend({
             })
             .done(response => {
                 item.set('itemName', response.data.attributes.name);
-                item.set('flash', {
-                    message: 'Successfully renamed',
-                    type: 'success'
-                });
+                this.flash(item, 'Successfully renamed');
                 if (conflict === 'replace') {
                     const replacedItem  = this.get('_conflictingItem');
                     if (!replacedItem) {
                         return;
                     }
-                    replacedItem.set('flash', {
-                        message: 'This file has been replaced',
-                        type: 'danger'
-                    });
+                    this.flash(replacedItem, 'This file has been replaced', 'danger');
                     setTimeout(() => {
                         this.get('_items').removeObject(replacedItem);
                         this.notifyPropertyChange('_items');
                     }, 1800);
                 }
             })
-            .fail(() => {
-                item.set('flash', {
-                    message: 'Failed to rename item',
-                    type: 'danger'
-                })
-            });
+            .fail(() => this.flash(item, 'Failed to rename item', 'danger'));
             this.set('textValue', null);
             this.toggleProperty('renaming');
         },

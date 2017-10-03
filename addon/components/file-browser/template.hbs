@@ -229,6 +229,7 @@
                 {{#each items as |item|}}
                     {{file-browser-item
                         item=item
+                        flash=(get flashStatus item.id)
                         selectItem=(action 'selectItem')
                         openItem=(action 'openItem')
                         class=(if item.isSelected 'selected')

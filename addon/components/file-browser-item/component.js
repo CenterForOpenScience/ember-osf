@@ -36,14 +36,6 @@ export default Ember.Component.extend({
         let index = selectedItems.indexOf(this.get('item'));
         return index > -1;
     }),
-    _flashTiming: Ember.observer('item.flash.message', function() {
-        setTimeout(() => {
-            let item = this.get('item');
-            if (item) {
-                item.set('flash', null);
-            }
-        }, this.get('item.flash.time') || 2000);
-    }),
     size: Ember.computed('item.size', function() {
         return this.get('item.size') ? humanFileSize(this.get('item.size'), true) : '';
     }),
