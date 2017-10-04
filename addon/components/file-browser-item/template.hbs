@@ -1,5 +1,5 @@
 <div class="row file-row-item" style='padding-top: 0px'>
-    {{#unless flash.message}}
+    {{#unless item.flash.message}}
         <div class="col-sm-{{nameColumnWidth}} file-row-col col-xs-12 file-browser-header">
             {{file-browser-icon item=item}}
             <a {{action 'open'}} role="link">{{item.itemName}}</a>
@@ -51,8 +51,8 @@
             </div>
         {{/if}}
     {{else}}
-        <div class='col-xs-12 flash-message-alert alert-{{flash.type}}'>
-            <div class='flash-message'>{{flash.message}}</div>
+        <div class='col-xs-12 flash-message-alert alert-{{item.flash.type}}'>
+            <div class='flash-message'>{{item.flash.message}}</div>
         </div>
     {{/unless}}
 </div>

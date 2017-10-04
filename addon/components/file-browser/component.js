@@ -87,24 +87,40 @@ export default Ember.Component.extend({
         let containerWidth = this.$().width();
         this.set('itemWidth', containerWidth);
     }),
-    _flashStatus: Ember.Object.create(),
-    flashStatus: Ember.computed('_flashStatus', {
-        get(_, key) {
-            return this.get(`_flashStatus.${key}`) || {};
-        },
-        set(_, key, message, type, time) {
-            this.set(`_flashStatus.${key}`, {
-                message,
-                type
-            });
-            Ember.run.later(() => this.set('_flashStatus.${key}', {
-                message: null,
-                type: null
-            }), time);
-        }
-    }),
+    // _flashStatus: Ember.observer('loaded', function() {
+    //     if (this.get('loaded')) {
+    //         this.set('_flashStatus', Ember.Object.create());
+    //         for (let file of this.get('_items')) {
+    //             this.set(`_flashStatus.${file.get('id')}`, {});
+    //         }
+    //     }
+    // }),
+    // // _flashStatus: Ember.Object.create(),
+    // flashStatus: Ember.computed('_flashStatus', {
+    //     get(key) {
+    //         console.log(this.get(`_flashStatus.${key.split('.')[1]}`));
+    //         return this.get(`_flashStatus.${key.split('.')[1]}`) || {};
+    //     },
+    //     set(_, key, message, type, time) {
+    //         key = key.split('/')[1];
+    //         this.set(`_flashStatus.${key.split('/')[1]}`, {
+    //             message,
+    //             type
+    //         });
+    //         this.notifyPropertyChange(`flashStatus.${'key'}`);
+    //         Ember.run.later(() => this.set(`_flashStatus.${key}`, {
+    //             message: null,
+    //             type: null
+    //         }), time);
+    //     }
+    // }),
     flash(item, message, type, time) {
-        this.set('flashStatus', item.get('id'), message, type || 'success', time || 2000);
+        // this.set('flashStatus', item.get('id'), message, type || 'success', time || 2000);
+        item.set('flash', {
+            message,
+            type: type || 'success'
+        });
+        Ember.run.later(() => item.set('flash', null), time || 2000);
     },
     items: Ember.computed('_items', 'textValue', 'filtering', function() {
         //look at ways to use the api to filter
