@@ -31,13 +31,13 @@ export default Ember.Component.extend({
         preventMultipleFiles: true
     },
     init() {
+        this._super(...arguments);
         this.set('_items', Ember.A());
         Ember.$('body').on('click', (e) => {
             if (Ember.$(e.target).parents('.popover.in').length === 0 && Ember.$(e.target).attr('class') && Ember.$(e.target).attr('class').indexOf('popover-toggler') === -1) {
                 this.send('dismissOtherPops');
             }
         });
-        this._super(...arguments);
     },
     currentUser: Ember.inject.service(),
     edit: Ember.computed('user', function() {
@@ -53,6 +53,7 @@ export default Ember.Component.extend({
             return;
         }
         //items need to be reloaded when attrs are received
+        //TODO: think about replacing _items with user.items, provided it's loaded properly
         let _load = user_ => {
             Ember.run(() => {
                 this.set('_items', Ember.A());
