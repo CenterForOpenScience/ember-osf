@@ -88,17 +88,15 @@ export default Ember.Component.extend({
             }
         });
     },
-    _wasEnabled: Ember.observer('enable', function() {
-        if (this.get('enable') && this.get('loaded') && !this.get('attached')) {
+    didUpdateAttrs() {
+        if (this.get('enable') && !this.get('attached')) {
             this.set('attached', true);
             this.loadDropzone();
         }
-    }),
+    },
     didInsertElement() {
-        this.set('loaded', true);
-        if (!this.get('enable')) {
-            return;
+        if (this.get('enable')) {
+            this.loadDropzone();
         }
-        this.loadDropzone();
     }
 });

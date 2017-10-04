@@ -25,9 +25,6 @@ export default Ember.Component.extend({
         createImageThumbnails: false,
         method: 'PUT',
         withCredentials: true,
-        maxFiles: 1,
-        parallelUploads: 1,
-        uploadMultiple: false,
         preventMultipleFiles: true
     },
     init() {
@@ -122,10 +119,10 @@ export default Ember.Component.extend({
         uploadProgress(_, __, file, progress) {
             Ember.$('#uploading-' + file.size).css('width', progress + '%');
         },
-        dragStart(_, __, e) {
+        dragStart() {
             this.set('dropping', true);
         },
-        dragEnd(_, __, e) {
+        dragEnd() {
             this.set('dropping', false);
         },
         error(_, __, file, response) {
