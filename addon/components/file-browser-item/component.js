@@ -50,20 +50,20 @@ export default Ember.Component.extend({
     }),
     click(e) {
         if (e.shiftKey || e.metaKey) {
-            this.sendAction('selectMultiple', this.get('item'), e.metaKey);
+            this.selectMultiple(this.get('item'), e.metaKey);
         } else {
-            this.sendAction('selectItem', this.get('item'));
+            this.selectItem(this.get('item'));
         }
     },
     actions: {
         openVersion() {
-            this.sendAction('openItem', this.get('item'), '?revision=' + this.get('item.currentVersion'));
+            this.openItem(this.get('item'), '?revision=' + this.get('item.currentVersion'));
         },
         open() {
-            this.sendAction('openItem', this.get('item'));
+            this.openItem(this.get('item'));
         },
         copyLink() {
-            this.sendAction('dismissOtherPops', this.get('item'));
+            this.dismissOtherPops(this.get('item'));
             this.set('item.visiblePopup', true);
             if (this.get('link')) {
                 return;
