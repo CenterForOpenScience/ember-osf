@@ -6,7 +6,7 @@ export default function pathJoin() {
 
 	for (var i = 1; i < arguments.length; i++) {
 		let cur = arguments[i];
-        if (last(p)) {
+		if (last(p)) {
 			if (first(cur)) {
 				p = p + cur.slice(1);
 			} else {
