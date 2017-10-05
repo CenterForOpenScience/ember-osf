@@ -3276,7 +3276,7 @@ ember-data-factory-guy@^2.13.7:
 
 "ember-data-has-many-query@https://github.com/cos-forks/ember-data-has-many-query#master":
   version "0.2.0"
-  resolved "https://github.com/cos-forks/ember-data-has-many-query#7e41ea918af97d174526f9468dd29a47ad0eff5c"
+  resolved "https://github.com/cos-forks/ember-data-has-many-query#cc586f54606d167dc53e3f85d131231d572d9745"
   dependencies:
     ember-cli-babel "^5.1.6"
 
