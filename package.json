@@ -91,7 +91,7 @@
     "ember-cli-moment-shim": "^3.3.1",
     "ember-cli-node-assets": "0.1.6",
     "ember-cli-shims": "1.0.2",
-    "ember-data-has-many-query": "^0.2.0",
+    "ember-data-has-many-query": "https://github.com/cos-forks/ember-data-has-many-query#master",
     "ember-get-config": "0.2.1",
     "ember-i18n": "5.0.1",
     "ember-moment": "7.3.1",
