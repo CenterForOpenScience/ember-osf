@@ -19,6 +19,8 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
     currentUser: Ember.inject.service(),
     compute(params) { // Helpers defined using a class need a compute function
         const currentService = params[0].toUpperCase();
+        const serviceSubmitLink = Ember.isEmpty(params[1]) ? serviceLinks.preprintsSubmit : params[1] + 'submit';
+        const serviceDiscoverLink = Ember.isEmpty(params[1]) ? serviceLinks.preprintsDiscover: params[1] + 'discover';
         const session = this.get('session');
         let links = Ember.Object.create({
             HOME: [
@@ -41,12 +43,12 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
             PREPRINTS: [
                 {
                     name: 'eosf.navbar.addAPreprint',
-                    href: serviceLinks.preprintsSubmit,
+                    href: serviceSubmitLink,
                     type: 'addAPreprint'
                 },
                 {
                     name: 'eosf.navbar.search',
-                    href: serviceLinks.preprintsDiscover,
+                    href: serviceDiscoverLink,
                     type: 'search'
                 },
                 {
