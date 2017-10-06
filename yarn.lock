@@ -3274,9 +3274,9 @@ ember-data-factory-guy@^2.13.7:
     ember-cli-babel "^6.7.0"
     jquery-mockjax "^2.2.1"
 
-"ember-data-has-many-query@https://github.com/cos-forks/ember-data-has-many-query#master":
+ember-data-has-many-query@^0.2.0:
   version "0.2.0"
-  resolved "https://github.com/cos-forks/ember-data-has-many-query#cc586f54606d167dc53e3f85d131231d572d9745"
+  resolved "https://registry.yarnpkg.com/ember-data-has-many-query/-/ember-data-has-many-query-0.2.0.tgz#97ae2c29d6d7f77d3837cca9f165c26bf6e6fb0a"
   dependencies:
     ember-cli-babel "^5.1.6"
 
@@ -3462,8 +3462,8 @@ ember-page-title@3.2.0:
     ember-cli-htmlbars "^2.0.1"
 
 ember-power-select@^1.8.4:
-  version "1.9.8"
-  resolved "https://registry.yarnpkg.com/ember-power-select/-/ember-power-select-1.9.8.tgz#93adf238c770705b17588c6ebf7ad8d3daadba3a"
+  version "1.9.9"
+  resolved "https://registry.yarnpkg.com/ember-power-select/-/ember-power-select-1.9.9.tgz#24b733f5be603a434dffdb57dffe702759448ca5"
   dependencies:
     ember-basic-dropdown "^0.33.1"
     ember-cli-babel "^6.6.0"
@@ -8151,8 +8151,8 @@ source-map@~0.2.0:
     amdefine ">=0.0.4"
 
 sourcemap-validator@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/sourcemap-validator/-/sourcemap-validator-1.0.5.tgz#f9b960f48c6469e288a19af305f005da3dc1df3a"
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/sourcemap-validator/-/sourcemap-validator-1.0.6.tgz#abd2f1ecdae6a3c46c2c96c5f256705b2147c9c0"
   dependencies:
     jsesc "~0.3.x"
     lodash.foreach "~2.3.x"
