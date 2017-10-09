@@ -1,0 +1,27 @@
+<div class='panel-heading'>
+    <h3 class='panel-title'>
+        <i class='fa fa-pencil-square-o'></i>
+        Edit
+    </h3>
+</div>
+<div>
+    <div class='editor-pane panel-body'>
+        <div style='padding-top:10px;'>
+            {{ember-ace 
+                lines=35
+                useWrapMode=true
+                showLineNumbers=false 
+                value=fileText}}
+        </div>
+        <div>
+            <div class='row'>
+                <div class='col-sm-12'>
+                    <div class='pull-right'>
+                        <button class='btn btn-sm btn-danger' onclick={{action 'revertText'}}>Revert </button>
+                        <button class='btn btn-sm btn-success' onclick={{action 'saveText'}}>Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
