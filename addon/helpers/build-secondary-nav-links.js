@@ -91,8 +91,16 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
             ]
         });
 
-        // If unauthenticated, add support link to HOME links. (If authenticated, support link can be found under Auth dropdown)
-        if (!session.get('isAuthenticated')) {
+        if (session.get('isAuthenticated')) {
+            // Only add My Quick Files link for authenticated users.
+            links.HOME.unshift(
+                {
+                    name: 'eosf.navbar.myQuickFiles',
+                    href: serviceLinks.quickFiles
+                }
+            );
+        } else {
+            // If unauthenticated, add support link to HOME links. (If authenticated, support link can be found under Auth dropdown)
             links.HOME.push(
                 {
                     name: 'eosf.navbar.support',

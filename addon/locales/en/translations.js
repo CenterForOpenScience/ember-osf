@@ -66,6 +66,7 @@ export default {
             support: 'Support',
             togglePrimary: 'Toggle primary navigation',
             toggleSecondary: 'Toggle secondary navigation',
+            myQuickFiles: 'My Quick Files',
         },
         authDropdown: {
             logOut: 'Log out',
