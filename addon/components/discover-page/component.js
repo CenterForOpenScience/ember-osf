@@ -407,9 +407,13 @@ export default Ember.Component.extend(Analytics, hostAppName, {
                 queryKey = 'lists.contributors.name';
             }
             query[queryKey] = lockedParams[key];
-            queryBody.push({
-                terms: query
-            });
+            if (key === 'bool') {
+                queryBody.push(query);
+            } else {
+                queryBody.push({
+                    terms: query
+                });
+            }
         });
         return queryBody;
     },
