@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import layout from './template';
-import moment from 'moment';
 
 /**
  * @module ember-osf
@@ -24,29 +23,21 @@ export default Ember.Component.extend({
     layout,
     classNames: ['file-version'],
     tagName: 'tr',
-    
-    clickable: Ember.computed('version', 'currentVersion', function() {
-        return this.get('version.id') == this.get('currentVersion') ? false : true;
-    }),
+    currentVersion: null,
+    versionUrl: null,
 
-    dateFormatted: Ember.computed('version', function() {
-        return moment(this.get('version.attributes.modified_utc')).format('YYYY-MM-DD h:mm A');
+    clickable: Ember.computed('version', 'currentVersion', function() {
+        return this.get('version.id') != this.get('currentVersion');
     }),
 
     actions: {
         downloadVersion(version) {
-            this.sendAction('download', version);
+            this.attrs.download(version);
         },
         changeVersion(version) {
-            this.sendAction('versionChange', version);
+            this.attrs.versionChange(version);
         },
-        copyMd5() {
-            const id = '#md5-' + this.get('version.id');
-            document.querySelector(id).select();
-            document.execCommand('copy');
-        },
-        copySha256() {
-            const id = '#sha256-' + this.get('version.id');
+        copyLink(id) {
             document.querySelector(id).select();
             document.execCommand('copy');
         }

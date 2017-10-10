@@ -1,8 +1,6 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import moment from 'moment';
-
-import FactoryGuy, {manualSetup }  from 'ember-data-factory-guy';
+import { manualSetup } from 'ember-data-factory-guy';
 
 moduleForComponent('file-version', 'Integration | Component | file version', {
     integration: true,
@@ -14,25 +12,38 @@ moduleForComponent('file-version', 'Integration | Component | file version', {
 });
 
 test('it renders', function(assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.on('myAction', function(val) { ... });
-    var fileVersion = FactoryGuy.make('file-version');
-    const currentDate = moment().format('YYYY-MM-DD h:mm A');
+    // Tests that the file-version table renders when given the right data
 
-    this.set('fileVersion', fileVersion);
-    this.set('fileVersion', 'modified_utc', currentDate);
+    const version = {
+        id: 1,
+        attributes: {
+            modified_utc: '2017-10-06T18:23:50+00:00',
+            extra: {
+                downloads: 10,
+            }
+        }
+    };
 
-    this.render(hbs`{{file-version version=fileVersion}}`);
+    this.set('version', version);
+
+    this.render(hbs`{{file-version version=version}}`);
 
     assert.equal(
-        this.$('.file-version').children().eq(1).text(), 
-        currentDate, 
+        this.$('.file-version').children().eq(0).text().trim(),
+        '1',
+        'The first element should be the id, which is 1'
+    );
+
+    assert.equal(
+        this.$('.file-version').children().eq(1).text(),
+        '2017-10-06 2:23 PM',
         'Second list element should be a label with the files date'
     );
 
     assert.equal(
-        this.$('.file-version').children().eq(2).text(), 
-        0, 
-        'Third list element should be a label with the download count - which is 0'
+        this.$('.file-version').children().eq(2).text(),
+        10,
+        'Third list element should be a label with the download count - which is 10'
     );
+
 });
