@@ -80,6 +80,8 @@ export default Ember.Component.extend({
     loaded: false,
     filtering: false,
     renaming: false,
+    sortingBy: 'itemName',
+    sortingOrder: 'asc',
     uploading: Ember.A(),
     filter: null,
     modalOpen: false,
@@ -96,9 +98,11 @@ export default Ember.Component.extend({
         });
         Ember.run.later(() => item.set('flash', null), time || 2000);
     },
-    items: Ember.computed('_items', 'textValue', 'filtering', function() {
+    items: Ember.computed('_items', 'textValue', 'filtering', 'sortingBy', 'sortingOrder', function() {
         //look at ways to use the api to filter
-        return this.get('textValue') && this.get('filtering') ? this.get('_items').filter(i => i.get('name').toLowerCase().indexOf(this.get('textValue').toLowerCase()) !== -1) : this.get('_items');
+        let items = this.get('textValue') && this.get('filtering') ? this.get('_items').filter(i => i.get('name').toLowerCase().indexOf(this.get('textValue').toLowerCase()) !== -1) : this.get('_items');
+        let sorted = items.sortBy(this.get('sortingBy'));
+        return this.get('sortingOrder') === 'des' ? sorted.reverse() : sorted;
     }),
     textFieldOpen: Ember.computed('filtering', 'renaming', function() {
         return this.get('filtering') ? 'filtering' : (this.get('renaming') ? 'renaming' : false);
@@ -162,7 +166,10 @@ export default Ember.Component.extend({
             item.set('links', response.data.links); //Push doesnt pass it links
             this.get('_items').unshiftObject(item);
             this.notifyPropertyChange('_items');
-            Ember.run.next(() => this.flash(item, 'This file has been added.'));
+            Ember.run.next(() => {
+                this.flash(item, 'This file has been added.');
+                this.get('toast').success('A file has been added');
+            });
         },
         buildUrl(files) {
             let name = files[0].name;
@@ -320,10 +327,12 @@ export default Ember.Component.extend({
             this.set('modalOpen', false);
         },
         sort(by, order) {
-            let sorted = this.get('_items').sortBy(by);
             this.$('.sorting').removeClass('active');
             this.$(`.${by}${order}`).addClass('active');
-            this.set('_items', order === 'asc' ? sorted : sorted.reverse());
+            this.setProperties({
+                sortingBy: by,
+                sortingOrder: order
+            })
         },
         toggleText(which) {
             this.set('textValue', which === 'renaming' ? this.get('selectedItems.firstObject.itemName') : null);
