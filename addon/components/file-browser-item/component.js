@@ -41,7 +41,7 @@ export default Ember.Component.extend({
     }),
     date: Ember.computed('item.dateModified', function() {
         let date = this.get('item.dateModified');
-        return moment(date).utc().format('YYYY-MM-DD, h:mm:ss a')
+        return moment(date).utc().format('YYYY-MM-DD h:mm a')
     }),
     guid: null,
     link: Ember.computed('item', 'guid', function() {
