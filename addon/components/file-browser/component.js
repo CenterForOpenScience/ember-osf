@@ -318,6 +318,8 @@ export default Ember.Component.extend({
         },
         sort(by, order) {
             let sorted = this.get('_items').sortBy(by);
+            this.$('.sorting').removeClass('active');
+            this.$(`.${by}${order}`).addClass('active');
             this.set('_items', order === 'asc' ? sorted : sorted.reverse());
         },
         toggleText(which) {

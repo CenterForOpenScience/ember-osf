@@ -62,8 +62,8 @@
         <div class="row column-labels-header">
             <div class="col-xs-{{nameColumnWidth}} file-browser-header header">
                 Name
-                {{fa-icon 'chevron-up' click=(action 'sort' 'itemName' 'asc')}}
-                {{fa-icon 'chevron-down' click=(action 'sort' 'itemName' 'des')}}
+                {{fa-icon 'chevron-up' class='itemNameasc sorting' click=(action 'sort' 'itemName' 'asc')}}
+                {{fa-icon 'chevron-down' class='itemNamedes sorting' click=(action 'sort' 'itemName' 'des')}}
             </div>
             {{#if (if-filter 'size-column' display)}}
                 <div class="col-sm-1 hidden-xs file-browser-header header">
@@ -83,8 +83,8 @@
             {{#if (if-filter 'modified-column'  display)}}
                 <div class="col-sm-2 hidden-xs file-browser-header header">
                     Modified
-                    {{fa-icon 'chevron-up' click=(action 'sort' 'dateModified' 'asc')}}
-                    {{fa-icon 'chevron-down' click=(action 'sort' 'dateModified' 'des')}}
+                    {{fa-icon 'chevron-up' class='dateModifiedasc sorting' click=(action 'sort' 'dateModified' 'asc')}}
+                    {{fa-icon 'chevron-down' class='dateModifieddes sorting' click=(action 'sort' 'dateModified' 'des')}}
                 </div>
             {{/if}}
             {{#if (if-filter 'share-link-column' display)}}

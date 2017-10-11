@@ -205,6 +205,15 @@
     }
 
     .file-row-col {
+        padding-top: 2px;
         margin-left: -1px;
+    }
+
+    .sorting {
+        cursor: pointer;
+        color: #999;
+    }
+    .sorting.active {
+        color: black;
     }
 }
