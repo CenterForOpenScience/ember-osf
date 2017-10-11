@@ -3,11 +3,11 @@
         <div class="container">
             <div class="navbar-header">
                 {{!TOGGLE NAVIGATION BUTTON - XS SCREEN}}
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#secondary-navigation" {{action 'closeSearch'}} aria-label={{t 'eosf.navbar.toggleSecondary'}}>
+                <a type="button" role="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#secondary-navigation" onclick={{action 'closeSearch'}} aria-label={{t 'eosf.navbar.toggleSecondary'}}>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                </button>
+                </a>
                 {{!OSF BRAND}}
                 <a class="navbar-brand" href="/" aria-label={{t 'eosf.navbar.goHome'}}>
                     <span class="osf-navbar-logo"></span>
@@ -40,9 +40,9 @@
                         {{#if (and (eq currentService 'HOME') (eq navLink.type "search"))}}
                             <li>
                                 {{!TOGGLE SEARCH BUTTON FOR HOME SERVICE}}
-                                <button class="btn-link search-toggle" {{action 'toggleSearch'}} {{action 'click' 'button' (concat 'Navbar - ' currentService navLink.name)}}>
+                                <a role="button" class="btn-link search-toggle" {{action 'toggleSearch'}} {{action 'click' 'button' (concat 'Navbar - ' currentService navLink.name)}}>
                                     {{t navLink.name}}
-                                </button>
+                                </a>
                             </li>
                         {{else}}
                             {{!SERVICE LINK}}
