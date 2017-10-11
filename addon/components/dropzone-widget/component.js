@@ -38,7 +38,7 @@ export default Ember.Component.extend({
 
         function CustomDropzone() {
             Dropzone.call(this, ...arguments);
-        }
+        };
         CustomDropzone.prototype = Object.create(Dropzone.prototype);
         CustomDropzone.prototype.drop = function(e) {
             if (this.options.preventMultipleFiles && e.dataTransfer) {
@@ -54,7 +54,15 @@ export default Ember.Component.extend({
                 }
             }
             return Dropzone.prototype.drop.call(this, e);
-        }
+        };
+        CustomDropzone.prototype._addFilesFromDirectory  = function(directory, path) {
+            if (!this.options.acceptDirectories) {
+                directory.status = Dropzone.ERROR;
+                this.emit("error", directory, "Cannot upload directories, applications, or packages");
+                return;
+            }
+            return Dropzone.prototype._addFilesFromDirectory.call(directory, path);
+        };
 
         let drop = new CustomDropzone(`#${this.elementId}`, {
             url: file => typeof this.get('buildUrl') === 'function' ? this.get('buildUrl')(file) : this.get('buildUrl'),

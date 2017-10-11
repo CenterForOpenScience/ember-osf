@@ -25,7 +25,8 @@ export default Ember.Component.extend({
         createImageThumbnails: false,
         method: 'PUT',
         withCredentials: true,
-        preventMultipleFiles: true
+        preventMultipleFiles: true,
+        acceptDirectories: false
     },
     init() {
         this._super(...arguments);
