@@ -10,16 +10,17 @@ export function initialize(appInstance) {
     tHelper.reopen({
         theme: Ember.inject.service(),
         compute(_, data) {
-            data = data || {};
+            // If data is defined, clone it because it is not extensible.
+            data = data ? Object.assign({}, data) : {};
             let translations = this.get('i18n._locale.translations');
             let preprintWord = this.get('theme.provider.preprintWord');
             let getTerms = () => ({
-                preprint: translations[`preprintWords.${preprintWord}.preprint`],
-                preprints: translations[`preprintWords.${preprintWord}.preprints`],
-                Preprint: translations[`preprintWords.${preprintWord}.Preprint`],
-                Preprints: translations[`preprintWords.${preprintWord}.Preprints`]
+                preprint: translations[`preprintWords.${preprintWord || 'preprint'}.preprint`],
+                preprints: translations[`preprintWords.${preprintWord || 'preprint'}.preprints`],
+                Preprint: translations[`preprintWords.${preprintWord || 'preprint'}.Preprint`],
+                Preprints: translations[`preprintWords.${preprintWord || 'preprint'}.Preprints`]
             });
-            if (!preprintWord) {
+            if (!preprintWord && this.get('theme.provider')) {
                 this.get('theme.provider').then(provider => {
                     preprintWord = provider.get('preprintWord') || 'preprint';
                     data.preprintWords = getTerms();
