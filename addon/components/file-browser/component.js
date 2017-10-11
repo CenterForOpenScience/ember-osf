@@ -43,7 +43,10 @@ export default Ember.Component.extend({
     }),
     _loadFiles(user) {
         //pagination? when?
-        loadAll(user, 'quickfiles', this.get('_items')).then(() => this.set('loaded', true));
+        loadAll(user, 'quickfiles', this.get('_items')).then(() => {
+            this.set('loaded', true);
+            this.set('_items', this.get('_items').sortBy('itemName'));
+        });
     },
     _loadUser:  Ember.on('init', Ember.observer('user', function() {
         let user = this.get('user');
