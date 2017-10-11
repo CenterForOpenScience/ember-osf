@@ -41,10 +41,17 @@ export default Ember.Component.extend({
         }
         CustomDropzone.prototype = Object.create(Dropzone.prototype);
         CustomDropzone.prototype.drop = function(e) {
-            if (this.options.preventMultipleFiles && e.dataTransfer && e.dataTransfer.items.length > 1) {
-                this.emit("drop", e);
-                this.emit('error', 'None', 'Cannot upload multiple files');
-                return;
+            if (this.options.preventMultipleFiles && e.dataTransfer) {
+                if (e.dataTransfer.items.length > 1) {
+                    this.emit("drop", e);
+                    this.emit('error', 'None', 'Cannot upload multiple files');
+                    return;
+                }
+                if (e.dataTransfer.files.length === 0) {
+                    this.emit("drop", e);
+                    this.emit('error', 'None', 'Cannot upload directories, applications, or packages');
+                    return;
+                }
             }
             return Dropzone.prototype.drop.call(this, e);
         }
