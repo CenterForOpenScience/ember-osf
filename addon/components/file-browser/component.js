@@ -162,6 +162,8 @@ export default Ember.Component.extend({
             }
             response.data.type = 'file'; //
             response.data.attributes.currentVersion = '1';
+            // Strip prefix.
+            response.data.id = response.data.id.replace(/^[^\/]*\//, '');
             let item = this.get('store').push(response);
             item.set('links', response.data.links); //Push doesnt pass it links
             this.get('_items').unshiftObject(item);
