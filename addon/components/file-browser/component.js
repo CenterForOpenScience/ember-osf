@@ -239,8 +239,7 @@ export default Ember.Component.extend({
             window.location = downloadLink;
         },
         _deleteItem(item, url) {
-            item.deleteRecord();
-            item.save().then(() => {
+            item.destroyRecord().then(() => {
                 this.flash(item, 'This file has been deleted.', 'danger');
                 Ember.run.later(() => {
                     this.get('_items').removeObject(item);
