@@ -39,6 +39,9 @@ module.exports = function(defaults) {
     app.import(path.join(app.bowerDirectory, 'd3/d3.js'));
     app.import(path.join(app.bowerDirectory, 'osf-style/css/base.css'));
     app.import('vendor/assets/ember-osf.css');
+
+    app.import(path.join(app.bowerDirectory, 'markdown-it/dist/markdown-it.js'));
+
     app.import({
         test: path.join(app.bowerDirectory, 'ember/ember-template-compiler.js')
     });
