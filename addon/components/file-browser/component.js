@@ -240,19 +240,14 @@ export default Ember.Component.extend({
             window.location = downloadLink;
         },
         _deleteItem(item, url) {
-            authenticatedAJAX({
-                url: url,
-                type: 'DELETE',
-                xhrFields: {withCredentials: true}
-            })
-            .done(() => {
+            item.deleteRecord();
+            item.save().then(() => {
                 this.flash(item, 'This file has been deleted.', 'danger');
                 Ember.run.later(() => {
                     this.get('_items').removeObject(item);
                     this.notifyPropertyChange('_items');
                 }, 1800);
-            })
-            .fail(() => this.flash(item, 'Delete failed.', 'danger'));
+            }).catch(() => this.flash(item, 'Delete failed.', 'danger'));
         },
         deleteItem(){
             let item = this.get('selectedItems.firstObject');
