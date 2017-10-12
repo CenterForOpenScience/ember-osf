@@ -265,21 +265,7 @@ export default Ember.Component.extend({
         _rename(conflict) {
             let item = this.get('selectedItems.firstObject');
             this.set('modalOpen', false);
-            authenticatedAJAX({
-                url: item.get('links.upload'),
-                type: 'POST',
-                xhrFields: {withCredentials: true},
-                headers: {
-                    'Content-Type': 'Application/json'
-                },
-                data: JSON.stringify({
-                    action: 'rename',
-                    rename: this.get('textValue'),
-                    conflict: conflict || 'replace'
-                })
-            })
-            .done(response => {
-                item.set('itemName', response.data.attributes.name);
+            item.rename(this.get('textValue'), conflict).then(response => {
                 this.flash(item, 'Successfully renamed');
                 if (conflict === 'replace') {
                     const replacedItem  = this.get('_conflictingItem');
@@ -291,9 +277,10 @@ export default Ember.Component.extend({
                         this.get('_items').removeObject(replacedItem);
                         this.notifyPropertyChange('_items');
                     }, 1800);
+                    // Later to avoid flash() trying to set on a destroyed item.
+                    Ember.run.later(() => replacedItem.unloadRecord(), 2200);
                 }
-            })
-            .fail(() => this.flash(item, 'Failed to rename item', 'danger'));
+            }).catch(() => this.flash(item, 'Failed to rename item', 'danger'));
             this.set('textValue', null);
             this.toggleProperty('renaming');
         },

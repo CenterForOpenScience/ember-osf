@@ -2,6 +2,7 @@ import DS from 'ember-data';
 
 import OsfModel from './osf-model';
 import FileItemMixin from 'ember-osf/mixins/file-item';
+import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
 
 /**
  * @module ember-osf
@@ -47,5 +48,25 @@ export default OsfModel.extend(FileItemMixin, {
     comments: DS.hasMany('comment'),
     node: DS.belongsTo('node'),  // TODO: In the future apiv2 may also need to support this pointing at nodes OR registrations
     user: DS.belongsTo('user'),
-    checkout: DS.attr('fixstring')
+    checkout: DS.attr('fixstring'),
+
+    rename(newName, conflict = 'replace') {
+        return authenticatedAJAX({
+            url: this.get('links.upload'),
+            type: 'POST',
+            xhrFields: {
+                withCredentials: true
+            },
+            headers: {
+                'Content-Type': 'Application/json'
+            },
+            data: JSON.stringify({
+                action: 'rename',
+                rename: newName,
+                conflict: conflict
+            }),
+        }).done(response => {
+            this.set('name', response.data.attributes.name);
+        });
+    }
 });
