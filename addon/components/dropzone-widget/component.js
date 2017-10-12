@@ -38,7 +38,7 @@ export default Ember.Component.extend({
 
         function CustomDropzone() {
             Dropzone.call(this, ...arguments);
-        };
+        }
         CustomDropzone.prototype = Object.create(Dropzone.prototype);
         CustomDropzone.prototype.drop = function(e) {
             if (this.options.preventMultipleFiles && e.dataTransfer) {
