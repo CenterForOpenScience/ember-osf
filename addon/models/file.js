@@ -68,5 +68,19 @@ export default OsfModel.extend(FileItemMixin, {
         }).done(response => {
             this.set('name', response.data.attributes.name);
         });
-    }
+    },
+    getGuid() {
+        this.store.findRecord(
+            this.constructor.modelName,
+            this.id,
+            {
+                reload: true,
+                adapterOptions: {
+                    query: {
+                        create_guid: 1,
+                    },
+                },
+            }
+        );
+    },
 });
