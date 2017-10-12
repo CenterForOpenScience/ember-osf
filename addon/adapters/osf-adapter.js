@@ -68,6 +68,10 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
         if (url.lastIndexOf('/') !== url.length - 1) {
             url += '/';
         }
+        // Allow a query to be passed along in the adapterOptions.
+        if (snapshot.adapterOptions && snapshot.adapterOptions.query) {
+            url += '?' + Ember.$.param(snapshot.adapterOptions.query);
+        }
         return url;
     },
     /**
