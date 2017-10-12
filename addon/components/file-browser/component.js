@@ -2,7 +2,6 @@ import Ember from 'ember';
 import layout from './template';
 
 import loadAll from 'ember-osf/utils/load-relationship';
-import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
 
 /**
  * File browser widget
