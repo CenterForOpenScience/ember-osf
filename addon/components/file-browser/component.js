@@ -238,7 +238,7 @@ export default Ember.Component.extend({
             let downloadLink = this.get('selectedItems.firstObject.links.download');
             window.location = downloadLink;
         },
-        _deleteItem(item, url) {
+        _deleteItem(item) {
             item.destroyRecord().then(() => {
                 this.flash(item, 'This file has been deleted.', 'danger');
                 Ember.run.later(() => {
@@ -248,22 +248,19 @@ export default Ember.Component.extend({
             }).catch(() => this.flash(item, 'Delete failed.', 'danger'));
         },
         deleteItem(){
-            let item = this.get('selectedItems.firstObject');
-            let url = item.get('links.download');
-            this.send('_deleteItem', item, url);
+            this.send('_deleteItem', this.get('selectedItems.firstObject'));
             this.set('modalOpen', false);
         },
         deleteItems() {
             for (let item_ of this.get('selectedItems')) {
-                let url = item_.get('links.download');
-                this.send('_deleteItem', item_, url);
+                this.send('_deleteItem', item_);
             }
             this.set('modalOpen', false);
         },
         _rename(conflict) {
             let item = this.get('selectedItems.firstObject');
             this.set('modalOpen', false);
-            item.rename(this.get('textValue'), conflict).then(response => {
+            item.rename(this.get('textValue'), conflict).then(() => {
                 this.flash(item, 'Successfully renamed');
                 if (conflict === 'replace') {
                     const replacedItem  = this.get('_conflictingItem');
