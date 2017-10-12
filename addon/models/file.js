@@ -70,7 +70,7 @@ export default OsfModel.extend(FileItemMixin, {
         });
     },
     getGuid() {
-        this.store.findRecord(
+        return this.store.findRecord(
             this.constructor.modelName,
             this.id,
             {
