@@ -69,6 +69,11 @@ module.exports = function(environment) {
                 turnAuditOff: false
             }
         }
+        
+        moment: {
+            includeTimezone: 'all',
+            outputFormat: 'YYYY-MM-DD h:mm A z',
+        },
     };
 
     /*if (environment === 'development') {

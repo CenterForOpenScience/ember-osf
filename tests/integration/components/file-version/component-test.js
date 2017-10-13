@@ -36,7 +36,7 @@ test('it renders', function(assert) {
 
     assert.equal(
         this.$('.file-version').children().eq(1).text(),
-        '2017-10-06 2:23 PM',
+        '2017-10-06 6:23 PM UTC'
         'Second list element should be a label with the files date'
     );
 
