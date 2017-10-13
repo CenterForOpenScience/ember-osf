@@ -43,9 +43,8 @@ export default Ember.Component.extend({
         let date = this.get('item.dateModified');
         return moment(date).utc().format('YYYY-MM-DD h:mm a')
     }),
-    guid: null,
-    link: Ember.computed('item', 'guid', function() {
-        let guid = this.get('item.guid') || this.get('guid');
+    link: Ember.computed('item.guid', function() {
+        let guid = this.get('item.guid');
         return guid ? pathJoin(window.location.origin, guid) : undefined;
     }),
     click(e) {
@@ -68,16 +67,7 @@ export default Ember.Component.extend({
             if (this.get('link')) {
                 return;
             }
-            let url = '';
-            if (this.get('item.links.info')) {
-                url = this.get('item.links.info') + '?create_guid=1';
-            } else {
-                let adapter = this.get('store').adapterFor('file');
-                url = adapter.buildURL('files', this.get('item.path').slice(1)) + '?create_guid=1';
-            }
-            Ember.$.get(url, resp => {
-                this.set('guid', resp.data.attributes.guid);
-            })
+            this.get('item').getGuid();
         },
         dismissPop() {
             this.set('item.visiblePopup', false);

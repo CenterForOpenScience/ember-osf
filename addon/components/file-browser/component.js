@@ -2,7 +2,6 @@ import Ember from 'ember';
 import layout from './template';
 
 import loadAll from 'ember-osf/utils/load-relationship';
-import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
 
 /**
  * File browser widget
@@ -162,6 +161,8 @@ export default Ember.Component.extend({
             }
             response.data.type = 'file'; //
             response.data.attributes.currentVersion = '1';
+            // Strip prefix.
+            response.data.id = response.data.id.replace(/^[^\/]*\//, '');
             let item = this.get('store').push(response);
             item.set('links', response.data.links); //Push doesnt pass it links
             this.get('_items').unshiftObject(item);
@@ -237,52 +238,29 @@ export default Ember.Component.extend({
             let downloadLink = this.get('selectedItems.firstObject.links.download');
             window.location = downloadLink;
         },
-        _deleteItem(item, url) {
-            authenticatedAJAX({
-                url: url,
-                type: 'DELETE',
-                xhrFields: {withCredentials: true}
-            })
-            .done(() => {
+        _deleteItem(item) {
+            item.destroyRecord().then(() => {
                 this.flash(item, 'This file has been deleted.', 'danger');
                 Ember.run.later(() => {
                     this.get('_items').removeObject(item);
                     this.notifyPropertyChange('_items');
                 }, 1800);
-            })
-            .fail(() => this.flash(item, 'Delete failed.', 'danger'));
+            }).catch(() => this.flash(item, 'Delete failed.', 'danger'));
         },
         deleteItem(){
-            let item = this.get('selectedItems.firstObject');
-            let url = item.get('links.download');
-            this.send('_deleteItem', item, url);
+            this.send('_deleteItem', this.get('selectedItems.firstObject'));
             this.set('modalOpen', false);
         },
         deleteItems() {
             for (let item_ of this.get('selectedItems')) {
-                let url = item_.get('links.download');
-                this.send('_deleteItem', item_, url);
+                this.send('_deleteItem', item_);
             }
             this.set('modalOpen', false);
         },
         _rename(conflict) {
             let item = this.get('selectedItems.firstObject');
             this.set('modalOpen', false);
-            authenticatedAJAX({
-                url: item.get('links.upload'),
-                type: 'POST',
-                xhrFields: {withCredentials: true},
-                headers: {
-                    'Content-Type': 'Application/json'
-                },
-                data: JSON.stringify({
-                    action: 'rename',
-                    rename: this.get('textValue'),
-                    conflict: conflict || 'replace'
-                })
-            })
-            .done(response => {
-                item.set('itemName', response.data.attributes.name);
+            item.rename(this.get('textValue'), conflict).then(() => {
                 this.flash(item, 'Successfully renamed');
                 if (conflict === 'replace') {
                     const replacedItem  = this.get('_conflictingItem');
@@ -294,9 +272,10 @@ export default Ember.Component.extend({
                         this.get('_items').removeObject(replacedItem);
                         this.notifyPropertyChange('_items');
                     }, 1800);
+                    // Later to avoid flash() trying to set on a destroyed item.
+                    Ember.run.later(() => replacedItem.unloadRecord(), 2200);
                 }
-            })
-            .fail(() => this.flash(item, 'Failed to rename item', 'danger'));
+            }).catch(() => this.flash(item, 'Failed to rename item', 'danger'));
             this.set('textValue', null);
             this.toggleProperty('renaming');
         },
