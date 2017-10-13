@@ -5,7 +5,7 @@
         {{version.id}}
     {{/if}}
 </td>
-<td>{{moment-format version.attributes.modified_utc 'YYYY-MM-DD h:mm A'}}</td>
+<td>{{moment-format version.attributes.modified_utc}}</td>
 <td><div class='badge'>{{version.attributes.extra.downloads}}</div></td>
 <td><button class='btn btn-primary btn-sm' onclick={{action 'downloadVersion' version.id}}>{{fa-icon 'download'}}</button></td>
 <td>
