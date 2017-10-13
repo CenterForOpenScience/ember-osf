@@ -99,8 +99,7 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
                     href: serviceLinks.osfSupport
                 }
             );
-        }
-        if(session.get('isAuthenticated')) {
+        } else {
             links.HOME.unshift(
                 {
                     name: 'eosf.navbar.myQuickFiles',
