@@ -90,4 +90,12 @@ export default OsfModel.extend(FileItemMixin, {
             xhrFields: { withCredentials: true },
         });
     },
+    updateContents(data) {
+        return authenticatedAJAX({
+            url: this.get('links.upload'),
+            type: 'PUT',
+            xhrFields: { withCredentials: true },
+            data: data,
+        }).then(() => this.reload());
+    },
 });
