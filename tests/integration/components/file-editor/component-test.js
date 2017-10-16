@@ -16,6 +16,7 @@ test('it renders', function(assert) {
             save='save'
         }}
     `);
+    
     const editor = ace.edit(document.querySelector('[data-ember-ace]'));
     assert.equal(editor.getSession().getValue(), '');
 
@@ -31,7 +32,31 @@ test('it renders with text', function(assert) {
             save='save'
         }}
     `);
+
     const editor = ace.edit(document.querySelector('[data-ember-ace]'));
+    assert.equal(editor.getSession().getValue(), 'Test text');
+
+});
+
+test('revert button', function(assert) {
+
+    // Tests that the revert button properly reverts the text to its original value
+
+    this.render(hbs`
+        {{file-editor
+            fileText='Test text'
+            save='save'
+        }}
+    `);
+    
+    const editor = ace.edit(document.querySelector('[data-ember-ace]'));
+    assert.equal(editor.getSession().getValue(), 'Test text');
+
+    editor.getSession().setValue('Just a test');
+    assert.equal(editor.getSession().getValue(), 'Just a test');
+
+    this.$('#btnRevert').click();
+
     assert.equal(editor.getSession().getValue(), 'Test text');
 
 });

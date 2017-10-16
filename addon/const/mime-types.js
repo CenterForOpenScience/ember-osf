@@ -5,6 +5,10 @@
 /**
  * Provides list of all file extensions that can be
  * rendered as text by MFR
+ *
+ * Borrowed from osf
+ * https://github.com/CenterForOpenScience/osf.io/blob/develop/website/static/js/mime.js
+ *
  * @property mimeTypes
  * @final
  * @type {Array}

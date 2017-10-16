@@ -42,6 +42,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `loadRelation` function in `utils/load-relationship`
   - Like `loadAll`, but returns a promise proxy that resolves to the full array once the relationship is completely fetched
 - old-file-browser component that replicates the legacy file-browser component
+- mime-types, checking to see if a file is editable
+- file-editor widget to directly edit certain files
 
 ### Changed
 - Use delete link for delete url, if present
