@@ -34,6 +34,11 @@ export default Ember.Component.extend(hostAppName, AnalyticsMixin, {
         if (appName === 'Dummy App') {
             appName = 'Home';
         }
+        if (appName === 'Ember OSF Web') {
+            if (window.location.pathname.indexOf('institutions') !== -1) {
+                appName = 'Institutions';
+            }
+        }
         return appName.toUpperCase();
     }),
     currentServiceLink: Ember.computed('serviceLinks', 'currentService', function() {
@@ -41,7 +46,8 @@ export default Ember.Component.extend(hostAppName, AnalyticsMixin, {
             HOME: 'osfHome',
             PREPRINTS: 'preprintsHome',
             REGISTRIES: 'registriesHome',
-            MEETINGS: 'meetingsHome'
+            MEETINGS: 'meetingsHome',
+            INSTITUTIONS: 'institutionsHome'
         };
         const service = this.get('currentService');
         return this.get('serviceLinks')[serviceMapping[service]];

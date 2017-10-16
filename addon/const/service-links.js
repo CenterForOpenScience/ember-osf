@@ -31,7 +31,8 @@ const serviceLinks = {
     registriesDiscover: `${osfUrl}registries/discover/`,
     registriesHome: `${osfUrl}registries/`,
     registriesSupport: 'http://help.osf.io/m/registrations/',
-    settings: `${osfUrl}settings/`
+    settings: `${osfUrl}settings/`,
+    institutionsHome: `${osfUrl}institutions/`
 };
 
 
@@ -62,6 +63,10 @@ const osfServices = [
     {
         name: 'MEETINGS',
         url: serviceLinks.meetingsHome
+    },
+    {
+        name: 'INSTITUTIONS',
+        url: serviceLinks.institutionsHome
     }
 ];
 
