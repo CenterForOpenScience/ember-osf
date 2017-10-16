@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - file-browser-item now formatted to fit in with file-widget
 - file-browser-item now supports icons for different file extensions
 - dropzone-widget now has custom dropzone class that extends dropzone functionality to conditionally disallow folders and multiple files from being dropped
-
+- 'Search' button in navbar to link to search page
 
 ## [0.11.0] - 2017-10-11
 ### Changed
