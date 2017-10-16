@@ -7,8 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - Ability to pass query parameters with adapterOptions.query
-- rename() method to file model
-- getGuid() method to file model
+- methods to the file model:
+  - rename()
+  - getGuid()
+  - getContents()
+  - updateContents()
 - file-widget, a file browser widget for quick files
 - humanFileSize, converting size number to a readable version like 5kB
 
