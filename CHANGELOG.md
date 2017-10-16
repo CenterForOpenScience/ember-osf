@@ -22,6 +22,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - dropzone-widget now has custom dropzone class that extends dropzone functionality to conditionally disallow folders and multiple files from being dropped
 - 'Search' button in navbar to link to search page
 
+## [0.11.1] - 2017-10-16
+### Changed
+- Allow non-term level locked filter by using bool in dicover page component
+
 ## [0.11.0] - 2017-10-11
 ### Changed
 - In the discover page component, filter by `shareSource` instead of `name` if `shareSource` is set for a provider
