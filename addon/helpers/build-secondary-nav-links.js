@@ -19,8 +19,7 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
     currentUser: Ember.inject.service(),
     compute(params) { // Helpers defined using a class need a compute function
         const currentService = params[0].toUpperCase();
-        const serviceSubmitLink = Ember.isEmpty(params[1]) ? serviceLinks.preprintsSubmit : params[1] + 'submit';
-        const serviceDiscoverLink = Ember.isEmpty(params[1]) ? serviceLinks.preprintsDiscover: params[1] + 'discover';
+        const baseServiceUrl = params[1];
         const session = this.get('session');
         let links = Ember.Object.create({
             HOME: [
@@ -43,12 +42,12 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
             PREPRINTS: [
                 {
                     name: 'eosf.navbar.addAPreprint',
-                    href: serviceSubmitLink,
+                    href: Ember.isEmpty(baseServiceUrl) ? serviceLinks.preprintsSubmit : baseServiceUrl + 'submit',
                     type: 'addAPreprint'
                 },
                 {
                     name: 'eosf.navbar.search',
-                    href: serviceDiscoverLink,
+                    href: Ember.isEmpty(baseServiceUrl) ? serviceLinks.preprintsDiscover : baseServiceUrl + 'discover',
                     type: 'search'
                 },
                 {
@@ -102,16 +101,6 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
                     href: serviceLinks.myQuickFiles
                 }
             );
-        } else {
-            links.HOME.push(
-                {
-                    name: 'eosf.navbar.support',
-                    href: serviceLinks.osfSupport
-                }
-            );
-        }
-
-        if (session.get('isAuthenticated')) {
             this.get('currentUser.user').then((user) => {
                 if (user.get('canViewReviews')) {
                     links.PREPRINTS.insertAt(1, {
@@ -120,6 +109,13 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
                     });
                 }
             })
+        } else {
+            links.HOME.push(
+                {
+                    name: 'eosf.navbar.support',
+                    href: serviceLinks.osfSupport
+                }
+            );
         }
 
         if (Object.keys(links).includes(currentService)) {
