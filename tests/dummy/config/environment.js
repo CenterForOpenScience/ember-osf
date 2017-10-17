@@ -62,6 +62,12 @@ module.exports = function(environment) {
 
         'ember-cli-mirage': {
             enabled: false
+        },
+
+        'ember-a11y-testing': {
+            componentOptions: {
+                turnAuditOff: false
+            }
         }
     };
 
