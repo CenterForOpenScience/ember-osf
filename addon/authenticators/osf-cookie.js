@@ -20,7 +20,8 @@ import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
  */
 export default Base.extend({
     // HACK: Lets us clear session manually, rather than after .invalidate method resolves
-    session: Ember.inject.service('session'),
+    store: Ember.inject.service(),
+    session: Ember.inject.service(),
 
     _test() {
         return authenticatedAJAX({
@@ -31,7 +32,11 @@ export default Base.extend({
             xhrFields: {
                 withCredentials: true
             }
-        }).then(function(res) {
+        }).then(res => {
+            // Push the result into the store for later use by the current-user service
+            // Note: we have to deepcopy res because pushPayload mutates our data
+            // and causes an infinite loop because reasons
+            this.get('store').pushPayload(Ember.copy(res, true));
             return res.data;
         });
     },
@@ -64,11 +69,10 @@ export default Base.extend({
      * @return {Promise}
      */
     authenticate(code) {
-        let jqDeferred = this._test(code);
-        return new Ember.RSVP.Promise((resolve, reject) => {
-            // TODO: Improve param capture
-            jqDeferred.done((value) => resolve(value));
-            jqDeferred.fail((reason) => reject(reason));
-        });
+        // NOTE: Must be wrapped in an RSVP promise
+        // _test returns a Jquery Promise but authenticate expects an RSVP Promise
+        return new Ember.RSVP.Promise((resolve, reject) =>
+            this._test(code).then(resolve).fail(reject)
+        );
     }
 });

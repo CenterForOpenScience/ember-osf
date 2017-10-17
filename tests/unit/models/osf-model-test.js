@@ -6,7 +6,7 @@ moduleForModel('osf-model', 'Unit | Model | osf model', {
 });
 
 test('it exists', function(assert) {
-  let model = this.subject();
-  // let store = this.store();
-  assert.ok(!!model);
+    let model = this.subject();
+    // let store = this.store();
+    assert.ok(!!model);
 });
