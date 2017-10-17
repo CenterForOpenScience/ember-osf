@@ -13,11 +13,6 @@ module.exports = function(defaults) {
                 'tests/dummy/app/components',
             ]
         },
-        'ember-bootstrap': {
-            bootstrapVersion: 3,
-            importBootstrapCSS: false,
-            importBootstrapFont: false,
-        },
         // FIXME
         // FIXME Will this affect downstream consumers (when they build their apps)?
         // FIXME
@@ -31,6 +26,12 @@ module.exports = function(defaults) {
 
         'ember-cli-babel': {
             includePolyfill: true
+        },
+
+        'ember-bootstrap': {
+            bootstrapVersion: 3,
+            importBootstrapCSS: false,
+            importBootstrapFont: true,
         },
     });
 

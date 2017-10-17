@@ -48,7 +48,14 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
     buildURL(modelName, id, snapshot, requestType) {
         var url = this._super(...arguments);
         var options = (snapshot ? snapshot.adapterOptions : false) || {};
-        if (requestType === 'deleteRecord' || requestType === 'updateRecord' || requestType === 'findRecord') {
+
+        if (requestType === 'deleteRecord') {
+            if (snapshot.record.get('links.delete')) {
+                url = snapshot.record.get('links.delete');
+            } else if (snapshot.record.get('links.self')) {
+                url = snapshot.record.get('links.self');
+            }
+        } else if (requestType === 'updateRecord' || requestType === 'findRecord') {
             if (snapshot.record.get('links.self')) {
                 url = snapshot.record.get('links.self');
             }
@@ -60,6 +67,10 @@ export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDa
         // slash to URLs for single documents, but DRF redirects to force a trailing slash
         if (url.lastIndexOf('/') !== url.length - 1) {
             url += '/';
+        }
+        // Allow a query to be passed along in the adapterOptions.
+        if (options && options.query) {
+            url += '?' + Ember.$.param(options.query);
         }
         return url;
     },

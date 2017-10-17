@@ -59,6 +59,16 @@ module.exports = function(environment) {
         i18n: {
             defaultLocale: 'en-US'
         },
+
+        'ember-cli-mirage': {
+            enabled: false
+        },
+
+        'ember-a11y-testing': {
+            componentOptions: {
+                turnAuditOff: false
+            }
+        }
     };
 
     /*if (environment === 'development') {

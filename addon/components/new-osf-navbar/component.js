@@ -27,7 +27,6 @@ export default Ember.Component.extend(hostAppName, AnalyticsMixin, {
     layout,
     osfServices,
     session: Ember.inject.service(),
-    currentUser: Ember.inject.service(),
     serviceLinks: serviceLinks,
     host: config.OSF.url,
     currentService: Ember.computed('hostAppName', function() { // Pulls current service name from consuming service's config file
@@ -40,10 +39,9 @@ export default Ember.Component.extend(hostAppName, AnalyticsMixin, {
     currentServiceLink: Ember.computed('serviceLinks', 'currentService', function() {
         const serviceMapping = {
             HOME: 'osfHome',
-            MEETINGS: 'meetingsHome',
             PREPRINTS: 'preprintsHome',
             REGISTRIES: 'registriesHome',
-            REVIEWS: 'reviewsHome',
+            MEETINGS: 'meetingsHome',
         };
         const service = this.get('currentService');
         return this.get('serviceLinks')[serviceMapping[service]];

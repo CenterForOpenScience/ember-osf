@@ -2,6 +2,7 @@ import DS from 'ember-data';
 
 import OsfModel from './osf-model';
 import FileItemMixin from 'ember-osf/mixins/file-item';
+import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
 
 /**
  * @module ember-osf
@@ -46,5 +47,55 @@ export default OsfModel.extend(FileItemMixin, {
     versions: DS.hasMany('file-version'),
     comments: DS.hasMany('comment'),
     node: DS.belongsTo('node'),  // TODO: In the future apiv2 may also need to support this pointing at nodes OR registrations
-    checkout: DS.attr('fixstring')
+    user: DS.belongsTo('user'),
+    checkout: DS.attr('fixstring'),
+
+    rename(newName, conflict = 'replace') {
+        return authenticatedAJAX({
+            url: this.get('links.upload'),
+            type: 'POST',
+            xhrFields: {
+                withCredentials: true
+            },
+            headers: {
+                'Content-Type': 'Application/json'
+            },
+            data: JSON.stringify({
+                action: 'rename',
+                rename: newName,
+                conflict: conflict
+            }),
+        }).done(response => {
+            this.set('name', response.data.attributes.name);
+        });
+    },
+    getGuid() {
+        return this.store.findRecord(
+            this.constructor.modelName,
+            this.id,
+            {
+                reload: true,
+                adapterOptions: {
+                    query: {
+                        create_guid: 1,
+                    },
+                },
+            }
+        );
+    },
+    getContents() {
+        return authenticatedAJAX({
+            url: this.get('links.download'),
+            type: 'GET',
+            xhrFields: { withCredentials: true },
+        });
+    },
+    updateContents(data) {
+        return authenticatedAJAX({
+            url: this.get('links.upload'),
+            type: 'PUT',
+            xhrFields: { withCredentials: true },
+            data: data,
+        }).then(() => this.reload());
+    },
 });

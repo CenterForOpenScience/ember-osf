@@ -31,6 +31,8 @@ export default OsfModel.extend({
     registrations: DS.hasMany('registrations'),
     canViewReviews: DS.attr('boolean', {defaultValue: false}),
 
+    quickfiles: DS.hasMany('files'),
+
     affiliatedInstitutions: DS.hasMany('institutions', {
         inverse: 'users'
     }),
