@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import layout from './template';
-import ace from 'ember-ace';
 
 /**
  * @module ember-osf
@@ -22,15 +21,23 @@ import ace from 'ember-ace';
 export default Ember.Component.extend({
     layout,
     fileText: '',
+    unsavedText: '',
+
+    newText: Ember.computed('fileText', function() {
+        return String(this.get('fileText'));
+    }),
 
     actions: {
+        valueUpdated(newValue) {
+            this.set('unsavedText', newValue);
+        },
         revertText() {
-            const editor = ace.edit(document.querySelector('[data-ember-ace]'));
-            editor.getSession().setValue(this.get('fileText'));
+            const fileText = this.get('fileText');
+            this.set('fileText', '');
+            Ember.run.next(() => this.set('fileText', fileText));
         },
         saveText() {
-            const editor = ace.edit(document.querySelector('[data-ember-ace]'));
-            this.sendAction('save', editor.getSession().getValue());
+            this.attrs.save(this.get('unsavedText'));
         },
     },
 });

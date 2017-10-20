@@ -1,6 +1,8 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import wait from 'ember-test-helpers/wait';
 import ace from 'ember-ace';
+
 
 moduleForComponent('file-editor', 'Integration | Component | file editor', {
     integration: true
@@ -48,7 +50,7 @@ test('revert button', function(assert) {
             save='save'
         }}
     `);
-    
+
     const editor = ace.edit(document.querySelector('[data-ember-ace]'));
     assert.equal(editor.getSession().getValue(), 'Test text');
 
@@ -57,6 +59,9 @@ test('revert button', function(assert) {
 
     this.$('#btnRevert').click();
 
-    assert.equal(editor.getSession().getValue(), 'Test text');
+    return wait()
+        .then(() => {
+            assert.equal(editor.getSession().getValue(), 'Test text');
+        });
 
 });
