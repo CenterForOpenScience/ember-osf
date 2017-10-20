@@ -75,17 +75,17 @@ function unwrapItem(item) {
  *
  * Sample usage:
  * ```handlebars
- * {{file-browser
+ * {{old-file-browser
  *  rootItem=item
  *  openFile=(action 'openFile')
  *  openNode=(action 'openNode')}}
  * ```
- * @class file-browser
+ * @class old-file-browser
  */
 export default Ember.Component.extend({
     // TODO: Improve documentation in the future
     layout,
-    classNames: ['file-browser'],
+    classNames: ['old-file-browser'],
     itemHeight: 30,
 
     breadcrumbs: null,
