@@ -7,8 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - Ability to pass query parameters with adapterOptions.query
-- rename() method to file model
-- getGuid() method to file model
+- methods to the file model:
+  - rename()
+  - getGuid()
+  - getContents()
+  - updateContents()
 - file-widget, a file browser widget for quick files
 - humanFileSize, converting size number to a readable version like 5kB
 
@@ -17,7 +20,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - file-browser-item now formatted to fit in with file-widget
 - file-browser-item now supports icons for different file extensions
 - dropzone-widget now has custom dropzone class that extends dropzone functionality to conditionally disallow folders and multiple files from being dropped
+- 'Search' button in navbar to link to search page
 
+## [0.11.1] - 2017-10-16
+### Changed
+- Allow non-term level locked filter by using bool in dicover page component
 
 ## [0.11.0] - 2017-10-11
 ### Changed
