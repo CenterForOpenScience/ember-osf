@@ -572,6 +572,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
             data: queryBody
         }).then((json) => {
             if (this.isDestroyed || this.isDestroying) return;
+            if (queryBody !== JSON.stringify(this.getQueryBody())) return; //Safeguard: if query has changed since request was sent, dont update results
             let results = json.hits.hits.map(hit => {
                 // HACK: Make share data look like apiv2 preprints data
                 let result = Ember.merge(hit._source, {
