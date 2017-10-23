@@ -15,6 +15,32 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - file-widget, a file browser widget for quick files
 - humanFileSize, converting size number to a readable version like 5kB
 - toastr as an npm dependency
+- `action` model/adapter/serializer
+  - New model in OSF API corresponding to a user-triggered state transition of an object
+- fields on `preprint-provider` model:
+  - `permissions`
+  - `reviewsWorkflow`
+  - `reviewsCommentsPrivate`
+  - `reviewsCommentsAnonymous`
+- properties on `preprint-provider` model:
+  - `reviewableStatusCounts`
+- fields on `preprint` model
+  - `reviewsState`
+  - `dateLastTransitioned`
+  - `actions`
+  - `contributors`
+- properties on `preprint` model
+  - `uniqueSubjects`
+  - `articleDoiUrl`
+  - `preprintDoiUrl`
+  - `licenseText`
+- fields on `user` model:
+  - `canViewReviews`
+  - `actions`
+- `user` property on `currentUser` service
+  - Returns a promise proxy object that resolves to the logged-in user or to `null` if no user is logged in
+- `loadRelation` function in `utils/load-relationship`
+  - Like `loadAll`, but returns a promise proxy that resolves to the full array once the relationship is completely fetched
 
 ### Changed
 - Use delete link for delete url, if present
@@ -24,6 +50,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - 'Search' button in navbar to link to search page
 - Moved ember-metrics and ember-toastr to dependencies
 - Upgraded ember-toastr to 1.7.0
+- Consolidate logic for serializing dirty relationships into `osf-serializer`
+  - Override `relationshipTypes` in a serializer to include `fieldName: 'apiType'` pairs of all relationships which may be included when saving updates
 
 ### Removed
 - toastr from bower dependencies

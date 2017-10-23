@@ -36,7 +36,7 @@
             <div class="navbar-collapse collapse navbar-right" id="secondary-navigation">
                 <ul class="nav navbar-nav">
                     {{!SECONDARY NAVIGATION - displays corresponding links for selected service}}
-                    {{#each (build-secondary-nav-links currentService) as |navLink|}}
+                    {{#each (build-secondary-nav-links currentService baseServiceUrl) as |navLink|}}
                         {{#if (and (eq currentService 'HOME') (eq navLink.type "search"))}}
                             <li>
                                 <a href="{{navLink.href}}" onclick={{action 'click' 'link' (concat 'Navbar - ' navlink.name)}}>

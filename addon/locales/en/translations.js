@@ -60,6 +60,7 @@ export default {
             goHome: 'Go home',
             myProjects: 'My Projects',
             myQuickFiles: 'My Quick Files',
+            reviews: 'My Reviewing',
             search: 'Search',
             searchHelp: 'Search help',
             searchTheOSF: 'Search the OSF',
