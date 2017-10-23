@@ -85,7 +85,7 @@ function unwrapItem(item) {
 export default Ember.Component.extend({
     // TODO: Improve documentation in the future
     layout,
-    classNames: ['old-file-browser'],
+    classNames: ['old-file-browser', 'file-browser'],
     itemHeight: 30,
 
     breadcrumbs: null,

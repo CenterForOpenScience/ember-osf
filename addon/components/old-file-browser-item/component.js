@@ -8,7 +8,7 @@ import layout from './template';
 
 export default Ember.Component.extend({
     layout,
-    classNames: ['old-file-browser-item'],
+    classNames: ['old-file-browser-item', 'file-browser-item'],
 
     selected: Ember.computed('selectedItems.[]', function() {
         // TODO: This would be better if selectedItems were a hash. Can Ember

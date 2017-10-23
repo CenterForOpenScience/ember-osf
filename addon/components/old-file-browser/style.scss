@@ -1,4 +1,4 @@
-.old-file-browser {
+.file-browser.old-file-browser {
     a {
         cursor: pointer;
     }
@@ -7,17 +7,17 @@
         margin-bottom: 0;
     }
 
-    .old-file-browser-list {
+    .file-browser-list.old-file-browser-list {
         position: relative;
         height: 500px;
     }
 
-    .old-file-browser-item {
+    .file-browser-item.old-file-browser-item {
         height: 30px;
         padding: 3px;
     }
 
-    .old-file-browser-item:hover {
+    .file-browser-item.old-file-browser-item:hover {
         background-color: #E0EBF3; /* $color-hover; */
     }
 
