@@ -41,6 +41,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - Returns a promise proxy object that resolves to the logged-in user or to `null` if no user is logged in
 - `loadRelation` function in `utils/load-relationship`
   - Like `loadAll`, but returns a promise proxy that resolves to the full array once the relationship is completely fetched
+- old-file-browser component that replicates the legacy file-browser component
 
 ### Changed
 - Use delete link for delete url, if present
