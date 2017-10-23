@@ -7,6 +7,7 @@ moduleForComponent('file-version', 'Integration | Component | file version', {
 
     beforeEach: function() {
         // Set up factory guy, per docs
+        this.service = this.container.lookup('service:moment');
         manualSetup(this.container);
     }
 });
@@ -25,7 +26,9 @@ test('it renders', function(assert) {
     };
 
     this.set('version', version);
-
+    
+    this.service.setTimeZone('UTC');
+    
     this.render(hbs`{{file-version version=version}}`);
 
     assert.equal(
@@ -36,8 +39,8 @@ test('it renders', function(assert) {
 
     assert.equal(
         this.$('.file-version').children().eq(1).text(),
-        '2017-10-06 6:23 PM UTC'
-        'Second list element should be a label with the files date'
+        '2017-10-06 6:23 PM UTC',
+        'Second list element should be a label with the file date'
     );
 
     assert.equal(

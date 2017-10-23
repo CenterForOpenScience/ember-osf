@@ -68,7 +68,7 @@ module.exports = function(environment) {
             componentOptions: {
                 turnAuditOff: false
             }
-        }
+        },
         
         moment: {
             includeTimezone: 'all',
