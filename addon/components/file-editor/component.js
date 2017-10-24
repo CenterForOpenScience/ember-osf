@@ -13,12 +13,13 @@ import layout from './template';
  * ```handlebars
  * {{file-editor
      fileText=fileText
-     save='save'}}
+     save=(action 'save')}}
  * ```
  * @class file-editor
  */
 
 export default Ember.Component.extend({
+    classNames: ['file-editor'],
     layout,
     fileText: '',
     unsavedText: '',
@@ -34,6 +35,7 @@ export default Ember.Component.extend({
         revertText() {
             const fileText = this.get('fileText');
             this.set('fileText', '');
+            // Restore original text in next tick of the run loop to trigger re-render of ember-ace
             Ember.run.next(() => this.set('fileText', fileText));
         },
         saveText() {

@@ -6,7 +6,7 @@
 </div>
 <div>
     <div class='editor-pane panel-body'>
-        <div style='padding-top:10px;'>
+        <div class='text-editor-container'>
             {{ember-ace 
                 lines=35
                 useWrapMode=true
@@ -18,8 +18,8 @@
             <div class='row'>
                 <div class='col-sm-12'>
                     <div class='pull-right'>
-                        <button class='btn btn-sm btn-danger' id='btnRevert' onclick={{action 'revertText'}}>Revert </button>
-                        <button class='btn btn-sm btn-success' onclick={{action 'saveText'}}>Save</button>
+                        <button class='btn btn-sm btn-danger' id='btnRevertEditor' onclick={{action 'revertText'}}>Revert </button>
+                        <button class='btn btn-sm btn-success' id='btnSaveEditor' onclick={{action 'saveText'}}>Save</button>
                     </div>
                 </div>
             </div>
