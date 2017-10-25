@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import layout from './template';
+import config from 'ember-get-config';
 
 /**
  * @module ember-osf
@@ -34,7 +35,7 @@ export default Ember.Component.extend({
     mla: null,
     node: null,
     store: Ember.inject.service(),
-
+    styles: Ember.A([]),
     didReceiveAttrs() {
         const node = this.get('node');
 
@@ -49,6 +50,18 @@ export default Ember.Component.extend({
                 .adapterFor('node')
                 .ajax(`${citationLink}${linkSuffix}/`, 'GET')
                 .then(resp => this.set(attr, resp.data.attributes.citation));
+        }
+    },
+    actions: {
+        findStyles(term) {
+            return Ember.$.ajax({
+                method: 'GET',
+                url: `${config.OSF.apiUrl}/${config.OSF.apiNamespace}/citations/styles/?filter[title]=${term}`,
+                dataType: 'json',
+                contentType: 'application/json'
+            }).then(res => {
+                return res.data
+            });
         }
     }
 });
