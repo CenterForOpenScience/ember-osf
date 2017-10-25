@@ -57,6 +57,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Removed
 - toastr from bower dependencies
 
+## [0.11.3] - 2017-10-25
+### Changed
+- Attempt authentication before redirecting to CAS in cas-authenticated-route mixin
+
 ## [0.11.2] - 2017-10-19
 ### Changed
 - Skip locked sources filter if themeProvider is not set on discover page component
