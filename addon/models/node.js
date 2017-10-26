@@ -150,13 +150,13 @@ export default OsfModel.extend(FileItemMixin, {
         var contributors = this.hasMany('contributors').hasManyRelationship;
         this.set(
             '_dirtyRelationships.contributors.update',
-            contributors.members.list.filter(m => !m.record.get('isNew') && Object.keys(m.record.changedAttributes()).length > 0)
+            contributors.members.list.filter(m => !m.getRecord().get('isNew') && Object.keys(m.getRecord().changedAttributes()).length > 0)
         );
         // Need to included created contributors even in relationship
         // hasLoaded is false
         this.set(
             '_dirtyRelationships.contributors.create',
-            contributors.members.list.filter(m => m.record.get('isNew'))
+            contributors.members.list.filter(m => m.getRecord().get('isNew'))
         );
         // Contributors are a 'real' delete, not just a de-reference
         this.set(

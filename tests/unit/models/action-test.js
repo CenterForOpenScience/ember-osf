@@ -1,8 +1,8 @@
 import { moduleForModel, test } from 'ember-qunit';
 
-moduleForModel('preprint', 'Unit | Model | preprint', {
+moduleForModel('action', 'Unit | Model | action', {
     // Specify the other units that are required for this test.
-    needs: ['model:contributor', 'model:file', 'model:file-provider', 'model:preprint-provider', 'model:action']
+    needs: ['model:preprint']
 });
 
 test('it exists', function(assert) {

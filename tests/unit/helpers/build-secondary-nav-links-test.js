@@ -27,6 +27,16 @@ const sessionStubAuthenticated = Ember.Service.extend({
     isAuthenticated: true
 });
 
+// currentUser Stub !canViewReviews
+const currentUserStubNoReviews = Ember.Service.extend({
+    user: new Ember.RSVP.Promise((resolve) => {
+        const user = Ember.Object.create({
+            canViewReviews: false
+        })
+        resolve(user);
+    })
+});
+
 moduleForComponent('build-secondary-nav-links', 'build-secondary-nav-links', {
     integration: true,
 
@@ -53,6 +63,9 @@ test('returns preprints service links', function(assert) {
 test('returns home service links, authenticated', function(assert) {
     this.register('service:session', sessionStubAuthenticated);
     this.inject.service('session', { as: 'sessionStub' });
+
+    this.register('service:current-user', currentUserStubNoReviews);
+    this.inject.service('current-user', { as: 'currentUserStub' });
 
     this.set('currentService', 'HOME');
         this.render(hbs`

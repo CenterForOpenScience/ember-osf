@@ -25,8 +25,8 @@ import AnalyticsMixin from 'ember-osf/mixins/analytics';
  */
 export default Ember.Component.extend(hostAppName, AnalyticsMixin, {
     layout,
+    osfServices,
     session: Ember.inject.service(),
-    osfServices: osfServices,
     serviceLinks: serviceLinks,
     host: config.OSF.url,
     currentService: Ember.computed('hostAppName', function() { // Pulls current service name from consuming service's config file
@@ -35,9 +35,7 @@ export default Ember.Component.extend(hostAppName, AnalyticsMixin, {
             appName = 'Home';
         }
         if (appName === 'Ember OSF Web') {
-            if (window.location.pathname.indexOf('institutions') !== -1) {
-                appName = 'Institutions';
-            }
+            appName = window.location.pathname.indexOf('institutions') !== -1 ? 'Institutions' : 'Home';
         }
         return appName.toUpperCase();
     }),
@@ -47,7 +45,7 @@ export default Ember.Component.extend(hostAppName, AnalyticsMixin, {
             PREPRINTS: 'preprintsHome',
             REGISTRIES: 'registriesHome',
             MEETINGS: 'meetingsHome',
-            INSTITUTIONS: 'institutionsHome'
+            INSTITUTIONS: 'institutionsHome',
         };
         const service = this.get('currentService');
         return this.get('serviceLinks')[serviceMapping[service]];

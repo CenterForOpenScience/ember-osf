@@ -16,18 +16,20 @@ import { serviceLinks } from '../const/service-links';
 
 export default Ember.Helper.extend({  // Helper defined using a class, so can inject dependencies.
     session: Ember.inject.service(),
+    currentUser: Ember.inject.service(),
     compute(params) { // Helpers defined using a class need a compute function
         const currentService = params[0].toUpperCase();
+        const baseServiceUrl = params[1];
         const session = this.get('session');
         let links = Ember.Object.create({
             HOME: [
                 {
-                    name: `${session.get('isAuthenticated') ? 'eosf.navbar.myProjects' : 'eosf.navbar.browse'}`,
-                    href: `${session.get('isAuthenticated') ? serviceLinks.myProjects : serviceLinks.exploreActivity}`
+                    name: session.get('isAuthenticated') ? 'eosf.navbar.myProjects' : 'eosf.navbar.browse',
+                    href: session.get('isAuthenticated') ? serviceLinks.myProjects : serviceLinks.exploreActivity,
                 },
                 {
                     name: 'eosf.navbar.search',
-                    href: '#',
+                    href: serviceLinks.search,
                     type: 'search'
                 },
                 {
@@ -40,12 +42,12 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
             PREPRINTS: [
                 {
                     name: 'eosf.navbar.addAPreprint',
-                    href: serviceLinks.preprintsSubmit,
+                    href: Ember.isEmpty(baseServiceUrl) ? serviceLinks.preprintsSubmit : baseServiceUrl + 'submit',
                     type: 'addAPreprint'
                 },
                 {
                     name: 'eosf.navbar.search',
-                    href: serviceLinks.preprintsDiscover,
+                    href: Ember.isEmpty(baseServiceUrl) ? serviceLinks.preprintsDiscover : baseServiceUrl + 'discover',
                     type: 'search'
                 },
                 {
@@ -92,7 +94,22 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
         });
 
         // If unauthenticated, add support link to HOME links. (If authenticated, support link can be found under Auth dropdown)
-        if (!session.get('isAuthenticated')) {
+        if(session.get('isAuthenticated')) {
+            links.HOME.unshift(
+                {
+                    name: 'eosf.navbar.myQuickFiles',
+                    href: serviceLinks.myQuickFiles
+                }
+            );
+            this.get('currentUser.user').then((user) => {
+                if (user.get('canViewReviews')) {
+                    links.PREPRINTS.insertAt(1, {
+                        name: 'eosf.navbar.reviews',
+                        href: serviceLinks.reviewsHome,
+                    });
+                }
+            })
+        } else {
             links.HOME.push(
                 {
                     name: 'eosf.navbar.support',
