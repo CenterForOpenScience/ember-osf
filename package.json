@@ -83,6 +83,7 @@
     "broccoli-merge-trees": "2.0.0",
     "broccoli-sass-source-maps": "2.0.0",
     "config": "1.26.1",
+    "ember-ace": "^1.2.0",
     "ember-cli-babel": "6.4.1",
     "ember-cli-htmlbars": "2.0.1",
     "ember-cli-htmlbars-inline-precompile": "0.4.3",
