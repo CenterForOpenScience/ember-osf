@@ -12,7 +12,7 @@ moduleForComponent('file-version', 'Integration | Component | file version', {
     }
 });
 
-test('it renders', function(assert) {
+test('it renders 88665544', function(assert) {
     // Tests that the file-version table renders when given the right data
 
     const version = {
