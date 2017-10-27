@@ -21,6 +21,7 @@ const serviceLinks = {
     exploreActivity: `${osfUrl}explore/activity/`,
     meetingsHome: `${osfUrl}meetings/`,
     myProjects: `${osfUrl}myprojects/`,
+    myQuickFiles: `${osfUrl}quickfiles/`,
     osfHome: osfUrl,
     osfSupport: `${osfUrl}support/`,
     preprintsDiscover: `${osfUrl}preprints/discover/`,
@@ -31,7 +32,9 @@ const serviceLinks = {
     registriesDiscover: `${osfUrl}registries/discover/`,
     registriesHome: `${osfUrl}registries/`,
     registriesSupport: 'http://help.osf.io/m/registrations/',
-    settings: `${osfUrl}settings/`
+    search: `${osfUrl}search/`,
+    settings: `${osfUrl}settings/`,
+    reviewsHome: `${osfUrl}reviews/`,
 };
 
 

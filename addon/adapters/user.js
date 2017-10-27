@@ -14,6 +14,8 @@ export default OsfAdapter.extend({
             if (snapshot.record.get('query-params')) {
                 url += '&' + Ember.$.param(snapshot.record.get('query-params'));
             }
+        } else if (snapshot.record.get('query-params')) {
+            url += '?' + Ember.$.param(snapshot.record.get('query-params'));
         }
         return this.ajax(url, 'GET');
     }

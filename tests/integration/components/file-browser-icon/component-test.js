@@ -2,14 +2,36 @@ import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('file-browser-icon', 'Integration | Component | file browser icon', {
-  integration: true
+    integration: true
 });
 
-test('it renders', function(assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+test('default file icon', function(assert) {
+    this.render(hbs`{{file-browser-icon}}`);
 
-  this.render(hbs`{{file-browser-icon}}`);
+    assert.ok(this.$().html().indexOf('file-o') !== -1);
+});
 
-  assert.equal(this.$().text().trim(), '');
+test('file type not found uses default', function(assert) {
+    let file = { itemName: 'file.notafiletype' };
+    this.set('item', file);
+    this.render(hbs`{{file-browser-icon item=item}}`);
+
+    assert.ok(this.$().html().indexOf('file-o') !== -1);
+});
+
+test('file doesnt have a type, uses default', function(assert) {
+    let file = { itemName: 'doesntevenhaveatypelikewow' };
+    this.set('item', file);
+    this.render(hbs`{{file-browser-icon item=item}}`);
+
+    assert.ok(this.$().html().indexOf('file-o') !== -1);
+});
+
+test('file gets the right icon for type', function(assert) {
+    let file = { itemName: 'normalfilefornormalpeople.c' };
+    this.set('item', file);
+    this.render(hbs`{{file-browser-icon item=item}}`);
+
+    assert.ok(this.$().html().indexOf('file-o') === -1);
+    assert.ok(this.$().html().indexOf('file-code-o') !== -1);
 });

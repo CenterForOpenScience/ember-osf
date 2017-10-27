@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.0</em>
+            <em>API Docs for: 0.12.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -56,6 +56,7 @@
                                 <li><a href="../classes/Contributor.html">Contributor</a></li>
                                 <li><a href="../classes/current-user.html">current-user</a></li>
                                 <li><a href="../classes/discover-page.html">discover-page</a></li>
+                                <li><a href="../classes/donate-banner.html">donate-banner</a></li>
                                 <li><a href="../classes/DraftRegistration.html">DraftRegistration</a></li>
                                 <li><a href="../classes/dropzone-widget.html">dropzone-widget</a></li>
                                 <li><a href="../classes/elastic-query.html">elastic-query</a></li>
@@ -66,6 +67,7 @@
                                 <li><a href="../classes/file-browser.html">file-browser</a></li>
                                 <li><a href="../classes/file-browser-icon.html">file-browser-icon</a></li>
                                 <li><a href="../classes/file-chooser component.html">file-chooser component</a></li>
+                                <li><a href="../classes/file-editor.html">file-editor</a></li>
                                 <li><a href="../classes/file-manager.html">file-manager</a></li>
                                 <li><a href="../classes/file-renderer.html">file-renderer</a></li>
                                 <li><a href="../classes/file-version.html">file-version</a></li>
@@ -81,18 +83,21 @@
                                 <li><a href="../classes/GenericDataADapter.html">GenericDataADapter</a></li>
                                 <li><a href="../classes/getDisplayName.html">getDisplayName</a></li>
                                 <li><a href="../classes/HostAppNameMixin.html">HostAppNameMixin</a></li>
+                                <li><a href="../classes/human-file-size.html">human-file-size</a></li>
                                 <li><a href="../classes/ifFilter.html">ifFilter</a></li>
                                 <li><a href="../classes/InfinityCustomMixin.html">InfinityCustomMixin</a></li>
                                 <li><a href="../classes/Institution.html">Institution</a></li>
                                 <li><a href="../classes/license-picker.html">license-picker</a></li>
                                 <li><a href="../classes/Log.html">Log</a></li>
                                 <li><a href="../classes/Metaschema.html">Metaschema</a></li>
+                                <li><a href="../classes/mimeTypes.html">mimeTypes</a></li>
                                 <li><a href="../classes/navbar-auth-dropdown.html">navbar-auth-dropdown</a></li>
                                 <li><a href="../classes/new-navbar-auth-dropdown.html">new-navbar-auth-dropdown</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
                                 <li><a href="../classes/NodeActionsMixin.html">NodeActionsMixin</a></li>
                                 <li><a href="../classes/NodeLink.html">NodeLink</a></li>
                                 <li><a href="../classes/oauth-popup.html">oauth-popup</a></li>
+                                <li><a href="../classes/old-file-browser.html">old-file-browser</a></li>
                                 <li><a href="../classes/osf-copyright.html">osf-copyright</a></li>
                                 <li><a href="../classes/osf-footer.html">osf-footer</a></li>
                                 <li><a href="../classes/osf-mode-footer.html">osf-mode-footer</a></li>
@@ -200,153 +205,336 @@ import layout from &#x27;./template&#x27;;
 import loadAll from &#x27;ember-osf/utils/load-relationship&#x27;;
 
 /**
- * @module ember-osf
- * @submodule components
- */
-
-/*
- * Wrapper for file items. Includes state for the item&#x27;s row.
- *
- */
-let FileItem = Ember.ObjectProxy.extend({
-    isSelected: false,
-
-    // TODO (Abram) update childItems when &#x60;children&#x60; or &#x60;files&#x60; changes
-    // TODO (Abram) catch and display errors
-    childItems: Ember.computed(&#x27;_files.[]&#x27;, &#x27;_children.[]&#x27;, function() {
-        let files = this._setupLoadAll(&#x27;files&#x27;, &#x27;_files&#x27;, &#x27;_filesLoaded&#x27;);
-        let children = this._setupLoadAll(&#x27;children&#x27;, &#x27;_children&#x27;, &#x27;_childrenLoaded&#x27;);
-
-        let wrappedItems = Ember.A();
-        if (files) {
-            wrappedItems.addObjects(files.map(wrapItem));
-        }
-        if (children) {
-            wrappedItems.addObjects(children.map(wrapItem));
-        }
-        return wrappedItems;
-    }),
-    _files: null,
-    _children: null,
-
-    childItemsLoaded: Ember.computed.and(&#x27;_filesLoaded&#x27;, &#x27;_childrenLoaded&#x27;),
-    _filesLoaded: false,
-    _childrenLoaded: false,
-
-    _setupLoadAll(relationship, destName, loaded) {
-        let dest = this.get(destName);
-        if (dest === null) {
-            let model = this.get(&#x27;content&#x27;);
-            if (relationship in model) {
-                dest = this.set(destName, Ember.A());
-                loadAll(model, relationship, dest).then(() =&gt; {
-                    this.set(loaded, true);
-                });
-            } else {
-                this.set(loaded, true);
-            }
-        }
-        return dest;
-    }
-});
-
-function wrapItem(item) {
-    if (item instanceof FileItem) {
-        return item;
-    }
-    return FileItem.create({
-        content: item
-    });
-}
-
-function unwrapItem(item) {
-    if (item instanceof FileItem) {
-        return item.get(&#x27;content&#x27;);
-    }
-    return item;
-}
-
-/**
  * File browser widget
  *
  * Sample usage:
  * &#x60;&#x60;&#x60;handlebars
- * {{file-browser
- *  rootItem=item
- *  openFile=(action &#x27;openFile&#x27;)
- *  openNode=(action &#x27;openNode&#x27;)}}
+ * {{file-browser}}
  * &#x60;&#x60;&#x60;
  * @class file-browser
  */
 export default Ember.Component.extend({
     // TODO: Improve documentation in the future
     layout,
+    //Can be overwritten to have a trimmed down display, these are all the options available to be displayed
+    display: Ember.A([&#x27;header&#x27;, &#x27;share-link-column&#x27;, &#x27;size-column&#x27;, &#x27;version-column&#x27;, &#x27;downloads-column&#x27;, &#x27;modified-column&#x27;, &#x27;delete-button&#x27;, &#x27;rename-button&#x27;, &#x27;download-button&#x27;, &#x27;view-button&#x27;, &#x27;info-button&#x27;, &#x27;upload-button&#x27;]),
+    store: Ember.inject.service(),
+    toast: Ember.inject.service(),
     classNames: [&#x27;file-browser&#x27;],
-    itemHeight: 30,
-
-    breadcrumbs: null,
-
-    rootItem: Ember.computed(&#x27;breadcrumbs.[]&#x27;, {
-        get() {
-            return this.get(&#x27;breadcrumbs.firstObject&#x27;);
-        },
-        set(_, item) {
-            let wrappedItem = wrapItem(item);
-            this.set(&#x27;breadcrumbs&#x27;, Ember.A([wrappedItem]));
-        }
+    dropzoneOptions: {
+        createImageThumbnails: false,
+        method: &#x27;PUT&#x27;,
+        withCredentials: true,
+        preventMultipleFiles: true,
+        acceptDirectories: false
+    },
+    init() {
+        this._super(...arguments);
+        this.set(&#x27;_items&#x27;, Ember.A());
+        Ember.$(&#x27;body&#x27;).on(&#x27;click&#x27;, (e) =&gt; {
+            if (Ember.$(e.target).parents(&#x27;.popover.in&#x27;).length === 0 &amp;&amp; Ember.$(e.target).attr(&#x27;class&#x27;) &amp;&amp; Ember.$(e.target).attr(&#x27;class&#x27;).indexOf(&#x27;popover-toggler&#x27;) === -1) {
+                this.send(&#x27;dismissOtherPops&#x27;);
+            }
+        });
+    },
+    currentUser: Ember.inject.service(),
+    edit: Ember.computed(&#x27;user&#x27;, function() {
+        return this.get(&#x27;user.id&#x27;) === this.get(&#x27;currentUser.currentUserId&#x27;);
     }),
-    atRoot: Ember.computed.equal(&#x27;breadcrumbs.length&#x27;, 1),
-    currentParent: Ember.computed.readOnly(&#x27;breadcrumbs.lastObject&#x27;),
-    items: Ember.computed.readOnly(&#x27;currentParent.childItems&#x27;),
-    itemsLoaded: Ember.computed.readOnly(&#x27;currentParent.childItemsLoaded&#x27;),
+    _loadFiles(user) {
+        //pagination? when?
+        loadAll(user, &#x27;quickfiles&#x27;, this.get(&#x27;_items&#x27;)).then(() =&gt; {
+            this.set(&#x27;loaded&#x27;, true);
+            this.set(&#x27;_items&#x27;, this.get(&#x27;_items&#x27;).sortBy(&#x27;itemName&#x27;));
+        });
+    },
+    _loadUser:  Ember.on(&#x27;init&#x27;, Ember.observer(&#x27;user&#x27;, function() {
+        let user = this.get(&#x27;user&#x27;);
+        if (!user || this.get(&#x27;loaded&#x27;)) {
+            return;
+        }
+        //items need to be reloaded when attrs are received
+        //TODO: think about replacing _items with user.items, provided it&#x27;s loaded properly
+        let _load = user_ =&gt; {
+            Ember.run(() =&gt; {
+                this.set(&#x27;_items&#x27;, Ember.A());
+                Ember.run.next(() =&gt; {
+                    this._loadFiles(user_);
+                });
+            });
+        };
+        if (user.then) {
+            user.then(user_ =&gt; {
+                _load(user_);
+            })
+        } else {
+            _load(user);
+        }
+    })),
+    uploadUrl: Ember.computed(&#x27;user&#x27;, function() {
+        return this.get(&#x27;user.links.relationships.quickfiles.links.upload.href&#x27;);
+    }),
+    downloadUrl: Ember.computed(&#x27;user&#x27;, function() {
+        return this.get(&#x27;user.links.relationships.quickfiles.links.download.href&#x27;);
+    }),
+    loaded: false,
+    filtering: false,
+    renaming: false,
+    sortingBy: &#x27;itemName&#x27;,
+    sortingOrder: &#x27;asc&#x27;,
+    uploading: Ember.A(),
+    filter: null,
+    modalOpen: false,
+    itemsLoaded: true,
     selectedItems: Ember.computed.filterBy(&#x27;items&#x27;, &#x27;isSelected&#x27;, true),
-
     loadedChanged: Ember.observer(&#x27;itemsLoaded&#x27;, function() {
         let containerWidth = this.$().width();
         this.set(&#x27;itemWidth&#x27;, containerWidth);
     }),
-
+    flash(item, message, type, time) {
+        item.set(&#x27;flash&#x27;, {
+            message,
+            type: type || &#x27;success&#x27;
+        });
+        Ember.run.later(() =&gt; item.set(&#x27;flash&#x27;, null), time || 2000);
+    },
+    items: Ember.computed(&#x27;_items&#x27;, &#x27;textValue&#x27;, &#x27;filtering&#x27;, &#x27;sortingBy&#x27;, &#x27;sortingOrder&#x27;, function() {
+        //look at ways to use the api to filter
+        let items = this.get(&#x27;textValue&#x27;) &amp;&amp; this.get(&#x27;filtering&#x27;) ? this.get(&#x27;_items&#x27;).filter(i =&gt; i.get(&#x27;name&#x27;).toLowerCase().indexOf(this.get(&#x27;textValue&#x27;).toLowerCase()) !== -1) : this.get(&#x27;_items&#x27;);
+        let sorted = items.sortBy(this.get(&#x27;sortingBy&#x27;));
+        return this.get(&#x27;sortingOrder&#x27;) === &#x27;des&#x27; ? sorted.reverse() : sorted;
+    }),
+    textFieldOpen: Ember.computed(&#x27;filtering&#x27;, &#x27;renaming&#x27;, function() {
+        return this.get(&#x27;filtering&#x27;) ? &#x27;filtering&#x27; : (this.get(&#x27;renaming&#x27;) ? &#x27;renaming&#x27; : false);
+    }),
+    nameColumnWidth: Ember.computed(&#x27;display&#x27;, function() {
+        let display = this.get(&#x27;display&#x27;);
+        let width = 6 + !display.includes(&#x27;share-link-column&#x27;) + !display.includes(&#x27;size-column&#x27;) + !display.includes(&#x27;version-column&#x27;) + !display.includes(&#x27;downloads-column&#x27;) + 2 * !display.includes(&#x27;modified-column&#x27;);
+        if (!display.includes(&#x27;header&#x27;)) { //Allows scrollable elements to use extra space occupied by header
+            let height = Ember.$(&#x27;.file-browser-list&#x27;).height();
+            Ember.$(&#x27;.file-browser-list&#x27;).height(height + 50);
+        }
+        return width;
+    }),
+    browserState: Ember.computed(&#x27;loaded&#x27;, &#x27;_items&#x27;, function() {
+        return this.get(&#x27;loaded&#x27;) ? (this.get(&#x27;_items&#x27;).length ? (this.get(&#x27;items&#x27;).length ? &#x27;show&#x27; : &#x27;filtered&#x27;) : &#x27;empty&#x27;) : &#x27;loading&#x27;;
+    }),
     actions: {
-        selectItem(item) {
-            item.set(&#x27;isSelected&#x27;, true);
-            if (item.get(&#x27;isFile&#x27;) &amp;&amp; this.get(&#x27;selectFile&#x27;)) {
-                this.sendAction(&#x27;selectFile&#x27;, unwrapItem(item));
-            }
-            if (item.get(&#x27;isNode&#x27;) &amp;&amp; this.get(&#x27;selectNode&#x27;)) {
-                this.sendAction(&#x27;selectNode&#x27;, unwrapItem(item));
-            }
+        //dropzone listeners
+        addedFile(_, __, file) {
+            this.get(&#x27;uploading&#x27;).pushObject(file);
         },
-
-        openItem(item) {
-            if (item.get(&#x27;isFile&#x27;) &amp;&amp; this.get(&#x27;openFile&#x27;)) {
-                this.sendAction(&#x27;openFile&#x27;, unwrapItem(item));
-            }
-            if (item.get(&#x27;isNode&#x27;) &amp;&amp; this.get(&#x27;openNode&#x27;)) {
-                this.sendAction(&#x27;openNode&#x27;, unwrapItem(item));
-            }
-            if (item.get(&#x27;canHaveChildren&#x27;)) {
-                this.send(&#x27;navigateToItem&#x27;, item);
-            }
+        uploadProgress(_, __, file, progress) {
+            Ember.$(&#x27;#uploading-&#x27; + file.size).css(&#x27;width&#x27;, progress + &#x27;%&#x27;);
         },
-
-        navigateToItem(item) {
-            let breadcrumbs = this.get(&#x27;breadcrumbs&#x27;);
-            let index = breadcrumbs.indexOf(item);
-            if (index === -1) {
-                // TODO: Valid to assume item is a child of currentParent?
-                breadcrumbs.pushObject(item);
-            } else {
-                let slicedBread = breadcrumbs.slice(0, index + 1);
-                this.set(&#x27;breadcrumbs&#x27;, Ember.A(slicedBread));
-            }
+        dragStart() {
+            this.set(&#x27;dropping&#x27;, true);
         },
-
-        navigateUp() {
-            let breadcrumbs = this.get(&#x27;breadcrumbs&#x27;);
-            if (breadcrumbs.length === 1) {
+        dragEnd() {
+            this.set(&#x27;dropping&#x27;, false);
+        },
+        error(_, __, file, response) {
+            this.get(&#x27;uploading&#x27;).removeObject(file);
+            this.get(&#x27;toast&#x27;).error(response);
+        },
+        success(_, __, file, response) {
+            this.get(&#x27;uploading&#x27;).removeObject(file);
+            let data = response.data.attributes;
+            //OPTIONS (some not researched)
+            //Ember store method for passing updated attributes (either with a query for the object, or iterating to find matching)
+            //Manually updating the object based on new attrs
+            //Making an additional request anytime success is done, finding the file detail page based on path
+            let path = data.path; //THERE SHOULD BE A BETTER WAY OF DOING THIS
+            let conflictingItem = false;
+            for (let file of this.get(&#x27;_items&#x27;)) {
+                if (path === file.get(&#x27;path&#x27;)) {
+                    conflictingItem = file;
+                    break;
+                }
+            }
+            if (conflictingItem) {
+                conflictingItem.setProperties({
+                    size: data.size,
+                    currentVersion: data.extra.version,
+                    dateModified: data.modified_utc
+                })
                 return;
             }
-            breadcrumbs.popObject();
+            response.data.type = &#x27;file&#x27;; //
+            response.data.attributes.currentVersion = &#x27;1&#x27;;
+            // Strip prefix.
+            response.data.id = response.data.id.replace(/^[^\/]*\//, &#x27;&#x27;);
+            let item = this.get(&#x27;store&#x27;).push(response);
+            item.set(&#x27;links&#x27;, response.data.links); //Push doesnt pass it links
+            this.get(&#x27;_items&#x27;).unshiftObject(item);
+            this.notifyPropertyChange(&#x27;_items&#x27;);
+            Ember.run.next(() =&gt; {
+                this.flash(item, &#x27;This file has been added.&#x27;);
+                this.get(&#x27;toast&#x27;).success(&#x27;A file has been added&#x27;);
+            });
+        },
+        buildUrl(files) {
+            let name = files[0].name;
+            let conflictingItem = false;
+            for (let file of this.get(&#x27;_items&#x27;)) {
+                if (name === file.get(&#x27;itemName&#x27;)) {
+                    conflictingItem = file;
+                    break;
+                }
+            }
+            if (conflictingItem) {
+                return conflictingItem.get(&#x27;links.upload&#x27;) + &#x27;?kind=file&#x27;;
+            }
+            return this.get(&#x27;uploadUrl&#x27;) + &#x27;?&#x27; + Ember.$.param({
+                name: files[0].name
+            });
+        },
+        selectItem(item) {
+            this.set(&#x27;renaming&#x27;, false);
+            if (this.get(&#x27;selectedItems.length&#x27;) &gt; 1) {
+                for (var item_ of this.get(&#x27;selectedItems&#x27;)) {
+                    item_.set(&#x27;isSelected&#x27;, item_ === item);
+                }
+            } else if (this.get(&#x27;selectedItems.length&#x27;) ===  1) {
+                if (item.get(&#x27;isSelected&#x27;)) {
+                    item.set(&#x27;isSelected&#x27;, false);
+                    return;
+                }
+                let otherItem = this.get(&#x27;selectedItems.firstObject&#x27;);
+                otherItem.set(&#x27;isSelected&#x27;, false);
+            }
+            item.set(&#x27;isSelected&#x27;, true);
+            this.set(&#x27;shiftAnchor&#x27;, item);
+        },
+        selectMultiple(item, toggle) {
+            this.set(&#x27;renaming&#x27;, false);
+            if (toggle) {
+                item.toggleProperty(&#x27;isSelected&#x27;);
+            } else {
+                let items = this.get(&#x27;items&#x27;);
+                let anchor = this.get(&#x27;shiftAnchor&#x27;);
+                if (anchor) {
+                    let max = Math.max(items.indexOf(anchor), items.indexOf(item));
+                    let min = Math.min(items.indexOf(anchor), items.indexOf(item));
+                    for (var item_ of this.get(&#x27;items&#x27;)) {
+                        item_.set(&#x27;isSelected&#x27;, item_ === item || item_ === anchor || (items.indexOf(item_) &gt; min &amp;&amp; items.indexOf(item_) &lt; max));
+                    }
+                }
+                item.set(&#x27;isSelected&#x27;, true);
+            }
+            Ember.run.next(this, function(){
+                if (this.get(&#x27;selectedItems.length&#x27;) === 1) {
+                    this.set(&#x27;shiftAnchor&#x27;, item)
+                }
+            });
+        },
+        viewItem() {
+            let item = this.get(&#x27;selectedItems.firstObject&#x27;);
+            this.sendAction(&#x27;openFile&#x27;, item);
+        },
+        openItem(item, qparams) {
+            this.sendAction(&#x27;openFile&#x27;, item, qparams);
+        },
+        downloadItem() {
+            let downloadLink = this.get(&#x27;selectedItems.firstObject.links.download&#x27;);
+            window.location = downloadLink;
+        },
+        _deleteItem(item) {
+            item.destroyRecord().then(() =&gt; {
+                this.flash(item, &#x27;This file has been deleted.&#x27;, &#x27;danger&#x27;);
+                Ember.run.later(() =&gt; {
+                    this.get(&#x27;_items&#x27;).removeObject(item);
+                    this.notifyPropertyChange(&#x27;_items&#x27;);
+                }, 1800);
+            }).catch(() =&gt; this.flash(item, &#x27;Delete failed.&#x27;, &#x27;danger&#x27;));
+        },
+        deleteItem(){
+            this.send(&#x27;_deleteItem&#x27;, this.get(&#x27;selectedItems.firstObject&#x27;));
+            this.set(&#x27;modalOpen&#x27;, false);
+        },
+        deleteItems() {
+            for (let item_ of this.get(&#x27;selectedItems&#x27;)) {
+                this.send(&#x27;_deleteItem&#x27;, item_);
+            }
+            this.set(&#x27;modalOpen&#x27;, false);
+        },
+        _rename(conflict) {
+            let item = this.get(&#x27;selectedItems.firstObject&#x27;);
+            this.set(&#x27;modalOpen&#x27;, false);
+            item.rename(this.get(&#x27;textValue&#x27;), conflict).then(() =&gt; {
+                this.flash(item, &#x27;Successfully renamed&#x27;);
+                if (conflict === &#x27;replace&#x27;) {
+                    const replacedItem  = this.get(&#x27;_conflictingItem&#x27;);
+                    if (!replacedItem) {
+                        return;
+                    }
+                    this.flash(replacedItem, &#x27;This file has been replaced&#x27;, &#x27;danger&#x27;);
+                    setTimeout(() =&gt; {
+                        this.get(&#x27;_items&#x27;).removeObject(replacedItem);
+                        this.notifyPropertyChange(&#x27;_items&#x27;);
+                    }, 1800);
+                    // Later to avoid flash() trying to set on a destroyed item.
+                    Ember.run.later(() =&gt; replacedItem.unloadRecord(), 2200);
+                }
+            }).catch(() =&gt; this.flash(item, &#x27;Failed to rename item&#x27;, &#x27;danger&#x27;));
+            this.set(&#x27;textValue&#x27;, null);
+            this.toggleProperty(&#x27;renaming&#x27;);
+        },
+        rename() {
+            let rename = this.get(&#x27;textValue&#x27;);
+            let conflict = false;
+            for (let item of this.get(&#x27;_items&#x27;)) {
+                if (item.get(&#x27;itemName&#x27;) === rename) {
+                    if (item === this.get(&#x27;selectedItems.firstObject&#x27;)) {
+                        this.set(&#x27;textValue&#x27;, null);
+                        this.toggleProperty(&#x27;renaming&#x27;);
+                        return;
+                    }
+                    conflict = true;
+                    this.set(&#x27;_conflictingItem&#x27;, item);
+                    break;
+                }
+            }
+            if (conflict) {
+                this.set(&#x27;modalOpen&#x27;, &#x27;renameConflict&#x27;);
+            } else {
+                this.send(&#x27;_rename&#x27;);
+            }
+        },
+        cancelRename() {
+            this.set(&#x27;textValue&#x27;, null);
+            this.toggleProperty(&#x27;renaming&#x27;)
+            this.set(&#x27;modalOpen&#x27;, false);
+        },
+        sort(by, order) {
+            this.$(&#x27;.sorting&#x27;).removeClass(&#x27;active&#x27;);
+            this.$(&#x60;.${by}${order}&#x60;).addClass(&#x27;active&#x27;);
+            this.setProperties({
+                sortingBy: by,
+                sortingOrder: order
+            })
+        },
+        toggleText(which) {
+            this.set(&#x27;textValue&#x27;, which === &#x27;renaming&#x27; ? this.get(&#x27;selectedItems.firstObject.itemName&#x27;) : null);
+            this.toggleProperty(which);
+        },
+        openModal(modalType) {
+            this.set(&#x27;modalOpen&#x27;, modalType);
+        },
+        closeModal() {
+            this.set(&#x27;modalOpen&#x27;, false);
+        },
+        textValueKeypress() {
+            if (this.get(&#x27;renaming&#x27;)) {
+                this.send(&#x27;rename&#x27;);
+            }
+        },
+        dismissOtherPops(item) {
+            for (var item_ of this.get(&#x27;items&#x27;)) {
+                if (!item || item_.get(&#x27;path&#x27;) !== item.get(&#x27;path&#x27;)) {
+                    item_.set(&#x27;visiblePopup&#x27;, false);
+                }
+            }
         }
     }
 });

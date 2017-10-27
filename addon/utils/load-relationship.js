@@ -1,5 +1,21 @@
 import Ember from 'ember';
 
+export const ArrayPromiseProxy = Ember.ArrayProxy.extend(Ember.PromiseProxyMixin);
+
+export function loadRelation(model, relationship) {
+    if (model.hasOwnProperty('content') && !model.query) {
+        // model was loaded via a relationship, the proxy object
+        // does not properly proxy .query so we unwrap it here
+        model = model.get('content')
+    }
+
+    if (!model) return new Ember.RSVP.Promise(() => null);
+
+    let results = Ember.A();
+    let promise = loadAll(model, relationship, results).then(() => results);
+    return ArrayPromiseProxy.create({promise});
+}
+
 export default function loadAll(model, relationship, dest, options = {}) {
     var page = options.page || 1;
     var query = {

@@ -14,6 +14,7 @@ import Ember from 'ember';
 export default Ember.Service.extend({
     store: Ember.inject.service(),
     session: Ember.inject.service(),
+
     /**
      * If logged in, return the ID of the current user, else return null.
      *
@@ -28,6 +29,7 @@ export default Ember.Service.extend({
             return null;
         }
     }),
+
     /**
      * Fetch information about the currently logged in user. If no user is logged in, this method returns a rejected promise.
      * @method load
@@ -47,5 +49,18 @@ export default Ember.Service.extend({
                 reject();
             }
         });
-    }
+    },
+
+    /**
+     * Return an observable promise proxy for the currently logged in user. If no user is logged in, resolves to null.
+     *
+     * @property user
+     * @return Promise proxy object that resolves to a user or null
+     */
+    user: Ember.computed('currentUserId', function() {
+        const ObjectPromiseProxy = Ember.ObjectProxy.extend(Ember.PromiseProxyMixin);
+        return ObjectPromiseProxy.create({
+            promise: this.load().catch(() => null),
+        });
+    }),
 });

@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import DS from 'ember-data';
 import OsfModel from './osf-model';
 
@@ -27,10 +28,31 @@ export default OsfModel.extend({
     isPublished: DS.attr('boolean'),
     isPreprintOrphan: DS.attr('boolean'),
     licenseRecord: DS.attr(),
+    reviewsState: DS.attr('string'),
+    dateLastTransitioned: DS.attr('date'),
 
     // Relationships
     node: DS.belongsTo('node', { inverse: null, async: true }),
     license: DS.belongsTo('license', { inverse: null }),
     primaryFile: DS.belongsTo('file', { inverse: null }),
     provider: DS.belongsTo('preprint-provider', { inverse: 'preprints', async: true }),
+    actions: DS.hasMany('action', { inverse: 'target', async: true }),
+    contributors: DS.hasMany('contributors', { async: true }),
+
+    uniqueSubjects: Ember.computed('subjects', function() {
+        if (!this.get('subjects')) return [];
+        return this.get('subjects').reduce((acc, val) => acc.concat(val), []).uniqBy('id');
+    }),
+
+    articleDoiUrl: Ember.computed.alias('links.doi'),
+    preprintDoiUrl: Ember.computed.alias('links.preprint_doi'),
+
+    licenseText: Ember.computed('license', function() {
+        const text = this.get('license.text') || '';
+        const {year = '', copyright_holders = []} = this.get('licenseRecord');
+
+        return text
+            .replace(/({{year}})/g, year)
+            .replace(/({{copyrightHolders}})/g, copyright_holders.join(', '));
+    }),
 });
