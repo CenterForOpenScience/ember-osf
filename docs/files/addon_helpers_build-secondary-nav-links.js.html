@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.0</em>
+            <em>API Docs for: 0.12.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -56,6 +56,7 @@
                                 <li><a href="../classes/Contributor.html">Contributor</a></li>
                                 <li><a href="../classes/current-user.html">current-user</a></li>
                                 <li><a href="../classes/discover-page.html">discover-page</a></li>
+                                <li><a href="../classes/donate-banner.html">donate-banner</a></li>
                                 <li><a href="../classes/DraftRegistration.html">DraftRegistration</a></li>
                                 <li><a href="../classes/dropzone-widget.html">dropzone-widget</a></li>
                                 <li><a href="../classes/elastic-query.html">elastic-query</a></li>
@@ -66,6 +67,7 @@
                                 <li><a href="../classes/file-browser.html">file-browser</a></li>
                                 <li><a href="../classes/file-browser-icon.html">file-browser-icon</a></li>
                                 <li><a href="../classes/file-chooser component.html">file-chooser component</a></li>
+                                <li><a href="../classes/file-editor.html">file-editor</a></li>
                                 <li><a href="../classes/file-manager.html">file-manager</a></li>
                                 <li><a href="../classes/file-renderer.html">file-renderer</a></li>
                                 <li><a href="../classes/file-version.html">file-version</a></li>
@@ -81,18 +83,21 @@
                                 <li><a href="../classes/GenericDataADapter.html">GenericDataADapter</a></li>
                                 <li><a href="../classes/getDisplayName.html">getDisplayName</a></li>
                                 <li><a href="../classes/HostAppNameMixin.html">HostAppNameMixin</a></li>
+                                <li><a href="../classes/human-file-size.html">human-file-size</a></li>
                                 <li><a href="../classes/ifFilter.html">ifFilter</a></li>
                                 <li><a href="../classes/InfinityCustomMixin.html">InfinityCustomMixin</a></li>
                                 <li><a href="../classes/Institution.html">Institution</a></li>
                                 <li><a href="../classes/license-picker.html">license-picker</a></li>
                                 <li><a href="../classes/Log.html">Log</a></li>
                                 <li><a href="../classes/Metaschema.html">Metaschema</a></li>
+                                <li><a href="../classes/mimeTypes.html">mimeTypes</a></li>
                                 <li><a href="../classes/navbar-auth-dropdown.html">navbar-auth-dropdown</a></li>
                                 <li><a href="../classes/new-navbar-auth-dropdown.html">new-navbar-auth-dropdown</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
                                 <li><a href="../classes/NodeActionsMixin.html">NodeActionsMixin</a></li>
                                 <li><a href="../classes/NodeLink.html">NodeLink</a></li>
                                 <li><a href="../classes/oauth-popup.html">oauth-popup</a></li>
+                                <li><a href="../classes/old-file-browser.html">old-file-browser</a></li>
                                 <li><a href="../classes/osf-copyright.html">osf-copyright</a></li>
                                 <li><a href="../classes/osf-footer.html">osf-footer</a></li>
                                 <li><a href="../classes/osf-mode-footer.html">osf-mode-footer</a></li>
@@ -211,63 +216,104 @@ import { serviceLinks } from &#x27;../const/service-links&#x27;;
  */
 
 export default Ember.Helper.extend({  // Helper defined using a class, so can inject dependencies.
-    i18n: Ember.inject.service(),
     session: Ember.inject.service(),
+    currentUser: Ember.inject.service(),
     compute(params) { // Helpers defined using a class need a compute function
-        const i18n = this.get(&#x27;i18n&#x27;);
         const currentService = params[0].toUpperCase();
+        const baseServiceUrl = params[1];
         const session = this.get(&#x27;session&#x27;);
         let links = Ember.Object.create({
             HOME: [
                 {
-                    name: &#x60;${session.get(&#x27;isAuthenticated&#x27;) ? i18n.t(&#x27;eosf.navbar.myProjects&#x27;) : i18n.t(&#x27;eosf.navbar.browse&#x27;)}&#x60;,
-                    href: &#x60;${session.get(&#x27;isAuthenticated&#x27;) ? serviceLinks.myProjects : serviceLinks.exploreActivity}&#x60;
+                    name: session.get(&#x27;isAuthenticated&#x27;) ? &#x27;eosf.navbar.myProjects&#x27; : &#x27;eosf.navbar.browse&#x27;,
+                    href: session.get(&#x27;isAuthenticated&#x27;) ? serviceLinks.myProjects : serviceLinks.exploreActivity,
                 },
                 {
-                    name: i18n.t(&#x27;eosf.navbar.search&#x27;),
-                    href: &#x27;#&#x27;
-                }
+                    name: &#x27;eosf.navbar.search&#x27;,
+                    href: serviceLinks.search,
+                    type: &#x27;search&#x27;
+                },
+                {
+                    name: &#x27;eosf.navbar.donate&#x27;,
+                    href: &#x27;https://cos.io/donate&#x27;,
+                    type: &#x27;donateToCOS&#x27;
+                },
 
             ],
             PREPRINTS: [
                 {
-                    name: i18n.t(&#x27;eosf.navbar.addAPreprint&#x27;),
-                    href: serviceLinks.preprintsSubmit
+                    name: &#x27;eosf.navbar.addAPreprint&#x27;,
+                    href: Ember.isEmpty(baseServiceUrl) ? serviceLinks.preprintsSubmit : baseServiceUrl + &#x27;submit&#x27;,
+                    type: &#x27;addAPreprint&#x27;
                 },
                 {
-                    name: i18n.t(&#x27;eosf.navbar.search&#x27;),
-                    href: serviceLinks.preprintsDiscover
+                    name: &#x27;eosf.navbar.search&#x27;,
+                    href: Ember.isEmpty(baseServiceUrl) ? serviceLinks.preprintsDiscover : baseServiceUrl + &#x27;discover&#x27;,
+                    type: &#x27;search&#x27;
                 },
                 {
-                    name: i18n.t(&#x27;eosf.navbar.support&#x27;),
+                    name: &#x27;eosf.navbar.support&#x27;,
                     href: serviceLinks.preprintsSupport
+                },
+                {
+                    name: &#x27;eosf.navbar.donate&#x27;,
+                    href: &#x27;https://cos.io/donate&#x27;,
+                    type: &#x27;donateToCOS&#x27;
                 },
 
             ],
             REGISTRIES: [
                 {
-                    name: i18n.t(&#x27;eosf.navbar.search&#x27;),
-                    href: serviceLinks.registriesDiscover
+                    name: &#x27;eosf.navbar.search&#x27;,
+                    href: serviceLinks.registriesDiscover,
+                    type: &#x27;search&#x27;
                 },
                 {
-                    name: i18n.t(&#x27;eosf.navbar.support&#x27;),
+                    name: &#x27;eosf.navbar.support&#x27;,
                     href: serviceLinks.registriesSupport
+                },
+                {
+                    name: &#x27;eosf.navbar.donate&#x27;,
+                    href: &#x27;https://cos.io/donate&#x27;,
+                    type: &#x27;donateToCOS&#x27;
                 },
 
             ],
             MEETINGS: [
                 {
-                    name: i18n.t(&#x27;eosf.navbar.search&#x27;),
-                    href: serviceLinks.meetingsHome
-                }
+                    name: &#x27;eosf.navbar.search&#x27;,
+                    href: serviceLinks.meetingsHome,
+                    type: &#x27;search&#x27;
+                },
+                {
+                    name: &#x27;eosf.navbar.donate&#x27;,
+                    href: &#x27;https://cos.io/donate&#x27;,
+                    type: &#x27;donateToCOS&#x27;
+                },
+
             ]
         });
 
         // If unauthenticated, add support link to HOME links. (If authenticated, support link can be found under Auth dropdown)
-        if (!session.get(&#x27;isAuthenticated&#x27;)) {
+        if(session.get(&#x27;isAuthenticated&#x27;)) {
+            links.HOME.unshift(
+                {
+                    name: &#x27;eosf.navbar.myQuickFiles&#x27;,
+                    href: serviceLinks.myQuickFiles
+                }
+            );
+            this.get(&#x27;currentUser.user&#x27;).then((user) =&gt; {
+                if (user.get(&#x27;canViewReviews&#x27;)) {
+                    links.PREPRINTS.insertAt(1, {
+                        name: &#x27;eosf.navbar.reviews&#x27;,
+                        href: serviceLinks.reviewsHome,
+                    });
+                }
+            })
+        } else {
             links.HOME.push(
                 {
-                    name: i18n.t(&#x27;eosf.navbar.support&#x27;),
+                    name: &#x27;eosf.navbar.support&#x27;,
                     href: serviceLinks.osfSupport
                 }
             );

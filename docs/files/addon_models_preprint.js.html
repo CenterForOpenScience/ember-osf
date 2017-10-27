@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.0</em>
+            <em>API Docs for: 0.12.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -56,6 +56,7 @@
                                 <li><a href="../classes/Contributor.html">Contributor</a></li>
                                 <li><a href="../classes/current-user.html">current-user</a></li>
                                 <li><a href="../classes/discover-page.html">discover-page</a></li>
+                                <li><a href="../classes/donate-banner.html">donate-banner</a></li>
                                 <li><a href="../classes/DraftRegistration.html">DraftRegistration</a></li>
                                 <li><a href="../classes/dropzone-widget.html">dropzone-widget</a></li>
                                 <li><a href="../classes/elastic-query.html">elastic-query</a></li>
@@ -66,6 +67,7 @@
                                 <li><a href="../classes/file-browser.html">file-browser</a></li>
                                 <li><a href="../classes/file-browser-icon.html">file-browser-icon</a></li>
                                 <li><a href="../classes/file-chooser component.html">file-chooser component</a></li>
+                                <li><a href="../classes/file-editor.html">file-editor</a></li>
                                 <li><a href="../classes/file-manager.html">file-manager</a></li>
                                 <li><a href="../classes/file-renderer.html">file-renderer</a></li>
                                 <li><a href="../classes/file-version.html">file-version</a></li>
@@ -81,18 +83,21 @@
                                 <li><a href="../classes/GenericDataADapter.html">GenericDataADapter</a></li>
                                 <li><a href="../classes/getDisplayName.html">getDisplayName</a></li>
                                 <li><a href="../classes/HostAppNameMixin.html">HostAppNameMixin</a></li>
+                                <li><a href="../classes/human-file-size.html">human-file-size</a></li>
                                 <li><a href="../classes/ifFilter.html">ifFilter</a></li>
                                 <li><a href="../classes/InfinityCustomMixin.html">InfinityCustomMixin</a></li>
                                 <li><a href="../classes/Institution.html">Institution</a></li>
                                 <li><a href="../classes/license-picker.html">license-picker</a></li>
                                 <li><a href="../classes/Log.html">Log</a></li>
                                 <li><a href="../classes/Metaschema.html">Metaschema</a></li>
+                                <li><a href="../classes/mimeTypes.html">mimeTypes</a></li>
                                 <li><a href="../classes/navbar-auth-dropdown.html">navbar-auth-dropdown</a></li>
                                 <li><a href="../classes/new-navbar-auth-dropdown.html">new-navbar-auth-dropdown</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
                                 <li><a href="../classes/NodeActionsMixin.html">NodeActionsMixin</a></li>
                                 <li><a href="../classes/NodeLink.html">NodeLink</a></li>
                                 <li><a href="../classes/oauth-popup.html">oauth-popup</a></li>
+                                <li><a href="../classes/old-file-browser.html">old-file-browser</a></li>
                                 <li><a href="../classes/osf-copyright.html">osf-copyright</a></li>
                                 <li><a href="../classes/osf-footer.html">osf-footer</a></li>
                                 <li><a href="../classes/osf-mode-footer.html">osf-mode-footer</a></li>
@@ -194,6 +199,7 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+import Ember from &#x27;ember&#x27;;
 import DS from &#x27;ember-data&#x27;;
 import OsfModel from &#x27;./osf-model&#x27;;
 
@@ -223,12 +229,33 @@ export default OsfModel.extend({
     isPublished: DS.attr(&#x27;boolean&#x27;),
     isPreprintOrphan: DS.attr(&#x27;boolean&#x27;),
     licenseRecord: DS.attr(),
+    reviewsState: DS.attr(&#x27;string&#x27;),
+    dateLastTransitioned: DS.attr(&#x27;date&#x27;),
 
     // Relationships
     node: DS.belongsTo(&#x27;node&#x27;, { inverse: null, async: true }),
     license: DS.belongsTo(&#x27;license&#x27;, { inverse: null }),
     primaryFile: DS.belongsTo(&#x27;file&#x27;, { inverse: null }),
     provider: DS.belongsTo(&#x27;preprint-provider&#x27;, { inverse: &#x27;preprints&#x27;, async: true }),
+    actions: DS.hasMany(&#x27;action&#x27;, { inverse: &#x27;target&#x27;, async: true }),
+    contributors: DS.hasMany(&#x27;contributors&#x27;, { async: true }),
+
+    uniqueSubjects: Ember.computed(&#x27;subjects&#x27;, function() {
+        if (!this.get(&#x27;subjects&#x27;)) return [];
+        return this.get(&#x27;subjects&#x27;).reduce((acc, val) =&gt; acc.concat(val), []).uniqBy(&#x27;id&#x27;);
+    }),
+
+    articleDoiUrl: Ember.computed.alias(&#x27;links.doi&#x27;),
+    preprintDoiUrl: Ember.computed.alias(&#x27;links.preprint_doi&#x27;),
+
+    licenseText: Ember.computed(&#x27;license&#x27;, function() {
+        const text = this.get(&#x27;license.text&#x27;) || &#x27;&#x27;;
+        const {year = &#x27;&#x27;, copyright_holders = []} = this.get(&#x27;licenseRecord&#x27;);
+
+        return text
+            .replace(/({{year}})/g, year)
+            .replace(/({{copyrightHolders}})/g, copyright_holders.join(&#x27;, &#x27;));
+    }),
 });
 
     </pre>
