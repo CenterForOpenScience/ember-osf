@@ -24,7 +24,7 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 
-ENV WATCHMAN_VERSION 4.7.0
+ENV WATCHMAN_VERSION 4.9.0
 RUN cd /tmp \
     && git clone https://github.com/facebook/watchman.git \
     && cd watchman \
@@ -40,11 +40,11 @@ RUN mkdir -p /code
 WORKDIR /code
 
 COPY ./package.json ./yarn.lock /code/
-RUN yarn --pure-lockfile --ignore-engines
+RUN yarn --frozen-lockfile --ignore-engines
 
 COPY ./.bowerrc /code/.bowerrc
 COPY ./bower.json /code/bower.json
-RUN ./node_modules/bower/bin/bower install --allow-root --config.interactive=false
+RUN ./node_modules/.bin/bower install --allow-root --config.interactive=false
 
 COPY ./ /code/
 
