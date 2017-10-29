@@ -8,11 +8,11 @@
 
 
 
-## Summary of changes
+## Summary of Changes
 
 
 
-## Testing notes
+## Side Effects / Testing Notes
 
 
 
