@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import DS from 'ember-data';
 
 import OsfModel from './osf-model';
@@ -85,9 +84,13 @@ export default OsfModel.extend(FileItemMixin, {
         );
     },
     getContents() {
-        return Ember.$.ajax({
+        return authenticatedAJAX({
             url: this.get('links.download'),
             type: 'GET',
+            data: {
+                direct: true,
+                mode: 'render',
+            },
         });
     },
     updateContents(data) {
