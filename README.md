@@ -1,6 +1,7 @@
 # Ember OSF
 
 `master` Build Status: [![Build Status](https://travis-ci.org/CenterForOpenScience/ember-osf.svg?branch=master)](https://travis-ci.org/CenterForOpenScience/ember-osf)
+[![npm Version](https://img.shields.io/npm/v/@centerforopenscience/ember-osf.svg)](https://www.npmjs.com/package/@centerforopenscience/ember-osf)
 
 `develop` Build Status: [![Build Status](https://travis-ci.org/CenterForOpenScience/ember-osf.svg?branch=develop)](https://travis-ci.org/CenterForOpenScience/ember-osf) 
 [![Coverage Status](https://coveralls.io/repos/github/CenterForOpenScience/ember-osf/badge.svg?branch=develop)](https://coveralls.io/github/CenterForOpenScience/ember-osf?branch=develop)
