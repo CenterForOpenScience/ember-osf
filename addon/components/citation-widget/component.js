@@ -52,16 +52,26 @@ export default Ember.Component.extend({
                 .then(resp => this.set(attr, resp.data.attributes.citation));
         }
     },
+    findMoreStyles(term, url) {
+        Ember.$.ajax({
+            method: 'GET',
+            url: url || `${config.OSF.apiUrl}/${config.OSF.apiNamespace}/citations/styles/?filter[title]=${term}` ,
+            dataType: 'json',
+            contentType: 'application/json'
+        }).then(res => {
+            if (res.links.next !== null) {
+                this.findMoreStyles(term, res.links.next);
+            }
+            if (res.links.prev === null) this.set('styles', res.data);
+            else this.get('styles').pushObjects(res.data);
+        });
+    },
     actions: {
         findStyles(term) {
-            return Ember.$.ajax({
-                method: 'GET',
-                url: `${config.OSF.apiUrl}/${config.OSF.apiNamespace}/citations/styles/?filter[title]=${term}`,
-                dataType: 'json',
-                contentType: 'application/json'
-            }).then(res => {
-                return res.data
-            });
+            Ember.run.debounce(this, function() {
+                this.findMoreStyles(term)
+            }, 500);
+            return this.get('styles');
         }
     }
 });
