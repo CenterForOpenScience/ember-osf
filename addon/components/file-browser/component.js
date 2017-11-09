@@ -2,11 +2,8 @@ import Ember from 'ember';
 import layout from './template';
 
 import loadAll from 'ember-osf/utils/load-relationship';
-<<<<<<< HEAD
 import outsideClick from 'ember-osf/utils/outside-click';
-=======
 import Analytics from '../../mixins/analytics';
->>>>>>> Add analytics to file items for quickfiles
 
 /**
  * File browser widget
