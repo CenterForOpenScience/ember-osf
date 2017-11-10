@@ -2,6 +2,7 @@ import Ember from 'ember';
 import layout from './template';
 
 import loadAll from 'ember-osf/utils/load-relationship';
+import outsideClick from 'ember-osf/utils/outside-click';
 
 /**
  * File browser widget
@@ -30,11 +31,12 @@ export default Ember.Component.extend({
     init() {
         this._super(...arguments);
         this.set('_items', Ember.A());
-        Ember.$('body').on('click', (e) => {
-            if (Ember.$(e.target).parents('.popover.in').length === 0 && Ember.$(e.target).attr('class') && Ember.$(e.target).attr('class').indexOf('popover-toggler') === -1) {
-                this.send('dismissOtherPops');
-            }
-        });
+        outsideClick(function() {
+            this.send('dismissOtherPops');
+        }.bind(this));
+        Ember.$(window).resize(function() {
+            this.send('dismissOtherPops');
+        }.bind(this));
     },
     currentUser: Ember.inject.service(),
     edit: Ember.computed('user', function() {
