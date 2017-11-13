@@ -67,6 +67,7 @@ export default Ember.Component.extend({
         let drop = new CustomDropzone(`#${this.elementId}`, {
             url: file => typeof this.get('buildUrl') === 'function' ? this.get('buildUrl')(file) : this.get('buildUrl'),
             autoProcessQueue: false,
+            autoQueue: false,
             dictDefaultMessage: this.get('defaultMessage') || 'Drop files here to upload',
             sending(file, xhr) {
                 // Monkey patch to send the raw file instead of formData
