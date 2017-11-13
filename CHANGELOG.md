@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - Util function that handles popover dismissal when clicking off of popover
+- file-browser properties to:
+  - disable multiple select
+  - disable unselect
+  - enable open on select
 
 ### Changed
 - getContents() function for files to use `redirect = true` and `mode = 'render'`
