@@ -28,6 +28,9 @@ export default Ember.Component.extend({
         preventMultipleFiles: true,
         acceptDirectories: false
     },
+    multiple: true,
+    unselect: true,
+    openOnSelect: false,
     init() {
         this._super(...arguments);
         this.set('_items', Ember.A());
@@ -191,13 +194,16 @@ export default Ember.Component.extend({
             });
         },
         selectItem(item) {
+            if (this.get('openOnSelect')) {
+                this.sendAction('openFile', item);
+            }
             this.set('renaming', false);
             if (this.get('selectedItems.length') > 1) {
                 for (var item_ of this.get('selectedItems')) {
                     item_.set('isSelected', item_ === item);
                 }
             } else if (this.get('selectedItems.length') ===  1) {
-                if (item.get('isSelected')) {
+                if (item.get('isSelected') && this.get('unselect')) {
                     item.set('isSelected', false);
                     return;
                 }
@@ -208,6 +214,9 @@ export default Ember.Component.extend({
             this.set('shiftAnchor', item);
         },
         selectMultiple(item, toggle) {
+            if (!this.get('multiple')) {
+                return;
+            }
             this.set('renaming', false);
             if (toggle) {
                 item.toggleProperty('isSelected');
