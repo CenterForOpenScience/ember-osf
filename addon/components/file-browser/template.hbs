@@ -30,7 +30,7 @@
                     {{! TODO: show available actions for selected files }}
                     {{#if (eq selectedItems.length 1)}}
                         {{#if (if-filter 'download-button' display)}}
-                            <button {{action 'downloadItem'}} class='btn text-success'>{{fa-icon "download"}} Download</button>
+                            <button onclick={{action 'click' 'button' 'Quick Files - Download'}} {{action 'downloadItem'}} class='btn text-success'>{{fa-icon "download"}} Download</button>
                         {{/if}}
                         {{#if (and edit (if-filter 'rename-button' display))}}
                             <button {{action 'toggleText' 'renaming'}} class='btn text-success'>{{fa-icon "pencil"}} Rename</button>
@@ -48,7 +48,7 @@
                     {{/if}}
                 {{else}}
                     {{#if (if-filter 'download-button' display)}}
-                        <a href='{{downloadUrl}}' class='btn text-success'>{{fa-icon "download"}} Download as zip</a>
+                        <a href='{{downloadUrl}}' class='btn text-success' onclick={{action 'click' 'button' 'Quick Files - Download zip' preventDefault=false}}>{{fa-icon "download"}} Download as zip</a>
                     {{/if}}
                 {{/if}}
                 {{#if (and edit (if-filter 'upload-button' display))}}

@@ -3,6 +3,8 @@ import moment from 'moment'
 import layout from './template';
 import pathJoin from 'ember-osf/utils/path-join';
 import humanFileSize from 'ember-osf/utils/human-file-size';
+import Analytics from '../../mixins/analytics';
+
 /**
  * @module ember-osf
  * @submodule components
@@ -25,7 +27,7 @@ import humanFileSize from 'ember-osf/utils/human-file-size';
   * @class file-browser-icon
   */
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(Analytics, {
     layout,
     store: Ember.inject.service(),
     classNames: ['file-browser-item'],
@@ -72,6 +74,7 @@ export default Ember.Component.extend({
             this.get('item').getGuid();
         },
         dismissPop() {
+            this.send('click', 'button', 'Quick Files - Share file');
             this.set('item.visiblePopup', false);
         }
     }
