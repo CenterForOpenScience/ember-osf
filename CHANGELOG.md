@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - disable multiple select
   - disable unselect
   - enable open on select
+- ability to specify a pre-selected file in file-browser
 
 ### Changed
 - getContents() function for files to use `redirect = true` and `mode = 'render'`
