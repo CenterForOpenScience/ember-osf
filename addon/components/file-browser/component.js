@@ -31,6 +31,7 @@ export default Ember.Component.extend({
     multiple: true,
     unselect: true,
     openOnSelect: false,
+    selectedFile: null,
     init() {
         this._super(...arguments);
         this.set('_items', Ember.A());
@@ -50,6 +51,11 @@ export default Ember.Component.extend({
         loadAll(user, 'quickfiles', this.get('_items')).then(() => {
             this.set('loaded', true);
             this.set('_items', this.get('_items').sortBy('itemName'));
+            this.get('_items').forEach(item => {
+                if (this.get('selectedFile.id') && this.get('selectedFile.id') === item.id) {
+                    item.isSelected = true;
+                }
+            });
         });
     },
     _loadUser:  Ember.on('init', Ember.observer('user', function() {
