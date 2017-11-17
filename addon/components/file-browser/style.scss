@@ -106,6 +106,10 @@
         height: 100%;
         z-index: 1;
         position: absolute;
+        pointer-events: none;
+        &.transparent {
+            opacity: 0;
+        }
     }
 
     .flash-message-alert {
