@@ -9,6 +9,7 @@
     dragenter=(action 'dragStart')
     dragover=(action 'dragStart')
     drop=(action 'dragEnd')
+    dragleave=(action 'dragEnd')
     enable=edit
     class='dropzone-area'
 }}
@@ -161,16 +162,12 @@
                 {{/bs-modal}}
             {{/if}}
         {{/if}}
-        {{#if (or modalOpen dropping)}}
-            {{#if dropping}}
-                <div class='shade'>
-                    <div class='upload-drop'>
-                        <div class='upload-text'>{{fa-icon 'upload' size=5}}</div>
-                        <div class='upload-text'>Drop file to upload</div>
-                    </div>
-                </div>
-            {{/if}}
-        {{/if}}
+        <div class='shade {{if (not dropping) "transparent"}}'>
+            <div class='upload-drop'>
+                <div class='upload-text'>{{fa-icon 'upload' size=5}}</div>
+                <div class='upload-text'>Drop file to upload</div>
+            </div>
+        </div>
         {{#if (eq browserState 'loading')}}
             <br><br>
             <div class='ball-scale ball-dark' style='text-align: center'><div></div></div>
