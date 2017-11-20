@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - getContents() function for files to use `redirect = true` and `mode = 'render'`
 - Styling for the file-browser, file-browser-item, and file-version widgets used by Quick Files
+- Removed `Browse` from the navbar when user is logged out
+- Moved `Support` to be between `Search` and `Donate` on the navbar when user is logged out
 
 ## [0.12.0] - 2017-10-27
 ### Added
