@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Styling for the file-browser, file-browser-item, and file-version widgets used by Quick Files
 - Removed `Browse` from the navbar when user is logged out
 - Moved `Support` to be between `Search` and `Donate` on the navbar when user is logged out
+- Remove print margin on ember-ace editor on file-detail page
 
 ## [0.12.0] - 2017-10-27
 ### Added
