@@ -209,7 +209,7 @@ export default Ember.Component.extend(Analytics, {
         },
         selectItem(item) {
             if (this.get('openOnSelect')) {
-                this.sendAction('openFile', item);
+                this.sendAction('openFile', item, 'view');
             }
             this.set('renaming', false);
             this.set('popupOpen', false);
@@ -256,7 +256,7 @@ export default Ember.Component.extend(Analytics, {
         },
         viewItem() {
             let item = this.get('selectedItems.firstObject');
-            this.sendAction('openFile', item);
+            this.sendAction('openFile', item, 'view');
         },
         openItem(item, qparams) {
             this.sendAction('openFile', item, qparams);
