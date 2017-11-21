@@ -21,6 +21,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Moved `Support` to be between `Search` and `Donate` on the navbar when user is logged out
 - Remove print margin on ember-ace editor on file-detail page
 
+## [0.12.1] - 2017-11-21
+### Added
+- Giving Tuesday donate banner
+
 ## [0.12.0] - 2017-10-27
 ### Added
 - Ability to pass query parameters with adapterOptions.query

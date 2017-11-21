@@ -12,7 +12,7 @@ test('it renders', function(assert) {
 
     this.render(hbs`{{donate-banner currentDate=testDate}}`);
 
-    assert.equal(this.$('div').attr('style'), 'display:""');
+    assert.equal(this.$('div').attr('style'), 'display:none');
 
 });
 
