@@ -1,20 +1,15 @@
-<div class="donate-banner {{bannerBackground}}">
+<div class="donate-banner">
     <div class="container">
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-                <div class="p-v-sm">
-                    <div class="row">
-                        <div class="col-md-12 m-v-sm">
-                            <div class="conference-centering">
-                                <p class="donate-text">
-                                    {{beforeText}}
-                                    <a href="https://cos.io/donate" {{action 'click' 'link' "DonateBanner - Donate Now!" preventDefault=false}}>{{linkText}}</a>
-                                    {{afterText}}
-                                </p>
-                            </div>
-                        </div>
+        <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+            <div class="row">
+                <a href="https://www.crowdrise.com/centerforopenscience" {{action "click" "link" "DonateBanner - Donate Now" preventDefault=false}}>
+                    <div class="col-sm-md-lg-12 hidden-xs">
+                        <div class="{{largeClass}}" alt="{{altLg}}"></div>
                     </div>
-                </div>
+                    <div class="col-xs-12 hidden-sm hidden-md hidden-lg hidden-xl">
+                        <div class="{{smallClass}}" alt="{{altSm}}"></div>
+                    </div>
+                </a>
             </div>
         </div>
     </div>
