@@ -21,7 +21,6 @@ import Analytics from '../../mixins/analytics';
   *        selectMultiple=(action 'selectMultiple') Action - handling clicking multiple rows, through cmd/ctrl and/or shift
   *        display=display Array[Strings] - Indicating which rows of information to display
   *        nameColumnWidth=nameColumnWidth String of number - How wide is the main collumn (name)
-  *        dismissOtherPops=(action 'dismissOtherPops') Action - handling cleaning up popups created by the Share button
   *     }}
   * ```
   * @class file-browser-icon
@@ -65,17 +64,5 @@ export default Ember.Component.extend(Analytics, {
         open() {
             this.openItem(this.get('item'));
         },
-        copyLink() {
-            this.dismissOtherPops(this.get('item'));
-            this.set('item.visiblePopup', true);
-            if (this.get('link')) {
-                return;
-            }
-            this.get('item').getGuid();
-        },
-        dismissPop() {
-            this.send('click', 'button', 'Quick Files - Share file');
-            this.set('item.visiblePopup', false);
-        }
     }
 });

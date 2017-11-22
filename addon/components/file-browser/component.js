@@ -4,6 +4,7 @@ import layout from './template';
 import loadAll from 'ember-osf/utils/load-relationship';
 import outsideClick from 'ember-osf/utils/outside-click';
 import Analytics from '../../mixins/analytics';
+import pathJoin from 'ember-osf/utils/path-join';
 
 /**
  * File browser widget
@@ -37,10 +38,10 @@ export default Ember.Component.extend(Analytics, {
         this._super(...arguments);
         this.set('_items', Ember.A());
         outsideClick(function() {
-            this.send('dismissOtherPops');
+            this.send('dismissPop');
         }.bind(this));
         Ember.$(window).resize(function() {
-            this.send('dismissOtherPops');
+            this.send('dismissPop');
         }.bind(this));
     },
     currentUser: Ember.inject.service(),
@@ -96,11 +97,16 @@ export default Ember.Component.extend(Analytics, {
     uploading: Ember.A(),
     filter: null,
     modalOpen: false,
+    popupOpen: false,
     itemsLoaded: true,
     selectedItems: Ember.computed.filterBy('items', 'isSelected', true),
     loadedChanged: Ember.observer('itemsLoaded', function() {
         let containerWidth = this.$().width();
         this.set('itemWidth', containerWidth);
+    }),
+    link: Ember.computed('selectedItems.firstObject.guid', function() {
+        let guid = this.get('selectedItems.firstObject.guid');
+        return guid ? pathJoin(window.location.origin, guid) : undefined;
     }),
     flash(item, message, type, time) {
         item.set('flash', {
@@ -206,6 +212,7 @@ export default Ember.Component.extend(Analytics, {
                 this.sendAction('openFile', item);
             }
             this.set('renaming', false);
+            this.set('popupOpen', false);
             if (this.get('selectedItems.length') > 1) {
                 for (var item_ of this.get('selectedItems')) {
                     item_.set('isSelected', item_ === item);
@@ -226,6 +233,7 @@ export default Ember.Component.extend(Analytics, {
                 return;
             }
             this.set('renaming', false);
+            this.set('popupOpen', false);
             if (toggle) {
                 item.toggleProperty('isSelected');
             } else {
@@ -347,12 +355,15 @@ export default Ember.Component.extend(Analytics, {
                 this.send('rename');
             }
         },
-        dismissOtherPops(item) {
-            for (var item_ of this.get('items')) {
-                if (!item || item_.get('path') !== item.get('path')) {
-                    item_.set('visiblePopup', false);
-                }
+        copyLink() {
+            this.set('popupOpen', true);
+            if (this.get('link')) {
+                return;
             }
+            this.get('selectedItems.firstObject').getGuid();
+        },
+        dismissPop() {
+            this.set('popupOpen', false);
         }
     }
 });
