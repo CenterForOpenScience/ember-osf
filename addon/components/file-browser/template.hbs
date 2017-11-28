@@ -1,3 +1,102 @@
+<div class="actions-header row" style="margin-bottom:10px">
+    {{#if textFieldOpen}}
+        <div class="col-xs-9 filter-input">
+            {{input placeholder=(if filtering "Filter" selectedItems.firstObject.itemName) class='form-control' value=textValue type="text" enter=(action "textValueKeypress")}}
+        </div>
+        <div class='col-xs-3'>
+            <button {{action 'toggleText' textFieldOpen}} class='btn pull-right'>{{fa-icon "times"}}</button>
+            {{#if renaming}}
+                <button {{action 'rename'}} class='btn pull-right'>{{fa-icon "pencil"}}</button>
+            {{/if}}
+        </div>
+    {{else}}
+        <div class='pull-right'>
+            {{#if selectedItems}}
+                {{! TODO: show available actions for selected files }}
+                {{#if (eq selectedItems.length 1)}}
+                    <button id="shareButton" class='btn text-primary popover-toggler' {{action 'copyLink'}}>
+                        {{fa-icon 'share-alt'}}
+                        Share
+                        {{#bs-popover placement='bottom' title='Share' visible=popupOpen}}
+                            {{#if link}}
+                                <div class="input-group">
+                                    <span class="input-group-btn">
+                                        {{#copy-button success=(action 'dismissPop') class='btn btn-default copy-btn' clipboardText=link}}
+                                            {{fa-icon 'files-o'}}
+                                        {{/copy-button}}
+                                    </span>
+                                    {{! template-lint-disable }}
+                                    <input readonly="true" type="text" value="{{link}}" class="form-control share-link">
+                                    {{! template-lint-enable }}
+                                </div>
+                            {{else}}
+                                Loading...
+                            {{/if}}
+                        {{/bs-popover}}
+                    </button>
+                    {{#if (if-filter 'download-button' display)}}
+                        <button onclick={{unless edit (action 'click' 'button' 'Quick Files - Download')}} {{action 'downloadItem'}} class='btn text-success'>{{fa-icon "download"}} Download</button>
+                    {{/if}}
+                    {{#if (and edit (if-filter 'rename-button' display))}}
+                        <button {{action 'toggleText' 'renaming'}} class='btn text-success'>{{fa-icon "pencil"}} Rename</button>
+                    {{/if}}
+                    {{#if (if-filter 'view-button' display)}}
+                        <button {{action 'viewItem'}} class='btn text-success'>{{fa-icon "file-o"}} View</button>
+                    {{/if}}
+                    {{#if (and edit (if-filter 'delete-button' display))}}
+                        <button {{action 'openModal' 'delete'}} class='btn text-danger'>{{fa-icon "trash"}} Delete</button>
+                    {{/if}}
+                {{else}}
+                    {{#if (and edit (if-filter 'delete-button' display))}}
+                        <button {{action 'openModal' 'deleteMultiple'}} class='btn text-danger'>{{fa-icon "trash"}} Delete multiple</button>
+                    {{/if}}
+                {{/if}}
+            {{else}}
+                {{#if (if-filter 'download-button' display)}}
+                    <a href='{{downloadUrl}}' class='btn text-success' onclick={{unless edit (action 'click' 'button' 'Quick Files - Download zip' preventDefault=false)}}>{{fa-icon "download"}} Download as zip</a>
+                {{/if}}
+            {{/if}}
+            {{#if (and edit (if-filter 'upload-button' display))}}
+                <button class='dz-message btn text-success'>{{fa-icon "upload"}} Upload</button>
+            {{/if}}
+            <button {{action 'toggleText' 'filtering'}} class='btn text-primary'>{{fa-icon "search"}} Filter</button>
+            {{#if (if-filter 'info-button' display)}}<button {{action 'openModal' 'info'}} class='btn text-primary'>{{fa-icon "info"}}</button>{{/if}}
+        </div>
+    {{/if}}
+</div>
+{{#if (if-filter 'header' display)}}
+    <div class="column-labels-wrapper">
+        <div class="row column-labels-header">
+            <div class="col-lg-{{nameColumnWidth}} col-md-12 file-browser-header header">
+                <span class="sortable-column">Name</span>
+                {{fa-icon 'chevron-up' class='itemNameasc sorting' click=(action 'sort' 'itemName' 'asc')}}
+                {{fa-icon 'chevron-down' class='itemNamedes sorting' click=(action 'sort' 'itemName' 'des')}}
+            </div>
+            {{#if (if-filter 'size-column' display)}}
+                <div class="col-lg-1 hidden-md hidden-sm hidden-xs file-browser-header header">
+                    <span class="sortable-column">Size</span>
+                </div>
+            {{/if}}
+            {{#if (if-filter 'version-column' display)}}
+                <div class="col-lg-1 hidden-md hidden-sm hidden-xs file-browser-header header">
+                    <span class="sortable-column">Version</span>
+                </div>
+            {{/if}}
+            {{#if (if-filter 'downloads-column' display)}}
+                <div class="col-lg-1 hidden-md hidden-sm hidden-xs file-browser-header header">
+                    <span class="sortable-column">Downloads</span>
+                </div>
+            {{/if}}
+            {{#if (if-filter 'modified-column'  display)}}
+                <div class="col-lg-2 hidden-md hidden-sm hidden-xs file-browser-header header">
+                    <span class="sortable-column">Modified</span>
+                    {{fa-icon 'chevron-up' class='dateModifiedasc sorting' click=(action 'sort' 'dateModified' 'asc')}}
+                    {{fa-icon 'chevron-down' class='dateModifieddes sorting' click=(action 'sort' 'dateModified' 'des')}}
+                </div>
+            {{/if}}
+        </div>
+    </div>
+{{/if}}
 {{#dropzone-widget
     buildUrl=(action 'buildUrl')
     options=dropzoneOptions
@@ -12,106 +111,8 @@
     dragleave=(action 'dragEnd')
     enable=edit
     class='dropzone-area'
+    id=dropZoneId
 }}
-    <div class="actions-header row" style="margin-bottom:10px">
-        {{#if textFieldOpen}}
-            <div class="col-xs-9 filter-input">
-                {{input placeholder=(if filtering "Filter" selectedItems.firstObject.itemName) class='form-control' value=textValue type="text" enter=(action "textValueKeypress")}}
-            </div>
-            <div class='col-xs-3'>
-                <button {{action 'toggleText' textFieldOpen}} class='btn pull-right'>{{fa-icon "times"}}</button>
-                {{#if renaming}}
-                    <button {{action 'rename'}} class='btn pull-right'>{{fa-icon "pencil"}}</button>
-                {{/if}}
-            </div>
-        {{else}}
-            <div class='pull-right'>
-                {{#if selectedItems}}
-                    {{! TODO: show available actions for selected files }}
-                    {{#if (eq selectedItems.length 1)}}
-                        <button id="shareButton" class='btn text-primary popover-toggler' {{action 'copyLink'}}>
-                            {{fa-icon 'share-alt'}}
-                            Share
-                            {{#bs-popover placement='bottom' title='Share' visible=popupOpen}}
-                                {{#if link}}
-                                    <div class="input-group">
-                                        <span class="input-group-btn">
-                                            {{#copy-button success=(action 'dismissPop') class='btn btn-default copy-btn' clipboardText=link}}
-                                                {{fa-icon 'files-o'}}
-                                            {{/copy-button}}
-                                        </span>
-                                        {{! template-lint-disable }}
-                                        <input readonly="true" type="text" value="{{link}}" class="form-control share-link">
-                                        {{! template-lint-enable }}
-                                    </div>
-                                {{else}}
-                                    Loading...
-                                {{/if}}
-                            {{/bs-popover}}
-                        </button>
-                        {{#if (if-filter 'download-button' display)}}
-                            <button onclick={{unless edit (action 'click' 'button' 'Quick Files - Download')}} {{action 'downloadItem'}} class='btn text-success'>{{fa-icon "download"}} Download</button>
-                        {{/if}}
-                        {{#if (and edit (if-filter 'rename-button' display))}}
-                            <button {{action 'toggleText' 'renaming'}} class='btn text-success'>{{fa-icon "pencil"}} Rename</button>
-                        {{/if}}
-                        {{#if (if-filter 'view-button' display)}}
-                            <button {{action 'viewItem'}} class='btn text-success'>{{fa-icon "file-o"}} View</button>
-                        {{/if}}
-                        {{#if (and edit (if-filter 'delete-button' display))}}
-                            <button {{action 'openModal' 'delete'}} class='btn text-danger'>{{fa-icon "trash"}} Delete</button>
-                        {{/if}}
-                    {{else}}
-                        {{#if (and edit (if-filter 'delete-button' display))}}
-                            <button {{action 'openModal' 'deleteMultiple'}} class='btn text-danger'>{{fa-icon "trash"}} Delete multiple</button>
-                        {{/if}}
-                    {{/if}}
-                {{else}}
-                    {{#if (if-filter 'download-button' display)}}
-                        <a href='{{downloadUrl}}' class='btn text-success' onclick={{unless edit (action 'click' 'button' 'Quick Files - Download zip' preventDefault=false)}}>{{fa-icon "download"}} Download as zip</a>
-                    {{/if}}
-                {{/if}}
-                {{#if (and edit (if-filter 'upload-button' display))}}
-                    <button class='dz-message btn text-success'>{{fa-icon "upload"}} Upload</button>
-                {{/if}}
-                <button {{action 'toggleText' 'filtering'}} class='btn text-primary'>{{fa-icon "search"}} Filter</button>
-                {{#if (if-filter 'info-button' display)}}<button {{action 'openModal' 'info'}} class='btn text-primary'>{{fa-icon "info"}}</button>{{/if}}
-            </div>
-        {{/if}}
-    </div>
-    {{#if (if-filter 'header' display)}}
-        <div class="column-labels-wrapper">
-            <div class="row column-labels-header">
-                <div class="col-lg-{{nameColumnWidth}} col-md-12 file-browser-header header">
-                    <span class="sortable-column">Name</span>
-                    {{fa-icon 'chevron-up' class='itemNameasc sorting' click=(action 'sort' 'itemName' 'asc')}}
-                    {{fa-icon 'chevron-down' class='itemNamedes sorting' click=(action 'sort' 'itemName' 'des')}}
-                </div>
-                {{#if (if-filter 'size-column' display)}}
-                    <div class="col-lg-1 hidden-md hidden-sm hidden-xs file-browser-header header">
-                        <span class="sortable-column">Size</span>
-                    </div>
-                {{/if}}
-                {{#if (if-filter 'version-column' display)}}
-                    <div class="col-lg-1 hidden-md hidden-sm hidden-xs file-browser-header header">
-                        <span class="sortable-column">Version</span>
-                    </div>
-                {{/if}}
-                {{#if (if-filter 'downloads-column' display)}}
-                    <div class="col-lg-1 hidden-md hidden-sm hidden-xs file-browser-header header">
-                        <span class="sortable-column">Downloads</span>
-                    </div>
-                {{/if}}
-                {{#if (if-filter 'modified-column'  display)}}
-                    <div class="col-lg-2 hidden-md hidden-sm hidden-xs file-browser-header header">
-                        <span class="sortable-column">Modified</span>
-                        {{fa-icon 'chevron-up' class='dateModifiedasc sorting' click=(action 'sort' 'dateModified' 'asc')}}
-                        {{fa-icon 'chevron-down' class='dateModifieddes sorting' click=(action 'sort' 'dateModified' 'des')}}
-                    </div>
-                {{/if}}
-            </div>
-        </div>
-    {{/if}}
     <div class='file-browser-list'>
         {{#if modalOpen}}
             {{#if (eq modalOpen 'info')}}
