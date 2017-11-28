@@ -1,0 +1,29 @@
+<div class='panel-heading'>
+    <h3 class='panel-title'>
+        <i class='fa fa-pencil-square-o'></i>
+        Edit
+    </h3>
+</div>
+<div>
+    <div class='editor-pane panel-body'>
+        <div class='text-editor-container'>
+            {{ember-ace 
+                lines=35
+                useWrapMode=true
+                showLineNumbers=false 
+                value=newText
+                showPrintMargin=false
+                update=(action 'valueUpdated')}}
+        </div>
+        <div>
+            <div class='row'>
+                <div class='col-sm-12'>
+                    <div class='pull-right'>
+                        <button class='btn btn-sm btn-danger' id='btnRevertEditor' onclick={{action 'revertText'}}>Revert </button>
+                        <button class='btn btn-sm btn-success' id='btnSaveEditor' onclick={{action 'saveText'}}>Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

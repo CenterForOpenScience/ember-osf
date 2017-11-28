@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.0</em>
+            <em>API Docs for: 0.12.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -56,6 +56,7 @@
                                 <li><a href="../classes/Contributor.html">Contributor</a></li>
                                 <li><a href="../classes/current-user.html">current-user</a></li>
                                 <li><a href="../classes/discover-page.html">discover-page</a></li>
+                                <li><a href="../classes/donate-banner.html">donate-banner</a></li>
                                 <li><a href="../classes/DraftRegistration.html">DraftRegistration</a></li>
                                 <li><a href="../classes/dropzone-widget.html">dropzone-widget</a></li>
                                 <li><a href="../classes/elastic-query.html">elastic-query</a></li>
@@ -66,6 +67,7 @@
                                 <li><a href="../classes/file-browser.html">file-browser</a></li>
                                 <li><a href="../classes/file-browser-icon.html">file-browser-icon</a></li>
                                 <li><a href="../classes/file-chooser component.html">file-chooser component</a></li>
+                                <li><a href="../classes/file-editor.html">file-editor</a></li>
                                 <li><a href="../classes/file-manager.html">file-manager</a></li>
                                 <li><a href="../classes/file-renderer.html">file-renderer</a></li>
                                 <li><a href="../classes/file-version.html">file-version</a></li>
@@ -81,18 +83,21 @@
                                 <li><a href="../classes/GenericDataADapter.html">GenericDataADapter</a></li>
                                 <li><a href="../classes/getDisplayName.html">getDisplayName</a></li>
                                 <li><a href="../classes/HostAppNameMixin.html">HostAppNameMixin</a></li>
+                                <li><a href="../classes/human-file-size.html">human-file-size</a></li>
                                 <li><a href="../classes/ifFilter.html">ifFilter</a></li>
                                 <li><a href="../classes/InfinityCustomMixin.html">InfinityCustomMixin</a></li>
                                 <li><a href="../classes/Institution.html">Institution</a></li>
                                 <li><a href="../classes/license-picker.html">license-picker</a></li>
                                 <li><a href="../classes/Log.html">Log</a></li>
                                 <li><a href="../classes/Metaschema.html">Metaschema</a></li>
+                                <li><a href="../classes/mimeTypes.html">mimeTypes</a></li>
                                 <li><a href="../classes/navbar-auth-dropdown.html">navbar-auth-dropdown</a></li>
                                 <li><a href="../classes/new-navbar-auth-dropdown.html">new-navbar-auth-dropdown</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
                                 <li><a href="../classes/NodeActionsMixin.html">NodeActionsMixin</a></li>
                                 <li><a href="../classes/NodeLink.html">NodeLink</a></li>
                                 <li><a href="../classes/oauth-popup.html">oauth-popup</a></li>
+                                <li><a href="../classes/old-file-browser.html">old-file-browser</a></li>
                                 <li><a href="../classes/osf-copyright.html">osf-copyright</a></li>
                                 <li><a href="../classes/osf-footer.html">osf-footer</a></li>
                                 <li><a href="../classes/osf-mode-footer.html">osf-mode-footer</a></li>
@@ -354,10 +359,6 @@ can additionally be overridden in your application.</p>
 
                             </li>
                             <li class="index-item property">
-                                <a href="#property_searchPlaceholder">searchPlaceholder</a>
-
-                            </li>
-                            <li class="index-item property">
                                 <a href="#property_showActiveFilters">showActiveFilters</a>
 
                             </li>
@@ -426,7 +427,7 @@ can additionally be overridden in your application.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l388"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:388</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l391"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:391</code></a>
         </p>
 
 
@@ -435,7 +436,7 @@ can additionally be overridden in your application.</p>
 
     <div class="description">
         <p>For PREPRINTS, REGISTRIES, RETRACTION WATCH - services where portion of query is restricted.
-Builds the locked portion of the query.  For example, in preprints, type=preprint
+Builds the locked portion of the query.  For example, in preprints, types=['preprint', 'thesis']
 is something that cannot be modified by the user.</p>
 
     </div>
@@ -490,7 +491,7 @@ is something that cannot be modified by the user.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l444"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:444</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l450"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:450</code></a>
         </p>
 
 
@@ -719,7 +720,7 @@ title (search-facet heading in UI), and component (name of component).</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l128"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:128</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l138"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:138</code></a>
         </p>
 
 
@@ -744,7 +745,7 @@ title (search-facet heading in UI), and component (name of component).</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l133"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:133</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l143"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:143</code></a>
         </p>
 
 
@@ -769,7 +770,7 @@ title (search-facet heading in UI), and component (name of component).</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l138"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:138</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l148"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:148</code></a>
         </p>
 
 
@@ -795,7 +796,7 @@ title (search-facet heading in UI), and component (name of component).</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l144"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:144</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l154"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:154</code></a>
         </p>
 
 
@@ -821,7 +822,7 @@ title (search-facet heading in UI), and component (name of component).</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l151"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:151</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l161"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:161</code></a>
         </p>
 
 
@@ -847,7 +848,7 @@ title (search-facet heading in UI), and component (name of component).</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l158"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:158</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l168"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:168</code></a>
         </p>
 
 
@@ -872,7 +873,7 @@ title (search-facet heading in UI), and component (name of component).</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l165"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:165</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l175"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:175</code></a>
         </p>
 
 
@@ -898,7 +899,7 @@ title (search-facet heading in UI), and component (name of component).</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l171"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:171</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l181"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:181</code></a>
         </p>
 
 
@@ -924,7 +925,7 @@ title (search-facet heading in UI), and component (name of component).</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l290"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:290</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l293"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:293</code></a>
         </p>
 
 
@@ -950,7 +951,7 @@ title (search-facet heading in UI), and component (name of component).</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l177"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:177</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l187"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:187</code></a>
         </p>
 
 
@@ -976,7 +977,7 @@ title (search-facet heading in UI), and component (name of component).</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l183"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:183</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l193"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:193</code></a>
         </p>
 
 
@@ -1002,7 +1003,7 @@ title (search-facet heading in UI), and component (name of component).</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l189"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:189</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l199"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:199</code></a>
         </p>
 
 
@@ -1028,31 +1029,6 @@ title (search-facet heading in UI), and component (name of component).</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l195"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:195</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>Declare on consuming application's controller for query params to be active in that route.</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_searchPlaceholder" class="property item">
-    <h3 class="name"><code>searchPlaceholder</code></h3>
-    <span class="type"><a href="https://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
         <a href="../files/addon_components_discover-page_component.js.html#l205"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:205</code></a>
         </p>
 
@@ -1060,7 +1036,7 @@ title (search-facet heading in UI), and component (name of component).</p>
     </div>
 
     <div class="description">
-        <p>Search bar placeholder - for example, &quot;Search preprints...&quot;</p>
+        <p>Declare on consuming application's controller for query params to be active in that route.</p>
 
     </div>
 
@@ -1078,7 +1054,7 @@ title (search-facet heading in UI), and component (name of component).</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l212"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:212</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l215"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:215</code></a>
         </p>
 
 
@@ -1103,7 +1079,7 @@ title (search-facet heading in UI), and component (name of component).</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l218"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:218</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l221"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:221</code></a>
         </p>
 
 
@@ -1129,7 +1105,7 @@ title (search-facet heading in UI), and component (name of component).</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l224"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:224</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l227"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:227</code></a>
         </p>
 
 
@@ -1155,7 +1131,7 @@ title (search-facet heading in UI), and component (name of component).</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l230"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:230</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l233"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:233</code></a>
         </p>
 
 
@@ -1196,7 +1172,7 @@ title (search-facet heading in UI), and component (name of component).</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l266"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:266</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l269"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:269</code></a>
         </p>
 
 
@@ -1222,7 +1198,7 @@ title (search-facet heading in UI), and component (name of component).</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l272"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:272</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l275"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:275</code></a>
         </p>
 
 
@@ -1248,7 +1224,7 @@ title (search-facet heading in UI), and component (name of component).</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l278"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:278</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l281"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:281</code></a>
         </p>
 
 
@@ -1274,7 +1250,7 @@ title (search-facet heading in UI), and component (name of component).</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l284"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:284</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l287"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:287</code></a>
         </p>
 
 
@@ -1300,7 +1276,7 @@ title (search-facet heading in UI), and component (name of component).</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l297"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:297</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l300"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:300</code></a>
         </p>
 
 

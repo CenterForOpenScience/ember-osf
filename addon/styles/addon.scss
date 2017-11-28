@@ -4,11 +4,14 @@
 @import 'components/eosf-project-nav/style';
 @import 'components/faceted-search/style';
 @import 'components/file-browser/style';
+@import 'components/file-browser-item/style';
+@import 'components/file-editor/style';
 @import 'components/file-widget/style';
 @import 'components/navbar-auth-dropdown/style';
 @import 'components/new-osf-navbar/style';
 @import 'components/osf-mode-footer/style';
 @import 'components/osf-navbar/style';
+@import 'components/osf-footer/style';
 @import 'components/query-syntax/style';
 @import 'components/search-dropdown/style';
 @import 'components/search-facet-daterange/style';
@@ -19,3 +22,5 @@
 @import 'components/search-result/style';
 @import 'components/sign-up/style';
 @import 'components/tags-widget/style';
+@import 'components/donate-banner/style';
+@import 'components/file-version/style';

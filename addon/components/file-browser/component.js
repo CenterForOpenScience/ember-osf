@@ -2,6 +2,7 @@ import Ember from 'ember';
 import layout from './template';
 
 import loadAll from 'ember-osf/utils/load-relationship';
+import outsideClick from 'ember-osf/utils/outside-click';
 
 /**
  * File browser widget
@@ -27,14 +28,19 @@ export default Ember.Component.extend({
         preventMultipleFiles: true,
         acceptDirectories: false
     },
+    multiple: true,
+    unselect: true,
+    openOnSelect: false,
+    selectedFile: null,
     init() {
         this._super(...arguments);
         this.set('_items', Ember.A());
-        Ember.$('body').on('click', (e) => {
-            if (Ember.$(e.target).parents('.popover.in').length === 0 && Ember.$(e.target).attr('class') && Ember.$(e.target).attr('class').indexOf('popover-toggler') === -1) {
-                this.send('dismissOtherPops');
-            }
-        });
+        outsideClick(function() {
+            this.send('dismissOtherPops');
+        }.bind(this));
+        Ember.$(window).resize(function() {
+            this.send('dismissOtherPops');
+        }.bind(this));
     },
     currentUser: Ember.inject.service(),
     edit: Ember.computed('user', function() {
@@ -45,6 +51,11 @@ export default Ember.Component.extend({
         loadAll(user, 'quickfiles', this.get('_items')).then(() => {
             this.set('loaded', true);
             this.set('_items', this.get('_items').sortBy('itemName'));
+            this.get('_items').forEach(item => {
+                if (this.get('selectedFile.id') && this.get('selectedFile.id') === item.id) {
+                    item.isSelected = true;
+                }
+            });
         });
     },
     _loadUser:  Ember.on('init', Ember.observer('user', function() {
@@ -189,13 +200,16 @@ export default Ember.Component.extend({
             });
         },
         selectItem(item) {
+            if (this.get('openOnSelect')) {
+                this.sendAction('openFile', item);
+            }
             this.set('renaming', false);
             if (this.get('selectedItems.length') > 1) {
                 for (var item_ of this.get('selectedItems')) {
                     item_.set('isSelected', item_ === item);
                 }
             } else if (this.get('selectedItems.length') ===  1) {
-                if (item.get('isSelected')) {
+                if (item.get('isSelected') && this.get('unselect')) {
                     item.set('isSelected', false);
                     return;
                 }
@@ -206,6 +220,9 @@ export default Ember.Component.extend({
             this.set('shiftAnchor', item);
         },
         selectMultiple(item, toggle) {
+            if (!this.get('multiple')) {
+                return;
+            }
             this.set('renaming', false);
             if (toggle) {
                 item.toggleProperty('isSelected');

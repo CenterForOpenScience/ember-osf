@@ -1,42 +1,35 @@
-/* Background photo © Nestlé */
 .donate-banner {
-    color: #FFF;
-
-    .donate-text {
-        font-weight: bold;
-        a {
-            color: #043348;
-        }
-    }
+    background: #3B9DD4;
+    width: 100%;
+}
+.wk-1-lg {
+    background: url(../assets/img/giving_tuesday_week01.png) no-repeat center top;
+    background-size: contain;
+    width: 100%;
+    height: 0;
+    padding-top: 13.49%;
 }
 
-/* Banners change based on the week */
-
-/* Background photo © Nestlé */
-.donate-banner.banner-0 {
-    background: #08a3ed url(../assets/img/bg-donate-1.jpg) no-repeat center top;
-    background-size: cover;
+.wk-1-sm {
+    background: url(../assets/img/giving_tuesday_week01_mobile.png) no-repeat center top;
+    background-size: contain;
+    width: 100%;
+    height: 0;
+    padding-top: 22.4%;
 }
 
-/*Background photo © Pressmaster/Shutterstock*/
-.donate-banner.banner-1 {
-    background: #08a3ed url(../assets/img/bg-donate-2.jpg) no-repeat center top;
-    background-size: cover;
+.wk-2-lg {
+    background: url(../assets/img/giving_tuesday_week02.png) no-repeat center top;
+    background-size: contain;
+    width: 100%;
+    height: 0;
+    padding-top: 13.49%;
 }
 
-/*Background photo © joker1991/Shutterstock*/
-.donate-banner.banner-2 {
-    background: #08a3ed url(../assets/img/bg-donate-3.jpg) no-repeat center top;
-    background-size: cover;
-}
-
-.donate-banner.banner-3 {
-    background: #08a3ed url(../assets/img/bg-donate-4.jpg) no-repeat center top;
-    background-size: cover;
-}
-
-/*Background photo Acc. 90-105 - Science Service, Records, 1920s-1970s, Smithsonian Institution Archives*/
-.donate-banner.banner-4 {
-    background: #08a3ed url(../assets/img/bg-donate-5.jpg) no-repeat center top;
-    background-size: cover;
+.wk-2-sm {
+    background: url(../assets/img/giving_tuesday_week02_mobile.png) no-repeat center top;
+    background-size: contain;
+    width: 100%;
+    height: 0;
+    padding-top: 22.4%;
 }

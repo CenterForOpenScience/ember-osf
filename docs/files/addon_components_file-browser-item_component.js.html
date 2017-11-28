@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.0</em>
+            <em>API Docs for: 0.12.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -56,6 +56,7 @@
                                 <li><a href="../classes/Contributor.html">Contributor</a></li>
                                 <li><a href="../classes/current-user.html">current-user</a></li>
                                 <li><a href="../classes/discover-page.html">discover-page</a></li>
+                                <li><a href="../classes/donate-banner.html">donate-banner</a></li>
                                 <li><a href="../classes/DraftRegistration.html">DraftRegistration</a></li>
                                 <li><a href="../classes/dropzone-widget.html">dropzone-widget</a></li>
                                 <li><a href="../classes/elastic-query.html">elastic-query</a></li>
@@ -66,6 +67,7 @@
                                 <li><a href="../classes/file-browser.html">file-browser</a></li>
                                 <li><a href="../classes/file-browser-icon.html">file-browser-icon</a></li>
                                 <li><a href="../classes/file-chooser component.html">file-chooser component</a></li>
+                                <li><a href="../classes/file-editor.html">file-editor</a></li>
                                 <li><a href="../classes/file-manager.html">file-manager</a></li>
                                 <li><a href="../classes/file-renderer.html">file-renderer</a></li>
                                 <li><a href="../classes/file-version.html">file-version</a></li>
@@ -81,18 +83,21 @@
                                 <li><a href="../classes/GenericDataADapter.html">GenericDataADapter</a></li>
                                 <li><a href="../classes/getDisplayName.html">getDisplayName</a></li>
                                 <li><a href="../classes/HostAppNameMixin.html">HostAppNameMixin</a></li>
+                                <li><a href="../classes/human-file-size.html">human-file-size</a></li>
                                 <li><a href="../classes/ifFilter.html">ifFilter</a></li>
                                 <li><a href="../classes/InfinityCustomMixin.html">InfinityCustomMixin</a></li>
                                 <li><a href="../classes/Institution.html">Institution</a></li>
                                 <li><a href="../classes/license-picker.html">license-picker</a></li>
                                 <li><a href="../classes/Log.html">Log</a></li>
                                 <li><a href="../classes/Metaschema.html">Metaschema</a></li>
+                                <li><a href="../classes/mimeTypes.html">mimeTypes</a></li>
                                 <li><a href="../classes/navbar-auth-dropdown.html">navbar-auth-dropdown</a></li>
                                 <li><a href="../classes/new-navbar-auth-dropdown.html">new-navbar-auth-dropdown</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
                                 <li><a href="../classes/NodeActionsMixin.html">NodeActionsMixin</a></li>
                                 <li><a href="../classes/NodeLink.html">NodeLink</a></li>
                                 <li><a href="../classes/oauth-popup.html">oauth-popup</a></li>
+                                <li><a href="../classes/old-file-browser.html">old-file-browser</a></li>
                                 <li><a href="../classes/osf-copyright.html">osf-copyright</a></li>
                                 <li><a href="../classes/osf-footer.html">osf-footer</a></li>
                                 <li><a href="../classes/osf-mode-footer.html">osf-mode-footer</a></li>
@@ -195,17 +200,36 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import Ember from &#x27;ember&#x27;;
+import moment from &#x27;moment&#x27;
 import layout from &#x27;./template&#x27;;
-
+import pathJoin from &#x27;ember-osf/utils/path-join&#x27;;
+import humanFileSize from &#x27;ember-osf/utils/human-file-size&#x27;;
 /**
  * @module ember-osf
  * @submodule components
  */
+ /**
+  * Display one row of item, with its information.
+  *
+  * Sample usage:
+  * &#x60;&#x60;&#x60;handlebars
+  *     {{file-browser-item
+  *        item=item
+  *        selectItem=(action &#x27;selectItem&#x27;) - Action handling clicking on the body of the row
+  *        openItem=(action &#x27;openItem&#x27;) - Action handling clicking the link-name of the file
+  *        selectMultiple=(action &#x27;selectMultiple&#x27;) Action - handling clicking multiple rows, through cmd/ctrl and/or shift
+  *        display=display Array[Strings] - Indicating which rows of information to display
+  *        nameColumnWidth=nameColumnWidth String of number - How wide is the main collumn (name)
+  *        dismissOtherPops=(action &#x27;dismissOtherPops&#x27;) Action - handling cleaning up popups created by the Share button
+  *     }}
+  * &#x60;&#x60;&#x60;
+  * @class file-browser-icon
+  */
 
 export default Ember.Component.extend({
     layout,
+    store: Ember.inject.service(),
     classNames: [&#x27;file-browser-item&#x27;],
-
     selected: Ember.computed(&#x27;selectedItems.[]&#x27;, function() {
         // TODO: This would be better if selectedItems were a hash. Can Ember
         // observe when properties are added to or removed from an object?
@@ -213,23 +237,43 @@ export default Ember.Component.extend({
         let index = selectedItems.indexOf(this.get(&#x27;item&#x27;));
         return index &gt; -1;
     }),
-
-    click() {
-        this.sendAction(&#x27;selectItem&#x27;, this.get(&#x27;item&#x27;));
-    },
-
-    doubleClick() {
-        let item = this.get(&#x27;item&#x27;);
-        if (item.get(&#x27;canHaveChildren&#x27;)) {
-            this.sendAction(&#x27;navigateToItem&#x27;, item);
+    size: Ember.computed(&#x27;item.size&#x27;, function() {
+        return this.get(&#x27;item.size&#x27;) ? humanFileSize(this.get(&#x27;item.size&#x27;), true) : &#x27;&#x27;;
+    }),
+    date: Ember.computed(&#x27;item.dateModified&#x27;, function() {
+        let date = this.get(&#x27;item.dateModified&#x27;);
+        return moment(date).utc().format(&#x27;YYYY-MM-DD h:mm a&#x27;)
+    }),
+    link: Ember.computed(&#x27;item.guid&#x27;, function() {
+        let guid = this.get(&#x27;item.guid&#x27;);
+        return guid ? pathJoin(window.location.origin, guid) : undefined;
+    }),
+    click(e) {
+        if((e.metaKey || e.ctrlKey) &amp;&amp; e.target.nodeName == &#x27;A&#x27;) {
+            window.open(this.get(&#x27;link&#x27;));
+        } else if (e.shiftKey || e.metaKey) {
+            this.sendAction(&#x27;selectMultiple&#x27;, this.get(&#x27;item&#x27;), e.metaKey);
         } else {
-            this.sendAction(&#x27;openItem&#x27;, item);
+            this.selectItem(this.get(&#x27;item&#x27;));
         }
     },
-
     actions: {
+        openVersion() {
+            this.openItem(this.get(&#x27;item&#x27;), &#x27;?revision=&#x27; + this.get(&#x27;item.currentVersion&#x27;));
+        },
         open() {
-            this.sendAction(&#x27;openItem&#x27;, this.get(&#x27;item&#x27;));
+            this.openItem(this.get(&#x27;item&#x27;));
+        },
+        copyLink() {
+            this.dismissOtherPops(this.get(&#x27;item&#x27;));
+            this.set(&#x27;item.visiblePopup&#x27;, true);
+            if (this.get(&#x27;link&#x27;)) {
+                return;
+            }
+            this.get(&#x27;item&#x27;).getGuid();
+        },
+        dismissPop() {
+            this.set(&#x27;item.visiblePopup&#x27;, false);
         }
     }
 });
