@@ -3,6 +3,7 @@ import layout from './template';
 
 import loadAll from 'ember-osf/utils/load-relationship';
 import outsideClick from 'ember-osf/utils/outside-click';
+import Analytics from '../../mixins/analytics';
 
 /**
  * File browser widget
@@ -13,7 +14,7 @@ import outsideClick from 'ember-osf/utils/outside-click';
  * ```
  * @class file-browser
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend(Analytics, {
     // TODO: Improve documentation in the future
     layout,
     //Can be overwritten to have a trimmed down display, these are all the options available to be displayed
@@ -148,6 +149,7 @@ export default Ember.Component.extend({
             this.get('toast').error(response);
         },
         success(_, __, file, response) {
+            this.send('track', 'upload', 'track', 'Quick Files - Upload');
             this.get('uploading').removeObject(file);
             let data = response.data.attributes;
             //OPTIONS (some not researched)
