@@ -5,6 +5,8 @@ var path = require('path');
 var config = require('config');
 var Funnel = require('broccoli-funnel');
 var BroccoliMergeTrees = require('broccoli-merge-trees');
+var mergeTrees = require('broccoli-merge-trees');
+var compileSass = require('broccoli-sass-source-maps');
 
 // Fetch a list of known backends. The user can always choose to override any of these URLs via ENV vars
 var knownBackends = require('./config/backends');
@@ -53,6 +55,7 @@ module.exports = {
         }
 
         if (BACKEND === 'local') {
+            backendUrlConfig.accessToken = eitherConfig('PERSONAL_ACCESS_TOKEN');
             backendUrlConfig.isLocal = true;
             if (eitherConfig('PERSONAL_ACCESS_TOKEN')) {
                 backendUrlConfig.accessToken = eitherConfig('PERSONAL_ACCESS_TOKEN');
@@ -86,31 +89,23 @@ module.exports = {
             authenticator: `authenticator:osf-${defaultAuthorizationType}`
         };
     },
-
-    // Needed to make Ember CLI SASS happy
-    // https://github.com/aexmachina/ember-cli-sass#addon-usage
-    included: function(/* app */) {
-        this._super.included.apply(this, arguments);
+    afterInstall: function(options) {
+        if (options['ember-osf'].includeStyles) {
+            this.addAddonToProject('ember-font-awesome');
+        }
     },
+    included: function(app) {
+        // Documentation of the `included` hook is mostly in the comment
+        // threads of `ember-cli` issues on github. For example:
+        // https://github.com/ember-cli/ember-cli/issues/3531#issuecomment-81133458
+        this._super.included.apply(this, arguments);
 
-    // TODO Filter out unused components and junk
-    // https://github.com/kaliber5/ember-bootstrap/blob/master/index.js#L221
-    // treeForAddon: function(tree) {
-    //   tree = this._super.treeForAddon.apply(this, arguments);
-    //   return tree;
-    // },
-
-    // Outputs all pod scss files into the addon style tree.
-    // This allows the addon to build by itself
-    treeForAddonStyles: function(tree) {
-        let addonPodStyles = new Funnel(this._treePathFor('addon'), {
-            annotation: 'Ember OSF Addon Pod Styles',
-            include: ['components/**/*.scss'],
-        });
-
-        return new BroccoliMergeTrees([tree, addonPodStyles, this._bootstrapStyles()], {
-            annotation: 'Ember OSF Merged Styles'
-        });
+        if (app.options['ember-osf'] && app.options['ember-osf'].includeStyles) {
+            app.options['ember-font-awesome'] = {
+                useScss: true
+            };
+        }
+        return app;
     },
 
     // Outputs all pod scss files into the style tree but prefixed with ember-osf
@@ -137,6 +132,44 @@ module.exports = {
         return new Funnel(bootstrapPath, {
             annotation: 'Ember OSF Boostrap SASS',
             include: ['**/*.scss'],
+        });
+    },
+    treeForAddon: function(tree) {
+        this.addonTree = tree;
+        return this._super.treeForAddon.apply(this, arguments);
+    },
+    // Outputs all pod scss files into the addon style tree.
+    // This allows the addon to build by itself
+    treeForAddonStyles: function(tree) {
+        let addonPodStyles = new Funnel(this._treePathFor('addon'), {
+            annotation: 'Ember OSF Addon Pod Styles',
+            include: ['components/**/*.scss'],
+        });
+
+        return new BroccoliMergeTrees([tree, addonPodStyles, this._bootstrapStyles()], {
+            annotation: 'Ember OSF Merged Styles'
+        });
+    },
+    treeForVendor: function(tree) {
+        var addonStyleTree = this._treeFor('addon-styles');
+        var addonPodStyles = new Funnel(path.resolve(this.root, 'addon'), {
+            include: [
+                'components/**/*css'
+            ]
+        });
+        var addonCss = compileSass(
+            [addonStyleTree, addonPodStyles],
+            'addon.scss',
+            'assets/ember-osf.css',
+            {
+                annotation: 'EmberOsf Sass Tree'
+            });
+        return mergeTrees([tree, addonCss].filter(Boolean));
+    },
+    treeForPublic() {
+        var assetDir = path.join(path.resolve(this.root, ''), 'addon/assets');
+        return new Funnel(assetDir, {
+            destDir: 'assets/'
         });
     }
 };
