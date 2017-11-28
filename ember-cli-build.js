@@ -11,6 +11,8 @@ module.exports = function(defaults) {
                 'bower_components/osf-style/sass',
                 'node_modules/bootstrap-sass/assets/stylesheets',
                 'tests/dummy/app/components',
+                'bower_components/c3',
+                'bower_components/bootstrap-daterangepicker',
             ]
         },
         // FIXME
@@ -30,8 +32,8 @@ module.exports = function(defaults) {
 
         'ember-bootstrap': {
             bootstrapVersion: 3,
-            importBootstrapCSS: false,
             importBootstrapFont: true,
+            importBootstrapCSS: false
         },
     });
 
@@ -44,6 +46,8 @@ module.exports = function(defaults) {
     app.import(path.join(app.bowerDirectory, 'jquery.tagsinput/src/jquery.tagsinput.js'));
     app.import(path.join(app.bowerDirectory, 'c3/c3.js'));
     app.import(path.join(app.bowerDirectory, 'd3/d3.js'));
+    app.import(path.join(app.bowerDirectory, 'osf-style/css/base.css'));
+    app.import('vendor/assets/ember-osf.css');
     app.import({
         test: path.join(app.bowerDirectory, 'ember/ember-template-compiler.js')
     });
