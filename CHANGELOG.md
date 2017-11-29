@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## Hotfix
+### Added
+- Week 3 banner images and text
+
 ## [0.12.2] - 2017-11-29
 ### Fixed
 - Giving Tuesday donate banner end date and mobile image class
