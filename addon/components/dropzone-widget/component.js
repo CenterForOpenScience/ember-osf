@@ -42,7 +42,7 @@ export default Ember.Component.extend({
         CustomDropzone.prototype = Object.create(Dropzone.prototype);
         CustomDropzone.prototype.drop = function(e) {
             if (this.options.preventMultipleFiles && e.dataTransfer) {
-                if (e.dataTransfer.items.length > 1) {
+                if (e.dataTransfer.items && e.dataTransfer.items.length > 1 || e.dataTransfer.files.length > 1) {
                     this.emit("drop", e);
                     this.emit('error', 'None', 'Cannot upload multiple files');
                     return;

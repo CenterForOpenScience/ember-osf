@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - Upload
 - Support button to the HOME navbar
 - Class for small-display on `file-browser`
+- Conditional to check between `files` and `items` in array for file upload between chrome and safari
 
 ### Changed
 - getContents() function for files to use `redirect = true` and `mode = 'render'`
