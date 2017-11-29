@@ -26,6 +26,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Moved `Support` to be between `Search` and `Donate` on the navbar when user is logged out
 - Remove print margin on ember-ace editor on file-detail page
 
+## [0.12.3] - 2017-11-29
+### Added
+- Week 3 banner images and text
+
 ## [0.12.2] - 2017-11-29
 ### Fixed
 - Giving Tuesday donate banner end date and mobile image class
