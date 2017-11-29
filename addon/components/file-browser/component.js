@@ -152,7 +152,7 @@ export default Ember.Component.extend(Analytics, {
         },
         error(_, __, file, response) {
             this.get('uploading').removeObject(file);
-            this.get('toast').error(response);
+            this.get('toast').error(response.message);
         },
         success(_, __, file, response) {
             this.send('track', 'upload', 'track', 'Quick Files - Upload');
@@ -175,7 +175,7 @@ export default Ember.Component.extend(Analytics, {
                     size: data.size,
                     currentVersion: data.extra.version,
                     dateModified: data.modified_utc
-                })
+                });
                 return;
             }
             response.data.type = 'file'; //
@@ -201,7 +201,7 @@ export default Ember.Component.extend(Analytics, {
                 }
             }
             if (conflictingItem) {
-                return conflictingItem.get('links.upload') + '?kind=file';
+                return conflictingItem.get('links.upload');
             }
             return this.get('uploadUrl') + '?' + Ember.$.param({
                 name: files[0].name
