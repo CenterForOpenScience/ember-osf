@@ -68,12 +68,12 @@ export default Ember.Component.extend(AnalyticsMixin, {
         {
             'date': new Date(2017, 10, 28),
             'largeClass': 'wk-2-lg',
-            'smallClass': 'wk-2-lg',
+            'smallClass': 'wk-2-sm',
             'altLg': 'Happy Giving Tuesday! Please make a gift to support the OSF tools you use and love.',
             'altSm': 'Happy Giving Tuesday! Please make a gift to support the OSF tools you use and love.',
         },
         {
-            'date': new Date(2018, 10, 29)
+            'date': new Date(2017, 10, 29)
         }
     ]),
 });
