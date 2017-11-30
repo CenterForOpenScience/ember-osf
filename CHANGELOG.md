@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - enable open on select
 - ability to specify a pre-selected file in file-browser
 - Stylesheet for the footer to match OSF styles
+- Analytics to `file-browser` and `file-browser-item` for Quick Files:
+  - Share
+  - Download
+  - Download as zip
+  - Upload
+- Support button to the HOME navbar
 
 ### Changed
 - getContents() function for files to use `redirect = true` and `mode = 'render'`
@@ -20,6 +26,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Removed `Browse` from the navbar when user is logged out
 - Moved `Support` to be between `Search` and `Donate` on the navbar when user is logged out
 - Remove print margin on ember-ace editor on file-detail page
+- Moved share button in `file-browser-item` to the `file-browser` toolbar
+- Rename button to have class `primary` instead of `success` on the `file-browser` component
+
+## [0.12.3] - 2017-11-29
+### Added
+- Week 3 banner images and text
+
+## [0.12.2] - 2017-11-29
+### Fixed
+- Giving Tuesday donate banner end date and mobile image class
+- Styling and order of buttons on the file-browser to match OSF
+- Growl message to show actual error message on file uploads
+
+### Removed
+- `?kind=file` from end of file path if there is a conflicting file when uploading
 
 ## [0.12.1] - 2017-11-21
 ### Added

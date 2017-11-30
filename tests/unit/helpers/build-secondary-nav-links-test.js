@@ -74,7 +74,7 @@ test('returns home service links, authenticated', function(assert) {
             {{/each}}
         `);
 
-    assert.equal(this.$()[0].innerText, 'My Projects Search');
+    assert.equal(this.$()[0].innerText, 'My Projects Search Support');
 });
 
 

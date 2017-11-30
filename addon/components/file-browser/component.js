@@ -3,6 +3,8 @@ import layout from './template';
 
 import loadAll from 'ember-osf/utils/load-relationship';
 import outsideClick from 'ember-osf/utils/outside-click';
+import Analytics from '../../mixins/analytics';
+import pathJoin from 'ember-osf/utils/path-join';
 
 /**
  * File browser widget
@@ -13,11 +15,11 @@ import outsideClick from 'ember-osf/utils/outside-click';
  * ```
  * @class file-browser
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend(Analytics, {
     // TODO: Improve documentation in the future
     layout,
     //Can be overwritten to have a trimmed down display, these are all the options available to be displayed
-    display: Ember.A(['header', 'share-link-column', 'size-column', 'version-column', 'downloads-column', 'modified-column', 'delete-button', 'rename-button', 'download-button', 'view-button', 'info-button', 'upload-button']),
+    display: Ember.A(['header', 'size-column', 'version-column', 'downloads-column', 'modified-column', 'delete-button', 'rename-button', 'download-button', 'view-button', 'info-button', 'upload-button', 'share-button']),
     store: Ember.inject.service(),
     toast: Ember.inject.service(),
     classNames: ['file-browser'],
@@ -36,10 +38,10 @@ export default Ember.Component.extend({
         this._super(...arguments);
         this.set('_items', Ember.A());
         outsideClick(function() {
-            this.send('dismissOtherPops');
+            this.send('dismissPop');
         }.bind(this));
         Ember.$(window).resize(function() {
-            this.send('dismissOtherPops');
+            this.send('dismissPop');
         }.bind(this));
     },
     currentUser: Ember.inject.service(),
@@ -95,11 +97,16 @@ export default Ember.Component.extend({
     uploading: Ember.A(),
     filter: null,
     modalOpen: false,
+    popupOpen: false,
     itemsLoaded: true,
     selectedItems: Ember.computed.filterBy('items', 'isSelected', true),
     loadedChanged: Ember.observer('itemsLoaded', function() {
         let containerWidth = this.$().width();
         this.set('itemWidth', containerWidth);
+    }),
+    link: Ember.computed('selectedItems.firstObject.guid', function() {
+        let guid = this.get('selectedItems.firstObject.guid');
+        return guid ? pathJoin(window.location.origin, guid) : undefined;
     }),
     flash(item, message, type, time) {
         item.set('flash', {
@@ -145,9 +152,10 @@ export default Ember.Component.extend({
         },
         error(_, __, file, response) {
             this.get('uploading').removeObject(file);
-            this.get('toast').error(response);
+            this.get('toast').error(response.message);
         },
         success(_, __, file, response) {
+            this.send('track', 'upload', 'track', 'Quick Files - Upload');
             this.get('uploading').removeObject(file);
             let data = response.data.attributes;
             //OPTIONS (some not researched)
@@ -167,7 +175,7 @@ export default Ember.Component.extend({
                     size: data.size,
                     currentVersion: data.extra.version,
                     dateModified: data.modified_utc
-                })
+                });
                 return;
             }
             response.data.type = 'file'; //
@@ -193,7 +201,7 @@ export default Ember.Component.extend({
                 }
             }
             if (conflictingItem) {
-                return conflictingItem.get('links.upload') + '?kind=file';
+                return conflictingItem.get('links.upload');
             }
             return this.get('uploadUrl') + '?' + Ember.$.param({
                 name: files[0].name
@@ -204,6 +212,7 @@ export default Ember.Component.extend({
                 this.sendAction('openFile', item);
             }
             this.set('renaming', false);
+            this.set('popupOpen', false);
             if (this.get('selectedItems.length') > 1) {
                 for (var item_ of this.get('selectedItems')) {
                     item_.set('isSelected', item_ === item);
@@ -224,6 +233,7 @@ export default Ember.Component.extend({
                 return;
             }
             this.set('renaming', false);
+            this.set('popupOpen', false);
             if (toggle) {
                 item.toggleProperty('isSelected');
             } else {
@@ -345,12 +355,15 @@ export default Ember.Component.extend({
                 this.send('rename');
             }
         },
-        dismissOtherPops(item) {
-            for (var item_ of this.get('items')) {
-                if (!item || item_.get('path') !== item.get('path')) {
-                    item_.set('visiblePopup', false);
-                }
+        copyLink() {
+            this.set('popupOpen', true);
+            if (this.get('link')) {
+                return;
             }
+            this.get('selectedItems.firstObject').getGuid();
+        },
+        dismissPop() {
+            this.set('popupOpen', false);
         }
     }
 });

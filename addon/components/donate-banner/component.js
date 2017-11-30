@@ -68,12 +68,21 @@ export default Ember.Component.extend(AnalyticsMixin, {
         {
             'date': new Date(2017, 10, 28),
             'largeClass': 'wk-2-lg',
-            'smallClass': 'wk-2-lg',
+            'smallClass': 'wk-2-sm',
             'altLg': 'Happy Giving Tuesday! Please make a gift to support the OSF tools you use and love.',
             'altSm': 'Happy Giving Tuesday! Please make a gift to support the OSF tools you use and love.',
         },
         {
-            'date': new Date(2018, 10, 29)
-        }
+            'date': new Date(2017, 10, 29),
+            'largeClass': 'wk-3-lg',
+            'smallClass': 'wk-3-sm',
+            'altLg': "The Center for Open Science created the OSF and a suite of free products to advance " +
+                     "the work of the research community. If you value these tools, please make a gift to " +
+                     "support COS's efforts to improve and scale these services. DONATE NOW!",
+            'altSm': "Support COS's efforts to improve free products and advance the work of the research community."
+        },
+        {
+            'date': new Date(2017, 11, 5),
+        },
     ]),
 });
