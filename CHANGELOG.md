@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - Download as zip
   - Upload
 - Support button to the HOME navbar
+- Class for small-display on `file-browser`
 
 ### Changed
 - getContents() function for files to use `redirect = true` and `mode = 'render'`
