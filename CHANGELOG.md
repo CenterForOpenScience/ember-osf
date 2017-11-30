@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - Download
   - Download as zip
   - Upload
+- Support button to the HOME navbar
 
 ### Changed
 - getContents() function for files to use `redirect = true` and `mode = 'render'`
