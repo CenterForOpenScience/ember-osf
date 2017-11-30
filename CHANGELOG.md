@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Moved `Support` to be between `Search` and `Donate` on the navbar when user is logged out
 - Remove print margin on ember-ace editor on file-detail page
 - Moved share button in `file-browser-item` to the `file-browser` toolbar
+- Rename button to have class `primary` instead of `success` on the `file-browser` component
 
 ## [0.12.3] - 2017-11-29
 ### Added

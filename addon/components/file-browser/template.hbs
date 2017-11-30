@@ -49,7 +49,7 @@
                         <button {{action 'openModal' 'delete'}} class='btn text-danger'>{{fa-icon "trash"}} Delete</button>
                     {{/if}}
                     {{#if (and edit (if-filter 'rename-button' display))}}
-                        <button {{action 'toggleText' 'renaming'}} class='btn text-success'>{{fa-icon "pencil"}} Rename</button>
+                        <button {{action 'toggleText' 'renaming'}} class='btn text-primary'>{{fa-icon "pencil"}} Rename</button>
                     {{/if}}
                 {{else}}
                     {{#if (and edit (if-filter 'delete-button' display))}}
