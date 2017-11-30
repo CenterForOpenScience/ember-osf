@@ -37,6 +37,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Giving Tuesday donate banner end date and mobile image class
 - Styling and order of buttons on the file-browser to match OSF
+- Growl message to show actual error message on file uploads
+
+### Removed
+- `?kind=file` from end of file path if there is a conflicting file when uploading
 
 ## [0.12.1] - 2017-11-21
 ### Added
