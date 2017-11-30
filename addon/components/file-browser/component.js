@@ -19,7 +19,7 @@ export default Ember.Component.extend(Analytics, {
     // TODO: Improve documentation in the future
     layout,
     //Can be overwritten to have a trimmed down display, these are all the options available to be displayed
-    display: Ember.A(['header', 'share-link-column', 'size-column', 'version-column', 'downloads-column', 'modified-column', 'delete-button', 'rename-button', 'download-button', 'view-button', 'info-button', 'upload-button']),
+    display: Ember.A(['header', 'size-column', 'version-column', 'downloads-column', 'modified-column', 'delete-button', 'rename-button', 'download-button', 'view-button', 'info-button', 'upload-button', 'share-button']),
     store: Ember.inject.service(),
     toast: Ember.inject.service(),
     classNames: ['file-browser'],
