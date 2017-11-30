@@ -29,7 +29,7 @@
                 {{#if selectedItems}}
                     {{! TODO: show available actions for selected files }}
                     {{#if (eq selectedItems.length 1)}}
-                        <button id="popoverBtn" class='btn text-primary popover-btn' {{action 'copyLink'}}>
+                        <button id="shareButton" class='btn text-primary popover-toggler' {{action 'copyLink'}}>
                             {{fa-icon 'share-alt'}}
                             Share
                             {{#bs-popover placement='bottom' title='Share' visible=popupOpen}}
