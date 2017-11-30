@@ -11,53 +11,54 @@
         </div>
     {{else}}
         <div class='pull-right'>
+            {{#if (and edit (if-filter 'upload-button' display))}}
+                <button class='dz-message btn text-success'>{{fa-icon "upload"}} Upload</button>
+            {{/if}}
             {{#if selectedItems}}
                 {{! TODO: show available actions for selected files }}
                 {{#if (eq selectedItems.length 1)}}
-                    <button id="shareButton" class='btn text-primary popover-toggler' {{action 'copyLink'}}>
-                        {{fa-icon 'share-alt'}}
-                        Share
-                        {{#bs-popover placement='bottom' title='Share' visible=popupOpen}}
-                            {{#if link}}
-                                <div class="input-group">
-                                    <span class="input-group-btn">
-                                        {{#copy-button success=(action 'dismissPop') class='btn btn-default copy-btn' clipboardText=link}}
-                                            {{fa-icon 'files-o'}}
-                                        {{/copy-button}}
-                                    </span>
-                                    {{! template-lint-disable }}
-                                    <input readonly="true" type="text" value="{{link}}" class="form-control share-link">
-                                    {{! template-lint-enable }}
-                                </div>
-                            {{else}}
-                                Loading...
-                            {{/if}}
-                        {{/bs-popover}}
-                    </button>
-                    {{#if (if-filter 'download-button' display)}}
-                        <button onclick={{unless edit (action 'click' 'button' 'Quick Files - Download')}} {{action 'downloadItem'}} class='btn text-success'>{{fa-icon "download"}} Download</button>
+                    {{#if (if-filter 'share-button' display)}}
+                        <button id="shareButton" class='btn text-primary popover-toggler' {{action 'copyLink'}}>
+                            {{fa-icon 'share-alt'}}
+                            Share
+                            {{#bs-popover placement='bottom' title='Share' visible=popupOpen}}
+                                {{#if link}}
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            {{#copy-button success=(action 'dismissPop') class='btn btn-default copy-btn' clipboardText=link}}
+                                                {{fa-icon 'files-o'}}
+                                            {{/copy-button}}
+                                        </span>
+                                        {{! template-lint-disable }}
+                                        <input readonly="true" type="text" value="{{link}}" class="form-control share-link">
+                                        {{! template-lint-enable }}
+                                    </div>
+                                {{else}}
+                                    Loading...
+                                {{/if}}
+                            {{/bs-popover}}
+                        </button>
                     {{/if}}
-                    {{#if (and edit (if-filter 'rename-button' display))}}
-                        <button {{action 'toggleText' 'renaming'}} class='btn text-success'>{{fa-icon "pencil"}} Rename</button>
+                    {{#if (if-filter 'download-button' display)}}
+                        <button onclick={{unless edit (action 'click' 'button' 'Quick Files - Download')}} {{action 'downloadItem'}} class='btn text-primary'>{{fa-icon "download"}} Download</button>
                     {{/if}}
                     {{#if (if-filter 'view-button' display)}}
-                        <button {{action 'viewItem'}} class='btn text-success'>{{fa-icon "file-o"}} View</button>
+                        <button {{action 'viewItem'}} class='btn text-primary'>{{fa-icon "file-o"}} View</button>
                     {{/if}}
                     {{#if (and edit (if-filter 'delete-button' display))}}
                         <button {{action 'openModal' 'delete'}} class='btn text-danger'>{{fa-icon "trash"}} Delete</button>
+                    {{/if}}
+                    {{#if (and edit (if-filter 'rename-button' display))}}
+                        <button {{action 'toggleText' 'renaming'}} class='btn text-success'>{{fa-icon "pencil"}} Rename</button>
                     {{/if}}
                 {{else}}
                     {{#if (and edit (if-filter 'delete-button' display))}}
                         <button {{action 'openModal' 'deleteMultiple'}} class='btn text-danger'>{{fa-icon "trash"}} Delete multiple</button>
                     {{/if}}
+                    {{#if (if-filter 'download-button' display)}}
+                        <a href='{{downloadUrl}}' class='btn text-primary' onclick={{unless edit (action 'click' 'button' 'Quick Files - Download zip' preventDefault=false)}}>{{fa-icon "download"}} Download as zip</a>
+                    {{/if}}
                 {{/if}}
-            {{else}}
-                {{#if (if-filter 'download-button' display)}}
-                    <a href='{{downloadUrl}}' class='btn text-success' onclick={{unless edit (action 'click' 'button' 'Quick Files - Download zip' preventDefault=false)}}>{{fa-icon "download"}} Download as zip</a>
-                {{/if}}
-            {{/if}}
-            {{#if (and edit (if-filter 'upload-button' display))}}
-                <button class='dz-message btn text-success'>{{fa-icon "upload"}} Upload</button>
             {{/if}}
             <button {{action 'toggleText' 'filtering'}} class='btn text-primary'>{{fa-icon "search"}} Filter</button>
             {{#if (if-filter 'info-button' display)}}<button {{action 'openModal' 'info'}} class='btn text-primary'>{{fa-icon "info"}}</button>{{/if}}
