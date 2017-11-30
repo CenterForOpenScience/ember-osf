@@ -44,6 +44,27 @@ test('render error message', function(assert) {
     assert.equal(this.$('.warning').length, 0);
 });
 
+test('render to textField by default', function(assert) {
+    render(this);
+    assert.equal(this.$('input').length, 1);
+});
+
+test('render to textField when explicitly specified', function(assert) {
+    render(this, `inputType='text'`);
+    assert.equal(this.$('input').length, 1);
+});
+
+test('render to textArea when explicitly speficied', function(assert) {
+    render(this, `inputType='textarea'`);
+    assert.equal(this.$('textarea').length, 1);
+});
+
+test('render to dateField when explicitly speficied', function(assert) {
+    // TODO: Needs improvement as there are no obvious ways to distinguish a dateField from a textField.
+    render(this, `inputType='date'`);
+    assert.equal(this.$('input').length, 1);
+});
+
 // TODO: Test currently cannot find '.warning'
 /*
 test('render warning message', function(assert) {

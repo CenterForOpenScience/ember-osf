@@ -29,15 +29,10 @@ export default Ember.Component.extend({
         defineProperty(this, 'value', computed.alias(`model.${valuePath}`));
     },
 
-    isTextArea: computed('inputType', function () {
-        return (this.get('inputType') === 'textarea');
-    }),
-    isTextField: computed('inputType', function () {
-        return (this.get('inputType') === 'text');
-    }),
-    isDateField: computed('inputType', function () {
-        return (this.get('inputType') === 'date');
-    }),
+    isTextArea: computed.equal('inputType', 'textarea'),
+    isTextField: computed.equal('inputType', 'text'),
+    isDateField: computed.equal('inputType', 'date'),
+
     showErrorMessage: computed('validation.isDirty', 'isInvalid', 'didValidate', function() {
         return (this.get('validation.isDirty') || this.get('didValidate')) && this.get('isInvalid');
     }),

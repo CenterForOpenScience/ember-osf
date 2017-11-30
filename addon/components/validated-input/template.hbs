@@ -1,14 +1,13 @@
 <div class="form-group">
     {{#if isTextArea}}
         {{textarea value=value type=type placeholder=placeholder class="form-control" name=valuePath}}
-    {{/if}}
 
-    {{#if isTextField}}
-        {{input type=type value=value placeholder=placeholder class="form-control" name=valuePath}}
-    {{/if}}
-
-    {{#if isDateField}}
+    {{else if isDateField}}
         {{bootstrap-datepicker type=type value=value placeholder=placeholder class="form-control" name=valuePath}}
+
+    {{else if isTextField}}
+        {{input type=type value=value placeholder=placeholder class="form-control" name=valuePath}}
+
     {{/if}}
 
     {{#if isValid}}
