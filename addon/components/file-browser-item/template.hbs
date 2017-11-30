@@ -24,32 +24,6 @@
                 {{date}}
             </div>
         {{/if}}
-        {{#if (if-filter 'share-link-column' display)}}
-            <div class="col-sm-1 file-row-col hidden-md hidden-sm hidden-xs file-browser-header link-column">
-                <div class='btn-group'>
-                    <button class='btn btn-default popover-toggler' {{action 'copyLink'}}>
-                        {{#bs-popover placement='left' title='Share' visible=item.visiblePopup}}
-                            {{#if link}}
-                                <div class="input-group">
-                                    <span class="input-group-btn">
-                                        {{#copy-button success=(action 'dismissPop') class='btn btn-default copy-btn' clipboardText=link}}
-                                            {{fa-icon 'files-o'}}
-                                        {{/copy-button}}
-                                    </span>
-                                    {{! template-lint-disable }}
-                                    <input readonly="true" type="text" value="{{link}}" class="form-control share-link">
-                                    {{! template-lint-enable }}
-                                </div>
-                            {{else}}
-                                Loading...
-                            {{/if}}
-                        {{/bs-popover}}
-                        Share
-                    </button>
-
-                </div>
-            </div>
-        {{/if}}
     {{else}}
         <div class='col-md-12 flash-message-alert alert-{{item.flash.type}}'>
             <div class='flash-message'>{{item.flash.message}}</div>

@@ -29,6 +29,26 @@
                 {{#if selectedItems}}
                     {{! TODO: show available actions for selected files }}
                     {{#if (eq selectedItems.length 1)}}
+                        <button id="shareButton" class='btn text-primary popover-toggler' {{action 'copyLink'}}>
+                            {{fa-icon 'share-alt'}}
+                            Share
+                            {{#bs-popover placement='bottom' title='Share' visible=popupOpen}}
+                                {{#if link}}
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            {{#copy-button success=(action 'dismissPop') class='btn btn-default copy-btn' clipboardText=link}}
+                                                {{fa-icon 'files-o'}}
+                                            {{/copy-button}}
+                                        </span>
+                                        {{! template-lint-disable }}
+                                        <input readonly="true" type="text" value="{{link}}" class="form-control share-link">
+                                        {{! template-lint-enable }}
+                                    </div>
+                                {{else}}
+                                    Loading...
+                                {{/if}}
+                            {{/bs-popover}}
+                        </button>
                         {{#if (if-filter 'download-button' display)}}
                             <button onclick={{unless edit (action 'click' 'button' 'Quick Files - Download')}} {{action 'downloadItem'}} class='btn text-success'>{{fa-icon "download"}} Download</button>
                         {{/if}}
@@ -87,10 +107,6 @@
                         <span class="sortable-column">Modified</span>
                         {{fa-icon 'chevron-up' class='dateModifiedasc sorting' click=(action 'sort' 'dateModified' 'asc')}}
                         {{fa-icon 'chevron-down' class='dateModifieddes sorting' click=(action 'sort' 'dateModified' 'des')}}
-                    </div>
-                {{/if}}
-                {{#if (if-filter 'share-link-column' display)}}
-                    <div class="col-lg-1 hidden-md hidden-sm hidden-xs file-browser-header header">
                     </div>
                 {{/if}}
             </div>
@@ -227,7 +243,6 @@
                         selectMultiple=(action 'selectMultiple')
                         display=display
                         nameColumnWidth=nameColumnWidth
-                        dismissOtherPops=(action 'dismissOtherPops')
                     }}
                 {{/each}}
             </div>
