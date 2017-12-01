@@ -55,9 +55,10 @@
                     {{#if (and edit (if-filter 'delete-button' display))}}
                         <button {{action 'openModal' 'deleteMultiple'}} class='btn text-danger'>{{fa-icon "trash"}} Delete multiple</button>
                     {{/if}}
-                    {{#if (if-filter 'download-button' display)}}
-                        <a href='{{downloadUrl}}' class='btn text-primary' onclick={{unless edit (action 'click' 'button' 'Quick Files - Download zip' preventDefault=false)}}>{{fa-icon "download"}} Download as zip</a>
-                    {{/if}}
+                {{/if}}
+            {{else}}
+                {{#if (if-filter 'download-button' display)}}
+                    <a href='{{downloadUrl}}' class='btn text-primary' onclick={{unless edit (action 'click' 'button' 'Quick Files - Download zip' preventDefault=false)}}>{{fa-icon "download"}} Download as zip</a>
                 {{/if}}
             {{/if}}
             <button {{action 'toggleText' 'filtering'}} class='btn text-primary'>{{fa-icon "search"}} Filter</button>
