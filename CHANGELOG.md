@@ -30,6 +30,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Moved share button in `file-browser-item` to the `file-browser` toolbar
 - Rename button to have class `primary` instead of `success` on the `file-browser` component
 
+### Fixed
+- Margins for scrollbar on `file-browser`
+
 ## [0.12.3] - 2017-11-29
 ### Added
 - Week 3 banner images and text
