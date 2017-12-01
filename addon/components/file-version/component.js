@@ -38,7 +38,7 @@ export default Ember.Component.extend({
             this.attrs.versionChange(version);
         },
         copyLink(id) {
-            $('#'+id).select();
+            Ember.$('#'+id).select();
             document.execCommand('copy');
         }
     }
