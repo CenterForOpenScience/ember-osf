@@ -1,4 +1,4 @@
-<div class="actions-header row" style="margin-bottom:10px">
+<div class="row actions-header {{if (not display.length) 'small-display'}}">
     {{#if textFieldOpen}}
         <div class="col-xs-9 filter-input">
             {{input placeholder=(if filtering "Filter" selectedItems.firstObject.itemName) class='form-control' value=textValue type="text" enter=(action "textValueKeypress")}}

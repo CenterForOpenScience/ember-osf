@@ -59,12 +59,14 @@
         margin-top: 4px;
     }
     .actions-header {
-
         background: #efefef;
         border: 1px solid #eee;
         margin: 0 0 10px;
         background: #efefef;
         padding: 6px 0;
+        &.small-display {
+            margin-bottom: 3px;
+        }
     }
 
     .column-labels-wrapper {

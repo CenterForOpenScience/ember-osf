@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - Download as zip
   - Upload
 - Support button to the HOME navbar
+- Class for small-display on `file-browser`
 
 ### Changed
 - getContents() function for files to use `redirect = true` and `mode = 'render'`
@@ -28,6 +29,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Remove print margin on ember-ace editor on file-detail page
 - Moved share button in `file-browser-item` to the `file-browser` toolbar
 - Rename button to have class `primary` instead of `success` on the `file-browser` component
+
+### Fixed
+- Margins for scrollbar on `file-browser`
 
 ## [0.12.3] - 2017-11-29
 ### Added
