@@ -34,6 +34,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Margins for scrollbar on `file-browser`
 
+## [0.12.4] - 2017-12-04
+### Added
+- Final banner images and dates
+
 ## [0.12.3] - 2017-11-29
 ### Added
 - Week 3 banner images and text
