@@ -21,7 +21,8 @@ import layout from './template';
  *   buildUrl=buildUrl
  *   success=attrs.success
  *   defaultMessage=defaultMessage
- *   options=dropzoneOptions}}
+ *   options=dropzoneOptions
+ *   clickable=clickable}}
  * ```
  *
  * @class dropzone-widget
@@ -68,6 +69,7 @@ export default Ember.Component.extend({
             url: file => typeof this.get('buildUrl') === 'function' ? this.get('buildUrl')(file) : this.get('buildUrl'),
             autoProcessQueue: false,
             autoQueue: false,
+            clickable: this.get('clickable'),
             dictDefaultMessage: this.get('defaultMessage') || 'Drop files here to upload',
             sending(file, xhr) {
                 // Monkey patch to send the raw file instead of formData

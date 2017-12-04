@@ -113,6 +113,7 @@
     enable=edit
     class='dropzone-area'
     id=dropZoneId
+    clickable=(if (and edit (if-filter 'upload-button' display)) '.dz-message' undefined)
 }}
     <div class='file-browser-list'>
         {{#if modalOpen}}
