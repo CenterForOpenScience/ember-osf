@@ -209,7 +209,7 @@ export default Ember.Component.extend(Analytics, {
         },
         selectItem(item) {
             if (this.get('openOnSelect')) {
-                this.sendAction('openFile', item);
+                this.openFile(item, 'view');
             }
             this.set('renaming', false);
             this.set('popupOpen', false);
@@ -256,10 +256,10 @@ export default Ember.Component.extend(Analytics, {
         },
         viewItem() {
             let item = this.get('selectedItems.firstObject');
-            this.sendAction('openFile', item);
+            this.openFile(item, 'view');
         },
         openItem(item, qparams) {
-            this.sendAction('openFile', item, qparams);
+            this.openFile(item, qparams);
         },
         downloadItem() {
             let downloadLink = this.get('selectedItems.firstObject.links.download');
