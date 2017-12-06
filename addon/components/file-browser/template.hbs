@@ -69,13 +69,13 @@
 {{#if (if-filter 'header' display)}}
     <div class="column-labels-wrapper">
         <div class="row column-labels-header">
-            <div class="col-lg-{{nameColumnWidth}} col-md-12 file-browser-header header">
+            <div class="col-lg-{{nameColumnWidth}} col-md-9 col-sm-9 col-xs-12 file-browser-header header">
                 <span class="sortable-column">Name</span>
                 {{fa-icon 'chevron-up' class='itemNameasc sorting' click=(action 'sort' 'itemName' 'asc')}}
                 {{fa-icon 'chevron-down' class='itemNamedes sorting' click=(action 'sort' 'itemName' 'des')}}
             </div>
             {{#if (if-filter 'size-column' display)}}
-                <div class="col-lg-1 hidden-md hidden-sm hidden-xs file-browser-header header">
+                <div class="col-lg-1 col-md-1 hidden-sm hidden-xs file-browser-header header">
                     <span class="sortable-column">Size</span>
                 </div>
             {{/if}}
@@ -90,7 +90,7 @@
                 </div>
             {{/if}}
             {{#if (if-filter 'modified-column'  display)}}
-                <div class="col-lg-2 hidden-md hidden-sm hidden-xs file-browser-header header">
+                <div class="col-lg-2 col-md-2 col-sm-3 hidden-xs file-browser-header header">
                     <span class="sortable-column">Modified</span>
                     {{fa-icon 'chevron-up' class='dateModifiedasc sorting' click=(action 'sort' 'dateModified' 'asc')}}
                     {{fa-icon 'chevron-down' class='dateModifieddes sorting' click=(action 'sort' 'dateModified' 'des')}}
