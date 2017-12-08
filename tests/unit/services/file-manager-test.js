@@ -1,77 +1,9 @@
 import Ember from 'ember';
-import {moduleFor, test} from 'ember-qunit';
-import FactoryGuy, {
-    manualSetup, mockSetup, mockUpdate,
-    mockTeardown, mockFindRecord, mockReload
-} from 'ember-data-factory-guy';
+import {moduleFor} from 'ember-qunit';
+import FactoryGuy, { manualSetup, mockUpdate } from 'ember-data-factory-guy';
+import wait from 'ember-test-helpers/wait';
+import test from 'ember-sinon-qunit/test-support/test';
 
-/*
- * assertions:
- *  - once for expectedRequest.url
- *  - once for expectedRequest.query
- *  - once for each key in expectedRequest.headers
- *  - once for each key in expectedRequest.settings
- */
-function mockWaterbutler(assert, expectedRequest, response) {
-    Ember.$.mockjax(function (requestSettings) {
-        if (requestSettings.url.indexOf(expectedRequest.url) === 0) {
-            return {
-                response: function () {
-                    assertURL(assert, requestSettings.url,
-                        expectedRequest.url, expectedRequest.query);
-                    assertHeaders(assert, requestSettings.headers,
-                        expectedRequest.headers);
-                    assertSettings(assert, requestSettings,
-                        expectedRequest.settings);
-                    this.responseText = response.data || {};
-                    this.status = response.status;
-                }
-            };
-        }
-        return;
-    });
-}
-
-// assert once for the path and once if queryParams is specified
-function assertURL(assert, actual, expected, queryParams) {
-    if (!queryParams) {
-        assert.equal(actual, expected, 'correct request URL');
-        return;
-    }
-    let [actualBase, actualParams] = actual.split('?');
-    assert.equal(actualBase, expected, 'correct base URL');
-
-    let expectedParams = [];
-    for (let key in queryParams) {
-        expectedParams.push(`${key}=${queryParams[key]}`);
-    }
-    assert.deepEqual(actualParams.split('&').sort(), expectedParams.sort(),
-        'correct query params');
-}
-
-// assert once for each expected header
-function assertHeaders(assert, actual, expected) {
-    for (let header in expected) {
-        assert.equal(actual[header], expected[header],
-            `request has expected header '${header}'`);
-    }
-}
-
-// assert once for each expected ajax setting
-function assertSettings(assert, actual, expected) {
-    for (let s in expected) {
-        // Check for a JSON payload
-        if (typeof expected[s] === 'object' &&
-            typeof actual[s] === 'string') {
-            let payload = JSON.parse(actual[s]);
-            assert.deepEqual(payload, expected[s],
-                `request has expected JSON payload '${s}'`);
-        } else {
-            assert.equal(actual[s], expected[s],
-                `request has expected option '${s}'`);
-        }
-    }
-}
 
 let fakeAccessToken = 'thisisafakeaccesstoken';
 let fakeUserID = 'thisisafakeuseridbanana';
@@ -97,69 +29,36 @@ moduleFor('service:file-manager', 'Unit | Service | file manager', {
 
         // FactoryGuy setup
         manualSetup(this.container);
-        mockSetup();
-    },
-    afterEach() {
-        mockTeardown();
     }
 });
 
 test('getContents sends valid waterbutler request', function (assert) {
-    assert.expect(4);
-    let service = this.subject();
-    let file = FactoryGuy.make('file');
-    let done = assert.async();
+    assert.expect(2);
 
-    let request = {
+    const service = this.subject();
+    const file = FactoryGuy.make('file');
+
+    const request = {
         url: file.get('links').download,
         settings: {method: 'GET'},
         headers: {Authorization: `Bearer ${fakeAccessToken}`}
     };
-    let response = {
-        status: 200,
-        data: 'file contents here'
-    };
-    mockWaterbutler(assert, request, response);
 
-    service.getContents(file).then(function (data) {
-        assert.equal(data, response.data);
-        done();
-    }).catch(function () {
-        assert.ok(false, 'promise should not reject on success');
-        done();
-    });
+    const stub = this.stub(service, '_waterbutlerRequest');
+
+    service.getContents(file);
+
+    assert.ok(stub.calledOnce, '_waterbutlerRequest was called once');
+
+    assert.ok(stub.calledWithExactly('GET', request.url, {}), '_waterbutlerRequest was called with correct parameters');
 });
 
-test('getContents passes along error', function (assert) {
-    assert.expect(4);
-    let service = this.subject();
-    let file = FactoryGuy.make('file');
-    let done = assert.async();
-
-    let request = {
-        url: file.get('links').download,
-        settings: {method: 'GET'},
-        headers: {Authorization: `Bearer ${fakeAccessToken}`}
-    };
-    let response = {
-        status: 404
-    };
-    mockWaterbutler(assert, request, response);
-
-    service.getContents(file).then(function () {
-        assert.ok(false, 'promise should reject');
-        done();
-    }).catch(function () {
-        assert.ok(true, 'promise rejects on error');
-        done();
-    });
-});
 
 test('updateContents sends valid waterbutler request', function (assert) {
-    assert.expect(6);
+    assert.expect(2);
+
     let service = this.subject();
     let file = FactoryGuy.make('file');
-    let done = assert.async();
 
     let request = {
         url: file.get('links').upload,
@@ -170,54 +69,29 @@ test('updateContents sends valid waterbutler request', function (assert) {
     let response = {
         status: 200,
     };
-    let freshModel = FactoryGuy.build('file', {
-        id: file.id,
-        dateModified: new Date()
+
+    service.set('_waterbutlerRequest', () => {
+        return new Ember.RSVP.Promise(function(resolve){
+            // succeed
+            resolve(response);
+        });
     });
-    mockFindRecord('file', {id: file.id}).returns({json: freshModel});
 
-    mockWaterbutler(assert, request, response);
+    const stub = this.stub(service, '_reloadModel');
 
-    service.updateContents(file, request.settings.data).then(function (fresh) {
-        assert.equal(fresh.get('id'), file.get('id'));
-        done();
-    }).catch(function () {
-        assert.ok(false, 'promise should not reject on success');
-        done();
-    });
-});
+    service.updateContents(file, request.settings.data);
 
-test('updateContents passes along error', function (assert) {
-    assert.expect(6);
-    let service = this.subject();
-    let file = FactoryGuy.make('file');
-    let done = assert.async();
-
-    let request = {
-        url: file.get('links').upload,
-        query: {kind: 'file'},
-        settings: {method: 'PUT', data: 'contents contents'},
-        headers: {Authorization: `Bearer ${fakeAccessToken}`},
-    };
-    let response = {
-        status: 404,
-    };
-    mockWaterbutler(assert, request, response);
-
-    service.updateContents(file, request.settings.data).then(function () {
-        assert.ok(false, 'promise should reject on error');
-        done();
-    }).catch(function () {
-        assert.ok(true, 'promise rejects on error');
-        done();
+    return wait().then(() => {
+        assert.ok(stub.calledOnce, '_reloadModel was called once');
+        assert.ok(stub.calledWithExactly(file), '_reloadModel was called with correct parameters');
     });
 });
+
 
 test('addSubfolder sends valid waterbutler request', function (assert) {
-    assert.expect(4);
+    assert.expect(2);
     let service = this.subject();
     let folder = FactoryGuy.make('file', 'isFolder');
-    let done = assert.async();
 
     let request = {
         url: folder.get('links').new_folder,
@@ -228,48 +102,30 @@ test('addSubfolder sends valid waterbutler request', function (assert) {
     let response = {
         status: 200,
     };
-    mockWaterbutler(assert, request, response);
 
-    let p = service.addSubfolder(folder, request.query.name);
-
-    p.then(function () {
-        done();
-    }).catch(function () {
-        done();
+    service.set('_waterbutlerRequest', () => {
+        return new Ember.RSVP.Promise(function(resolve){
+            // succeed
+            resolve(response);
+        });
     });
+
+    const stub = this.stub(service, '_getNewFileInfo');
+
+    service.addSubfolder(folder, request.query.name);
+
+    return wait().then(() => {
+        assert.ok(stub.calledOnce, '_getNewFileInfo was called once');
+        assert.ok(stub.calledWithExactly(folder, request.query.name), '_getNewFileInfo was called with correct parameters');
+    });
+
 });
 
-test('addSubfolder passes along error', function (assert) {
-    assert.expect(5);
-    let service = this.subject();
-    let folder = FactoryGuy.make('file', 'isFolder');
-    let done = assert.async();
-
-    let request = {
-        url: folder.get('links').new_folder,
-        query: {name: 'fooname', kind: 'folder'},
-        settings: {method: 'PUT'},
-        headers: {Authorization: `Bearer ${fakeAccessToken}`},
-    };
-    let response = {
-        status: 404,
-    };
-    mockWaterbutler(assert, request, response);
-
-    service.addSubfolder(folder, request.query.name).then(function () {
-        assert.ok(false, 'promise should reject on error');
-        done();
-    }).catch(function () {
-        assert.ok(true, 'promise rejects on error');
-        done();
-    });
-});
 
 test('uploadFile sends valid waterbutler request', function (assert) {
-    assert.expect(5);
+    assert.expect(2);
     let service = this.subject();
     let folder = FactoryGuy.make('file', 'isFolder');
-    let done = assert.async();
 
     let request = {
         url: folder.get('links').upload,
@@ -280,188 +136,93 @@ test('uploadFile sends valid waterbutler request', function (assert) {
     let response = {
         status: 200,
     };
-    mockWaterbutler(assert, request, response);
 
-    let p = service.uploadFile(folder, request.query.name,
-        request.settings.data);
+    service.set('_waterbutlerRequest', () => {
+        return new Ember.RSVP.Promise(function(resolve){
+            // succeed
+            resolve(response);
+        });
+    });
 
-    p.then(function () {
-        done();
-    }).catch(function () {
-        done();
+    const stub = this.stub(service, '_getNewFileInfo');
+
+    service.uploadFile(folder, request.query.name, request.settings.data);
+
+    return wait().then(() => {
+        assert.ok(stub.calledOnce, '_getNewFileInfo was called once');
+        assert.ok(stub.calledWithExactly(folder, request.query.name), '_getNewFileInfo was called with correct parameters');
     });
 });
 
-test('uploadFile passes along error', function (assert) {
-    assert.expect(6);
-    let service = this.subject();
-    let file = FactoryGuy.make('file', 'isFolder');
-    let done = assert.async();
-
-    let request = {
-        url: file.get('links').upload,
-        query: {name: 'fooname', kind: 'file'},
-        settings: {method: 'PUT', data: 'contents contents'},
-        headers: {Authorization: `Bearer ${fakeAccessToken}`},
-    };
-    let response = {
-        status: 401,
-    };
-    mockWaterbutler(assert, request, response);
-
-    service.uploadFile(file, request.query.name,
-        request.settings.data).then(function () {
-        assert.ok(false, 'promise should reject on error');
-        done();
-    }).catch(function () {
-        assert.ok(true, 'promise rejects on error');
-        done();
-    });
-});
 
 test('move sends valid waterbutler request', function (assert) {
-    assert.expect(4);
+    assert.expect(2);
     let service = this.subject();
-    let done = assert.async();
     let file = FactoryGuy.make('file');
-    let folder = FactoryGuy.make('file', 'isFolder',
-        {path: '/path/path/this/is/a/path/'});
-    let request = {
-        url: file.get('links').move,
-        settings: {
-            method: 'POST', data: {
-                action: 'move',
-                path: folder.get('path'),
-            }
-        },
-        headers: {Authorization: `Bearer ${fakeAccessToken}`},
-    };
+    let folder = FactoryGuy.make('file', 'isFolder', {path: '/path/path/this/is/a/path/'});
+
     let response = {
         status: 200,
         data: {
-            data: {
-                attributes: {name: file.get('name')}
-            }
+            attributes: {name: file.get('name')}
         }
     };
-    mockWaterbutler(assert, request, response);
 
-    let p = service.move(file, folder);
-
-    p.then(function () {
-        done();
-    }).catch(function () {
-        done();
+    service.set('_waterbutlerRequest', () => {
+        return new Ember.RSVP.Promise(function(resolve){
+            // succeed
+            resolve(response);
+        });
     });
+
+    const stub = this.stub(service, '_getNewFileInfo');
+
+    service.move(file, folder);
+
+    return wait().then(() => {
+        assert.ok(stub.calledOnce, '_getNewFileInfo was called once');
+        assert.ok(stub.calledWithExactly(folder, response.data.attributes.name), '_getNewFileInfo was called with correct parameters');
+    });
+
 });
 
-test('move passes along error', function (assert) {
-    assert.expect(5);
-    let service = this.subject();
-    let done = assert.async();
-    let file = FactoryGuy.make('file');
-    let folder = FactoryGuy.make('file', 'isFolder',
-        {path: '/path/path/this/is/a/path/'});
-
-    let request = {
-        url: file.get('links').move,
-        settings: {
-            method: 'POST', data: {
-                action: 'move',
-                path: folder.get('path'),
-            }
-        },
-        headers: {Authorization: `Bearer ${fakeAccessToken}`},
-    };
-    let response = {
-        status: 402,
-    };
-    mockWaterbutler(assert, request, response);
-
-    service.move(file, folder).then(function () {
-        assert.ok(false, 'promise should reject');
-        done();
-    }).catch(function () {
-        assert.ok(true, 'promise rejects on error');
-        done();
-    });
-});
 
 test('copy sends valid waterbutler request', function (assert) {
-    assert.expect(4);
+    assert.expect(2);
     let service = this.subject();
-    let done = assert.async();
     let file = FactoryGuy.make('file');
-    let folder = FactoryGuy.make('file', 'isFolder',
-        {path: '/path/path/this/is/a/path/'});
+    let folder = FactoryGuy.make('file', 'isFolder', {path: '/path/path/this/is/a/path/'});
 
-    let request = {
-        url: file.get('links').move,
-        settings: {
-            method: 'POST',
-            data: {
-                action: 'copy',
-                path: folder.get('path'),
-            }
-        },
-        headers: {Authorization: `Bearer ${fakeAccessToken}`},
-    };
     let response = {
         status: 200,
         data: {
-            data: {
-                attributes: {name: file.get('name')}
-            }
+            attributes: {name: file.get('name')}
         }
     };
-    mockWaterbutler(assert, request, response);
 
-    let p = service.copy(file, folder);
-
-    p.then(function () {
-        done();
-    }).catch(function () {
-        done();
+    service.set('_waterbutlerRequest', () => {
+        return new Ember.RSVP.Promise(function(resolve){
+            // succeed
+            resolve(response);
+        });
     });
+
+    const stub = this.stub(service, 'move');
+
+    service.copy(file, folder);
+
+    assert.ok(stub.calledOnce, 'move was called once');
+
+    const options = { data: {action: 'copy'}};
+
+    assert.ok(stub.calledWithExactly(file, folder, options), 'move was called with correct parameters');
 });
 
-test('copy passes along error', function (assert) {
-    assert.expect(5);
-    let service = this.subject();
-    let done = assert.async();
-    let file = FactoryGuy.make('file');
-    let folder = FactoryGuy.make('file', 'isFolder',
-        {path: '/path/path/this/is/a/path/'});
-
-    let request = {
-        url: file.get('links').move,
-        settings: {
-            method: 'POST', data: {
-                action: 'copy',
-                path: folder.get('path'),
-            }
-        },
-        headers: {Authorization: `Bearer ${fakeAccessToken}`},
-    };
-    let response = {
-        status: 402,
-    };
-    mockWaterbutler(assert, request, response);
-
-    service.copy(file, folder).then(function () {
-        assert.ok(false, 'promise should reject');
-        done();
-    }).catch(function () {
-        assert.ok(true, 'promise rejects on error');
-        done();
-    });
-});
 
 test('rename sends valid waterbutler request', function (assert) {
-    assert.expect(4);
+    assert.expect(2);
     let service = this.subject();
     let file = FactoryGuy.make('file');
-    let done = assert.async();
 
     let request = {
         url: file.get('links').move,
@@ -472,97 +233,51 @@ test('rename sends valid waterbutler request', function (assert) {
         status: 200,
     };
 
-    mockWaterbutler(assert, request, response);
-    mockReload(file).returns({
-        json: FactoryGuy.build('file', {
-            id: file.get('id'),
-            name: request.settings.data.rename
-        })
+    service.set('_waterbutlerRequest', () => {
+        return new Ember.RSVP.Promise(function(resolve){
+            // succeed
+            resolve(response);
+        });
     });
 
-    let p = service.rename(file, request.settings.data.rename);
+    const stub = this.stub(service, '_reloadModel');
 
-    p.then(function () {
-        done();
-    }).catch(function () {
-        done();
-    });
-});
+    service.rename(file, request.settings.data.rename);
 
-test('rename passes along error', function (assert) {
-    assert.expect(5);
-    let service = this.subject();
-    let file = FactoryGuy.make('file');
-    let done = assert.async();
-
-    let request = {
-        url: file.get('links').move,
-        settings: {method: 'POST', data: {action: 'rename', rename: 'flooby'}},
-        headers: {Authorization: `Bearer ${fakeAccessToken}`},
-    };
-    let response = {
-        status: 401,
-    };
-    mockWaterbutler(assert, request, response);
-
-    service.rename(file, request.settings.data.rename).then(function () {
-        assert.ok(false, 'promise should reject');
-        done();
-    }).catch(function () {
-        assert.ok(true, 'promise rejects on error');
-        done();
+    return wait().then(() => {
+        assert.ok(stub.calledOnce, '_reloadModel was called once');
+        assert.ok(stub.calledWithExactly(file), '_reloadModel was called with correct parameters');
     });
 });
+
 
 test('deleteFile sends valid waterbutler request', function (assert) {
-    assert.expect(4);
+    assert.expect(2);
     let service = this.subject();
-    let file = FactoryGuy.make('file');
-    let done = assert.async();
+    let folder = FactoryGuy.make('file', 'isFolder');
+    let file1 = FactoryGuy.make('file', {parentFolder: folder});
 
-    let request = {
-        url: file.get('links').delete,
-        settings: {method: 'DELETE'},
-        headers: {Authorization: `Bearer ${fakeAccessToken}`},
-    };
     let response = {
         status: 200,
     };
-    mockWaterbutler(assert, request, response);
 
-    service.deleteFile(file).then(function () {
-        assert.ok(true);
-        done();
-    }).catch(function () {
-        assert.ok(false, 'promise rejected!');
-        done();
+    service.set('_waterbutlerRequest', () => {
+        return new Ember.RSVP.Promise(function(resolve){
+            // succeed
+            resolve(response);
+        });
+    });
+
+    const stub = this.stub(service, '_reloadModel');
+
+    service.deleteFile(file1);
+
+    return wait().then(() => {
+        assert.ok(stub.calledOnce, '_reloadModel was called once');
+        assert.ok(stub.calledWithExactly(folder.get('files')), '_reloadModel was called with correct parameters');
     });
 });
 
-test('deleteFile passes along error', function (assert) {
-    assert.expect(4);
-    let service = this.subject();
-    let file = FactoryGuy.make('file');
-    let done = assert.async();
-
-    let request = {
-        url: file.get('links').delete,
-        settings: {method: 'DELETE'},
-        headers: {Authorization: `Bearer ${fakeAccessToken}`},
-    };
-    let response = {
-        status: 401,
-    };
-    mockWaterbutler(assert, request, response);
-
-    service.deleteFile(file).then(function () {
-        assert.ok(false, 'promise should reject');
-        done();
-    }).catch(function () {
-        assert.ok(true, 'promise rejects on error');
-        done();
-    });
-});
 
 test('checkOut checks out', function (assert) {
     assert.expect(2);
