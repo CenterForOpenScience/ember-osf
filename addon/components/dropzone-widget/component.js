@@ -33,6 +33,7 @@ export default Ember.Component.extend({
     classNameBindings: ['dropzone'],
     dropzone: true,
     enable: true,
+    clickable: true,
     loadDropzone() {
         let preUpload = this.get('preUpload');
         let dropzoneOptions = this.get('options') || {};
@@ -108,7 +109,7 @@ export default Ember.Component.extend({
     },
     didUpdateAttrs() {
         if (this.get('enable') && !this.get('attached')) {
-            this.set('attached', true);
+            Dropzone.forElement(`#${this.elementId}`).destroy();
             this.loadDropzone();
         }
     },

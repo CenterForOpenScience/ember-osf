@@ -12,7 +12,7 @@
     {{else}}
         <div class='pull-right'>
             {{#if (and edit (if-filter 'upload-button' display))}}
-                <button class='dz-message btn text-success'>{{fa-icon "upload"}} Upload</button>
+                <button class='btn text-success dz-message'>{{fa-icon "upload"}} Upload</button>
             {{/if}}
             {{#if selectedItems}}
                 {{! TODO: show available actions for selected files }}
@@ -114,9 +114,49 @@
     enable=edit
     class='dropzone-area'
     id=dropZoneId
-    clickable=(if (and edit (if-filter 'upload-button' display)) '.dz-message' undefined)
+    clickable=clickable
 }}
     <div class='file-browser-list'>
+        <div class='shade {{if (not dropping) "transparent"}}'>
+            <div class='upload-drop'>
+                <div class='upload-text'>{{fa-icon 'upload' size=5}}</div>
+                <div class='upload-text'>Drop file to upload</div>
+            </div>
+        </div>
+        {{#if (eq browserState 'loading')}}
+            <br><br>
+            <div class='ball-scale ball-dark' style='text-align: center'><div></div></div>
+        {{else if (eq browserState 'empty')}}
+            {{#if uploading.length}}
+                {{#each uploading as |file|}}
+                    <div class="row">
+                        <div class="col-xs-5 file-browser-header">
+                            {{file-browser-icon item=file}}
+                            {{file.name}}
+                        </div>
+                        <div class="col-xs-5">
+                            <div class="progress">
+                                <div id="uploading-{{file.size}}" class="progress-bar" role="progressbar"></div>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 file-browser-header"></div>
+                    </div>
+                {{/each}}
+            {{else}}
+                {{#if edit}}
+                    <div class='file-placeholder'>
+                        <div class='file-placeholder-content'>
+                            <div>{{fa-icon 'upload' size=5}}</div>
+                            <div class='file-placeholder-text dz-message'>Drop files here to upload</div>
+                        </div>
+                    </div>
+                {{else}}
+                    <div class='file-placeholder'>
+                        <div class='file-placeholder-text file-placeholder-content'>This user has not uploaded any quickfiles</div>
+                    </div>
+                {{/if}}
+            {{/if}}
+        {{else}}
         {{#if modalOpen}}
             {{#if (eq modalOpen 'info')}}
                 {{#bs-modal onHidden=(action 'closeModal') as |modal|}}
@@ -182,46 +222,6 @@
                 {{/bs-modal}}
             {{/if}}
         {{/if}}
-        <div class='shade {{if (not dropping) "transparent"}}'>
-            <div class='upload-drop'>
-                <div class='upload-text'>{{fa-icon 'upload' size=5}}</div>
-                <div class='upload-text'>Drop file to upload</div>
-            </div>
-        </div>
-        {{#if (eq browserState 'loading')}}
-            <br><br>
-            <div class='ball-scale ball-dark' style='text-align: center'><div></div></div>
-        {{else if (eq browserState 'empty')}}
-            {{#if uploading.length}}
-                {{#each uploading as |file|}}
-                    <div class="row">
-                        <div class="col-xs-5 file-browser-header">
-                            {{file-browser-icon item=file}}
-                            {{file.name}}
-                        </div>
-                        <div class="col-xs-5">
-                            <div class="progress">
-                                <div id="uploading-{{file.size}}" class="progress-bar" role="progressbar"></div>
-                            </div>
-                        </div>
-                        <div class="col-xs-2 file-browser-header"></div>
-                    </div>
-                {{/each}}
-            {{else}}
-                {{#if edit}}
-                    <div class='file-placeholder'>
-                        <div class='file-placeholder-content'>
-                            <div>{{fa-icon 'upload' size=5}}</div>
-                            <div class='file-placeholder-text'>Drop files here to upload</div>
-                        </div>
-                    </div>
-                {{else}}
-                    <div class='file-placeholder'>
-                        <div class='file-placeholder-text file-placeholder-content'>This user has not uploaded any quickfiles</div>
-                    </div>
-                {{/if}}
-            {{/if}}
-        {{else}}
             <div class='items'>
                 {{#each uploading as |file|}}
                     <div class="file-browser-item">
