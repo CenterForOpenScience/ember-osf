@@ -6,7 +6,6 @@
     "Faker": "~3.0.0",
     "pretender": "~0.10.1",
     "lodash": "~3.7.0",
-    "jquery-mockjax": "2.1.1",
     "dropzone": "~4.3.0",
     "font-awesome": "~4.5.0",
     "typeahead.js": "^0.11.1",
