@@ -32,5 +32,5 @@ test('it renders', function(assert) {
         shareTotal=shareTotal
         shareTotalText=shareTotalText
     }}`);
-    assert.strictEqual(this.$('span')[0].innerText, 'searchable preprints');
+    assert.strictEqual(this.$('span')[0].innerText, '100 searchable preprints');
 });
