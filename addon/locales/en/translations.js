@@ -212,7 +212,7 @@ export default {
                 helpDescription: 'This gives you many options, but can be very simple as well. Examples of valid searches include:'
             },
             totalShareResults: {
-                'searchablePreprints': `{{count}} searchable {{preprintWords.preprints}}`,
+                'searchablePreprints': `searchable {{preprintWords.preprints}}`,
                 'searchableRegistries': `{{count}} searchable registrations`,
                 'searchableEvents': `{{count}} searchable events`,
             }
