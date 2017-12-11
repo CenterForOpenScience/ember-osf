@@ -57,7 +57,7 @@
                     {{/if}}
                 {{/if}}
             {{else}}
-                {{#if (if-filter 'download-button' display)}}
+                {{#if (and (eq browserState 'show') (if-filter 'download-button' display))}}
                     <a href='{{downloadUrl}}' class='btn text-primary' onclick={{unless edit (action 'click' 'button' 'Quick Files - Download zip' preventDefault=false)}}>{{fa-icon "download"}} Download as zip</a>
                 {{/if}}
             {{/if}}
@@ -98,6 +98,71 @@
             {{/if}}
         </div>
     </div>
+{{/if}}
+{{#if modalOpen}}
+    {{#if (eq modalOpen 'info')}}
+        {{#bs-modal onHidden=(action 'closeModal') as |modal|}}
+            {{#modal.header onClose=(action 'closeModal')}}
+                <h3 class="modal-title">How to use the file browser</h3>
+            {{/modal.header}}
+            {{#modal.body}}
+                <p><b>Upload:</b> Single file uploads via drag and drop or by clicking the upload button.</p>
+                <p><b>Select rows:</b> Click on a row to show further actions in the toolbar. Use Command or Shift keys to select multiple files.</p>
+                <p><b>Folders:</b> Not supported; consider an OSF project for uploading and managing many files.</p>
+                <p><b>Open files:</b> Click a file name to go to view the file in the OSF.</p>
+                <p><b>Open files in new tab:</b> Press Command (Ctrl in Windows) and click a file name to open it in a new tab.</p>
+                <p><b>Download as zip:</b> Click the Download as Zip button in the toolbar to download all files as a .zip.</p>
+            {{/modal.body}}
+            {{#modal.footer}}
+                {{#bs-button onClick=(action 'closeModal') type='default'}}Close{{/bs-button}}
+            {{/modal.footer}}
+        {{/bs-modal}}
+    {{else if (eq modalOpen 'delete')}}
+        {{#bs-modal onHidden=(action 'closeModal') as |modal|}}
+            {{#modal.header onClose=(action 'closeModal')}}
+                <h3 class="modal-title break-word">Delete "{{selectedItems.firstObject.itemName}}"?</h3>
+            {{/modal.header}}
+            {{#modal.body}}
+                <p>This action is irreversible.</p>
+            {{/modal.body}}
+            {{#modal.footer}}
+                {{#bs-button onClick=(action 'closeModal') type='default'}}Cancel{{/bs-button}}
+                {{#bs-button onClick=(action 'deleteItem') type='danger'}}Delete{{/bs-button}}
+            {{/modal.footer}}
+        {{/bs-modal}}
+    {{else if (eq modalOpen 'deleteMultiple')}}
+        {{#bs-modal onHidden=(action 'closeModal') as |modal|}}
+            {{#modal.header onClose=(action 'closeModal')}}
+                <h3 class="modal-title break-word">Delete multiple?</h3>
+            {{/modal.header}}
+            {{#modal.body}}
+                <p>This action is irreversible.</p>
+                {{#each selectedItems as | item |}}
+                    <b>{{item.itemName}}</b>
+                    <hr style='margin-top: 5px'>
+                {{/each}}
+            {{/modal.body}}
+            {{#modal.footer}}
+                {{#bs-button onClick=(action 'closeModal') type='default'}}Cancel{{/bs-button}}
+                {{#bs-button onClick=(action 'deleteItems') type='danger'}}Delete{{/bs-button}}
+            {{/modal.footer}}
+        {{/bs-modal}}
+    {{else if (eq modalOpen 'renameConflict')}}
+        {{#bs-modal onHidden=(action 'closeModal') as |modal|}}
+            {{#modal.header onClose=(action 'closeModal')}}
+                <h3 class="modal-title break-word">An item named {{textValue}} already exists in this location.</h3>
+            {{/modal.header}}
+            {{#modal.body}}
+                <p>"Keep Both" will retain both files (and their version histories) in this location.</p>
+                <p>"Replace" will overwrite the existing file in this location. You will lose previous versions of the overwritten file. You will keep previous versions of the moved file.</p>
+            {{/modal.body}}
+            {{#modal.footer}}
+                {{#bs-button onClick=(action 'closeModal') type='default'}}Cancel{{/bs-button}}
+                {{#bs-button onClick=(action '_rename' 'keep') type='primary'}}Keep both{{/bs-button}}
+                {{#bs-button onClick=(action '_rename' 'replace') type='primary'}}Replace{{/bs-button}}
+            {{/modal.footer}}
+        {{/bs-modal}}
+    {{/if}}
 {{/if}}
 {{#dropzone-widget
     buildUrl=(action 'buildUrl')
@@ -157,71 +222,6 @@
                 {{/if}}
             {{/if}}
         {{else}}
-        {{#if modalOpen}}
-            {{#if (eq modalOpen 'info')}}
-                {{#bs-modal onHidden=(action 'closeModal') as |modal|}}
-                    {{#modal.header onClose=(action 'closeModal')}}
-                        <h3 class="modal-title">How to use the file browser</h3>
-                    {{/modal.header}}
-                    {{#modal.body}}
-                        <p><b>Upload:</b> Single file uploads via drag and drop or by clicking the upload button.</p>
-                        <p><b>Select rows:</b> Click on a row to show further actions in the toolbar. Use Command or Shift keys to select multiple files.</p>
-                        <p><b>Folders:</b> Not supported; consider an OSF project for uploading and managing many files.</p>
-                        <p><b>Open files:</b> Click a file name to go to view the file in the OSF.</p>
-                        <p><b>Open files in new tab:</b> Press Command (Ctrl in Windows) and click a file name to open it in a new tab.</p>
-                        <p><b>Download as zip:</b> Click the Download as Zip button in the toolbar to download all files as a .zip.</p>
-                    {{/modal.body}}
-                    {{#modal.footer}}
-                        {{#bs-button onClick=(action 'closeModal') type='default'}}Close{{/bs-button}}
-                    {{/modal.footer}}
-                {{/bs-modal}}
-            {{else if (eq modalOpen 'delete')}}
-                {{#bs-modal onHidden=(action 'closeModal') as |modal|}}
-                    {{#modal.header onClose=(action 'closeModal')}}
-                        <h3 class="modal-title break-word">Delete "{{selectedItems.firstObject.itemName}}"?</h3>
-                    {{/modal.header}}
-                    {{#modal.body}}
-                        <p>This action is irreversible.</p>
-                    {{/modal.body}}
-                    {{#modal.footer}}
-                        {{#bs-button onClick=(action 'closeModal') type='default'}}Cancel{{/bs-button}}
-                        {{#bs-button onClick=(action 'deleteItem') type='danger'}}Delete{{/bs-button}}
-                    {{/modal.footer}}
-                {{/bs-modal}}
-            {{else if (eq modalOpen 'deleteMultiple')}}
-                {{#bs-modal onHidden=(action 'closeModal') as |modal|}}
-                    {{#modal.header onClose=(action 'closeModal')}}
-                        <h3 class="modal-title break-word">Delete multiple?</h3>
-                    {{/modal.header}}
-                    {{#modal.body}}
-                        <p>This action is irreversible.</p>
-                        {{#each selectedItems as | item |}}
-                            <b>{{item.itemName}}</b>
-                            <hr style='margin-top: 5px'>
-                        {{/each}}
-                    {{/modal.body}}
-                    {{#modal.footer}}
-                        {{#bs-button onClick=(action 'closeModal') type='default'}}Cancel{{/bs-button}}
-                        {{#bs-button onClick=(action 'deleteItems') type='danger'}}Delete{{/bs-button}}
-                    {{/modal.footer}}
-                {{/bs-modal}}
-            {{else if (eq modalOpen 'renameConflict')}}
-                {{#bs-modal onHidden=(action 'closeModal') as |modal|}}
-                    {{#modal.header onClose=(action 'closeModal')}}
-                        <h3 class="modal-title break-word">An item named {{textValue}} already exists in this location.</h3>
-                    {{/modal.header}}
-                    {{#modal.body}}
-                        <p>"Keep Both" will retain both files (and their version histories) in this location.</p>
-                        <p>"Replace" will overwrite the existing file in this location. You will lose previous versions of the overwritten file. You will keep previous versions of the moved file.</p>
-                    {{/modal.body}}
-                    {{#modal.footer}}
-                        {{#bs-button onClick=(action 'closeModal') type='default'}}Cancel{{/bs-button}}
-                        {{#bs-button onClick=(action '_rename' 'keep') type='primary'}}Keep both{{/bs-button}}
-                        {{#bs-button onClick=(action '_rename' 'replace') type='primary'}}Replace{{/bs-button}}
-                    {{/modal.footer}}
-                {{/bs-modal}}
-            {{/if}}
-        {{/if}}
             <div class='items'>
                 {{#each uploading as |file|}}
                     <div class="file-browser-item">
