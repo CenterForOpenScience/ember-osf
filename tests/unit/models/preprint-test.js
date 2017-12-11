@@ -8,6 +8,7 @@ moduleForModel('preprint', 'Unit | Model | preprint', {
             'model:file-provider',
             'model:preprint-provider',
             'model:action',
+            'model:review-action',
             'model:node',
             'model:license',
             'transform:fixstring',
