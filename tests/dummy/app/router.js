@@ -69,7 +69,7 @@ Router.map(function() {
     this.route('usernodes');
     this.route('embedding-records');
     this.route('share-discover-page');
-    this.route('waffle-switch');
+    this.route('waffle');
 });
 
 export default Router;
