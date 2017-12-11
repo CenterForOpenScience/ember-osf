@@ -138,9 +138,9 @@ export default Ember.Component.extend(Analytics, {
         return this.get('loaded') ? (this.get('_items').length ? (this.get('items').length ? 'show' : 'filtered') : 'empty') : 'loading';
     }),
     clickable: Ember.computed('browserState', function() {
-        let clickable = [".dz-message"];
+        let clickable = ['.dz-message'];
         if (this.get('edit') && this.get('display').contains('upload-button') && this.get('browserState') == 'empty') {
-            clickable.push(".file-browser-list");
+            clickable.push('.file-browser-list');
         }
         return clickable;
     }),
@@ -159,8 +159,9 @@ export default Ember.Component.extend(Analytics, {
             this.set('dropping', false);
         },
         error(_, __, file, response) {
+            let message = response.message === undefined ? response : response.message;
             this.get('uploading').removeObject(file);
-            this.get('toast').error(response.message);
+            this.get('toast').error(message);
         },
         success(_, __, file, response) {
             this.send('track', 'upload', 'track', 'Quick Files - Upload');
