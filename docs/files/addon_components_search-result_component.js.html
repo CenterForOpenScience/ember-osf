@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.0</em>
+            <em>API Docs for: 0.12.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -56,6 +56,7 @@
                                 <li><a href="../classes/Contributor.html">Contributor</a></li>
                                 <li><a href="../classes/current-user.html">current-user</a></li>
                                 <li><a href="../classes/discover-page.html">discover-page</a></li>
+                                <li><a href="../classes/donate-banner.html">donate-banner</a></li>
                                 <li><a href="../classes/DraftRegistration.html">DraftRegistration</a></li>
                                 <li><a href="../classes/dropzone-widget.html">dropzone-widget</a></li>
                                 <li><a href="../classes/elastic-query.html">elastic-query</a></li>
@@ -66,6 +67,7 @@
                                 <li><a href="../classes/file-browser.html">file-browser</a></li>
                                 <li><a href="../classes/file-browser-icon.html">file-browser-icon</a></li>
                                 <li><a href="../classes/file-chooser component.html">file-chooser component</a></li>
+                                <li><a href="../classes/file-editor.html">file-editor</a></li>
                                 <li><a href="../classes/file-manager.html">file-manager</a></li>
                                 <li><a href="../classes/file-renderer.html">file-renderer</a></li>
                                 <li><a href="../classes/file-version.html">file-version</a></li>
@@ -81,18 +83,21 @@
                                 <li><a href="../classes/GenericDataADapter.html">GenericDataADapter</a></li>
                                 <li><a href="../classes/getDisplayName.html">getDisplayName</a></li>
                                 <li><a href="../classes/HostAppNameMixin.html">HostAppNameMixin</a></li>
+                                <li><a href="../classes/human-file-size.html">human-file-size</a></li>
                                 <li><a href="../classes/ifFilter.html">ifFilter</a></li>
                                 <li><a href="../classes/InfinityCustomMixin.html">InfinityCustomMixin</a></li>
                                 <li><a href="../classes/Institution.html">Institution</a></li>
                                 <li><a href="../classes/license-picker.html">license-picker</a></li>
                                 <li><a href="../classes/Log.html">Log</a></li>
                                 <li><a href="../classes/Metaschema.html">Metaschema</a></li>
+                                <li><a href="../classes/mimeTypes.html">mimeTypes</a></li>
                                 <li><a href="../classes/navbar-auth-dropdown.html">navbar-auth-dropdown</a></li>
                                 <li><a href="../classes/new-navbar-auth-dropdown.html">new-navbar-auth-dropdown</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
                                 <li><a href="../classes/NodeActionsMixin.html">NodeActionsMixin</a></li>
                                 <li><a href="../classes/NodeLink.html">NodeLink</a></li>
                                 <li><a href="../classes/oauth-popup.html">oauth-popup</a></li>
+                                <li><a href="../classes/old-file-browser.html">old-file-browser</a></li>
                                 <li><a href="../classes/osf-copyright.html">osf-copyright</a></li>
                                 <li><a href="../classes/osf-footer.html">osf-footer</a></li>
                                 <li><a href="../classes/osf-mode-footer.html">osf-mode-footer</a></li>
@@ -246,6 +251,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     * @property {Object} themeProvider
     */
     themeProvider: null,
+    domainRedirectProviders: [],
     footerIcon: Ember.computed(&#x27;showBody&#x27;, function() {
         return this.get(&#x27;showBody&#x27;) ? &#x27;caret-up&#x27; : &#x27;caret-down&#x27;;
     }),
@@ -281,8 +287,30 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     tags: Ember.computed(&#x27;result.tags&#x27;, function() {
         return (this.get(&#x27;result.tags&#x27;) || []).slice(0, this.get(&#x27;maxTags&#x27;));
     }),
-    subjects: Ember.computed(&#x27;result.subjects&#x27;, function() {
-        return (this.get(&#x27;result.subjects&#x27;) || []).slice(0, this.get(&#x27;maxSubjects&#x27;));
+    subjects: Ember.computed(&#x27;result.subjects&#x27;, &#x27;result.subject_synonyms&#x27;, &#x27;themeProvider&#x27;, function() {
+        let subs = this.get(&#x27;themeProvider.id&#x27;) === &#x27;osf&#x27; &amp;&amp; this.get(&#x27;result.subject_synonyms&#x27;).length ? this.get(&#x27;result.subject_synonyms&#x27;) : this.get(&#x27;result.subjects&#x27;);
+        let uniqueSubs = {}
+        subs.map(e =&gt; {
+            let tax, subjects;
+            [tax, ...subjects] = e.text.split(&#x27;|&#x27;);
+            if (subjects.length) { //accounting for non-custom taxonomy subjects, if we ever get back to that
+                for (var i = 0; i &lt; subjects.length; i++) {
+                    uniqueSubs[subjects[i]] = {
+                        text: subjects[i],
+                        value: [tax, ...subjects.slice(0, i+1)].join(&#x27;|&#x27;),
+                        taxonomy: tax
+                    }
+                }
+            } else {
+                uniqueSubs[e.text] = {
+                    text: e.text,
+                    value: e.text,
+                    taxonomy: null
+                };
+            }
+        });
+        uniqueSubs = Object.keys(uniqueSubs).map(e =&gt; uniqueSubs[e]);
+        return (uniqueSubs || []).slice(0, this.get(&#x27;maxSubjects&#x27;));
     }),
     extraSubjects: Ember.computed(&#x27;result.subjects&#x27;, function() {
         return (this.get(&#x27;result.subjects&#x27;) || []).slice(this.get(&#x27;maxSubjects&#x27;));
@@ -306,21 +334,34 @@ export default Ember.Component.extend(Analytics, hostAppName, {
         return false;
     }),
     hyperlink: Ember.computed(&#x27;result&#x27;, function() {
-        let re = null;
-        for (let i = 0; i &lt; this.get(&#x27;result.providers.length&#x27;); i++) {
-            //If the result has multiple providers, and one of them matches, use the first one found.
-            re = this.providerUrlRegex[this.get(&#x27;result.providers&#x27;)[i].name];
-            if (re) break;
-        }
-
-        re = re || this.providerUrlRegex.OSF;
-
+        const urlRegex = /^https?:\/\/([^\/]+)\/(.+)$/;
+        const domainRedirectList = this.get(&#x27;domainRedirectProviders&#x27;);
         const identifiers = this.get(&#x27;result.identifiers&#x27;).filter(ident =&gt; ident.startsWith(&#x27;http://&#x27;) || ident.startsWith(&#x27;https://&#x27;) );
-
-        for (let j = 0; j &lt; identifiers.length; j++)
-            if (re.test(identifiers[j]))
-                return identifiers[j];
-
+        for (let identifier of identifiers) {
+            let url = identifier.match(urlRegex);
+            if (url) {
+                const domainRegex = new RegExp(&quot;^https?://&quot; + url[1] + &quot;/&quot;);
+                for (let domain of domainRedirectList) {
+                    if (domainRegex.test(domain)) {
+                        // If the domain matches use the path from the identifier concatentated to the domain
+                        return domain + url[2];
+                    }
+                }
+            }
+        }
+        let re = this.providerUrlRegex.OSF;
+        for (let provider of this.get(&#x27;result.providers&#x27;)) {
+            // If the result has multiple providers and one of them matches use the first one found
+            if (this.providerUrlRegex.hasOwnProperty(provider.name)) {
+                re = this.providerUrlRegex[provider.name];
+                break;
+            }
+        }
+        for (let identifier of identifiers) {
+            if (re.test(identifier)) {
+                return identifier;
+            }
+        }
         return identifiers[0];
     }),
     // Determines whether tags in search results should be links - preprints and registries are not using tag filter right now.

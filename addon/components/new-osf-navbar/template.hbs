@@ -36,11 +36,10 @@
             <div class="navbar-collapse collapse navbar-right" id="secondary-navigation">
                 <ul class="nav navbar-nav">
                     {{!SECONDARY NAVIGATION - displays corresponding links for selected service}}
-                    {{#each (build-secondary-nav-links currentService) as |navLink|}}
+                    {{#each (build-secondary-nav-links currentService baseServiceUrl) as |navLink|}}
                         {{#if (and (eq currentService 'HOME') (eq navLink.type "search"))}}
                             <li>
-                                {{!TOGGLE SEARCH BUTTON FOR HOME SERVICE}}
-                                <a role="button" class="btn-link search-toggle" {{action 'toggleSearch'}} {{action 'click' 'button' (concat 'Navbar - ' currentService navLink.name)}}>
+                                <a href="{{navLink.href}}" onclick={{action 'click' 'link' (concat 'Navbar - ' navlink.name)}}>
                                     {{t navLink.name}}
                                 </a>
                             </li>

@@ -21,7 +21,8 @@ import layout from './template';
  *   buildUrl=buildUrl
  *   success=attrs.success
  *   defaultMessage=defaultMessage
- *   options=dropzoneOptions}}
+ *   options=dropzoneOptions
+ *   clickable=clickable}}
  * ```
  *
  * @class dropzone-widget
@@ -29,15 +30,51 @@ import layout from './template';
 export default Ember.Component.extend({
     layout,
     session: Ember.inject.service(),
-    classNames: ['dropzone'],
-    didInsertElement() {
+    classNameBindings: ['dropzone'],
+    dropzone: true,
+    enable: true,
+    loadDropzone() {
         let preUpload = this.get('preUpload');
         let dropzoneOptions = this.get('options') || {};
 
-        let drop = new Dropzone(`#${this.elementId}`, {
+        function CustomDropzone() {
+            Dropzone.call(this, ...arguments);
+        }
+        CustomDropzone.prototype = Object.create(Dropzone.prototype);
+        CustomDropzone.prototype.drop = function(e) {
+            if (this.options.preventMultipleFiles && e.dataTransfer) {
+                if (e.dataTransfer.items && e.dataTransfer.items.length > 1 || e.dataTransfer.files.length > 1) {
+                    this.emit("drop", e);
+                    this.emit('error', 'None', 'Cannot upload multiple files');
+                    return;
+                }
+                if (e.dataTransfer.files.length === 0) {
+                    this.emit("drop", e);
+                    this.emit('error', 'None', 'Cannot upload directories, applications, or packages');
+                    return;
+                }
+            }
+            return Dropzone.prototype.drop.call(this, e);
+        };
+        CustomDropzone.prototype._addFilesFromDirectory  = function(directory, path) {
+            if (!this.options.acceptDirectories) {
+                directory.status = Dropzone.ERROR;
+                this.emit("error", directory, "Cannot upload directories, applications, or packages");
+                return;
+            }
+            return Dropzone.prototype._addFilesFromDirectory.call(directory, path);
+        };
+
+        let drop = new CustomDropzone(`#${this.elementId}`, {
             url: file => typeof this.get('buildUrl') === 'function' ? this.get('buildUrl')(file) : this.get('buildUrl'),
             autoProcessQueue: false,
-            dictDefaultMessage: this.get('defaultMessage') || 'Drop files here to upload'
+            autoQueue: false,
+            clickable: this.get('clickable'),
+            dictDefaultMessage: this.get('defaultMessage') || 'Drop files here to upload',
+            sending(file, xhr) {
+                // Monkey patch to send the raw file instead of formData
+                xhr.send = xhr.send.bind(xhr, file);
+            }
         });
 
         // Set osf session header
@@ -68,5 +105,16 @@ export default Ember.Component.extend({
                 drop.on(event, (...args) => this.get(event)(this, drop, ...args));
             }
         });
+    },
+    didUpdateAttrs() {
+        if (this.get('enable') && !this.get('attached')) {
+            this.set('attached', true);
+            this.loadDropzone();
+        }
+    },
+    didInsertElement() {
+        if (this.get('enable')) {
+            this.loadDropzone();
+        }
     }
 });

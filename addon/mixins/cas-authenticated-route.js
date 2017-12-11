@@ -26,7 +26,8 @@ export default Ember.Mixin.create({
     routing: Ember.inject.service('-routing'),
 
     /**
-      Checks whether the session is authenticated, and if it is not, redirects to the login URL. (Sending back to this page after a successful transition)
+      Checks whether the session is authenticated, and if it is not, attempts to authenticate it, and if that fails,
+      redirects to the login URL. (Sending back to this page after a successful transition)
 
       __If `beforeModel` is overridden in a route that uses this mixin, the route's
      implementation must call `this._super(...arguments)`__ so that the mixin's
@@ -35,14 +36,15 @@ export default Ember.Mixin.create({
       @public
     */
     beforeModel(transition) {
-        if (!this.get('session.isAuthenticated')) {
+        if (this.get('session.isAuthenticated')) {return this._super(...arguments)}
+        return this.get('session').authenticate('authenticator:osf-cookie').then(() => {
+            return this._super(...arguments);
+        }).catch(() => {
             // Reference: http://stackoverflow.com/a/39054607/414097
             let routing = this.get('routing');
             let params = Object.values(transition.params).filter(param => Object.values(param).length);
             let url = routing.generateURL(transition.targetName, params, transition.queryParams);
             window.location = getAuthUrl(window.location.origin + url);
-        } else {
-            return this._super(...arguments);
-        }
+        })
     }
 });

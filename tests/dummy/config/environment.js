@@ -62,6 +62,21 @@ module.exports = function(environment) {
         i18n: {
             defaultLocale: 'en-US'
         },
+
+        'ember-cli-mirage': {
+            enabled: false
+        },
+
+        'ember-a11y-testing': {
+            componentOptions: {
+                turnAuditOff: false
+            }
+        },
+
+        moment: {
+            includeTimezone: 'all',
+            outputFormat: 'YYYY-MM-DD h:mm A z',
+        },
     };
 
     /*if (environment === 'development') {

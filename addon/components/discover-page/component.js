@@ -407,9 +407,13 @@ export default Ember.Component.extend(Analytics, hostAppName, {
                 queryKey = 'lists.contributors.name';
             }
             query[queryKey] = lockedParams[key];
-            queryBody.push({
-                terms: query
-            });
+            if (key === 'bool') {
+                queryBody.push(query);
+            } else {
+                queryBody.push({
+                    terms: query
+                });
+            }
         });
         return queryBody;
     },
@@ -498,7 +502,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
             }
         });
         // For PREPRINTS and REGISTRIES. If theme.isProvider, add provider(s) to query body
-        if (this.get('themeProvider.name') !== null) {
+        if (this.get('themeProvider')) {
             const themeProvider = this.get('themeProvider');
             // Regular preprint providers will have their search results restricted to the one provider.
             // If the provider has additionalProviders, all of these providers will be added to the "sources" SHARE query
@@ -568,6 +572,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
             data: queryBody
         }).then((json) => {
             if (this.isDestroyed || this.isDestroying) return;
+            if (queryBody !== JSON.stringify(this.getQueryBody())) return; //Safeguard: if query has changed since request was sent, dont update results
             let results = json.hits.hits.map(hit => {
                 // HACK: Make share data look like apiv2 preprints data
                 let result = Ember.merge(hit._source, {

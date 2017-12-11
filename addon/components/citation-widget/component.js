@@ -35,7 +35,7 @@ export default Ember.Component.extend({
     node: null,
     store: Ember.inject.service(),
 
-    didRender() {
+    didReceiveAttrs() {
         const node = this.get('node');
 
         if (!node) {

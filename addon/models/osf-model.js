@@ -57,12 +57,12 @@ export default DS.Model.extend(HasManyQuery.ModelMixin, {
             var relation = this.resolveRelationship(rel);
             // TODO(samchrisinger): not sure if hasLoaded is a subset if the hasData state
             if (relation.hasData && relation.hasLoaded) {
-                var canonicalIds = relation.canonicalMembers.list.map(member => member.record.get('id'));
-                var currentIds = relation.members.list.map(member => member.record.get('id'));
+                var canonicalIds = relation.canonicalMembers.list.map(member => member.getRecord().get('id'));
+                var currentIds = relation.members.list.map(member => member.getRecord().get('id'));
                 var changes = {
-                    create: relation.members.list.filter(m => m.record.get('isNew')),
-                    add: relation.members.list.filter(m => !m.record.get('isNew') && canonicalIds.indexOf(m.record.get('id')) === -1),
-                    remove: relation.canonicalMembers.list.filter(m => currentIds.indexOf(m.record.get('id')) === -1)
+                    create: relation.members.list.filter(m => m.getRecord().get('isNew')),
+                    add: relation.members.list.filter(m => !m.getRecord().get('isNew') && canonicalIds.indexOf(m.getRecord().get('id')) === -1),
+                    remove: relation.canonicalMembers.list.filter(m => currentIds.indexOf(m.getRecord().get('id')) === -1)
                 };
 
                 var other = this.get('_dirtyRelationships.${rel}') || {};

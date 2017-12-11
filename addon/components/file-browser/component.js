@@ -2,155 +2,368 @@ import Ember from 'ember';
 import layout from './template';
 
 import loadAll from 'ember-osf/utils/load-relationship';
-
-/**
- * @module ember-osf
- * @submodule components
- */
-
-/*
- * Wrapper for file items. Includes state for the item's row.
- *
- */
-let FileItem = Ember.ObjectProxy.extend({
-    isSelected: false,
-
-    // TODO (Abram) update childItems when `children` or `files` changes
-    // TODO (Abram) catch and display errors
-    childItems: Ember.computed('_files.[]', '_children.[]', function() {
-        let files = this._setupLoadAll('files', '_files', '_filesLoaded');
-        let children = this._setupLoadAll('children', '_children', '_childrenLoaded');
-
-        let wrappedItems = Ember.A();
-        if (files) {
-            wrappedItems.addObjects(files.map(wrapItem));
-        }
-        if (children) {
-            wrappedItems.addObjects(children.map(wrapItem));
-        }
-        return wrappedItems;
-    }),
-    _files: null,
-    _children: null,
-
-    childItemsLoaded: Ember.computed.and('_filesLoaded', '_childrenLoaded'),
-    _filesLoaded: false,
-    _childrenLoaded: false,
-
-    _setupLoadAll(relationship, destName, loaded) {
-        let dest = this.get(destName);
-        if (dest === null) {
-            let model = this.get('content');
-            if (relationship in model) {
-                dest = this.set(destName, Ember.A());
-                loadAll(model, relationship, dest).then(() => {
-                    this.set(loaded, true);
-                });
-            } else {
-                this.set(loaded, true);
-            }
-        }
-        return dest;
-    }
-});
-
-function wrapItem(item) {
-    if (item instanceof FileItem) {
-        return item;
-    }
-    return FileItem.create({
-        content: item
-    });
-}
-
-function unwrapItem(item) {
-    if (item instanceof FileItem) {
-        return item.get('content');
-    }
-    return item;
-}
+import outsideClick from 'ember-osf/utils/outside-click';
+import Analytics from '../../mixins/analytics';
+import pathJoin from 'ember-osf/utils/path-join';
 
 /**
  * File browser widget
  *
  * Sample usage:
  * ```handlebars
- * {{file-browser
- *  rootItem=item
- *  openFile=(action 'openFile')
- *  openNode=(action 'openNode')}}
+ * {{file-browser}}
  * ```
  * @class file-browser
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend(Analytics, {
     // TODO: Improve documentation in the future
     layout,
+    //Can be overwritten to have a trimmed down display, these are all the options available to be displayed
+    display: Ember.A(['header', 'size-column', 'version-column', 'downloads-column', 'modified-column', 'delete-button', 'rename-button', 'download-button', 'view-button', 'info-button', 'upload-button', 'share-button']),
+    store: Ember.inject.service(),
+    toast: Ember.inject.service(),
     classNames: ['file-browser'],
-    itemHeight: 30,
-
-    breadcrumbs: null,
-
-    rootItem: Ember.computed('breadcrumbs.[]', {
-        get() {
-            return this.get('breadcrumbs.firstObject');
-        },
-        set(_, item) {
-            let wrappedItem = wrapItem(item);
-            this.set('breadcrumbs', Ember.A([wrappedItem]));
-        }
+    dropzoneOptions: {
+        createImageThumbnails: false,
+        method: 'PUT',
+        withCredentials: true,
+        preventMultipleFiles: true,
+        acceptDirectories: false
+    },
+    multiple: true,
+    unselect: true,
+    openOnSelect: false,
+    selectedFile: null,
+    init() {
+        this._super(...arguments);
+        this.set('_items', Ember.A());
+        outsideClick(function() {
+            this.send('dismissPop');
+        }.bind(this));
+        Ember.$(window).resize(function() {
+            this.send('dismissPop');
+        }.bind(this));
+    },
+    currentUser: Ember.inject.service(),
+    edit: Ember.computed('user', function() {
+        return this.get('user.id') === this.get('currentUser.currentUserId');
     }),
-    atRoot: Ember.computed.equal('breadcrumbs.length', 1),
-    currentParent: Ember.computed.readOnly('breadcrumbs.lastObject'),
-    items: Ember.computed.readOnly('currentParent.childItems'),
-    itemsLoaded: Ember.computed.readOnly('currentParent.childItemsLoaded'),
+    _loadFiles(user) {
+        //pagination? when?
+        loadAll(user, 'quickfiles', this.get('_items')).then(() => {
+            this.set('loaded', true);
+            this.set('_items', this.get('_items').sortBy('itemName'));
+            this.get('_items').forEach(item => {
+                if (this.get('selectedFile.id') && this.get('selectedFile.id') === item.id) {
+                    item.isSelected = true;
+                }
+            });
+        });
+    },
+    _loadUser:  Ember.on('init', Ember.observer('user', function() {
+        let user = this.get('user');
+        if (!user || this.get('loaded')) {
+            return;
+        }
+        //items need to be reloaded when attrs are received
+        //TODO: think about replacing _items with user.items, provided it's loaded properly
+        let _load = user_ => {
+            Ember.run(() => {
+                this.set('_items', Ember.A());
+                Ember.run.next(() => {
+                    this._loadFiles(user_);
+                });
+            });
+        };
+        if (user.then) {
+            user.then(user_ => {
+                _load(user_);
+            })
+        } else {
+            _load(user);
+        }
+    })),
+    uploadUrl: Ember.computed('user', function() {
+        return this.get('user.links.relationships.quickfiles.links.upload.href');
+    }),
+    downloadUrl: Ember.computed('user', function() {
+        return this.get('user.links.relationships.quickfiles.links.download.href');
+    }),
+    loaded: false,
+    filtering: false,
+    renaming: false,
+    sortingBy: 'itemName',
+    sortingOrder: 'asc',
+    uploading: Ember.A(),
+    filter: null,
+    modalOpen: false,
+    popupOpen: false,
+    itemsLoaded: true,
     selectedItems: Ember.computed.filterBy('items', 'isSelected', true),
-
     loadedChanged: Ember.observer('itemsLoaded', function() {
         let containerWidth = this.$().width();
         this.set('itemWidth', containerWidth);
     }),
-
+    link: Ember.computed('selectedItems.firstObject.guid', function() {
+        let guid = this.get('selectedItems.firstObject.guid');
+        return guid ? pathJoin(window.location.origin, guid) : undefined;
+    }),
+    flash(item, message, type, time) {
+        item.set('flash', {
+            message,
+            type: type || 'success'
+        });
+        Ember.run.later(() => item.set('flash', null), time || 2000);
+    },
+    items: Ember.computed('_items', 'textValue', 'filtering', 'sortingBy', 'sortingOrder', function() {
+        //look at ways to use the api to filter
+        let items = this.get('textValue') && this.get('filtering') ? this.get('_items').filter(i => i.get('name').toLowerCase().indexOf(this.get('textValue').toLowerCase()) !== -1) : this.get('_items');
+        let sorted = items.sortBy(this.get('sortingBy'));
+        return this.get('sortingOrder') === 'des' ? sorted.reverse() : sorted;
+    }),
+    textFieldOpen: Ember.computed('filtering', 'renaming', function() {
+        return this.get('filtering') ? 'filtering' : (this.get('renaming') ? 'renaming' : false);
+    }),
+    nameColumnWidth: Ember.computed('display', function() {
+        let display = this.get('display');
+        let width = 6 + !display.includes('share-link-column') + !display.includes('size-column') + !display.includes('version-column') + !display.includes('downloads-column') + 2 * !display.includes('modified-column');
+        if (!display.includes('header')) { //Allows scrollable elements to use extra space occupied by header
+            let height = Ember.$('.file-browser-list').height();
+            Ember.$('.file-browser-list').height(height + 50);
+        }
+        return width;
+    }),
+    browserState: Ember.computed('loaded', '_items', function() {
+        return this.get('loaded') ? (this.get('_items').length ? (this.get('items').length ? 'show' : 'filtered') : 'empty') : 'loading';
+    }),
     actions: {
-        selectItem(item) {
-            item.set('isSelected', true);
-            if (item.get('isFile') && this.get('selectFile')) {
-                this.sendAction('selectFile', unwrapItem(item));
-            }
-            if (item.get('isNode') && this.get('selectNode')) {
-                this.sendAction('selectNode', unwrapItem(item));
-            }
+        //dropzone listeners
+        addedFile(_, __, file) {
+            this.get('uploading').pushObject(file);
         },
-
-        openItem(item) {
-            if (item.get('isFile') && this.get('openFile')) {
-                this.sendAction('openFile', unwrapItem(item));
-            }
-            if (item.get('isNode') && this.get('openNode')) {
-                this.sendAction('openNode', unwrapItem(item));
-            }
-            if (item.get('canHaveChildren')) {
-                this.send('navigateToItem', item);
-            }
+        uploadProgress(_, __, file, progress) {
+            Ember.$('#uploading-' + file.size).css('width', progress + '%');
         },
-
-        navigateToItem(item) {
-            let breadcrumbs = this.get('breadcrumbs');
-            let index = breadcrumbs.indexOf(item);
-            if (index === -1) {
-                // TODO: Valid to assume item is a child of currentParent?
-                breadcrumbs.pushObject(item);
-            } else {
-                let slicedBread = breadcrumbs.slice(0, index + 1);
-                this.set('breadcrumbs', Ember.A(slicedBread));
-            }
+        dragStart() {
+            this.set('dropping', true);
         },
-
-        navigateUp() {
-            let breadcrumbs = this.get('breadcrumbs');
-            if (breadcrumbs.length === 1) {
+        dragEnd() {
+            this.set('dropping', false);
+        },
+        error(_, __, file, response) {
+            this.get('uploading').removeObject(file);
+            this.get('toast').error(response.message);
+        },
+        success(_, __, file, response) {
+            this.send('track', 'upload', 'track', 'Quick Files - Upload');
+            this.get('uploading').removeObject(file);
+            let data = response.data.attributes;
+            //OPTIONS (some not researched)
+            //Ember store method for passing updated attributes (either with a query for the object, or iterating to find matching)
+            //Manually updating the object based on new attrs
+            //Making an additional request anytime success is done, finding the file detail page based on path
+            let path = data.path; //THERE SHOULD BE A BETTER WAY OF DOING THIS
+            let conflictingItem = false;
+            for (let file of this.get('_items')) {
+                if (path === file.get('path')) {
+                    conflictingItem = file;
+                    break;
+                }
+            }
+            if (conflictingItem) {
+                conflictingItem.setProperties({
+                    size: data.size,
+                    currentVersion: data.extra.version,
+                    dateModified: data.modified_utc
+                });
                 return;
             }
-            breadcrumbs.popObject();
+            response.data.type = 'file'; //
+            response.data.attributes.currentVersion = '1';
+            // Strip prefix.
+            response.data.id = response.data.id.replace(/^[^\/]*\//, '');
+            let item = this.get('store').push(response);
+            item.set('links', response.data.links); //Push doesnt pass it links
+            this.get('_items').unshiftObject(item);
+            this.notifyPropertyChange('_items');
+            Ember.run.next(() => {
+                this.flash(item, 'This file has been added.');
+                this.get('toast').success('A file has been added');
+            });
+        },
+        buildUrl(files) {
+            let name = files[0].name;
+            let conflictingItem = false;
+            for (let file of this.get('_items')) {
+                if (name === file.get('itemName')) {
+                    conflictingItem = file;
+                    break;
+                }
+            }
+            if (conflictingItem) {
+                return conflictingItem.get('links.upload');
+            }
+            return this.get('uploadUrl') + '?' + Ember.$.param({
+                name: files[0].name
+            });
+        },
+        selectItem(item) {
+            if (this.get('openOnSelect')) {
+                this.openFile(item, 'view');
+            }
+            this.set('renaming', false);
+            this.set('popupOpen', false);
+            if (this.get('selectedItems.length') > 1) {
+                for (var item_ of this.get('selectedItems')) {
+                    item_.set('isSelected', item_ === item);
+                }
+            } else if (this.get('selectedItems.length') ===  1) {
+                if (item.get('isSelected') && this.get('unselect')) {
+                    item.set('isSelected', false);
+                    return;
+                }
+                let otherItem = this.get('selectedItems.firstObject');
+                otherItem.set('isSelected', false);
+            }
+            item.set('isSelected', true);
+            this.set('shiftAnchor', item);
+        },
+        selectMultiple(item, toggle) {
+            if (!this.get('multiple')) {
+                return;
+            }
+            this.set('renaming', false);
+            this.set('popupOpen', false);
+            if (toggle) {
+                item.toggleProperty('isSelected');
+            } else {
+                let items = this.get('items');
+                let anchor = this.get('shiftAnchor');
+                if (anchor) {
+                    let max = Math.max(items.indexOf(anchor), items.indexOf(item));
+                    let min = Math.min(items.indexOf(anchor), items.indexOf(item));
+                    for (var item_ of this.get('items')) {
+                        item_.set('isSelected', item_ === item || item_ === anchor || (items.indexOf(item_) > min && items.indexOf(item_) < max));
+                    }
+                }
+                item.set('isSelected', true);
+            }
+            Ember.run.next(this, function(){
+                if (this.get('selectedItems.length') === 1) {
+                    this.set('shiftAnchor', item)
+                }
+            });
+        },
+        viewItem() {
+            let item = this.get('selectedItems.firstObject');
+            this.openFile(item, 'view');
+        },
+        openItem(item, qparams) {
+            this.openFile(item, qparams);
+        },
+        downloadItem() {
+            let downloadLink = this.get('selectedItems.firstObject.links.download');
+            window.location = downloadLink;
+        },
+        _deleteItem(item) {
+            item.destroyRecord().then(() => {
+                this.flash(item, 'This file has been deleted.', 'danger');
+                Ember.run.later(() => {
+                    this.get('_items').removeObject(item);
+                    this.notifyPropertyChange('_items');
+                }, 1800);
+            }).catch(() => this.flash(item, 'Delete failed.', 'danger'));
+        },
+        deleteItem(){
+            this.send('_deleteItem', this.get('selectedItems.firstObject'));
+            this.set('modalOpen', false);
+        },
+        deleteItems() {
+            for (let item_ of this.get('selectedItems')) {
+                this.send('_deleteItem', item_);
+            }
+            this.set('modalOpen', false);
+        },
+        _rename(conflict) {
+            let item = this.get('selectedItems.firstObject');
+            this.set('modalOpen', false);
+            item.rename(this.get('textValue'), conflict).then(() => {
+                this.flash(item, 'Successfully renamed');
+                if (conflict === 'replace') {
+                    const replacedItem  = this.get('_conflictingItem');
+                    if (!replacedItem) {
+                        return;
+                    }
+                    this.flash(replacedItem, 'This file has been replaced', 'danger');
+                    setTimeout(() => {
+                        this.get('_items').removeObject(replacedItem);
+                        this.notifyPropertyChange('_items');
+                    }, 1800);
+                    // Later to avoid flash() trying to set on a destroyed item.
+                    Ember.run.later(() => replacedItem.unloadRecord(), 2200);
+                }
+            }).catch(() => this.flash(item, 'Failed to rename item', 'danger'));
+            this.set('textValue', null);
+            this.toggleProperty('renaming');
+        },
+        rename() {
+            let rename = this.get('textValue');
+            let conflict = false;
+            for (let item of this.get('_items')) {
+                if (item.get('itemName') === rename) {
+                    if (item === this.get('selectedItems.firstObject')) {
+                        this.set('textValue', null);
+                        this.toggleProperty('renaming');
+                        return;
+                    }
+                    conflict = true;
+                    this.set('_conflictingItem', item);
+                    break;
+                }
+            }
+            if (conflict) {
+                this.set('modalOpen', 'renameConflict');
+            } else {
+                this.send('_rename');
+            }
+        },
+        cancelRename() {
+            this.set('textValue', null);
+            this.toggleProperty('renaming')
+            this.set('modalOpen', false);
+        },
+        sort(by, order) {
+            this.$('.sorting').removeClass('active');
+            this.$(`.${by}${order}`).addClass('active');
+            this.setProperties({
+                sortingBy: by,
+                sortingOrder: order
+            })
+        },
+        toggleText(which) {
+            this.set('textValue', which === 'renaming' ? this.get('selectedItems.firstObject.itemName') : null);
+            this.toggleProperty(which);
+        },
+        openModal(modalType) {
+            this.set('modalOpen', modalType);
+        },
+        closeModal() {
+            this.set('modalOpen', false);
+        },
+        textValueKeypress() {
+            if (this.get('renaming')) {
+                this.send('rename');
+            }
+        },
+        copyLink() {
+            this.set('popupOpen', true);
+            if (this.get('link')) {
+                return;
+            }
+            this.get('selectedItems.firstObject').getGuid();
+        },
+        dismissPop() {
+            this.set('popupOpen', false);
         }
     }
 });
