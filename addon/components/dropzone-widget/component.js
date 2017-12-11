@@ -108,7 +108,7 @@ export default Ember.Component.extend({
         });
     },
     didUpdateAttrs() {
-        if (this.get('enable') && !this.get('attached')) {
+        if (this.get('enable')) {
             Dropzone.forElement(`#${this.elementId}`).destroy();
             this.loadDropzone();
         }
