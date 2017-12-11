@@ -14,6 +14,9 @@ module.exports = function(environment) {
     }
 
     var ENV = {
+        FLAG_DEFAULT: false,
+        SAMPLE_DEFAULT: false,
+        SWITCH_DEFAULT: false,
         metricsAdapters: [
             {
                 name: 'GoogleAnalytics',
@@ -69,7 +72,7 @@ module.exports = function(environment) {
                 turnAuditOff: false
             }
         },
-        
+
         moment: {
             includeTimezone: 'all',
             outputFormat: 'YYYY-MM-DD h:mm A z',
