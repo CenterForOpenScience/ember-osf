@@ -33,6 +33,8 @@ export default Ember.Component.extend({
     classNameBindings: ['dropzone'],
     dropzone: true,
     enable: true,
+    clickable: true,
+    dropzoneElement: null,
     loadDropzone() {
         let preUpload = this.get('preUpload');
         let dropzoneOptions = this.get('options') || {};
@@ -77,6 +79,8 @@ export default Ember.Component.extend({
             }
         });
 
+        this.set('dropzoneElement', drop);
+
         // Set osf session header
         let headers = {};
 
@@ -107,8 +111,10 @@ export default Ember.Component.extend({
         });
     },
     didUpdateAttrs() {
-        if (this.get('enable') && !this.get('attached')) {
-            this.set('attached', true);
+        if (this.get('enable')) {
+            if (this.get('dropzoneElement')) {
+                this.get('dropzoneElement').destroy();
+            }
             this.loadDropzone();
         }
     },
