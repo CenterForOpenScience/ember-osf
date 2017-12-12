@@ -34,7 +34,7 @@ export default Ember.Component.extend({
     dropzone: true,
     enable: true,
     clickable: true,
-    dropzoneElement: '',
+    dropzoneElement: null,
     loadDropzone() {
         let preUpload = this.get('preUpload');
         let dropzoneOptions = this.get('options') || {};
@@ -112,7 +112,9 @@ export default Ember.Component.extend({
     },
     didUpdateAttrs() {
         if (this.get('enable')) {
-            this.get('dropzoneElement').destroy();
+            if (this.get('dropzoneElement')) {
+                this.get('dropzoneElement').destroy();
+            }
             this.loadDropzone();
         }
     },
