@@ -97,8 +97,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - Override `relationshipTypes` in a serializer to include `fieldName: 'apiType'` pairs of all relationships which may be included when saving updates
 - Moved ember-metrics and ember-toastr to dependencies
 - Upgraded ember-toastr to 1.7.0
-- Consolidate logic for serializing dirty relationships into `osf-serializer`
-  - Override `relationshipTypes` in a serializer to include `fieldName: 'apiType'` pairs of all relationships which may be included when saving updates
 
 ### Removed
 - toastr from bower dependencies

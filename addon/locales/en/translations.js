@@ -33,7 +33,7 @@ export default {
             Preprint: '',
             Preprints: ''
         },
-        default: {
+        document: {
             preprint: 'document',
             preprints: 'documents',
             Preprint: 'Document',
@@ -212,7 +212,7 @@ export default {
                 helpDescription: 'This gives you many options, but can be very simple as well. Examples of valid searches include:'
             },
             totalShareResults: {
-                'searchablePreprints': `searchable {{preprintWords.preprints}}`,
+                'searchablePreprints': `{{count}} searchable {{preprintWords.preprints}}`,
                 'searchableRegistries': `{{count}} searchable registrations`,
                 'searchableEvents': `{{count}} searchable events`,
             }
