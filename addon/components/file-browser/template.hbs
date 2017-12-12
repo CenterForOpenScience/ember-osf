@@ -12,7 +12,7 @@
     {{else}}
         <div class='pull-right'>
             {{#if (and edit (if-filter 'upload-button' display))}}
-                <button class='btn text-success dz-message'>{{fa-icon "upload"}} Upload</button>
+                <button class='btn text-success dz-upload-button'>{{fa-icon "upload"}} Upload</button>
             {{/if}}
             {{#if selectedItems}}
                 {{! TODO: show available actions for selected files }}
@@ -212,7 +212,7 @@
                     <div class='file-placeholder'>
                         <div class='file-placeholder-content'>
                             <div>{{fa-icon 'upload' size=5}}</div>
-                            <div class='file-placeholder-text dz-message'>Drop files here to upload</div>
+                            <div class='file-placeholder-text'>Drop files here to upload</div>
                         </div>
                     </div>
                 {{else}}

@@ -138,8 +138,8 @@ export default Ember.Component.extend(Analytics, {
         return this.get('loaded') ? (this.get('_items').length ? (this.get('items').length ? 'show' : 'filtered') : 'empty') : 'loading';
     }),
     clickable: Ember.computed('browserState', function() {
-        let clickable = ['.dz-message'];
-        if (this.get('edit') && this.get('display').contains('upload-button') && this.get('browserState') == 'empty') {
+        let clickable = ['.dz-upload-button'];
+        if (this.get('browserState') == 'empty') {
             clickable.push('.file-browser-list');
         }
         return clickable;
