@@ -16,13 +16,13 @@ export default function preprintWord() {
             singular: singularize(entries[i]),
             singularCapitalized: capitalize(entries[i]),
         };
-        wordDict['none'] = {
-            plural: '',
-            pluralCapitalized: '',
-            singular: '',
-            singularCapitalized: '',
-        };
     }
+    wordDict['none'] = {
+        plural: '',
+        pluralCapitalized: '',
+        singular: '',
+        singularCapitalized: '',
+    };
 
     return wordDict;
 }
