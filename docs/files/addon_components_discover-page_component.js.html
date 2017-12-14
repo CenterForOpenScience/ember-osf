@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.0</em>
+            <em>API Docs for: 0.12.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -56,6 +56,7 @@
                                 <li><a href="../classes/Contributor.html">Contributor</a></li>
                                 <li><a href="../classes/current-user.html">current-user</a></li>
                                 <li><a href="../classes/discover-page.html">discover-page</a></li>
+                                <li><a href="../classes/donate-banner.html">donate-banner</a></li>
                                 <li><a href="../classes/DraftRegistration.html">DraftRegistration</a></li>
                                 <li><a href="../classes/dropzone-widget.html">dropzone-widget</a></li>
                                 <li><a href="../classes/elastic-query.html">elastic-query</a></li>
@@ -66,6 +67,7 @@
                                 <li><a href="../classes/file-browser.html">file-browser</a></li>
                                 <li><a href="../classes/file-browser-icon.html">file-browser-icon</a></li>
                                 <li><a href="../classes/file-chooser component.html">file-chooser component</a></li>
+                                <li><a href="../classes/file-editor.html">file-editor</a></li>
                                 <li><a href="../classes/file-manager.html">file-manager</a></li>
                                 <li><a href="../classes/file-renderer.html">file-renderer</a></li>
                                 <li><a href="../classes/file-version.html">file-version</a></li>
@@ -81,18 +83,21 @@
                                 <li><a href="../classes/GenericDataADapter.html">GenericDataADapter</a></li>
                                 <li><a href="../classes/getDisplayName.html">getDisplayName</a></li>
                                 <li><a href="../classes/HostAppNameMixin.html">HostAppNameMixin</a></li>
+                                <li><a href="../classes/human-file-size.html">human-file-size</a></li>
                                 <li><a href="../classes/ifFilter.html">ifFilter</a></li>
                                 <li><a href="../classes/InfinityCustomMixin.html">InfinityCustomMixin</a></li>
                                 <li><a href="../classes/Institution.html">Institution</a></li>
                                 <li><a href="../classes/license-picker.html">license-picker</a></li>
                                 <li><a href="../classes/Log.html">Log</a></li>
                                 <li><a href="../classes/Metaschema.html">Metaschema</a></li>
+                                <li><a href="../classes/mimeTypes.html">mimeTypes</a></li>
                                 <li><a href="../classes/navbar-auth-dropdown.html">navbar-auth-dropdown</a></li>
                                 <li><a href="../classes/new-navbar-auth-dropdown.html">new-navbar-auth-dropdown</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
                                 <li><a href="../classes/NodeActionsMixin.html">NodeActionsMixin</a></li>
                                 <li><a href="../classes/NodeLink.html">NodeLink</a></li>
                                 <li><a href="../classes/oauth-popup.html">oauth-popup</a></li>
+                                <li><a href="../classes/old-file-browser.html">old-file-browser</a></li>
                                 <li><a href="../classes/osf-copyright.html">osf-copyright</a></li>
                                 <li><a href="../classes/osf-footer.html">osf-footer</a></li>
                                 <li><a href="../classes/osf-mode-footer.html">osf-mode-footer</a></li>
@@ -321,6 +326,16 @@ export default Ember.Component.extend(Analytics, hostAppName, {
      * @property {Object} fetchedProviders
      */
     fetchedProviders: null,
+    domainRedirectProviders: Ember.computed(function() {
+        let providerDomains = [];
+        let providers = this.get(&#x27;fetchedProviders&#x27;);
+        for (let providerVal of providers) {
+            if (providerVal.get(&#x27;domain&#x27;) &amp;&amp; providerVal.get(&#x27;domainRedirectEnabled&#x27;) === true) {
+                providerDomains.push(providerVal.get(&#x27;domain&#x27;));
+            }
+        }
+        return providerDomains;
+    }),
     /**
      * For PREPRINTS and REGISTRIES. A mapping of activeFilters to facet names expected by SHARE. Ex. {&#x27;providers&#x27;: &#x27;sources&#x27;}
      * @property {Object} filterMap
@@ -398,13 +413,6 @@ export default Ember.Component.extend(Analytics, hostAppName, {
         return allParams;
     }),
     results: Ember.ArrayProxy.create({ content: [] }), // Results from SHARE query
-    /**
-     * Search bar placeholder - for example, &quot;Search preprints...&quot;
-     * @property {String} searchPlaceholder
-     */
-    searchPlaceholder: Ember.computed(&#x27;i18n.locale&#x27;, function() { // Search bar placeholder text
-        return this.get(&#x27;i18n&#x27;).t(&#x27;eosf.components.discoverPage.searchPlaceholder&#x27;);
-    }),
     /**
      * For PREPRINTS and REGISTRIES.  Displays activeFilters box above search facets.
      * @property {boolean} showActiveFilters
@@ -583,7 +591,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     buildLockedQueryBody(lockedParams) {
         /**
          *  For PREPRINTS, REGISTRIES, RETRACTION WATCH - services where portion of query is restricted.
-         *  Builds the locked portion of the query.  For example, in preprints, type=preprint
+         *  Builds the locked portion of the query.  For example, in preprints, types=[&#x27;preprint&#x27;, &#x27;thesis&#x27;]
          *  is something that cannot be modified by the user.
          *
          *  @method buildLockedQueryBody
@@ -599,11 +607,14 @@ export default Ember.Component.extend(Analytics, hostAppName, {
             } else if (key === &#x27;contributors&#x27;) {
                 queryKey = &#x27;lists.contributors.name&#x27;;
             }
-
             query[queryKey] = lockedParams[key];
-            queryBody.push({
-                term: query
-            });
+            if (key === &#x27;bool&#x27;) {
+                queryBody.push(query);
+            } else {
+                queryBody.push({
+                    terms: query
+                });
+            }
         });
         return queryBody;
     },
@@ -668,26 +679,50 @@ export default Ember.Component.extend(Analytics, hostAppName, {
             if (!filterList.length || (key === &#x27;providers&#x27; &amp;&amp; this.get(&#x27;theme.isProvider&#x27;)))
                 return;
 
-            filters.push({
-                terms: {
-                    [val]: filterList
+            if (val == &#x27;subjects&#x27;) {
+                var matched = [];
+                for (let filter of filterList) {
+                    matched.push({
+                        match: {
+                            [val]: filter
+                        }
+                    });
                 }
-            });
-        });
 
+                filters.push({
+                    bool: {
+                        should: matched
+                    }
+                });
+            } else {
+                filters.push({
+                    terms: {
+                        [val]: filterList
+                    }
+                });
+            }
+        });
         // For PREPRINTS and REGISTRIES. If theme.isProvider, add provider(s) to query body
-        if (this.get(&#x27;theme.isProvider&#x27;) &amp;&amp; this.get(&#x27;themeProvider.name&#x27;) !== null) {
+        if (this.get(&#x27;themeProvider&#x27;)) {
             const themeProvider = this.get(&#x27;themeProvider&#x27;);
             // Regular preprint providers will have their search results restricted to the one provider.
             // If the provider has additionalProviders, all of these providers will be added to the &quot;sources&quot; SHARE query
-            const sources = (themeProvider.get(&#x27;additionalProviders&#x27;) || []).length ? themeProvider.get(&#x27;additionalProviders&#x27;) : [themeProvider.get(&#x27;name&#x27;)];
+            var sources = [];
+            if (this.get(&#x27;theme.isProvider&#x27;))
+                sources = (themeProvider.get(&#x27;additionalProviders&#x27;) || []).length ? themeProvider.get(&#x27;additionalProviders&#x27;) : [themeProvider.get(&#x27;shareSource&#x27;) || themeProvider.get(&#x27;name&#x27;)];
+            else if (this.get(&#x27;themeProvider.id&#x27;) === &#x27;osf&#x27;) {
+                let osfProviderSources = [themeProvider.get(&#x27;shareSource&#x27;) || &#x27;OSF&#x27;];
+                osfProviderSources = osfProviderSources.concat(
+                  this.get(&#x27;fetchedProviders&#x27;).map(provider =&gt; provider.get(&#x27;shareSource&#x27;) || provider.get(&#x27;name&#x27;))
+                );
+                sources = this.get(&#x27;whiteListedProviders&#x27;) ? osfProviderSources.concat(this.get(&#x27;whiteListedProviders&#x27;)) : osfProviderSources;
+            }
             filters.push({
                 terms: {
                     sources: sources
                 }
             });
         }
-
         let query = {
             query_string: {
                 query: this.get(&#x27;q&#x27;) || &#x27;*&#x27;
@@ -701,7 +736,6 @@ export default Ember.Component.extend(Analytics, hostAppName, {
                 }
             };
         }
-
         let page = this.get(&#x27;page&#x27;);
         let queryBody = {
             query,
@@ -739,6 +773,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
             data: queryBody
         }).then((json) =&gt; {
             if (this.isDestroyed || this.isDestroying) return;
+            if (queryBody !== JSON.stringify(this.getQueryBody())) return; //Safeguard: if query has changed since request was sent, dont update results
             let results = json.hits.hits.map(hit =&gt; {
                 // HACK: Make share data look like apiv2 preprints data
                 let result = Ember.merge(hit._source, {
@@ -747,6 +782,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
                     workType: hit._source[&#x27;@type&#x27;],
                     abstract: hit._source.description,
                     subjects: hit._source.subjects.map(each =&gt; ({ text: each })),
+                    subject_synonyms: hit._source.subject_synonyms.map(each =&gt; ({ text: each })),
                     providers: hit._source.sources.map(item =&gt; ({ name: item })), // For PREPRINTS, REGISTRIES
                     hyperLinks: [// Links that are hyperlinks from hit._source.lists.links
                         {
@@ -956,17 +992,6 @@ export default Ember.Component.extend(Analytics, hostAppName, {
         toggleShowLuceneHelp() {
             // Toggles display of Lucene Search help modal
             this.toggleProperty(&#x27;showLuceneHelp&#x27;);
-        },
-        typing(val, event) {
-             // Fires on keyup in search bar
-             // Ignores all keycodes that don&#x27;t result in the value changing
-             // 8 == Backspace, 32 == Space
-            if (event.keyCode &lt; 49 &amp;&amp; !(event.keyCode === 8 || event.keyCode === 32)) {
-                return;
-            }
-            // Tracks search on keypress, debounced
-            Ember.run.debounce(this, this.trackDebouncedSearch, 3000);
-            this.search();
         },
         updateFilters(filterType, item) {
             // For PREPRINTS and REGISTRIES.  Modifies activeFilters.

@@ -6,6 +6,60 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Util function that handles popover dismissal when clicking off of popover
+- file-browser properties to:
+  - disable multiple select
+  - disable unselect
+  - enable open on select
+- ability to specify a pre-selected file in file-browser
+- Stylesheet for the footer to match OSF styles
+- Analytics to `file-browser` and `file-browser-item` for Quick Files:
+  - Share
+  - Download
+  - Download as zip
+  - Upload
+- Support button to the HOME navbar
+- Class for small-display on `file-browser`
+- Conditional to check between `files` and `items` in array for file upload between chrome and safari
+- alias in provider model to check if has highlighted subjects
+
+### Changed
+- getContents() function for files to use `redirect = true` and `mode = 'render'`
+- Styling for the file-browser, file-browser-item, and file-version widgets used by Quick Files
+- Removed `Browse` from the navbar when user is logged out
+- Moved `Support` to be between `Search` and `Donate` on the navbar when user is logged out
+- Remove print margin on ember-ace editor on file-detail page
+- Moved share button in `file-browser-item` to the `file-browser` toolbar
+- Rename button to have class `primary` instead of `success` on the `file-browser` component
+- What screen sizes columns are displayed in `file-browser` table
+
+### Fixed
+- Margins for scrollbar on `file-browser`
+- Clickability on dropzone widget
+
+## [0.12.4] - 2017-12-04
+### Added
+- Final banner images and dates
+
+## [0.12.3] - 2017-11-29
+### Added
+- Week 3 banner images and text
+
+## [0.12.2] - 2017-11-29
+### Fixed
+- Giving Tuesday donate banner end date and mobile image class
+- Styling and order of buttons on the file-browser to match OSF
+- Growl message to show actual error message on file uploads
+
+### Removed
+- `?kind=file` from end of file path if there is a conflicting file when uploading
+
+## [0.12.1] - 2017-11-21
+### Added
+- Giving Tuesday donate banner
+
+## [0.12.0] - 2017-10-27
+### Added
 - Ability to pass query parameters with adapterOptions.query
 - methods to the file model:
   - rename()
@@ -42,6 +96,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `loadRelation` function in `utils/load-relationship`
   - Like `loadAll`, but returns a promise proxy that resolves to the full array once the relationship is completely fetched
 - old-file-browser component that replicates the legacy file-browser component
+- mime-types, checking to see if a file is editable
+- file-editor widget to directly edit certain files
 
 ### Changed
 - Use delete link for delete url, if present
@@ -56,6 +112,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Removed
 - toastr from bower dependencies
+
+## [0.11.4] - 2017-10-26
+### Fixed
+- Make sure results always match latest (and initial) filters selected in discover-page component
+
+## [0.11.3] - 2017-10-25
+### Changed
+- Attempt authentication before redirecting to CAS in cas-authenticated-route mixin
 
 ## [0.11.2] - 2017-10-19
 ### Changed

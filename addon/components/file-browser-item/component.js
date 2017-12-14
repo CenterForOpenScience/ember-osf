@@ -3,6 +3,8 @@ import moment from 'moment'
 import layout from './template';
 import pathJoin from 'ember-osf/utils/path-join';
 import humanFileSize from 'ember-osf/utils/human-file-size';
+import Analytics from '../../mixins/analytics';
+
 /**
  * @module ember-osf
  * @submodule components
@@ -19,13 +21,12 @@ import humanFileSize from 'ember-osf/utils/human-file-size';
   *        selectMultiple=(action 'selectMultiple') Action - handling clicking multiple rows, through cmd/ctrl and/or shift
   *        display=display Array[Strings] - Indicating which rows of information to display
   *        nameColumnWidth=nameColumnWidth String of number - How wide is the main collumn (name)
-  *        dismissOtherPops=(action 'dismissOtherPops') Action - handling cleaning up popups created by the Share button
   *     }}
   * ```
   * @class file-browser-icon
   */
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(Analytics, {
     layout,
     store: Ember.inject.service(),
     classNames: ['file-browser-item'],
@@ -41,7 +42,7 @@ export default Ember.Component.extend({
     }),
     date: Ember.computed('item.dateModified', function() {
         let date = this.get('item.dateModified');
-        return moment(date).utc().format('YYYY-MM-DD h:mm a')
+        return moment(date).utc().format('YYYY-MM-DD h:mm A')
     }),
     link: Ember.computed('item.guid', function() {
         let guid = this.get('item.guid');
@@ -58,21 +59,10 @@ export default Ember.Component.extend({
     },
     actions: {
         openVersion() {
-            this.openItem(this.get('item'), '?revision=' + this.get('item.currentVersion'));
+            this.openItem(this.get('item'), 'revision');
         },
         open() {
-            this.openItem(this.get('item'));
+            this.openItem(this.get('item'), 'view');
         },
-        copyLink() {
-            this.dismissOtherPops(this.get('item'));
-            this.set('item.visiblePopup', true);
-            if (this.get('link')) {
-                return;
-            }
-            this.get('item').getGuid();
-        },
-        dismissPop() {
-            this.set('item.visiblePopup', false);
-        }
     }
 });

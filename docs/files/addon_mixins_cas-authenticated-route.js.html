@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.6.0</em>
+            <em>API Docs for: 0.12.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -56,6 +56,7 @@
                                 <li><a href="../classes/Contributor.html">Contributor</a></li>
                                 <li><a href="../classes/current-user.html">current-user</a></li>
                                 <li><a href="../classes/discover-page.html">discover-page</a></li>
+                                <li><a href="../classes/donate-banner.html">donate-banner</a></li>
                                 <li><a href="../classes/DraftRegistration.html">DraftRegistration</a></li>
                                 <li><a href="../classes/dropzone-widget.html">dropzone-widget</a></li>
                                 <li><a href="../classes/elastic-query.html">elastic-query</a></li>
@@ -66,6 +67,7 @@
                                 <li><a href="../classes/file-browser.html">file-browser</a></li>
                                 <li><a href="../classes/file-browser-icon.html">file-browser-icon</a></li>
                                 <li><a href="../classes/file-chooser component.html">file-chooser component</a></li>
+                                <li><a href="../classes/file-editor.html">file-editor</a></li>
                                 <li><a href="../classes/file-manager.html">file-manager</a></li>
                                 <li><a href="../classes/file-renderer.html">file-renderer</a></li>
                                 <li><a href="../classes/file-version.html">file-version</a></li>
@@ -81,18 +83,21 @@
                                 <li><a href="../classes/GenericDataADapter.html">GenericDataADapter</a></li>
                                 <li><a href="../classes/getDisplayName.html">getDisplayName</a></li>
                                 <li><a href="../classes/HostAppNameMixin.html">HostAppNameMixin</a></li>
+                                <li><a href="../classes/human-file-size.html">human-file-size</a></li>
                                 <li><a href="../classes/ifFilter.html">ifFilter</a></li>
                                 <li><a href="../classes/InfinityCustomMixin.html">InfinityCustomMixin</a></li>
                                 <li><a href="../classes/Institution.html">Institution</a></li>
                                 <li><a href="../classes/license-picker.html">license-picker</a></li>
                                 <li><a href="../classes/Log.html">Log</a></li>
                                 <li><a href="../classes/Metaschema.html">Metaschema</a></li>
+                                <li><a href="../classes/mimeTypes.html">mimeTypes</a></li>
                                 <li><a href="../classes/navbar-auth-dropdown.html">navbar-auth-dropdown</a></li>
                                 <li><a href="../classes/new-navbar-auth-dropdown.html">new-navbar-auth-dropdown</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
                                 <li><a href="../classes/NodeActionsMixin.html">NodeActionsMixin</a></li>
                                 <li><a href="../classes/NodeLink.html">NodeLink</a></li>
                                 <li><a href="../classes/oauth-popup.html">oauth-popup</a></li>
+                                <li><a href="../classes/old-file-browser.html">old-file-browser</a></li>
                                 <li><a href="../classes/osf-copyright.html">osf-copyright</a></li>
                                 <li><a href="../classes/osf-footer.html">osf-footer</a></li>
                                 <li><a href="../classes/osf-mode-footer.html">osf-mode-footer</a></li>
@@ -222,7 +227,8 @@ export default Ember.Mixin.create({
     routing: Ember.inject.service(&#x27;-routing&#x27;),
 
     /**
-      Checks whether the session is authenticated, and if it is not, redirects to the login URL. (Sending back to this page after a successful transition)
+      Checks whether the session is authenticated, and if it is not, attempts to authenticate it, and if that fails,
+      redirects to the login URL. (Sending back to this page after a successful transition)
 
       __If &#x60;beforeModel&#x60; is overridden in a route that uses this mixin, the route&#x27;s
      implementation must call &#x60;this._super(...arguments)&#x60;__ so that the mixin&#x27;s
@@ -231,15 +237,16 @@ export default Ember.Mixin.create({
       @public
     */
     beforeModel(transition) {
-        if (!this.get(&#x27;session.isAuthenticated&#x27;)) {
+        if (this.get(&#x27;session.isAuthenticated&#x27;)) {return this._super(...arguments)}
+        return this.get(&#x27;session&#x27;).authenticate(&#x27;authenticator:osf-cookie&#x27;).then(() =&gt; {
+            return this._super(...arguments);
+        }).catch(() =&gt; {
             // Reference: http://stackoverflow.com/a/39054607/414097
             let routing = this.get(&#x27;routing&#x27;);
             let params = Object.values(transition.params).filter(param =&gt; Object.values(param).length);
             let url = routing.generateURL(transition.targetName, params, transition.queryParams);
-            window.location = getAuthUrl(url);
-        } else {
-            return this._super(...arguments);
-        }
+            window.location = getAuthUrl(window.location.origin + url);
+        })
     }
 });
 
