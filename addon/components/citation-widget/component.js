@@ -37,6 +37,7 @@ export default Ember.Component.extend({
     node: null,
     store: Ember.inject.service(),
     styles: Ember.A([]),
+    selectedStyle: 'Enter citation style (e.g. "APA")',
     didReceiveAttrs() {
         const node = this.get('node');
 
@@ -62,7 +63,7 @@ export default Ember.Component.extend({
         yield timeout(500);
         return Ember.$.ajax({
             method: 'GET',
-            url: `${config.OSF.apiUrl}/${config.OSF.apiNamespace}/citations/styles/?filter[title]=${term}&page[size]=100` ,
+            url: `${config.OSF.apiUrl}/${config.OSF.apiNamespace}/citations/styles/?filter[title,short_title]=${term}&page[size]=100` ,
             dataType: 'json',
             contentType: 'application/json'
         }).then(res => {
