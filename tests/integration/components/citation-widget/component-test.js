@@ -11,6 +11,6 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{citation-widget}}`);
 
-  assert.equal(this.$('div.citation-widget div').text(), 'APAMLAChicago');
+  assert.equal(this.$('div.citation-widget div').text(), '');
 
 });

@@ -9,7 +9,7 @@
     </div>
     <p><strong>Get more citations</strong></p>
     {{#power-select
-        search=(action 'findStyles')
+        search=(perform findStyles)
         destination="citationText"
         selected=selectedStyle
         onchange=(action (mut selectedStyle))
@@ -18,5 +18,5 @@
     }}
         {{style.attributes.title}}
     {{/power-select}}
-    <pre id="citationText" class="formatted-citation"></pre>
+    <pre id="citationText" class="formatted-citation">{{citationText}}</pre>
 </div>

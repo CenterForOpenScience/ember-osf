@@ -85,6 +85,7 @@
     "config": "1.26.1",
     "ember-ace": "^1.2.0",
     "ember-cli-babel": "6.4.1",
+    "ember-concurrency": "0.8.12",
     "ember-cli-htmlbars": "2.0.1",
     "ember-cli-htmlbars-inline-precompile": "0.4.3",
     "ember-cli-moment-shim": "^3.3.1",

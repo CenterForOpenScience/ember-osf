@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import layout from './template';
+import { task, timeout } from 'ember-concurrency';
 import config from 'ember-get-config';
 
 /**
@@ -52,10 +53,16 @@ export default Ember.Component.extend({
                 .then(resp => this.set(attr, resp.data.attributes.citation));
         }
     },
-    findMoreStyles(term, url) {
-        Ember.$.ajax({
+    _citationText: Ember.observer('selectedStyle', function() {
+        const citationLink = this.get('node.links.relationships.citation.links.related.href');
+        return Ember.$.ajax(`${citationLink}${this.get('selectedStyle.id')}/`).then(resp => this.set('citationText', resp.data.attributes.citation));
+    }),
+    citationText: 'No citation selected.',
+    findStyles: task(function* (term) {
+        yield timeout(500);
+        return Ember.$.ajax({
             method: 'GET',
-            url: url || `${config.OSF.apiUrl}/${config.OSF.apiNamespace}/citations/styles/?filter[title]=${term}` ,
+            url: `${config.OSF.apiUrl}/${config.OSF.apiNamespace}/citations/styles/?filter[title]=${term}&page[size]=100` ,
             dataType: 'json',
             contentType: 'application/json'
         }).then(res => {
@@ -64,14 +71,6 @@ export default Ember.Component.extend({
             }
             if (res.links.prev === null) this.set('styles', res.data);
             else this.get('styles').pushObjects(res.data);
-        });
-    },
-    actions: {
-        findStyles(term) {
-            Ember.run.debounce(this, function() {
-                this.findMoreStyles(term)
-            }, 500);
-            return this.get('styles');
-        }
-    }
+        }).then(() => this.get('styles'));
+    }).restartable(),
 });
