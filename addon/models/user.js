@@ -37,7 +37,7 @@ export default OsfModel.extend({
         inverse: 'users'
     }),
 
-    actions: DS.hasMany('action', { inverse: null, async: true }),
+    reviewActions: DS.hasMany('review-action', { inverse: null, async: true }),
 
     // Calculated fields
     profileURL: Ember.computed.alias('links.html'),
