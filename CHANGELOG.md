@@ -18,6 +18,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - Download
   - Download as zip
   - Upload
+- Original Publication Date is added to preprint.
+  - New `originalPublicationDate` property for `preprint` model.
+  - Add unit tests for `preprint` model.
+  - `validated-input` component is moved from ember-osf-preprints to ember-osf repo and modified.
+    - Change `yarn.lock` to add `ember-bootstrap-datepicker` and `ember-cp-validations` as dependencies.
 - Support button to the HOME navbar
 - Class for small-display on `file-browser`
 - Conditional to check between `files` and `items` in array for file upload between chrome and safari

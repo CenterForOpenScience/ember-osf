@@ -23,6 +23,7 @@ export default OsfModel.extend({
     subjects: DS.attr(),
     dateCreated: DS.attr('date'),
     datePublished: DS.attr('date'),
+    originalPublicationDate: DS.attr('date'),
     dateModified: DS.attr('date'),
     doi: DS.attr('fixstring'),
     isPublished: DS.attr('boolean'),
