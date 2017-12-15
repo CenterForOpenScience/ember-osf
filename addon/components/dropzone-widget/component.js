@@ -2,6 +2,7 @@
 
 import Ember from 'ember';
 import config from 'ember-get-config';
+import diffAttrs from 'ember-diff-attrs';
 
 import layout from './template';
 
@@ -110,14 +111,27 @@ export default Ember.Component.extend({
             }
         });
     },
-    didUpdateAttrs() {
-        if (this.get('enable')) {
-            if (this.get('dropzoneElement')) {
-                this.get('dropzoneElement').destroy();
-            }
-            this.loadDropzone();
+    destroyDropzone() {
+        if (this.get('dropzoneElement')) {
+            this.get('dropzoneElement').destroy();
         }
     },
+    didReceiveAttrs: diffAttrs('enable', 'clickable', function(changedAttrs, ...args) {
+        this._super(...args);
+        if (changedAttrs) {
+            if (changedAttrs.enable) {
+                if (this.get('enable')) {
+                    this.loadDropzone();
+                } else {
+                    this.destroyDropzone();
+                }
+            } else if (changedAttrs.clickable && this.get('enable')) {
+                // Dropzone must be reloaded for clickable changes to take effect.
+                this.destroyDropzone();
+                this.loadDropzone();
+            }
+        }
+    }),
     didInsertElement() {
         if (this.get('enable')) {
             this.loadDropzone();
