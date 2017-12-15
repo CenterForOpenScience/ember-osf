@@ -19,7 +19,7 @@ export default Ember.Component.extend(Analytics, {
     // TODO: Improve documentation in the future
     layout,
     //Can be overwritten to have a trimmed down display, these are all the options available to be displayed
-    display: Ember.A(['header', 'share-link-column', 'size-column', 'version-column', 'downloads-column', 'modified-column', 'delete-button', 'rename-button', 'download-button', 'view-button', 'info-button', 'upload-button']),
+    display: Ember.A(['header', 'size-column', 'version-column', 'downloads-column', 'modified-column', 'delete-button', 'rename-button', 'download-button', 'view-button', 'info-button', 'upload-button', 'share-button']),
     store: Ember.inject.service(),
     toast: Ember.inject.service(),
     classNames: ['file-browser'],
@@ -45,6 +45,7 @@ export default Ember.Component.extend(Analytics, {
         }.bind(this));
     },
     currentUser: Ember.inject.service(),
+    dropzone: Ember.computed.alias('edit'),
     edit: Ember.computed('user', function() {
         return this.get('user.id') === this.get('currentUser.currentUserId');
     }),
@@ -136,6 +137,13 @@ export default Ember.Component.extend(Analytics, {
     browserState: Ember.computed('loaded', '_items', function() {
         return this.get('loaded') ? (this.get('_items').length ? (this.get('items').length ? 'show' : 'filtered') : 'empty') : 'loading';
     }),
+    clickable: Ember.computed('browserState', function() {
+        let clickable = ['.dz-upload-button'];
+        if (this.get('browserState') == 'empty') {
+            clickable.push('.file-browser-list');
+        }
+        return clickable;
+    }),
     actions: {
         //dropzone listeners
         addedFile(_, __, file) {
@@ -151,8 +159,9 @@ export default Ember.Component.extend(Analytics, {
             this.set('dropping', false);
         },
         error(_, __, file, response) {
+            let message = response.message === undefined ? response : response.message;
             this.get('uploading').removeObject(file);
-            this.get('toast').error(response);
+            this.get('toast').error(message);
         },
         success(_, __, file, response) {
             this.send('track', 'upload', 'track', 'Quick Files - Upload');
@@ -175,7 +184,7 @@ export default Ember.Component.extend(Analytics, {
                     size: data.size,
                     currentVersion: data.extra.version,
                     dateModified: data.modified_utc
-                })
+                });
                 return;
             }
             response.data.type = 'file'; //
@@ -201,7 +210,7 @@ export default Ember.Component.extend(Analytics, {
                 }
             }
             if (conflictingItem) {
-                return conflictingItem.get('links.upload') + '?kind=file';
+                return conflictingItem.get('links.upload');
             }
             return this.get('uploadUrl') + '?' + Ember.$.param({
                 name: files[0].name
@@ -209,7 +218,7 @@ export default Ember.Component.extend(Analytics, {
         },
         selectItem(item) {
             if (this.get('openOnSelect')) {
-                this.sendAction('openFile', item);
+                this.openFile(item, 'view');
             }
             this.set('renaming', false);
             this.set('popupOpen', false);
@@ -256,10 +265,10 @@ export default Ember.Component.extend(Analytics, {
         },
         viewItem() {
             let item = this.get('selectedItems.firstObject');
-            this.sendAction('openFile', item);
+            this.openFile(item, 'view');
         },
         openItem(item, qparams) {
-            this.sendAction('openFile', item, qparams);
+            this.openFile(item, qparams);
         },
         downloadItem() {
             let downloadLink = this.get('selectedItems.firstObject.links.download');

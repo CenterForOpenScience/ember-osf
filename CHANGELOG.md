@@ -23,6 +23,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - Add unit tests for `preprint` model.
   - `validated-input` component is moved from ember-osf-preprints to ember-osf repo and modified.
     - Change `yarn.lock` to add `ember-bootstrap-datepicker` and `ember-cp-validations` as dependencies.
+- Support button to the HOME navbar
+- Class for small-display on `file-browser`
+- Conditional to check between `files` and `items` in array for file upload between chrome and safari
+- alias in provider model to check if has highlighted subjects
+- `preprintDoiCreated` attribute to the `preprint` model
 
 ### Changed
 - getContents() function for files to use `redirect = true` and `mode = 'render'`
@@ -31,6 +36,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Moved `Support` to be between `Search` and `Donate` on the navbar when user is logged out
 - Remove print margin on ember-ace editor on file-detail page
 - Moved share button in `file-browser-item` to the `file-browser` toolbar
+- Rename button to have class `primary` instead of `success` on the `file-browser` component
+- What screen sizes columns are displayed in `file-browser` table
+
+### Fixed
+- Margins for scrollbar on `file-browser`
+- Clickability on dropzone widget
+
+## [0.12.4] - 2017-12-04
+### Added
+- Final banner images and dates
 
 ## [0.12.3] - 2017-11-29
 ### Added
@@ -39,6 +54,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.12.2] - 2017-11-29
 ### Fixed
 - Giving Tuesday donate banner end date and mobile image class
+- Styling and order of buttons on the file-browser to match OSF
+- Growl message to show actual error message on file uploads
+
+### Removed
+- `?kind=file` from end of file path if there is a conflicting file when uploading
 
 ## [0.12.1] - 2017-11-21
 ### Added

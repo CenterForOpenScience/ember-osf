@@ -21,7 +21,8 @@ import layout from './template';
  *   buildUrl=buildUrl
  *   success=attrs.success
  *   defaultMessage=defaultMessage
- *   options=dropzoneOptions}}
+ *   options=dropzoneOptions
+ *   clickable=clickable}}
  * ```
  *
  * @class dropzone-widget
@@ -32,6 +33,8 @@ export default Ember.Component.extend({
     classNameBindings: ['dropzone'],
     dropzone: true,
     enable: true,
+    clickable: true,
+    dropzoneElement: null,
     loadDropzone() {
         let preUpload = this.get('preUpload');
         let dropzoneOptions = this.get('options') || {};
@@ -42,7 +45,7 @@ export default Ember.Component.extend({
         CustomDropzone.prototype = Object.create(Dropzone.prototype);
         CustomDropzone.prototype.drop = function(e) {
             if (this.options.preventMultipleFiles && e.dataTransfer) {
-                if (e.dataTransfer.items.length > 1) {
+                if (e.dataTransfer.items && e.dataTransfer.items.length > 1 || e.dataTransfer.files.length > 1) {
                     this.emit("drop", e);
                     this.emit('error', 'None', 'Cannot upload multiple files');
                     return;
@@ -68,12 +71,15 @@ export default Ember.Component.extend({
             url: file => typeof this.get('buildUrl') === 'function' ? this.get('buildUrl')(file) : this.get('buildUrl'),
             autoProcessQueue: false,
             autoQueue: false,
+            clickable: this.get('clickable'),
             dictDefaultMessage: this.get('defaultMessage') || 'Drop files here to upload',
             sending(file, xhr) {
                 // Monkey patch to send the raw file instead of formData
                 xhr.send = xhr.send.bind(xhr, file);
             }
         });
+
+        this.set('dropzoneElement', drop);
 
         // Set osf session header
         let headers = {};
@@ -105,8 +111,10 @@ export default Ember.Component.extend({
         });
     },
     didUpdateAttrs() {
-        if (this.get('enable') && !this.get('attached')) {
-            this.set('attached', true);
+        if (this.get('enable')) {
+            if (this.get('dropzoneElement')) {
+                this.get('dropzoneElement').destroy();
+            }
             this.loadDropzone();
         }
     },

@@ -29,11 +29,14 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
                     type: 'search'
                 },
                 {
+                    name: 'eosf.navbar.support',
+                    href: serviceLinks.osfSupport
+                },
+                {
                     name: 'eosf.navbar.donate',
                     href: 'https://cos.io/donate',
                     type: 'donateToCOS'
                 },
-
             ],
             PREPRINTS: [
                 {
@@ -109,13 +112,6 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
                     });
                 }
             })
-        } else {
-            links.HOME.splice(1, 0, 
-                {
-                    name: 'eosf.navbar.support',
-                    href: serviceLinks.osfSupport
-                }
-            );
         }
 
         if (Object.keys(links).includes(currentService)) {
