@@ -105,12 +105,3 @@ test('institutions relationship', function(assert) {
     assert.equal(relationship.type, 'institution');
     assert.equal(relationship.kind, 'hasMany');
 });
-
-test('review-actions relationship', function(assert) {
-    var model = this.store().modelFor('user');
-    var relationship = Ember.get(model, 'relationshipsByName').get('reviewActions');
-
-    assert.equal(relationship.key, 'reviewActions');
-    assert.equal(relationship.type, 'review-action');
-    assert.equal(relationship.kind, 'hasMany');
-});

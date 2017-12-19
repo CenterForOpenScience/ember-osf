@@ -37,8 +37,6 @@ export default OsfModel.extend({
         inverse: 'users'
     }),
 
-    reviewActions: DS.hasMany('review-action', { inverse: null, async: true }),
-
     // Calculated fields
     profileURL: Ember.computed.alias('links.html'),
     profileImage: Ember.computed.alias('links.profile_image')
