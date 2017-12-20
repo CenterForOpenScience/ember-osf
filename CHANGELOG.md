@@ -42,6 +42,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - Also rename related adapter, serializer and tests
   - Added model tests for `review-action`
   - Customize model adapter
+- `meta.total` to `meta.total_pages` in osf-serializer
 
 ### Fixed
 - Margins for scrollbar on `file-browser`
