@@ -7,7 +7,7 @@ moduleForModel('preprint', 'Unit | Model | preprint', {
             'model:file',
             'model:file-provider',
             'model:preprint-provider',
-            'model:action',
+            'model:review-action',
             'model:node',
             'model:license',
             'transform:fixstring',
@@ -129,12 +129,12 @@ test('preprint-provider relationship', function(assert) {
     assert.equal(relationship.kind, 'belongsTo');
 });
 
-test('action relationship', function(assert) {
+test('review-action relationship', function(assert) {
     var model = this.store().modelFor('preprint');
-    var relationship = Ember.get(model, 'relationshipsByName').get('actions');
+    var relationship = Ember.get(model, 'relationshipsByName').get('reviewActions');
 
-    assert.equal(relationship.key, 'actions');
-    assert.equal(relationship.type, 'action');
+    assert.equal(relationship.key, 'reviewActions');
+    assert.equal(relationship.type, 'review-action');
     assert.equal(relationship.kind, 'hasMany');
 });
 
