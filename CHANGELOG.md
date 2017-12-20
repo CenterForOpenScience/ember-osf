@@ -38,6 +38,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Moved share button in `file-browser-item` to the `file-browser` toolbar
 - Rename button to have class `primary` instead of `success` on the `file-browser` component
 - What screen sizes columns are displayed in `file-browser` table
+- `meta.total` to `meta.total_pages` in osf-serializer
 
 ### Fixed
 - Margins for scrollbar on `file-browser`
