@@ -1,0 +1,90 @@
+{{#if (eq projectSelectState 'main')}}
+    <div class="row">
+        <div class="col-xs-6">
+            <button class="btn btn-block btn-big" {{action 'changeState' 'newProject'}}>{{t "eosf.components.moveToProject.createNewProject"}}</button>
+        </div>
+        <div class="col-xs-6">
+            <button class="btn btn-block btn-big" {{action 'changeState' 'existingProject'}}>{{t "eosf.components.moveToProject.connectToExisting"}}</button>
+        </div>
+    </div>
+{{/if}}
+{{#if (eq projectSelectState 'newProject')}}
+    <form>
+        <div class="form-group">
+            {{input
+                type='text'
+                placeholder=(t "eosf.components.moveToProject.enterProjectTitle")
+                class="form-control"
+                name='projectTitle'
+                id='projectTitle'
+                key-up='checkNodeTitleKeypress'}}
+        </div>
+    </form>
+    {{t "eosf.components.moveToProject.newProjectMessage"}}
+{{else if (eq projectSelectState 'existingProject')}}
+    {{#if isLoadingProjects}}
+        <div class="ball-pulse ball-dark text-center">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    {{else}}
+    <h5>{{t "eosf.components.moveToProject.chooseProject"}}</h5>
+        {{#if projectList}}
+            <form>
+                <div class="form-group">
+                    <div class="m-t-sm">
+                        {{#power-select renderInPlace=true placeholder="Click to select" options=projectList selected=selectedProject searchField="title" onchange=(action (mut selectedProject)) as |project|}}
+                            {{get-ancestor-descriptor project}} <strong> {{project.title}}</strong>
+                        {{/power-select}}
+                    </div>
+                </div>
+            </form>
+        {{else}}
+            <p class="m-t-md text-danger">
+                {{t "eosf.components.moveToProject.noProjectsExistError"}}
+            </p>
+        {{/if}}
+        <p class="text-muted text-smaller m-t-xs">
+            {{t "eosf.components.moveToProject.projectSelectMessage"}}
+        </p>
+    {{/if}}
+    {{#if selectedProject}}
+        <div id="convertExistingOrCreateComponent">
+            <h5>{{t "eosf.components.moveToProject.organizeProject"}}</h5>
+            <p class="text-muted text-smaller m-t-xs">
+                {{if isChildNode (t "eosf.components.moveToProject.organizeChildNode") (t "eosf.components.moveToProject.organizeParentNode")}}
+            </p>
+            <div class="row text-center m-v-md">
+                <div class="toggle-button">
+                    <input id="copy" onchange={{action 'updateConvertOrCopy' 'copy'}} type="radio" name="createComponentDecision" checked={{eq convertOrCopy 'copy'}}>
+                    <label class="wide-text-only" for="copy">
+                        {{fa-icon "plus-circle"}} {{t "eosf.components.moveToProject.createComponent"}}
+                    </label>
+
+                    <input id="convert" onchange={{action 'updateConvertOrCopy' 'convert'}} type="radio" name="createComponentDecision" checked={{eq convertOrCopy 'convert'}}>
+                    <label class="wide-text-only" for="convert">
+                        {{fa-icon "cube"}} {{t "eosf.components.moveToProject.useCurrentComponent"}}
+                    </label>
+                </div>
+            </div>
+        </div>
+        {{#if (eq convertOrCopy 'copy')}}
+            {{input
+                type='text'
+                placeholder=(t "eosf.components.moveToProject.enterComponentTitle")
+                class="form-control"
+                name='nodeTitle'
+                id='projectTitle'
+                key-up='checkNodeTitleKeypress'}}
+        {{/if}}
+        {{#if convertOrCopy}}
+            <p class="m-t-lg">
+                {{t "eosf.components.moveToProject.convertOrCopyMessage"}}
+            </p>
+            <p class="text-danger m-t-sm">
+                {{if (not isProjectPrivate) (t "eosf.components.moveToProject.noLongerPublicWarning")}}
+            </p>
+        {{/if}}
+    {{/if}}
+{{/if}}

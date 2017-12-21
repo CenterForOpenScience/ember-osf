@@ -41,6 +41,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - alias in provider model to check if has highlighted subjects
 - `preprintDoiCreated` attribute to the `preprint` model
 - `ember-cli-clipboard` to allow copying to clipboard on more browsers
+- Functionality to move quick files to projects
+- `get-ancestor-descriptor` helper to create project/node list
+- `project-selector` component which helps user choose where to move file
 
 ### Changed
 - getContents() function for files to use `redirect = true` and `mode = 'render'`

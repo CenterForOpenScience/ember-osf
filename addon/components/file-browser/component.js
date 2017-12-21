@@ -5,6 +5,7 @@ import loadAll from 'ember-osf/utils/load-relationship';
 import outsideClick from 'ember-osf/utils/outside-click';
 import Analytics from '../../mixins/analytics';
 import pathJoin from 'ember-osf/utils/path-join';
+import permissions from 'ember-osf/const/permissions';
 
 /**
  * File browser widget
@@ -19,7 +20,8 @@ export default Ember.Component.extend(Analytics, {
     // TODO: Improve documentation in the future
     layout,
     //Can be overwritten to have a trimmed down display, these are all the options available to be displayed
-    display: Ember.A(['header', 'size-column', 'version-column', 'downloads-column', 'modified-column', 'delete-button', 'rename-button', 'download-button', 'view-button', 'info-button', 'upload-button', 'share-button']),
+    display: Ember.A(['header', 'size-column', 'version-column', 'downloads-column', 'modified-column', 'delete-button', 'move-button', 'rename-button', 'download-button', 'view-button', 'info-button', 'upload-button', 'share-button']),
+    i18n: Ember.inject.service(),
     store: Ember.inject.service(),
     toast: Ember.inject.service(),
     classNames: ['file-browser'],
@@ -33,7 +35,18 @@ export default Ember.Component.extend(Analytics, {
     multiple: true,
     unselect: true,
     openOnSelect: false,
+    projectList: Ember.A(),
+    isLoadingProjects: null,
     selectedFile: null,
+    node: null,
+    nodeLink: null,
+    nodeTitle: null,
+    newProject: false,
+    newComponent: false,
+    projectSelectState: 'main',
+    convertOrCopy: null,
+    isInputInvalid: true,
+
     init() {
         this._super(...arguments);
         this.set('_items', Ember.A());
@@ -43,6 +56,7 @@ export default Ember.Component.extend(Analytics, {
         Ember.$(window).resize(function() {
             this.send('dismissPop');
         }.bind(this));
+        this._loadProjects(this.get('user'));
     },
     currentUser: Ember.inject.service(),
     dropzone: Ember.computed.alias('edit'),
@@ -59,6 +73,13 @@ export default Ember.Component.extend(Analytics, {
                     item.isSelected = true;
                 }
             });
+        });
+    },
+    _loadProjects(user) {
+        loadAll(user, 'nodes', this.get('projectList')).then(() => {
+            let onlyAdminNodes = this.get('projectList').filter((item) => item.get('currentUserPermissions').includes(permissions.ADMIN));
+            this.set('projectList', onlyAdminNodes);
+            this.set('isLoadingProjects', false);
         });
     },
     _loadUser:  Ember.on('init', Ember.observer('user', function() {
@@ -357,6 +378,10 @@ export default Ember.Component.extend(Analytics, {
             this.set('modalOpen', modalType);
         },
         closeModal() {
+            if (this.get('modalOpen') == 'move') {
+                this.set('projectSelectState', 'main');
+                this.set('convertOrCopy', null);
+            }
             this.set('modalOpen', false);
         },
         textValueKeypress() {
@@ -373,6 +398,107 @@ export default Ember.Component.extend(Analytics, {
         },
         dismissPop() {
             this.set('popupOpen', false);
-        }
+        },
+        checkNodeTitleKeypress(value) {
+            this.set('nodeTitle', value);
+            if (this.get('nodeTitle')) {
+                this.set('isInputInvalid', false);
+            } else {
+                this.set('isInputInvalid', true);
+            }
+        },
+        changeProjectSelectState(state) {
+            this.set('projectSelectState', state);
+            if (this.get('convertOrCopy')) {
+                this.set('convertOrCopy', null);
+            }
+            if (!this.get('isInputInvalid')) {
+                this.set('isInputInvalid', true);
+            }
+        },
+        updateConvertOrCopy(state) {
+            this.set('convertOrCopy', state);
+            if (this.get('convertOrCopy') == 'convert') {
+                this.set('isInputInvalid', false);
+            } else {
+                this.set('isInputInvalid', true);
+            }
+        },
+        setSelectedNode(node) {
+            this.set('node', node);
+            this.set('nodeLink', node.get('links.html'));
+        },
+        setMoveFile() {
+            if (this.get('projectSelectState') == 'newProject') {
+                this.send('createProject');
+            } else if (this.get('projectSelectState') == 'existingProject') {
+                if (this.get('convertOrCopy') == 'copy') {
+                    this.send('createComponent');
+                } else if (this.get('convertOrCopy') == 'convert') {
+                    this.send('moveToComponent');
+                }
+            }
+        },
+        createProject() {
+            let item = this.get('selectedItems.firstObject');
+
+            this.get('store').createRecord('node', {
+                public: false,
+                category: 'project',
+                title: this.get('nodeTitle'),
+            }).save()
+                .then(node => {
+                    this.set('node', node);
+                    this.set('newNode', true);
+                    this.set('nodeLink', node.get('links.html'));
+                    this.set('newProject', true);
+                    this.set('newComponent', false);
+                    this.send('moveFile', item, node);
+                })
+                .catch(() => {
+                    this.get('toast').error(this.get('i18n').t('eosf.components.moveToProject.couldNotCreateProject'));
+                });
+        },
+        createComponent() {
+            let item = this.get('selectedItems.firstObject');
+            let node = this.get('node');
+            node
+                .addChild(this.get('nodeTitle'), null, null, true)
+                .then(child => {
+                    this.set('node', child);
+                    this.set('nodeLink', this.get('node.links.html'));
+                    this.set('newComponent', true);
+                    this.set('newProject', false);
+                    this.send('moveFile', item, this.get('node'));
+                })
+                .catch(() => {
+                    this.get('toast').error(this.get('i18n').t('eosf.components.moveToProject.couldNotCreateComponent'));
+                });
+        },
+        moveToComponent() {
+            let item = this.get('selectedItems.firstObject');
+            this.send('moveFile', item, this.get('node'));
+            this.set('newComponent', false);
+            this.set('newProject', false);
+        },
+        moveFile(item, node) {
+            item.move(node)
+                .then(() => {
+                    this.flash(item, 'Successfully moved');
+                    Ember.run.later(() => {
+                        this.get('_items').removeObject(item);
+                        this.notifyPropertyChange('_items');
+                    }, 1800);
+                    this.set('modalOpen', 'successMove');
+                    this.set('projectSelectState', 'main');
+                    if (this.get('convertOrCopy')) {
+                        this.set('convertOrCopy', null);
+                    }
+                    this.send('track', 'move', 'track', 'Quick Files - Move to project');
+                })
+                .catch(() => {
+                    this.get('toast').error(this.get('i18n').t('eosf.components.moveToProject.couldNotMoveFile'));
+                });
+        },
     }
 });

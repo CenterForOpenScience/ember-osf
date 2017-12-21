@@ -101,4 +101,19 @@ export default OsfModel.extend(FileItemMixin, {
             data: data,
         }).then(() => this.reload());
     },
+    move(node) {
+        return authenticatedAJAX({
+            url: this.get('links.move'),
+            type: 'POST',
+            xhrFields: { withCredentials: true },
+            headers: {
+                'Content-Type': 'Application/json'
+            },
+            data: JSON.stringify({
+                action: 'move',
+                path: '/',
+                resource: node.id,
+            }),
+        });
+    },
 });
