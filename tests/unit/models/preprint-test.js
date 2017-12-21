@@ -45,12 +45,6 @@ test('it has an attribute: datePublished', function(assert) {
     assert.ok(hasAttr);
 });
 
-test('it has an attribute: originalPublicationDate', function(assert) {
-    var model = this.subject();
-    var hasAttr = Object.keys(model.toJSON()).indexOf('originalPublicationDate') > -1;
-    assert.ok(hasAttr);
-});
-
 test('it has an attribute: dateModified', function(assert) {
     var model = this.subject();
     var hasAttr = Object.keys(model.toJSON()).indexOf('dateModified') > -1;
