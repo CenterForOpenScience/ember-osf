@@ -17,8 +17,6 @@ const OptionsComponent = PSOptionsComponent.extend({
     didInsertElement() {
         this._super(...arguments);
         const checkVisibility = () => {
-            console.log('checking visibility');
-            console.log($(this.element).find('.ember-power-select-option--load-more'));
             if ($(this.element).find('.ember-power-select-option--load-more').checkInView(true)) {
                 const loadMore = get(this, 'loadMore');
                 return loadMore();
