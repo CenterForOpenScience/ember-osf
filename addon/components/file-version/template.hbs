@@ -11,7 +11,13 @@
 <td class='hidden-md hidden-sm hidden-xs'>
     <div class='input-group'>
         <span class='input-group-btn'>
-            <button type='button' class='btn btn-default btn-sm' onclick={{action 'copyLink' (concat 'md5-' version.id)}}>{{fa-icon 'copy'}}</button>
+            {{#copy-button
+                clipboardTarget=(concat '#md5-' version.id)
+                title="Copy to clipboard"
+                class="btn btn-default btn-sm"
+            }}
+                {{fa-icon 'copy'}}
+            {{/copy-button}}
         </span>
         <input type='text' readonly='readonly' value='{{version.attributes.extra.hashes.md5}}' class='hashBox' id='md5-{{version.id}}'>
     </div>
@@ -19,7 +25,13 @@
 <td class='hidden-md hidden-sm hidden-xs'>
     <div class='input-group'>
         <span class='input-group-btn'>
-            <button type='button' class='btn btn-default btn-sm' onclick={{action 'copyLink' (concat 'sha256-' version.id)}}>{{fa-icon 'copy'}}</button>
+            {{#copy-button 
+                clipboardTarget=(concat '#sha256-' version.id) 
+                title='Copy to clipboard'
+                class="btn btn-default btn-sm"
+            }}
+                {{fa-icon 'copy'}}
+            {{/copy-button}}
         </span>
         <input type='text' readonly='readonly' value='{{version.attributes.extra.hashes.sha256}}' class='hashBox' id='sha256-{{version.id}}'>
     </div>

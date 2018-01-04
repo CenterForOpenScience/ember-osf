@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Conditional to check between `files` and `items` in array for file upload between chrome and safari
 - alias in provider model to check if has highlighted subjects
 - `preprintDoiCreated` attribute to the `preprint` model
+- `ember-cli-clipboard` to allow copying to clipboard on more browsers
 
 ### Changed
 - getContents() function for files to use `redirect = true` and `mode = 'render'`
