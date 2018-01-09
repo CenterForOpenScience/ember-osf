@@ -59,10 +59,10 @@ export default Ember.Component.extend(Analytics, {
     },
     actions: {
         openVersion() {
-            this.openItem(this.get('item'), '?revision=' + this.get('item.currentVersion'));
+            this.openItem(this.get('item'), 'revision');
         },
         open() {
-            this.openItem(this.get('item'));
+            this.openItem(this.get('item'), 'view');
         },
     }
 });

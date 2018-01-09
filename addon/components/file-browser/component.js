@@ -45,6 +45,7 @@ export default Ember.Component.extend(Analytics, {
         }.bind(this));
     },
     currentUser: Ember.inject.service(),
+    dropzone: Ember.computed.alias('edit'),
     edit: Ember.computed('user', function() {
         return this.get('user.id') === this.get('currentUser.currentUserId');
     }),
@@ -136,6 +137,13 @@ export default Ember.Component.extend(Analytics, {
     browserState: Ember.computed('loaded', '_items', function() {
         return this.get('loaded') ? (this.get('_items').length ? (this.get('items').length ? 'show' : 'filtered') : 'empty') : 'loading';
     }),
+    clickable: Ember.computed('browserState', function() {
+        let clickable = ['.dz-upload-button'];
+        if (this.get('browserState') == 'empty') {
+            clickable.push('.file-browser-list');
+        }
+        return clickable;
+    }),
     actions: {
         //dropzone listeners
         addedFile(_, __, file) {
@@ -151,8 +159,9 @@ export default Ember.Component.extend(Analytics, {
             this.set('dropping', false);
         },
         error(_, __, file, response) {
+            let message = response.message === undefined ? response : response.message;
             this.get('uploading').removeObject(file);
-            this.get('toast').error(response.message);
+            this.get('toast').error(message);
         },
         success(_, __, file, response) {
             this.send('track', 'upload', 'track', 'Quick Files - Upload');
@@ -209,7 +218,7 @@ export default Ember.Component.extend(Analytics, {
         },
         selectItem(item) {
             if (this.get('openOnSelect')) {
-                this.sendAction('openFile', item);
+                this.openFile(item, 'view');
             }
             this.set('renaming', false);
             this.set('popupOpen', false);
@@ -256,10 +265,10 @@ export default Ember.Component.extend(Analytics, {
         },
         viewItem() {
             let item = this.get('selectedItems.firstObject');
-            this.sendAction('openFile', item);
+            this.openFile(item, 'view');
         },
         openItem(item, qparams) {
-            this.sendAction('openFile', item, qparams);
+            this.openFile(item, qparams);
         },
         downloadItem() {
             let downloadLink = this.get('selectedItems.firstObject.links.download');

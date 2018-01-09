@@ -140,7 +140,7 @@ export default DS.JSONAPISerializer.extend({
         let documentHash = this._super(...arguments);
         documentHash.meta = documentHash.meta || {};
         documentHash.meta.pagination = Ember.$.extend(true, {}, Ember.get(payload || {}, 'meta'));
-        documentHash.meta.total = Math.ceil(documentHash.meta.pagination.total / documentHash.meta.pagination.per_page);
+        documentHash.meta.total_pages = Math.ceil(documentHash.meta.pagination.total / documentHash.meta.pagination.per_page);
         return documentHash;
     }
 });

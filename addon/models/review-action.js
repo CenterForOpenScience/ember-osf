@@ -11,6 +11,6 @@ export default OsfModel.extend({
 
     // Relationships
     provider: DS.belongsTo('preprint-provider', { inverse: null, async: true }),
-    target: DS.belongsTo('preprint', { inverse: 'actions', async: true }),
+    target: DS.belongsTo('preprint', { inverse: 'reviewActions', async: true }),
     creator: DS.belongsTo('user', { inverse: null, async: true }),
 });

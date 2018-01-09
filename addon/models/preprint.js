@@ -23,6 +23,7 @@ export default OsfModel.extend({
     subjects: DS.attr(),
     dateCreated: DS.attr('date'),
     datePublished: DS.attr('date'),
+    originalPublicationDate: DS.attr('date'),
     dateModified: DS.attr('date'),
     doi: DS.attr('fixstring'),
     isPublished: DS.attr('boolean'),
@@ -30,13 +31,14 @@ export default OsfModel.extend({
     licenseRecord: DS.attr(),
     reviewsState: DS.attr('string'),
     dateLastTransitioned: DS.attr('date'),
+    preprintDoiCreated: DS.attr('date'),
 
     // Relationships
     node: DS.belongsTo('node', { inverse: null, async: true }),
     license: DS.belongsTo('license', { inverse: null }),
     primaryFile: DS.belongsTo('file', { inverse: null }),
     provider: DS.belongsTo('preprint-provider', { inverse: 'preprints', async: true }),
-    actions: DS.hasMany('action', { inverse: 'target', async: true }),
+    reviewActions: DS.hasMany('review-action', { inverse: 'target', async: true }),
     contributors: DS.hasMany('contributors', { async: true }),
 
     uniqueSubjects: Ember.computed('subjects', function() {
