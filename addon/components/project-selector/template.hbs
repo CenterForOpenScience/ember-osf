@@ -29,7 +29,7 @@
             <div></div>
         </div>
     {{else}}
-    <h5>{{t "eosf.components.moveToProject.chooseProject"}}</h5>
+        <h5>{{t "eosf.components.moveToProject.chooseProject"}}</h5>
         {{#if projectList}}
             <form>
                 <div class="form-group">
@@ -83,7 +83,9 @@
                 {{t "eosf.components.moveToProject.convertOrCopyMessage"}}
             </p>
             <p class="text-danger m-t-sm">
-                {{if (not isProjectPrivate) (t "eosf.components.moveToProject.noLongerPublicWarning")}}
+                {{#unless isProjectPublic}}
+                    {{t "eosf.components.moveToProject.noLongerPublicWarning"}}
+                {{/unless}}
             </p>
         {{/if}}
     {{/if}}

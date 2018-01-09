@@ -39,13 +39,12 @@ export default Ember.Component.extend(Analytics, {
     isLoadingProjects: null,
     selectedFile: null,
     node: null,
-    nodeLink: null,
     nodeTitle: null,
-    newProject: false,
-    newComponent: false,
+    newNodeType: null,
     projectSelectState: 'main',
     convertOrCopy: null,
     isInputInvalid: true,
+    nodeLink: Ember.computed.alias('node.links.html'),
 
     init() {
         this._super(...arguments);
@@ -81,6 +80,9 @@ export default Ember.Component.extend(Analytics, {
             this.set('projectList', onlyAdminNodes);
             this.set('isLoadingProjects', false);
         });
+    },
+    _addNewNodeToList(user, node) {
+        this.get('projectList').unshiftObject(node);
     },
     _loadUser:  Ember.on('init', Ember.observer('user', function() {
         let user = this.get('user');
@@ -426,79 +428,69 @@ export default Ember.Component.extend(Analytics, {
         },
         setSelectedNode(node) {
             this.set('node', node);
-            this.set('nodeLink', node.get('links.html'));
         },
         setMoveFile() {
+            let selectedItem = this.get('selectedItems.firstObject');
+
             if (this.get('projectSelectState') == 'newProject') {
-                this.send('createProject');
+                this._createProject().then(project => {
+                    this.set('node', project);
+                    this.set('newNodeType', 'project');
+                    this._addNewNodeToList(this.get('user'), project);
+                    this._moveFile(selectedItem, project);
+                });
             } else if (this.get('projectSelectState') == 'existingProject') {
                 if (this.get('convertOrCopy') == 'copy') {
-                    this.send('createComponent');
+                    this._createComponent().then(component => {
+                        this.set('node', component);
+                        this.set('newNodeType', 'component');
+                        this._addNewNodeToList(this.get('user'), component);
+                        this._moveFile(selectedItem, component);
+                    });
                 } else if (this.get('convertOrCopy') == 'convert') {
-                    this.send('moveToComponent');
+                    this._moveToComponent(selectedItem);
                 }
             }
         },
-        createProject() {
-            let item = this.get('selectedItems.firstObject');
-
-            this.get('store').createRecord('node', {
-                public: false,
-                category: 'project',
-                title: this.get('nodeTitle'),
-            }).save()
-                .then(node => {
-                    this.set('node', node);
-                    this.set('newNode', true);
-                    this.set('nodeLink', node.get('links.html'));
-                    this.set('newProject', true);
-                    this.set('newComponent', false);
-                    this.send('moveFile', item, node);
-                })
-                .catch(() => {
-                    this.get('toast').error(this.get('i18n').t('eosf.components.moveToProject.couldNotCreateProject'));
-                });
-        },
-        createComponent() {
-            let item = this.get('selectedItems.firstObject');
-            let node = this.get('node');
-            node
-                .addChild(this.get('nodeTitle'), null, null, true)
-                .then(child => {
-                    this.set('node', child);
-                    this.set('nodeLink', this.get('node.links.html'));
-                    this.set('newComponent', true);
-                    this.set('newProject', false);
-                    this.send('moveFile', item, this.get('node'));
-                })
-                .catch(() => {
-                    this.get('toast').error(this.get('i18n').t('eosf.components.moveToProject.couldNotCreateComponent'));
-                });
-        },
-        moveToComponent() {
-            let item = this.get('selectedItems.firstObject');
-            this.send('moveFile', item, this.get('node'));
-            this.set('newComponent', false);
-            this.set('newProject', false);
-        },
-        moveFile(item, node) {
-            item.move(node)
-                .then(() => {
-                    this.flash(item, 'Successfully moved');
-                    Ember.run.later(() => {
-                        this.get('_items').removeObject(item);
-                        this.notifyPropertyChange('_items');
-                    }, 1800);
-                    this.set('modalOpen', 'successMove');
-                    this.set('projectSelectState', 'main');
-                    if (this.get('convertOrCopy')) {
-                        this.set('convertOrCopy', null);
-                    }
-                    this.send('track', 'move', 'track', 'Quick Files - Move to project');
-                })
-                .catch(() => {
-                    this.get('toast').error(this.get('i18n').t('eosf.components.moveToProject.couldNotMoveFile'));
-                });
-        },
-    }
+    },
+    _createProject() {
+        return this.get('store').createRecord('node', {
+            public: true,
+            category: 'project',
+            title: this.get('nodeTitle'),
+        }).save()
+            .catch(() => {
+                this.get('toast').error(this.get('i18n').t('eosf.components.moveToProject.couldNotCreateProject'));
+            });
+    },
+    _createComponent() {
+        return this.get('node')
+            .addChild(this.get('nodeTitle'), null, null, true)
+            .catch(() => {
+                this.get('toast').error(this.get('i18n').t('eosf.components.moveToProject.couldNotCreateComponent'));
+            });
+    },
+    _moveToComponent(selectedItem) {
+        this._moveFile(selectedItem, this.get('node'));
+        this.set('newNodeType', null);
+    },
+    _moveFile(item, node) {
+        item.move(node)
+            .then(() => {
+                this.flash(item, 'Successfully moved');
+                Ember.run.later(() => {
+                    this.get('_items').removeObject(item);
+                    this.notifyPropertyChange('_items');
+                }, 1800);
+                this.set('modalOpen', 'successMove');
+                this.set('projectSelectState', 'main');
+                if (this.get('convertOrCopy')) {
+                    this.set('convertOrCopy', null);
+                }
+                this.send('track', 'move', 'track', 'Quick Files - Move to project');
+            })
+            .catch(() => {
+                this.get('toast').error(this.get('i18n').t('eosf.components.moveToProject.couldNotMoveFile'));
+            });
+    },
 });

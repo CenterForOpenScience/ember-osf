@@ -37,7 +37,7 @@ export default Ember.Component.extend({
     convertOrCopy: null,
     showErrorMessage: null,
     projectList: Ember.A(),
-    isProjectPrivate: Ember.computed.alias('selectedProject.public'),
+    isProjectPublic: Ember.computed.alias('selectedProject.public'),
 
     isChildNode: Ember.computed('selectedProject', function() {
         // sets the selected node and determines if node is child

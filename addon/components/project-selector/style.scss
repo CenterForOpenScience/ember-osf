@@ -5,79 +5,44 @@
     white-space: normal;
 }
 .toggle-button {
-    overflow: hidden;
     input {
         display: none;
     }
     label {
-        float: left;
         display: inline-block;
-        width: 55px;
         background-color: #e4e4e4;
         color: #666666;
         text-align: center;
         text-shadow: none;
-        padding: 7px 7px;
         -webkit-transition: all .3s ease-in-out;
         -moz-transition:    all .3s ease-in-out;
         -ms-transition:     all .3s ease-in-out;
         -o-transition:      all .3s ease-in-out;
         transition:         all .3s ease-in-out;
-    }
-
-    label.choose-large {
-        background-color: white;
-        font-size: 14px;
-        padding: 10px 10px;
-        height: 120px;
-        text-align: center;
-        width: 200px;
-        display: inline;
-        border: none;
-        box-shadow: none;
-
-        i {
-            font-size: 70px;
+        &.wide-text-only {
+            float: none;
+            margin-right: -4px;
+            padding: 10px 10px;
+            height: 75px;
+            width: 250px;
+            border-right: 1px solid #ccc;
+            i {
+                font-size: 30px;
+                display: block;    
+            }
+            &:last-of-type {
+                border-right: none;
+            }
         }
-    }
-
-    label.wide-text-only {
-        float: none;
-        margin-right: -4px;
-        padding: 10px 10px;
-        height: 75px;
-        font-size: 14px;
-        width: 250px;
-        border-right: 1px solid #ccc;
-        i {
-            font-size: 30px;
+        &:hover {
+            cursor: pointer;
+            color: gray;        
         }
-    }
-    label.wide-text-only:last-of-type {
-        border-right: none;
-    }
-
-
-    label:hover {
-        cursor: pointer;
-        color: gray;
-    }
-
-    input:checked + label {
-        background-color: #67A3BF;
-        color: white;
-    }
-
-    label:first-of-type {
-        border-radius: 4px 0 0 4px;
-    }
-
-    label:last-of-type {
-        border-radius: 0 4px 4px 0;
-    }
-
-    label i {
-        font-size: 25px;
-        display: block;
+        &:first-of-type {
+            border-radius: 4px 0 0 4px;
+        }
+        &:last-of-type {
+            border-radius: 0 4px 4px 0;
+        }
     }
 }
