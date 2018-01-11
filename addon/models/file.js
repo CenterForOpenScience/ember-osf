@@ -87,7 +87,10 @@ export default OsfModel.extend(FileItemMixin, {
         return authenticatedAJAX({
             url: this.get('links.download'),
             type: 'GET',
-            xhrFields: { withCredentials: true },
+            data: {
+                direct: true,
+                mode: 'render',
+            },
         });
     },
     updateContents(data) {

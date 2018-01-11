@@ -4,6 +4,52 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Added
+- Util function that handles popover dismissal when clicking off of popover
+- file-browser properties to:
+  - disable multiple select
+  - disable unselect
+  - enable open on select
+- ability to specify a pre-selected file in file-browser
+- Stylesheet for the footer to match OSF styles
+- Analytics to `file-browser` and `file-browser-item` for Quick Files:
+  - Share
+  - Download
+  - Download as zip
+  - Upload
+- Original Publication Date is added to preprint.
+  - New `originalPublicationDate` property for `preprint` model.
+  - Add unit tests for `preprint` model.
+  - `validated-input` component is moved from ember-osf-preprints to ember-osf repo and modified.
+    - Change `yarn.lock` to add `ember-bootstrap-datepicker` and `ember-cp-validations` as dependencies.
+- Support button to the HOME navbar
+- Class for small-display on `file-browser`
+- Conditional to check between `files` and `items` in array for file upload between chrome and safari
+- alias in provider model to check if has highlighted subjects
+- `preprintDoiCreated` attribute to the `preprint` model
+- `ember-cli-clipboard` to allow copying to clipboard on more browsers
+
+### Changed
+- getContents() function for files to use `redirect = true` and `mode = 'render'`
+- Styling for the file-browser, file-browser-item, and file-version widgets used by Quick Files
+- Removed `Browse` from the navbar when user is logged out
+- Moved `Support` to be between `Search` and `Donate` on the navbar when user is logged out
+- Remove print margin on ember-ace editor on file-detail page
+- Moved share button in `file-browser-item` to the `file-browser` toolbar
+- Rename button to have class `primary` instead of `success` on the `file-browser` component
+- What screen sizes columns are displayed in `file-browser` table
+- Rename `action` model to `review-action`
+  - Also rename related adapter, serializer and tests
+  - Added model tests for `review-action`
+  - Customize model adapter
+- `meta.total` to `meta.total_pages` in osf-serializer
+
+### Fixed
+- Margins for scrollbar on `file-browser`
+- Clickability on dropzone widget
+- Handle Dropzone enable/disable properly
+
 ## [0.12.4] - 2017-12-04
 ### Added
 - Final banner images and dates
@@ -15,6 +61,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.12.2] - 2017-11-29
 ### Fixed
 - Giving Tuesday donate banner end date and mobile image class
+- Styling and order of buttons on the file-browser to match OSF
+- Growl message to show actual error message on file uploads
+
+### Removed
+- `?kind=file` from end of file path if there is a conflicting file when uploading
 
 ## [0.12.1] - 2017-11-21
 ### Added

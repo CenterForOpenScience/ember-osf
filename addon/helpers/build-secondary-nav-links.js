@@ -24,20 +24,19 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
         let links = Ember.Object.create({
             HOME: [
                 {
-                    name: session.get('isAuthenticated') ? 'eosf.navbar.myProjects' : 'eosf.navbar.browse',
-                    href: session.get('isAuthenticated') ? serviceLinks.myProjects : serviceLinks.exploreActivity,
-                },
-                {
                     name: 'eosf.navbar.search',
                     href: serviceLinks.search,
                     type: 'search'
+                },
+                {
+                    name: 'eosf.navbar.support',
+                    href: serviceLinks.osfSupport
                 },
                 {
                     name: 'eosf.navbar.donate',
                     href: 'https://cos.io/donate',
                     type: 'donateToCOS'
                 },
-
             ],
             PREPRINTS: [
                 {
@@ -99,6 +98,10 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
                 {
                     name: 'eosf.navbar.myQuickFiles',
                     href: serviceLinks.myQuickFiles
+                },
+                {
+                    name: 'eosf.navbar.myProjects',
+                    href: serviceLinks.myProjects,
                 }
             );
             this.get('currentUser.user').then((user) => {
@@ -109,13 +112,6 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
                     });
                 }
             })
-        } else {
-            links.HOME.push(
-                {
-                    name: 'eosf.navbar.support',
-                    href: serviceLinks.osfSupport
-                }
-            );
         }
 
         if (Object.keys(links).includes(currentService)) {

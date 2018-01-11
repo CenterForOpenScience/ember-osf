@@ -13,7 +13,9 @@ import layout from './template';
  * ```handlebars
  * {{file-version
  * version=version
- * download='download'}}
+ * download='download'
+ * currentVersion=currentVersion
+ * versionUrl='versionUrl'}}
  * ```
  * @class file-version
  */
@@ -21,10 +23,19 @@ export default Ember.Component.extend({
     layout,
     classNames: ['file-version'],
     tagName: 'tr',
+    currentVersion: null,
+    versionUrl: null,
+
+    clickable: Ember.computed('version', 'currentVersion', function() {
+        return this.get('version.id') != this.get('currentVersion');
+    }),
 
     actions: {
         downloadVersion(version) {
-            this.sendAction('download', version);
-        }
+            this.attrs.download(version);
+        },
+        changeVersion(version) {
+            this.attrs.versionChange(version);
+        },
     }
 });
