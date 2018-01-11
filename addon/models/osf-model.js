@@ -1,7 +1,12 @@
 import Ember from 'ember';
 import DS from 'ember-data';
+import ArrayProxy from '@ember/array/proxy';
+import PromiseProxyMixin from '@ember/object/promise-proxy-mixin';
+import { bind } from '@ember/runloop';
+import { Promise as EmberPromise } from 'rsvp';
 
-import HasManyQuery from 'ember-data-has-many-query';
+import { OSFAdapter } from 'ember-osf/adapters/osf-adapter';
+import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
 
 /**
  * @module ember-osf
@@ -14,7 +19,7 @@ import HasManyQuery from 'ember-data-has-many-query';
  * @class OsfModel
  * @public
  */
-export default DS.Model.extend(HasManyQuery.ModelMixin, {
+export default DS.Model.extend({
     links: DS.attr('links'),
     embeds: DS.attr('embed'),
 
@@ -71,5 +76,47 @@ export default DS.Model.extend(HasManyQuery.ModelMixin, {
             }
         });
         return this._super(...arguments);
-    }
+    },
+
+    /*
+     * Query a hasMany relationship with query params
+     *
+     * @method queryHasMany
+     * @param {String} propertyName Name of a hasMany relationship on the model
+     * @param {Object} queryParams A hash to be serialized into the query string of the request
+     * @param {Object} [ajaxOptions] A hash of options to be passed to jQuery.ajax
+     * @returns {ArrayPromiseProxy} Promise-like array proxy, resolves to the records fetched
+     */
+    queryHasMany(propertyName, queryParams, ajaxOptions) {
+        const reference = this.hasMany(propertyName);
+        const promise = new EmberPromise((resolve, reject) => {
+            // HACK: ember-data discards/ignores the link if an object on the belongsTo side
+            // came first. In that case, grab the link where we expect it from OSF's API
+            const url = reference.link() || this.get(`links.relationships.${propertyName}.links.related.href`);
+            if (!url) {
+                reject(`Could not find a link for '${propertyName}' relationship`);
+                return;
+            }
+            const options = Ember.merge({
+                url,
+                data: queryParams,
+                headers: OSFAdapter.get('headers'),
+            }, ajaxOptions);
+
+            authenticatedAJAX(options).catch(reject)
+                .then(bind(this, this.__queryHasManyDone, resolve));
+        });
+
+        const ArrayPromiseProxy = ArrayProxy.extend(PromiseProxyMixin);
+        return ArrayPromiseProxy.create({ promise });
+    },
+
+    __queryHasManyDone(resolve, payload) {
+        const store = this.get('store');
+        store.pushPayload(payload);
+        const records = payload.data.map(datum => store.peekRecord(datum.type, datum.id));
+        records.meta = payload.meta;
+        records.links = payload.links;
+        resolve(records);
+    },
 });
