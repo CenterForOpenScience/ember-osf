@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.12.0</em>
+            <em>API Docs for: 0.13.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -117,6 +117,7 @@
                                 <li><a href="../classes/OsfTokenAuthorizer.html">OsfTokenAuthorizer</a></li>
                                 <li><a href="../classes/OsfTokenLoginControllerMixin.html">OsfTokenLoginControllerMixin</a></li>
                                 <li><a href="../classes/OsfTokenLoginRouteMixin.html">OsfTokenLoginRouteMixin</a></li>
+                                <li><a href="../classes/outside-click.html">outside-click</a></li>
                                 <li><a href="../classes/PaginatedControllerMixin.html">PaginatedControllerMixin</a></li>
                                 <li><a href="../classes/PaginatedRouteMixin.html">PaginatedRouteMixin</a></li>
                                 <li><a href="../classes/pagination-control.html">pagination-control</a></li>
@@ -203,6 +204,7 @@
 
 import Ember from &#x27;ember&#x27;;
 import config from &#x27;ember-get-config&#x27;;
+import diffAttrs from &#x27;ember-diff-attrs&#x27;;
 
 import layout from &#x27;./template&#x27;;
 
@@ -222,7 +224,8 @@ import layout from &#x27;./template&#x27;;
  *   buildUrl=buildUrl
  *   success=attrs.success
  *   defaultMessage=defaultMessage
- *   options=dropzoneOptions}}
+ *   options=dropzoneOptions
+ *   clickable=clickable}}
  * &#x60;&#x60;&#x60;
  *
  * @class dropzone-widget
@@ -233,6 +236,8 @@ export default Ember.Component.extend({
     classNameBindings: [&#x27;dropzone&#x27;],
     dropzone: true,
     enable: true,
+    clickable: true,
+    dropzoneElement: null,
     loadDropzone() {
         let preUpload = this.get(&#x27;preUpload&#x27;);
         let dropzoneOptions = this.get(&#x27;options&#x27;) || {};
@@ -243,7 +248,7 @@ export default Ember.Component.extend({
         CustomDropzone.prototype = Object.create(Dropzone.prototype);
         CustomDropzone.prototype.drop = function(e) {
             if (this.options.preventMultipleFiles &amp;&amp; e.dataTransfer) {
-                if (e.dataTransfer.items.length &gt; 1) {
+                if (e.dataTransfer.items &amp;&amp; e.dataTransfer.items.length &gt; 1 || e.dataTransfer.files.length &gt; 1) {
                     this.emit(&quot;drop&quot;, e);
                     this.emit(&#x27;error&#x27;, &#x27;None&#x27;, &#x27;Cannot upload multiple files&#x27;);
                     return;
@@ -268,12 +273,16 @@ export default Ember.Component.extend({
         let drop = new CustomDropzone(&#x60;#${this.elementId}&#x60;, {
             url: file =&gt; typeof this.get(&#x27;buildUrl&#x27;) === &#x27;function&#x27; ? this.get(&#x27;buildUrl&#x27;)(file) : this.get(&#x27;buildUrl&#x27;),
             autoProcessQueue: false,
+            autoQueue: false,
+            clickable: this.get(&#x27;clickable&#x27;),
             dictDefaultMessage: this.get(&#x27;defaultMessage&#x27;) || &#x27;Drop files here to upload&#x27;,
             sending(file, xhr) {
                 // Monkey patch to send the raw file instead of formData
                 xhr.send = xhr.send.bind(xhr, file);
             }
         });
+
+        this.set(&#x27;dropzoneElement&#x27;, drop);
 
         // Set osf session header
         let headers = {};
@@ -304,12 +313,27 @@ export default Ember.Component.extend({
             }
         });
     },
-    didUpdateAttrs() {
-        if (this.get(&#x27;enable&#x27;) &amp;&amp; !this.get(&#x27;attached&#x27;)) {
-            this.set(&#x27;attached&#x27;, true);
-            this.loadDropzone();
+    destroyDropzone() {
+        if (this.get(&#x27;dropzoneElement&#x27;)) {
+            this.get(&#x27;dropzoneElement&#x27;).destroy();
         }
     },
+    didReceiveAttrs: diffAttrs(&#x27;enable&#x27;, &#x27;clickable&#x27;, function(changedAttrs, ...args) {
+        this._super(...args);
+        if (changedAttrs) {
+            if (changedAttrs.enable) {
+                if (this.get(&#x27;enable&#x27;)) {
+                    this.loadDropzone();
+                } else {
+                    this.destroyDropzone();
+                }
+            } else if (changedAttrs.clickable &amp;&amp; this.get(&#x27;enable&#x27;)) {
+                // Dropzone must be reloaded for clickable changes to take effect.
+                this.destroyDropzone();
+                this.loadDropzone();
+            }
+        }
+    }),
     didInsertElement() {
         if (this.get(&#x27;enable&#x27;)) {
             this.loadDropzone();
