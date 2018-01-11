@@ -4,7 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.13.1] - 2018-01-11
+### Changed
+- Updated CHANGELOG to reflect 0.13.0 release
+
+## [0.13.0] - 2018-01-10
 ### Added
 - Util function that handles popover dismissal when clicking off of popover
 - file-browser properties to:
