@@ -4,7 +4,7 @@
         "description": "Ember components for interacting with the Open Science Framework",
         "url": "https://github.com/CenterForOpenScience/ember-osf",
         "logo": "https://cdn.cos.io/static/images/cos_wide.png",
-        "version": "0.12.0"
+        "version": "0.13.0"
     },
     "files": {
         "addon/adapters/osf-adapter.js": {
@@ -1021,6 +1021,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "addon/utils/outside-click.js": {
+            "name": "addon/utils/outside-click.js",
+            "modules": {},
+            "classes": {
+                "outside-click": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "addon/yuidoc-prose.js": {
             "name": "addon/yuidoc-prose.js",
             "modules": {
@@ -1154,13 +1163,14 @@
                 "auth": 1,
                 "elastic-query": 1,
                 "fix-special-char": 1,
-                "human-file-size": 1
+                "human-file-size": 1,
+                "outside-click": 1
             },
             "fors": {},
             "namespaces": {},
             "tag": "module",
-            "file": "addon/utils/human-file-size.js",
-            "line": 6,
+            "file": "addon/utils/outside-click.js",
+            "line": 3,
             "description": "Reusable ember models and components for interacting with the Open Science Framework",
             "itemtype": "main"
         },
@@ -1714,8 +1724,8 @@
             "submodule": "components",
             "namespace": "",
             "file": "addon/components/dropzone-widget/component.js",
-            "line": 13,
-            "description": "Support file uploads via dropzone.\nAccepts dropzone event listeners as parameters (e.g. success, error, addedfile)\n\nSample usage:\n```handlebars\n{{dropzone-widget\n  preUpload=attrs.preUpload\n  buildUrl=buildUrl\n  success=attrs.success\n  defaultMessage=defaultMessage\n  options=dropzoneOptions}}\n```"
+            "line": 14,
+            "description": "Support file uploads via dropzone.\nAccepts dropzone event listeners as parameters (e.g. success, error, addedfile)\n\nSample usage:\n```handlebars\n{{dropzone-widget\n  preUpload=attrs.preUpload\n  buildUrl=buildUrl\n  success=attrs.success\n  defaultMessage=defaultMessage\n  options=dropzoneOptions\n  clickable=clickable}}\n```"
         },
         "eosf-project-nav": {
             "name": "eosf-project-nav",
@@ -1757,7 +1767,7 @@
             "module": "ember-osf",
             "namespace": "",
             "file": "addon/components/file-browser/component.js",
-            "line": 6,
+            "line": 9,
             "description": "File browser widget\n\nSample usage:\n```handlebars\n{{file-browser}}\n```"
         },
         "file-browser-icon": {
@@ -1833,7 +1843,7 @@
             "namespace": "",
             "file": "addon/components/file-version/component.js",
             "line": 9,
-            "description": "Display information about one revision of a file\n\nSample usage:\n```handlebars\n{{file-version\nversion=version\ndownload='download'}}\n```"
+            "description": "Display information about one revision of a file\n\nSample usage:\n```handlebars\n{{file-version\nversion=version\ndownload='download'\ncurrentVersion=currentVersion\nversionUrl='versionUrl'}}\n```"
         },
         "file-widget": {
             "name": "file-widget",
@@ -3287,6 +3297,20 @@
             "namespace": "",
             "file": "addon/utils/human-file-size.js",
             "line": 6
+        },
+        "outside-click": {
+            "name": "outside-click",
+            "shortname": "outside-click",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "namespace": "",
+            "file": "addon/utils/outside-click.js",
+            "line": 3,
+            "description": "Dismisses popovers on outside click"
         }
     },
     "elements": {},
@@ -6063,6 +6087,21 @@
             "class": "human-file-size",
             "module": "ember-osf",
             "submodule": "utils"
+        },
+        {
+            "file": "addon/utils/outside-click.js",
+            "line": 8,
+            "itemtype": "method",
+            "name": "outsideClick",
+            "params": [
+                {
+                    "name": "clickFunction",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "class": "outside-click",
+            "module": "ember-osf"
         }
     ],
     "warnings": []

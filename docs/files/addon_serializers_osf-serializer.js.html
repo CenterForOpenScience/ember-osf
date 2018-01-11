@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.12.0</em>
+            <em>API Docs for: 0.13.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -117,6 +117,7 @@
                                 <li><a href="../classes/OsfTokenAuthorizer.html">OsfTokenAuthorizer</a></li>
                                 <li><a href="../classes/OsfTokenLoginControllerMixin.html">OsfTokenLoginControllerMixin</a></li>
                                 <li><a href="../classes/OsfTokenLoginRouteMixin.html">OsfTokenLoginRouteMixin</a></li>
+                                <li><a href="../classes/outside-click.html">outside-click</a></li>
                                 <li><a href="../classes/PaginatedControllerMixin.html">PaginatedControllerMixin</a></li>
                                 <li><a href="../classes/PaginatedRouteMixin.html">PaginatedRouteMixin</a></li>
                                 <li><a href="../classes/pagination-control.html">pagination-control</a></li>
@@ -341,7 +342,7 @@ export default DS.JSONAPISerializer.extend({
         let documentHash = this._super(...arguments);
         documentHash.meta = documentHash.meta || {};
         documentHash.meta.pagination = Ember.$.extend(true, {}, Ember.get(payload || {}, &#x27;meta&#x27;));
-        documentHash.meta.total = Math.ceil(documentHash.meta.pagination.total / documentHash.meta.pagination.per_page);
+        documentHash.meta.total_pages = Math.ceil(documentHash.meta.pagination.total / documentHash.meta.pagination.per_page);
         return documentHash;
     }
 });
