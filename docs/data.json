@@ -4,7 +4,7 @@
         "description": "Ember components for interacting with the Open Science Framework",
         "url": "https://github.com/CenterForOpenScience/ember-osf",
         "logo": "https://cdn.cos.io/static/images/cos_wide.png",
-        "version": "0.13.0"
+        "version": "0.13.1"
     },
     "files": {
         "addon/adapters/osf-adapter.js": {
