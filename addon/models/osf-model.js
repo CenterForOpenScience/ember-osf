@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import DS from 'ember-data';
-import OSFAdapter from '../adapters/osf-adapter';
-import { authenticatedAJAX } from '../utils/ajax-helpers';
+import OSFAdapter from 'ember-osf/adapters/osf-adapter';
+import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
 
 /**
  * @module ember-osf
