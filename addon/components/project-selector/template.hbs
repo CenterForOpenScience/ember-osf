@@ -50,26 +50,31 @@
         </p>
     {{/if}}
     {{#if selectedProject}}
-        <div id="convertExistingOrCreateComponent">
+        <div>
             <h5>{{t "eosf.components.moveToProject.organizeProject"}}</h5>
             <p class="text-muted text-smaller m-t-xs">
                 {{if isChildNode (t "eosf.components.moveToProject.organizeChildNode") (t "eosf.components.moveToProject.organizeParentNode")}}
             </p>
             <div class="row text-center m-v-md">
                 <div class="toggle-button">
-                    <input id="copy" onchange={{action 'updateConvertOrCopy' 'copy'}} type="radio" name="createComponentDecision" checked={{eq convertOrCopy 'copy'}}>
-                    <label class="wide-text-only" for="copy">
+                    <input id="create" onchange={{action 'updateCreateOrMoveNode' 'create'}} type="radio" name="createComponentDecision" checked={{willCreateComponent}}>
+                    <label class="wide-text-only" for="create">
                         {{fa-icon "plus-circle"}} {{t "eosf.components.moveToProject.createComponent"}}
                     </label>
 
-                    <input id="convert" onchange={{action 'updateConvertOrCopy' 'convert'}} type="radio" name="createComponentDecision" checked={{eq convertOrCopy 'convert'}}>
-                    <label class="wide-text-only" for="convert">
-                        {{fa-icon "cube"}} {{t "eosf.components.moveToProject.useCurrentComponent"}}
+                    <input id="moveToNode" onchange={{action 'updateCreateOrMoveNode' 'move'}} type="radio" name="createComponentDecision" checked={{willMoveToNode}}>
+                    <label class="wide-text-only" for="moveToNode">
+                        {{fa-icon "cube"}} 
+                        {{#if isChildNode}}
+                            {{t "eosf.components.moveToProject.useCurrentComponent"}}
+                        {{else}}
+                            {{t "eosf.components.moveToProject.useCurrentProject"}}
+                        {{/if}}
                     </label>
                 </div>
             </div>
         </div>
-        {{#if (eq convertOrCopy 'copy')}}
+        {{#if willCreateComponent}}
             {{input
                 type='text'
                 placeholder=(t "eosf.components.moveToProject.enterComponentTitle")
@@ -78,7 +83,7 @@
                 id='projectTitle'
                 key-up='checkNodeTitleKeypress'}}
         {{/if}}
-        {{#if convertOrCopy}}
+        {{#if (or willCreateComponent willMoveToNode)}}
             <p class="m-t-lg">
                 {{t "eosf.components.moveToProject.convertOrCopyMessage"}}
             </p>

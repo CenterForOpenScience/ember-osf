@@ -222,8 +222,6 @@ export default {
                 enterProjectTitle: 'Enter project title',
                 enterComponentTitle: 'Enter component title',
                 newProjectMessage: 'You have selected to create a new public project for your file. Users will still have access to your file unless the project becomes private.',
-                newProjectError: 'Could not create project. Please try again.',
-                inputErrorMessage: 'Field cannot be blank',
                 chooseProject: 'Choose project',
                 projectSelectMessage: 'The list of projects appearing in the selector are projects and components for which you have admin access. Registrations are not included here.',
                 noProjectsExistError: 'You have no available projects. Go back to create a new project.',
@@ -234,6 +232,7 @@ export default {
                 couldNotCreateComponent: 'Could not create component. Please try again.',
                 couldNotCreateProject: 'Could not create project. Please try again.',
                 useCurrentComponent: 'Use current component',
+                useCurrentProject: 'Use current project',
                 convertOrCopyMessage: 'You have selected and organized your file. Clicking "Move file" will immediately make changes to your OSF project and move your file. You can continue viewing and editing your file from your project.',
                 noLongerPublicWarning: 'Files moved to private projects/components will no longer be public or discoverable by others.',
                 fileSuccessfullyMoved: 'File was moved successfully!',
@@ -241,7 +240,8 @@ export default {
                 keepWorkingHere: 'Keep working here',
                 goToNewProject: 'Go to new project',
                 goToNewComponent: 'Go to new component',
-                goToProject: 'Go go project',
+                goToComponent: 'Go to component',
+                goToProject: 'Go to project',
             },
         }
     }

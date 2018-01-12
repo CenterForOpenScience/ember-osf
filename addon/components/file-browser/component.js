@@ -42,7 +42,8 @@ export default Ember.Component.extend(Analytics, {
     nodeTitle: null,
     newNodeType: null,
     projectSelectState: 'main',
-    convertOrCopy: null,
+    willCreateComponent: false,
+    willMoveToNode: false,
     isInputInvalid: true,
     nodeLink: Ember.computed.alias('node.links.html'),
 
@@ -382,7 +383,8 @@ export default Ember.Component.extend(Analytics, {
         closeModal() {
             if (this.get('modalOpen') == 'move') {
                 this.set('projectSelectState', 'main');
-                this.set('convertOrCopy', null);
+                this.set('willCreateComponent', false);
+                this.set('willMoveToNode', false);
             }
             this.set('modalOpen', false);
         },
@@ -411,68 +413,70 @@ export default Ember.Component.extend(Analytics, {
         },
         changeProjectSelectState(state) {
             this.set('projectSelectState', state);
-            if (this.get('convertOrCopy')) {
-                this.set('convertOrCopy', null);
-            }
+            this.set('willCreateComponent', false);
+            this.set('willMoveToNode', false);
             if (!this.get('isInputInvalid')) {
                 this.set('isInputInvalid', true);
             }
         },
-        updateConvertOrCopy(state) {
-            this.set('convertOrCopy', state);
-            if (this.get('convertOrCopy') == 'convert') {
-                this.set('isInputInvalid', false);
-            } else {
+        updateCreateOrMoveNode(state) {
+            if (state == 'create') {
+                this.set('willCreateComponent', true);
+                this.set('willMoveToNode', false);
                 this.set('isInputInvalid', true);
+            } else {
+                this.set('willCreateComponent', false);
+                this.set('willMoveToNode', true);
+                this.set('isInputInvalid', false);
             }
         },
-        setSelectedNode(node) {
+        setSelectedNode(node, isChild) {
             this.set('node', node);
+            this.set('isChildNode', isChild);
         },
         setMoveFile() {
             let selectedItem = this.get('selectedItems.firstObject');
+            let title = this.get('nodeTitle');
 
             if (this.get('projectSelectState') == 'newProject') {
-                this._createProject().then(project => {
+                this.set('newNodeType', 'project');
+                this._createProject(title).then(project => {
                     this.set('node', project);
-                    this.set('newNodeType', 'project');
                     this._addNewNodeToList(this.get('user'), project);
                     this._moveFile(selectedItem, project);
                 });
             } else if (this.get('projectSelectState') == 'existingProject') {
-                if (this.get('convertOrCopy') == 'copy') {
-                    this._createComponent().then(component => {
+                if (this.get('willCreateComponent')) {
+                    this.set('newNodeType', 'component');
+                    this._createComponent(title).then(component => {
                         this.set('node', component);
-                        this.set('newNodeType', 'component');
                         this._addNewNodeToList(this.get('user'), component);
                         this._moveFile(selectedItem, component);
                     });
-                } else if (this.get('convertOrCopy') == 'convert') {
-                    this._moveToComponent(selectedItem);
+                } else if (this.get('willMoveToNode')) {
+                    this._moveFile(selectedItem, this.get('node'));
+
+                    this.set('newNodeType', null);
                 }
             }
         },
     },
-    _createProject() {
+    _createProject(title) {
         return this.get('store').createRecord('node', {
             public: true,
             category: 'project',
-            title: this.get('nodeTitle'),
+            title: title,
         }).save()
-            .catch(() => {
-                this.get('toast').error(this.get('i18n').t('eosf.components.moveToProject.couldNotCreateProject'));
-            });
+            .catch(() => this.get('toast').error(
+                this.get('i18n').t('eosf.components.moveToProject.couldNotCreateProject')
+            ));
     },
-    _createComponent() {
+    _createComponent(title) {
         return this.get('node')
-            .addChild(this.get('nodeTitle'), null, null, true)
-            .catch(() => {
-                this.get('toast').error(this.get('i18n').t('eosf.components.moveToProject.couldNotCreateComponent'));
-            });
-    },
-    _moveToComponent(selectedItem) {
-        this._moveFile(selectedItem, this.get('node'));
-        this.set('newNodeType', null);
+            .addChild(title, null, null, true)
+            .catch(() => this.get('toast').error(
+                this.get('i18n').t('eosf.components.moveToProject.couldNotCreateComponent')
+            ));
     },
     _moveFile(item, node) {
         item.move(node)
@@ -484,13 +488,12 @@ export default Ember.Component.extend(Analytics, {
                 }, 1800);
                 this.set('modalOpen', 'successMove');
                 this.set('projectSelectState', 'main');
-                if (this.get('convertOrCopy')) {
-                    this.set('convertOrCopy', null);
-                }
+                this.set('willCreateComponent', false);
+                this.set('willMoveToNode', false);
                 this.send('track', 'move', 'track', 'Quick Files - Move to project');
             })
-            .catch(() => {
-                this.get('toast').error(this.get('i18n').t('eosf.components.moveToProject.couldNotMoveFile'));
-            });
+            .catch(() => this.get('toast').error(
+                this.get('i18n').t('eosf.components.moveToProject.couldNotMoveFile')
+            ));
     },
 });

@@ -16,10 +16,12 @@ import layout from './template';
  *  user=user
  *  file=file
  *  projectSelectState=projectSelectState
- *  convertOrCopy=convertOrCopy
+ *  willCreateComponent=willCreateComponent
+ *  willMoveToNode=willMoveToNode
  *  setSelectedNode=(action 'setSelectedNode')
  *  changeProjectSelectState=(action 'changeProjectSelectState')
- *  updateConvertOrCopy=(action 'updateConvertOrCopy')}}
+ *  updateCreateOrMoveNode=(action 'updateCreateOrMoveNode')
+ *  checkNodeTitleKeypress=(action 'checkNodeTitleKeypress')}
  * ```
  * @class project-selector
  */
@@ -34,23 +36,25 @@ export default Ember.Component.extend({
     projectSelectState: 'main',
     selectedProject: null,
     isLoadingProjects: true,
-    convertOrCopy: null,
+    willCreateComponent: false,
+    willMoveToNode: false,
     showErrorMessage: null,
     projectList: Ember.A(),
     isProjectPublic: Ember.computed.alias('selectedProject.public'),
 
     isChildNode: Ember.computed('selectedProject', function() {
         // sets the selected node and determines if node is child
-        this.setSelectedNode(this.get('selectedProject'));
-        return this.get('selectedProject.links.relationships.parent');
+        let isChild = this.get('selectedProject.links.relationships.parent');
+        this.setSelectedNode(this.get('selectedProject'), isChild);
+        return isChild;
     }),
 
     actions: {
         changeState(state) {
             this.changeProjectSelectState(state);
         },
-        updateConvertOrCopy(state) {
-            this.updateConvertOrCopy(state);
+        updateCreateOrMoveNode(state) {
+            this.updateCreateOrMoveNode(state);
         },
         checkNodeTitleKeypress(value) {
             this.checkNodeTitleKeypress(value);

@@ -171,11 +171,12 @@
             isLoadingProjects=isLoadingProjects
             file=selectedItems.firstObject
             projectSelectState=projectSelectState
-            convertOrCopy=convertOrCopy
+            willCreateComponent=willCreateComponent
+            willMoveToNode=willMoveToNode
             showErrorMessage=showErrorMessage
             setSelectedNode=(action 'setSelectedNode')
             changeProjectSelectState=(action 'changeProjectSelectState')
-            updateConvertOrCopy=(action 'updateConvertOrCopy')
+            updateCreateOrMoveNode=(action 'updateCreateOrMoveNode')
             checkNodeTitleKeypress=(action 'checkNodeTitleKeypress')
         }}
     {{/modal.body}}
@@ -196,8 +197,10 @@
         <a class="btn btn-success" href="{{nodeLink}}">
             {{#if (eq newNodeType 'project')}}
                 {{t "eosf.components.moveToProject.goToNewProject"}}
-            {{else if (eq newNodeType 'components')}}
+            {{else if (eq newNodeType 'component')}}
                 {{t "eosf.components.moveToProject.goToNewComponent"}}
+            {{else if isChildNode}}
+                {{t "eosf.components.moveToProject.goToComponent"}}
             {{else}}
                 {{t "eosf.components.moveToProject.goToProject"}}
             {{/if}}
