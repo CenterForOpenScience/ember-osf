@@ -1,10 +1,5 @@
 import Ember from 'ember';
 import DS from 'ember-data';
-import ArrayProxy from '@ember/array/proxy';
-import PromiseProxyMixin from '@ember/object/promise-proxy-mixin';
-import { bind } from '@ember/runloop';
-import { Promise as EmberPromise } from 'rsvp';
-
 import { OSFAdapter } from 'ember-osf/adapters/osf-adapter';
 import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
 
@@ -89,7 +84,7 @@ export default DS.Model.extend({
      */
     queryHasMany(propertyName, queryParams, ajaxOptions) {
         const reference = this.hasMany(propertyName);
-        const promise = new EmberPromise((resolve, reject) => {
+        const promise = new Ember.RSVP.Promise((resolve, reject) => {
             // HACK: ember-data discards/ignores the link if an object on the belongsTo side
             // came first. In that case, grab the link where we expect it from OSF's API
             const url = reference.link() || this.get(`links.relationships.${propertyName}.links.related.href`);
@@ -104,10 +99,10 @@ export default DS.Model.extend({
             }, ajaxOptions);
 
             authenticatedAJAX(options).catch(reject)
-                .then(bind(this, this.__queryHasManyDone, resolve));
+                .then(Ember.bind(this, this.__queryHasManyDone, resolve));
         });
 
-        const ArrayPromiseProxy = ArrayProxy.extend(PromiseProxyMixin);
+        const ArrayPromiseProxy = Ember.ArrayProxy.extend(Ember.PromiseProxyMixin);
         return ArrayPromiseProxy.create({ promise });
     },
 
