@@ -50,6 +50,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - Added model tests for `review-action`
   - Customize model adapter
 - `meta.total` to `meta.total_pages` in osf-serializer
+- `hasHighlightedSubjects` path in preprint-providers model
 
 ### Fixed
 - Margins for scrollbar on `file-browser`
