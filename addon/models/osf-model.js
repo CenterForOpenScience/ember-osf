@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import DS from 'ember-data';
-import { OSFAdapter } from 'ember-osf/adapters/osf-adapter';
-import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
+import OSFAdapter from '../adapters/osf-adapter';
+import { authenticatedAJAX } from '../utils/ajax-helpers';
 
 /**
  * @module ember-osf
@@ -65,7 +65,7 @@ export default DS.Model.extend({
                     remove: relation.canonicalMembers.list.filter(m => currentIds.indexOf(m.getRecord().get('id')) === -1)
                 };
 
-                var other = this.get('_dirtyRelationships.${rel}') || {};
+                var other = this.get(`_dirtyRelationships.${rel}`) || {};
                 Ember.merge(other, changes);
                 this.set(`_dirtyRelationships.${rel}`, other);
             }
@@ -95,11 +95,13 @@ export default DS.Model.extend({
             const options = Ember.merge({
                 url,
                 data: queryParams,
-                headers: OSFAdapter.get('headers'),
+                headers: Ember.get(OSFAdapter, 'headers'),
             }, ajaxOptions);
 
-            authenticatedAJAX(options).catch(reject)
-                .then(Ember.bind(this, this.__queryHasManyDone, resolve));
+            authenticatedAJAX(options).then(
+                Ember.run.bind(this, this.__queryHasManyDone, resolve),
+                reject
+            );
         });
 
         const ArrayPromiseProxy = Ember.ArrayProxy.extend(Ember.PromiseProxyMixin);
