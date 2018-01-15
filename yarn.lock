@@ -3350,7 +3350,7 @@ ember-cli@2.11.1:
     walk-sync "^0.3.0"
     yam "0.0.22"
 
-ember-collapsible-panel@2.1.1:
+ember-collapsible-panel@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/ember-collapsible-panel/-/ember-collapsible-panel-2.1.1.tgz#2ab8b564f221a284079bd2a049a5f8f29b3fef44"
   dependencies:
@@ -3589,7 +3589,7 @@ ember-page-title@3.2.0:
     ember-cli-head "^0.2.1"
     ember-cli-htmlbars "^2.0.1"
 
-ember-power-select@1.10.4:
+ember-power-select@^1.10.4:
   version "1.10.4"
   resolved "https://registry.yarnpkg.com/ember-power-select/-/ember-power-select-1.10.4.tgz#7f0bb8c55279375391f2d97591ed65f727061579"
   dependencies:
