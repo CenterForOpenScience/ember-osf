@@ -25,7 +25,7 @@ export default function loadAll(model, relationship, dest, options = {}) {
     query = Ember.merge(query, options || {});
     Ember.set(model, 'query-params', query);
 
-    return model.query(relationship, query).then(results => {
+    return model.queryHasMany(relationship, query).then(results => {
         dest.pushObjects(results.toArray());
         if (results.meta) {
             var total = results.meta.pagination.total;

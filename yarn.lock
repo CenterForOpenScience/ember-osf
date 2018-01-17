@@ -3412,12 +3412,6 @@ ember-data-factory-guy@2.11.7:
     broccoli-funnel "^1.0.1"
     broccoli-merge-trees "^1.1.1"
 
-ember-data-has-many-query@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/ember-data-has-many-query/-/ember-data-has-many-query-0.2.0.tgz#97ae2c29d6d7f77d3837cca9f165c26bf6e6fb0a"
-  dependencies:
-    ember-cli-babel "^5.1.6"
-
 ember-data@2.11.3:
   version "2.11.3"
   resolved "https://registry.yarnpkg.com/ember-data/-/ember-data-2.11.3.tgz#46ba0e8411dce6dbb52cc02a29194f265b747ef9"
