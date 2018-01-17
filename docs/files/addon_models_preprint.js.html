@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.12.0</em>
+            <em>API Docs for: 0.13.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -117,6 +117,7 @@
                                 <li><a href="../classes/OsfTokenAuthorizer.html">OsfTokenAuthorizer</a></li>
                                 <li><a href="../classes/OsfTokenLoginControllerMixin.html">OsfTokenLoginControllerMixin</a></li>
                                 <li><a href="../classes/OsfTokenLoginRouteMixin.html">OsfTokenLoginRouteMixin</a></li>
+                                <li><a href="../classes/outside-click.html">outside-click</a></li>
                                 <li><a href="../classes/PaginatedControllerMixin.html">PaginatedControllerMixin</a></li>
                                 <li><a href="../classes/PaginatedRouteMixin.html">PaginatedRouteMixin</a></li>
                                 <li><a href="../classes/pagination-control.html">pagination-control</a></li>
@@ -224,6 +225,7 @@ export default OsfModel.extend({
     subjects: DS.attr(),
     dateCreated: DS.attr(&#x27;date&#x27;),
     datePublished: DS.attr(&#x27;date&#x27;),
+    originalPublicationDate: DS.attr(&#x27;date&#x27;),
     dateModified: DS.attr(&#x27;date&#x27;),
     doi: DS.attr(&#x27;fixstring&#x27;),
     isPublished: DS.attr(&#x27;boolean&#x27;),
@@ -231,13 +233,14 @@ export default OsfModel.extend({
     licenseRecord: DS.attr(),
     reviewsState: DS.attr(&#x27;string&#x27;),
     dateLastTransitioned: DS.attr(&#x27;date&#x27;),
+    preprintDoiCreated: DS.attr(&#x27;date&#x27;),
 
     // Relationships
     node: DS.belongsTo(&#x27;node&#x27;, { inverse: null, async: true }),
     license: DS.belongsTo(&#x27;license&#x27;, { inverse: null }),
     primaryFile: DS.belongsTo(&#x27;file&#x27;, { inverse: null }),
     provider: DS.belongsTo(&#x27;preprint-provider&#x27;, { inverse: &#x27;preprints&#x27;, async: true }),
-    actions: DS.hasMany(&#x27;action&#x27;, { inverse: &#x27;target&#x27;, async: true }),
+    reviewActions: DS.hasMany(&#x27;review-action&#x27;, { inverse: &#x27;target&#x27;, async: true }),
     contributors: DS.hasMany(&#x27;contributors&#x27;, { async: true }),
 
     uniqueSubjects: Ember.computed(&#x27;subjects&#x27;, function() {

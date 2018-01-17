@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.12.0</em>
+            <em>API Docs for: 0.13.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -117,6 +117,7 @@
                                 <li><a href="../classes/OsfTokenAuthorizer.html">OsfTokenAuthorizer</a></li>
                                 <li><a href="../classes/OsfTokenLoginControllerMixin.html">OsfTokenLoginControllerMixin</a></li>
                                 <li><a href="../classes/OsfTokenLoginRouteMixin.html">OsfTokenLoginRouteMixin</a></li>
+                                <li><a href="../classes/outside-click.html">outside-click</a></li>
                                 <li><a href="../classes/PaginatedControllerMixin.html">PaginatedControllerMixin</a></li>
                                 <li><a href="../classes/PaginatedRouteMixin.html">PaginatedRouteMixin</a></li>
                                 <li><a href="../classes/pagination-control.html">pagination-control</a></li>
@@ -204,6 +205,8 @@ import moment from &#x27;moment&#x27;
 import layout from &#x27;./template&#x27;;
 import pathJoin from &#x27;ember-osf/utils/path-join&#x27;;
 import humanFileSize from &#x27;ember-osf/utils/human-file-size&#x27;;
+import Analytics from &#x27;../../mixins/analytics&#x27;;
+
 /**
  * @module ember-osf
  * @submodule components
@@ -220,13 +223,12 @@ import humanFileSize from &#x27;ember-osf/utils/human-file-size&#x27;;
   *        selectMultiple=(action &#x27;selectMultiple&#x27;) Action - handling clicking multiple rows, through cmd/ctrl and/or shift
   *        display=display Array[Strings] - Indicating which rows of information to display
   *        nameColumnWidth=nameColumnWidth String of number - How wide is the main collumn (name)
-  *        dismissOtherPops=(action &#x27;dismissOtherPops&#x27;) Action - handling cleaning up popups created by the Share button
   *     }}
   * &#x60;&#x60;&#x60;
   * @class file-browser-icon
   */
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(Analytics, {
     layout,
     store: Ember.inject.service(),
     classNames: [&#x27;file-browser-item&#x27;],
@@ -242,7 +244,7 @@ export default Ember.Component.extend({
     }),
     date: Ember.computed(&#x27;item.dateModified&#x27;, function() {
         let date = this.get(&#x27;item.dateModified&#x27;);
-        return moment(date).utc().format(&#x27;YYYY-MM-DD h:mm a&#x27;)
+        return moment(date).utc().format(&#x27;YYYY-MM-DD h:mm A&#x27;)
     }),
     link: Ember.computed(&#x27;item.guid&#x27;, function() {
         let guid = this.get(&#x27;item.guid&#x27;);
@@ -259,22 +261,11 @@ export default Ember.Component.extend({
     },
     actions: {
         openVersion() {
-            this.openItem(this.get(&#x27;item&#x27;), &#x27;?revision=&#x27; + this.get(&#x27;item.currentVersion&#x27;));
+            this.openItem(this.get(&#x27;item&#x27;), &#x27;revision&#x27;);
         },
         open() {
-            this.openItem(this.get(&#x27;item&#x27;));
+            this.openItem(this.get(&#x27;item&#x27;), &#x27;view&#x27;);
         },
-        copyLink() {
-            this.dismissOtherPops(this.get(&#x27;item&#x27;));
-            this.set(&#x27;item.visiblePopup&#x27;, true);
-            if (this.get(&#x27;link&#x27;)) {
-                return;
-            }
-            this.get(&#x27;item&#x27;).getGuid();
-        },
-        dismissPop() {
-            this.set(&#x27;item.visiblePopup&#x27;, false);
-        }
     }
 });
 

@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.12.0</em>
+            <em>API Docs for: 0.13.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -117,6 +117,7 @@
                                 <li><a href="../classes/OsfTokenAuthorizer.html">OsfTokenAuthorizer</a></li>
                                 <li><a href="../classes/OsfTokenLoginControllerMixin.html">OsfTokenLoginControllerMixin</a></li>
                                 <li><a href="../classes/OsfTokenLoginRouteMixin.html">OsfTokenLoginRouteMixin</a></li>
+                                <li><a href="../classes/outside-click.html">outside-click</a></li>
                                 <li><a href="../classes/PaginatedControllerMixin.html">PaginatedControllerMixin</a></li>
                                 <li><a href="../classes/PaginatedRouteMixin.html">PaginatedRouteMixin</a></li>
                                 <li><a href="../classes/pagination-control.html">pagination-control</a></li>
@@ -225,20 +226,19 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
         let links = Ember.Object.create({
             HOME: [
                 {
-                    name: session.get(&#x27;isAuthenticated&#x27;) ? &#x27;eosf.navbar.myProjects&#x27; : &#x27;eosf.navbar.browse&#x27;,
-                    href: session.get(&#x27;isAuthenticated&#x27;) ? serviceLinks.myProjects : serviceLinks.exploreActivity,
-                },
-                {
                     name: &#x27;eosf.navbar.search&#x27;,
                     href: serviceLinks.search,
                     type: &#x27;search&#x27;
+                },
+                {
+                    name: &#x27;eosf.navbar.support&#x27;,
+                    href: serviceLinks.osfSupport
                 },
                 {
                     name: &#x27;eosf.navbar.donate&#x27;,
                     href: &#x27;https://cos.io/donate&#x27;,
                     type: &#x27;donateToCOS&#x27;
                 },
-
             ],
             PREPRINTS: [
                 {
@@ -300,6 +300,10 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
                 {
                     name: &#x27;eosf.navbar.myQuickFiles&#x27;,
                     href: serviceLinks.myQuickFiles
+                },
+                {
+                    name: &#x27;eosf.navbar.myProjects&#x27;,
+                    href: serviceLinks.myProjects,
                 }
             );
             this.get(&#x27;currentUser.user&#x27;).then((user) =&gt; {
@@ -310,13 +314,6 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
                     });
                 }
             })
-        } else {
-            links.HOME.push(
-                {
-                    name: &#x27;eosf.navbar.support&#x27;,
-                    href: serviceLinks.osfSupport
-                }
-            );
         }
 
         if (Object.keys(links).includes(currentService)) {

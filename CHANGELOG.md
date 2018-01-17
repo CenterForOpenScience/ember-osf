@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Removed
+- ember-data-has-many-query
+    - Code that uses `model.query()` should update to `model.queryHasMany()`
+
+### Added
+- `osf-model.queryHasMany`, for reliable querying of hasMany relations
+
+## [0.13.1] - 2018-01-11
+### Changed
+- Updated CHANGELOG to reflect 0.13.0 release
+
+## [0.13.0] - 2018-01-10
 ### Added
 - Util function that handles popover dismissal when clicking off of popover
 - file-browser properties to:
@@ -28,6 +40,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Conditional to check between `files` and `items` in array for file upload between chrome and safari
 - alias in provider model to check if has highlighted subjects
 - `preprintDoiCreated` attribute to the `preprint` model
+- `ember-cli-clipboard` to allow copying to clipboard on more browsers
 
 ### Changed
 - getContents() function for files to use `redirect = true` and `mode = 'render'`
@@ -43,6 +56,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - Added model tests for `review-action`
   - Customize model adapter
 - `meta.total` to `meta.total_pages` in osf-serializer
+- `hasHighlightedSubjects` path in preprint-providers model
 
 ### Fixed
 - Margins for scrollbar on `file-browser`
