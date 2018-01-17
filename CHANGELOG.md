@@ -5,12 +5,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- `osf-model.queryHasMany`, for reliable querying of hasMany relations
+- Modal to `file-browser` for moving quick files to projects
+- Actions for moving quick files to project/node in `file-browser`
+- `get-ancestor-descriptor` helper to create project/node list
+- `project-selector` component which helps user choose where to move file
+- Translations for `project-selector` component
+- Move function for `file` model
+- `ember-collapsable-panel` and `ember-power-select` packages
+
+### Changed
+- Node `addChild` model function to create public child elements
+
 ### Removed
 - ember-data-has-many-query
     - Code that uses `model.query()` should update to `model.queryHasMany()`
-
-### Added
-- `osf-model.queryHasMany`, for reliable querying of hasMany relations
 
 ## [0.13.1] - 2018-01-11
 ### Changed
@@ -41,9 +51,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - alias in provider model to check if has highlighted subjects
 - `preprintDoiCreated` attribute to the `preprint` model
 - `ember-cli-clipboard` to allow copying to clipboard on more browsers
-- Functionality to move quick files to projects
-- `get-ancestor-descriptor` helper to create project/node list
-- `project-selector` component which helps user choose where to move file
 
 ### Changed
 - getContents() function for files to use `redirect = true` and `mode = 'render'`
