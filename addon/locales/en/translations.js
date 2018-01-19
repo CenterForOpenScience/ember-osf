@@ -8,37 +8,31 @@ export default {
     // },
     //
     // "key.with.interpolation": "Text with {{anInterpolation}}"
-    preprintWords: {
-        preprint: {
-            preprint: 'preprint',
-            preprints: 'preprints',
-            Preprint: 'Preprint',
-            Preprints: 'Preprints'
+    documentType: {
+        default: {
+            plural: 'documents',
+            pluralCapitalized: 'Documents',
+            singular: 'document',
+            singularCapitalized: 'Document',
         },
         paper: {
-            preprint: 'paper',
-            preprints: 'papers',
-            Preprint: 'Paper',
-            Preprints: 'Papers'
+            plural: 'papers',
+            pluralCapitalized: 'Papers',
+            singular: 'paper',
+            singularCapitalized: 'Paper',
+        },
+        preprint: {
+            plural: 'preprints',
+            pluralCapitalized: 'Preprints',
+            singular: 'preprint',
+            singularCapitalized: 'Preprint',
         },
         thesis: {
-            preprint: 'thesis',
-            preprints: 'theses',
-            Preprint: 'Thesis',
-            Preprints: 'Theses'
+            plural: 'theses',
+            pluralCapitalized: 'Theses',
+            singular: 'thesis',
+            singularCapitalized: 'Thesis',
         },
-        none: {
-            preprint: '',
-            preprints: '',
-            Preprint: '',
-            Preprints: ''
-        },
-        document: {
-            preprint: 'document',
-            preprints: 'documents',
-            Preprint: 'Document',
-            Preprints: 'Documents'
-        }
     },
     eosf: {
         signup: {
