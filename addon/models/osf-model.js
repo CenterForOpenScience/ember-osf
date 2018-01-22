@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import DS from 'ember-data';
-import OSFAdapter from 'ember-osf/adapters/osf-adapter';
 import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
 
 /**
@@ -95,7 +94,7 @@ export default DS.Model.extend({
             const options = Ember.merge({
                 url,
                 data: queryParams,
-                headers: Ember.get(OSFAdapter, 'headers'),
+                headers: Ember.get(this.store.adapterFor(this.constructor.modelName), 'headers'),
             }, ajaxOptions);
 
             authenticatedAJAX(options).then(
