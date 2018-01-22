@@ -135,12 +135,11 @@ export default DS.JSONAPISerializer.extend({
     },
 
     normalizeArrayResponse(store, primaryModelClass, payload) {
-        // Ember data does not yet support pagination. For any request that returns more than one result, add pagination data
-        // under meta, and then calculate total pages to be loaded.
         let documentHash = this._super(...arguments);
-        documentHash.meta = documentHash.meta || {};
-        documentHash.meta.pagination = Ember.$.extend(true, {}, Ember.get(payload || {}, 'meta'));
-        documentHash.meta.total_pages = Math.ceil(documentHash.meta.pagination.total / documentHash.meta.pagination.per_page);
+        if (documentHash.meta !== undefined && documentHash.meta.total !== undefined && documentHash.meta.per_page !== undefined) {
+            // For any request that returns more than one result, calculate total pages to be loaded.
+            documentHash.meta.total_pages = Math.ceil(documentHash.meta.total / documentHash.meta.per_page);
+        }
         return documentHash;
     }
 });
