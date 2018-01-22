@@ -134,7 +134,7 @@ export default DS.JSONAPISerializer.extend({
         }
     },
 
-    normalizeArrayResponse(store, primaryModelClass, payload) {
+    normalizeArrayResponse() {
         let documentHash = this._super(...arguments);
         if (documentHash.meta !== undefined && documentHash.meta.total !== undefined && documentHash.meta.per_page !== undefined) {
             // For any request that returns more than one result, calculate total pages to be loaded.
