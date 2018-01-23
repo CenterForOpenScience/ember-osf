@@ -18,5 +18,6 @@ export default OsfModel.extend({
     path: DS.attr('string'),
     // TODO: Api implements this as a list field for now. This should be a relationship field in the future, when API supports it
     child_count: DS.attr(),
+    children: DS.attr(),
     parents: DS.attr()
 });
