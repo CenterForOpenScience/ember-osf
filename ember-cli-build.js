@@ -47,5 +47,6 @@ module.exports = function(defaults) {
     app.import(path.join(app.bowerDirectory, 'osf-style/css/base.css'));
     app.import('vendor/assets/ember-osf.css');
     app.import(path.join(app.bowerDirectory, 'ember/ember-template-compiler.js'));
+    app.import(path.join(app.bowerDirectory, 'jquery-mockjax/dist/jquery.mockjax.js'));
     return app.toTree();
 };
