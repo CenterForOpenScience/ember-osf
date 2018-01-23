@@ -88,6 +88,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "osf-navbar",
         "osf-paginator",
         "osf-services",
+        "outside-click",
         "pagination-control",
         "permissions",
         "providerRegex",

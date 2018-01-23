@@ -1,6 +1,6 @@
 {
   "name": "@centerforopenscience/ember-osf",
-  "version": "0.12.4",
+  "version": "0.13.1",
   "description": "Reusable ember models and components for interacting with the Open Science Framework",
   "directories": {
     "doc": "docs",
@@ -93,7 +93,6 @@
     "ember-cli-sass": "^6.2.0",
     "ember-cli-shims": "1.0.2",
     "ember-cp-validations": "^3.5.0",
-    "ember-data-has-many-query": "^0.2.0",
     "ember-diff-attrs": "^0.2.0",
     "ember-get-config": "0.2.1",
     "ember-i18n": "5.0.1",

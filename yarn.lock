@@ -3399,12 +3399,6 @@ ember-data-factory-guy@^2.13.7:
     pretender "^1.6.0"
     resolve "^1.2.0"
 
-ember-data-has-many-query@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/ember-data-has-many-query/-/ember-data-has-many-query-0.2.0.tgz#97ae2c29d6d7f77d3837cca9f165c26bf6e6fb0a"
-  dependencies:
-    ember-cli-babel "^5.1.6"
-
 ember-data@2.11.3:
   version "2.11.3"
   resolved "https://registry.yarnpkg.com/ember-data/-/ember-data-2.11.3.tgz#46ba0e8411dce6dbb52cc02a29194f265b747ef9"
@@ -7993,7 +7987,7 @@ source-map-url@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/source-map-url/-/source-map-url-0.3.0.tgz#7ecaf13b57bcd09da8a40c5d269db33799d4aaf9"
 
-source-map@0.1.32:
+source-map@0.1.32, source-map@~0.1.x:
   version "0.1.32"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.1.32.tgz#c8b6c167797ba4740a8ea33252162ff08591b266"
   dependencies:
@@ -8015,7 +8009,7 @@ source-map@0.5.6, source-map@^0.5.0, source-map@^0.5.6, source-map@~0.5.0, sourc
   version "0.5.6"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.5.6.tgz#75ce38f52bf0733c5a7f0c118d81334a2bb5f412"
 
-source-map@^0.1.40, source-map@~0.1.30, source-map@~0.1.7, source-map@~0.1.x:
+source-map@^0.1.40, source-map@~0.1.30, source-map@~0.1.7:
   version "0.1.43"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.1.43.tgz#c24bc146ca517c1471f5dacbe2571b2b7f9e3346"
   dependencies:

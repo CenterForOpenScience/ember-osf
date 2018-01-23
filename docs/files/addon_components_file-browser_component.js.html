@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.12.0</em>
+            <em>API Docs for: 0.13.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -117,6 +117,7 @@
                                 <li><a href="../classes/OsfTokenAuthorizer.html">OsfTokenAuthorizer</a></li>
                                 <li><a href="../classes/OsfTokenLoginControllerMixin.html">OsfTokenLoginControllerMixin</a></li>
                                 <li><a href="../classes/OsfTokenLoginRouteMixin.html">OsfTokenLoginRouteMixin</a></li>
+                                <li><a href="../classes/outside-click.html">outside-click</a></li>
                                 <li><a href="../classes/PaginatedControllerMixin.html">PaginatedControllerMixin</a></li>
                                 <li><a href="../classes/PaginatedRouteMixin.html">PaginatedRouteMixin</a></li>
                                 <li><a href="../classes/pagination-control.html">pagination-control</a></li>
@@ -203,6 +204,9 @@ import Ember from &#x27;ember&#x27;;
 import layout from &#x27;./template&#x27;;
 
 import loadAll from &#x27;ember-osf/utils/load-relationship&#x27;;
+import outsideClick from &#x27;ember-osf/utils/outside-click&#x27;;
+import Analytics from &#x27;../../mixins/analytics&#x27;;
+import pathJoin from &#x27;ember-osf/utils/path-join&#x27;;
 
 /**
  * File browser widget
@@ -213,11 +217,11 @@ import loadAll from &#x27;ember-osf/utils/load-relationship&#x27;;
  * &#x60;&#x60;&#x60;
  * @class file-browser
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend(Analytics, {
     // TODO: Improve documentation in the future
     layout,
     //Can be overwritten to have a trimmed down display, these are all the options available to be displayed
-    display: Ember.A([&#x27;header&#x27;, &#x27;share-link-column&#x27;, &#x27;size-column&#x27;, &#x27;version-column&#x27;, &#x27;downloads-column&#x27;, &#x27;modified-column&#x27;, &#x27;delete-button&#x27;, &#x27;rename-button&#x27;, &#x27;download-button&#x27;, &#x27;view-button&#x27;, &#x27;info-button&#x27;, &#x27;upload-button&#x27;]),
+    display: Ember.A([&#x27;header&#x27;, &#x27;size-column&#x27;, &#x27;version-column&#x27;, &#x27;downloads-column&#x27;, &#x27;modified-column&#x27;, &#x27;delete-button&#x27;, &#x27;rename-button&#x27;, &#x27;download-button&#x27;, &#x27;view-button&#x27;, &#x27;info-button&#x27;, &#x27;upload-button&#x27;, &#x27;share-button&#x27;]),
     store: Ember.inject.service(),
     toast: Ember.inject.service(),
     classNames: [&#x27;file-browser&#x27;],
@@ -228,16 +232,22 @@ export default Ember.Component.extend({
         preventMultipleFiles: true,
         acceptDirectories: false
     },
+    multiple: true,
+    unselect: true,
+    openOnSelect: false,
+    selectedFile: null,
     init() {
         this._super(...arguments);
         this.set(&#x27;_items&#x27;, Ember.A());
-        Ember.$(&#x27;body&#x27;).on(&#x27;click&#x27;, (e) =&gt; {
-            if (Ember.$(e.target).parents(&#x27;.popover.in&#x27;).length === 0 &amp;&amp; Ember.$(e.target).attr(&#x27;class&#x27;) &amp;&amp; Ember.$(e.target).attr(&#x27;class&#x27;).indexOf(&#x27;popover-toggler&#x27;) === -1) {
-                this.send(&#x27;dismissOtherPops&#x27;);
-            }
-        });
+        outsideClick(function() {
+            this.send(&#x27;dismissPop&#x27;);
+        }.bind(this));
+        Ember.$(window).resize(function() {
+            this.send(&#x27;dismissPop&#x27;);
+        }.bind(this));
     },
     currentUser: Ember.inject.service(),
+    dropzone: Ember.computed.alias(&#x27;edit&#x27;),
     edit: Ember.computed(&#x27;user&#x27;, function() {
         return this.get(&#x27;user.id&#x27;) === this.get(&#x27;currentUser.currentUserId&#x27;);
     }),
@@ -246,6 +256,11 @@ export default Ember.Component.extend({
         loadAll(user, &#x27;quickfiles&#x27;, this.get(&#x27;_items&#x27;)).then(() =&gt; {
             this.set(&#x27;loaded&#x27;, true);
             this.set(&#x27;_items&#x27;, this.get(&#x27;_items&#x27;).sortBy(&#x27;itemName&#x27;));
+            this.get(&#x27;_items&#x27;).forEach(item =&gt; {
+                if (this.get(&#x27;selectedFile.id&#x27;) &amp;&amp; this.get(&#x27;selectedFile.id&#x27;) === item.id) {
+                    item.isSelected = true;
+                }
+            });
         });
     },
     _loadUser:  Ember.on(&#x27;init&#x27;, Ember.observer(&#x27;user&#x27;, function() {
@@ -285,11 +300,16 @@ export default Ember.Component.extend({
     uploading: Ember.A(),
     filter: null,
     modalOpen: false,
+    popupOpen: false,
     itemsLoaded: true,
     selectedItems: Ember.computed.filterBy(&#x27;items&#x27;, &#x27;isSelected&#x27;, true),
     loadedChanged: Ember.observer(&#x27;itemsLoaded&#x27;, function() {
         let containerWidth = this.$().width();
         this.set(&#x27;itemWidth&#x27;, containerWidth);
+    }),
+    link: Ember.computed(&#x27;selectedItems.firstObject.guid&#x27;, function() {
+        let guid = this.get(&#x27;selectedItems.firstObject.guid&#x27;);
+        return guid ? pathJoin(window.location.origin, guid) : undefined;
     }),
     flash(item, message, type, time) {
         item.set(&#x27;flash&#x27;, {
@@ -319,6 +339,13 @@ export default Ember.Component.extend({
     browserState: Ember.computed(&#x27;loaded&#x27;, &#x27;_items&#x27;, function() {
         return this.get(&#x27;loaded&#x27;) ? (this.get(&#x27;_items&#x27;).length ? (this.get(&#x27;items&#x27;).length ? &#x27;show&#x27; : &#x27;filtered&#x27;) : &#x27;empty&#x27;) : &#x27;loading&#x27;;
     }),
+    clickable: Ember.computed(&#x27;browserState&#x27;, function() {
+        let clickable = [&#x27;.dz-upload-button&#x27;];
+        if (this.get(&#x27;browserState&#x27;) == &#x27;empty&#x27;) {
+            clickable.push(&#x27;.file-browser-list&#x27;);
+        }
+        return clickable;
+    }),
     actions: {
         //dropzone listeners
         addedFile(_, __, file) {
@@ -334,10 +361,12 @@ export default Ember.Component.extend({
             this.set(&#x27;dropping&#x27;, false);
         },
         error(_, __, file, response) {
+            let message = response.message === undefined ? response : response.message;
             this.get(&#x27;uploading&#x27;).removeObject(file);
-            this.get(&#x27;toast&#x27;).error(response);
+            this.get(&#x27;toast&#x27;).error(message);
         },
         success(_, __, file, response) {
+            this.send(&#x27;track&#x27;, &#x27;upload&#x27;, &#x27;track&#x27;, &#x27;Quick Files - Upload&#x27;);
             this.get(&#x27;uploading&#x27;).removeObject(file);
             let data = response.data.attributes;
             //OPTIONS (some not researched)
@@ -357,7 +386,7 @@ export default Ember.Component.extend({
                     size: data.size,
                     currentVersion: data.extra.version,
                     dateModified: data.modified_utc
-                })
+                });
                 return;
             }
             response.data.type = &#x27;file&#x27;; //
@@ -383,20 +412,24 @@ export default Ember.Component.extend({
                 }
             }
             if (conflictingItem) {
-                return conflictingItem.get(&#x27;links.upload&#x27;) + &#x27;?kind=file&#x27;;
+                return conflictingItem.get(&#x27;links.upload&#x27;);
             }
             return this.get(&#x27;uploadUrl&#x27;) + &#x27;?&#x27; + Ember.$.param({
                 name: files[0].name
             });
         },
         selectItem(item) {
+            if (this.get(&#x27;openOnSelect&#x27;)) {
+                this.openFile(item, &#x27;view&#x27;);
+            }
             this.set(&#x27;renaming&#x27;, false);
+            this.set(&#x27;popupOpen&#x27;, false);
             if (this.get(&#x27;selectedItems.length&#x27;) &gt; 1) {
                 for (var item_ of this.get(&#x27;selectedItems&#x27;)) {
                     item_.set(&#x27;isSelected&#x27;, item_ === item);
                 }
             } else if (this.get(&#x27;selectedItems.length&#x27;) ===  1) {
-                if (item.get(&#x27;isSelected&#x27;)) {
+                if (item.get(&#x27;isSelected&#x27;) &amp;&amp; this.get(&#x27;unselect&#x27;)) {
                     item.set(&#x27;isSelected&#x27;, false);
                     return;
                 }
@@ -407,7 +440,11 @@ export default Ember.Component.extend({
             this.set(&#x27;shiftAnchor&#x27;, item);
         },
         selectMultiple(item, toggle) {
+            if (!this.get(&#x27;multiple&#x27;)) {
+                return;
+            }
             this.set(&#x27;renaming&#x27;, false);
+            this.set(&#x27;popupOpen&#x27;, false);
             if (toggle) {
                 item.toggleProperty(&#x27;isSelected&#x27;);
             } else {
@@ -430,10 +467,10 @@ export default Ember.Component.extend({
         },
         viewItem() {
             let item = this.get(&#x27;selectedItems.firstObject&#x27;);
-            this.sendAction(&#x27;openFile&#x27;, item);
+            this.openFile(item, &#x27;view&#x27;);
         },
         openItem(item, qparams) {
-            this.sendAction(&#x27;openFile&#x27;, item, qparams);
+            this.openFile(item, qparams);
         },
         downloadItem() {
             let downloadLink = this.get(&#x27;selectedItems.firstObject.links.download&#x27;);
@@ -529,12 +566,15 @@ export default Ember.Component.extend({
                 this.send(&#x27;rename&#x27;);
             }
         },
-        dismissOtherPops(item) {
-            for (var item_ of this.get(&#x27;items&#x27;)) {
-                if (!item || item_.get(&#x27;path&#x27;) !== item.get(&#x27;path&#x27;)) {
-                    item_.set(&#x27;visiblePopup&#x27;, false);
-                }
+        copyLink() {
+            this.set(&#x27;popupOpen&#x27;, true);
+            if (this.get(&#x27;link&#x27;)) {
+                return;
             }
+            this.get(&#x27;selectedItems.firstObject&#x27;).getGuid();
+        },
+        dismissPop() {
+            this.set(&#x27;popupOpen&#x27;, false);
         }
     }
 });
