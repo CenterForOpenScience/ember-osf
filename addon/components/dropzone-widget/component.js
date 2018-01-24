@@ -83,8 +83,7 @@ export default Ember.Component.extend({
         // Dropzone.js does not have an option for disabling selecting multiple files when clicking the "upload" button.
         // Therefore, we remove the "multiple" attribute for the hidden file input element, so that users cannot select
         // multiple files for upload in the first place.
-        let clickableElement = this.get('clickable');
-        if (this.options.preventMultipleFiles && clickableElement){
+        if (this.get('options.preventMultipleFiles') && this.get('clickable')){
             Ember.$('.dz-hidden-input').removeAttr('multiple');
         }
 
