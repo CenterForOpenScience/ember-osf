@@ -159,9 +159,8 @@ export default Ember.Component.extend(Analytics, {
             this.set('dropping', false);
         },
         error(_, __, file, response) {
-            let message = response.message === undefined ? response : response.message;
             this.get('uploading').removeObject(file);
-            this.get('toast').error(message);
+            this.get('toast').error(response.message_long || response.message || response);
         },
         success(_, __, file, response) {
             this.send('track', 'upload', 'track', 'Quick Files - Upload');
