@@ -30,5 +30,5 @@ export default OsfModel.extend({
     preprints: DS.hasMany('preprint', { inverse: 'provider', async: true }),
     licensesAcceptable: DS.hasMany('license', { inverse: null }),
 
-    hasHighlightedSubjects: Ember.computed.alias('data.links.relationships.highlighted_taxonomies.links.related.meta.has_highlighted_subjects'),
+    hasHighlightedSubjects: Ember.computed.alias('links.relationships.highlighted_taxonomies.links.related.meta.has_highlighted_subjects'),
 });
