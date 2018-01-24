@@ -46,6 +46,7 @@ export default Ember.Component.extend({
         }
 
         const citationLink = node.get('links.relationships.citation.links.related.href');
+        this.set('citationLink', citationLink);
 
         for (const { linkSuffix, attr } of citationStyles) {
             this.get('store')
@@ -55,7 +56,7 @@ export default Ember.Component.extend({
         }
     },
     _citationText: Ember.observer('selectedStyle', function() {
-        const citationLink = this.get('node.links.relationships.citation.links.related.href');
+        const citationLink = this.get('citationLink');
         return Ember.$.ajax(`${citationLink}${this.get('selectedStyle.id')}/`).then(resp => this.set('citationText', resp.data.attributes.citation));
     }),
     citationText: 'No citation selected.',
