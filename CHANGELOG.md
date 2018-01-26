@@ -62,6 +62,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Margins for scrollbar on `file-browser`
 - Clickability on dropzone widget
 - Handle Dropzone enable/disable properly
+- Prevent users from selecting multiple files by clicking 'Upload' button in Quickfiles
 
 ## [0.12.4] - 2017-12-04
 ### Added
