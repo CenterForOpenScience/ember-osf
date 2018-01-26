@@ -54,8 +54,7 @@ export default DS.Model.extend({
         this.set('_dirtyRelationships', {});
         this.eachRelationship((rel) => {
             var relation = this.resolveRelationship(rel);
-            // TODO(samchrisinger): not sure if hasLoaded is a subset if the hasData state
-            if (relation.hasData && (relation.hasLoaded || rel === 'affiliatedInstitutions')) {
+            if (relation.hasData) {
                 var canonicalIds = relation.canonicalMembers.list.map(member => member.getRecord().get('id'));
                 var currentIds = relation.members.list.map(member => member.getRecord().get('id'));
                 var changes = {
