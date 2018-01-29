@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - Node `addChild` model function to create public child elements
+- Import compiled css for ember-power-select even when consumin app uses SASS
+    - This can be overriden by setting ember-power-select.useSass to true in the app's options
 
 ### Removed
 - ember-data-has-many-query
