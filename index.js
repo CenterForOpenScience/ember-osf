@@ -108,7 +108,7 @@ module.exports = {
             // ember-power-select normally skips inclusion of the precompiled css file if
             // the consuming app uses SASS, but using @import 'ember-power-select' in ember-osf
             // doesn't work properly, so we just import the compiled css.
-            if (!!app.registry.availablePlugins['ember-cli-sass']) {
+            if (app.registry.availablePlugins['ember-cli-sass']) {
                 app.import('vendor/ember-power-select.css');
             }
         }
