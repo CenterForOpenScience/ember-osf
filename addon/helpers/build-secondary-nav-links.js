@@ -24,10 +24,6 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
         let links = Ember.Object.create({
             HOME: [
                 {
-                    name: session.get('isAuthenticated') ? 'eosf.navbar.myProjects' : 'eosf.navbar.browse',
-                    href: session.get('isAuthenticated') ? serviceLinks.myProjects : serviceLinks.exploreActivity,
-                },
-                {
                     name: 'eosf.navbar.search',
                     href: serviceLinks.search,
                     type: 'search'
@@ -117,13 +113,6 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
                     });
                 }
             })
-        } else {
-            links.HOME.splice(1, 0,
-                {
-                    name: 'eosf.navbar.support',
-                    href: serviceLinks.osfSupport
-                }
-            );
         }
 
         if (Object.keys(links).includes(currentService)) {

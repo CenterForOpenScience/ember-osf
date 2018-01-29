@@ -74,7 +74,7 @@ test('returns home service links, authenticated', function(assert) {
             {{/each}}
         `);
 
-    assert.equal(this.$()[0].innerText, 'My Projects My Projects Search Support');
+    assert.equal(this.$()[0].innerText, 'My Projects Search Support');
 });
 
 
@@ -88,7 +88,7 @@ test('returns home service links, unauthenticated', function(assert) {
             {{/each}}
         `);
 
-    assert.equal(this.$()[0].innerText, 'Browse Support Search Support');
+    assert.equal(this.$()[0].innerText, 'Search Support');
 });
 
 test('returns Registries service links', function(assert) {
