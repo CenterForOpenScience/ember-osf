@@ -55,7 +55,6 @@ module.exports = {
         }
 
         if (BACKEND === 'local') {
-            backendUrlConfig.accessToken = eitherConfig('PERSONAL_ACCESS_TOKEN');
             backendUrlConfig.isLocal = true;
             if (eitherConfig('PERSONAL_ACCESS_TOKEN')) {
                 backendUrlConfig.accessToken = eitherConfig('PERSONAL_ACCESS_TOKEN');
@@ -111,8 +110,8 @@ module.exports = {
     // Outputs all pod scss files into the style tree but prefixed with ember-osf
     // This allows apps using this addon to import all the scss they want using "@import 'ember-osf'"
     // The actual 'ember-osf' namespace is exported by app/styles/_ember-osf.scss
-    treeForStyles: function(tree) {
-        tree = this._super.treeForStyles.apply(this, arguments);
+    treeForStyles: function() {
+        const tree = this._super.treeForStyles.apply(this, arguments);
 
         let addonPodStyles = new Funnel(this._treePathFor('addon'), {
             destDir: path.join(tree.destDir, 'ember-osf'),
