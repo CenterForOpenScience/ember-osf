@@ -92,7 +92,6 @@
     "ember-cli-shims": "1.0.2",
     "ember-collapsible-panel": "^2.1.1",
     "ember-cp-validations": "^3.5.0",
-    "ember-data-has-many-query": "^0.2.0",
     "ember-diff-attrs": "^0.2.0",
     "ember-get-config": "0.2.1",
     "ember-i18n": "5.0.1",
