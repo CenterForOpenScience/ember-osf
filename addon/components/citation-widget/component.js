@@ -80,7 +80,7 @@ export default Ember.Component.extend({
                 attributes: {
                     // TODO: Can (ask product) lazy load the rest of the styles when scrolled down, once @adlius's PR is merged:
                     // https://github.com/CenterForOpenScience/ember-osf/pull/338
-                    title: `There are ${response.links.meta.total - 100} more results, be more descriptive`,
+                    title: `${response.links.meta.total - 100} more, type more to narrow results`,
                 },
                 disabled: true,
             });
