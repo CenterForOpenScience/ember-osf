@@ -55,24 +55,36 @@ export default Ember.Component.extend({
                 .then(resp => this.set(attr, resp.data.attributes.citation));
         }
     },
-    _citationText: Ember.observer('selectedStyle', function() {
-        const citationLink = this.get('citationLink');
-        return Ember.$.ajax(`${citationLink}${this.get('selectedStyle.id')}/`).then(resp => this.set('citationText', resp.data.attributes.citation));
-    }),
+    actions: {
+        selectStyle(style) {
+            this.set('selectedStyle', style);
+            this.get('_selectStyle').perform(style.id);
+        }
+    },
     citationText: 'No citation selected.',
+    _selectStyle: task(function* (id) {
+        const citationLink = this.get('citationLink');
+        const response = yield Ember.$.ajax(`${citationLink}${id}/`);
+        this.set('citationText', response.data.attributes.citation);
+    }).restartable(),
     findStyles: task(function* (term) {
         yield timeout(500);
-        return Ember.$.ajax({
+        const response = yield Ember.$.ajax({
             method: 'GET',
             url: `${config.OSF.apiUrl}/${config.OSF.apiNamespace}/citations/styles/?filter[title,short_title]=${term}&page[size]=100` ,
             dataType: 'json',
             contentType: 'application/json'
-        }).then(res => {
-            if (res.links.next !== null) {
-                this.findMoreStyles(term, res.links.next);
-            }
-            if (res.links.prev === null) this.set('styles', res.data);
-            else this.get('styles').pushObjects(res.data);
-        }).then(() => this.get('styles'));
-    }).restartable(),
+        });
+        if (response.links.next !== null) {
+            response.data.push({
+                attributes: {
+                    // TODO: Can (ask product) lazy load the rest of the styles when scrolled down, once @adlius's PR is merged:
+                    // https://github.com/CenterForOpenScience/ember-osf/pull/338
+                    title: `There are ${response.links.meta.total - 100} more results, be more descriptive`,
+                },
+                disabled: true,
+            });
+        }
+        return response.data;
+    }).restartable()
 });
