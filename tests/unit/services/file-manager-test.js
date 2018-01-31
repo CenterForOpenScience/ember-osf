@@ -4,6 +4,74 @@ import FactoryGuy, { manualSetup, mockUpdate } from 'ember-data-factory-guy';
 import wait from 'ember-test-helpers/wait';
 import test from 'ember-sinon-qunit/test-support/test';
 
+/*
+ * assertions:
+ *  - once for expectedRequest.url
+ *  - once for expectedRequest.query
+ *  - once for each key in expectedRequest.headers
+ *  - once for each key in expectedRequest.settings
+ */
+function mockWaterbutler(assert, expectedRequest, response) {
+    Ember.$.mockjax(function (requestSettings) {
+        if (requestSettings.url.indexOf(expectedRequest.url) === 0) {
+            return {
+                response: function () {
+                    assertURL(assert, requestSettings.url,
+                        expectedRequest.url, expectedRequest.query);
+                    assertHeaders(assert, requestSettings.headers,
+                        expectedRequest.headers);
+                    assertSettings(assert, requestSettings,
+                        expectedRequest.settings);
+                    this.responseText = response.data || {};
+                    this.status = response.status;
+                }
+            };
+        }
+        return;
+    });
+}
+
+// assert once for the path and once if queryParams is specified
+function assertURL(assert, actual, expected, queryParams) {
+    if (!queryParams) {
+        assert.equal(actual, expected, 'correct request URL');
+        return;
+    }
+    let [actualBase, actualParams] = actual.split('?');
+    assert.equal(actualBase, expected, 'correct base URL');
+
+    let expectedParams = [];
+    for (let key in queryParams) {
+        expectedParams.push(`${key}=${queryParams[key]}`);
+    }
+    assert.deepEqual(actualParams.split('&').sort(), expectedParams.sort(),
+        'correct query params');
+}
+
+// assert once for each expected header
+function assertHeaders(assert, actual, expected) {
+    for (let header in expected) {
+        assert.equal(actual[header], expected[header],
+            `request has expected header '${header}'`);
+    }
+}
+
+// assert once for each expected ajax setting
+function assertSettings(assert, actual, expected) {
+    for (let s in expected) {
+        // Check for a JSON payload
+        if (typeof expected[s] === 'object' &&
+            typeof actual[s] === 'string') {
+            let payload = JSON.parse(actual[s]);
+            assert.deepEqual(payload, expected[s],
+                `request has expected JSON payload '${s}'`);
+        } else {
+            assert.equal(actual[s], expected[s],
+                `request has expected option '${s}'`);
+        }
+    }
+}
+
 
 let fakeAccessToken = 'thisisafakeaccesstoken';
 let fakeUserID = 'thisisafakeuseridbanana';
@@ -30,6 +98,33 @@ moduleFor('service:file-manager', 'Unit | Service | file manager', {
         // FactoryGuy setup
         manualSetup(this.container);
     }
+});
+
+test('test waterbutler request', function (assert) {
+    this.inject.service('session');
+    assert.expect(4);
+    let service = this.subject();
+    let file = FactoryGuy.make('file');
+    let done = assert.async();
+
+    let request = {
+        url: file.get('links').download,
+        settings: {method: 'GET'},
+        headers: {Authorization: `Bearer ${fakeAccessToken}`}
+    };
+    let response = {
+        status: 200,
+        data: 'file contents here'
+    };
+    mockWaterbutler(assert, request, response);
+
+    service._waterbutlerRequest('GET', request.url).then(function (data) {
+        assert.equal(data, response.data);
+        done();
+    }).catch(function () {
+        assert.ok(false, 'promise should not reject on success');
+        done();
+    });
 });
 
 test('getContents sends valid waterbutler request', function (assert) {
