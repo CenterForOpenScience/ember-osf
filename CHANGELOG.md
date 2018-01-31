@@ -5,14 +5,26 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+### Added
+- `osf-model.queryHasMany`, for reliable querying of hasMany relations
+- Modal to `file-browser` for moving quick files to projects
+- Actions for moving quick files to project/node in `file-browser`
+- `get-ancestor-descriptor` helper to create project/node list
+- `project-selector` component which helps user choose where to move file
+- Translations for `project-selector` component
+- Move function for `file` model
+- `ember-collapsable-panel` and `ember-power-select` packages
 - Added "choose your custom citation" section to citation-widget
+
+### Changed
+- Node `addChild` model function to create public child elements
+- Import compiled css for ember-power-select even when consumin app uses SASS
+    - This can be overriden by setting ember-power-select.useSass to true in the app's options
 
 ### Removed
 - ember-data-has-many-query
     - Code that uses `model.query()` should update to `model.queryHasMany()`
-
-### Added
-- `osf-model.queryHasMany`, for reliable querying of hasMany relations
 
 ## [0.13.1] - 2018-01-11
 ### Changed
@@ -64,6 +76,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Margins for scrollbar on `file-browser`
 - Clickability on dropzone widget
 - Handle Dropzone enable/disable properly
+- Prevent users from selecting multiple files by clicking 'Upload' button in Quickfiles
 
 ## [0.12.4] - 2017-12-04
 ### Added
