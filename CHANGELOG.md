@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Translations for `project-selector` component
 - Move function for `file` model
 - `ember-collapsable-panel` and `ember-power-select` packages
+- Styling on `project-selector` buttons that are selected
 
 ### Changed
 - Node `addChild` model function to create public child elements
