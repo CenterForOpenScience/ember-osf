@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 - `osf-model.queryHasMany`, for reliable querying of hasMany relations
+- computed field `name` to `user` model
 
 ## [0.13.1] - 2018-01-11
 ### Changed
