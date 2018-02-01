@@ -105,3 +105,35 @@ test('institutions relationship', function(assert) {
     assert.equal(relationship.type, 'institution');
     assert.equal(relationship.kind, 'hasMany');
 });
+
+test('name computed correctly: givenName, familyName and fullName are defined', function (assert) {
+    let mitsuha = this.subject({
+        givenName: 'Mitsuha',
+        familyName: 'Miyamizu',
+        fullName: 'Mitsuha Miyamizu of Itomori'
+    });
+    assert.equal(mitsuha.get('name'), 'Mitsuha Miyamizu');
+});
+
+test('name computed correctly: only givenName and fullName are defined', function (assert) {
+    let mitsuha = this.subject({
+        givenName: 'Mitsuha',
+        fullName: 'Mitsuha Miyamizu of Itomori'
+    });
+    assert.equal(mitsuha.get('name'), 'Mitsuha Miyamizu of Itomori');
+});
+
+test('name computed correctly: only familyName and fullName are defined', function (assert) {
+    let mitsuha = this.subject({
+        familyName: 'Miyamizu',
+        fullName: 'Mitsuha Miyamizu of Itomori'
+    });
+    assert.equal(mitsuha.get('name'), 'Mitsuha Miyamizu of Itomori');
+});
+
+test('name computed correctly: only fullName is defined', function (assert) {
+    let mitsuha = this.subject({
+        fullName: 'Mitsuha Miyamizu of Itomori'
+    });
+    assert.equal(mitsuha.get('name'), 'Mitsuha Miyamizu of Itomori');
+});

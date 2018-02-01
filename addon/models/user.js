@@ -39,5 +39,15 @@ export default OsfModel.extend({
 
     // Calculated fields
     profileURL: Ember.computed.alias('links.html'),
-    profileImage: Ember.computed.alias('links.profile_image')
+    profileImage: Ember.computed.alias('links.profile_image'),
+    name: Ember.computed('fullname', 'giveName', 'familyName', function () {
+        let fullName = this.get('fullName');
+        let givenName = this.get('givenName');
+        let familyName = this.get('familyName');
+        if (givenName && familyName){
+            return `${givenName} ${familyName}`;
+        } else {
+            return fullName;
+        }
+    }),
 });
