@@ -472,7 +472,7 @@ export default Ember.Component.extend(Analytics, {
     },
     _createComponent(title) {
         return this.get('node')
-            .addChild(title, null, null, true)
+            .addChild(title, null, '', true)
             .catch(() => this.get('toast').error(
                 this.get('i18n').t('eosf.components.moveToProject.couldNotCreateComponent')
             ));
