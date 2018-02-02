@@ -85,13 +85,21 @@
         {{/if}}
         {{#if (or willCreateComponent willMoveToNode)}}
             <p class="m-t-lg">
-                {{t "eosf.components.moveToProject.convertOrCopyMessage"}}
+                {{#if isChildNode}}
+                    {{t "eosf.components.moveToProject.convertOrCopyMessage.component"}}
+                {{else}}
+                    {{t "eosf.components.moveToProject.convertOrCopyMessage.project"}}
+                {{/if}}
             </p>
-            <p class="text-danger m-t-sm">
-                {{#unless isProjectPublic}}
-                    {{t "eosf.components.moveToProject.noLongerPublicWarning"}}
-                {{/unless}}
-            </p>
+            {{#unless isProjectPublic}}
+                <p class="text-danger m-t-sm">
+                    {{#if isChildNode}}
+                        {{t "eosf.components.moveToProject.noLongerPublicWarning.component"}}
+                    {{else}}
+                        {{t "eosf.components.moveToProject.noLongerPublicWarning.project"}}
+                    {{/if}}
+                </p>
+            {{/unless}}
         {{/if}}
     {{/if}}
 {{/if}}
