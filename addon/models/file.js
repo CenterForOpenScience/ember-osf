@@ -58,7 +58,7 @@ export default OsfModel.extend(FileItemMixin, {
                 withCredentials: true
             },
             headers: {
-                'Content-Type': 'Application/json'
+                'Content-Type': 'application/json'
             },
             data: JSON.stringify({
                 action: 'rename',
@@ -99,6 +99,21 @@ export default OsfModel.extend(FileItemMixin, {
             type: 'PUT',
             xhrFields: { withCredentials: true },
             data: data,
+        }).then(() => this.reload());
+    },
+    move(node) {
+        return authenticatedAJAX({
+            url: this.get('links.move'),
+            type: 'POST',
+            xhrFields: { withCredentials: true },
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: JSON.stringify({
+                action: 'move',
+                path: '/',
+                resource: node.id,
+            }),
         }).then(() => this.reload());
     },
 });
