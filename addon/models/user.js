@@ -44,7 +44,7 @@ export default OsfModel.extend({
         let fullName = this.get('fullName');
         let givenName = this.get('givenName');
         let familyName = this.get('familyName');
-        if (givenName && familyName){
+        if (givenName && familyName) {
             return `${givenName} ${familyName}`;
         } else {
             return fullName;
