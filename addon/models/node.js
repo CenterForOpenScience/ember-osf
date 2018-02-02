@@ -167,7 +167,7 @@ export default OsfModel.extend(FileItemMixin, {
         return promise;
     },
 
-    addChild(title, description=null, category='project', isPublic=false) {
+    addChild(title, description=null, category='project', isPublic) {
         let child = this.store.createRecord('node', {
             title,
             category,
