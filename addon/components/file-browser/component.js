@@ -77,8 +77,8 @@ export default Ember.Component.extend(Analytics, {
     },
     _loadProjects(user) {
         loadAll(user, 'nodes', this.get('projectList')).then(() => {
-            let onlyAdminNodes = this.get('projectList').filter((item) => item.get('currentUserPermissions').includes(permissions.ADMIN));
-            this.set('projectList', onlyAdminNodes);
+            let onlyWriteNodes = this.get('projectList').filter((item) => item.get('currentUserPermissions').includes(permissions.WRITE));
+            this.set('projectList', onlyWriteNodes);
             this.set('isLoadingProjects', false);
         });
     },
