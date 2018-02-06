@@ -46,7 +46,9 @@
                         <button {{action 'viewItem'}} class='btn text-primary'>{{fa-icon "file-o"}} View</button>
                     {{/if}}
                     {{#if (if-filter 'move-button' display)}}
+                        {{!-- temporarily disable move button
                         <button {{action 'openModal' 'move'}} class='btn text-primary'>{{fa-icon "level-up"}} Move</button>
+                        --}}
                     {{/if}}
                     {{#if (and edit (if-filter 'delete-button' display))}}
                         <button {{action 'openModal' 'delete'}} class='btn text-danger'>{{fa-icon "trash"}} Delete</button>
