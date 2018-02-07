@@ -219,6 +219,7 @@ export default Ember.Component.extend(Analytics, {
             item.set('links', response.data.links); //Push doesnt pass it links
             this.get('_items').unshiftObject(item);
             this.notifyPropertyChange('_items');
+            item.getGuid();
             Ember.run.next(() => {
                 this.flash(item, 'This file has been added.');
                 this.get('toast').success('A file has been added');
