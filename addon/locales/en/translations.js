@@ -215,7 +215,40 @@ export default {
                 'searchablePreprints': `{{count}} searchable {{preprintWords.preprints}}`,
                 'searchableRegistries': `{{count}} searchable registrations`,
                 'searchableEvents': `{{count}} searchable events`,
-            }
+            },
+            moveToProject: {
+                createNewProject: 'Create new project',
+                connectToExisting: 'Connect file to existing OSF project',
+                enterProjectTitle: 'Enter project title',
+                enterComponentTitle: 'Enter component title',
+                newProjectMessage: 'You have selected to create a new public project for your file. Users will still have access to your file unless the project becomes private.',
+                chooseProject: 'Choose project',
+                projectSelectMessage: 'The list of projects appearing are projects and components for which you have write access. Registrations are not included here.',
+                noProjectsExistError: 'You have no available projects. Go back to create a new project.',
+                organizeProject: 'Organize',
+                organizeParentNode: 'You can organize your file by storing it in the project or its own component.',
+                organizeChildNode: 'You can organize your file by storing it in the component or its own component.',
+                createComponent: 'Create component',
+                couldNotCreateComponent: 'Could not create component. Please try again.',
+                couldNotCreateProject: 'Could not create project. Please try again.',
+                useCurrentComponent: 'Use current component',
+                useCurrentProject: 'Use current project',
+                convertOrCopyMessage: {
+                    project: 'Clicking "Move file" will immediately make changes to your OSF project and move your file.',
+                    component: 'Clicking "Move file" will immediately make changes to your OSF component and move your file.',
+                },
+                noLongerPublicWarning: {
+                    project: 'Files moved to private projects will no longer be public or discoverable by others.',
+                    component: 'Files moved to private components will no longer be public or discoverable by others.'
+                },
+                fileSuccessfullyMoved: 'File was moved successfully!',
+                couldNotMoveFile: 'Could not move file. Please try again',
+                keepWorkingHere: 'Keep working here',
+                goToNewProject: 'Go to new project',
+                goToNewComponent: 'Go to new component',
+                goToComponent: 'Go to component',
+                goToProject: 'Go to project',
+            },
         }
     }
 };

@@ -4,7 +4,7 @@
         "description": "Ember components for interacting with the Open Science Framework",
         "url": "https://github.com/CenterForOpenScience/ember-osf",
         "logo": "https://cdn.cos.io/static/images/cos_wide.png",
-        "version": "0.13.1"
+        "version": "0.14.0"
     },
     "files": {
         "addon/adapters/osf-adapter.js": {
@@ -336,6 +336,15 @@
             "modules": {},
             "classes": {
                 "pagination-control": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/components/project-selector/component.js": {
+            "name": "addon/components/project-selector/component.js",
+            "modules": {},
+            "classes": {
+                "project-selector": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1091,6 +1100,7 @@
                 "osf-mode-footer": 1,
                 "osf-paginator": 1,
                 "pagination-control": 1,
+                "project-selector": 1,
                 "search-dropdown": 1,
                 "search-facet-daterange": 1,
                 "search-facet-language": 1,
@@ -1187,7 +1197,7 @@
             "module": "ember-osf",
             "namespace": "",
             "file": "addon/adapters/osf-adapter.js",
-            "line": 17,
+            "line": 16,
             "description": "Adapters that control how the addon communicates with the OSF",
             "tag": "main",
             "itemtype": "main"
@@ -1259,6 +1269,7 @@
                 "osf-mode-footer": 1,
                 "osf-paginator": 1,
                 "pagination-control": 1,
+                "project-selector": 1,
                 "search-dropdown": 1,
                 "sign-up": 1,
                 "tags-widget": 1
@@ -1462,11 +1473,10 @@
             "submodule": "adapters",
             "namespace": "",
             "file": "addon/adapters/osf-adapter.js",
-            "line": 17,
+            "line": 16,
             "description": "Base adapter class for all OSF APIv2 endpoints",
             "extends": "DS.JSONAPIAdapter",
             "uses": [
-                "HasManyQuery.RESTAdapterMixin",
                 "GenericDataAdapterMixin"
             ]
         },
@@ -1767,7 +1777,7 @@
             "module": "ember-osf",
             "namespace": "",
             "file": "addon/components/file-browser/component.js",
-            "line": 9,
+            "line": 10,
             "description": "File browser widget\n\nSample usage:\n```handlebars\n{{file-browser}}\n```"
         },
         "file-browser-icon": {
@@ -2078,6 +2088,21 @@
             "file": "addon/components/pagination-control/component.js",
             "line": 9,
             "description": "Display a simple pagination control that advances the page. Intended for use with PaginatedRouteMixin.\n\nThe pagination-control will be deprecated. Use pagination-pager instead."
+        },
+        "project-selector": {
+            "name": "project-selector",
+            "shortname": "project-selector",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "components",
+            "namespace": "",
+            "file": "addon/components/project-selector/component.js",
+            "line": 9,
+            "description": "project-selector - to be used within a modal to select existing projects or create a new one\nMainly used in Quick Files as a way to move file to project\n\nSame usage:\n``` handlebars\n{{project-selector\n user=user\n file=file\n projectSelectState=projectSelectState\n willCreateComponent=willCreateComponent\n willMoveToNode=willMoveToNode\n setSelectedNode=(action 'setSelectedNode')\n changeProjectSelectState=(action 'changeProjectSelectState')\n updateCreateOrMoveNode=(action 'updateCreateOrMoveNode')\n checkNodeTitleKeypress=(action 'checkNodeTitleKeypress')}\n```"
         },
         "search-dropdown": {
             "name": "search-dropdown",
@@ -3077,7 +3102,7 @@
             "submodule": "models",
             "namespace": "",
             "file": "addon/models/osf-model.js",
-            "line": 11,
+            "line": 10,
             "description": "Common properties and behaviors shared by all OSF APIv2 models",
             "access": "public",
             "tagname": ""
@@ -3317,7 +3342,7 @@
     "classitems": [
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 32,
+            "line": 30,
             "description": "Overrides buildQuery method - Allows users to embed resources with findRecord\nOSF APIv2 does not have \"include\" functionality, instead we use 'embed'.\nUsage: findRecord(type, id, {include: 'resource'}) or findRecord(type, id, {include: ['resource1', resource2]})\nSwaps included resources with embedded resources",
             "itemtype": "method",
             "name": "buildQuery",
@@ -3327,7 +3352,7 @@
         },
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 77,
+            "line": 75,
             "description": "Construct a URL for a relationship create/update/delete.",
             "itemtype": "method",
             "name": "_buildRelationshipURL",
@@ -3355,7 +3380,7 @@
         },
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 95,
+            "line": 93,
             "description": "Handle creation of related resources",
             "itemtype": "method",
             "name": "_createRelated",
@@ -3399,7 +3424,7 @@
         },
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 123,
+            "line": 121,
             "description": "Handle add(s) of related resources. This differs from CREATEs in that the related\nrecord is already saved and is just being associated with the inverse record.",
             "itemtype": "method",
             "name": "_addRelated",
@@ -3443,7 +3468,7 @@
         },
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 144,
+            "line": 142,
             "description": "Handle update(s) of related resources",
             "itemtype": "method",
             "name": "_updateRelated",
@@ -3487,7 +3512,7 @@
         },
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 166,
+            "line": 164,
             "description": "Handle removal of related resources. This differs from DELETEs in that the related\nrecord is not deleted, just dissociated from the inverse record.",
             "itemtype": "method",
             "name": "_removeRelated",
@@ -3531,7 +3556,7 @@
         },
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 185,
+            "line": 183,
             "description": "Handle deletion of related resources",
             "itemtype": "method",
             "name": "_deleteRelated",
@@ -3575,7 +3600,7 @@
         },
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 202,
+            "line": 200,
             "description": "A helper for making _*Related requests",
             "itemtype": "method",
             "name": "_doRelatedRequest",
@@ -3624,7 +3649,7 @@
         },
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 259,
+            "line": 257,
             "description": "Delegate a series of requests based on a snapshot, relationship, and a change.\nThe change argument can be 'delete', 'remove', 'update', 'add', 'create'",
             "itemtype": "method",
             "name": "_handleRelatedRequest",
@@ -5155,7 +5180,7 @@
         },
         {
             "file": "addon/models/osf-model.js",
-            "line": 30,
+            "line": 29,
             "description": "Looks up relationship on model and returns hasManyRelationship\nor belongsToRelationship object.",
             "itemtype": "method",
             "name": "resolveRelationship",
