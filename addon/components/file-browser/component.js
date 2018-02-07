@@ -120,6 +120,7 @@ export default Ember.Component.extend(Analytics, {
     sortingBy: 'itemName',
     sortingOrder: 'asc',
     uploading: Ember.A(),
+    isUploading: Ember.computed.notEmpty('uploading'),
     filter: null,
     modalOpen: false,
     popupOpen: false,
