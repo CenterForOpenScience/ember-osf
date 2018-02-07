@@ -29,16 +29,6 @@ export default Ember.Component.extend({
         defineProperty(this, 'value', computed.alias(`model.${valuePath}`));
     },
 
-    // This is a to make sure we parse and set the date value from manual inputs.
-    focusOut: function () {
-        if (this.get('isDateField')) {
-            let date = Date.parse(this.$('input')[0].value);
-            if (!isNaN(date)) {
-                this.set('value', new Date(date));
-            }
-        }
-    },
-
     isTextArea: computed.equal('inputType', 'textarea'),
     isTextField: computed.equal('inputType', 'text'),
     isDateField: computed.equal('inputType', 'date'),
@@ -67,6 +57,10 @@ export default Ember.Component.extend({
     actions: {
         pressSubmit() {
             this.sendAction('pressSubmit');
+        },
+        
+        forceParse(component) {
+            component._forceParse();
         }
     }
 });
