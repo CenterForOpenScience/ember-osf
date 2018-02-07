@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.13.1</em>
+            <em>API Docs for: 0.14.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -123,6 +123,7 @@
                                 <li><a href="../classes/pagination-control.html">pagination-control</a></li>
                                 <li><a href="../classes/permissions.html">permissions</a></li>
                                 <li><a href="../classes/Preprint.html">Preprint</a></li>
+                                <li><a href="../classes/project-selector.html">project-selector</a></li>
                                 <li><a href="../classes/providerRegex.html">providerRegex</a></li>
                                 <li><a href="../classes/Registration.html">Registration</a></li>
                                 <li><a href="../classes/RegistrationActionsMixin.html">RegistrationActionsMixin</a></li>
@@ -281,6 +282,13 @@ export default Ember.Component.extend({
                 xhr.send = xhr.send.bind(xhr, file);
             }
         });
+
+        // Dropzone.js does not have an option for disabling selecting multiple files when clicking the &quot;upload&quot; button.
+        // Therefore, we remove the &quot;multiple&quot; attribute for the hidden file input element, so that users cannot select
+        // multiple files for upload in the first place.
+        if (this.get(&#x27;options.preventMultipleFiles&#x27;) &amp;&amp; this.get(&#x27;clickable&#x27;)){
+            Ember.$(&#x27;.dz-hidden-input&#x27;).removeAttr(&#x27;multiple&#x27;);
+        }
 
         this.set(&#x27;dropzoneElement&#x27;, drop);
 
