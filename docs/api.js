@@ -91,6 +91,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "outside-click",
         "pagination-control",
         "permissions",
+        "project-selector",
         "providerRegex",
         "search-dropdown",
         "search-facet-daterange",
