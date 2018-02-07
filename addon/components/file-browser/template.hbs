@@ -12,7 +12,7 @@
     {{else}}
         <div class='pull-right'>
             {{#if (and edit (if-filter 'upload-button' display))}}
-                <button class='btn text-success dz-upload-button'>{{fa-icon "upload"}} Upload</button>
+                <button class='btn text-success dz-upload-button' disabled={{isUploading}}>{{fa-icon "upload"}} Upload</button>
             {{/if}}
             {{#if selectedItems}}
                 {{! TODO: show available actions for selected files }}
