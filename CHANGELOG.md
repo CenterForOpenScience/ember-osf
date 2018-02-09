@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
 ### Added
 - `osf-model.queryHasMany`, for reliable querying of hasMany relations
 - Modal to `file-browser` for moving quick files to projects
@@ -14,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Translations for `project-selector` component
 - Move function for `file` model
 - `ember-collapsable-panel` and `ember-power-select` packages
+- Added "choose your custom citation" section to citation-widget
 
 ### Changed
 - Node `addChild` model function to create public child elements
