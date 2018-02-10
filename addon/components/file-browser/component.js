@@ -44,6 +44,7 @@ export default Ember.Component.extend(Analytics, {
     projectSelectState: 'main',
     isInputInvalid: true,
     nodeLink: Ember.computed.alias('node.links.html'),
+    isMoving: false,
 
     init() {
         this._super(...arguments);
@@ -414,6 +415,7 @@ export default Ember.Component.extend(Analytics, {
             this.set('isInputInvalid', false);
         },
         setMoveFile() {
+            this.set('isMoving', true);
             let selectedItem = this.get('selectedItems.firstObject');
             let title = this.get('nodeTitle');
 
@@ -455,6 +457,7 @@ export default Ember.Component.extend(Analytics, {
             })
             .catch(() => this.get('toast').error(
                 this.get('i18n').t('eosf.components.moveToProject.couldNotMoveFile')
-            ));
+            ))
+            .then(() => this.set('isMoving', false));
     },
 });
