@@ -46,9 +46,7 @@
                         <button {{action 'viewItem'}} class='btn text-primary'>{{fa-icon "file-o"}} View</button>
                     {{/if}}
                     {{#if (if-filter 'move-button' display)}}
-                        {{!-- temporarily disable move button
                         <button {{action 'openModal' 'move'}} class='btn text-primary'>{{fa-icon "level-up"}} Move</button>
-                        --}}
                     {{/if}}
                     {{#if (and edit (if-filter 'delete-button' display))}}
                         <button {{action 'openModal' 'delete'}} class='btn text-danger'>{{fa-icon "trash"}} Delete</button>
@@ -173,20 +171,17 @@
             isLoadingProjects=isLoadingProjects
             file=selectedItems.firstObject
             projectSelectState=projectSelectState
-            willCreateComponent=willCreateComponent
-            willMoveToNode=willMoveToNode
             showErrorMessage=showErrorMessage
             setSelectedNode=(action 'setSelectedNode')
             changeProjectSelectState=(action 'changeProjectSelectState')
-            updateCreateOrMoveNode=(action 'updateCreateOrMoveNode')
             checkNodeTitleKeypress=(action 'checkNodeTitleKeypress')
         }}
     {{/modal.body}}
     {{#modal.footer}}
-        {{#bs-button onClick=(action 'closeModal') type='default'}}Cancel{{/bs-button}}
+        {{#bs-button disabled=isMoving onClick=(action 'closeModal') type='default'}}Cancel{{/bs-button}}
         {{#if (not-eq projectSelectState 'main')}}
-            {{#bs-button onClick=(action 'changeProjectSelectState' 'main') type='default'}}Back{{/bs-button}}
-            {{#bs-button disabled=isInputInvalid onClick=(action 'setMoveFile') type='primary'}}Move file{{/bs-button}}
+            {{#bs-button disabled=isMoving onClick=(action 'changeProjectSelectState' 'main') type='default'}}Back{{/bs-button}}
+            {{#bs-button disabled=(or isInputInvalid isMoving) onClick=(action 'setMoveFile') type='primary'}}Move file{{/bs-button}}
         {{/if}}
     {{/modal.footer}}
 {{/bs-modal}}
@@ -197,10 +192,8 @@
     {{#modal.footer}}
         {{#bs-button type='default' onClick=(action 'closeModal')}}{{t "eosf.components.moveToProject.keepWorkingHere"}}{{/bs-button}}
         <a class="btn btn-success" href="{{nodeLink}}">
-            {{#if (eq newNodeType 'project')}}
+            {{#if newProject}}
                 {{t "eosf.components.moveToProject.goToNewProject"}}
-            {{else if (eq newNodeType 'component')}}
-                {{t "eosf.components.moveToProject.goToNewComponent"}}
             {{else if isChildNode}}
                 {{t "eosf.components.moveToProject.goToComponent"}}
             {{else}}
