@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Move function for `file` model
 - `ember-collapsable-panel` and `ember-power-select` packages
 - Added "choose your custom citation" section to citation-widget
+- `facebookAppId` field to `preprint-provider` model
 
 ### Changed
 - Node `addChild` model function to create public child elements
