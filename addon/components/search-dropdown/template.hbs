@@ -21,11 +21,11 @@
 
 {{!Search help modal - appears after clicking question mark on green search dropdown}}
 <div id="ember-bootstrap-modal-container">
-    {{#bs-modal open=isOpen body=false header=false footer=false}}
-        {{#bs-modal-header}}
+    {{#bs-modal open=isOpen as |modal|}}
+        {{#modal.header}}
             <h3 class="modal-title">{{t 'eosf.searchHelpModal.searchHelp'}}</h3>
-        {{/bs-modal-header}}
-        {{#bs-modal-body}}
+        {{/modal.header}}
+        {{#modal.body}}
             <h4> {{t 'eosf.searchHelpModal.queries'}} </h4>
             <p>
                 {{t 'eosf.searchHelpModal.searchUsesThe'}} <a href="http://extensions.xwiki.org/xwiki/bin/view/Extension/Search+Application+Query+Syntax">Lucene {{t 'eosf.searchHelpModal.searchSyntax'}}</a>.
@@ -36,13 +36,9 @@
                 <li><a href="{{host}}search/?q=brian+AND+title%3Amany">brian AND title:many</a></li>
                 <li><a href="{{host}}search/?q=tags%3A%28psychology%29">tags:(psychology)</a></li>
             </ul>
-        {{/bs-modal-body}}
-
-        {{#bs-modal-footer}}
-            <div align="right">
-                <button {{action 'close'}} class="btn btn-default"> {{t 'eosf.searchHelpModal.close'}} </button>
-            </div>
-        {{/bs-modal-footer}}
+        {{/modal.body}}
+        {{#modal.footer}}
+            {{#bs-button onClick=(action modal.close)}}{{t 'eosf.searchHelpModal.close'}}{{/bs-button}}
+        {{/modal.footer}}
     {{/bs-modal}}
-
 </div>

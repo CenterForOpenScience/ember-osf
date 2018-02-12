@@ -150,10 +150,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - file-browser-item now supports icons for different file extensions
 - dropzone-widget now has custom dropzone class that extends dropzone functionality to conditionally disallow folders and multiple files from being dropped
 - 'Search' button in navbar to link to search page
-- Moved ember-metrics and ember-toastr to dependencies
-- Upgraded ember-toastr to 1.7.0
 - Consolidate logic for serializing dirty relationships into `osf-serializer`
   - Override `relationshipTypes` in a serializer to include `fieldName: 'apiType'` pairs of all relationships which may be included when saving updates
+- Moved ember-metrics and ember-toastr to dependencies
+- Upgraded ember-toastr to 1.7.0
 
 ### Removed
 - toastr from bower dependencies
