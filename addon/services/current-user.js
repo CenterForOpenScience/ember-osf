@@ -63,4 +63,16 @@ export default Ember.Service.extend({
             promise: this.load().catch(() => null),
         });
     }),
+
+    /**
+     * @property esPreferenceKey
+     * @return {String}
+     */
+    esPreferenceKey: Ember.computed('currentUserId', function() {
+        let currentUserId = this.get('currentUserId');
+        if (currentUserId) {
+            return encodeURIComponent(`$^${currentUserId}#@`);
+        }
+        return Math.random().toString(36).substr(2,10);
+    }),
 });

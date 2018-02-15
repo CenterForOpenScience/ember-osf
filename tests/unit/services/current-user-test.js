@@ -5,8 +5,16 @@ moduleFor('service:current-user', 'Unit | Service | current user', {
   // needs: ['service:foo']
 });
 
-// Replace this with your real tests.
-test('it exists', function(assert) {
-  let service = this.subject();
-  assert.ok(service);
+test('currentUser preferenceKey computed property', function(assert) {
+    let service = this.subject();
+    let currentUserId = 'npugv';
+
+    service.set('currentUserId', currentUserId);
+    assert.strictEqual(service.get('esPreferenceKey'),
+        encodeURIComponent(`$^${currentUserId}#@`));
+
+    service.set('currentUserId', null);
+
+    assert.ok(service.get('esPreferenceKey'));
+    assert.strictEqual(service.get('esPreferenceKey').length, 10);
 });

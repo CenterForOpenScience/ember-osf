@@ -59,6 +59,7 @@ let filterQueryParams = ['subject', 'provider', 'tags', 'sources', 'publishers',
 
 export default Ember.Component.extend(Analytics, hostAppName, {
     layout,
+    currentUser: Ember.inject.service('current-user'),
     theme: Ember.inject.service(),
     i18n: Ember.inject.service(),
     classNames: ['discover-page'],
@@ -364,7 +365,8 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     }),
     searchUrl: Ember.computed(function() {
         // Pulls SHARE search url from config file.
-        return config.OSF.shareSearchUrl;
+        const preference = this.get('currentUser.esPreferenceKey');
+        return `${config.OSF.shareSearchUrl}?preference=${preference}`;
     }),
     subjectChanged: Ember.on('init', Ember.observer('subject', function() {
         // For PREPRINTS - watches subject query param for changes and modifies activeFilters
