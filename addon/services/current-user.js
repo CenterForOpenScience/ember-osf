@@ -65,6 +65,9 @@ export default Ember.Service.extend({
     }),
 
     /**
+     * Custom string appended as URL param to ElasticSearch requests for reproducible search results ordering.
+     * If user is logged in, use their userID, otherwise return generated string.
+     *
      * @property esPreferenceKey
      * @return {String}
      */

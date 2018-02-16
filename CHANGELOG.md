@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Move function for `file` model
 - `ember-collapsable-panel` and `ember-power-select` packages
 - Styling on `project-selector` buttons that are selected
+- Add ElasticSearch preference (ES) key to preprints ES search requests for reproducible results ordering.
 
 ### Changed
 - Node `addChild` model function to create public child elements
