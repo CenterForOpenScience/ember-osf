@@ -6,6 +6,6 @@ export function initialize() {
 }
 
 export default {
-    name:       'jq-extensions',
+    name: 'jq-extensions',
     initialize: initialize
 };
