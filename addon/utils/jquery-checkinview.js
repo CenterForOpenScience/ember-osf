@@ -1,8 +1,6 @@
 import Ember from 'ember';
 
-const {
-    $,
-} = Ember;
+const { $ } = Ember;
 
 function checkInView() {
     if ($.fn.checkInView) { return; }
@@ -21,9 +19,9 @@ function checkInView() {
         const elemBottom = elemTop + elem.height();
 
         const isTotal = elemTop >= 0 && elemBottom <= contHeight;
-        const isPart = (elemTop < 0 && elemBottom > 0  || elemTop > 0 && elemTop <= container.height()) && partial;
+        const isPart = (elemTop < 0 && elemBottom > 0 || elemTop > 0 && elemTop <= container.height()) && partial;
 
-        return  isTotal  || isPart;
+        return isTotal || isPart;
     };
 }
 

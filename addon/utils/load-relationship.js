@@ -17,7 +17,7 @@ export function loadRelation(model, relationship) {
 }
 
 export function loadPage(model, relationship, pageSize, page, options = {}) {
-    var query = {
+    let query = {
         'page[size]': pageSize || 10,
         page: page || 1
     };
@@ -26,7 +26,7 @@ export function loadPage(model, relationship, pageSize, page, options = {}) {
 
     return model.query(relationship, query).then(results => {
         var remaining = 0;
-        if (results.meta){
+        if (results.meta) {
             var total = results.meta.pagination.total;
             var pageSize = results.meta.pagination.per_page;
             remaining = total - (page * pageSize);

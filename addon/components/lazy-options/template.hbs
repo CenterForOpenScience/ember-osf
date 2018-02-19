@@ -34,7 +34,7 @@
         </li>
     {{/if}}
 {{/each}}
-{{#if (or isLoading)}}
+{{#if isLoading}}
     Loading...
 {{else if canLoadMore}}
     <li class="ember-power-select-option ember-power-select-option--load-more" {{action loadMore}}>
