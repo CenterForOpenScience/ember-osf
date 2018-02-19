@@ -5,16 +5,18 @@ moduleFor('service:current-user', 'Unit | Service | current user', {
   // needs: ['service:foo']
 });
 
-test('currentUser preferenceKey computed property', function(assert) {
+test('currentUser sessionKey computed property', function(assert) {
     let service = this.subject();
     let currentUserId = 'npugv';
 
+    let hash = service.hashCode(currentUserId);
+
     service.set('currentUserId', currentUserId);
-    assert.strictEqual(service.get('esPreferenceKey'),
-        encodeURIComponent(`$^${currentUserId}#@`));
+    assert.ok(service.get('sessionKey'));
+    assert.strictEqual(service.get('sessionKey'), hash.toString());
+    assert.ok(!Number.isNaN(+service.get('sessionKey')));
 
     service.set('currentUserId', null);
-
-    assert.ok(service.get('esPreferenceKey'));
-    assert.strictEqual(service.get('esPreferenceKey').length, 10);
+    assert.ok(service.get('sessionKey'));
+    assert.ok(Number.isNaN(+service.get('sessionKey')));
 });

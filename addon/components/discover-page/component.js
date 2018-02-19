@@ -365,7 +365,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     }),
     searchUrl: Ember.computed(function() {
         // Pulls SHARE search url from config file.
-        const preference = this.get('currentUser.esPreferenceKey');
+        const preference = this.get('currentUser.sessionKey');
         return `${config.OSF.shareSearchUrl}?preference=${preference}`;
     }),
     subjectChanged: Ember.on('init', Ember.observer('subject', function() {
