@@ -417,7 +417,7 @@ export default Ember.Service.extend({
      * rejects with an error message.
      */
     _getNewFileInfo(parentFolder, name) {
-        let p = parentFolder.query('files', {
+        let p = parentFolder.queryHasMany('files', {
             'filter[name]': name
         });
         return p.then((files) => {

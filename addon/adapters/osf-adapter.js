@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 
-import HasManyQuery from 'ember-data-has-many-query';
 import config from 'ember-get-config';
 import GenericDataAdapterMixin from 'ember-osf/mixins/generic-data-adapter';
 
@@ -19,10 +18,9 @@ import {
  *
  * @class OsfAdapter
  * @extends DS.JSONAPIAdapter
- * @uses HasManyQuery.RESTAdapterMixin
  * @uses GenericDataAdapterMixin
  */
-export default DS.JSONAPIAdapter.extend(HasManyQuery.RESTAdapterMixin, GenericDataAdapterMixin, {
+export default DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
     headers: {
         ACCEPT: 'application/vnd.api+json; version=2.4'
     },

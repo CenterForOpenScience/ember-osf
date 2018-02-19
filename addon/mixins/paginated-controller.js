@@ -19,11 +19,11 @@ export default Ember.Mixin.create({
     page_size: null,  // Number of results per page. Param may be omitted.
 
     totalResults: Ember.computed('model', function() {
-        return this.get('model.meta.pagination.total');
+        return this.get('model.meta.total');
     }),
     totalPages: Ember.computed('model', 'totalResults', function() {
         let results = this.get('totalResults');
-        let pageSize = this.get('model.meta.pagination.per_page');
+        let pageSize = this.get('model.meta.per_page');
         return Math.ceil(results / pageSize);
     }),
 
