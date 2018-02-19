@@ -84,8 +84,9 @@ export default Ember.Service.extend({
      * Generate a simple hash (numerical code) from a string.
      * https://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript-jquery
      *
-     * @param  {string}
-     * @return {string}
+     * @method hashCode
+     * @param  str {String}
+     * @return {String}
      */
 
     hashCode(str) {
