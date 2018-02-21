@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Removed
 - Ability to create new components when moving files.
 
+## [Unreleased 0.15.0]
+### Added
+- Added "choose your custom citation" section to citation-widget
+- `facebookAppId` field to `preprint-provider` model
+
 ## [0.14.0] - 2018-02-07
 ### Added
 - `osf-model.queryHasMany`, for reliable querying of hasMany relations

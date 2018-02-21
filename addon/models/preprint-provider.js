@@ -16,6 +16,7 @@ export default OsfModel.extend({
     additionalProviders: DS.attr(),
     shareSource: DS.attr('string'),
     preprintWord: DS.attr('string'),
+    facebookAppId: DS.attr('number'),
 
     // Reviews settings
     permissions: DS.attr(),

@@ -5,7 +5,7 @@ import config from 'ember-get-config';
 import GenericDataAdapterMixin from 'ember-osf/mixins/generic-data-adapter';
 
 import {
-    singularize
+    singularize, pluralize
 } from 'ember-inflector';
 
 /**
@@ -330,6 +330,6 @@ export default DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
     },
     pathForType(modelName) {
         var underscored = Ember.String.underscore(modelName);
-        return Ember.String.pluralize(underscored);
+        return pluralize(underscored);
     }
 });
