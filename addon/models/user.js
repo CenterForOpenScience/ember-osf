@@ -33,7 +33,7 @@ export default OsfModel.extend({
 
     quickfiles: DS.hasMany('files'),
 
-    affiliatedInstitutions: DS.hasMany('institutions', {
+    institutions: DS.hasMany('institutions', {
         inverse: 'users'
     }),
 

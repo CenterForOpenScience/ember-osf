@@ -99,9 +99,9 @@ test('files relationship', function(assert) {
 
 test('institutions relationship', function(assert) {
     var model = this.store().modelFor('user');
-    var relationship = Ember.get(model, 'relationshipsByName').get('affiliatedInstitutions');
+    var relationship = Ember.get(model, 'relationshipsByName').get('institutions');
 
-    assert.equal(relationship.key, 'affiliatedInstitutions');
+    assert.equal(relationship.key, 'institutions');
     assert.equal(relationship.type, 'institution');
     assert.equal(relationship.kind, 'hasMany');
 });
