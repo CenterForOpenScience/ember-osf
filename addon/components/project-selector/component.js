@@ -16,11 +16,8 @@ import layout from './template';
  *  user=user
  *  file=file
  *  projectSelectState=projectSelectState
- *  willCreateComponent=willCreateComponent
- *  willMoveToNode=willMoveToNode
  *  setSelectedNode=(action 'setSelectedNode')
  *  changeProjectSelectState=(action 'changeProjectSelectState')
- *  updateCreateOrMoveNode=(action 'updateCreateOrMoveNode')
  *  checkNodeTitleKeypress=(action 'checkNodeTitleKeypress')}
  * ```
  * @class project-selector
@@ -36,8 +33,6 @@ export default Ember.Component.extend({
     projectSelectState: 'main',
     selectedProject: null,
     isLoadingProjects: true,
-    willCreateComponent: false,
-    willMoveToNode: false,
     showErrorMessage: null,
     projectList: Ember.A(),
     isProjectPublic: Ember.computed.alias('selectedProject.public'),
@@ -51,10 +46,8 @@ export default Ember.Component.extend({
 
     actions: {
         changeState(state) {
+            this.set('selectedProject', null);
             this.changeProjectSelectState(state);
-        },
-        updateCreateOrMoveNode(state) {
-            this.updateCreateOrMoveNode(state);
         },
         checkNodeTitleKeypress(value) {
             this.checkNodeTitleKeypress(value);
