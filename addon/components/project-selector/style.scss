@@ -7,6 +7,10 @@
 .toggle-button {
     input {
         display: none;
+        &:checked + label {
+            background-color: #67A3BF;
+            color: white;
+        }
     }
     label {
         display: inline-block;

@@ -5,7 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Removed
+- Ability to create new components when moving files.
 
+## [Unreleased 0.15.0]
+### Added
+- Added "choose your custom citation" section to citation-widget
+- `facebookAppId` field to `preprint-provider` model
+
+## [0.14.0] - 2018-02-07
 ### Added
 - `osf-model.queryHasMany`, for reliable querying of hasMany relations
 - Modal to `file-browser` for moving quick files to projects
@@ -15,13 +23,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Translations for `project-selector` component
 - Move function for `file` model
 - `ember-collapsable-panel` and `ember-power-select` packages
-- Added "choose your custom citation" section to citation-widget
-- `facebookAppId` field to `preprint-provider` model
+- Styling on `project-selector` buttons that are selected
 
 ### Changed
 - Node `addChild` model function to create public child elements
 - Import compiled css for ember-power-select even when consumin app uses SASS
     - This can be overriden by setting ember-power-select.useSass to true in the app's options
+- Node `addChild` model method will only use defaults for undefined parameters (instead of falsey parameters)
 
 ### Removed
 - ember-data-has-many-query

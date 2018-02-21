@@ -40,12 +40,11 @@ export default Ember.Component.extend(Analytics, {
     selectedFile: null,
     node: null,
     nodeTitle: null,
-    newNodeType: null,
+    newProject: false,
     projectSelectState: 'main',
-    willCreateComponent: false,
-    willMoveToNode: false,
     isInputInvalid: true,
     nodeLink: Ember.computed.alias('node.links.html'),
+    isMoving: false,
 
     init() {
         this._super(...arguments);
@@ -77,8 +76,8 @@ export default Ember.Component.extend(Analytics, {
     },
     _loadProjects(user) {
         loadAll(user, 'nodes', this.get('projectList')).then(() => {
-            let onlyAdminNodes = this.get('projectList').filter((item) => item.get('currentUserPermissions').includes(permissions.ADMIN));
-            this.set('projectList', onlyAdminNodes);
+            let onlyWriteNodes = this.get('projectList').filter((item) => item.get('currentUserPermissions').includes(permissions.WRITE));
+            this.set('projectList', onlyWriteNodes);
             this.set('isLoadingProjects', false);
         });
     },
@@ -120,6 +119,7 @@ export default Ember.Component.extend(Analytics, {
     sortingBy: 'itemName',
     sortingOrder: 'asc',
     uploading: Ember.A(),
+    isUploading: Ember.computed.notEmpty('uploading'),
     filter: null,
     modalOpen: false,
     popupOpen: false,
@@ -218,6 +218,7 @@ export default Ember.Component.extend(Analytics, {
             item.set('links', response.data.links); //Push doesnt pass it links
             this.get('_items').unshiftObject(item);
             this.notifyPropertyChange('_items');
+            item.getGuid();
             Ember.run.next(() => {
                 this.flash(item, 'This file has been added.');
                 this.get('toast').success('A file has been added');
@@ -382,8 +383,6 @@ export default Ember.Component.extend(Analytics, {
         closeModal() {
             if (this.get('modalOpen') == 'move') {
                 this.set('projectSelectState', 'main');
-                this.set('willCreateComponent', false);
-                this.set('willMoveToNode', false);
             }
             this.set('modalOpen', false);
         },
@@ -404,59 +403,32 @@ export default Ember.Component.extend(Analytics, {
         },
         checkNodeTitleKeypress(value) {
             this.set('nodeTitle', value);
-            if (this.get('nodeTitle')) {
-                this.set('isInputInvalid', false);
-            } else {
-                this.set('isInputInvalid', true);
-            }
+            this.set('isInputInvalid', Ember.isBlank(value));
         },
         changeProjectSelectState(state) {
             this.set('projectSelectState', state);
-            this.set('willCreateComponent', false);
-            this.set('willMoveToNode', false);
-            if (!this.get('isInputInvalid')) {
-                this.set('isInputInvalid', true);
-            }
-        },
-        updateCreateOrMoveNode(state) {
-            if (state == 'create') {
-                this.set('willCreateComponent', true);
-                this.set('willMoveToNode', false);
-                this.set('isInputInvalid', true);
-            } else {
-                this.set('willCreateComponent', false);
-                this.set('willMoveToNode', true);
-                this.set('isInputInvalid', false);
-            }
+            this.set('isInputInvalid', true);
         },
         setSelectedNode(node, isChild) {
             this.set('node', node);
             this.set('isChildNode', isChild);
+            this.set('isInputInvalid', false);
         },
         setMoveFile() {
+            this.set('isMoving', true);
             let selectedItem = this.get('selectedItems.firstObject');
             let title = this.get('nodeTitle');
 
             if (this.get('projectSelectState') == 'newProject') {
-                this.set('newNodeType', 'project');
+                this.set('newProject', true);
                 this._createProject(title).then(project => {
                     this.set('node', project);
                     this._addNewNodeToList(this.get('user'), project);
                     this._moveFile(selectedItem, project);
                 });
             } else if (this.get('projectSelectState') == 'existingProject') {
-                if (this.get('willCreateComponent')) {
-                    this.set('newNodeType', 'component');
-                    this._createComponent(title).then(component => {
-                        this.set('node', component);
-                        this._addNewNodeToList(this.get('user'), component);
-                        this._moveFile(selectedItem, component);
-                    });
-                } else if (this.get('willMoveToNode')) {
-                    this._moveFile(selectedItem, this.get('node'));
-
-                    this.set('newNodeType', null);
-                }
+                this._moveFile(selectedItem, this.get('node'));
+                this.set('newProject', false);
             }
         },
     },
@@ -470,13 +442,6 @@ export default Ember.Component.extend(Analytics, {
                 this.get('i18n').t('eosf.components.moveToProject.couldNotCreateProject')
             ));
     },
-    _createComponent(title) {
-        return this.get('node')
-            .addChild(title, null, null, true)
-            .catch(() => this.get('toast').error(
-                this.get('i18n').t('eosf.components.moveToProject.couldNotCreateComponent')
-            ));
-    },
     _moveFile(item, node) {
         item.move(node)
             .then(() => {
@@ -488,11 +453,11 @@ export default Ember.Component.extend(Analytics, {
                 this.set('modalOpen', 'successMove');
                 this.set('projectSelectState', 'main');
                 this.set('willCreateComponent', false);
-                this.set('willMoveToNode', false);
                 this.send('track', 'move', 'track', 'Quick Files - Move to project');
             })
             .catch(() => this.get('toast').error(
                 this.get('i18n').t('eosf.components.moveToProject.couldNotMoveFile')
-            ));
+            ))
+            .then(() => this.set('isMoving', false));
     },
 });

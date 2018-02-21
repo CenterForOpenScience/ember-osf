@@ -57,6 +57,10 @@ export default Ember.Component.extend({
     actions: {
         pressSubmit() {
             this.sendAction('pressSubmit');
+        },
+        
+        forceParse(component) {
+            component._forceParse();
         }
     }
 });

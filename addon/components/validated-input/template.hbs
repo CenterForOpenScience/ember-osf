@@ -3,7 +3,7 @@
         {{textarea value=value type=type placeholder=placeholder class="form-control" name=valuePath}}
 
     {{else if isDateField}}
-        {{bootstrap-datepicker type=type value=value placeholder=placeholder class="form-control" name=valuePath}}
+        {{bootstrap-datepicker type=type value=value placeholder=placeholder class="form-control" name=valuePath focus-out="forceParse"}}
 
     {{else if isTextField}}
         {{input type=type value=value placeholder=placeholder class="form-control" name=valuePath}}

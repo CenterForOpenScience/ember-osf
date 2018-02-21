@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.13.1</em>
+            <em>API Docs for: 0.14.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -123,6 +123,7 @@
                                 <li><a href="../classes/pagination-control.html">pagination-control</a></li>
                                 <li><a href="../classes/permissions.html">permissions</a></li>
                                 <li><a href="../classes/Preprint.html">Preprint</a></li>
+                                <li><a href="../classes/project-selector.html">project-selector</a></li>
                                 <li><a href="../classes/providerRegex.html">providerRegex</a></li>
                                 <li><a href="../classes/Registration.html">Registration</a></li>
                                 <li><a href="../classes/RegistrationActionsMixin.html">RegistrationActionsMixin</a></li>
@@ -202,8 +203,7 @@
     <pre class="code prettyprint linenums">
 import Ember from &#x27;ember&#x27;;
 import DS from &#x27;ember-data&#x27;;
-
-import HasManyQuery from &#x27;ember-data-has-many-query&#x27;;
+import { authenticatedAJAX } from &#x27;ember-osf/utils/ajax-helpers&#x27;;
 
 /**
  * @module ember-osf
@@ -216,7 +216,7 @@ import HasManyQuery from &#x27;ember-data-has-many-query&#x27;;
  * @class OsfModel
  * @public
  */
-export default DS.Model.extend(HasManyQuery.ModelMixin, {
+export default DS.Model.extend({
     links: DS.attr(&#x27;links&#x27;),
     embeds: DS.attr(&#x27;embed&#x27;),
 
@@ -267,13 +267,57 @@ export default DS.Model.extend(HasManyQuery.ModelMixin, {
                     remove: relation.canonicalMembers.list.filter(m =&gt; currentIds.indexOf(m.getRecord().get(&#x27;id&#x27;)) === -1)
                 };
 
-                var other = this.get(&#x27;_dirtyRelationships.${rel}&#x27;) || {};
+                var other = this.get(&#x60;_dirtyRelationships.${rel}&#x60;) || {};
                 Ember.merge(other, changes);
                 this.set(&#x60;_dirtyRelationships.${rel}&#x60;, other);
             }
         });
         return this._super(...arguments);
-    }
+    },
+
+    /*
+     * Query a hasMany relationship with query params
+     *
+     * @method queryHasMany
+     * @param {String} propertyName Name of a hasMany relationship on the model
+     * @param {Object} queryParams A hash to be serialized into the query string of the request
+     * @param {Object} [ajaxOptions] A hash of options to be passed to jQuery.ajax
+     * @returns {ArrayPromiseProxy} Promise-like array proxy, resolves to the records fetched
+     */
+    queryHasMany(propertyName, queryParams, ajaxOptions) {
+        const reference = this.hasMany(propertyName);
+        const promise = new Ember.RSVP.Promise((resolve, reject) =&gt; {
+            // HACK: ember-data discards/ignores the link if an object on the belongsTo side
+            // came first. In that case, grab the link where we expect it from OSF&#x27;s API
+            const url = reference.link() || this.get(&#x60;links.relationships.${propertyName}.links.related.href&#x60;);
+            if (!url) {
+                reject(&#x60;Could not find a link for &#x27;${propertyName}&#x27; relationship&#x60;);
+                return;
+            }
+            const options = Ember.merge({
+                url,
+                data: queryParams,
+                headers: Ember.get(this.store.adapterFor(this.constructor.modelName), &#x27;headers&#x27;),
+            }, ajaxOptions);
+
+            authenticatedAJAX(options).then(
+                Ember.run.bind(this, this.__queryHasManyDone, resolve),
+                reject
+            );
+        });
+
+        const ArrayPromiseProxy = Ember.ArrayProxy.extend(Ember.PromiseProxyMixin);
+        return ArrayPromiseProxy.create({ promise });
+    },
+
+    __queryHasManyDone(resolve, payload) {
+        const store = this.get(&#x27;store&#x27;);
+        store.pushPayload(payload);
+        const records = payload.data.map(datum =&gt; store.peekRecord(datum.type, datum.id));
+        records.meta = payload.meta;
+        records.links = payload.links;
+        resolve(records);
+    },
 });
 
     </pre>
