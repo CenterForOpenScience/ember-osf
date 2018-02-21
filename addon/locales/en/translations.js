@@ -244,9 +244,9 @@ export default {
                 goToProject: 'Go to project',
             },
             citationWidget: {
-                placeholderMessage: 'Enter citation style (e.g. "APA")',
+                placeholderMessage: 'Enter citation style (e.g., "APA")',
                 loadingMessage: 'Searching...',
-                noMatchesMessage: 'No matches found.',
+                noMatchesMessage: 'No matches found',
                 searchMessage: 'Please enter a few characters',
             },
         }
