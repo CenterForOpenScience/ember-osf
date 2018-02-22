@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `facebookAppId` field to `preprint-provider` model
 - Add ElasticSearch preference (ES) key to preprints ES search requests for reproducible results ordering.
 - Computed field `name` to `user` model
+- Add `description` and `tags` to the preprint model.
 
 ## [0.14.0] - 2018-02-07
 ### Added
