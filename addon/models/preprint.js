@@ -32,6 +32,8 @@ export default OsfModel.extend({
     reviewsState: DS.attr('string'),
     dateLastTransitioned: DS.attr('date'),
     preprintDoiCreated: DS.attr('date'),
+    description: DS.attr('fixstring'),
+    tags: DS.attr(),
 
     // Relationships
     node: DS.belongsTo('node', { inverse: null, async: true }),
