@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - `scheduled-banner` component that pulls banners (created in the OSF Admin app) from the API.
 
+### Changed
+- Format last edited date in search result like "MMM DDD, YYYY UTC" instead of "YYYY-MM-DD (UTC)"
+
 ## [0.16.0] - 2018-04-24
 ### Added
 - `documentType` property to `preprint-service` model.
