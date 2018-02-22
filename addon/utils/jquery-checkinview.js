@@ -12,8 +12,6 @@ function checkInView() {
 
         const container = elem.parent();
         const contHeight = container.height();
-        const contTop = container.scrollTop();
-        const contBottom = contTop + contHeight;
 
         const elemTop = elem.offset().top - container.offset().top;
         const elemBottom = elemTop + elem.height();
