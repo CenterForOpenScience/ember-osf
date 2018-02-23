@@ -20,6 +20,7 @@ import config from 'ember-get-config';
 export default Ember.Component.extend({
 
     layout,
+    toast: Ember.inject.service(),
     attributeBindings: [
         'style',
         'hidden',
