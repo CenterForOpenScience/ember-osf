@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added "choose your custom citation" section to citation-widget
 - `facebookAppId` field to `preprint-provider` model
 - Add ElasticSearch preference (ES) key to preprints ES search requests for reproducible results ordering.
+- Computed field `name` to `user` model
 - Add `description` and `tags` to the preprint model.
 - `lazy-options` component to enable lazy loading for `ember-power-select`
 
