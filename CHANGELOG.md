@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `facebookAppId` field to `preprint-provider` model
 - Add ElasticSearch preference (ES) key to preprints ES search requests for reproducible results ordering.
 - Add `description` and `tags` to the preprint model.
+- `lazy-options` component to enable lazy loading for `ember-power-select`
 
 ## [0.14.0] - 2018-02-07
 ### Added
