@@ -114,11 +114,11 @@
             "fors": {},
             "namespaces": {}
         },
-        "addon/components/donate-banner/component.js": {
-            "name": "addon/components/donate-banner/component.js",
+        "addon/components/scheduled-banner/component.js": {
+            "name": "addon/components/scheduled-banner/component.js",
             "modules": {},
             "classes": {
-                "donate-banner": 1
+                "scheduled-banner": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1078,7 +1078,7 @@
                 "comment-form": 1,
                 "comment-pane": 1,
                 "discover-page": 1,
-                "donate-banner": 1,
+                "scheduled-banner": 1,
                 "dropzone-widget": 1,
                 "eosf-project-nav": 1,
                 "faceted-search": 1,
@@ -1249,7 +1249,7 @@
                 "comment-form": 1,
                 "comment-pane": 1,
                 "discover-page": 1,
-                "donate-banner": 1,
+                "scheduled-banner": 1,
                 "dropzone-widget": 1,
                 "eosf-project-nav": 1,
                 "file-browser-icon": 1,
@@ -1707,9 +1707,9 @@
             "line": 16,
             "description": "Discover-page component. Builds a search interface utilizing SHARE.\nSee retraction-watch, registries, and preprints discover pages for working examples.\n\nMajority adapted from Ember-SHARE https://github.com/CenterForOpenScience/ember-share, with additions from PREPRINTS\nand REGISTRIES discover pages. Original Ember-SHARE facets and PREPRINTS/REGISTRIES facets behave differently at this time.\nYou can build a discover-page that uses Ember-SHARE type facets -OR- PREPRINTS/REGISTRIES type facets.  Would not recommend\nmixing until code is combined.\n\nHow to Use:\nPass in custom text like searchPlaceholder.  The facets property will enable you to customize the filters\non the left-hand side of the discover page. Sort options are the sort dropdown options.  The lockedParams are the\nquery parameters that are always locked in your application. Each query parameter must be passed in individually,\nso they are reflected in the URL.  Logo and custom colors must be placed in the consuming application's stylesheet. Individual components\ncan additionally be overridden in your application.\n\n Sample usage:\n ```handlebars\n{{discover-page\n  activeFilters=activeFilters\n  detailRoute=detailRoute\n  discoverHeader=discoverHeader\n  facets=facets\n  fetchedProviders=model\n  filterMap=filterMap\n  filterReplace=filterReplace\n  lockedParams=lockedParams\n  page=page\n  provider=provider\n  q=q\n  queryParams=queryParams\n  searchPlaceholder=searchPlaceholder\n  showActiveFilters=showActiveFilters\n  sortOptions=sortOptions\n  subject=subject\n  themeProvider=themeProvider\n }}\n ```"
         },
-        "donate-banner": {
-            "name": "donate-banner",
-            "shortname": "donate-banner",
+        "scheduled-banner": {
+            "name": "scheduled-banner",
+            "shortname": "scheduled-banner",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -1718,9 +1718,9 @@
             "module": "ember-osf",
             "submodule": "components",
             "namespace": "",
-            "file": "addon/components/donate-banner/component.js",
+            "file": "addon/components/scheduled-banner/component.js",
             "line": 10,
-            "description": "Display the donate banner.  Has an automated script to determine\nwhat the banner should look like based on the the current date.\n\nSample usage:\n```handlebars\n{{donate-banner}}\n```"
+            "description": "Display the donate banner.  Has an automated script to determine\nwhat the banner should look like based on the the current date.\n\nSample usage:\n```handlebars\n{{scheduled-banner}}\n```"
         },
         "dropzone-widget": {
             "name": "dropzone-widget",
