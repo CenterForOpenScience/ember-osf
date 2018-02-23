@@ -11,14 +11,17 @@
     {{#power-select
         search=(perform findStyles)
         selected=selectedStyle
-        loadingMessage="Searching..."
-        noMatchesMessage="No matches found."
-        searchMessage="Please enter a few characters"
+        loadingMessage=loadingMessage
+        noMatchesMessage=noMatchesMessage
+        searchMessage=searchMessage
         onchange=(action 'selectStyle')
         renderInPlace=true
+        placeholder=placeholderMessage
         as |style|
     }}
         {{style.attributes.title}}
     {{/power-select}}
-    <pre id="citationText" class="formatted-citation">{{citationText}}</pre>
+    {{#if (not-eq citationText '')}}
+        <pre id="citationText" class="formatted-citation m-t-md">{{citationText}}</pre>
+    {{/if}}
 </div>
