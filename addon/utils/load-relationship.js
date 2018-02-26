@@ -24,11 +24,11 @@ export function loadPage(model, relationship, pageSize, page, options = {}) {
     query = Ember.merge(query, options || {});
     Ember.set(model, 'query-params', query);
 
-    return model.query(relationship, query).then(results => {
+    return model.queryHasMany(relationship, query).then(results => {
         var remaining = 0;
         if (results.meta) {
-            var total = results.meta.pagination.total;
-            var pageSize = results.meta.pagination.per_page;
+            var total = results.meta.total;
+            var pageSize = results.meta.per_page;
             remaining = total - (page * pageSize);
         }
         return {
