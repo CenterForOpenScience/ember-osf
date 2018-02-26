@@ -1,7 +1,10 @@
 import Ember from 'ember';
-import layout from './template';
+
 import { task, timeout } from 'ember-concurrency';
 import config from 'ember-get-config';
+
+import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
+import layout from './template';
 
 /**
  * @module ember-osf
@@ -90,9 +93,9 @@ export default Ember.Component.extend({
 
     findStyles: task(function* (term) {
         yield timeout(500);
-        const response = yield Ember.$.ajax({
+        const response = yield authenticatedAJAX({
             method: 'GET',
-            url: `${config.OSF.apiUrl}/${config.OSF.apiNamespace}/citations/styles/?filter[title,short_title]=${term}&page[size]=100` ,
+            url: `${config.OSF.apiUrl}/${config.OSF.apiNamespace}/citations/styles/?filter[title,short_title]=${term}&page[size]=100`,
             dataType: 'json',
             contentType: 'application/json'
         });
