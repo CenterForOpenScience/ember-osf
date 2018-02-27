@@ -87,13 +87,13 @@ export default Ember.Component.extend({
 
     _selectStyle: task(function* (id) {
         const citationLink = this.get('citationLink');
-        const response = yield Ember.$.ajax(`${citationLink}${id}/`);
+        const response = yield authenticatedAJAX({ url: `${citationLink}${id}/` });
         this.set('citationText', response.data.attributes.citation);
     }).restartable(),
 
     findStyles: task(function* (term) {
         yield timeout(500);
-        const response = yield authenticatedAJAX({
+        const response = yield Ember.$.ajax({
             method: 'GET',
             url: `${config.OSF.apiUrl}/${config.OSF.apiNamespace}/citations/styles/?filter[title,short_title]=${term}&page[size]=100`,
             dataType: 'json',
