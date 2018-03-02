@@ -12,5 +12,6 @@ import layout from './template';
  */
 export default Ember.Component.extend({
     layout,
+    i18n: Ember.inject.service(),
     currentYear: (new Date()).getUTCFullYear().toString()
 });

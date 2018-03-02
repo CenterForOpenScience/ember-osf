@@ -1,19 +1,19 @@
 {{title model.fullName}}
-<h2>Profile Information</h2>
+<h2>{{t 'profile.profileInformation'}}</h2>
 <div class="panel">
-    <p><label>Full Name:</label> {{model.fullName}}</p>
-    <p><label>Given Name:</label> {{model.givenName}}</p>
-    <p><label>Middle Name:</label> {{model.middleName}}</p>
-    <p><label>Family Name:</label> {{model.familyName}}</p>
+    <p><label>{{t 'profile.fullName'}}:</label> {{model.fullName}}</p>
+    <p><label>{{t 'profile.givenName'}}:</label> {{model.givenName}}</p>
+    <p><label>{{t 'profile.middleName'}}:</label> {{model.middleName}}</p>
+    <p><label>{{t 'profile.familyName'}}:</label> {{model.familyName}}</p>
 
     <p>
         <a href="{{model.links.html}}" target="_blank" rel="noopener" class="btn btn-primary">
-            View on OSF
+            {{t 'profile.viewOnOSF'}}
         </a>
     </p>
     <hr>
 
-    <h2>Edit your profile</h2>
-    Full Name: {{input value=editedFullName}}
-    <button {{action "editExisting" editedFullName}} class="btn btn-primary">Edit record</button>
+    <h2>{{t 'profile.editProfile'}}</h2>
+    {{t 'profile.fullName'}}: {{input value=editedFullName}}
+    <button {{action "editExisting" editedFullName}} class="btn btn-primary">{{t 'profile.editRecord'}}</button>
 </div>

@@ -10,18 +10,18 @@
                 {{#if (not session.isAuthenticated)}}
                     {{#oauth-popup authUrl=authUrl loginSuccess=(action 'loginSuccess') loginFail=(action 'loginFail') as |popup|}}
                         <button class="btn btn-default login-button" onclick={{action 'login' target=popup}} >
-                            Login to OSF
+                            {{t 'eosf.components.fileWidget.loginToOSF'}}
                         </button>
                     {{/oauth-popup}}
                 {{else}}
-                    <label>Choose an OSF project:</label>
+                    <label>{{t 'eosf.components.fileWidget.chooseAnOSFProject'}}</label>
                     {{#power-select options=userNodes closeOnSelect=false searchField='title' selected=selectedNode onchange=(action (mut selectedNode)) as |node|}}
                         <img src="{{country.flagUrl}}" class="icon-flag" alt="{{node.title}} flag"> <strong>{{node.title}}</strong>
                     {{/power-select}}
                 {{/if}}
             </div>
         {{else}}
-            <p> {{selectedNode.title}} <button class="btn btn-default" {{action 'deselectNode'}}>Back</button> </p>
+            <p> {{selectedNode.title}} <button class="btn btn-default" {{action 'deselectNode'}}>{{t 'eosf.components.fileWidget.back'}}</button> </p>
             {{file-browser
                 rootNode=selectedNode
                 onClickFile=(action 'selectNodeFile')

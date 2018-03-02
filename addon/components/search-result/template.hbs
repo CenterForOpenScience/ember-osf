@@ -35,7 +35,9 @@
 
             {{!Last edited on on}}
             {{#if result.date_updated}}
+                {{! template-lint-disable bare-strings }}
                 <div class="m-t-sm"> <em> {{t "eosf.components.searchResult.lastEdited"}}: {{dateUpdated}} (UTC) </em> </div>
+                {{! template-lint-enable bare-strings }}
             {{/if}}
 
             {{!Disciplines}}

@@ -5,13 +5,13 @@
 
 
 <h2> {{model.registrationSchema.name}} </h2>
-<p> Initiated by: {{model.initiator.fullName}}</p>
-<p> Started: {{moment-format model.datetimeInitiated}} </p>
-<p> Last Updated: {{moment-format model.datetimeUpdated}} </p>
+<p> {{t 'nodes.detail.draftRegistrations.detail.initiatedBy'}}: {{model.initiator.fullName}}</p>
+<p> {{t 'nodes.detail.draftRegistrations.detail.started'}}: {{moment-format model.datetimeInitiated}} </p>
+<p> {{t 'nodes.detail.draftRegistrations.detail.lastUpdated'}}: {{moment-format model.datetimeUpdated}} </p>
 
 <hr>
 
-<h3> Edit Draft Registration </h3>
+<h3> {{t 'nodes.detail.draftRegistrations.detail.editDraftRegistration'}} </h3>
 {{#each model.registrationSchema.schema.pages as |page|}}
 
     {{#each page.questions as |question|}}
@@ -21,7 +21,7 @@
         {{/if}}
         {{#if (eq question.type "choose")}}
             {{#unless question.description}}
-                <p> <em> Please choose </em> </p>
+                <p> <em> {{t 'nodes.detail.draftRegistrations.detail.pleaseChoose'}} </em> </p>
             {{/unless}}
             <form>
                 {{#each question.options as |option|}}
@@ -39,11 +39,11 @@
                 {{/if}}
                 {{#if (eq subquestion.type "osf-upload")}}
                     <p>
-                        You may attach up to 5 files to this question.
-                        You may attach files that you already have in this OSF project, or upload a new file from your computer.
-                        Uploaded files will automatically be added to this project so that they can be registered.
+                        {{t 'nodes.detail.draftRegistrations.detail.youMayAttachMessage1'}}.
+                        {{t 'nodes.detail.draftRegistrations.detail.youMayAttachMessage2'}}.
+                        {{t 'nodes.detail.draftRegistrations.detail.youMayAttachMessage3'}}.
                     </p>
-                    <a href=#> Attach File (not implemented) </a>
+                    <a href=#> {{t 'nodes.detail.draftRegistrations.detail.attachFile'}} ({{t 'nodes.detail.draftRegistrations.detail.notImplemented'}}) </a>
                 {{else}}
                     {{#if subquestion.properties}}
                         {{#each subquestion.properties as |item|}}
@@ -65,24 +65,24 @@
 {{/each}}
 
 {{#if formDisplayed}}
-    <h3> Before you continue ... </h3>
-    <p><label> Registration Choice </label></p>
+    <h3> {{t 'nodes.detail.draftRegistrations.detail.beforeYouContinue'}} ... </h3>
+    <p><label> {{t 'nodes.detail.draftRegistrations.detail.registrationChoice'}} </label></p>
     <select onchange={{action "changeRegistrationChoice" value="target.value"}}>
-        <option value="immediate"> Make registration public immediately </option>
-        <option value="embargo"> Enter registration into embargo </option>
+        <option value="immediate"> {{t 'nodes.detail.draftRegistrations.detail.makePublic'}} </option>
+        <option value="embargo"> {{t 'nodes.detail.draftRegistrations.detail.makeEmbargo'}} </option>
     </select>
     {{#if embargoSelected}}
-        <p><label> Embargo End Date </label></p>
+        <p><label> {{t 'nodes.detail.draftRegistrations.detail.embargoEndDate'}} </label></p>
         <input name="liftEmbargo" type="date" value="liftEmbargo" onchange={{action "changeEmbargoEndDate" value="target.value"}}>
     {{/if}}
     <br><br>
     <p>
-        <button class='btn btn-default' {{action "regForm"}}>Cancel</button>
-        <button class='btn btn-success' {{action "registerDraft" editedMetadata registrationChoice liftEmbargo}}>Continue</button>
+        <button class='btn btn-default' {{action "regForm"}}>{{t 'nodes.detail.draftRegistrations.detail.cancel'}}</button>
+        <button class='btn btn-success' {{action "registerDraft" editedMetadata registrationChoice liftEmbargo}}>{{t 'nodes.detail.draftRegistrations.detail.continue'}}</button>
     </p>
 {{else}}
     <p>
-        <button class='btn btn-primary' {{action "editDraft" editedMetadata "draft"}}>Save as draft</button>
-        <button class='btn btn-success' {{action "regForm"}}>Register</button>
+        <button class='btn btn-primary' {{action "editDraft" editedMetadata "draft"}}>{{t 'nodes.detail.draftRegistrations.detail.saveAsDraft'}}</button>
+        <button class='btn btn-success' {{action "regForm"}}>{{t 'nodes.detail.draftRegistrations.detail.register'}}</button>
     </p>
 {{/if}}

@@ -1,40 +1,40 @@
 <div class="container">
     <div class="row">
         <div class="col-xs-12">
-            <h1> Demonstration of Embedded Records </h1>
+            <h1> {{t 'embeddingRecords.demonstrationOfEmbedded'}} </h1>
 
             <hr>
 
-            <p> <button class="btn btn-default" {{action 'loadNodeEmbedPreprint'}}> Load a node with an embedded preprint </button> </p>
+            <p> <button class="btn btn-default" {{action 'loadNodeEmbedPreprint'}}> {{t 'embeddingRecords.loadANode'}} </button> </p>
 
             {{#if nodePreprintsQueried}}
                 {{#if preprintNode}}
                     <p>
-                        <label>Node title</label>: {{preprintNode.title}}
-                        <label>Node ID</label>: {{preprintNode.id}}
+                        <label>{{t 'embeddingRecords.nodeTitle'}}</label>: {{preprintNode.title}}
+                        <label>{{t 'embeddingRecords.nodeID'}}</label>: {{preprintNode.id}}
                     </p>
-                    <p> <em> This preprint was embedded on this node, so a separate request wasn't required to fetch it!</em></p>
+                    <p> <em> {{t 'embeddingRecords.preprintWasEmbedded'}}!</em></p>
                     <p>
-                        <label>Preprint ID</label>: {{preprint.id}}
+                        <label>{{t 'embeddingRecords.preprintID'}}</label>: {{preprint.id}}
                         {{#if preprint.doi}}
-                            <label> DOI: </label> {{preprint.doi}}
+                            <label> {{t 'embeddingRecords.doi'}}: </label> {{preprint.doi}}
                         {{/if}}
                     </p>
-                    <p> <label> Abstract: </label> {{preprintNode.description}} </p>
+                    <p> <label> {{t 'embeddingRecords.abstract'}}: </label> {{preprintNode.description}} </p>
                     <p>
-                        <label> Subjects: </label>
+                        <label> {{t 'embeddingRecords.subjects'}}: </label>
 
                         <ul>
                             {{#each preprint.subjects as |subjectBlock|}}
                                 {{#each subjectBlock as |subject|}}
-                                    <li><{{subject.text}}/li>
+                                    <li>{{subject.text}}</li>
                                 {{/each}}
                             {{/each}}
                         </ul>
 
                     </p>
                 {{else}}
-                    <p class="text-warning"> No nodes with published preprints on them (that you can access at least)! </p>
+                    <p class="text-warning"> {{t 'embeddingRecords.noNodesWarning1'}} ({{t 'embeddingRecords.noNodesWarning2'}})! </p>
                 {{/if}}
 
             {{/if}}
@@ -42,15 +42,15 @@
             <hr>
 
             {{input value=userQuery placeholder='Enter user name'}}
-            <button class="btn btn-default" disabled={{not userQuery}} {{action 'searchUsers' userQuery}}> Search users and embed nodes </button>
+            <button class="btn btn-default" disabled={{not userQuery}} {{action 'searchUsers' userQuery}}> {{t 'embeddingRecords.searchUsers'}} </button>
             {{#if matchingUsers}}
-                <p> <label> Search results </label> </p>
+                <p> <label> {{t 'embeddingRecords.searchResults'}} </label> </p>
                 <ul>
                     {{#each matchingUsers as |user|}}
                         <li> {{user.fullName}} </li>
                         {{#if user.nodes}}
-                            <p> <b> These nodes were embedded in the user response so a separate request was not required!</b></p>
-                            <p> <em>User Nodes:</em> </p>
+                            <p> <b> {{t 'embeddingRecords.nodesWereEmbedded'}}!</b></p>
+                            <p> <em>{{t 'embeddingRecords.userNodes'}}:</em> </p>
                             <ul>
                                 {{#each user.nodes as |node|}}
                                     <li>{{node.title}}</li>
@@ -61,7 +61,7 @@
                 </ul>
             {{else}}
                 {{#if usersQueried}}
-                    <p> No users matching this query! </p>
+                    <p> {{t 'embeddingRecords.noUsersWarning'}}! </p>
                 {{/if}}
             {{/if}}
 

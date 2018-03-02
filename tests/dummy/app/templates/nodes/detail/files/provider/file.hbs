@@ -6,7 +6,7 @@
     <div class='col-sm-7'>
         {{#unless canEdit}}
             <p class='bg-warning'>
-                This file is checked out by a
+                {{t 'nodes.detail.files.file.checkoutOutBy'}}
                 {{link-to 'collaborator' 'users.detail' model.checkout}}.
             </p>
         {{/unless}}
@@ -14,20 +14,20 @@
             {{#if canEdit}}
                 {{#if canCheckIn}}
                     <button {{action 'checkIn'}} class='btn btn-sm btn-warning'>
-                        Check in
+                        {{t 'nodes.detail.files.file.checkIn'}}
                     </button>
                 {{else}}
                     <button {{action 'delete'}} class='btn btn-sm btn-danger'>
-                        Delete
+                        {{t 'nodes.detail.files.file.delete'}}
                     </button>
                     <button {{action 'checkOut'}} class='btn btn-sm btn-warning'>
-                        Check out
+                        {{t 'nodes.detail.files.file.checkOut'}}
                     </button>
                 {{/if}}
 
             {{/if}}
             <button {{action 'download'}} class='btn btn-sm btn-primary'>
-                Download
+                {{t 'nodes.detail.files.file.download'}}
             </button>
             {{link-to 'View'
                 'nodes.detail.files.provider.file.index'
@@ -51,7 +51,7 @@
         userId=userId
         }}
         <div>
-            <p><label> Tags </label></p>
+            <p><label> {{t 'nodes.detail.files.file.tags'}} </label></p>
             {{tags-widget addATag=(action 'addATag' model) removeATag=(action 'removeATag' model) tags=model.tags}}
         </div>
     </div>
