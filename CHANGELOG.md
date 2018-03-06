@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Removed
 - Ability to create new components when moving files.
 
+### Changed
+- Bump OSF API version from 2.4 to 2.6
+
 ## [0.14.0] - 2018-02-07
 ### Added
 - `osf-model.queryHasMany`, for reliable querying of hasMany relations
