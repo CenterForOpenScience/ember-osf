@@ -16,6 +16,29 @@ export function loadRelation(model, relationship) {
     return ArrayPromiseProxy.create({promise});
 }
 
+export function loadPage(model, relationship, pageSize, page, options = {}) {
+    let query = {
+        'page[size]': pageSize || 10,
+        page: page || 1
+    };
+    query = Ember.merge(query, options || {});
+    Ember.set(model, 'query-params', query);
+
+    return model.queryHasMany(relationship, query).then(results => {
+        var remaining = 0;
+        if (results.meta) {
+            var total = results.meta.total;
+            var pageSize = results.meta.per_page;
+            remaining = total - (page * pageSize);
+        }
+        return {
+            results: results.toArray(),
+            hasRemaining: remaining > 0,
+            remaining: remaining,
+        };
+    });
+}
+
 export default function loadAll(model, relationship, dest, options = {}) {
     var page = options.page || 1;
     var query = {
