@@ -119,6 +119,15 @@ module.exports = {
         return app;
     },
 
+    // Shouldn't be necessary after we switch to ember-component-css
+    _treePathFor(treeName) {
+        let treePath = this.treePaths[treeName];
+        let absoluteTreePath = path.join(this.root, treePath);
+        let normalizedAbsoluteTreePath = path.normalize(absoluteTreePath);
+
+        return normalizedAbsoluteTreePath;
+    },
+
     // Outputs all pod scss files into the style tree but prefixed with ember-osf
     // This allows apps using this addon to import all the scss they want using "@import 'ember-osf'"
     // The actual 'ember-osf' namespace is exported by app/styles/_ember-osf.scss
