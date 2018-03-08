@@ -9,6 +9,8 @@ export function loadRelation(model, relationship) {
         model = model.get('content')
     }
 
+    // If model is null return a promise that never resolves
+    // and wait for the next call were model is resolved
     if (!model) return new Ember.RSVP.Promise(() => null);
 
     let results = Ember.A();
