@@ -4,6 +4,7 @@
 var path = require('path');
 var config = require('config');
 var Funnel = require('broccoli-funnel');
+var BroccoliMergeTrees = require('broccoli-merge-trees');
 var mergeTrees = require('broccoli-merge-trees');
 var compileSass = require('broccoli-sass-source-maps');
 
@@ -54,8 +55,10 @@ module.exports = {
         }
 
         if (BACKEND === 'local') {
-            backendUrlConfig.accessToken = eitherConfig('PERSONAL_ACCESS_TOKEN');
             backendUrlConfig.isLocal = true;
+            if (eitherConfig('PERSONAL_ACCESS_TOKEN')) {
+                backendUrlConfig.accessToken = eitherConfig('PERSONAL_ACCESS_TOKEN');
+            }
         } else if (BACKEND === 'prod') {
             console.warn("WARNING: you've specified production as a backend. Please do not use production for testing or development purposes");
         } else if (BACKEND === 'env') {
@@ -115,9 +118,48 @@ module.exports = {
 
         return app;
     },
+
+    // Outputs all pod scss files into the style tree but prefixed with ember-osf
+    // This allows apps using this addon to import all the scss they want using "@import 'ember-osf'"
+    // The actual 'ember-osf' namespace is exported by app/styles/_ember-osf.scss
+    treeForStyles: function() {
+        const tree = this._super.treeForStyles.apply(this, arguments);
+
+        let addonPodStyles = new Funnel(this._treePathFor('addon'), {
+            destDir: path.join(tree.destDir, 'ember-osf'),
+            annotation: 'Ember OSF Pod Styles',
+            include: ['components/**/*.scss'],
+        });
+
+        return new BroccoliMergeTrees([tree, addonPodStyles, this._bootstrapStyles()], {
+            annotation: 'Ember OSF Merged Styles'
+        });
+
+    },
+
+    _bootstrapStyles: function() {
+        let bootstrapPath = path.join(this.app.project.nodeModulesPath, 'bootstrap-sass', 'assets', 'stylesheets');
+
+        return new Funnel(bootstrapPath, {
+            annotation: 'Ember OSF Boostrap SASS',
+            include: ['**/*.scss'],
+        });
+    },
     treeForAddon: function(tree) {
         this.addonTree = tree;
         return this._super.treeForAddon.apply(this, arguments);
+    },
+    // Outputs all pod scss files into the addon style tree.
+    // This allows the addon to build by itself
+    treeForAddonStyles: function(tree) {
+        let addonPodStyles = new Funnel(this._treePathFor('addon'), {
+            annotation: 'Ember OSF Addon Pod Styles',
+            include: ['components/**/*.scss'],
+        });
+
+        return new BroccoliMergeTrees([tree, addonPodStyles, this._bootstrapStyles()], {
+            annotation: 'Ember OSF Merged Styles'
+        });
     },
     treeForVendor: function(tree) {
         var addonStyleTree = this._treeFor('addon-styles');

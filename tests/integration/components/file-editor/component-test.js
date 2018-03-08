@@ -68,7 +68,7 @@ test('save new text', function(assert) {
         assert.equal(actual, expected, 'Save function properly passes new value');
     });
 
-    this.render(`
+    this.render(hbs`
         {{file-editor
             save=(action externalSaveAction)}}
     `);
