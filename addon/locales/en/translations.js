@@ -420,13 +420,7 @@ export default {
                 searchableEvents: `{{count}} searchable events`,
                 searchablePreprints: `{{count}} searchable {{preprintWords.preprints}}`,
                 searchableRegistries: `{{count}} searchable registrations`
-            },
-            citationWidget: {
-                placeholderMessage: 'Enter citation style (e.g., "APA")',
-                loadingMessage: 'Searching...',
-                noMatchesMessage: 'No matches found',
-                searchMessage: 'Please enter a few characters',
-            },
+            }
         }
     }
 };

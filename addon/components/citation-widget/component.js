@@ -37,7 +37,6 @@ export default Ember.Component.extend({
     i18n: Ember.inject.service(),
 
     layout,
-    i18n: Ember.inject.service(),
     apa: null,
     chicago: null,
     mla: null,
