@@ -63,4 +63,41 @@ export default Ember.Service.extend({
             promise: this.load().catch(() => null),
         });
     }),
+
+    /**
+     * Return a simple hash of the currentUser ID if user is logged in, otherwise return a generated random string.
+     * sessionKey can be used to identify the current session or any general purposes.
+     * For Elasticsearch requests, sessionKey is used as the "preference" URL parameter to ensure reproducible search results ordering.
+     *
+     * @property sessionKey
+     * @return {String}
+     */
+    sessionKey: Ember.computed('currentUserId', function() {
+        let currentUserId = this.get('currentUserId');
+        if (currentUserId) {
+            return this.hashCode(currentUserId).toString();
+        }
+        return Math.random().toString(36).substr(2,10);
+    }),
+
+    /**
+     * Generate a simple hash (numerical code) from a string.
+     * https://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript-jquery
+     *
+     * @method hashCode
+     * @param  str {String}
+     * @return {String}
+     */
+
+    hashCode(str) {
+        let hash = 0, i, chr;
+        if (str.length === 0) return hash;
+        for (i = 0; i < str.length; i++) {
+            chr   = str.charCodeAt(i);
+            hash  = ((hash << 5) - hash) + chr;
+            hash |= 0;
+        }
+        return hash;
+    },
+
 });

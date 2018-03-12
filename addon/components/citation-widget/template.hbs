@@ -1,8 +1,27 @@
-<div class="citation-widget">
-    <div class="f-w-xl">APA</div>
-    <span>{{apa}} </span>
-    <div class="f-w-xl m-t-md">MLA</div>
-    <span> {{mla}} </span>
-    <div class="f-w-xl m-t-md">Chicago</div>
-    <span> {{chicago}} </span>
+<div>
+    <div id="citationList" class="m-b-md">
+        <div class="f-w-xl">APA</div>
+        <span> {{apa}} </span>
+        <div class="f-w-xl m-t-md">MLA</div>
+        <span> {{mla}} </span>
+        <div class="f-w-xl m-t-md">Chicago</div>
+        <span> {{chicago}} </span>
+    </div>
+    <p><strong>Get more citations</strong></p>
+    {{#power-select
+        search=(perform findStyles)
+        selected=selectedStyle
+        loadingMessage=loadingMessage
+        noMatchesMessage=noMatchesMessage
+        searchMessage=searchMessage
+        onchange=(action 'selectStyle')
+        renderInPlace=true
+        placeholder=placeholderMessage
+        as |style|
+    }}
+        {{style.attributes.title}}
+    {{/power-select}}
+    {{#if (not-eq citationText '')}}
+        <pre id="citationText" class="formatted-citation m-t-md">{{citationText}}</pre>
+    {{/if}}
 </div>

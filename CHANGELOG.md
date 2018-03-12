@@ -8,6 +8,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Removed
 - Ability to create new components when moving files.
 
+## [Unreleased 0.15.0]
+### Added
+- Added "choose your custom citation" section to citation-widget
+- `facebookAppId` field to `preprint-provider` model
+- Add ElasticSearch preference (ES) key to preprints ES search requests for reproducible results ordering.
+- Computed field `name` to `user` model
+- Add `description` and `tags` to the preprint model.
+- `lazy-options` component to enable lazy loading for `ember-power-select`
+
 ## [0.14.0] - 2018-02-07
 ### Added
 - `osf-model.queryHasMany`, for reliable querying of hasMany relations
