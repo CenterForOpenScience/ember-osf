@@ -5,10 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-### Removed
-- Ability to create new components when moving files.
 
-## [Unreleased 0.15.0]
+## [0.15.0] - 2018-03-06
 ### Added
 - Added "choose your custom citation" section to citation-widget
 - `facebookAppId` field to `preprint-provider` model
@@ -16,6 +14,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Computed field `name` to `user` model
 - Add `description` and `tags` to the preprint model.
 - `lazy-options` component to enable lazy loading for `ember-power-select`
+
+### Removed
+- Ability to create new components when moving files.
 
 ## [0.14.0] - 2018-02-07
 ### Added
