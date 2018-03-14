@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import layout from './template';
 import config from 'ember-get-config';
+import computedStyle from 'ember-computed-style';
 
 /**
  * @module ember-osf
@@ -21,11 +22,12 @@ export default Ember.Component.extend({
 
     layout,
     toast: Ember.inject.service(),
+
+    classNames: ['banner'],
     attributeBindings: [
         'style',
         'hidden',
     ],
-
     color: '',
     defaultAltText: '',
     mobileAltText: '',
@@ -35,28 +37,31 @@ export default Ember.Component.extend({
     endDate: null,
     hidden: true,
 
-    colorStyle: Ember.computed('defaultPhoto', function() {
+    colorStyle: computedStyle('colorProperty'),
+    colorProperty: Ember.computed('color', function() {
         const bgColor = this.get('color');
-        return Ember.String.htmlSafe(`background-color: ${bgColor}`);
+        return { 'background-color': `${bgColor}` };
     }),
 
-    defaultStyle: Ember.computed('defaultPhoto', function() {
+    defaultStyle: computedStyle('bgProperty'),
+    bgProperty: Ember.computed('defaultPhoto', function() {
         const defaultPhotoUrl = this.get('defaultPhoto');
-        return Ember.String.htmlSafe(`background: url(${defaultPhotoUrl}) no-repeat center top`);
+        return { 'background': `url(${defaultPhotoUrl}) no-repeat center top` };
     }),
 
-    mobileStyle: Ember.computed('mobilePhoto', function() {
+    mobileStyle: computedStyle('mobileBgProperty'),
+    mobileBgProperty: Ember.computed('mobilePhoto', function() {
         const mobilePhotoUrl = this.get('mobilePhoto');
-        return Ember.String.htmlSafe(`background: url(${mobilePhotoUrl}) no-repeat center top`);
+        return { 'background': `url(${mobilePhotoUrl}) no-repeat center top`};
     }),
 
     init() {
         this._super(...arguments);
 
         Ember.$.ajax({
-            url: `${config.OSF.apiUrl}/_/banners/current`,
-            crossDomain: true
-        })
+                url: `${config.OSF.apiUrl}/_/banners/current`,
+                crossDomain: true
+            })
             .then(({data: { attributes: attrs, links}}) => {
                 this.setProperties({
                     color: attrs.color,
@@ -68,7 +73,6 @@ export default Ember.Component.extend({
                 });
                 this.get('startDate') && this.set('hidden', false);
             })
-
             .fail(() => {
                 this.get('toast', 'Unable to load the current banner.');
             });
