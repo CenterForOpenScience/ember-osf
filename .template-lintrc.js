@@ -6,6 +6,6 @@ module.exports = {
 
     rules: {
         'block-indentation': 4,
-        'bare-strings': false
+        'bare-strings': true
     }
 };

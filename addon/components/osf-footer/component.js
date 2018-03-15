@@ -13,6 +13,7 @@ import { serviceLinks } from '../../const/service-links';
  */
 export default Ember.Component.extend({
     layout,
+    i18n: Ember.inject.service(),
     serviceLinks: serviceLinks,
     supportEmail: Ember.computed(function() {
         return '<n uers=\"znvygb:pbagnpg@bfs.vb\" ery=\"absbyybj\">Pbagnpg</n>'.replace(

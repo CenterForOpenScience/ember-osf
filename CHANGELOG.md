@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Changed
+- Moved all static strings to translation files
+- `bare-strings` option in eslint to `true`
 - Bump OSF API version from 2.4 to 2.6
 
 ## [0.15.0] - 2018-03-06

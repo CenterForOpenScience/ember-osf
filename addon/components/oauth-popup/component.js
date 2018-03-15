@@ -27,6 +27,7 @@ import { getTokenFromHash } from 'ember-osf/utils/auth';
 export default Ember.Component.extend({
     layout,
     tagName: '',
+    i18n: Ember.inject.service(),
     session: Ember.inject.service(),
     popupHeight: 550,
     popupWidth: 500,

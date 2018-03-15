@@ -27,6 +27,7 @@ export default Ember.Component.extend(hostAppName, AnalyticsMixin, {
     layout,
     osfServices,
     session: Ember.inject.service(),
+    i18n: Ember.inject.service(),
     serviceLinks: serviceLinks,
     host: config.OSF.url,
     currentService: Ember.computed('hostAppName', function() { // Pulls current service name from consuming service's config file

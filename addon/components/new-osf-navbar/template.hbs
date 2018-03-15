@@ -16,7 +16,7 @@
                 {{!NAME OF CURRENT SERVICE - HOME, PREPRINTS, REGISTRIES, or MEETINGS}}
                 <div class="service-name">
                     <a href="{{currentServiceLink}}">
-                        <span class="hidden-xs"> OSF </span>
+                        <span class="hidden-xs"> {{t 'eosf.navbar.osf'}} </span>
                         <span class="current-service"><strong>{{currentService}}</strong></span>
                     </a>
                 </div>
@@ -28,7 +28,7 @@
                     </button>
                     <ul class="dropdown-menu service-dropdown" role="menu">
                         {{#each osfServices as |service|}}
-                            <li><a href="{{service.url}}" onclick={{action 'click' 'link' (concat 'Navbar - ' service.name)}}>OSF<b>{{service.name}}</b></a></li>
+                            <li><a href="{{service.url}}" onclick={{action 'click' 'link' (concat 'Navbar - ' service.name)}}>{{t 'eosf.navbar.osf'}}<b>{{service.name}}</b></a></li>
                         {{/each}}
                     </ul>
                 </div>
