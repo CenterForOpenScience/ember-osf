@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Changed
 - Bump OSF API version from 2.4 to 2.6
+- ember-cli-moment-shim version to `^3.5.3` due to security issues found in `moment` versions before `2.19.3`
 
 ## [0.15.0] - 2018-03-06
 ### Added
