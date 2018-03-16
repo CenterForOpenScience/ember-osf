@@ -1,42 +1,42 @@
 {{title model.title}}
 {{link-to 'Back to list' 'collections' class="btn btn-default"}}
 <div class="panel">
-    <h3> Collection Details </h3>
-    <p><label>Title:</label> {{model.title}}</p>
-    <p><label>Date created:</label> {{moment-format model.dateCreated}}</p>
-    <p><label>Date modified:</label> {{moment-format model.dateModified}}</p>
-    <p><label>Bookmark:</label> {{model.bookmarks}}</p>
+    <h3> {{t 'collections.detail.collectionDetails'}} </h3>
+    <p><label>{{t 'collections.detail.title'}}:</label> {{model.title}}</p>
+    <p><label>{{t 'collections.detail.date'}} {{t 'collections.detail.created'}}:</label> {{moment-format model.dateCreated}}</p>
+    <p><label>{{t 'collections.detail.date'}} {{t 'collections.detail.modifiedLowercase'}}:</label> {{moment-format model.dateModified}}</p>
+    <p><label>{{t 'collections.detail.bookmark'}}:</label> {{model.bookmarks}}</p>
 
-    <h3> Collection Contents </h3>
+    <h3> {{t 'collections.detail.collectionsContents'}} </h3>
     <table class="table">
         <tr>
-            <th> Name </th>
-            <th> Date Modified </th>
+            <th> {{t 'collections.detail.name'}} </th>
+            <th> {{t 'collections.detail.date'}} {{t 'collections.detail.modifiedUppercase'}} </th>
             <th> </th>
         </tr>
         {{#each model.linkedNodes as |linkedNode|}}
             <tr>
                 <td>{{link-to linkedNode.title 'nodes.detail' linkedNode.id }} </td>
                 <td>{{moment-format linkedNode.dateModified}} </td>
-                <td><button {{action "removeNodeFromCollection" linkedNode}} class="btn btn-danger">Remove project</button> </td>
+                <td><button {{action "removeNodeFromCollection" linkedNode}} class="btn btn-danger">{{t 'collections.detail.removeProject'}}</button> </td>
             </tr>
         {{/each}}
         {{#each model.linkedRegistrations as |linkedRegistration|}}
             <tr>
                 <td>{{link-to linkedRegistration.title 'nodes.detail' linkedRegistration.id }} </td>
                 <td>{{moment-format linkedRegistration.dateModified}} </td>
-                <td><button {{action "removeRegistrationFromCollection" linkedRegistration}} class="btn btn-danger">Remove registration</button> </td>
+                <td><button {{action "removeRegistrationFromCollection" linkedRegistration}} class="btn btn-danger">{{t 'collections.detail.removeRegistration'}}</button> </td>
             </tr>
         {{/each}}
     </table>
 
-    <h3>Add project to collection </h3>
-    <label> Project id </label> {{input value=projectId}}
-    <button {{action "addNodeToCollection" projectId}} class="btn btn-primary">Add</button>
+    <h3>{{t 'collections.detail.addProject'}} </h3>
+    <label> {{t 'collections.detail.projectID'}} </label> {{input value=projectId}}
+    <button {{action "addNodeToCollection" projectId}} class="btn btn-primary">{{t 'collections.detail.add'}}</button>
 
-    <h3>Add registration to collection </h3>
-    <label> Registration id </label> {{input value=registrationId}}
-    <button {{action "addRegistrationToCollection" registrationId}} class="btn btn-primary">Add</button>
+    <h3>{{t 'collections.detail.addRegistration'}} </h3>
+    <label> {{t 'collections.detail.registrationID'}} </label> {{input value=registrationId}}
+    <button {{action "addRegistrationToCollection" registrationId}} class="btn btn-primary">{{t 'collections.detail.add'}}</button>
 
 
 

@@ -4,15 +4,15 @@
         model.node class='btn'}}
     </div>
     <h2>{{model.name}}</h2>
-    <p><label>ID: </label>{{model.id}}</p>
-    <p><label>Provider: </label>{{model.provider}}</p>
-    <p><label>Path: </label>{{model.path}}</p>
+    <p><label>{{t 'nodes.detail.files.provider.index.id'}}: </label>{{model.id}}</p>
+    <p><label>{{t 'nodes.detail.files.provider.index.provider'}}: </label>{{model.provider}}</p>
+    <p><label>{{t 'nodes.detail.files.provider.index.path'}}: </label>{{model.path}}</p>
 
-    <h3>Files</h3>
+    <h3>{{t 'nodes.detail.files.provider.index.files'}}</h3>
     {{file-tree root=model node=model.node}}
 
     <hr>
 
-    <h3>Actions</h3>
+    <h3>{{t 'nodes.detail.files.provider.index.actions'}}</h3>
     {{file-actions file=model onChange=(action 'reloadFiles')}}
 </div>

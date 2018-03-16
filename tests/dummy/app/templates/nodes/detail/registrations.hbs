@@ -2,7 +2,7 @@
 {{title "Registrations"}}
 {{link-to 'Back to node' 'nodes.detail' class='btn btn-default'}}
 
-<h2> Registrations </h2>
+<h2> {{t 'nodes.detail.registrations.registrationsTitle'}} </h2>
 
 {{link-to 'View Drafts' 'nodes.detail.draft_registrations' class='btn btn-primary'}}
 
@@ -12,20 +12,20 @@
     {{#each model as |registration|}}
         <p>
             {{#if registration.pendingRegistrationApproval}}
-                <strong> Pending Registration </strong>
+                <strong> {{t 'nodes.detail.registrations.pendingRegistration'}} </strong>
             {{/if}}
             {{#if registration.pendingEmbargoApproval}}
-                <strong> Pending Embargo </strong>
+                <strong> {{t 'nodes.detail.registrations.pendingEmbargo'}} </strong>
             {{/if}}
             {{#if registration.pendingWithdrawal}}
-                <strong> Pending Withdrawal </strong>
+                <strong> {{t 'nodes.detail.registrations.pendingWithdrawal'}} </strong>
             {{/if}}
             {{#if registration.withdrawn}}
-                <strong> Withdrawn </strong>
+                <strong> {{t 'nodes.detail.registrations.withdrawn'}} </strong>
             {{/if}}
             {{#link-to "registrations.detail" registration.id}}
                 {{registration.title}}
-            {{/link-to}} | Registered: {{moment-format registration.dateRegistered}}
+            {{/link-to}} | {{t 'nodes.detail.registrations.registered'}}: {{moment-format registration.dateRegistered}}
         </p>
         <p>
             {{#each registration.contributors as |contrib|}}
@@ -43,13 +43,10 @@
             {{/each}}
         </p>
         <a href="{{registration.links.html}}" target="_blank" rel="noopener" class="btn btn-default">
-            View on OSF
+            {{t 'nodes.detail.registrations.viewOnOSF'}}
         </a>
         <hr>
     {{/each}}
 {{else}}
-    <p>
-        There have been no completed registrations of this project. You can start a new registration by clicking the
-        New registration” button, and you have the option of saving as a draft registration before submission.
-    </p>
+    <p>{{t 'nodes.detail.registrations.noCompletedRegistrations'}}</p>
 {{/if}}

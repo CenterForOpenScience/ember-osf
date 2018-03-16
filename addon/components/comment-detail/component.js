@@ -28,5 +28,6 @@ import layout from './template';
  */
 export default Ember.Component.extend({
     layout,
+    i18n: Ember.inject.service(),
     comment: null
 });

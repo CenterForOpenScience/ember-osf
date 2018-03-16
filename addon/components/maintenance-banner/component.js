@@ -12,6 +12,7 @@ export default Ember.Component.extend({
     layout,
     classNames: ['alert', 'alert-dismissible', 'alert-maintenance'],
     classNameBindings: ['alertClass'],
+    i18n: Ember.inject.service(),
 
     attributeBindings: [
         'hidden'

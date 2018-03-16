@@ -32,6 +32,7 @@ import layout from './template';
 export default Ember.Component.extend({
     layout,
     store: Ember.inject.service(),
+    i18n: Ember.inject.service(),
     licensesAvailable: Ember.A(),
     showBorder: true,
     showYear: true,

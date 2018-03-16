@@ -4,6 +4,7 @@ import layout from './template';
 import permissions from 'ember-osf/const/permissions';
 
 export default Ember.Component.extend({
+    i18n: Ember.inject.service(),
     READ: permissions.READ,
     WRITE: permissions.WRITE,
     ADMIN: permissions.ADMIN,

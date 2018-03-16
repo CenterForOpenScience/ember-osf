@@ -1,15 +1,15 @@
 {{title "Institutions"}}
-<h4> All Institutions </h4>
+<h4> {{t 'institutions.index.allInstitutions'}} </h4>
 {{#each model as |inst|}}
     <hr>
     <div class="panel">
-        <p><label>Name: </label>{{inst.name}}</p>
-        <p><label>Description: </label>{{inst.description}}</p>
-        <p><label>Logo URL: </label>{{inst.logoPath}}</p>
-        <p><label>Auth URL: </label>{{inst.authUrl}}</p>
+        <p><label>{{t 'institutions.index.name'}}: </label>{{inst.name}}</p>
+        <p><label>{{t 'institutions.index.description'}}: </label>{{inst.description}}</p>
+        <p><label>{{t 'institutions.index.logoURL'}}: </label>{{inst.logoPath}}</p>
+        <p><label>{{t 'institutions.index.authURL'}}: </label>{{inst.authUrl}}</p>
         <p class="btn-group">
             <a href="{{inst.links.html}}" target="_blank" rel="noopener" class="btn btn-default">
-                View on OSF
+                {{t 'institutions.index.viewOnOSF'}}
             </a>
             {{link-to 'Detail' 'institutions.detail' inst.id class="btn btn-primary"}}
         </p>

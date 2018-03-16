@@ -1,9 +1,9 @@
 <div>
     {{#if comment.deleted}}
         <div>
-            Comment deleted
+            {{t 'eosf.components.commenting.commentDetail.commentDeleted'}}
             {{# if comment.canEdit}}
-                <button {{action restoreComment comment}} class="btn btn-warning">Restore</button>
+                <button {{action restoreComment comment}} class="btn btn-warning">{{t 'eosf.components.commenting.commentDetail.restore'}}</button>
             {{/if}}
         </div>
     {{else}}
@@ -13,11 +13,11 @@
             </strong>:
             {{# if comment.canEdit}}
                 {{input value=comment.content}}
-                <button {{action editComment comment}} class="btn btn-success">Edit</button>
-                <button {{action deleteComment comment}} class="btn btn-danger">Delete</button>
+                <button {{action editComment comment}} class="btn btn-success">{{t 'eosf.components.commenting.commentDetail.edit'}}</button>
+                <button {{action deleteComment comment}} class="btn btn-danger">{{t 'eosf.components.commenting.commentDetail.delete'}}</button>
             {{else}}
                 <span>{{comment.content}}</span>
-                <button {{action reportComment comment}} class="btn btn-warning">Report</button>
+                <button {{action reportComment comment}} class="btn btn-warning">{{t 'eosf.components.commenting.commentDetail.report'}}</button>
             {{/if}}
         </div>
     {{/if}}

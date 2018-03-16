@@ -1,5 +1,5 @@
 {{#if hasBlock }}
     {{yield this}}
 {{else}}
-    <button {{action 'login'}} class="btn btn-warning"> Login </button>
+    <button {{action 'login'}} class="btn btn-warning"> {{t 'eosf.components.oauthPopup.login'}} </button>
 {{/if}}
