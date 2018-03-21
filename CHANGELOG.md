@@ -14,9 +14,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Add moderator model, serializer, and adapter
 
-### Removed
-- Ability to create new components when moving files.
-
 ## [0.15.0] - 2018-03-06
 ### Added
 - Added "choose your custom citation" section to citation-widget
