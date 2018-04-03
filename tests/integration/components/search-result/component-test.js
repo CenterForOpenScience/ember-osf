@@ -15,6 +15,7 @@ let result = Ember.Object.extend({
     subjects: [({ text: 'psychology' })],
     providers: [{ name: 'test provider1' }, { name: 'test provider2' }],
     infoLinks: [{ type: 'url', uri: 'test URI1' }, { type: 'test', uri: 'testURI2' }],
+    id: 'test',
     title: 'Tests to live by',
     date: '04-19-2017',
     dateModified: '04-20-2017',
