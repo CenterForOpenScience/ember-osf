@@ -1,7 +1,4 @@
-@import 'bootstrap/variables';
-
-
-@media (min-width: $screen-md-min) {
+@media (min-width: 768px) {
   .navbar-right-md {
     float: right;
   }
