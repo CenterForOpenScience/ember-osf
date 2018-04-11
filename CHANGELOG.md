@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Added `documentType` property to `preprint-service` model.
+
 ### Changed
 - Moved all static strings to translation files
 - `bare-strings` option in eslint to `true`
