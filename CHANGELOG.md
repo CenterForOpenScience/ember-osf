@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - ember-cli-moment-shim version to `^3.5.3` due to security issues found in `moment` versions before `2.19.3`
 - classes and element tags to match styles needed for long name truncation on navbar
 
+### Added
+- `ember-component-css` to bundle all component styles in one `pod-styles.scss` and prevent styling conflicts across components.
+
 ## [0.15.0] - 2018-03-06
 ### Added
 - Added "choose your custom citation" section to citation-widget
