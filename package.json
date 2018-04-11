@@ -29,6 +29,7 @@
   "author": "Center for Open Science",
   "license": "Apache-2.0",
   "devDependencies": {
+    "@centerforopenscience/osf-style": "1.5.1",
     "bootstrap-sass": "^3.3.7",
     "broccoli-asset-rev": "2.5.0",
     "chalk": "1.1.3",
