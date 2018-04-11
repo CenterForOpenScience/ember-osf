@@ -15,6 +15,12 @@ export default {
             singular: 'document',
             singularCapitalized: 'Document',
         },
+        work: {
+            plural: 'works',
+            pluralCapitalized: 'Works',
+            singular: 'work',
+            singularCapitalized: 'Work',
+        },
         paper: {
             plural: 'papers',
             pluralCapitalized: 'Papers',
@@ -294,7 +300,7 @@ export default {
                 convertOrCopyMessage: {
                     component: 'Clicking "Move file" will immediately make changes to your OSF component and move your file.',
                     project: 'Clicking "Move file" will immediately make changes to your OSF project and move your file.'
-                },                
+                },
                 couldNotCreateProject: 'Could not create project. Please try again.',
                 couldNotMoveFile: 'Could not move file. Please try again',
                 enterProjectTitle: 'Enter project title',

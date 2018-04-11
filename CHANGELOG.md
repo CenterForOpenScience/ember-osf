@@ -18,6 +18,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - `ember-component-css` to bundle all component styles in one `pod-styles.scss` and prevent styling conflicts across components.
 
+### Added
+- `works` to preprint word translations
+
 ## [0.15.0] - 2018-03-06
 ### Added
 - Added "choose your custom citation" section to citation-widget
