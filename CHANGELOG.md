@@ -5,11 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- `secondary-nav-dropdown` class to `new-navbar-auth-dropdown` component
+
 ### Changed
 - Moved all static strings to translation files
 - `bare-strings` option in eslint to `true`
 - Bump OSF API version from 2.4 to 2.6
 - ember-cli-moment-shim version to `^3.5.3` due to security issues found in `moment` versions before `2.19.3`
+- classes and element tags to match styles needed for long name truncation on navbar
 
 ## [0.15.0] - 2018-03-06
 ### Added
@@ -34,14 +38,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Move function for `file` model
 - `ember-collapsable-panel` and `ember-power-select` packages
 - Styling on `project-selector` buttons that are selected
-- `secondary-nav-dropdown` class to `new-navbar-auth-dropdown` component
 
 ### Changed
 - Node `addChild` model function to create public child elements
 - Import compiled css for ember-power-select even when consumin app uses SASS
     - This can be overriden by setting ember-power-select.useSass to true in the app's options
 - Node `addChild` model method will only use defaults for undefined parameters (instead of falsey parameters)
-- classes and element tags to match styles needed for long name truncation on navbar
 
 ### Removed
 - ember-data-has-many-query
