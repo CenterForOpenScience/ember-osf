@@ -15,6 +15,12 @@ export default {
             singular: 'document',
             singularCapitalized: 'Document',
         },
+        work: {
+            plural: 'works',
+            pluralCapitalized: 'Works',
+            singular: 'work',
+            singularCapitalized: 'Work',
+        },
         paper: {
             plural: 'papers',
             pluralCapitalized: 'Papers',

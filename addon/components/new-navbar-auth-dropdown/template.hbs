@@ -2,9 +2,10 @@
     {{! TODO: Replace display name functionality if possible- for now truncate via CSS at end of label }}
     {{#bs-dropdown as |dd|}}
         {{#dd.toggle tagName="button" classNames="nav-user-dropdown btn-link"}}
-            <span class="osf-gravatar">
+            <div class="osf-profile-image">
                 <img src="{{gravatarUrl}}" alt="User gravatar">
-            </span> {{get-display-name user.fullName}}
+            </div> 
+            <div class="nav-profile-name">{{user.fullName}}</div>
             <span class="caret"></span>
         {{/dd.toggle}}
 
