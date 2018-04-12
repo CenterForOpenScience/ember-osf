@@ -2,6 +2,7 @@
     "local": {
         "url": "http://localhost:5000/",
         "apiUrl": "http://localhost:8000",
+        "mfrUrl": "http://localhost:7778/",
         "renderUrl": "http://localhost:7778/render",
         "waterbutlerUrl": "http://localhost:7777/",
         "helpUrl": "http://localhost:4200/help",
@@ -14,6 +15,7 @@
     "stage": {
         "url": "https://staging.osf.io/",
         "apiUrl": "https://staging-api.osf.io",
+        "mfrUrl": "https://staging-mfr.osf.io/",
         "renderUrl": "https://staging-mfr.osf.io/render",
         "waterbutlerUrl": "https://staging-files.osf.io/",
         "helpUrl": "http://help.osf.io",
@@ -26,6 +28,7 @@
     "stage2": {
         "url": "https://staging2.osf.io/",
         "apiUrl": "https://staging2-api.osf.io",
+        "mfrUrl": "https://staging2-mfr.osf.io/",
         "renderUrl": "https://staging2-mfr.osf.io/render",
         "waterbutlerUrl": "https://staging2-files.osf.io/",
         "helpUrl": "http://help.osf.io",
@@ -38,6 +41,7 @@
     "stage3": {
         "url": "https://staging3.osf.io/",
         "apiUrl": "https://staging3-api.osf.io",
+        "mfrUrl": "https://staging3-mfr.osf.io/",
         "renderUrl": "https://staging3-mfr.osf.io/render",
         "waterbutlerUrl": "https://staging3-files.osf.io/",
         "helpUrl": "http://help.osf.io",
@@ -50,6 +54,7 @@
     "prod": {
         "url": "https://osf.io/",
         "apiUrl": "https://api.osf.io",
+        "mfrUrl": "https://mfr.osf.io/",
         "renderUrl": "https://mfr.osf.io/render",
         "waterbutlerUrl": "https://files.osf.io/",
         "helpUrl": "http://help.osf.io",
@@ -62,6 +67,7 @@
     "test": {
         "url": "https://test.osf.io/",
         "apiUrl": "https://test-api.osf.io",
+        "mfrUrl": "https://test-mfr.osf.io/",
         "renderUrl": "https://test-mfr.osf.io/render",
         "waterbutlerUrl": "https://test-files.osf.io/",
         "helpUrl": "http://help.osf.io",
@@ -74,6 +80,7 @@
     "env": {
         "url": "OSF_URL",
         "apiUrl": "OSF_API_URL",
+        "mfrUrl": "OSF_MFR_URL",
         "renderUrl": "OSF_RENDER_URL",
         "waterbutlerUrl": "OSF_FILE_URL",
         "helpUrl": "OSF_HELP_URL",
