@@ -2,6 +2,7 @@ import Ember from 'ember';
 import layout from './template';
 import config from 'ember-get-config';
 import computedStyle from 'ember-computed-style';
+import Analytics from '../../mixins/analytics';
 
 /**
  * @module ember-osf
@@ -18,7 +19,7 @@ import computedStyle from 'ember-computed-style';
  *
  * @class scheduled-banner
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend(Analytics, {
 
     layout,
     toast: Ember.inject.service(),
@@ -36,6 +37,8 @@ export default Ember.Component.extend({
     startDate: null,
     endDate: null,
     hidden: true,
+    link: '',
+    name: '',
 
     colorStyle: computedStyle('colorProperty'),
     colorProperty: Ember.computed('color', function() {
@@ -70,6 +73,8 @@ export default Ember.Component.extend({
                     defaultPhoto: links.default_photo,
                     mobilePhoto: links.mobile_photo,
                     startDate: attrs.start_date,
+                    link: attrs.link || 'https://www.crowdrise.com/centerforopenscience',
+                    name: attrs.name,
                 });
                 this.get('startDate') && this.set('hidden', false);
             })
