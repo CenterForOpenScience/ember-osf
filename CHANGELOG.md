@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Added `documentType` property to `preprint-service` model.
 - `secondary-nav-dropdown` class to `new-navbar-auth-dropdown` component
 
 ### Changed
