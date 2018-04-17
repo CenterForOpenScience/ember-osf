@@ -136,7 +136,8 @@ export default {
                 loadingMessage: 'Searching...',
                 mla: 'MLA',
                 noMatchesMessage: 'No matches found',
-                searchMessage: 'Please enter a few characters'
+                searchMessage: 'Please enter a few characters',
+                placeholderMessage: 'Enter citation style (e.g., "APA")',
             },
             commenting: {
                 commentDetail: {
