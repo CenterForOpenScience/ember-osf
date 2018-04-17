@@ -73,7 +73,7 @@ export default Ember.Component.extend(Analytics, {
                     defaultPhoto: links.default_photo,
                     mobilePhoto: links.mobile_photo,
                     startDate: attrs.start_date,
-                    link: attrs.link || 'https://www.crowdrise.com/centerforopenscience',
+                    link: attrs.link,
                     name: attrs.name,
                 });
                 this.get('startDate') && this.set('hidden', false);
