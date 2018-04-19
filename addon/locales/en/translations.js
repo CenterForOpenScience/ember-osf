@@ -68,7 +68,7 @@ export default {
         },
         navbar: {
             add: 'Add',
-            addAPreprint: 'Add a {{documentType.singular}}',
+            addAPreprint: 'Add a {{documentType.singularCapitalized}}',
             altSearchOSF: 'Search OSF',
             browse: 'Browse',
             cancelSearch: 'Cancel search',
