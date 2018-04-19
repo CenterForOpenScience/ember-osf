@@ -1,7 +1,7 @@
 {{# if session.isAuthenticated }}
     {{! TODO: Replace display name functionality if possible- for now truncate via CSS at end of label }}
-    {{#bs-dropdown as |dd|}}
-        {{#dd.toggle tagName="button" classNames="nav-user-dropdown btn-link"}}
+    {{#bs-dropdown tagName='li' classNames="secondary-nav-dropdown" as |dd|}}
+        {{#dd.toggle tagName="a" classNames="btn-link"}}
             <div class="osf-profile-image">
                 <img src="{{gravatarUrl}}" alt="User gravatar">
             </div> 
@@ -34,17 +34,19 @@
         {{/dd.menu}}
     {{/bs-dropdown}}
 {{else if allowLogin}}
-    {{#if institution}}
-        {{! TODO: How does the page know whether this is an institution view? Implement in the future }}
-        <div class="btn-group">
-            <a href="${domain}login/?campaign=institution&redirect_url=${redirect_url}" class="btn btn-info btn-top-login">
-                {{t 'eosf.authDropdown.signIn'}} <span class="hidden-xs"><i class="fa fa-arrow-right"></i></span>
-            </a>
-        </div>
-    {{else}}
-        <div>
-            <a href="{{signupUrl}}" class="btn btn-success btn-top-signup m-l-sm m-r-xs" onclick={{action 'click' 'link' 'Navbar - SignUp'}}>{{t 'eosf.authDropdown.signUp'}}</a>
-            <a {{action loginAction}} onclick={{action 'click' 'link' 'Navbar - SignIn'}} class="btn btn-info btn-top-login m-r-xs" role="button">{{t 'eosf.authDropdown.signIn'}}</a>
-        </div>
-    {{/if}}
+    <li class="dropdown sign-in">
+        {{#if institution}}
+            {{! TODO: How does the page know whether this is an institution view? Implement in the future }}
+            <div class="btn-group">
+                <a href="${domain}login/?campaign=institution&redirect_url=${redirect_url}" class="btn btn-info btn-top-login">
+                    {{t 'eosf.authDropdown.signIn'}} <span class="hidden-xs"><i class="fa fa-arrow-right"></i></span>
+                </a>
+            </div>
+        {{else}}
+            <div>
+                <a href="{{signupUrl}}" class="btn btn-success btn-top-signup m-l-sm m-r-xs" onclick={{action 'click' 'link' 'Navbar - SignUp'}}>{{t 'eosf.authDropdown.signUp'}}</a>
+                <a {{action loginAction}} onclick={{action 'click' 'link' 'Navbar - SignIn'}} class="btn btn-info btn-top-login m-r-xs" role="button">{{t 'eosf.authDropdown.signIn'}}</a>
+            </div>
+        {{/if}}
+    </li>
 {{/if}}
