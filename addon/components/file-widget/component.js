@@ -24,6 +24,7 @@ import loadAll from 'ember-osf/utils/load-relationship';
 export default Ember.Component.extend({
     layout,
     authUrl: getAuthUrl(),
+    i18n: Ember.inject.service(),
     session: Ember.inject.service(),
     currentUser: Ember.inject.service(),
     fileManager: Ember.inject.service(),

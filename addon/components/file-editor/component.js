@@ -19,6 +19,7 @@ import layout from './template';
  */
 
 export default Ember.Component.extend({
+    i18n: Ember.inject.service(),
     classNames: ['file-editor'],
     layout,
     fileText: '',

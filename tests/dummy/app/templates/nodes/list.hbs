@@ -1,11 +1,11 @@
 {{title "Nodes"}}
-<h4> My Nodes </h4>
+<h4> {{t 'nodes.list.myNodes'}} </h4>
 <div>
-    <label>Title:</label>
+    <label>{{t 'nodes.list.title'}}:</label>
     {{input type="text" value=title placeholder="Node's title" required=true}}
-    <label>Description (optional):</label>
+    <label>{{t 'nodes.list.description'}} ({{t 'nodes.list.optional'}}):</label>
     {{input type="text" value=description placeholder="Node's description"}}
-    <p><button onclick={{action 'createNode' title description}}>Create Node</button></p>
+    <p><button onclick={{action 'createNode' title description}}>{{t 'nodes.list.createNode'}}</button></p>
 </div>
 <hr>
 <p>
@@ -22,13 +22,13 @@
 {{#each model as |node|}}
     <hr>
     <div class="panel">
-        <p><label>Title:</label> {{node.title}}</p>
-        <p><label>Category:</label> {{node.category}}</p>
-        <p><label>Date Created:</label> {{moment-format node.dateCreated}}</p>
-        <p><label>Date Modified:</label> {{moment-format node.dateModified}}</p>
+        <p><label>{{t 'nodes.list.title'}}:</label> {{node.title}}</p>
+        <p><label>{{t 'nodes.list.category'}}:</label> {{node.category}}</p>
+        <p><label>{{t 'nodes.list.dateCreated'}}:</label> {{moment-format node.dateCreated}}</p>
+        <p><label>{{t 'nodes.list.dateModified'}}:</label> {{moment-format node.dateModified}}</p>
         <p class="btn-group">
             <a href="{{node.links.html}}" target="_blank" rel="noopener" class="btn btn-default">
-                View on OSF
+                {{t 'nodes.list.viewOnOSF'}}
             </a>
             {{link-to 'Detail' 'nodes.detail' node.id class="btn btn-primary"}}
         </p>

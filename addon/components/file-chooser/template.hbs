@@ -6,13 +6,13 @@
             change=(action 'onFileInputChange')}}
     </p>
     <p>
-        You can also drag and drop a file from your computer.
+        {{t 'eosf.components.fileChooser.dragAndDropMessage'}}
     </p>
     {{#if errorMessage}}
-        <div>Error: {{errorMessage}}</div>
+        <div>{{t 'eosf.components.fileChooser.error'}} {{errorMessage}}</div>
     {{/if}}
     {{#if files}}
-        <h4>Chosen files</h4>
+        <h4>{{t 'eosf.components.fileChooser.chosenFiles'}}</h4>
         <ul>
             {{#each files as |file|}}
                 <li>{{file.name}}</li>

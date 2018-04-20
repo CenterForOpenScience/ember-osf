@@ -1,8 +1,12 @@
 import Ember from 'ember';
 import DS from 'ember-data';
+import { getOwner } from '@ember/application';
+import { get } from '@ember/object';
 import OsfModel from 'ember-osf/models/osf-model';
 
 export default OsfModel.extend({
+    i18n: Ember.inject.service(),
+
     name: DS.attr('fixstring'),
     description: DS.attr('fixstring'),
     domain: DS.attr('string'),
@@ -32,4 +36,8 @@ export default OsfModel.extend({
     licensesAcceptable: DS.hasMany('license', { inverse: null }),
 
     hasHighlightedSubjects: Ember.computed.alias('links.relationships.highlighted_taxonomies.links.related.meta.has_highlighted_subjects'),
+    documentType: Ember.computed('i18n', 'preprintWord', function () {
+        const locale = getOwner(this).factoryFor(`locale:${this.get('i18n.locale')}/translations`).class;
+        return get(locale, `documentType.${this.get('preprintWord')}`);
+    }),
 });

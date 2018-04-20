@@ -1,18 +1,20 @@
 <button type="button" class="close" data-dismiss="alert" aria-label="Close" {{action 'dismiss'}}>
-    <span aria-hidden="true">&times;</span>
+    <span aria-hidden="true">{{t 'eosf.components.maintenanceBanner.times'}}</span>
 </button>
-<strong>Notice:</strong>
+<strong>{{t 'eosf.components.maintenanceBanner.notice'}}</strong>
 <span>
     {{#if maintenance.message}}
         {{maintenance.message}}
     {{else}}
-        The site will undergo maintenance between
+        {{t 'eosf.components.maintenanceBanner.willUndergoMaintenance.'}}
         <strong>
             <time>{{moment-format maintenance.start 'lll'}}</time>
-            and
+            {{t 'eosf.components.maintenanceBanner.and'}}
             <time>{{moment-format maintenance.end 'lll'}}</time>
         </strong>
+        {{! template-lint-disable bare-strings }}
         ({{moment-format maintenance.start 'ZZ'}} UTC).
-        Thank you for your patience.
+        {{! template-lint-enable bare-strings}}
+        {{t 'eosf.components.maintenanceBanner.thankYou'}}
     {{/if}}
 </span>

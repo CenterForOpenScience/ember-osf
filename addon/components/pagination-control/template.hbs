@@ -1,8 +1,8 @@
 <div>
-    <button class="btn btn-primary" {{action 'previous'}} disabled={{disablePageReverse}}>Previous</button>
-    <button class="btn btn-primary" {{action 'next'}} disabled={{disablePageForward}}>Next</button>
+    <button class="btn btn-primary" {{action 'previous'}} disabled={{disablePageReverse}}>{{t 'eosf.components.paginationControl.previous'}}</button>
+    <button class="btn btn-primary" {{action 'next'}} disabled={{disablePageForward}}>{{t 'eosf.components.paginationControl.next'}}</button>
 </div>
 
 <div>
-    Page <input value={{currentPage}} onchange={{action 'goToPage' value='target.value'}}> of {{pageCount}}
+    {{t 'eosf.components.paginationControl.page'}} <input value={{currentPage}} onchange={{action 'goToPage' value='target.value'}}> {{t 'eosf.components.paginationControl.of'}} {{pageCount}}
 </div>

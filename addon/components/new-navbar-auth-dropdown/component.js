@@ -23,12 +23,10 @@ import AnalyticsMixin from 'ember-osf/mixins/analytics';
  */
 export default Ember.Component.extend(AnalyticsMixin, {
     layout,
+    tagName: '',
     session: Ember.inject.service(),
     currentUser: Ember.inject.service(),
     i18n: Ember.inject.service(),
-    tagName: 'li',
-    classNames: ['dropdown'],
-    classNameBindings: ['notAuthenticated:sign-in'],
     notAuthenticated: Ember.computed.not('session.isAuthenticated'),
     redirectUrl: null,
 
