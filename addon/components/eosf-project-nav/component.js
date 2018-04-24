@@ -22,6 +22,7 @@ import permissions from '../../const/permissions';
  */
 export default Ember.Component.extend({
     layout,
+    i18n: Ember.inject.service(),
     node: null,
     user: null,
 

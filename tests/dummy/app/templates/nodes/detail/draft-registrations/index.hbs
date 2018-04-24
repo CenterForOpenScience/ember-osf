@@ -3,37 +3,35 @@
 
 {{link-to 'Back to node' 'nodes.detail' class='btn btn-default'}}
 
-<h2> Draft Registrations </h2>
+<h2> {{t 'nodes.detail.draftRegistrations.index.draftRegistrationsTitle'}} </h2>
 
 {{link-to 'View Registrations' 'nodes.detail.registrations' class='btn btn-primary'}}
 
 {{#if formDisplayed}}
     <hr>
-    <h3> Register </h3>
-    <p>
-        Registration creates a frozen version of the project that can never be edited or deleted but can be withdrawn. Your original project remains editable but will now have the registration linked to it.
-    </p>
-    <p> Things to know about registration: </p>
+    <h3> {{t 'nodes.detail.draftRegistrations.index.register'}} </h3>
+    <p> {{t 'nodes.detail.draftRegistrations.index.registrationDesc'}} </p>
+    <p> {{t 'nodes.detail.draftRegistrations.index.thingsToKnowTitle'}}: </p>
     <ul>
-        <li> Ensure your project is in the state you wish to freeze before registering. </li>
-        <li> Consider turning links into forks. </li>
-        <li>Registrations can have embargo periods for up to four years. If you choose an embargo period, the registration will automatically become public when the embargo expires. </li>
-        <li> Withdrawing a registration removes the contents of the registrations but will leave behind a log showing when the registration was created and withdrawn. </li>
+        <li>{{t 'nodes.detail.draftRegistrations.index.thingsToKnow1'}}.</li>
+        <li>{{t 'nodes.detail.draftRegistrations.index.thingsToKnow2'}}.</li>
+        <li>{{t 'nodes.detail.draftRegistrations.index.thingsToKnow3'}}.</li>
+        <li>{{t 'nodes.detail.draftRegistrations.index.thingsToKnow4'}}.</li>
     </ul>
-    <p> <strong> Continue your registration by selecting a registration form: </strong> </p>
+    <p> <strong> {{t 'nodes.detail.draftRegistrations.index.selectRegistrationForm'}}: </strong> </p>
     {{#each metaschemas as |metaschema|}}
         <p>{{radio-button name="form" value=metaschema.id checked=schema}} {{metaschema.name}} </p>
     {{/each}}
 
     <button type="button" {{action "draftForm"}} class="btn btn-default">
-        Cancel
+        {{t 'nodes.detail.draftRegistrations.index.cancel'}}
     </button>
     <button type="button" {{action "createDraft" schema}} class="btn btn-primary">
-        Create Draft
+        {{t 'nodes.detail.draftRegistrations.index.createDraft'}}
     </button>
 {{else}}
     <button type="button" {{action "draftForm"}} class="btn btn-success">
-        New Registration
+        {{t 'nodes.detail.draftRegistrations.index.newRegistration'}}
     </button>
 {{/if}}
 
@@ -42,16 +40,16 @@
 {{#if model}}
     {{#each model as |draft|}}
         <h3> {{draft.registrationSchema.name}} </h3>
-        <p> Initiated by: {{draft.initiator.fullName}}</p>
-        <p> Started: {{moment-format draft.datetimeInitiated}} </p>
-        <p> Last Updated: {{moment-format draft.datetimeUpdated}} </p>
+        <p> {{t 'nodes.detail.draftRegistrations.index.initiatedBy'}}: {{draft.initiator.fullName}}</p>
+        <p> {{t 'nodes.detail.draftRegistrations.index.started'}}: {{moment-format draft.datetimeInitiated}} </p>
+        <p> {{t 'nodes.detail.draftRegistrations.index.lastUpdated'}}: {{moment-format draft.datetimeUpdated}} </p>
 
         {{#link-to "nodes.detail.draft_registrations.detail" draft.id class="btn btn-info btn-sm"}}
-            <i class="glyphicon glyphicon-pencil"></i>  Edit
+            <i class="glyphicon glyphicon-pencil"></i>  {{t 'nodes.detail.draftRegistrations.index.edit'}}
         {{/link-to}}
 
         <button type="button" {{action "deleteDraft" draft}} class="btn btn-danger btn-sm">
-            <i class="glyphicon glyphicon-remove"></i>  Delete
+            <i class="glyphicon glyphicon-remove"></i>  {{t 'nodes.detail.draftRegistrations.index.delete'}}
         </button>
         <hr>
     {{/each}}

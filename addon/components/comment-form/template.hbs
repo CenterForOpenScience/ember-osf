@@ -1,6 +1,6 @@
 <div>
-    {{textarea class="form-control" maxlength="500" placeholder="Add a comment" value=_commentText}}
+    {{textarea class="form-control" maxlength="500" placeholder=(t 'eosf.components.commenting.commentForm.addComment') value=_commentText}}
     <button {{action 'addComment' _commentText}} class="btn btn-success" disabled={{if (not _commentText) true}}>
-        Add comment
+        {{t 'eosf.components.commenting.commentForm.addComment'}}
     </button>
 </div>

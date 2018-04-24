@@ -1,7 +1,7 @@
 <div class='panel-heading'>
     <h3 class='panel-title'>
         <i class='fa fa-pencil-square-o'></i>
-        Edit
+        {{t 'eosf.components.fileEditor.edit'}}
     </h3>
 </div>
 <div>
@@ -19,8 +19,8 @@
             <div class='row'>
                 <div class='col-sm-12'>
                     <div class='pull-right'>
-                        <button class='btn btn-sm btn-danger' id='btnRevertEditor' onclick={{action 'revertText'}}>Revert </button>
-                        <button class='btn btn-sm btn-success' id='btnSaveEditor' onclick={{action 'saveText'}}>Save</button>
+                        <button class='btn btn-sm btn-danger' id='btnRevertEditor' onclick={{action 'revertText'}}>{{t 'eosf.components.fileEditor.revert'}}</button>
+                        <button class='btn btn-sm btn-success' id='btnSaveEditor' onclick={{action 'saveText'}}>{{t 'eosf.components.fileEditor.save'}}</button>
                     </div>
                 </div>
             </div>

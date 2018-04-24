@@ -4,11 +4,11 @@
             <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".project-nav">
-                        <span class="sr-only">Toggle navigation</span>
+                        <span class="sr-only">{{t 'eosf.projectNavbar.toggleNavigation'}}</span>
                         <span class="fa fa-bars fa-lg"></span>
                     </button>
                     <a class="navbar-brand visible-xs" href="{{node.links.html}}">
-                        {{projectLabel}} Navigation
+                        {{projectLabel}} {{t 'eosf.projectNavbar.navbar'}}
                     </a>
                 </div>
                 <div class="collapse navbar-collapse project-nav">
@@ -22,7 +22,7 @@
                                 </li>
                             {{else}}
                                 {{!-- TODO: Private project detection in OSF dashboard relies on embeds : private parent is listed in api endpoint, but the page is not visible --}}
-                                <li><a data-toggle="tooltip" title="Parent project is private" data-placement="bottom" class="eosf-project-nav-private-parent"> <i class="fa fa-level-down fa-rotate-180 text-muted"></i>  </a></li>
+                                <li><a data-toggle="tooltip" title={{t 'eosf.projectNavbar.privateParentMessage'}} data-placement="bottom" class="eosf-project-nav-private-parent"> <i class="fa fa-level-down fa-rotate-180 text-muted"></i>  </a></li>
                             {{/if}}
                         {{/if}}
                         <li>
@@ -33,35 +33,35 @@
                         {{#unless isWithdrawnRegistration}}
                             <li id="projectNavFiles">
                                 <a href="{{node.links.html}}files/">
-                                    Files
+                                    {{t 'eosf.projectNavbar.files'}}
                                 </a>
                             </li>
                             <li>
-                                <a href="{{node.links.html}}wiki/">Wiki</a>
+                                <a href="{{node.links.html}}wiki/">{{t 'eosf.projectNavbar.wiki'}}</a>
                             </li>
                             {{#if showAnalyticsTab}}
-                                <li><a href="{{node.links.html}}analytics/">Analytics</a></li>
+                                <li><a href="{{node.links.html}}analytics/">{{t 'eosf.projectNavbar.analytics'}}</a></li>
                             {{/if}}
                             {{#if showRegistrationsTab}}
-                                <li><a href="{{node.links.html}}registrations/">Registrations</a></li>
+                                <li><a href="{{node.links.html}}registrations/">{{t 'eosf.projectNavbar.registrations'}}</a></li>
                             {{/if}}
                             {{#if showForksTab}}
-                                <li><a href="{{node.links.html}}forks/">Forks</a></li>
+                                <li><a href="{{node.links.html}}forks/">{{t 'eosf.projectNavbar.forks'}}</a></li>
                             {{/if}}
 
                             {{#if showContributorsTab}}
-                                <li><a href="{{node.links.html}}contributors/">Contributors</a></li>
+                                <li><a href="{{node.links.html}}contributors/">{{t 'eosf.projectNavbar.contributors'}}</a></li>
                             {{/if}}
 
                             {{#if showSettingsTab}}
-                                <li><a href="{{node.links.html}}settings/">Settings</a></li>
+                                <li><a href="{{node.links.html}}settings/">{{t 'eosf.projectNavbar.settings'}}</a></li>
                             {{/if}}
                         {{/unless}}
                         {{#if showCommentsButton}}
                             <li id="commentsLink">
                                 {{!-- TODO: Convert usages of knockout. How can API tell us if user can comment? --}}
                                 <a href="" class="visible-xs cp-handle" data-bind="click:removeCount" data-toggle="collapse" data-target="#projectSubnav .navbar-collapse">
-                                    Comments
+                                    {{t 'eosf.projectNavbar.comments'}}
                                     <span data-bind="if: unreadComments() !== 0">
                                         <span data-bind="text: displayCount" class="badge"></span>
                                     </span>

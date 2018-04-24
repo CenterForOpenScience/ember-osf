@@ -40,6 +40,7 @@ import layout from './template';
  */
 export default Ember.Component.extend({
     layout,
+    i18n: Ember.inject.service(),
     classNames: ['drop-zone'],
     classNameBindings: ['dropZoneReady'],
     dropZoneReady: false,

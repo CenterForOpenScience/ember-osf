@@ -14,5 +14,6 @@ import config from 'ember-get-config';
  */
 export default Ember.Component.extend({
     layout,
+    i18n: Ember.inject.service(),
     isDevMode: config.OSF.backend !== 'prod'
 });

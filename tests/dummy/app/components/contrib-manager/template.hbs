@@ -1,30 +1,30 @@
-<h2> Add contributor </h2>
+<h2> {{t 'components.contribManager.addContributor'}} </h2>
 <div class="form">
     <div class="form-group">
-        <label> User ID </label> {{input value=newContributorId}}
+        <label> {{t 'components.contribManager.userID'}} </label> {{input value=newContributorId}}
     </div>
     <div class="form-group">
-        <label> Permissions: </label>
-        <div class="input-group">{{radio-button name="permission" value=READ checked=newContributorPermissions}} Read</div>
-        <div class="input-group">{{radio-button name="permission" value=WRITE checked=newContributorPermissions}} Read + Write</div>
-        <div class="input-group">{{radio-button name="permission" value=ADMIN checked=newContributorPermissions}} Administrator</div>
+        <label> {{t 'components.contribManager.permissions'}}: </label>
+        <div class="input-group">{{radio-button name="permission" value=READ checked=newContributorPermissions}} {{t 'components.contribManager.read'}}</div>
+        <div class="input-group">{{radio-button name="permission" value=WRITE checked=newContributorPermissions}} {{t 'components.contribManager.readWrite'}}</div>
+        <div class="input-group">{{radio-button name="permission" value=ADMIN checked=newContributorPermissions}} {{t 'components.contribManager.admin'}}</div>
     </div>
     <div class="form-group">
-        <label> Bibliographic: </label>
-        <div class="input-group">{{radio-button name="bibliographic" value=true checked=newContributorIsBibliographic}} Bibliographic </div>
-        <div class="input-group">{{radio-button name="bibliographic" value=false checked=newContributorIsBibliographic}} Non-Bibliographic </div>
+        <label> {{t 'components.contribManager.bibliographic'}}: </label>
+        <div class="input-group">{{radio-button name="bibliographic" value=true checked=newContributorIsBibliographic}} {{t 'components.contribManager.bibliographic'}} </div>
+        <div class="input-group">{{radio-button name="bibliographic" value=false checked=newContributorIsBibliographic}} {{t 'components.contribManager.nonBibliographic'}} </div>
     </div>
     <div class="form-group">
-        <button {{action 'addContributor' newContributorId newContributorPermissions newContributorIsBibliographic}} class="btn btn-primary">Add</button>
+        <button {{action 'addContributor' newContributorId newContributorPermissions newContributorIsBibliographic}} class="btn btn-primary">{{t 'components.contribManager.add'}}</button>
     </div>
 </div>
 
 <table class="table">
     <tr>
-        <th>ID</th>
-        <th> Name </th>
-        <th> Permissions </th>
-        <th> Bibliographic </th>
+        <th>{{t 'components.contribManager.id'}}</th>
+        <th> {{t 'components.contribManager.name'}} </th>
+        <th> {{t 'components.contribManager.permissions'}} </th>
+        <th> {{t 'components.contribManager.bibliographic'}} </th>
         <th> </th>
     </tr>
     {{#each contributors as |contrib|}}
@@ -37,18 +37,18 @@
             </td>
             <td>
                 <select onchange={{action (action 'permissionChange' contrib) value='target.value'}} >
-                    <option value=READ selected={{if (eq contrib.permission READ) true false}}> Read </option>
-                    <option value=WRITE selected={{if (eq contrib.permission WRITE) true false}}> Read + Write </option>
-                    <option value=ADMIN selected={{if (eq contrib.permission ADMIN) true false}}> Administrator </option>
+                    <option value=READ selected={{if (eq contrib.permission READ) true false}}> {{t 'components.contribManager.read'}} </option>
+                    <option value=WRITE selected={{if (eq contrib.permission WRITE) true false}}> {{t 'components.contribManager.readWrite'}} </option>
+                    <option value=ADMIN selected={{if (eq contrib.permission ADMIN) true false}}> {{t 'components.contribManager.admin'}} </option>
                 </select>
             </td>
             <td>
                 <input onchange={{action (action 'bibliographicChange' contrib) value='target.checked'}} checked={{if contrib.bibliographic true false}} type="checkbox" name="bibliographic">
             </td>
             <td>
-                <button {{action 'removeContributor' contrib}} class="btn btn-danger"> Remove </button>
+                <button {{action 'removeContributor' contrib}} class="btn btn-danger"> {{t 'components.contribManager.remove'}} </button>
             </td>
         </tr>
     {{/each}}
 </table>
-<button {{action 'updateContributors'}} class="btn btn-primary"> Save changes </button>
+<button {{action 'updateContributors'}} class="btn btn-primary"> {{t 'components.contribManager.saveChanges'}} </button>

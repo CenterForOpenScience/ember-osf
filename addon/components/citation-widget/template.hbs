@@ -1,13 +1,13 @@
 <div>
     <div id="citationList" class="m-b-md">
-        <div class="f-w-xl">APA</div>
+        <div class="f-w-xl">{{t 'eosf.components.citationWidget.apa'}}</div>
         <span> {{apa}} </span>
-        <div class="f-w-xl m-t-md">MLA</div>
+        <div class="f-w-xl m-t-md">{{t 'eosf.components.citationWidget.mla'}}</div>
         <span> {{mla}} </span>
-        <div class="f-w-xl m-t-md">Chicago</div>
+        <div class="f-w-xl m-t-md">{{t 'eosf.components.citationWidget.chicago'}}</div>
         <span> {{chicago}} </span>
     </div>
-    <p><strong>Get more citations</strong></p>
+    <p><strong>{{t 'eosf.components.citationWidget.getMoreCitations'}}</strong></p>
     {{#power-select
         search=(perform findStyles)
         selected=selectedStyle

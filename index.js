@@ -4,8 +4,6 @@
 var path = require('path');
 var config = require('config');
 var Funnel = require('broccoli-funnel');
-var mergeTrees = require('broccoli-merge-trees');
-var compileSass = require('broccoli-sass-source-maps');
 
 // Fetch a list of known backends. The user can always choose to override any of these URLs via ENV vars
 var knownBackends = require('./config/backends');
@@ -54,8 +52,10 @@ module.exports = {
         }
 
         if (BACKEND === 'local') {
-            backendUrlConfig.accessToken = eitherConfig('PERSONAL_ACCESS_TOKEN');
             backendUrlConfig.isLocal = true;
+            if (eitherConfig('PERSONAL_ACCESS_TOKEN')) {
+                backendUrlConfig.accessToken = eitherConfig('PERSONAL_ACCESS_TOKEN');
+            }
         } else if (BACKEND === 'prod') {
             console.warn("WARNING: you've specified production as a backend. Please do not use production for testing or development purposes");
         } else if (BACKEND === 'env') {
@@ -114,26 +114,6 @@ module.exports = {
         }
 
         return app;
-    },
-    treeForAddon: function(tree) {
-        this.addonTree = tree;
-        return this._super.treeForAddon.apply(this, arguments);
-    },
-    treeForVendor: function(tree) {
-        var addonStyleTree = this._treeFor('addon-styles');
-        var addonPodStyles = new Funnel(path.resolve(this.root, 'addon'), {
-            include: [
-                'components/**/*css'
-            ]
-        });
-        var addonCss = compileSass(
-            [addonStyleTree, addonPodStyles],
-            'addon.scss',
-            'assets/ember-osf.css',
-            {
-                annotation: 'EmberOsf Sass Tree'
-            });
-        return mergeTrees([tree, addonCss].filter(Boolean));
     },
     treeForPublic() {
         var assetDir = path.join(path.resolve(this.root, ''), 'addon/assets');

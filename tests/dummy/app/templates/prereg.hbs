@@ -1,19 +1,19 @@
 <div>
     <p>
-        <label>Name: {{input value=name}}</label>
+        <label>{{t 'prereg.name'}}: {{input value=name}}</label>
     </p>
     <p>
         {{#file-chooser files=files as |component|}} 
             <p>
-                Drag your preregistration files here!
+                {{t 'prereg.dragFilesHere'}}!
             </p>
             <p>
-                Or choose them, if you're not into HTML5:
+                {{t 'prereg.chooseFilesInstead'}}:
                 {{input type='file'
                     change=(action 'onFileInputChange' target=component)}}
             </p>
             {{#if files}}
-                <h4>Selected files</h4>
+                <h4>{{t 'prereg.selectedFiles'}}</h4>
                 <ul>
                     {{#each files as |file|}}
                         <li>{{file.name}}</li>
@@ -24,7 +24,7 @@
     </p>
     <p>
         <button {{action 'preregister' name files}}>
-            Submit preregistration
+            {{t 'prereg.submitPreregistration'}}
         </button>
     </p>
 </div>

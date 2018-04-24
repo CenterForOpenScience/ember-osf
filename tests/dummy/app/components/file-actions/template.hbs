@@ -2,49 +2,49 @@
     {{#unless file.isProvider}}
         <tr>
             <td>
-                Rename: 
+                {{t 'components.fileActions.rename'}}: 
             </td>
             <td>
                 {{input value=newName}}
             </td>
             <td>
                 <button {{action "rename" newName}} class="btn btn-primary">
-                    Rename
+                    {{t 'components.fileActions.rename'}}
                 </button>
             </td>
         </tr>
         <tr>
             <td colspan=2>
-                Delete:
+                {{t 'components.fileActions.delete'}}:
             </td>
             <td>
                 <button {{action "deleteFile"}} class="btn btn-primary">
-                    Delete
+                    {{t 'components.fileActions.delete'}}
                 </button>
             </td>
         </tr>
         <tr>
             <td>
-                Move to:
+                {{t 'components.fileActions.moveTo'}}:
             </td>
             <td>
-                <div>Folder ID: {{input value=moveTarget}}</div>
-                <div>Node ID (optional): {{input value=moveNode}}</div>
-                <div>New name (optional): {{input value=moveName}}</div>
+                <div>{{t 'components.fileActions.folderID'}}: {{input value=moveTarget}}</div>
+                <div>{{t 'components.fileActions.nodeID'}} ({{t 'components.fileActions.optional'}}): {{input value=moveNode}}</div>
+                <div>{{t 'components.fileActions.newName'}} ({{t 'components.fileActions.optional'}}): {{input value=moveName}}</div>
                 <div>
                     <label>
-                        Replace {{input type="checkbox" checked=moveReplace}}
+                        {{t 'components.fileActions.replace'}} {{input type="checkbox" checked=moveReplace}}
                     </label>
                 </div>
                 <div>
                     <label>
-                        Copy {{input type="checkbox" checked=moveCopy}}
+                        {{t 'components.fileActions.copy'}} {{input type="checkbox" checked=moveCopy}}
                     </label>
                 </div>
             </td>
             <td>
                 <button {{action "moveFile" moveTarget}} class="btn btn-primary">
-                    Move
+                    {{t 'components.fileActions.move'}}
                 </button>
             </td>
         </tr>
@@ -52,44 +52,44 @@
     {{#if file.isFolder}}
         <tr>
             <td>
-                New folder:
+                {{t 'components.fileActions.newFolder'}}:
             </td>
             <td>
                 {{input value=newFolderName}}
             </td>
             <td>
                 <button {{action "addSubfolder" newFolderName}} class="btn btn-primary">
-                    Add folder
+                    {{t 'components.fileActions.addFolder'}}
                 </button>
             </td>
         </tr>
         <tr>
             <td>
-                Upload files:
+                {{t 'components.fileActions.uploadFiles'}}:
             </td>
             <td>
                 {{file-chooser files=filesToUpload}}
             </td>
             <td>
                 <button {{action "uploadFiles" filesToUpload}} class="btn btn-primary">
-                    Upload
+                    {{t 'components.fileActions.upload'}}
                 </button>
             </td>
         </tr>
     {{else}}
         <tr>
             <td colspan=2>
-                Download:
+                {{t 'components.fileActions.download'}}:
             </td>
             <td>
                 <button {{action "download"}} class="btn btn-primary">
-                    Download
+                    {{t 'components.fileActions.download'}}
                 </button>
             </td>
         </tr>
         <tr>
             <td>
-                Update file contents:
+                {{t 'components.fileActions.updateFileContents'}}:
             </td>
             <td colspan=2>
                 {{file-chooser multiple=false

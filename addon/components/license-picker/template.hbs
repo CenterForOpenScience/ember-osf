@@ -5,18 +5,18 @@
         {{/if}}
         <div class="form-inline">
             <div class="form-group">
-                <label> Choose a license: <span style="color: #f99; font-weight: 400"> (required)</span></label>
+                <label> {{t 'eosf.components.licensePicker.chooseALicense'}} <span style="color: #f99; font-weight: 400"> {{t 'eosf.components.licensePicker.required'}}</span></label>
                 {{license-list licenses=licensesAvailable currentLicense=nodeLicense showCategories=showCategories select=(action 'selectLicense')}}
-                <small><a target='_blank' rel="noopener" href='http://help.osf.io/m/60347/l/611430-licensing'>License FAQ</a></small>
+                <small><a target='_blank' rel="noopener" href='http://help.osf.io/m/60347/l/611430-licensing'>{{t 'eosf.components.licensePicker.licenseFAQ'}}</a></small>
             </div>
             <br>
         </div>
         {{#if showYear}}
             <p>
                 <label>
-                    Year:
+                    {{t 'eosf.components.licensePicker.year'}}
                     {{#if yearRequired }}
-                        <span style="color: #f99; font-weight: 400"> (required)</span>
+                        <span style="color: #f99; font-weight: 400"> {{t 'eosf.components.licensePicker.required'}}</span>
                     {{/if}}
                 </label>
             </p>
@@ -26,9 +26,9 @@
             <br>
             <p>
                 <label>
-                    Copyright Holders:
+                    {{t 'eosf.components.licensePicker.copyrightHolders'}}
                     {{#if copyrightHoldersRequired}}
-                        <span style="color: #f99; font-weight: 400"> (required)</span>
+                        <span style="color: #f99; font-weight: 400"> {{t 'eosf.components.licensePicker.required'}}</span>
                     {{/if}}
                 </label>
             </p>
@@ -43,7 +43,7 @@
             <pre style='white-space: pre-wrap; word-break: normal; border:none; width:100%; text-align:justify; max-height: 300px;'>{{nodeLicenseText}}</pre>
         {{/if}}
         {{#unless autosave}}
-            <button class='btn btn-success pull-right' {{action 'save'}}>Save</button>
+            <button class='btn btn-success pull-right' {{action 'save'}}>{{t 'eosf.components.licensePicker.save'}}</button>
         {{/unless}}
     </div>
 </div>

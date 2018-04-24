@@ -15,10 +15,10 @@
                     <div class="registries-brand m-t-lg"></div>
                     {{!Discover Page Header text}}
                     {{#if discoverHeader}}
-                        <h1> {{t discoverHeader}} </h1>
+                        <h1> {{t discoverHeader documentType=themeProvider.documentType}} </h1>
                     {{/if}}
                     {{!POWERED BY SHARE}}
-                    <p class="lead">{{t 'eosf.components.discoverPage.poweredBy'}} <a href="https://share.osf.io/" id='share-logo' class="share-logo" title="SHARE" onclick={{action "click" "link" "Discover - SHARE Logo"}}></a></p>
+                    <p class="lead">{{t 'eosf.components.discoverPage.poweredBy'}} <a href="https://share.osf.io/" id='share-logo' class="share-logo" title={{t 'eosf.components.discoverPage.share'}} onclick={{action "click" "link" "Discover - SHARE Logo"}}></a></p>
                 </div>
             </div>
         </div>
@@ -28,7 +28,7 @@
             <div class="col-xs-12 col-sm-8 col-sm-offset-2">
                 {{!SEARCH BAR}}
                 <div class="input-group input-group-lg">
-                    {{input id="searchBox" value=q class="form-control" enter="search" placeholder=(t (or searchPlaceholder 'eosf.components.discoverPage.searchPlaceholder'))}}
+                    {{input id="searchBox" value=q class="form-control" enter="search" placeholder=(t (or searchPlaceholder 'eosf.components.discoverPage.searchPlaceholder') documentType=themeProvider.documentType)}}
                     <span class="input-group-btn">
                         {{!HELP BUTTON}}
                         <button class="btn btn-default" type="button" aria-label={{t 'eosf.components.discoverPage.luceneHelp'}} {{action 'toggleShowLuceneHelp'}}> <i class="fa fa-question text-muted"></i></button>
@@ -151,7 +151,7 @@
 
                 {{!ADD PREPRINT BUTTON - Preprints Only }}
                 {{#if (and (eq hostAppName 'Preprints') themeProvider.allowSubmissions)}}
-                    {{add-preprint-box}}
+                    {{add-preprint-box provider=themeProvider}}
                 {{/if}}
 
             </div>
