@@ -4,23 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.16.0] - 2018-04-24
 ### Added
-- Added `documentType` property to `preprint-service` model.
+- `documentType` property to `preprint-service` model.
 - `secondary-nav-dropdown` class to `new-navbar-auth-dropdown` component
+- `ember-component-css` to bundle all component styles in one `pod-styles.scss` and prevent styling conflicts across components.
+- `works` to preprint word translations
 
 ### Changed
-- Moved all static strings to translation files
+- static strings to be in translation files
 - `bare-strings` option in eslint to `true`
-- Bump OSF API version from 2.4 to 2.6
+- OSF API version from 2.4 to 2.6
 - ember-cli-moment-shim version to `^3.5.3` due to security issues found in `moment` versions before `2.19.3`
 - classes and element tags to match styles needed for long name truncation on navbar
-
-### Added
-- `ember-component-css` to bundle all component styles in one `pod-styles.scss` and prevent styling conflicts across components.
-
-### Added
-- `works` to preprint word translations
 
 ## [0.15.0] - 2018-03-06
 ### Added
