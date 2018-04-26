@@ -745,6 +745,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
                     this.set('type', this.get('activeFilters.types').join('OR'));
                 } else {
                     this.set('type', '');
+                    this.set('activeFilters.types', []);
                 }
             }
         },
