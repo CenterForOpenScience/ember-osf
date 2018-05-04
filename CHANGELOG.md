@@ -4,12 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-# [Unreleased]
+## [Unreleased]
 ### Added
 - `scheduled-banner` component that pulls banners (created in the OSF Admin app) from the API.
 
 ### Changed
 - Format last edited date in search result like "MMM DDD, YYYY UTC" instead of "YYYY-MM-DD (UTC)"
+
+## [0.16.2] - 2018-05-01
+### Added
+- temporary inline style to sign-up button
+
+## [0.16.1] - 2018-04-26
+### Added
+- `activeFilters.types` reset when registration provider changes
 
 ## [0.16.0] - 2018-04-24
 ### Added
