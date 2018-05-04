@@ -18,7 +18,7 @@ See the [yarn docs](https://yarnpkg.com/) for installing and using yarn. These i
 environment if you plan to modify and test this addon in isolation.
 
 * `git clone` this repository
-* `yarn install --pure-lockfile`
+* `yarn install --frozen-lockfile`
 * `bower install`
 
 ## Using this addon in another Ember app
