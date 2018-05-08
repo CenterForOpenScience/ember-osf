@@ -3689,6 +3689,12 @@ ember-faker@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ember-faker/-/ember-faker-1.1.1.tgz#90ca83edef385d8f43bed3ceaed263b59f68773c"
 
+ember-feature-flags@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/ember-feature-flags/-/ember-feature-flags-5.0.0.tgz#630d2876f5341b456db89996f35c0b109a0e27ec"
+  dependencies:
+    ember-cli-babel "^6.6.0"
+
 "ember-fetch@^2.1.0 || ^3.0.0":
   version "3.4.4"
   resolved "https://registry.yarnpkg.com/ember-fetch/-/ember-fetch-3.4.4.tgz#926ffa1c4120324b298c44e9558b458e586eb504"
