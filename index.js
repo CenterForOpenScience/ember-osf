@@ -41,7 +41,8 @@ module.exports = {
             scope: eitherConfig('OAUTH_SCOPES'),
             apiNamespace: 'v2', // URL suffix (after host)
             backend: BACKEND,
-            redirectUri: eitherConfig('REDIRECT_URI')
+            redirectUri: eitherConfig('REDIRECT_URI'),
+            institutionsLandingFlag: 'institutions_nav_bar',
         };
 
         // Fetch configuration information for the application
