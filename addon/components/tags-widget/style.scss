@@ -57,38 +57,8 @@
     right: -6px;
 }
 
-.tagsinput {
-    border:1px solid #CCC;
-    float: left;
-    padding: 5px;
-    background: #FFF;
-    padding:5px;
-    width:300px;
-    height:100px;
-    overflow-y: auto;
-}
 #node-tags_tag:focus {
     outline: 2px solid #DEF;
-}
-
-.tagsinput div {
-    float: left;
-}
-
-.tagsinput span.tag {
-    float: left;
-    padding: 5px;
-}
-
-.tagsinput input {
-    width:80px;
-    margin:0px;
-    font-family: helvetica;
-    font-size: 13px;
-    border:1px solid transparent;
-    padding:5px;
-    margin-right:5px;
-    margin-bottom:5px;
 }
 
 .tag a {
@@ -110,10 +80,4 @@
     border:1px solid transparent;
     border-radius: 2px;
     cursor: pointer;
-}
-
-/* Override insane add tag font
--------------------------------------------------- */
-.tagsinput input {
-    font-family : 'Open Sans', Helvetica, sans-serif;
 }
