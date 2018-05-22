@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Format last edited date in search result like "MMM DDD, YYYY UTC" instead of "YYYY-MM-DD (UTC)"
 - `navbar-auth-dropdown` to match current changes to the navbar
 
+### Fixed
+- Missing banner translation error
+
 ## [0.16.2] - 2018-05-01
 ### Added
 - temporary inline style to sign-up button
