@@ -1,8 +1,8 @@
 <h3> {{t 'login.pageTitle'}}</h3>
-<button class="btn btn-success" onclick={{action 'login'}}>Login</button>
+<button class="btn btn-success" onclick={{action 'login'}}>{{t 'login.loginMessage'}}</button>
 
-<h3> Sign Up</h3>
+<h3> {{t 'login.signUp'}}</h3>
 {{link-to 'Sign Up' 'signup' class="btn btn-default"}}
 
-<h3> Get Fancy</h3>
+<h3> {{t 'login.getFancy'}}</h3>
 {{oauth-popup authUrl=authUrl}}

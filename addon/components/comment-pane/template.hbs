@@ -1,4 +1,4 @@
-<h3>Comments</h3>
+<h3>{{t 'eosf.components.commenting.commentPane.comments'}}</h3>
 {{#each comments as |comment|}}
     {{comment-detail
     comment=comment
@@ -7,7 +7,7 @@
     restoreComment=attrs.restoreComment
     reportComment=attrs.reportComment}}
 {{else}}
-    (none)
+    {{t 'eosf.components.commenting.commentPane.none'}}
 {{/each}}
 
 {{comment-form addComment=attrs.addComment}}

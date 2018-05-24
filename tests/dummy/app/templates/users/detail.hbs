@@ -1,20 +1,20 @@
 {{title model.fullName}}
 {{link-to 'Back to list' 'users' class="btn btn-default"}}
 <div>
-    <h4>Data</h4>
-    <p><label>Full Name: </label> {{model.fullName}}</p>
-    <p><label>Date Registered: </label> {{moment-format model.dateRegistered}}</p>
+    <h4>{{t 'users.detail.data'}}</h4>
+    <p><label>{{t 'users.detail.fullName'}}: </label> {{model.fullName}}</p>
+    <p><label>{{t 'users.detail.dateRegistered'}}: </label> {{moment-format model.dateRegistered}}</p>
     <p>
         <a href="{{model.links.html}}" target="_blank" rel="noopener" class="btn btn-primary">
-            View on OSF
+            {{t 'users.detail.viewOnOSF'}}
         </a>
     </p>
     <hr>
-    <h4>Nodes</h4>
+    <h4>{{t 'users.detail.nodes'}}</h4>
     <table class="table">
         <tr>
-            <th>ID</th>
-            <th>Title</th>
+            <th>{{t 'users.detail.id'}}</th>
+            <th>{{t 'users.detail.title'}}</th>
         </tr>
         {{#each model.nodes as |node|}}
             <tr>
@@ -24,11 +24,11 @@
         {{/each}}
     </table>
     <hr>
-    <h4>Registrations</h4>
+    <h4>{{t 'users.detail.registrations'}}</h4>
     <table class="table">
         <tr>
-            <th>ID</th>
-            <th>Title</th>
+            <th>{{t 'users.detail.id'}}</th>
+            <th>{{t 'users.detail.title'}}</th>
         </tr>
         {{#each model.registrations as |registration|}}
             <tr>
@@ -38,7 +38,7 @@
         {{/each}}
     </table>
     <hr>
-    <h4>Affiliated Institutions</h4>
+    <h4>{{t 'users.detail.affiliatedInstitutions'}}</h4>
     <p>
         <table class="table">
             {{#each model.affiliatedInstitutions as |inst|}}

@@ -21,11 +21,12 @@ import config from 'ember-get-config';
  */
 export default Ember.Component.extend({
     layout,
+    i18n: Ember.inject.service(),
     session: Ember.inject.service(),
     currentUser: Ember.inject.service(),
 
     tagName: 'li',
-    classNames: ['dropdown'],
+    classNames: ['dropdown', 'secondary-nav-dropdown'],
     classNameBindings: ['notAuthenticated:sign-in'],
     notAuthenticated: Ember.computed.not('session.isAuthenticated'),
     redirectUrl: null,

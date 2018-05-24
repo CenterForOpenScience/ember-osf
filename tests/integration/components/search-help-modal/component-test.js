@@ -6,11 +6,13 @@ moduleForComponent('search-help-modal', 'Integration | Component | search help m
 });
 
 test('it renders', function(assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
-
-  this.render(hbs`{{search-help-modal}}`);
-
-  assert.ok(this.$().text().trim().includes('brian AND title:many'));
+    this.set('showLuceneHelp', true);
+    this.render(hbs`{{search-help-modal isOpen=showLuceneHelp}}`);
+    assert.equal(this.$('.ex-list').text().replace(/\s+/g, ' ').trim(), 'repro* brian AND title:many tags:(psychology)');
+    this.set('showLuceneHelp', false);
+    this.render(hbs`{{search-help-modal isOpen=showLuceneHelp}}`);
+    assert.equal(this.$('.ex-list').text().replace(/\s+/g, ' ').trim(), '');
 });

@@ -4,11 +4,18 @@ var EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
 module.exports = function(defaults) {
     var app = new EmberAddon(defaults, {
+      'ember-bootstrap': {
+          bootstrapVersion: 3,
+          importBootstrapFont: true,
+          importBootstrapCSS: false
+      },
       sassOptions: {
           includePaths: [
-              'tests/dummy/app/components',
+              'node_modules/bootstrap-sass/assets/stylesheets',
+              'bower_components/osf-style/sass',
               'bower_components/c3',
               'bower_components/bootstrap-daterangepicker',
+              'tests/dummy/app/components',
           ]
       },
 
@@ -26,12 +33,6 @@ module.exports = function(defaults) {
       'ember-cli-babel': {
           includePolyfill: true
       },
-
-      'ember-bootstrap': {
-        bootstrapVersion: 3,
-        importBootstrapFont: true,
-        importBootstrapCSS: false
-      }
     });
 
     app.import(path.join(app.bowerDirectory, 'dropzone/dist/basic.css'));
@@ -44,9 +45,7 @@ module.exports = function(defaults) {
     app.import(path.join(app.bowerDirectory, 'c3/c3.js'));
     app.import(path.join(app.bowerDirectory, 'd3/d3.js'));
     app.import(path.join(app.bowerDirectory, 'osf-style/css/base.css'));
-    app.import('vendor/assets/ember-osf.css');
-    app.import({
-        test: path.join(app.bowerDirectory, 'ember/ember-template-compiler.js')
-    });
+    app.import(path.join(app.bowerDirectory, 'ember/ember-template-compiler.js'));
+    app.import(path.join(app.bowerDirectory, 'jquery-mockjax/dist/jquery.mockjax.js'));
     return app.toTree();
 };

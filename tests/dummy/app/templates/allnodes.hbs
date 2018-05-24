@@ -1,7 +1,7 @@
-These are the nodes:
+{{t 'allNodes.theseAreTheNodes'}}
 <ol>
     {{#each model as |node|}}
         <li>{{link-to node.title 'nodes.detail' node}}</li>
     {{/each}}
 </ol>
-<button {{action 'getMore'}}>Load more</button>
+<button {{action 'getMore'}}>{{t 'allNodes.loadMore'}}</button>

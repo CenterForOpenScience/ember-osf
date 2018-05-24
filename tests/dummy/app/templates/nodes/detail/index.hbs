@@ -2,87 +2,87 @@
 
 {{#if model.parent}}
     {{#link-to 'nodes.detail' model.parent class="btn btn-primary"}}
-        ↑ {{model.parent.title}}
+        {{t 'nodes.detail.index.arrow'}} {{model.parent.title}}
     {{/link-to}}
 {{/if}}
 {{link-to 'Back to list' 'nodes' class="btn btn-default"}}
 <div class="panel">
-    <h2>Data</h2>
-    <p><label>Title:</label> {{model.title}}</p>
-    <p><label>Description: </label> {{model.description}}</p>
-    <p><label>Category:</label> {{model.category}}</p>
-    <p><label>Date Created:</label> {{moment-format model.dateCreated}}</p>
-    <p><label>Date Modified:</label> {{moment-format model.dateModified}}</p>
-    <p><label>Public: </label> {{model.public}} </p>
-    <p><label>Fork: </label> {{model.fork}} </p>
+    <h2>{{t 'nodes.detail.index.data'}}</h2>
+    <p><label>{{t 'nodes.detail.index.title'}}:</label> {{model.title}}</p>
+    <p><label>{{t 'nodes.detail.index.description'}}: </label> {{model.description}}</p>
+    <p><label>{{t 'nodes.detail.index.category'}}:</label> {{model.category}}</p>
+    <p><label>{{t 'nodes.detail.index.dateCreated'}}:</label> {{moment-format model.dateCreated}}</p>
+    <p><label>{{t 'nodes.detail.index.dateModified'}}:</label> {{moment-format model.dateModified}}</p>
+    <p><label>{{t 'nodes.detail.index.public'}}: </label> {{model.public}} </p>
+    <p><label>{{t 'nodes.detail.index.fork'}}: </label> {{model.fork}} </p>
     {{#if model.fork}}
-        <p><label>Forked From: </label> {{link-to model.forkedFrom.title 'nodes.detail' model.forkedFrom}}</p>
-        <p><label>Forked on:</label> {{moment-format model.forkedDate}}</p>
+        <p><label>{{t 'nodes.detail.index.forkedFrom'}}: </label> {{link-to model.forkedFrom.title 'nodes.detail' model.forkedFrom}}</p>
+        <p><label>{{t 'nodes.detail.index.forkedOn'}}:</label> {{moment-format model.forkedDate}}</p>
     {{/if}}
-    <p><label> Tags </label></p>
+    <p><label> {{t 'nodes.detail.index.tags'}} </label></p>
     {{tags-widget addATag=(action 'addATag' model) removeATag=(action 'removeATag' model) tags=model.tags}}
-    <p><label>Preprints</label></p>
+    <p><label>{{t 'nodes.detail.index.preprints'}}</label></p>
     <ul>
         {{#each model.preprints as |prep|}}
-            <li><a href='{{host}}{{prep.id}}/'>{{prep.node.title}} (Preprint)</a></li>
+            <li><a href='{{host}}{{prep.id}}/'>{{prep.node.title}} ({{t 'nodes.detail.index.preprint'}})</a></li>
         {{/each}}
     </ul>
     <hr>
 
-    <p><label> License </label></p>
+    <p><label> {{t 'nodes.detail.index.license'}} </label></p>
     {{#if licenseToggle}}
         {{license-picker showCategories=true toggleText=false currentValues=serializedLicense editLicense=(action 'editLicense') allowDismiss=true dismiss=(action 'toggleLicense')}}
     {{else}}
-        <a href='#' {{action 'toggleLicense'}}>Edit License</a>
+        <a href='#' {{action 'toggleLicense'}}>{{t 'nodes.detail.index.editLicense'}}</a>
     {{/if}}
     <hr>
     <p>
         <a href="{{model.links.html}}" target="_blank" rel="noopener" class="btn btn-primary">
-            View on OSF
+            {{t 'nodes.detail.index.viewOnOSF'}}
         </a>
     </p>
 
-    <p><button class="btn btn-danger" {{action 'deleteNode'}}>Delete this project</button></p>
+    <p><button class="btn btn-danger" {{action 'deleteNode'}}>{{t 'nodes.detail.index.deleteProject'}}</button></p>
     <hr>
     {{#if propertiesVisible}}
-        <button {{action 'toggleEditNode'}}> Close Node Settings </button>
+        <button {{action 'toggleEditNode'}}> {{t 'nodes.detail.index.closeNodeSettings'}} </button>
         <table>
             <tr>
-                <td><label> Title: </label></td>
+                <td><label> {{t 'nodes.detail.index.title'}}: </label></td>
                 <td>{{input value=editedTitle}}</td>
             </tr>
             <tr>
-                <td><label> Description: </label></td>
+                <td><label> {{t 'nodes.detail.index.description'}}: </label></td>
                 <td>{{input value=editedDescription}} </td>
             </tr>
         </table>
-        <p><label> Category: </label></p>
+        <p><label> {{t 'nodes.detail.index.category'}}: </label></p>
         <div>
-            <p>{{radio-button name="category" value="analysis" checked=editedCategory}} Analysis </p>
-            <p>{{radio-button name="category" value="communication" checked=editedCategory}} Communication </p>
-            <p>{{radio-button name="category" value="data" checked=editedCategory}} Data </p>
-            <p>{{radio-button name="category" value="hypothesis" checked=editedCategory}} Hypothesis </p>
-            <p>{{radio-button name="category" value="instrumentation" checked=editedCategory}} Instrumentation </p>
-            <p>{{radio-button name="category" value="methods and measures" checked=editedCategory}} Methods and Measures </p>
-            <p>{{radio-button name="category" value="procedure" checked=editedCategory}} Procedure </p>
-            <p>{{radio-button name="category" value="project" checked=editedCategory}} Project </p>
-            <p>{{radio-button name="category" value="software" checked=editedCategory}} Software</p>
-            <p>{{radio-button name="category" value="other" checked=editedCategory}} Other </p>
-            <p>{{radio-button name="category" value="uncategorized" checked=editedCategory}} Uncategorized </p>
+            <p>{{radio-button name="category" value="analysis" checked=editedCategory}} {{t 'nodes.detail.index.analysis'}} </p>
+            <p>{{radio-button name="category" value="communication" checked=editedCategory}} {{t 'nodes.detail.index.communication'}} </p>
+            <p>{{radio-button name="category" value="data" checked=editedCategory}} {{t 'nodes.detail.index.data'}} </p>
+            <p>{{radio-button name="category" value="hypothesis" checked=editedCategory}} {{t 'nodes.detail.index.hypothesis'}} </p>
+            <p>{{radio-button name="category" value="instrumentation" checked=editedCategory}} {{t 'nodes.detail.index.instrumentation'}} </p>
+            <p>{{radio-button name="category" value="methods and measures" checked=editedCategory}} {{t 'nodes.detail.index.methodsAndMeasures'}} </p>
+            <p>{{radio-button name="category" value="procedure" checked=editedCategory}} {{t 'nodes.detail.index.procedure'}} </p>
+            <p>{{radio-button name="category" value="project" checked=editedCategory}} {{t 'nodes.detail.index.project'}} </p>
+            <p>{{radio-button name="category" value="software" checked=editedCategory}} {{t 'nodes.detail.index.software'}}</p>
+            <p>{{radio-button name="category" value="other" checked=editedCategory}} {{t 'nodes.detail.index.other'}} </p>
+            <p>{{radio-button name="category" value="uncategorized" checked=editedCategory}} {{t 'nodes.detail.index.uncategorized'}} </p>
         </div>
-        <p><label> Privacy settings </label></p>
-        {{radio-button name="isPublic" value=1 checked=isPublic}} Public
-        {{radio-button name="isPublic" value=0 checked=isPublic}} Private
+        <p><label> {{t 'nodes.detail.index.privacySettings'}} </label></p>
+        {{radio-button name="isPublic" value=1 checked=isPublic}} {{t 'nodes.detail.index.public'}}
+        {{radio-button name="isPublic" value=0 checked=isPublic}} {{t 'nodes.detail.index.private'}}
 
-        <button disabled={{isSaving}} {{action 'updateNode' editedTitle editedDescription editedCategory isPublic}} class="btn btn-primary"> Save changes </button>
+        <button disabled={{isSaving}} {{action 'updateNode' editedTitle editedDescription editedCategory isPublic}} class="btn btn-primary"> {{t 'nodes.detail.index.saveChanges'}} </button>
     {{else}}
-        <button {{action 'toggleEditNode'}}> Edit node settings </button>
+        <button {{action 'toggleEditNode'}}> {{t 'nodes.detail.index.editNodeSettings'}} </button>
     {{/if}}
     <hr>
-    <h2>Registrations</h2>
+    <h2>{{t 'nodes.detail.index.registrations'}}</h2>
     {{link-to 'View Registrations' 'nodes.detail.registrations' model class='btn btn-primary'}}
     <hr>
-    <h2>Affiliated Institutions</h2>
+    <h2>{{t 'nodes.detail.index.affiliatedInstitutions'}}</h2>
     <p>
         <table class="table">
             {{#each model.affiliatedInstitutions as |inst|}}
@@ -91,74 +91,74 @@
                         {{inst.name}}
                     </td>
                     <td>
-                        <button {{action 'unaffiliateNode' inst}}>Unaffiliate</button>
+                        <button {{action 'unaffiliateNode' inst}}>{{t 'nodes.detail.index.unaffiliate'}}</button>
                     </td>
                 </tr>
             {{/each}}
         </table>
-        <h4>Add Institution</h4> Institution Id {{input value=instId}}
-        <button {{action 'affiliateNode' instId}} class="btn btn-primary">Affiliate Node</button>
+        <h4>{{t 'nodes.detail.index.addInstitution'}}</h4> {{t 'nodes.detail.index.institutionID'}} {{input value=instId}}
+        <button {{action 'affiliateNode' instId}} class="btn btn-primary">{{t 'nodes.detail.index.affiliateNode'}}</button>
     </p>
-    <h2>Files</h2>
+    <h2>{{t 'nodes.detail.index.files'}}</h2>
     {{link-to 'View Files' 'nodes.detail.files' model class='btn btn-primary'}}
     <hr>
 
     {{log-detail node-logs=model.logs}}
 
-    <h2>Contributors</h2> {{contrib-manager contributors=model.contributors addContributor=(action 'addContributor') removeContributor=(action 'removeContributor') editContributors=(action 'updateContributors') }}
+    <h2>{{t 'nodes.detail.index.contributors'}}</h2> {{contrib-manager contributors=model.contributors addContributor=(action 'addContributor') removeContributor=(action 'removeContributor') editContributors=(action 'updateContributors') }}
 
 
     <hr>
-    <h2>Components</h2>
+    <h2>{{t 'nodes.detail.index.components'}}</h2>
     <ul>
         {{#each model.children as |child|}}
             <li>{{link-to child.title 'nodes.detail' child}}</li>
         {{/each}}
     </ul>
-    <h3> Create component </h3>
+    <h3> {{t 'nodes.detail.index.createComponent'}} </h3>
     <div>
-        <label>Title:</label> {{input type="text" value=title placeholder="Component's title" required=true}}
-        <label>Description (optional):</label> {{input type="text" value=description placeholder="Component's description"}}
-        <p><label>Category (optional):</label></p>
-        <p>{{radio-button name="category" value="analysis" checked=category}} Analysis </p>
-        <p>{{radio-button name="category" value="communication" checked=category}} Communication </p>
-        <p>{{radio-button name="category" value="data" checked=category}} Data </p>
-        <p>{{radio-button name="category" value="hypothesis" checked=category}} Hypothesis </p>
-        <p>{{radio-button name="category" value="instrumentation" checked=category}} Instrumentation </p>
-        <p>{{radio-button name="category" value="methods and measures" checked=category}} Methods and Measures </p>
-        <p>{{radio-button name="category" value="procedure" checked=category}} Procedure </p>
-        <p>{{radio-button name="category" value="project" checked=category}} Project </p>
-        <p>{{radio-button name="category" value="software" checked=category}} Software </p>
-        <p>{{radio-button name="category" value="other" checked=category}} Other </p>
-        <p>{{radio-button name="category" value="uncategorized" checked=category}} Uncategorized </p>
-        <p><button {{action "addChild" title description category }}>Create</button></p>
+        <label>{{t 'nodes.detail.index.title'}}:</label> {{input type="text" value=title placeholder="Component's title" required=true}}
+        <label>{{t 'nodes.detail.index.description'}} ({{t 'nodes.detail.index.optional'}}):</label> {{input type="text" value=description placeholder="Component's description"}}
+        <p><label>{{t 'nodes.detail.index.category'}} ({{t 'nodes.detail.index.optional'}}):</label></p>
+        <p>{{radio-button name="category" value="analysis" checked=category}} {{t 'nodes.detail.index.analysis'}} </p>
+        <p>{{radio-button name="category" value="communication" checked=category}} {{t 'nodes.detail.index.communication'}} </p>
+        <p>{{radio-button name="category" value="data" checked=category}} {{t 'nodes.detail.index.data'}} </p>
+        <p>{{radio-button name="category" value="hypothesis" checked=category}} {{t 'nodes.detail.index.hypothesis'}} </p>
+        <p>{{radio-button name="category" value="instrumentation" checked=category}} {{t 'nodes.detail.index.instrumentation'}} </p>
+        <p>{{radio-button name="category" value="methods and measures" checked=category}} {{t 'nodes.detail.index.methodsAndMeasures'}} </p>
+        <p>{{radio-button name="category" value="procedure" checked=category}} {{t 'nodes.detail.index.procedure'}} </p>
+        <p>{{radio-button name="category" value="project" checked=category}} {{t 'nodes.detail.index.project'}} </p>
+        <p>{{radio-button name="category" value="software" checked=category}} {{t 'nodes.detail.index.software'}} </p>
+        <p>{{radio-button name="category" value="other" checked=category}} {{t 'nodes.detail.index.other'}} </p>
+        <p>{{radio-button name="category" value="uncategorized" checked=category}} {{t 'nodes.detail.index.uncategorized'}} </p>
+        <p><button {{action "addChild" title description category }}>{{t 'nodes.detail.index.create'}}</button></p>
     </div>
     <hr>
 
-    <h2>Linked Nodes (formerly node links.  After API v2.1, node links have been deprecated). </h2>
+    <h2>{{t 'nodes.detail.index.linkedNodes'}} ({{t 'nodes.detail.index.apiDeprecationMessage'}}). </h2>
     <table class="table">
         {{#if model.linkedNodes}}
             <tr>
-                <th> Id </th>
-                <th> Name </th>
+                <th> {{t 'nodes.detail.index.id'}} </th>
+                <th> {{t 'nodes.detail.index.name'}} </th>
                 <th> </th>
             </tr>
             {{#each model.linkedNodes as |node|}}
                 <tr>
                     <td> {{node.id}} </td>
                     <td> {{link-to node.title 'nodes.detail' node.id}} </td>
-                    <td> <button {{action "removeNodeLink" node}} class="btn btn-danger"> Remove </button> </td>
+                    <td> <button {{action "removeNodeLink" node}} class="btn btn-danger"> {{t 'nodes.detail.index.remove'}} </button> </td>
                 </tr>
             {{/each}}
         {{/if}}
     </table>
     <hr>
-    <h3>Add linked node relationship</h3>
-    <label> Target node id </label> {{input value=targetNodeId}}
-    <button {{action "addNodeLink" targetNodeId}} class="btn btn-primary">Add</button>
+    <h3>{{t 'nodes.detail.index.addLinkedNodeRelationship'}}</h3>
+    <label> {{t 'nodes.detail.index.targetNodeID'}} </label> {{input value=targetNodeId}}
+    <button {{action "addNodeLink" targetNodeId}} class="btn btn-primary">{{t 'nodes.detail.index.add'}}</button>
 
     <hr>
-    <h2> Forks </h2>
+    <h2> {{t 'nodes.detail.index.forks'}} </h2>
     <ul>
         {{#each model.forks as |forke|}}
             <li>{{link-to forke.title 'nodes.detail' forke}}</li>
@@ -177,7 +177,7 @@
     reportComment=(action 'reportComment')}}
 
     <br>
-    <label> Citation </label>
+    <label> {{t 'nodes.detail.index.citation'}} </label>
     <br>
     {{citation-widget node=model}}
 

@@ -19,9 +19,6 @@ export default Ember.Component.extend({
         this.set('currentPath', `${window.location.origin}${window.location.pathname}`);
     },
     actions: {
-        close() {
-            this.set('isOpen', false);
-        },
         toggleHelpModal() {
             this.toggleProperty('isOpen');
         },
