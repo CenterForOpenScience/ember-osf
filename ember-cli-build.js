@@ -13,7 +13,7 @@ module.exports = function(defaults) {
           includePaths: [
               'node_modules/bootstrap-sass/assets/stylesheets',
               'bower_components/osf-style/sass',
-              'bower_components/c3',
+              'node_modules/c3',
               'bower_components/bootstrap-daterangepicker',
               'tests/dummy/app/components',
           ]

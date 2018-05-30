@@ -20,7 +20,6 @@ import TypeaheadComponent from '../search-facet-typeahead/component';
  */
 export default TypeaheadComponent.extend({
     layout,
-    c3: Ember.inject.service(),
     i18n: Ember.inject.service(),
 
     sourcesList: Ember.computed('aggregations', function() {
