@@ -169,7 +169,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
         return (this.get('queryParams') || []).includes('tags') && (this.get('themeProvider.additionalProviders') || []).length;
     }),
     dateUpdated: Ember.computed('result.date_updated', function() {
-        return moment(this.get('result.date_updated')).utc().format('YYYY-MM-DD');
+        return moment(this.get('result.date_updated')).utc().format('ll');
     }),
     didRender() {
         MathJax.Hub.Queue(['Typeset', MathJax.Hub, this.$()[0]]);  // jshint ignore: line

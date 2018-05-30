@@ -55,7 +55,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "comment-pane",
         "current-user",
         "discover-page",
-        "donate-banner",
+        "scheduled-banner",
         "dropzone-widget",
         "elastic-query",
         "elem-id",
