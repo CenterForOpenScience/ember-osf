@@ -21,7 +21,7 @@
                         <span class="fa fa-caret-down fa-2x"></span>
                     </button>
                     <ul class="dropdown-menu service-dropdown" role="menu">
-                        {{#each osfServices as |service|}}
+                        {{#each osfAppNames as |service|}}
                             <li><a href="{{service.url}}" onclick={{action 'click' 'link' (concat 'Navbar - ' service.name)}}>{{t 'eosf.navbar.osf'}}<b>{{service.name}}</b></a></li>
                         {{/each}}
                     </ul>
