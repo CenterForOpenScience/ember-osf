@@ -36,6 +36,7 @@ const serviceLinks = {
     settings: `${osfUrl}settings/`,
     settingsNotifications: `${osfUrl}settings/notifications/`,
     reviewsHome: `${osfUrl}reviews/`,
+    institutionsHome: `${osfUrl}institutions/`,
 };
 
 
@@ -66,6 +67,10 @@ const osfServices = [
     {
         name: 'MEETINGS',
         url: serviceLinks.meetingsHome
+    },
+    {
+        name: 'INSTITUTIONS',
+        url: serviceLinks.institutionsHome
     }
 ];
 
