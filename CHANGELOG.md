@@ -5,8 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.17.0] - 2018-05-29
 ### Added
-- `scheduled-banner` component that pulls banners (created in the OSF Admin app) from the API.
+- `scheduled-banner` component that pulls banners (created in the OSF Admin app) from the API
 - Whitelist functionality for preprint discover page
 
 ### Changed
