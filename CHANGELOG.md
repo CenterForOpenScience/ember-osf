@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - `scheduled-banner` component that pulls banners (created in the OSF Admin app) from the API.
+- Whitelist functionality for preprint discover page
 
 ### Changed
 - Format last edited date in search result like "MMM DDD, YYYY UTC" instead of "YYYY-MM-DD (UTC)"
