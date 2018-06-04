@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Changed
-- Metaschema adapter to take query parameters and return different schema types
+- `metaschema` model into `registration-metaschema`
 
 ## [0.17.0] - 2018-05-29
 ### Added
