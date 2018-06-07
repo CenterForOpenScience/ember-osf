@@ -1,6 +1,6 @@
 import { moduleFor, test } from 'ember-qunit';
 
-moduleFor('adapter:metaschema', 'Unit | Adapter | metaschema', {
+moduleFor('adapter:registration-metaschema', 'Unit | Adapter | registration-metaschema', {
   // Specify the other units that are required for this test.
   // needs: ['serializer:foo']
 });
