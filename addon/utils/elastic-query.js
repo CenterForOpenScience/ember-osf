@@ -95,11 +95,28 @@ function getSplitParams(params) {
     return params;
 }
 
+/*
+ * @function getFilter
+ * @param String field Name of the field to filter
+ * @param String filter Name of the function to build the filter
+ * @param Array terms List of terms to match
+ * @param Object start Beginning of date range
+ * @param Object end End of date range
+ */
+function getFilter(field, filter, terms = [], start = null, end = null) {
+    if (filter === 'termsFilter') {
+        return termsFilter(field, getUniqueList(terms));
+    } else {
+        return dateRangeFilter(field, start, end);
+    }
+}
+
 export {
     dateRangeFilter,
     termsFilter,
     getUniqueList,
     encodeParams,
     decodeParams,
-    getSplitParams
+    getSplitParams,
+    getFilter
 };

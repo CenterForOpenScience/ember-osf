@@ -7,16 +7,18 @@
             </div>
             <div class='panel-body individual-facet'>
                 {{component facet.component
-                key=facet.key
-                options=facet
-                aggregations=aggregations
-                state=(get facetStates facet.key)
-                filter=(get facetFilters facet.key)
-                updateFilters=updateFilters
-                activeFilters=activeFilters
-                filterReplace=filterReplace
-                onChange=(action 'facetChanged')
-                data=facet.data}}
+                    key=facet.key
+                    options=facet
+                    aggregations=aggregations
+                    state=(get facetStates facet.key)
+                    filter=(get facetFilters facet.key)
+                    updateFilters=updateFilters
+                    activeFilters=activeFilters
+                    filterReplace=filterReplace
+                    updateFacet=(action 'facetChanged')
+                    states=facetStates
+                    data=facet.data
+                    loading=loading}}
             </div>
         </div>
     {{/each}}

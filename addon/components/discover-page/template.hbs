@@ -138,15 +138,15 @@
                     <h4> {{t 'eosf.components.discoverPage.refineSearch'}} </h4>
                 {{/if}}
                 {{faceted-search
-                    onChange='filtersChanged'
-                    updateParams='updateParams'
+                    updateParams=(action 'updateParams')
                     filters=facetFilters
-                    facetStates=facetStates
+                    facetStates=queryParamsState
                     facets=facets
                     aggregations=aggregations
                     activeFilters=activeFilters
                     updateFilters=(action 'updateFilters')
                     filterReplace=filterReplace
+                    loading=fetchData.isRunning
                 }}
 
                 {{!ADD PREPRINT BUTTON - Preprints Only }}
