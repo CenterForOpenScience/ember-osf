@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Changed
 - `metaschema` model into `registration-metaschema`
+- `scheduled-banner` component to display the banner image centered and adapt to different image heights.
 
 ## [0.17.0] - 2018-05-29
 ### Added
