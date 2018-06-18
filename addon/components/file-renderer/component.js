@@ -26,7 +26,7 @@ export default Ember.Component.extend({
     allowfullscreen: true,
     version: null,
     mfrUrl: Ember.computed('download', 'version', function() {
-        let download = this.get('download') + '?direct&mode=render&initialWidth=766';
+        let download = this.get('download') + '?direct&mode=render';
         if (this.get('version')) {
             download += '&version=' + this.get('version');
         }

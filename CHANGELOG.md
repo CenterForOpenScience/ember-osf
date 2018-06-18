@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `metaschema` model into `registration-metaschema`
 - `scheduled-banner` component to display the banner image centered and adapt to different image heights.
 
+### Removed
+- obsolete `initialWidth` parameter from mfrUrl
+
 ## [0.17.0] - 2018-05-29
 ### Added
 - `scheduled-banner` component that pulls banners (created in the OSF Admin app) from the API
