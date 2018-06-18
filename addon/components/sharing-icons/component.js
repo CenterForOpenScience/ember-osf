@@ -71,10 +71,10 @@ export default Ember.Component.extend(Analytics, {
      */
     facebookHref: Ember.computed(function() {
         if(!this.facebookAppId) {
-            return false;
+            return null;
         }
         const queryParams = {
-            app_id: this.facebookAppId ? this.facebookAppId : config.FB_APP_ID,
+            app_id: this.facebookAppId,
             display: 'popup',
             href: this.hyperlink,
             redirect_uri: this.hyperlink

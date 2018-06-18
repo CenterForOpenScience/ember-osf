@@ -7,12 +7,12 @@
     width: 105px;
     height: 36px;
     margin-right: 30px;
-    top: -8px;
+    top: -11px;
     text-align: center;
 }
 
-.share-popover {
-    position: relative;
+.btn-link.share-popover-button:hover, .btn-link.share-popover-button:focus{
+    text-decoration: none;
 }
 
 .share-popover:after, .share-popover:before {
