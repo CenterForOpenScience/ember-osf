@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - Sharing popover button to the discover search page
+- Whitelist functionality for preprint discover page
 
 ## [0.17.0] - 2018-05-29
 ### Added
