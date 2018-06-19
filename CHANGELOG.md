@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.17.1] -
+### Added
+- `anonymizeIp: true` in GA config to anonymize sender IP.
+
 ## [0.17.0] - 2018-05-29
 ### Added
 - `scheduled-banner` component that pulls banners (created in the OSF Admin app) from the API
