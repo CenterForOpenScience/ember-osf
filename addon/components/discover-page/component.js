@@ -81,7 +81,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
      * @property {Object} activeFilters
      * @default { providers: [], subjects: [], types: [] }
      */
-    activeFilters: { providers: [], subjects: [], types: [] },
+    activeFilters: { provider: [], subject: [], type: [] },
 
     /**
      * Name of detail route for consuming application, like "content" or "detail". Override if search result title should link to detail route.
@@ -370,14 +370,14 @@ export default Ember.Component.extend(Analytics, hostAppName, {
         Ember.$('html, body').scrollTop(this.$('.results-top').position().top);
     },
 
-    setActiveFiltersAndReload(activeFilterName, proposedFilters) {
-        // If activeFilter is not equal to proposedFilter, update the activeFilter and reload search
-        const currentFilters = this.get(activeFilterName);
-        if (Ember.compare(currentFilters, proposedFilters) !== 0) {
-            this.set(activeFilterName, proposedFilters);
-            // this.loadPage();
-        }
-    },
+    // setActiveFiltersAndReload(activeFilterName, proposedFilters) {
+    //     // If activeFilter is not equal to proposedFilter, update the activeFilter and reload search
+    //     const currentFilters = this.get(activeFilterName);
+    //     if (Ember.compare(currentFilters, proposedFilters) !== 0) {
+    //         this.set(activeFilterName, proposedFilters);
+    //         // this.loadPage();
+    //     }
+    // },
 
     trackDebouncedSearch() {
         // For use in tracking debounced search of registries in Keen and GA
@@ -455,7 +455,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
         this._super(...arguments);
         // this.set('facetFilters', Ember.Object.create());
 
-        // this.get('getTypes').perform();
+        this.get('getTypes').perform();
         this.get('getCounts').perform();
     },
 });

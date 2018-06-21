@@ -36,7 +36,8 @@
                         value=q
                         class="form-control"
                         enter="search"
-                        placeholder=(t (or searchPlaceholder 'eosf.components.discoverPage.searchPlaceholder') documentType=themeProvider.documentType)}}
+                        placeholder=(t (or searchPlaceholder 'eosf.components.discoverPage.searchPlaceholder') documentType=themeProvider.documentType)
+                    }}
                     <span class="input-group-btn">
                         {{!HELP BUTTON}}
                         <button class="btn btn-default" type="button" aria-label={{t 'eosf.components.discoverPage.luceneHelp'}} {{action 'toggleShowLuceneHelp'}}>
@@ -96,7 +97,8 @@
                     <ul class="dropdown-menu dropdown-menu-right" id="sortByOptionList" aria-labelledby="sortBy">
                         {{#each sortOptions as |sortChoice|}}
                             <li>
-                                <button class="btn btn-link listOption"{{action "selectSortOption" sortChoice.sortBy}}>     {{sortChoice.display}}
+                                <button class="btn btn-link listOption"{{action "selectSortOption" sortChoice.sortBy}}>
+                                    {{sortChoice.display}}
                                 </button>
                             </li>
                         {{/each}}
@@ -123,13 +125,14 @@
                                 <span class="pull-right">
                                     {{!CLEAR FILTERS BUTTON}}
                                     <button type="button" class="btn btn-default btn-sm" {{action "clearFilters"}}>
-                                        {{t 'eosf.components.discoverPage.activeFilters.button'}} {{fa-icon "remove"}}
+                                        {{t 'eosf.components.discoverPage.activeFilters.button'}}
+                                        {{fa-icon "remove"}}
                                     </button>
                                 </span>
                             </div>
                         </div>
                         <div id="activeFiltersList">
-                            {{#each activeFilters.providers as |filter|}}
+                            {{#each activeFilters.provider as |filter|}}
                                 <span class='preprint-filter provider-filter'>
                                     {{filter-replace filter filterReplace}}
                                     {{#unless theme.isProvider}}
@@ -138,13 +141,13 @@
                                             {{fa-icon 'times-circle'
                                                 ariaHidden=false
                                                 tagName='button'
-                                                click=(action 'updateFilters' 'providers' filter)
+                                                click=(action 'updateFilters' 'provider' filter)
                                             }}
                                         </span>
                                     {{/unless}}
                                 </span>
                             {{/each}}
-                            {{#each activeFilters.subjects as |filter|}}
+                            {{#each activeFilters.subject as |filter|}}
                                 {{!ACTIVE SUBJECT FILTERS}}
                                 <span class='preprint-filter subject-filter'>
                                     {{custom-taxonomy-filter filter}}
@@ -152,7 +155,7 @@
                                         {{fa-icon 'times-circle'
                                             ariaHidden=false
                                             tagName='button'
-                                            click=(action 'updateFilters' 'subjects' filter)
+                                            click=(action 'updateFilters' 'subject' filter)
                                         }}
                                     </span>
                                 </span>
@@ -162,7 +165,12 @@
                                 <span class='preprint-filter type-filter'>
                                     {{filter}}
                                     <span class='removeActiveFilter' aria-label={{t 'eosf.components.discoverPage.removeRegistrationType'}}>
-                                        {{fa-icon 'times-circle' ariaHidden=false tagName='button' click=(action 'updateFilters' 'types' filter)}}
+                                        {{fa-icon
+                                            'times-circle'
+                                            ariaHidden=false
+                                            tagName='button'
+                                            click=(action 'updateFilters' 'types' filter)
+                                        }}
                                     </span>
                                 </span>
                             {{/each}}
@@ -174,17 +182,19 @@
                 {{#if showActiveFilters}}
                     <h4>{{t 'eosf.components.discoverPage.refineSearch'}}</h4>
                 {{/if}}
-                {{faceted-search
-                    updateParams=(action 'updateParams')
-                    filters=facetFilters
-                    facetStates=queryParamsState
-                    facets=facets
-                    aggregations=aggregations
-                    activeFilters=activeFilters
-                    updateFilters=(action 'updateFilters')
-                    filterReplace=filterReplace
-                    loading=loading
-                }}
+                {{#if getTypes.isIdle}}
+                    {{faceted-search
+                        updateParams=(action 'updateParams')
+                        filters=facetFilters
+                        facetStates=queryParamsState
+                        facets=facets
+                        aggregations=aggregations
+                        activeFilters=activeFilters
+                        updateFilters=(action 'updateFilters')
+                        filterReplace=filterReplace
+                        loading=loading
+                    }}
+                {{/if}}
 
                 {{!ADD PREPRINT BUTTON - Preprints Only }}
                 {{#if (and (eq hostAppName 'Preprints') themeProvider.allowSubmissions)}}
@@ -195,7 +205,6 @@
 
             {{!RIGHT PANEL - SEARCH RESULTS}}
             <div class="col-sm-8 col-xs-12">
-                {{log loading}}
                 {{#if loading}}
                     <div class="text-center p-v-md" aria-label={{t 'eosf.components.discoverPage.searchLoading'}}>
                         {{fa-icon 'spinner' ariaHidden=false pulse=true size=3}}
@@ -213,11 +222,16 @@
                                     updateFilters=(action 'updateFilters')
                                     result=result
                                     currentService=currentService
-                                    domainRedirectProviders=domainRedirectProviders}}
+                                    domainRedirectProviders=domainRedirectProviders
+                                }}
                             {{/each}}
                         </div>
                         <div class="pull-right text-right">
-                            {{pagination-pager count=clampedPages current=page change=(action 'selectPage')}}
+                            {{pagination-pager
+                                count=clampedPages
+                                current=page
+                                change=(action 'selectPage')
+                            }}
                         </div>
                     {{else if queryError}}
                         {{query-syntax message=queryError}}
