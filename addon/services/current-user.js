@@ -1,5 +1,7 @@
 import Ember from 'ember';
-
+import { task } from 'ember-concurrency';
+import config from 'ember-get-config';
+import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
 /**
  * @module ember-osf
  * @submodule services
@@ -14,6 +16,47 @@ import Ember from 'ember';
 export default Ember.Service.extend({
     store: Ember.inject.service(),
     session: Ember.inject.service(),
+    features: Ember.inject.service(),
+
+    waffleLoaded: false,
+
+    init() {
+        this._super(...arguments);
+        this.get('setWaffle').perform();
+
+        const session = this.get('session');
+
+        session.on('authenticationSucceeded', this, () => this.get('setWaffle').perform());
+        session.on('invalidationSucceeded', this, () => this.get('setWaffle').perform());
+    },
+
+    setWaffle: task(function* () {
+        const url = `${config.OSF.apiUrl}/v2/_waffle/`;
+        const { data } = yield authenticatedAJAX({
+            url,
+            method: 'GET',
+        });
+        for (const flag of data) {
+            const { name, active } = flag.attributes;
+            if (active) {
+                this.get('features').enable(name);
+            } else {
+                this.get('features').disable(name);
+            }
+        }
+        this.set('waffleLoaded', true);
+    }).restartable(),
+
+    getWaffle: task(function* (flag) {
+        const setWaffle = this.get('setWaffle');
+
+        if (setWaffle.isRunning) {
+            yield setWaffle.last;
+        } else if (!this.get('waffleLoaded')) {
+            yield setWaffle.perform();
+        }
+        return this.get('features').isEnabled(flag);
+    }),
 
     /**
      * If logged in, return the ID of the current user, else return null.

@@ -1,22 +1,35 @@
-import { moduleFor, test } from 'ember-qunit';
+import Ember from 'ember';
+import { moduleFor } from 'ember-qunit';
+import test from 'ember-sinon-qunit/test-support/test';
+import { task } from 'ember-concurrency';
+import CurrentUser from 'ember-osf/services/current-user';
+
+const currentUserStub = CurrentUser.extend({
+    setWaffle: task(function* () {
+        // do_nothing
+    }),
+})
 
 moduleFor('service:current-user', 'Unit | Service | current user', {
-  // Specify the other units that are required for this test.
-  //   needs: ['service:session']
+    needs: ['service:session', 'service:features'],
+    beforeEach() {
+        this.register('service:current-user', currentUserStub);
+    }
 });
 
 test('currentUser sessionKey computed property', function(assert) {
-    let service = this.subject();
-    let currentUserId = 'npugv';
+    Ember.run(() => {
+        let service = this.subject();
+        let currentUserId = 'npugv';
 
-    let hash = service.hashCode(currentUserId);
+        let hash = service.hashCode(currentUserId);
+        service.set('currentUserId', currentUserId);
+        assert.ok(service.get('sessionKey'));
+        assert.strictEqual(service.get('sessionKey'), hash.toString());
+        assert.ok(!Number.isNaN(+service.get('sessionKey')));
 
-    service.set('currentUserId', currentUserId);
-    assert.ok(service.get('sessionKey'));
-    assert.strictEqual(service.get('sessionKey'), hash.toString());
-    assert.ok(!Number.isNaN(+service.get('sessionKey')));
-
-    service.set('currentUserId', null);
-    assert.ok(service.get('sessionKey'));
-    assert.ok(Number.isNaN(+service.get('sessionKey')));
+        service.set('currentUserId', null);
+        assert.ok(service.get('sessionKey'));
+        assert.ok(Number.isNaN(+service.get('sessionKey')));
+    });
 });
