@@ -25,11 +25,15 @@ import AnalyticsMixin from 'ember-osf/mixins/analytics';
  */
 export default Ember.Component.extend(hostAppName, AnalyticsMixin, {
     layout,
-    osfServices,
     session: Ember.inject.service(),
     i18n: Ember.inject.service(),
+    features: Ember.inject.service(),
     serviceLinks: serviceLinks,
     host: config.OSF.url,
+
+    osfAppNames: Ember.computed(`features.${Ember.String.camelize(config.OSF.institutionsLandingFlag)}`, function() {
+        return osfServices.filter(each => !each.flag || this.get('features').isEnabled(each.flag));
+    }),
     currentService: Ember.computed('hostAppName', function() { // Pulls current service name from consuming service's config file
         let appName = this.get('hostAppName') || 'Home';
         if (appName === 'Dummy App') {
