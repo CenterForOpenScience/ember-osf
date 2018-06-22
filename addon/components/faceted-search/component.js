@@ -13,7 +13,6 @@ import layout from './template';
  *      facetStates=queryParamsState
  *      facets=facets
  *      aggregations=aggregations
- *      activeFilters=activeFilters
  *      updateFilters=(action 'updateFilters')
  *      filterReplace=filterReplace
  *      loading=fetchData.isRunning
