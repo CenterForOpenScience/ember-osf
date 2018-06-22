@@ -13,7 +13,6 @@ module.exports = function(defaults) {
           includePaths: [
               'node_modules/bootstrap-sass/assets/stylesheets',
               'bower_components/osf-style/sass',
-              'node_modules/c3',
               'bower_components/bootstrap-daterangepicker',
               'tests/dummy/app/components',
           ]
@@ -42,8 +41,6 @@ module.exports = function(defaults) {
     app.import(path.join(app.bowerDirectory, 'lodash/lodash.js'));
 
     app.import(path.join(app.bowerDirectory, 'jquery.tagsinput/src/jquery.tagsinput.js'));
-    app.import(path.join(app.bowerDirectory, 'c3/c3.js'));
-    app.import(path.join(app.bowerDirectory, 'd3/d3.js'));
     app.import(path.join(app.bowerDirectory, 'osf-style/css/base.css'));
     app.import(path.join(app.bowerDirectory, 'ember/ember-template-compiler.js'));
     app.import(path.join(app.bowerDirectory, 'jquery-mockjax/dist/jquery.mockjax.js'));
