@@ -46,7 +46,7 @@
             {{#if subjects}}
                 <div class="m-t-sm">
                     {{#each subjects as |subject|}}
-                        <span role="button" class="subject-preview pointer" onclick={{action updateFilters 'subjects' (or subject.value subject.text)}}>
+                        <span role="button" class="subject-preview pointer" onclick={{action updateFilters 'subject' (or subject.value subject.text)}}>
                             {{subject.text}}
                         </span>
                     {{/each}}
@@ -112,7 +112,7 @@
                 {{!Tags}}
                 {{#each tags as |tag|}}
                     {{#if tagsInQueryParams}}
-                        <button class="filter btn-link" {{action 'addFilter' 'tags' tag}}>
+                        <button class="filter btn-link" {{action 'updateFilters' 'tags' tag}}>
                             <span class="badge">{{fix-special-char tag}}</span>
                         </button>
                     {{else}}

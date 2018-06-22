@@ -34,23 +34,32 @@ import { getUniqueList, getSplitParams, encodeParams } from '../../utils/elastic
  * Sample usage:
  * ```handlebars
  *{{discover-page
- *    activeFilters=activeFilters
+ *    consumingService=consumingService
+ *    searchPlaceholder=searchPlaceholder
  *    detailRoute=detailRoute
  *    discoverHeader=discoverHeader
- *    facets=facets
- *    fetchedProviders=model
+ *    themeProvider=themeProvider
+ *
+ *    sortOptions=sortOptions
  *    filterMap=filterMap
  *    filterReplace=filterReplace
  *    lockedParams=lockedParams
- *    page=page
- *    provider=provider
- *    q=q
- *    searchPlaceholder=searchPlaceholder
+ *    whiteListedProviders=whiteListedProviders
+ *    fetchedProviders=externalProviders
+ *
+ *    facets=facets
+ *    results=results
+ *    numberOfResults=numberOfResults
+ *    aggregations=aggregations
+ *    queryParamsState=queryParamsState
+ *
  *    showActiveFilters=showActiveFilters
- *    sortOptions=sortOptions
- *    subject=subject
- *    themeProvider=themeProvider
-* }}
+ *    loading=fetchData.isRunning
+ *
+ *    clearFilters=(action 'clearFilters')
+ *    search=(action 'search')
+ * }}
+ * {{!-- plus any query params (e.g. provider=provider) --}}
  * ```
  * @class discover-page
  */
@@ -72,16 +81,12 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     currentUser: Ember.inject.service('current-user'),
     theme: Ember.inject.service(),
     i18n: Ember.inject.service(),
+
     classNames: ['discover-page'],
+
     // ************************************************************
     // PROPERTIES
     // ************************************************************
-    /**
-     * Primary filters for service - currently setup for PREPRINTS and REGISTRIES. Ember-SHARE's equivalent is facetStates.
-     * @property {Object} activeFilters
-     * @default { providers: [], subjects: [], types: [] }
-     */
-    activeFilters: { provider: [], subject: [], type: [] },
 
     /**
      * Name of detail route for consuming application, like "content" or "detail". Override if search result title should link to detail route.
@@ -119,11 +124,6 @@ export default Ember.Component.extend(Analytics, hostAppName, {
      */
     lockedParams: {},
 
-    numberOfResults: 0,
-    numberOfSources: 0,
-
-
-    results: Ember.ArrayProxy.create({ content: [] }), // Results from SHARE query
     /**
      * For PREPRINTS and REGISTRIES.  Displays activeFilters box above search facets.
      * @property {boolean} showActiveFilters
@@ -131,6 +131,11 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     showActiveFilters: false,
 
     showLuceneHelp: false,
+
+    numberOfResults: 0,
+    numberOfSources: 0,
+
+    results: Ember.ArrayProxy.create({ content: [] }), // Results from SHARE query
 
     /**
      * Sort dropdown options - Array of dictionaries.  Each dictionary should have display and sortBy keys.
@@ -189,34 +194,11 @@ export default Ember.Component.extend(Analytics, hostAppName, {
         return totalPages < maxPages ? totalPages : maxPages;
     }),
 
-    // providerChanged: Ember.on('init', Ember.observer('provider', function() {
-    //     // For PREPRINTS and REGISTRIES - watches provider query param for changes and modifies activeFilters
-    //     let filter = this.get('provider');
-    //     if (!filter || filter === 'true' || typeof filter === 'object') return;
-    //     if (!this.get('theme.isProvider')) {
-    //         this.setActiveFiltersAndReload('activeFilters.providers', filter.split('OR'));
-    //     }
-    // })),
-
     searchUrl: Ember.computed(function() {
         // Pulls SHARE search url from config file.
         const preference = this.get('currentUser.sessionKey');
         return `${config.OSF.shareSearchUrl}?preference=${preference}`;
     }),
-
-    // subjectChanged: Ember.on('init', Ember.observer('subject', function() {
-    //     // For PREPRINTS - watches subject query param for changes and modifies activeFilters
-    //     let filter = this.get('subject');
-    //     if (!filter || filter === 'true' || typeof filter === 'object') return;
-    //     this.setActiveFiltersAndReload('activeFilters.subjects', filter.split('OR'));
-    // })),
-
-    // typeChanged: Ember.on('init', Ember.observer('type', function() {
-    //     // For REGISTRIES - watches type query param for changes and modifies activeFilters
-    //     let filter = this.get('type');
-    //     if (!filter || filter === 'true' || typeof filter === 'object') return;
-    //     this.setActiveFiltersAndReload('activeFilters.types', filter.split('OR'));
-    // })),
 
     totalPages: Ember.computed('numberOfResults', 'size', function() {
         // Total pages of search results
@@ -224,99 +206,40 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     }),
 
     actions: {
-        // addFilter(type, filterValue) {
-        //     // Ember-SHARE action. Used to add filter from the search results.
-        //     let currentValue = getSplitParams(this.get(type)) || [];
-        //     let newValue = getUniqueList([filterValue].concat(currentValue));
-        //     this.set(type, encodeParams(newValue));
-        // },
+        clearFilters() {
+            this.get('metrics').trackEvent({
+                category: 'button',
+                action: 'click',
+                label: 'Discover - Clear Filters',
+            });
 
-        // clearFilters() {
-        //     // Clears facetFilters for SHARE-type facets
-        //     this.set('facetFilters', Ember.Object.create());
-        //     filterQueryParams.forEach(param => {
-        //         this.set(param, '');
-        //     });
-        //     this.set('start', '');
-        //     this.set('end', '');
-        //     this.set('sort', '');
-        //     this.search();
-        //     // For PREPRINTS and REGISTRIES. Clears activeFilters.
-        //     let restoreActiveFilters = {};
-        //     Object.keys(this.get('activeFilters')).forEach(filter => {
-        //         if (filter === 'providers') {
-        //             restoreActiveFilters[filter] = this.get('theme.isProvider') ? this.get('activeFilters.providers') : [];
-        //         } else {
-        //             restoreActiveFilters[filter] = [];
-        //         }
+            this.get('clearFilters')();
+        },
 
-        //     });
-        //     this.set('activeFilters', restoreActiveFilters);
-        //     Ember.get(this, 'metrics')
-        //         .trackEvent({
-        //             category: 'button',
-        //             action: 'click',
-        //             label: 'Discover - Clear Filters'
-        //         });
-        // },
+        search() {
+            this.get('metrics').trackEvent({
+                category: 'button',
+                action: 'click',
+                label: 'Discover - Search',
+                extra: this.get('q'),
+            });
 
-        // filtersChanged() {
-        //     // Ember SHARE action. Fired in faceted-search component when Ember-SHARE facets are modified.
-        //     // this.search();
-        // },
-
-        // modifyRegistrationType(filter, query) {
-        //     // For REGISTRIES only - modifies "type" query param if "provider" query param changes.
-        //     // Registries are unusual, since the OSF Registration Type facet depends upon the Providers facet
-        //     if (filter === 'provider' && this.get('hostAppName') === 'Registries') {
-        //         if (query.length === 1 && query[0] === 'OSF') {
-        //             this.set('type', this.get('activeFilters.types').join('OR'));
-        //         } else {
-        //             this.set('type', '');
-        //             this.set('activeFilters.types', []);
-        //         }
-        //     }
-        // },
-
-        // removeFilter(type, filterValue) {
-        //     // Ember-SHARE action.  Could be used to remove filters in Active Filters box (when Ember-SHARE and PREPRINTS/REGISTRIES code here is integrated)
-        //     let currentValue = getSplitParams(this.get(type)) || [];
-        //     let index = currentValue.indexOf(filterValue);
-        //     if (index > -1) {
-        //         currentValue.splice(index, 1);
-        //     }
-        //     currentValue = currentValue.length ? encodeParams(currentValue) : '';
-        //     this.set(type, currentValue);
-        //     this.get('facetFilters');
-        // },
-
-        // search() {
-        //     // Only want to track search here when button clicked. Keypress search tracking is debounced in trackSearch
-        //     Ember.get(this, 'metrics')
-        //         .trackEvent({
-        //             category: 'button',
-        //             action: 'click',
-        //             label: 'Discover - Search',
-        //             extra: this.get('q')
-        //         });
-
-        //     this.search();
-        // },
+            this.get('search')();
+        },
 
         selectSortOption(option) {
             // Runs when sort option changed in dropdown
+            this.get('metrics').trackEvent({
+                category: 'dropdown',
+                action: 'select',
+                label: `Sort by: ${option || 'relevance'}`
+            });
+
             this.set('sort', option);
-            Ember.get(this, 'metrics')
-                .trackEvent({
-                    category: 'dropdown',
-                    action: 'select',
-                    label: `Sort by: ${option || 'relevance'}`
-                });
-            // this.search();
         },
 
         selectPage(pageNumber) {
-            // Adapted from PREPRINTS for pagination. When paginating, sets page and scrolls to top of results.
+            // When paginating, sets page and scrolls to top of results.
             this.set('page', pageNumber);
             if (scroll) {
                 this.scrollToResults();
@@ -328,37 +251,27 @@ export default Ember.Component.extend(Analytics, hostAppName, {
         },
 
         updateFilters(filterType, item) {
-            console.log('called updateFilters');
-            // For PREPRINTS and REGISTRIES.  Modifies activeFilters.
-            // item = typeof item === 'object' ? item.text : item;
-            // const filters = Ember.$.extend(true, Ember.A(), this.get(`activeFilters.${filterType}`));
-            // const hasItem = filters.includes(item);
-            // const action = hasItem ? 'remove' : 'push';
-            // filters[`${action}Object`](item);
-            // this.set(`activeFilters.${filterType}`, filters);
-            // this.send('updateQueryParams', filterType, filters);
+            item = typeof item === 'object' ? item.text : item;
+            const currentState = this.get(`queryParamsState.${filterType}.value`);
+            const hasItem = currentState.includes(item);
 
-            // Ember.get(this, 'metrics')
-            //     .trackEvent({
-            //         category: 'filter',
-            //         action: hasItem ? 'remove' : 'add',
-            //         label: `Discover - ${filterType} ${item}`
-            //     });
+            if (hasItem) {
+                this.set(filterType, currentState.filter(x => !item.includes(x)));
+            } else {
+                currentState.pushObject(item)
+                this.set(filterType, currentState);
+            }
+
+            this.get('metrics').trackEvent({
+                category: 'filter',
+                action: hasItem ? 'remove' : 'add',
+                label: `Discover - ${filterType} ${item}`
+            });
         },
 
         updateParams(key, value) {
-            // LiveData -- Updates query params in URL.
             this.set(key, value);
         },
-
-        // updateQueryParams(pluralFilter, query) {
-        //     // For PREPRINTS and REGISTRIES.  Used to modify query parameters in URL when activeFilters change.
-        //     const filter = Ember.String.singularize(pluralFilter);
-        //     if (pluralFilter !== 'providers' || !this.get('theme.isProvider')) {
-        //         this.set(`${filter}`, query.join('OR'));
-        //         this.send('modifyRegistrationType', filter, query);
-        //     }
-        // }
     },
 
     // ************************************************************
@@ -368,26 +281,6 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     scrollToResults() {
         // Scrolls to top of search results
         Ember.$('html, body').scrollTop(this.$('.results-top').position().top);
-    },
-
-    // setActiveFiltersAndReload(activeFilterName, proposedFilters) {
-    //     // If activeFilter is not equal to proposedFilter, update the activeFilter and reload search
-    //     const currentFilters = this.get(activeFilterName);
-    //     if (Ember.compare(currentFilters, proposedFilters) !== 0) {
-    //         this.set(activeFilterName, proposedFilters);
-    //         // this.loadPage();
-    //     }
-    // },
-
-    trackDebouncedSearch() {
-        // For use in tracking debounced search of registries in Keen and GA
-        Ember.get(this, 'metrics')
-            .trackEvent({
-                category: 'input',
-                action: 'onkeyup',
-                label: 'Discover - Search',
-                extra: this.get('q')
-            });
     },
 
     isTypeFacet(obj) {
@@ -450,10 +343,9 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     }),
 
     init() {
-        //TODO Sort initial results on date_modified
+        // TODO Sort initial results on date_modified
         // Runs on initial render.
         this._super(...arguments);
-        // this.set('facetFilters', Ember.Object.create());
 
         this.get('getTypes').perform();
         this.get('getCounts').perform();

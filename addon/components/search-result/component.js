@@ -14,7 +14,7 @@ import moment from 'moment';
  *      detailRoute=detailRoute
  *      addFilter='addFilter'
  *      result=result
- *      queryParams=queryParams
+ *      queryParamsState=queryParamsState
  *      filterReplace=filterReplace
  *      updateFilters=(action 'updateFilters')
  * }}
@@ -31,9 +31,9 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     i18n: Ember.inject.service(),
     /**
      * Array of query params being used in consuming app
-     * @property {Array} queryParams
+     * @property {Array} queryParamsState
      */
-    queryParams: null,
+    queryParamsState: null,
     /**
      * Search result from SHARE
      * @property {Object} result
@@ -165,8 +165,8 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     }),
     // Determines whether tags in search results should be links - preprints and registries are not using tag filter right now.
     // NEW: Preprint providers with additionalProviders are using tags, however.
-    tagsInQueryParams: Ember.computed('queryParams', 'themeProvider', function() {
-        return (this.get('queryParams') || []).includes('tags') && (this.get('themeProvider.additionalProviders') || []).length;
+    tagsInQueryParams: Ember.computed('queryParamsState', 'themeProvider', function() {
+        return this.get('queryParamsState.tags') && (this.get('themeProvider.additionalProviders') || []).length;
     }),
     dateUpdated: Ember.computed('result.date_updated', function() {
         return moment(this.get('result.date_updated')).utc().format('ll');

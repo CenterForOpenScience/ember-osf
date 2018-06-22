@@ -36,7 +36,10 @@
                         value=q
                         class="form-control"
                         enter="search"
-                        placeholder=(t (or searchPlaceholder 'eosf.components.discoverPage.searchPlaceholder') documentType=themeProvider.documentType)
+                        placeholder=(t
+                            (or searchPlaceholder 'eosf.components.discoverPage.searchPlaceholder')
+                            documentType=themeProvider.documentType
+                        )
                     }}
                     <span class="input-group-btn">
                         {{!HELP BUTTON}}
@@ -44,7 +47,7 @@
                             <i class="fa fa-question text-muted"></i>
                         </button>
                         {{!SEARCH BUTTON}}
-                        <button class="btn btn-default" type="button" {{action "search"}}>
+                        <button class="btn btn-default" type="button" {{action 'search'}}>
                             {{t 'eosf.components.discoverPage.search'}}
                         </button>
                     </span>
@@ -89,16 +92,17 @@
             <div class="col-sm-6 pull-right">
                 <div class="dropdown pull-right">
                     {{!SORT BY BUTTON}}
-                    <button class="btn btn-default dropdown-toggle" type="button" id="sortBy" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="true">
-                        {{t 'eosf.components.discoverPage.sortBy'}}: {{sort-option-display sortOptions sort}}
-                        <span class="caret" aria-label={{t 'eosf.components.discoverPage.sortSearchResults'}}></span>
+                    <button class="btn btn-default dropdown-toggle" type="button" id="sortBy" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            {{t 'eosf.components.discoverPage.sortBy'}}: {{sort-option-display sortOptions sort}}
+                        <span class="caret"
+                            aria-label={{t 'eosf.components.discoverPage.sortSearchResults'}}>
+                        </span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-right" id="sortByOptionList" aria-labelledby="sortBy">
                         {{#each sortOptions as |sortChoice|}}
                             <li>
-                                <button class="btn btn-link listOption"{{action "selectSortOption" sortChoice.sortBy}}>
-                                    {{sortChoice.display}}
+                                <button class="btn btn-link listOption" {{action "selectSortOption" sortChoice.sortBy}}>
+                                        {{sortChoice.display}}
                                 </button>
                             </li>
                         {{/each}}
@@ -132,7 +136,7 @@
                             </div>
                         </div>
                         <div id="activeFiltersList">
-                            {{#each activeFilters.provider as |filter|}}
+                            {{#each queryParamsState.provider.value as |filter|}}
                                 <span class='preprint-filter provider-filter'>
                                     {{filter-replace filter filterReplace}}
                                     {{#unless theme.isProvider}}
@@ -147,7 +151,7 @@
                                     {{/unless}}
                                 </span>
                             {{/each}}
-                            {{#each activeFilters.subject as |filter|}}
+                            {{#each queryParamsState.subject.value as |filter|}}
                                 {{!ACTIVE SUBJECT FILTERS}}
                                 <span class='preprint-filter subject-filter'>
                                     {{custom-taxonomy-filter filter}}
@@ -161,7 +165,7 @@
                                 </span>
                             {{/each}}
                             {{!ACTIVE TYPE FILTERS}}
-                            {{#each activeFilters.types as |filter|}}
+                            {{#each queryParamsState.type.value as |filter|}}
                                 <span class='preprint-filter type-filter'>
                                     {{filter}}
                                     <span class='removeActiveFilter' aria-label={{t 'eosf.components.discoverPage.removeRegistrationType'}}>
@@ -169,7 +173,7 @@
                                             'times-circle'
                                             ariaHidden=false
                                             tagName='button'
-                                            click=(action 'updateFilters' 'types' filter)
+                                            click=(action 'updateFilters' 'type' filter)
                                         }}
                                     </span>
                                 </span>
@@ -189,7 +193,6 @@
                         facetStates=queryParamsState
                         facets=facets
                         aggregations=aggregations
-                        activeFilters=activeFilters
                         updateFilters=(action 'updateFilters')
                         filterReplace=filterReplace
                         loading=loading
@@ -215,7 +218,7 @@
                             {{#each results as |result|}}
                                 {{search-result
                                     themeProvider=themeProvider
-                                    queryParams=queryParams
+                                    queryParamsState=queryParamsState
                                     detailRoute=detailRoute
                                     filterReplace=filterReplace
                                     addFilter='addFilter'
