@@ -8,7 +8,6 @@ import { task, timeout } from 'ember-concurrency';
 
 import Analytics from '../../mixins/analytics';
 import hostAppName from '../../mixins/host-app-name';
-import { getUniqueList, getSplitParams, encodeParams } from '../../utils/elastic-query';
 
 /**
  * @module ember-osf
