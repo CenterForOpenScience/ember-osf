@@ -1,10 +1,8 @@
-/* eslint-disable no-unused-vars */
 import Ember from 'ember';
 import layout from './template';
 
 import config from 'ember-get-config';
-import moment from 'moment';
-import { task, timeout } from 'ember-concurrency';
+import { task } from 'ember-concurrency';
 
 import Analytics from '../../mixins/analytics';
 import hostAppName from '../../mixins/host-app-name';
@@ -64,16 +62,6 @@ import hostAppName from '../../mixins/host-app-name';
  */
 
 const MAX_SOURCES = 500;
-const DEBOUNCE_MS = 250;
-
-const elasticAggregations = {
-    sources: {
-        terms: {
-            field: 'sources',
-            size: MAX_SOURCES,
-        },
-    },
-};
 
 export default Ember.Component.extend(Analytics, hostAppName, {
     layout,
@@ -191,12 +179,6 @@ export default Ember.Component.extend(Analytics, hostAppName, {
         let totalPages = this.get('totalPages');
 
         return totalPages < maxPages ? totalPages : maxPages;
-    }),
-
-    searchUrl: Ember.computed(function() {
-        // Pulls SHARE search url from config file.
-        const preference = this.get('currentUser.sessionKey');
-        return `${config.OSF.shareSearchUrl}?preference=${preference}`;
     }),
 
     totalPages: Ember.computed('numberOfResults', 'size', function() {
@@ -317,6 +299,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     },
 
     getCounts: task(function* () {
+        const searchUrl = `${config.OSF.shareSearchUrl}?preference=${this.get('currentUser.sessionKey')}`;
         const queryBody = JSON.stringify({
             size: 0,
             aggregations: {
@@ -329,7 +312,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
             },
         });
         const response = yield Ember.$.ajax({
-            url: this.get('searchUrl'),
+            url: searchUrl,
             crossDomain: true,
             type: 'POST',
             contentType: 'application/json',
