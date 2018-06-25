@@ -113,8 +113,8 @@
 
     </div>
 </div>
-<div class="search-main p-v-xl">
-    <div class="container">
+<div class="search-main results-top">
+    <div class="container p-v-xl">
         <div class="row search-results-section">
             {{!LEFT PANEL - SEARCH FACETS}}
             <div class="col-sm-4 col-xs-12 search-sidebar">
@@ -216,20 +216,18 @@
                     </div>
                 {{else}}
                     {{#if numberOfResults}}
-                        <div class="results-top">
-                            {{#each results as |result|}}
-                                {{search-result
-                                    themeProvider=themeProvider
-                                    queryParamsState=queryParamsState
-                                    detailRoute=detailRoute
-                                    filterReplace=filterReplace
-                                    updateFilters=(action 'updateFilters')
-                                    result=result
-                                    currentService=currentService
-                                    domainRedirectProviders=domainRedirectProviders
-                                }}
-                            {{/each}}
-                        </div>
+                        {{#each results as |result|}}
+                            {{search-result
+                                themeProvider=themeProvider
+                                queryParamsState=queryParamsState
+                                detailRoute=detailRoute
+                                filterReplace=filterReplace
+                                updateFilters=(action 'updateFilters')
+                                result=result
+                                currentService=currentService
+                                domainRedirectProviders=domainRedirectProviders
+                            }}
+                        {{/each}}
                         <div class="pull-right text-right">
                             {{pagination-pager
                                 count=clampedPages
@@ -241,13 +239,19 @@
                         {{query-syntax message=queryError}}
                     {{else if shareDown}}
                         <div class="text-muted text-center">
-                            <p class="lead ">{{t 'eosf.components.discoverPage.shareUnavailable'}}</p>
-                            <p> {{t 'eosf.components.discoverPage.shareUnavailableDescription'}}</p>
+                            <p class="lead ">
+                                {{t 'eosf.components.discoverPage.shareUnavailable'}}
+                            </p>
+                            <p>
+                                {{t 'eosf.components.discoverPage.shareUnavailableDescription'}}
+                            </p>
                         </div>
                     {{else}}
                         {{!NO RESULTS FOUND}}
                         <div class="text-muted text-center">
-                            <p class="lead ">{{t "eosf.components.discoverPage.noResultsFound"}}</p>
+                            <p class="lead ">
+                                {{t "eosf.components.discoverPage.noResultsFound"}}
+                            </p>
                             <p>{{t 'eosf.components.discoverPage.broadenSearch'}}</p>
                         </div>
                     {{/if}}
