@@ -210,7 +210,9 @@
             <div class="col-sm-8 col-xs-12">
                 {{#if loading}}
                     <div class="text-center p-v-md" aria-label={{t 'eosf.components.discoverPage.searchLoading'}}>
-                        {{fa-icon 'spinner' ariaHidden=false pulse=true size=3}}
+                        <div class="ball-scale ball-dark">
+                            <div></div>
+                        </div>
                     </div>
                 {{else}}
                     {{#if numberOfResults}}
