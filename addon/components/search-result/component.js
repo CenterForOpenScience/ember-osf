@@ -51,6 +51,9 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     */
     themeProvider: null,
     domainRedirectProviders: [],
+    lineage: Ember.computed('result', function() {
+        return this.get('result.lists.lineage');
+    }),
     footerIcon: Ember.computed('showBody', function() {
         return this.get('showBody') ? 'caret-up' : 'caret-down';
     }),
