@@ -1,35 +1,9 @@
 import Ember from 'ember';
 import layout from './template';
 import config from 'ember-get-config';
-import trunc from 'npm:unicode-byte-truncate'
+import trunc from 'npm:unicode-byte-truncate';
 import Analytics from '../../mixins/analytics';
 
-function queryStringify(queryParams) {
-    const query = [];
-
-    // TODO set up ember to transpile Object.entries
-    for (const param in queryParams) {
-        let value = queryParams[param];
-        let maxLength = null;
-
-        if (Array.isArray(value)) {
-            maxLength = value[1];
-            value = value[0];
-        }
-
-        if (!value)
-            continue;
-
-        value = encodeURIComponent(value);
-
-        if (maxLength)
-            value = value.slice(0, maxLength);
-
-        query.push(`${param}=${value}`);
-    }
-
-    return query.join('&');
-}
 
 /**
  * @module ember-osf
@@ -51,8 +25,8 @@ function queryStringify(queryParams) {
  */
 export default Ember.Component.extend(Analytics, {
     layout,
-    host: config.OSF.url,
     i18n: Ember.inject.service(),
+    host: config.OSF.url,
     title: null,
     description: null,
     hyperlink: null,
@@ -64,7 +38,7 @@ export default Ember.Component.extend(Analytics, {
             text: this.title,
             via: 'OSFramework'
         };
-        return `https://twitter.com/intent/tweet?${queryStringify(queryParams)}`;
+        return `https://twitter.com/intent/tweet?${Ember.$.param(queryParams)}`;
     }),
     /* TODO: Update this with new Facebook Share Dialog, but an App ID is required
      * https://developers.facebook.com/docs/sharing/reference/share-dialog
@@ -79,31 +53,31 @@ export default Ember.Component.extend(Analytics, {
             href: this.hyperlink,
             redirect_uri: this.hyperlink
         };
-        return `https://www.facebook.com/dialog/share?${queryStringify(queryParams)}`;
+        return `https://www.facebook.com/dialog/share?${Ember.$.param(queryParams)}`;
     }),
     // https://developer.linkedin.com/docs/share-on-linkedin
     linkedinHref: Ember.computed(function() {
+        const url = encodeURIComponent(this.hyperlink || '').slice(0, 1024);
         const queryParams = {
-            url: [this.hyperlink, 1024],          // required
-            mini: ['true', 4],                          // required
-            title: trunc(this.title ? this.title : '', 200),      // optional
-            summary: trunc(this.description ? this.description : '', 256), // optional
-            source: ['Open Science Framework', 200]     // optional
+            mini: 'true',                                 // required, maxLength: 4
+            title: trunc(this.title || '', 200),          // optional
+            summary: trunc(this.description || '', 256),  // optional
+            source: 'OSF',                                // optional, maxLength: 200
         };
-        return `https://www.linkedin.com/shareArticle?${queryStringify(queryParams)}`;
+        return `https://www.linkedin.com/shareArticle?url=${url}&${Ember.$.param(queryParams)}`;
     }),
     emailHref: Ember.computed(function() {
         const queryParams = {
             subject: this.title,
-            body: this.hyperlink
+            body: this.hyperlink,
         };
-        return `mailto:?${queryStringify(queryParams)}`;
+        return `mailto:?${Ember.$.param(queryParams)}`;
     }),
 
     actions: {
         shareLink(href, category, action, label, extra) {
             const metrics = Ember.get(this, 'metrics');
-    
+
             // TODO submit PR to ember-metrics for a trackSocial function for Google Analytics. For now, we'll use trackEvent.
             metrics.trackEvent({
                 category,
@@ -111,10 +85,10 @@ export default Ember.Component.extend(Analytics, {
                 label,
                 extra
             });
-    
+
             if (label.includes('email'))
                return;
-    
+
             window.open(href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,width=600,height=400');
             return false;
         },

@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { moduleFor, test } from 'ember-qunit';
-import trunc from 'npm:unicode-byte-truncate'
+import trunc from 'npm:unicode-byte-truncate';
 
 moduleFor('component:sharing-icons', 'Unit | Component | sharing-icons', {
     needs: [
@@ -38,7 +38,7 @@ test('twitterHref computed property', function (assert) {
 
         assert.strictEqual(
             ctrl.get('twitterHref'),
-            `https://twitter.com/intent/tweet?url=${location}&text=test%20title&via=OSFramework`
+            `https://twitter.com/intent/tweet?url=${location}&text=test+title&via=OSFramework`
         );
     });
 });
@@ -66,7 +66,7 @@ test('facebookHref computed property - does not have facebookAppId returns null'
 
     Ember.run(() => {
         ctrl.set('hyperlink', window.location.href);
-        ctrl.set('title', 'test title')
+        ctrl.set('title', 'test title');
 
         assert.strictEqual(ctrl.get('facebookHref'), null);
     });
@@ -84,7 +84,7 @@ test('linkedinHref computed property', function (assert) {
 
         assert.strictEqual(
             ctrl.get('linkedinHref'),
-            `https://www.linkedin.com/shareArticle?url=${location}&mini=true&title=test%20title&summary=test%20description&source=Open%20Science%20Framework`
+            `https://www.linkedin.com/shareArticle?url=${location}&mini=true&title=test+title&summary=test+description&source=OSF`
         );
     });
 });
@@ -127,7 +127,7 @@ test('emailHref computed property', function (assert) {
 
         assert.strictEqual(
             ctrl.get('emailHref'),
-            `mailto:?subject=test%20title&body=${location}`
+            `mailto:?subject=test+title&body=${location}`
         );
     });
 });

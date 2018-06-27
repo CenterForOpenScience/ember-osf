@@ -21,8 +21,9 @@ import Analytics from '../../mixins/analytics';
  */
 export default Ember.Component.extend(Analytics, {
     layout,
-    host: config.OSF.url,
     i18n: Ember.inject.service(),
+
+    host: config.OSF.url,
     isOpen: false,
     showSearch: false,
     title: null,
