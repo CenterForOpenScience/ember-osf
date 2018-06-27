@@ -23,8 +23,7 @@ import hostAppName from '../../mixins/host-app-name';
  *
  *  How to Use:
  *  Pass in custom text like searchPlaceholder.  The facets property will enable you to customize the filters
- *  on the left-hand side of the discover page. Sort options are the sort dropdown options.  The lockedParams are the
- *  query parameters that are always locked in your application. Each query parameter must be passed in individually,
+ *  on the left-hand side of the discover page. Sort options are the sort dropdown options. Each query parameter must be passed in individually,
  *  so they are reflected in the URL.  Logo and custom colors must be placed in the consuming application's stylesheet. Individual components
  *  can additionally be overridden in your application.
  *
@@ -38,9 +37,7 @@ import hostAppName from '../../mixins/host-app-name';
  *    themeProvider=themeProvider
  *
  *    sortOptions=sortOptions
- *    filterMap=filterMap
  *    filterReplace=filterReplace
- *    lockedParams=lockedParams
  *    whiteListedProviders=whiteListedProviders
  *    fetchedProviders=externalProviders
  *
@@ -55,6 +52,11 @@ import hostAppName from '../../mixins/host-app-name';
  *
  *    clearFilters=(action 'clearFilters')
  *    search=(action 'search')
+ *
+ *    size=size
+ *    page=page
+ *    q=q
+ *    sort=sort
  * }}
  * {{!-- plus any query params (e.g. provider=provider) --}}
  * ```
@@ -76,6 +78,34 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     // ************************************************************
 
     /**
+     * Size query parameter.  If "size" is one of your query params, it must be passed to the component so it can be updated.
+     * @property {Integer} size
+     * @default 10
+     */
+    size: 10,
+
+    /**
+     * Sort query parameter.  If "sort" is one of your query params, it must be passed to the component so it can be updated.
+     * @property {String} sort
+     * @default ''
+     */
+    sort: '',
+
+    /**
+     * Page query parameter.  If "page" is one of your query params, it must be passed to the component so it can be updated.
+     * @property {Integer} page
+     * @default 1
+     */
+    page: 1,
+
+    /**
+     * q query parameter.  If "q" is one of your query params, it must be passed to the component so it can be updated.
+     * @property {String} q
+     * @default ''
+     */
+    q: '',
+
+    /**
      * Name of detail route for consuming application, like "content" or "detail". Override if search result title should link to detail route.
      * @property {String} detailRoute
      */
@@ -95,21 +125,10 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     fetchedProviders: null,
 
     /**
-     * For PREPRINTS and REGISTRIES. A mapping of activeFilters to facet names expected by SHARE. Ex. {'providers': 'sources'}
-     * @property {Object} filterMap
-     */
-    filterMap: {},
-    /**
      * For PREPRINTS and REGISTRIES. A mapping of filter names for front-end display. Ex. {OSF: 'OSF Preprints'}.
      * @property {Object} filterReplace
      */
     filterReplace: {},
-
-    /**
-     * Locked portions of search query that user cannot change.  Example: {'sources': 'PubMed Central'} will make PMC a locked source.
-     * @property {Object} lockedParams
-     */
-    lockedParams: {},
 
     /**
      * For PREPRINTS and REGISTRIES.  Displays activeFilters box above search facets.
