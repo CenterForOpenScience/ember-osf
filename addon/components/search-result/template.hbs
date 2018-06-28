@@ -5,18 +5,26 @@
             {{!Title}}
             <h4>
                 {{#if (and detailRoute osfID)}}
-                    {{#link-to detailRoute osfID invokeAction=(action 'click' 'link' 'Discover - Result Title' osfID)}}{{fix-special-char result.title}}{{/link-to}}
+                    {{#link-to detailRoute osfID invokeAction=(action 'click' 'link' 'Discover - Result Title' osfID)}}
+                        {{fix-special-char result.title}}
+                    {{/link-to}}
                 {{else if (and detailRoute (eq hostAppName 'Retraction Watch'))}}
-                    {{#link-to detailRoute result.id}}{{fix-special-char result.title}}{{/link-to}}
+                    {{#link-to detailRoute result.id}}
+                        {{fix-special-char result.title}}
+                    {{/link-to}}
                 {{else}}
                     {{#if hyperlink}}
-                        <a href='{{hyperlink}}' onclick={{action 'click' 'link' (concat 'Discover - Result Title: ' hyperlink) result.id}}>{{fix-special-char result.title}}</a>
+                        <a href='{{hyperlink}}' onclick={{action 'click' 'link' (concat 'Discover - Result Title: ' hyperlink) result.id}}>
+                            {{fix-special-char result.title}}
+                        </a>
                     {{else}}
                         <span>{{fix-special-char result.title}}</span>
                     {{/if}}
                 {{/if}}
                 {{#if result.withdrawn}}
-                    <span class='label label-default'> {{t 'eosf.components.searchResult.withdrawn'}} </span>
+                    <span class='label label-default'>
+                        {{t 'eosf.components.searchResult.withdrawn'}}
+                    </span>
                 {{/if}}
             </h4>
 
@@ -46,7 +54,7 @@
             {{#if subjects}}
                 <div class="m-t-sm">
                     {{#each subjects as |subject|}}
-                        <span role="button" class="subject-preview pointer" onclick={{action updateFilters 'subjects' (or subject.value subject.text)}}>
+                        <span role="button" class="subject-preview pointer" onclick={{action updateFilters 'subject' (or subject.value subject.text)}}>
                             {{subject.text}}
                         </span>
                     {{/each}}
@@ -96,7 +104,11 @@
                 {{#if result.hyperLinks}}
                     <ul class="preprints-block-list m-t-sm">
                         {{#each result.hyperLinks as |link|}}
-                            <li><a href='{{link.url}}' onclick={{action 'click' 'link' (concat 'Discover - Result Hyperlink: ' link.url) result.id}}>{{link.url}}</a></li>
+                            <li>
+                                <a href='{{link.url}}' onclick={{action 'click' 'link' (concat 'Discover - Result Hyperlink: ' link.url) result.id}}>
+                                    {{link.url}}
+                                </a>
+                            </li>
                         {{/each}}
                     </ul>
                 {{/if}}
@@ -112,7 +124,7 @@
                 {{!Tags}}
                 {{#each tags as |tag|}}
                     {{#if tagsInQueryParams}}
-                        <button class="filter btn-link" {{action 'addFilter' 'tags' tag}}>
+                        <button class="filter btn-link" {{action updateFilters 'tags' tag}}>
                             <span class="badge">{{fix-special-char tag}}</span>
                         </button>
                     {{else}}
