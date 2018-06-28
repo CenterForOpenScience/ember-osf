@@ -7,15 +7,15 @@ import layout from './template';
  *
  * ```handlebars
  * {{faceted-search
- *      onChange='filtersChanged'
- *      updateParams='updateParams'
+ *      onChange='facetChanged'
+ *      updateParams=(action 'updateParams')
  *      filters=facetFilters
- *      facetStates=facetStates
+ *      facetStates=queryParamsState
  *      facets=facets
  *      aggregations=aggregations
- *      activeFilters=activeFilters
  *      updateFilters=(action 'updateFilters')
  *      filterReplace=filterReplace
+ *      loading=fetchData.isRunning
  * }}
  * ```
  * @class faceted-search
@@ -23,12 +23,9 @@ import layout from './template';
 export default Ember.Component.extend({
     layout,
     actions: {
-        facetChanged(key, facet, value) {
-            let filters = this.get('filters');
-            filters.set(key, facet);
-            this.sendAction('updateParams', key, value);
-            this.sendAction('onChange', filters);
-        }
+        facetChanged(paramName, value) {
+            this.get('updateParams')(paramName, value);
+        },
     }
 });
 
