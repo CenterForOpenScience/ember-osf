@@ -198,21 +198,6 @@
                         loading=loading
                     }}
                 {{/if}}
-<<<<<<< HEAD
-                {{faceted-search
-                    onChange='filtersChanged'
-                    updateParams='updateParams'
-                    filters=facetFilters
-                    facetStates=facetStates
-                    facets=facets
-                    aggregations=aggregations
-                    activeFilters=activeFilters
-                    whiteListedProviders=whiteListedProviders
-                    updateFilters=(action 'updateFilters')
-                    filterReplace=filterReplace
-                }}
-=======
->>>>>>> c17913bb6b2abe0bcda4dedd74352efd0655543e
 
                 {{!ADD PREPRINT BUTTON - Preprints Only }}
                 {{#if (and (eq hostAppName 'Preprints') themeProvider.allowSubmissions)}}
