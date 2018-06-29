@@ -46,18 +46,6 @@ export default Ember.Component.extend(Analytics, {
         return { 'background-color': `${bgColor}` };
     }),
 
-    defaultStyle: computedStyle('bgProperty'),
-    bgProperty: Ember.computed('defaultPhoto', function() {
-        const defaultPhotoUrl = this.get('defaultPhoto');
-        return { 'background': `url(${defaultPhotoUrl}) no-repeat center top` };
-    }),
-
-    mobileStyle: computedStyle('mobileBgProperty'),
-    mobileBgProperty: Ember.computed('mobilePhoto', function() {
-        const mobilePhotoUrl = this.get('mobilePhoto');
-        return { 'background': `url(${mobilePhotoUrl}) no-repeat center top`};
-    }),
-
     init() {
         this._super(...arguments);
 

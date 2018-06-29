@@ -8,6 +8,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Whitelist functionality for preprint discover page
 
+### Removed
+- obsolete `initialWidth` parameter from mfrUrl
+
+## [0.18.0] - 2018-06-21
+### Added
+- Waffled Institution menu item
+
+### Changed
+- `metaschema` model into `registration-metaschema`
+- `scheduled-banner` component to display the banner image centered and adapt to different image heights.
+
+## [0.17.1] - 2018-06-20
+### Added
+- `anonymizeIp: true` in GA config to anonymize sender IP.
+
 ## [0.17.0] - 2018-05-29
 ### Added
 - `scheduled-banner` component that pulls banners (created in the OSF Admin app) from the API
