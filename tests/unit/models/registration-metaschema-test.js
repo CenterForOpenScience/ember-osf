@@ -1,8 +1,8 @@
 import { moduleForModel, test } from 'ember-qunit';
 
-moduleForModel('metaschema', 'Unit | Model | metaschema', {
+moduleForModel('registration-metaschema', 'Unit | Model | registration-metaschema', {
   // Specify the other units that are required for this test.
-  needs: ['model:metaschema']
+  needs: ['model:registration-metaschema']
 });
 
 test('it exists', function(assert) {
