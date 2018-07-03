@@ -1,0 +1,20 @@
+#cookie-banner {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    background-color: #263947;
+    color: white;
+    display: flex;
+    align-items: center;
+    z-index: 1;
+    .flex-item {
+        margin: 10px;
+    }
+    .flex-item-left {
+        margin-left: 10%;
+        margin-right: 75px;
+    }
+    .flex-item-right {
+        margin-right: 10%;
+    }
+}
