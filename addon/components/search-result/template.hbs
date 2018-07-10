@@ -2,6 +2,13 @@
 <div class="search-result p-sm">
     <div class="row">
         <div class="col-xs-12">
+            {{!ShareResult}}
+            {{sharing-icons-popover
+                title=result.title
+                description=result.description
+                hyperlink=hyperlink
+                metricsExtra=result.id
+            }}
             {{!Title}}
             <h4>
                 {{#each lineage as |ancestor|}}
