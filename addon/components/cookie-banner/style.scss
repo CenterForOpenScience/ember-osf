@@ -1,4 +1,4 @@
-#cookie-banner {
+& {
     width: 100%;
     position: fixed;
     bottom: 0;
@@ -6,15 +6,19 @@
     color: white;
     display: flex;
     align-items: center;
-    z-index: 1;
-    .flex-item {
-        margin: 10px;
+    z-index: 10;
+    a {
+        color: white;
+        text-decoration: underline;
+        &:hover,
+        &:visited {
+            color: #ADCCE6;
+        }
     }
     .flex-item-left {
-        margin-left: 10%;
-        margin-right: 75px;
+        margin: 10px 75px 10px 10%;
     }
     .flex-item-right {
-        margin-right: 10%;
+        margin: 10px 10% 10px 10px;
     }
 }
