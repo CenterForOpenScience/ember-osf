@@ -52,4 +52,14 @@
     .toggleShowResult.btn:focus {
         outline: none;
     }
+    .ancestor {
+        font-size: .8em;
+        a {
+            display: inline-block;
+            max-width: 300px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+    }
 }

@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - `cookie-banner` component
+- Sharing popover button to the discover search page
+- Whitelist functionality for preprint discover page
 
 ### Removed
 - obsolete `initialWidth` parameter from mfrUrl
@@ -18,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - `metaschema` model into `registration-metaschema`
 - `scheduled-banner` component to display the banner image centered and adapt to different image heights.
+- Discover page components to include parent lineage if available
 
 ## [0.17.1] - 2018-06-20
 ### Added
