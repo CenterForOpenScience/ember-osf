@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Removed
 - obsolete `initialWidth` parameter from mfrUrl
 
+### Changed
+- FAQ link in `license-picker` component to point to update help guide article.
+
 ## [0.18.0] - 2018-06-21
 ### Added
 - Waffled Institution menu item
