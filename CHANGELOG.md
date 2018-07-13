@@ -7,9 +7,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - Added `dateWithdrawn` and `withdrawalJustification` to `preprint` model
+
+### Removed
+- obsolete `initialWidth` parameter from mfrUrl
+
+## [0.18.0] - 2018-06-21
+### Added
+- Waffled Institution menu item
+
 ### Changed
 - `metaschema` model into `registration-metaschema`
 - `scheduled-banner` component to display the banner image centered and adapt to different image heights.
+
+## [0.17.1] - 2018-06-20
+### Added
+- `anonymizeIp: true` in GA config to anonymize sender IP.
 
 ## [0.17.0] - 2018-05-29
 ### Added
