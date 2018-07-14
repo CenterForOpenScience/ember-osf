@@ -15,6 +15,7 @@ let result = Ember.Object.extend({
     subjects: [({ text: 'psychology' })],
     providers: [{ name: 'test provider1' }, { name: 'test provider2' }],
     infoLinks: [{ type: 'url', uri: 'test URI1' }, { type: 'test', uri: 'testURI2' }],
+    id: 'test',
     title: 'Tests to live by',
     date: '04-19-2017',
     dateModified: '04-20-2017',
@@ -45,6 +46,8 @@ test('it renders', function(assert) {
 
     // Checks that the title renders without a link (no hyperlink or osfID in the object)
     assert.ok(this.$('span:contains(Tests to live by)').length);
+    // Share icons do not show up if there is no hyperlink
+    assert.equal(this.$('.share-popover').length, 0);
 
     assert.ok(this.$('.comma-list').text(), 'Todd Frak ...');
     assert.ok(this.$('em:contains(2017-04-19)'));
@@ -88,5 +91,7 @@ test('render title with hyperlink', function(assert) {
     render(this, 'result=preprint hyperlink="http://osf.io"');
 
     assert.equal(this.$('a:contains(Tests to live by)').attr('href'), 'http://osf.io');
+    // Share icons do show up if there is a hyperlink
+    assert.ok(this.$('.share-popover').length);
 
 });
