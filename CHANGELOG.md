@@ -13,7 +13,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Removed
 - obsolete `initialWidth` parameter from mfrUrl
->>>>>>> a9beda72e48a29ffd3ee87a82e945036fc003bf2
 
 ## [0.18.0] - 2018-06-21
 ### Added
