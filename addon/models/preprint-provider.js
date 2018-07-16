@@ -17,6 +17,7 @@ export default OsfModel.extend({
     subjectsAcceptable: DS.attr(),
     footerLinks: DS.attr('string'),
     allowSubmissions: DS.attr('boolean'),
+    allowCommenting: DS.attr('boolean'),
     additionalProviders: DS.attr(),
     shareSource: DS.attr('string'),
     preprintWord: DS.attr('string'),
