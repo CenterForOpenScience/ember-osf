@@ -7,13 +7,8 @@ export default OsfAdapter.extend({
         if (requestType === 'query') {
             const providerId = query.providerId;
             const preprintId = query.preprintId;
-            if (preprintId) {
-                url = `${this.host}/${config.OSF.apiNamespace}/providers/preprints/${providerId}/withdraw_requests/?filter[target]=${preprintId}`;
-                delete query.preprintId;
-            } else {
-                url = `${this.host}/${config.OSF.apiNamespace}/providers/preprints/${query.providerId}/withdraw_requests/`;
-                delete query.providerId;
-            }
+            url = `${this.host}/${config.OSF.apiNamespace}/providers/preprints/${query.providerId}/withdraw_requests/`;
+            delete query.providerId;
         }
         return url;
     },
