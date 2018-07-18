@@ -252,7 +252,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
 
         updateFilters(filterType, item) {
             item = typeof item === 'object' ? item.text : item;
-            const currentState = this.get(`queryParamsState.${filterType}.value`);
+            const currentState = this.get(`queryParamsState.${filterType}.value`).slice(0);
             const hasItem = currentState.includes(item);
 
             if (hasItem) {
