@@ -16,9 +16,21 @@
         }
     }
     .flex-item-left {
-        margin: 10px 75px 10px 10%;
+        margin: 10px 20px 10px 10%;
+        @media (max-width: 500px) {
+            margin: 5px 10px;
+            padding-bottom: 10px;
+        }
     }
     .flex-item-right {
-        margin: 10px 10% 10px 10px;
+        margin: 10px 10% 10px 20px;
+        @media (max-width: 500px) {
+            text-align: center;
+            margin: 10px 0px;
+        }
+    }
+    @media (max-width: 500px) {
+        padding: 10px 0px;
+        display: block;
     }
 }
