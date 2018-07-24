@@ -280,12 +280,12 @@ export default {
                 loginToOSF: 'Login to OSF'
             },
             licensePicker: {
-                chooseALicense: 'Choose a license:',
-                copyrightHolders: 'Copyright Holders:',
+                chooseALicense: 'Choose a license',
+                copyrightHolders: 'Copyright Holders',
                 licenseFAQ: 'License FAQ',
                 required: '(required)',
                 save: 'Save',
-                year: 'Year:'
+                year: 'Year'
             },
             maintenanceBanner: {
                 and: 'and',

@@ -5,45 +5,67 @@
         {{/if}}
         <div class="form-inline">
             <div class="form-group">
-                <label> {{t 'eosf.components.licensePicker.chooseALicense'}} <span style="color: #f99; font-weight: 400"> {{t 'eosf.components.licensePicker.required'}}</span></label>
-                {{license-list licenses=licensesAvailable currentLicense=nodeLicense showCategories=showCategories select=(action 'selectLicense')}}
-                <small><a target='_blank' rel="noopener" href='http://help.osf.io/m/60347/l/611430-licensing'>{{t 'eosf.components.licensePicker.licenseFAQ'}}</a></small>
+                <label>
+                    {{t 'eosf.components.licensePicker.chooseALicense'}}
+                    <span style="color: #f99; font-weight: 400">
+                        {{t 'eosf.components.licensePicker.required'}}
+                    </span>
+                </label>
+                {{license-list
+                    licenses=licensesAvailable
+                    currentLicense=nodeLicense
+                    showCategories=showCategories
+                    select=(action 'selectLicense')
+                }}
+                <small>
+                    <a target='_blank' rel="noopener" href='http://help.osf.io/m/60347/l/611430-licensing'>
+                        {{t 'eosf.components.licensePicker.licenseFAQ'}}
+                    </a>
+                </small>
+                {{#if toggleText}}
+                    <small class="pull-right">
+                        <a href="#" {{action 'toggleFullText'}}>
+                            {{if showText 'Hide full text' 'Show full text'}}
+                        </a>
+                    </small>
+                {{/if}}
             </div>
             <br>
         </div>
         {{#if showYear}}
-            <p>
-                <label>
-                    {{t 'eosf.components.licensePicker.year'}}
-                    {{#if yearRequired }}
-                        <span style="color: #f99; font-weight: 400"> {{t 'eosf.components.licensePicker.required'}}</span>
-                    {{/if}}
-                </label>
-            </p>
+            <label>
+                {{t 'eosf.components.licensePicker.year'}}
+                {{#if yearRequired }}
+                    <span style="color: #f99; font-weight: 400">
+                        {{t 'eosf.components.licensePicker.required'}}
+                    </span>
+                {{/if}}
+            </label>
             {{input class='form-control' value=year enter=(action 'sendSubmit')}}
         {{/if}}
         {{#if showCopyrightHolders}}
             <br>
-            <p>
-                <label>
-                    {{t 'eosf.components.licensePicker.copyrightHolders'}}
-                    {{#if copyrightHoldersRequired}}
-                        <span style="color: #f99; font-weight: 400"> {{t 'eosf.components.licensePicker.required'}}</span>
-                    {{/if}}
-                </label>
-            </p>
+            <label>
+                {{t 'eosf.components.licensePicker.copyrightHolders'}}
+                {{#if copyrightHoldersRequired}}
+                    <span style="color: #f99; font-weight: 400">
+                        {{t 'eosf.components.licensePicker.required'}}
+                    </span>
+                {{/if}}
+            </label>
             {{input class='form-control' value=copyrightHolders enter=(action 'sendSubmit')}}
         {{/if}}
         <br>
-        {{#if toggleText}}
-            <a href="#" {{action 'toggleFullText'}}>{{if showText 'Hide full text' 'Show full text'}}</a>
-        {{/if}}
 
         {{#if (or showText (not toggleText))}}
-            <pre style='white-space: pre-wrap; word-break: normal; border:none; width:100%; text-align:justify; max-height: 300px;'>{{nodeLicenseText}}</pre>
+            <pre style='white-space: pre-wrap; word-break: normal; border:none; width:100%; text-align:justify; max-height: 300px;'>
+                {{nodeLicenseText}}
+            </pre>
         {{/if}}
         {{#unless autosave}}
-            <button class='btn btn-success pull-right' {{action 'save'}}>{{t 'eosf.components.licensePicker.save'}}</button>
+            <button class='btn btn-success pull-right' {{action 'save'}}>
+                {{t 'eosf.components.licensePicker.save'}}
+            </button>
         {{/unless}}
     </div>
 </div>
