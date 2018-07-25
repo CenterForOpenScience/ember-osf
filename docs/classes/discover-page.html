@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.14.0</em>
+            <em>API Docs for: 0.19.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -56,10 +56,8 @@
                                 <li><a href="../classes/Contributor.html">Contributor</a></li>
                                 <li><a href="../classes/current-user.html">current-user</a></li>
                                 <li><a href="../classes/discover-page.html">discover-page</a></li>
-                                <li><a href="../classes/donate-banner.html">donate-banner</a></li>
                                 <li><a href="../classes/DraftRegistration.html">DraftRegistration</a></li>
                                 <li><a href="../classes/dropzone-widget.html">dropzone-widget</a></li>
-                                <li><a href="../classes/elastic-query.html">elastic-query</a></li>
                                 <li><a href="../classes/elem-id.html">elem-id</a></li>
                                 <li><a href="../classes/eosf-project-nav.html">eosf-project-nav</a></li>
                                 <li><a href="../classes/faceted-search.html">faceted-search</a></li>
@@ -127,20 +125,15 @@
                                 <li><a href="../classes/providerRegex.html">providerRegex</a></li>
                                 <li><a href="../classes/Registration.html">Registration</a></li>
                                 <li><a href="../classes/RegistrationActionsMixin.html">RegistrationActionsMixin</a></li>
+                                <li><a href="../classes/scheduled-banner.html">scheduled-banner</a></li>
                                 <li><a href="../classes/search-dropdown.html">search-dropdown</a></li>
-                                <li><a href="../classes/search-facet-daterange.html">search-facet-daterange</a></li>
-                                <li><a href="../classes/search-facet-language.html">search-facet-language</a></li>
                                 <li><a href="../classes/search-facet-locked.html">search-facet-locked</a></li>
-                                <li><a href="../classes/search-facet-source.html">search-facet-source</a></li>
-                                <li><a href="../classes/search-facet-typeahead.html">search-facet-typeahead</a></li>
-                                <li><a href="../classes/search-facet-worktype.html">search-facet-worktype</a></li>
-                                <li><a href="../classes/search-facet-worktype-button.html">search-facet-worktype-button</a></li>
-                                <li><a href="../classes/search-facet-worktype-hierarchy.html">search-facet-worktype-hierarchy</a></li>
                                 <li><a href="../classes/search-help-modal.html">search-help-modal</a></li>
                                 <li><a href="../classes/search-result.html">search-result</a></li>
                                 <li><a href="../classes/service-links.html">service-links</a></li>
                                 <li><a href="../classes/sign-up.html">sign-up</a></li>
                                 <li><a href="../classes/sortOptionDisplay.html">sortOptionDisplay</a></li>
+                                <li><a href="../classes/Subscription.html">Subscription</a></li>
                                 <li><a href="../classes/TaggableMixin.html">TaggableMixin</a></li>
                                 <li><a href="../classes/tags-widget.html">tags-widget</a></li>
                                 <li><a href="../classes/Taxonomy.html">Taxonomy</a></li>
@@ -202,10 +195,10 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/addon_components_discover-page_component.js.html#l16"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:16</code></a>
+            Defined in: <a href="../files/addon_utils_discover-page.js.html#l9"><code>addon&#x2F;utils&#x2F;discover-page.js:9</code></a>
         </div>
 
-            Module: <a href="../modules/components.html">components</a><br>
+            Module: <a href="../modules/utils.html">utils</a><br>
             Parent Module: <a href="../modules/ember-osf.html">ember-osf</a>
 
 </div>
@@ -220,30 +213,40 @@ You can build a discover-page that uses Ember-SHARE type facets -OR- PREPRINTS/R
 mixing until code is combined.</p>
 <p>How to Use:
 Pass in custom text like searchPlaceholder.  The facets property will enable you to customize the filters
-on the left-hand side of the discover page. Sort options are the sort dropdown options.  The lockedParams are the
-query parameters that are always locked in your application. Each query parameter must be passed in individually,
+on the left-hand side of the discover page. Sort options are the sort dropdown options. Each query parameter must be passed in individually,
 so they are reflected in the URL.  Logo and custom colors must be placed in the consuming application's stylesheet. Individual components
 can additionally be overridden in your application.</p>
 <p>Sample usage:</p>
 <pre class="code prettyprint"><code class="language-handlebars">{{discover-page
- activeFilters=activeFilters
+ consumingService=consumingService
+ searchPlaceholder=searchPlaceholder
  detailRoute=detailRoute
  discoverHeader=discoverHeader
- facets=facets
- fetchedProviders=model
- filterMap=filterMap
- filterReplace=filterReplace
- lockedParams=lockedParams
- page=page
- provider=provider
- q=q
- queryParams=queryParams
- searchPlaceholder=searchPlaceholder
- showActiveFilters=showActiveFilters
- sortOptions=sortOptions
- subject=subject
  themeProvider=themeProvider
+
+ sortOptions=sortOptions
+ filterReplace=filterReplace
+ whiteListedProviders=whiteListedProviders
+ fetchedProviders=externalProviders
+
+ facets=facets
+ results=results
+ numberOfResults=numberOfResults
+ aggregations=aggregations
+ queryParamsState=queryParamsState
+
+ showActiveFilters=showActiveFilters
+ loading=fetchData.isRunning
+
+ clearFilters=(action 'clearFilters')
+ search=(action 'search')
+
+ size=size
+ page=page
+ q=q
+ sort=sort
 }}
+{{!-- plus any query params (e.g. provider=provider) --}}
 </code></pre>
 
 </div>
@@ -270,7 +273,19 @@ can additionally be overridden in your application.</p>
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_getQueryBody">getQueryBody</a>
+                                <a href="#method_buildQueryBody">buildQueryBody</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_constructBasicFilters">constructBasicFilters</a>
+
+                            </li>
+                            <li class="index-item method private">
+                                <a href="#method_sortContributors">sortContributors</a>
+
+                            </li>
+                            <li class="index-item method private">
+                                <a href="#method_transformShareData">transformShareData</a>
 
                             </li>
                     </ul>
@@ -281,14 +296,6 @@ can additionally be overridden in your application.</p>
 
                     <ul class="index-list properties">
                             <li class="index-item property">
-                                <a href="#property_activeFilters">activeFilters</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_contributors">contributors</a>
-
-                            </li>
-                            <li class="index-item property">
                                 <a href="#property_detailRoute">detailRoute</a>
 
                             </li>
@@ -297,43 +304,11 @@ can additionally be overridden in your application.</p>
 
                             </li>
                             <li class="index-item property">
-                                <a href="#property_end">end</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_facets">facets</a>
-
-                            </li>
-                            <li class="index-item property">
                                 <a href="#property_fetchedProviders">fetchedProviders</a>
 
                             </li>
                             <li class="index-item property">
-                                <a href="#property_filterMap">filterMap</a>
-
-                            </li>
-                            <li class="index-item property">
                                 <a href="#property_filterReplace">filterReplace</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_funders">funders</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_institutions">institutions</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_language">language</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_lockedParams">lockedParams</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_organizations">organizations</a>
 
                             </li>
                             <li class="index-item property">
@@ -345,19 +320,7 @@ can additionally be overridden in your application.</p>
 
                             </li>
                             <li class="index-item property">
-                                <a href="#property_provider">provider</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_publishers">publishers</a>
-
-                            </li>
-                            <li class="index-item property">
                                 <a href="#property_q">q</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_queryParams">queryParams</a>
 
                             </li>
                             <li class="index-item property">
@@ -374,26 +337,6 @@ can additionally be overridden in your application.</p>
                             </li>
                             <li class="index-item property">
                                 <a href="#property_sortOptions">sortOptions</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_sources">sources</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_start">start</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_subject">subject</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_tags">tags</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_type">type</a>
 
                             </li>
                     </ul>
@@ -417,7 +360,7 @@ can additionally be overridden in your application.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+            <span class="type">List</span>
         </span>
 
 
@@ -429,7 +372,7 @@ can additionally be overridden in your application.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l391"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:391</code></a>
+        <a href="../files/addon_utils_discover-page.js.html#l23"><code>addon&#x2F;utils&#x2F;discover-page.js:23</code></a>
         </p>
 
 
@@ -437,8 +380,9 @@ can additionally be overridden in your application.</p>
     </div>
 
     <div class="description">
-        <p>For PREPRINTS, REGISTRIES, RETRACTION WATCH - services where portion of query is restricted.
-Builds the locked portion of the query.  For example, in preprints, types=['preprint', 'thesis']
+        <p>For services where portion of query is restricted.
+Builds the locked portion of the query.
+For example, in preprints, types=['preprint', 'thesis']
 is something that cannot be modified by the user.</p>
 
     </div>
@@ -467,7 +411,7 @@ is something that cannot be modified by the user.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>:
+                        <span class="type">List</span>:
                     <p>queryBody - locked portion of query body</p>
 
             </div>
@@ -475,13 +419,25 @@ is something that cannot be modified by the user.</p>
 
 
 </div>
-<div id="method_getQueryBody" class="method item">
-    <h3 class="name"><code>getQueryBody</code></h3>
+<div id="method_buildQueryBody" class="method item">
+    <h3 class="name"><code>buildQueryBody</code></h3>
 
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>queryParams</code>
+                </li>
+                <li class="arg">
+                        <code>filters</code>
+                </li>
+                <li class="arg">
+                        <code>queryParamsChanged</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
 
         <span class="returns-inline">
-            <span class="type"></span>
+            <span class="type"><a href="https://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
         </span>
 
 
@@ -493,7 +449,7 @@ is something that cannot be modified by the user.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l450"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:450</code></a>
+        <a href="../files/addon_utils_discover-page.js.html#l55"><code>addon&#x2F;utils&#x2F;discover-page.js:55</code></a>
         </p>
 
 
@@ -501,17 +457,313 @@ is something that cannot be modified by the user.</p>
     </div>
 
     <div class="description">
-        <p>Builds query body to send to SHARE from a combination of locked Params, facetFilters and activeFilters</p>
+        <p>Construct queryBody for OSF facets</p>
 
     </div>
 
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">queryParams</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>Ember Parachute queryParams</li>
+</ul>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">filters</code>
+                        <span class="type">List</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>Filters for query body</li>
+</ul>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">queryParamsChanged</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>Whether or not any queryParams differ from their defaults</li>
+</ul>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
 
         <div class="returns">
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                    <p>queryBody</p>
+                        <span class="type"><a href="https://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>:
+                    <p>queryBody - Stringified queryBody</p>
 
+            </div>
+        </div>
+
+
+</div>
+<div id="method_constructBasicFilters" class="method item">
+    <h3 class="name"><code>constructBasicFilters</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>filterMap</code>
+                </li>
+                <li class="arg">
+                        <code>filters</code>
+                </li>
+                <li class="arg">
+                        <code>isProvider</code>
+                </li>
+                <li class="arg">
+                        <code>queryParams</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">List</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_utils_discover-page.js.html#l100"><code>addon&#x2F;utils&#x2F;discover-page.js:100</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Construct filters for OSF facets (e.g., providers, subjects, etc.)</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">filterMap</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>Mapping from OSF params to SHARE params</li>
+</ul>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">filters</code>
+                        <span class="type">List</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>Filters for query body</li>
+</ul>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">isProvider</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>theme.isProvider</li>
+</ul>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">queryParams</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>Ember Parachute queryParams</li>
+</ul>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">List</span>:
+                    <p>filters - Filters for query body</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_sortContributors" class="method item private">
+    <h3 class="name"><code>sortContributors</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>contributors</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">List</span>
+        </span>
+
+
+        <span class="flag private">private</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_utils_discover-page.js.html#l146"><code>addon&#x2F;utils&#x2F;discover-page.js:146</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Sort contributors by order cited and set bibliographic property</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">contributors</code>
+                        <span class="type">List</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>list.contributors from a SHARE ES result</li>
+</ul>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">List</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_transformShareData" class="method item private">
+    <h3 class="name"><code>transformShareData</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>result</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+        </span>
+
+
+        <span class="flag private">private</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_utils_discover-page.js.html#l165"><code>addon&#x2F;utils&#x2F;discover-page.js:165</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Make share data look like apiv2 preprints data and pull out identifiers</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">result</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>hit from a SHARE ES</li>
+</ul>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>:
             </div>
         </div>
 
@@ -522,58 +774,6 @@ is something that cannot be modified by the user.</p>
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
-<div id="property_activeFilters" class="property item">
-    <h3 class="name"><code>activeFilters</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l68"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:68</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>Primary filters for service - currently setup for PREPRINTS and REGISTRIES. Ember-SHARE's equivalent is facetStates.</p>
-
-    </div>
-
-        <p><strong>Default:</strong> { providers: [], subjects: [], types: [] }</p>
-
-
-</div>
-<div id="property_contributors" class="property item">
-    <h3 class="name"><code>contributors</code></h3>
-    <span class="type"><a href="https://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l74"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:74</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>Contributors query parameter.  If &quot;contributors&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.</p>
-
-    </div>
-
-        <p><strong>Default:</strong> &#x27;&#x27;</p>
-
-
-</div>
 <div id="property_detailRoute" class="property item">
     <h3 class="name"><code>detailRoute</code></h3>
     <span class="type"><a href="https://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
@@ -583,9 +783,10 @@ is something that cannot be modified by the user.</p>
 
 
     <div class="meta">
+                    <p>Provided by the <a href="../modules/components.html">components</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l80"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:80</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l108"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:108</code></a>
         </p>
 
 
@@ -608,9 +809,10 @@ is something that cannot be modified by the user.</p>
 
 
     <div class="meta">
+                    <p>Provided by the <a href="../modules/components.html">components</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l85"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:85</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l114"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:114</code></a>
         </p>
 
 
@@ -624,68 +826,6 @@ is something that cannot be modified by the user.</p>
 
 
 </div>
-<div id="property_end" class="property item">
-    <h3 class="name"><code>end</code></h3>
-    <span class="type"><a href="https://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l90"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:90</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>End query parameter.  If &quot;end&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.</p>
-
-    </div>
-
-        <p><strong>Default:</strong> &#x27;&#x27;</p>
-
-
-</div>
-<div id="property_facets" class="property item">
-    <h3 class="name"><code>facets</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l96"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:96</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>A list of the components to be used for the search facets.  Each list item should be a dictionary including the key (SHARE filter),
-title (search-facet heading in UI), and component (name of component).</p>
-
-    </div>
-
-        <p><strong>Default:</strong> [
-           { key: &#x27;sources&#x27;, title: &#x27;Source&#x27;, component: &#x27;search-facet-source&#x27; },
-           { key: &#x27;date&#x27;, title: &#x27;Date&#x27;, component: &#x27;search-facet-daterange&#x27; },
-           { key: &#x27;type&#x27;, title: &#x27;Type&#x27;, component: &#x27;search-facet-worktype&#x27;, data: this.get(&#x27;processedTypes&#x27;) },
-           { key: &#x27;tags&#x27;, title: &#x27;Tag&#x27;, component: &#x27;search-facet-typeahead&#x27; },
-           { key: &#x27;publishers&#x27;, title: &#x27;Publisher&#x27;, component: &#x27;search-facet-typeahead&#x27;, base: &#x27;agents&#x27;, type: &#x27;publisher&#x27; },
-           { key: &#x27;funders&#x27;, title: &#x27;Funder&#x27;, component: &#x27;search-facet-typeahead&#x27;, base: &#x27;agents&#x27;, type: &#x27;funder&#x27; },
-           { key: &#x27;language&#x27;, title: &#x27;Language&#x27;, component: &#x27;search-facet-language&#x27; },
-           { key: &#x27;contributors&#x27;, title: &#x27;People&#x27;, component: &#x27;search-facet-typeahead&#x27;, base: &#x27;agents&#x27;, type: &#x27;person&#x27; }
-       ]</p>
-
-
-</div>
 <div id="property_fetchedProviders" class="property item">
     <h3 class="name"><code>fetchedProviders</code></h3>
     <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
@@ -695,9 +835,10 @@ title (search-facet heading in UI), and component (name of component).</p>
 
 
     <div class="meta">
+                    <p>Provided by the <a href="../modules/components.html">components</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l123"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:123</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l121"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:121</code></a>
         </p>
 
 
@@ -705,31 +846,6 @@ title (search-facet heading in UI), and component (name of component).</p>
 
     <div class="description">
         <p>For PREPRINTS ONLY.  Pass in the providers fetched in preprints app so they can be used in the provider carousel</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_filterMap" class="property item">
-    <h3 class="name"><code>filterMap</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l138"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:138</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>For PREPRINTS and REGISTRIES. A mapping of activeFilters to facet names expected by SHARE. Ex. {'providers': 'sources'}</p>
 
     </div>
 
@@ -745,9 +861,10 @@ title (search-facet heading in UI), and component (name of component).</p>
 
 
     <div class="meta">
+                    <p>Provided by the <a href="../modules/components.html">components</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l143"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:143</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l127"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:127</code></a>
         </p>
 
 
@@ -761,135 +878,6 @@ title (search-facet heading in UI), and component (name of component).</p>
 
 
 </div>
-<div id="property_funders" class="property item">
-    <h3 class="name"><code>funders</code></h3>
-    <span class="type"><a href="https://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l148"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:148</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>Funders query parameter.  If &quot;funders&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.</p>
-
-    </div>
-
-        <p><strong>Default:</strong> &#x27;&#x27;</p>
-
-
-</div>
-<div id="property_institutions" class="property item">
-    <h3 class="name"><code>institutions</code></h3>
-    <span class="type"><a href="https://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l154"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:154</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>Institutions query parameter.  If &quot;institutions&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.</p>
-
-    </div>
-
-        <p><strong>Default:</strong> &#x27;&#x27;</p>
-
-
-</div>
-<div id="property_language" class="property item">
-    <h3 class="name"><code>language</code></h3>
-    <span class="type"><a href="https://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l161"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:161</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>Language query parameter.  If &quot;language&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.</p>
-
-    </div>
-
-        <p><strong>Default:</strong> &#x27;&#x27;</p>
-
-
-</div>
-<div id="property_lockedParams" class="property item">
-    <h3 class="name"><code>lockedParams</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l168"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:168</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>Locked portions of search query that user cannot change.  Example: {'sources': 'PubMed Central'} will make PMC a locked source.</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_organizations" class="property item">
-    <h3 class="name"><code>organizations</code></h3>
-    <span class="type"><a href="https://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l175"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:175</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>Organizations query parameter.  If &quot;organizations&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.</p>
-
-    </div>
-
-        <p><strong>Default:</strong> &#x27;&#x27;</p>
-
-
-</div>
 <div id="property_page" class="property item">
     <h3 class="name"><code>page</code></h3>
     <span class="type">Integer</span>
@@ -899,16 +887,17 @@ title (search-facet heading in UI), and component (name of component).</p>
 
 
     <div class="meta">
+                    <p>Provided by the <a href="../modules/components.html">components</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l181"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:181</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l94"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:94</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>Page query parameter.  If &quot;page&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.</p>
+        <p>Page query parameter.  If &quot;page&quot; is one of your query params, it must be passed to the component so it can be updated.</p>
 
     </div>
 
@@ -925,9 +914,10 @@ title (search-facet heading in UI), and component (name of component).</p>
 
 
     <div class="meta">
+                    <p>Provided by the <a href="../modules/components.html">components</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l293"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:293</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l171"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:171</code></a>
         </p>
 
 
@@ -935,58 +925,6 @@ title (search-facet heading in UI), and component (name of component).</p>
 
     <div class="description">
         <p>themeProvider</p>
-
-    </div>
-
-        <p><strong>Default:</strong> &#x27;&#x27;</p>
-
-
-</div>
-<div id="property_provider" class="property item">
-    <h3 class="name"><code>provider</code></h3>
-    <span class="type"><a href="https://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l187"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:187</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>Provider query parameter.  If &quot;provider&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.</p>
-
-    </div>
-
-        <p><strong>Default:</strong> &#x27;&#x27;</p>
-
-
-</div>
-<div id="property_publishers" class="property item">
-    <h3 class="name"><code>publishers</code></h3>
-    <span class="type"><a href="https://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l193"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:193</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>Publishers query parameter.  If &quot;publishers&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.</p>
 
     </div>
 
@@ -1003,45 +941,21 @@ title (search-facet heading in UI), and component (name of component).</p>
 
 
     <div class="meta">
+                    <p>Provided by the <a href="../modules/components.html">components</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l199"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:199</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l101"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:101</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>q query parameter.  If &quot;q&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.</p>
+        <p>q query parameter.  If &quot;q&quot; is one of your query params, it must be passed to the component so it can be updated.</p>
 
     </div>
 
         <p><strong>Default:</strong> &#x27;&#x27;</p>
-
-
-</div>
-<div id="property_queryParams" class="property item">
-    <h3 class="name"><code>queryParams</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l205"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:205</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>Declare on consuming application's controller for query params to be active in that route.</p>
-
-    </div>
-
 
 
 </div>
@@ -1054,9 +968,10 @@ title (search-facet heading in UI), and component (name of component).</p>
 
 
     <div class="meta">
+                    <p>Provided by the <a href="../modules/components.html">components</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l215"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:215</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l133"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:133</code></a>
         </p>
 
 
@@ -1079,16 +994,17 @@ title (search-facet heading in UI), and component (name of component).</p>
 
 
     <div class="meta">
+                    <p>Provided by the <a href="../modules/components.html">components</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l221"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:221</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l80"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:80</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>Size query parameter.  If &quot;size&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.</p>
+        <p>Size query parameter.  If &quot;size&quot; is one of your query params, it must be passed to the component so it can be updated.</p>
 
     </div>
 
@@ -1105,16 +1021,17 @@ title (search-facet heading in UI), and component (name of component).</p>
 
 
     <div class="meta">
+                    <p>Provided by the <a href="../modules/components.html">components</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l227"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:227</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l87"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:87</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>Sort query parameter.  If &quot;sort&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.</p>
+        <p>Sort query parameter.  If &quot;sort&quot; is one of your query params, it must be passed to the component so it can be updated.</p>
 
     </div>
 
@@ -1131,9 +1048,10 @@ title (search-facet heading in UI), and component (name of component).</p>
 
 
     <div class="meta">
+                    <p>Provided by the <a href="../modules/components.html">components</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l233"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:233</code></a>
+        <a href="../files/addon_components_discover-page_component.js.html#l146"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:146</code></a>
         </p>
 
 
@@ -1147,149 +1065,7 @@ title (search-facet heading in UI), and component (name of component).</p>
         <p><strong>Default:</strong> [{
        display: &#x27;Relevance&#x27;,
        sortBy: &#x27;&#x27;
-   }, {
-       display: &#x27;Date Updated (Desc)&#x27;,
-       sortBy: &#x27;-date_updated&#x27;
-   }, {
-       display: &#x27;Date Updated (Asc)&#x27;,
-       sortBy: &#x27;date_updated&#x27;
-   }, {
-       display: &#x27;Ingest Date (Asc)&#x27;,
-       sortBy: &#x27;date_created&#x27;
-   }, {
-       display: &#x27;Ingest Date (Desc)&#x27;,
-       sortBy: &#x27;-date_created&#x27;
-   }]</p>
-
-
-</div>
-<div id="property_sources" class="property item">
-    <h3 class="name"><code>sources</code></h3>
-    <span class="type"><a href="https://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l269"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:269</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>Sources query parameter.  If &quot;sources&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.</p>
-
-    </div>
-
-        <p><strong>Default:</strong> &#x27;&#x27;</p>
-
-
-</div>
-<div id="property_start" class="property item">
-    <h3 class="name"><code>start</code></h3>
-    <span class="type"><a href="https://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l275"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:275</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>Start query parameter.  If &quot;start&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.</p>
-
-    </div>
-
-        <p><strong>Default:</strong> &#x27;&#x27;</p>
-
-
-</div>
-<div id="property_subject" class="property item">
-    <h3 class="name"><code>subject</code></h3>
-    <span class="type"><a href="https://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l281"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:281</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>Subject query parameter.  If &quot;subject&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.</p>
-
-    </div>
-
-        <p><strong>Default:</strong> &#x27;&#x27;</p>
-
-
-</div>
-<div id="property_tags" class="property item">
-    <h3 class="name"><code>tags</code></h3>
-    <span class="type"><a href="https://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l287"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:287</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>Tags query parameter.  If &quot;tags&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.</p>
-
-    </div>
-
-        <p><strong>Default:</strong> &#x27;&#x27;</p>
-
-
-</div>
-<div id="property_type" class="property item">
-    <h3 class="name"><code>type</code></h3>
-    <span class="type"><a href="https://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/addon_components_discover-page_component.js.html#l300"><code>addon&#x2F;components&#x2F;discover-page&#x2F;component.js:300</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>type query parameter.  If &quot;type&quot; is one of your query params, it must be passed to the component so it can be reflected in the URL.</p>
-
-    </div>
-
-        <p><strong>Default:</strong> &#x27;&#x27;</p>
+      }]</p>
 
 
 </div>

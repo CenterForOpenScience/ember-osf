@@ -14,7 +14,8 @@ import config from 'ember-get-config';
  * ```handlebars
  * {{file-renderer
  *   download=model.links.download
- *     width="800" height="1000" allowfullscreen=true}}
+ *.  allowCommenting=provider.allowCommenting
+ *   width="800" height="1000" allowfullscreen=true}}
  * ```
  * @class file-renderer
  */
@@ -26,10 +27,20 @@ export default Ember.Component.extend({
     allowfullscreen: true,
     version: null,
     mfrUrl: Ember.computed('download', 'version', function() {
-        let download = this.get('download') + '?direct&mode=render&initialWidth=766';
+        let download = this.get('download') + '?direct&mode=render';
         if (this.get('version')) {
             download += '&version=' + this.get('version');
         }
         return config.OSF.renderUrl + '?url=' + encodeURIComponent(download);
-    })
+    }),
+
+    didRender() {
+        this._super(...arguments);
+
+        if (this.get('allowCommenting')) {
+            Ember.$('iframe').on('load', function() {
+                Ember.$('iframe')[0].contentWindow.postMessage('startHypothesis', config.OSF.mfrUrl);
+            });
+        }
+    },
 });

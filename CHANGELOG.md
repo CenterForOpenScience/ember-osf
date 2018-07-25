@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.19.0] - 2018-07-25
+### Added
+- IP anonymization to Keen
+
+### Changed
+- spinners to match style guide
+
+### Fixed
+- scrolling issue
+
+### Removed
+- obsolete `initialWidth` parameter from mfrUrl
+
 ## [0.18.0] - 2018-06-21
 ### Added
 - Waffled Institution menu item
