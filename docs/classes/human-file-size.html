@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>addon/models/file.js - Ember OSF Addon</title>
+    <title>human-file-size - Ember OSF Addon</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -190,131 +190,138 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: addon/models/file.js</h1>
+<h1>human-file-size Class</h1>
+<div class="box meta">
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-import DS from &#x27;ember-data&#x27;;
 
-import OsfModel from &#x27;./osf-model&#x27;;
-import FileItemMixin from &#x27;ember-osf/mixins/file-item&#x27;;
-import { authenticatedAJAX } from &#x27;ember-osf/utils/ajax-helpers&#x27;;
+        <div class="foundat">
+            Defined in: <a href="../files/addon_utils_human-file-size.js.html#l6"><code>addon&#x2F;utils&#x2F;human-file-size.js:6</code></a>
+        </div>
 
-/**
- * @module ember-osf
- * @submodule models
- */
+            Module: <a href="../modules/utils.html">utils</a><br>
+            Parent Module: <a href="../modules/ember-osf.html">ember-osf</a>
 
-/**
- * Model for OSF APIv2 files. This model may be used with one of several API endpoints. It may be queried directly,
- *  or (more commonly) accessed via relationship fields.
- * This model is used for basic file metadata. To interact with file contents directly, see the &#x60;file-manager&#x60; service.
- * For field and usage information, see:
- * * https://api.osf.io/v2/docs/#!/v2/File_Detail_GET
- * * https://api.osf.io/v2/docs/#!/v2/Node_Files_List_GET
- * * https://api.osf.io/v2/docs/#!/v2/Node_File_Detail_GET
- * * https://api.osf.io/v2/docs/#!/v2/Registration_Files_List_GET
- * * https://api.osf.io/v2/docs/#!/v2/Registration_File_Detail_GET
- * @class File
- */
-export default OsfModel.extend(FileItemMixin, {
-    _isFileModel: true,
+</div>
 
-    name: DS.attr(&#x27;fixstring&#x27;),
-    kind: DS.attr(&#x27;fixstring&#x27;),
-    guid: DS.attr(&#x27;fixstring&#x27;),
-    path: DS.attr(&#x27;string&#x27;),
-    size: DS.attr(&#x27;number&#x27;),
-    currentVersion: DS.attr(&#x27;number&#x27;),
-    provider: DS.attr(&#x27;fixstring&#x27;),
-    materializedPath: DS.attr(&#x27;string&#x27;),
-    lastTouched: DS.attr(&#x27;date&#x27;),
-    dateModified: DS.attr(&#x27;date&#x27;),
-    dateCreated: DS.attr(&#x27;date&#x27;),
-    extra: DS.attr(),
-    tags: DS.attr(),
 
-    parentFolder: DS.belongsTo(&#x27;file&#x27;, { inverse: &#x27;files&#x27; }),
+<div class="box intro">
+    
+</div>
 
-    // Folder attributes
-    files: DS.hasMany(&#x27;file&#x27;, { inverse: &#x27;parentFolder&#x27; }),
 
-    // File attributes
-    versions: DS.hasMany(&#x27;file-version&#x27;),
-    comments: DS.hasMany(&#x27;comment&#x27;),
-    node: DS.belongsTo(&#x27;node&#x27;),  // TODO: In the future apiv2 may also need to support this pointing at nodes OR registrations
-    user: DS.belongsTo(&#x27;user&#x27;),
-    checkout: DS.attr(&#x27;fixstring&#x27;),
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
 
-    rename(newName, conflict = &#x27;replace&#x27;) {
-        return authenticatedAJAX({
-            url: this.get(&#x27;links.upload&#x27;),
-            type: &#x27;POST&#x27;,
-            xhrFields: {
-                withCredentials: true
-            },
-            headers: {
-                &#x27;Content-Type&#x27;: &#x27;application/json&#x27;
-            },
-            data: JSON.stringify({
-                action: &#x27;rename&#x27;,
-                rename: newName,
-                conflict: conflict
-            }),
-        }).done(response =&gt; {
-            this.set(&#x27;name&#x27;, response.data.attributes.name);
-        });
-    },
-    getGuid() {
-        return this.store.findRecord(
-            this.constructor.modelName,
-            this.id,
-            {
-                reload: true,
-                adapterOptions: {
-                    query: {
-                        create_guid: 1,
-                    },
-                },
-            }
-        );
-    },
-    getContents() {
-        return authenticatedAJAX({
-            url: this.get(&#x27;links.download&#x27;),
-            type: &#x27;GET&#x27;,
-            data: {
-                direct: true,
-                mode: &#x27;render&#x27;,
-            },
-        });
-    },
-    updateContents(data) {
-        return authenticatedAJAX({
-            url: this.get(&#x27;links.upload&#x27;),
-            type: &#x27;PUT&#x27;,
-            xhrFields: { withCredentials: true },
-            data: data,
-        }).then(() =&gt; this.reload());
-    },
-    move(node) {
-        return authenticatedAJAX({
-            url: this.get(&#x27;links.move&#x27;),
-            type: &#x27;POST&#x27;,
-            xhrFields: { withCredentials: true },
-            headers: {
-                &#x27;Content-Type&#x27;: &#x27;application/json&#x27;
-            },
-            data: JSON.stringify({
-                action: &#x27;move&#x27;,
-                path: &#x27;/&#x27;,
-                resource: node.id,
-            }),
-        }).then(() =&gt; this.reload());
-    },
-});
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+    </ul>
 
-    </pre>
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                            <li class="index-item method">
+                                <a href="#method_humanFileSize">humanFileSize</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+
+
+        </div>
+
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+<div id="method_humanFileSize" class="method item">
+    <h3 class="name"><code>humanFileSize</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>bytes</code>
+                </li>
+                <li class="arg">
+                        <code>bool</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="https://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_utils_human-file-size.js.html#l10"><code>addon&#x2F;utils&#x2F;human-file-size.js:10</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Borrowed from osf code, transforms received number of bytes size into human-
+readable sizing.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">bytes</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a> | <a href="https://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>
+
+
+                    <div class="param-description">
+                        <p>Number of bytes</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">bool</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+
+
+                    <div class="param-description">
+                        <p>Whether to use 1000 as the base for conversion or 1024</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="https://emberjs.com/api/classes/String.html" class="crosslink external" target="_blank">String</a></span>:
+            </div>
+        </div>
+
+
+</div>
+            </div>
+
+
+
+    </div>
 </div>
                     </div>
                 </div>

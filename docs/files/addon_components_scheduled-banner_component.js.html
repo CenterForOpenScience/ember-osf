@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>search-facet-worktype-hierarchy - Ember OSF Addon</title>
+    <title>addon/components/scheduled-banner/component.js - Ember OSF Addon</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.14.0</em>
+            <em>API Docs for: 0.19.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -56,10 +56,8 @@
                                 <li><a href="../classes/Contributor.html">Contributor</a></li>
                                 <li><a href="../classes/current-user.html">current-user</a></li>
                                 <li><a href="../classes/discover-page.html">discover-page</a></li>
-                                <li><a href="../classes/donate-banner.html">donate-banner</a></li>
                                 <li><a href="../classes/DraftRegistration.html">DraftRegistration</a></li>
                                 <li><a href="../classes/dropzone-widget.html">dropzone-widget</a></li>
-                                <li><a href="../classes/elastic-query.html">elastic-query</a></li>
                                 <li><a href="../classes/elem-id.html">elem-id</a></li>
                                 <li><a href="../classes/eosf-project-nav.html">eosf-project-nav</a></li>
                                 <li><a href="../classes/faceted-search.html">faceted-search</a></li>
@@ -127,20 +125,15 @@
                                 <li><a href="../classes/providerRegex.html">providerRegex</a></li>
                                 <li><a href="../classes/Registration.html">Registration</a></li>
                                 <li><a href="../classes/RegistrationActionsMixin.html">RegistrationActionsMixin</a></li>
+                                <li><a href="../classes/scheduled-banner.html">scheduled-banner</a></li>
                                 <li><a href="../classes/search-dropdown.html">search-dropdown</a></li>
-                                <li><a href="../classes/search-facet-daterange.html">search-facet-daterange</a></li>
-                                <li><a href="../classes/search-facet-language.html">search-facet-language</a></li>
                                 <li><a href="../classes/search-facet-locked.html">search-facet-locked</a></li>
-                                <li><a href="../classes/search-facet-source.html">search-facet-source</a></li>
-                                <li><a href="../classes/search-facet-typeahead.html">search-facet-typeahead</a></li>
-                                <li><a href="../classes/search-facet-worktype.html">search-facet-worktype</a></li>
-                                <li><a href="../classes/search-facet-worktype-button.html">search-facet-worktype-button</a></li>
-                                <li><a href="../classes/search-facet-worktype-hierarchy.html">search-facet-worktype-hierarchy</a></li>
                                 <li><a href="../classes/search-help-modal.html">search-help-modal</a></li>
                                 <li><a href="../classes/search-result.html">search-result</a></li>
                                 <li><a href="../classes/service-links.html">service-links</a></li>
                                 <li><a href="../classes/sign-up.html">sign-up</a></li>
                                 <li><a href="../classes/sortOptionDisplay.html">sortOptionDisplay</a></li>
+                                <li><a href="../classes/Subscription.html">Subscription</a></li>
                                 <li><a href="../classes/TaggableMixin.html">TaggableMixin</a></li>
                                 <li><a href="../classes/tags-widget.html">tags-widget</a></li>
                                 <li><a href="../classes/Taxonomy.html">Taxonomy</a></li>
@@ -197,53 +190,85 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>search-facet-worktype-hierarchy Class</h1>
-<div class="box meta">
+<h1 class="file-heading">File: addon/components/scheduled-banner/component.js</h1>
 
+<div class="file">
+    <pre class="code prettyprint linenums">
+import Ember from &#x27;ember&#x27;;
+import layout from &#x27;./template&#x27;;
+import config from &#x27;ember-get-config&#x27;;
+import computedStyle from &#x27;ember-computed-style&#x27;;
+import Analytics from &#x27;../../mixins/analytics&#x27;;
 
-        <div class="foundat">
-            Defined in: <a href="../files/addon_components_search-facet-worktype-hierarchy_component.js.html#l4"><code>addon&#x2F;components&#x2F;search-facet-worktype-hierarchy&#x2F;component.js:4</code></a>
-        </div>
+/**
+ * @module ember-osf
+ * @submodule components
+ */
 
-            Module: <a href="../modules/ember-osf.html">ember-osf</a>
+/**
+ * Display the current banner.
+ *
+ * Sample usage:
+ * &#x60;&#x60;&#x60;handlebars
+ * {{scheduled-banner}}
+ * &#x60;&#x60;&#x60;
+ *
+ * @class scheduled-banner
+ */
+export default Ember.Component.extend(Analytics, {
 
-</div>
+    layout,
+    toast: Ember.inject.service(),
 
+    classNames: [&#x27;banner&#x27;],
+    attributeBindings: [
+        &#x27;style&#x27;,
+        &#x27;hidden&#x27;,
+    ],
+    color: &#x27;&#x27;,
+    defaultAltText: &#x27;&#x27;,
+    mobileAltText: &#x27;&#x27;,
+    defaultPhoto: null,
+    mobilePhoto: null,
+    startDate: null,
+    endDate: null,
+    hidden: true,
+    link: &#x27;&#x27;,
+    name: &#x27;&#x27;,
 
-<div class="box intro">
-    <p>Copied from Ember-SHARE.</p>
-<pre class="code prettyprint"><code class="language-handlebars">{{search-facet-worktype
-     key=facet.key
-     options=facet
-     aggregations=aggregations
-     state=(get facetStates facet.key)
-     filter=(get facetFilters facet.key)
-     onChange=(action 'facetChanged')
-}}
-</code></pre>
+    colorStyle: computedStyle(&#x27;colorProperty&#x27;),
+    colorProperty: Ember.computed(&#x27;color&#x27;, function() {
+        const bgColor = this.get(&#x27;color&#x27;);
+        return { &#x27;background-color&#x27;: &#x60;${bgColor}&#x60; };
+    }),
 
-</div>
+    init() {
+        this._super(...arguments);
 
+        Ember.$.ajax({
+                url: &#x60;${config.OSF.apiUrl}/_/banners/current&#x60;,
+                crossDomain: true
+            })
+            .then(({data: { attributes: attrs, links}}) =&gt; {
+                this.setProperties({
+                    color: attrs.color,
+                    defaultAltText: attrs.default_alt_text,
+                    mobileAltText: attrs.mobile_alt_text,
+                    defaultPhoto: links.default_photo,
+                    mobilePhoto: links.mobile_photo,
+                    startDate: attrs.start_date,
+                    link: attrs.link,
+                    name: attrs.name,
+                });
+                this.get(&#x27;startDate&#x27;) &amp;&amp; this.set(&#x27;hidden&#x27;, false);
+            })
+            .fail(() =&gt; {
+                this.get(&#x27;toast&#x27;, &#x27;Unable to load the current banner.&#x27;);
+            });
+    },
+});
 
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-
-
-
-        </div>
-
-
-
-
-    </div>
+    </pre>
 </div>
                     </div>
                 </div>

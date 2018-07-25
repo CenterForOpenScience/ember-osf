@@ -4,7 +4,7 @@
         "description": "Ember components for interacting with the Open Science Framework",
         "url": "https://github.com/CenterForOpenScience/ember-osf",
         "logo": "https://cdn.cos.io/static/images/cos_wide.png",
-        "version": "0.14.0"
+        "version": "0.19.0"
     },
     "files": {
         "addon/adapters/osf-adapter.js": {
@@ -108,18 +108,7 @@
         "addon/components/discover-page/component.js": {
             "name": "addon/components/discover-page/component.js",
             "modules": {},
-            "classes": {
-                "discover-page": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "addon/components/scheduled-banner/component.js": {
-            "name": "addon/components/scheduled-banner/component.js",
-            "modules": {},
-            "classes": {
-                "scheduled-banner": 1
-            },
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
@@ -169,7 +158,9 @@
         "addon/components/file-browser-item/component.js": {
             "name": "addon/components/file-browser-item/component.js",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "file-browser-icon": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -270,15 +261,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "addon/components/old-file-browser-icon/component.js": {
-            "name": "addon/components/old-file-browser-icon/component.js",
-            "modules": {},
-            "classes": {
-                "file-browser-icon": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "addon/components/old-file-browser-item/component.js": {
             "name": "addon/components/old-file-browser-item/component.js",
             "modules": {},
@@ -349,6 +331,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "addon/components/scheduled-banner/component.js": {
+            "name": "addon/components/scheduled-banner/component.js",
+            "modules": {},
+            "classes": {
+                "scheduled-banner": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "addon/components/search-dropdown/component.js": {
             "name": "addon/components/search-dropdown/component.js",
             "modules": {},
@@ -358,74 +349,11 @@
             "fors": {},
             "namespaces": {}
         },
-        "addon/components/search-facet-daterange/component.js": {
-            "name": "addon/components/search-facet-daterange/component.js",
-            "modules": {},
-            "classes": {
-                "search-facet-daterange": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "addon/components/search-facet-language/component.js": {
-            "name": "addon/components/search-facet-language/component.js",
-            "modules": {},
-            "classes": {
-                "search-facet-language": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "addon/components/search-facet-locked/component.js": {
             "name": "addon/components/search-facet-locked/component.js",
             "modules": {},
             "classes": {
                 "search-facet-locked": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "addon/components/search-facet-source/component.js": {
-            "name": "addon/components/search-facet-source/component.js",
-            "modules": {},
-            "classes": {
-                "search-facet-source": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "addon/components/search-facet-typeahead/component.js": {
-            "name": "addon/components/search-facet-typeahead/component.js",
-            "modules": {},
-            "classes": {
-                "search-facet-typeahead": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "addon/components/search-facet-worktype/component.js": {
-            "name": "addon/components/search-facet-worktype/component.js",
-            "modules": {},
-            "classes": {
-                "search-facet-worktype": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "addon/components/search-facet-worktype-button/component.js": {
-            "name": "addon/components/search-facet-worktype-button/component.js",
-            "modules": {},
-            "classes": {
-                "search-facet-worktype-button": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "addon/components/search-facet-worktype-hierarchy/component.js": {
-            "name": "addon/components/search-facet-worktype-hierarchy/component.js",
-            "modules": {},
-            "classes": {
-                "search-facet-worktype-hierarchy": 1
             },
             "fors": {},
             "namespaces": {}
@@ -860,15 +788,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "addon/models/metaschema.js": {
-            "name": "addon/models/metaschema.js",
-            "modules": {},
-            "classes": {
-                "Metaschema": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "addon/models/node-link.js": {
             "name": "addon/models/node-link.js",
             "modules": {},
@@ -905,11 +824,29 @@
             "fors": {},
             "namespaces": {}
         },
+        "addon/models/registration-metaschema.js": {
+            "name": "addon/models/registration-metaschema.js",
+            "modules": {},
+            "classes": {
+                "Metaschema": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "addon/models/registration.js": {
             "name": "addon/models/registration.js",
             "modules": {},
             "classes": {
                 "Registration": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/models/subscription.js": {
+            "name": "addon/models/subscription.js",
+            "modules": {},
+            "classes": {
+                "Subscription": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1003,11 +940,11 @@
             "fors": {},
             "namespaces": {}
         },
-        "addon/utils/elastic-query.js": {
-            "name": "addon/utils/elastic-query.js",
+        "addon/utils/discover-page.js": {
+            "name": "addon/utils/discover-page.js",
             "modules": {},
             "classes": {
-                "elastic-query": 1
+                "discover-page": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1078,7 +1015,6 @@
                 "comment-form": 1,
                 "comment-pane": 1,
                 "discover-page": 1,
-                "scheduled-banner": 1,
                 "dropzone-widget": 1,
                 "eosf-project-nav": 1,
                 "faceted-search": 1,
@@ -1101,15 +1037,9 @@
                 "osf-paginator": 1,
                 "pagination-control": 1,
                 "project-selector": 1,
+                "scheduled-banner": 1,
                 "search-dropdown": 1,
-                "search-facet-daterange": 1,
-                "search-facet-language": 1,
                 "search-facet-locked": 1,
-                "search-facet-source": 1,
-                "search-facet-typeahead": 1,
-                "search-facet-worktype": 1,
-                "search-facet-worktype-button": 1,
-                "search-facet-worktype-hierarchy": 1,
                 "search-help-modal": 1,
                 "search-result": 1,
                 "sign-up": 1,
@@ -1157,12 +1087,13 @@
                 "File": 1,
                 "Institution": 1,
                 "Log": 1,
-                "Metaschema": 1,
                 "NodeLink": 1,
                 "Node": 1,
                 "OsfModel": 1,
                 "Preprint": 1,
+                "Metaschema": 1,
                 "Registration": 1,
+                "Subscription": 1,
                 "Taxonomy": 1,
                 "User": 1,
                 "OsfSerializer": 1,
@@ -1171,7 +1102,6 @@
                 "theme": 1,
                 "fixstring": 1,
                 "auth": 1,
-                "elastic-query": 1,
                 "fix-special-char": 1,
                 "human-file-size": 1,
                 "outside-click": 1
@@ -1248,8 +1178,6 @@
                 "comment-detail": 1,
                 "comment-form": 1,
                 "comment-pane": 1,
-                "discover-page": 1,
-                "scheduled-banner": 1,
                 "dropzone-widget": 1,
                 "eosf-project-nav": 1,
                 "file-browser-icon": 1,
@@ -1270,6 +1198,7 @@
                 "osf-paginator": 1,
                 "pagination-control": 1,
                 "project-selector": 1,
+                "scheduled-banner": 1,
                 "search-dropdown": 1,
                 "sign-up": 1,
                 "tags-widget": 1
@@ -1299,7 +1228,7 @@
             "module": "ember-osf",
             "namespace": "",
             "file": "addon/const/service-links.js",
-            "line": 41,
+            "line": 43,
             "description": "Predefined constants that are frequently referenced"
         },
         "helpers": {
@@ -1372,12 +1301,13 @@
                 "File": 1,
                 "Institution": 1,
                 "Log": 1,
-                "Metaschema": 1,
                 "NodeLink": 1,
                 "Node": 1,
                 "OsfModel": 1,
                 "Preprint": 1,
+                "Metaschema": 1,
                 "Registration": 1,
+                "Subscription": 1,
                 "Taxonomy": 1,
                 "User": 1
             },
@@ -1445,9 +1375,9 @@
             "submodules": {},
             "elements": {},
             "classes": {
+                "discover-page": 1,
                 "ajax-helpers": 1,
                 "auth": 1,
-                "elastic-query": 1,
                 "fix-special-char": 1,
                 "human-file-size": 1
             },
@@ -1571,7 +1501,7 @@
             "submodule": "components",
             "namespace": "",
             "file": "addon/components/citation-widget/component.js",
-            "line": 24,
+            "line": 29,
             "description": "Lists citations for node in APA, MLA, and Chicago formats",
             "params": [
                 {
@@ -1701,26 +1631,11 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "ember-osf",
-            "submodule": "components",
+            "submodule": "utils",
             "namespace": "",
-            "file": "addon/components/discover-page/component.js",
-            "line": 16,
-            "description": "Discover-page component. Builds a search interface utilizing SHARE.\nSee retraction-watch, registries, and preprints discover pages for working examples.\n\nMajority adapted from Ember-SHARE https://github.com/CenterForOpenScience/ember-share, with additions from PREPRINTS\nand REGISTRIES discover pages. Original Ember-SHARE facets and PREPRINTS/REGISTRIES facets behave differently at this time.\nYou can build a discover-page that uses Ember-SHARE type facets -OR- PREPRINTS/REGISTRIES type facets.  Would not recommend\nmixing until code is combined.\n\nHow to Use:\nPass in custom text like searchPlaceholder.  The facets property will enable you to customize the filters\non the left-hand side of the discover page. Sort options are the sort dropdown options.  The lockedParams are the\nquery parameters that are always locked in your application. Each query parameter must be passed in individually,\nso they are reflected in the URL.  Logo and custom colors must be placed in the consuming application's stylesheet. Individual components\ncan additionally be overridden in your application.\n\n Sample usage:\n ```handlebars\n{{discover-page\n  activeFilters=activeFilters\n  detailRoute=detailRoute\n  discoverHeader=discoverHeader\n  facets=facets\n  fetchedProviders=model\n  filterMap=filterMap\n  filterReplace=filterReplace\n  lockedParams=lockedParams\n  page=page\n  provider=provider\n  q=q\n  queryParams=queryParams\n  searchPlaceholder=searchPlaceholder\n  showActiveFilters=showActiveFilters\n  sortOptions=sortOptions\n  subject=subject\n  themeProvider=themeProvider\n }}\n ```"
-        },
-        "scheduled-banner": {
-            "name": "scheduled-banner",
-            "shortname": "scheduled-banner",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "ember-osf",
-            "submodule": "components",
-            "namespace": "",
-            "file": "addon/components/scheduled-banner/component.js",
-            "line": 10,
-            "description": "Display the donate banner.  Has an automated script to determine\nwhat the banner should look like based on the the current date.\n\nSample usage:\n```handlebars\n{{scheduled-banner}}\n```"
+            "file": "addon/utils/discover-page.js",
+            "line": 9,
+            "description": "Discover-page component. Builds a search interface utilizing SHARE.\nSee retraction-watch, registries, and preprints discover pages for working examples.\n\nMajority adapted from Ember-SHARE https://github.com/CenterForOpenScience/ember-share, with additions from PREPRINTS\nand REGISTRIES discover pages. Original Ember-SHARE facets and PREPRINTS/REGISTRIES facets behave differently at this time.\nYou can build a discover-page that uses Ember-SHARE type facets -OR- PREPRINTS/REGISTRIES type facets.  Would not recommend\nmixing until code is combined.\n\nHow to Use:\nPass in custom text like searchPlaceholder.  The facets property will enable you to customize the filters\non the left-hand side of the discover page. Sort options are the sort dropdown options. Each query parameter must be passed in individually,\nso they are reflected in the URL.  Logo and custom colors must be placed in the consuming application's stylesheet. Individual components\ncan additionally be overridden in your application.\n\n Sample usage:\n ```handlebars\n{{discover-page\n  consumingService=consumingService\n  searchPlaceholder=searchPlaceholder\n  detailRoute=detailRoute\n  discoverHeader=discoverHeader\n  themeProvider=themeProvider\n\n  sortOptions=sortOptions\n  filterReplace=filterReplace\n  whiteListedProviders=whiteListedProviders\n  fetchedProviders=externalProviders\n\n  facets=facets\n  results=results\n  numberOfResults=numberOfResults\n  aggregations=aggregations\n  queryParamsState=queryParamsState\n\n  showActiveFilters=showActiveFilters\n  loading=fetchData.isRunning\n\n  clearFilters=(action 'clearFilters')\n  search=(action 'search')\n\n  size=size\n  page=page\n  q=q\n  sort=sort\n }}\n {{!-- plus any query params (e.g. provider=provider) --}}\n ```"
         },
         "dropzone-widget": {
             "name": "dropzone-widget",
@@ -1764,7 +1679,7 @@
             "namespace": "",
             "file": "addon/components/faceted-search/component.js",
             "line": 4,
-            "description": "Copied from Ember-SHARE. Passing in a few properties from preprints.\nLoops through all the facets and displays them on the left hand pane of the Discover page.\n\n```handlebars\n{{faceted-search\n     onChange='filtersChanged'\n     updateParams='updateParams'\n     filters=facetFilters\n     facetStates=facetStates\n     facets=facets\n     aggregations=aggregations\n     activeFilters=activeFilters\n     updateFilters=(action 'updateFilters')\n     filterReplace=filterReplace\n}}\n```"
+            "description": "Copied from Ember-SHARE. Passing in a few properties from preprints.\nLoops through all the facets and displays them on the left hand pane of the Discover page.\n\n```handlebars\n{{faceted-search\n     onChange='facetChanged'\n     updateParams=(action 'updateParams')\n     filters=facetFilters\n     facetStates=queryParamsState\n     facets=facets\n     aggregations=aggregations\n     updateFilters=(action 'updateFilters')\n     filterReplace=filterReplace\n     loading=fetchData.isRunning\n}}\n```"
         },
         "file-browser": {
             "name": "file-browser",
@@ -1791,9 +1706,9 @@
             "module": "ember-osf",
             "submodule": "components",
             "namespace": "",
-            "file": "addon/components/old-file-browser-icon/component.js",
-            "line": 9,
-            "description": "Display the correct file tree icon for on the item to be displayed\n\nSample usage:\n```handlebars\n{{file-browser-icon\nitem=item}}\n```"
+            "file": "addon/components/file-browser-item/component.js",
+            "line": 12,
+            "description": "Display one row of item, with its information.\n\nSample usage:\n```handlebars\n    {{file-browser-item\n       item=item\n       selectItem=(action 'selectItem') - Action handling clicking on the body of the row\n       openItem=(action 'openItem') - Action handling clicking the link-name of the file\n       selectMultiple=(action 'selectMultiple') Action - handling clicking multiple rows, through cmd/ctrl and/or shift\n       display=display Array[Strings] - Indicating which rows of information to display\n       nameColumnWidth=nameColumnWidth String of number - How wide is the main collumn (name)\n    }}\n```"
         },
         "file-chooser component": {
             "name": "file-chooser component",
@@ -1838,7 +1753,7 @@
             "namespace": "",
             "file": "addon/components/file-renderer/component.js",
             "line": 10,
-            "description": "Render the provided url in an iframe via MFR\n\nSample usage:\n```handlebars\n{{file-renderer\n  download=model.links.download\n    width=\"800\" height=\"1000\" allowfullscreen=true}}\n```"
+            "description": "Render the provided url in an iframe via MFR\n\nSample usage:\n```handlebars\n{{file-renderer\n  download=model.links.download\n.  allowCommenting=provider.allowCommenting\n  width=\"800\" height=\"1000\" allowfullscreen=true}}\n```"
         },
         "file-version": {
             "name": "file-version",
@@ -2102,7 +2017,22 @@
             "namespace": "",
             "file": "addon/components/project-selector/component.js",
             "line": 9,
-            "description": "project-selector - to be used within a modal to select existing projects or create a new one\nMainly used in Quick Files as a way to move file to project\n\nSame usage:\n``` handlebars\n{{project-selector\n user=user\n file=file\n projectSelectState=projectSelectState\n willCreateComponent=willCreateComponent\n willMoveToNode=willMoveToNode\n setSelectedNode=(action 'setSelectedNode')\n changeProjectSelectState=(action 'changeProjectSelectState')\n updateCreateOrMoveNode=(action 'updateCreateOrMoveNode')\n checkNodeTitleKeypress=(action 'checkNodeTitleKeypress')}\n```"
+            "description": "project-selector - to be used within a modal to select existing projects or create a new one\nMainly used in Quick Files as a way to move file to project\n\nSame usage:\n``` handlebars\n{{project-selector\n user=user\n file=file\n projectSelectState=projectSelectState\n setSelectedNode=(action 'setSelectedNode')\n changeProjectSelectState=(action 'changeProjectSelectState')\n checkNodeTitleKeypress=(action 'checkNodeTitleKeypress')}\n```"
+        },
+        "scheduled-banner": {
+            "name": "scheduled-banner",
+            "shortname": "scheduled-banner",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "components",
+            "namespace": "",
+            "file": "addon/components/scheduled-banner/component.js",
+            "line": 12,
+            "description": "Display the current banner.\n\nSample usage:\n```handlebars\n{{scheduled-banner}}\n```"
         },
         "search-dropdown": {
             "name": "search-dropdown",
@@ -2119,34 +2049,6 @@
             "line": 10,
             "description": "Display a search dropdown as used in the OSF navbar\n\nSample usage:\n```handlebars\n  {{search-dropdown action='toggleSearch'}}\n```"
         },
-        "search-facet-daterange": {
-            "name": "search-facet-daterange",
-            "shortname": "search-facet-daterange",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "ember-osf",
-            "namespace": "",
-            "file": "addon/components/search-facet-daterange/component.js",
-            "line": 8,
-            "description": "Copied from Ember-SHARE.  Datepicker facet. Need to add styles to client application (@import 'daterangepicker.scss';)\n\n```handlebars\n{{search-facet-daterange\n     key=facet.key\n     options=facet\n     aggregations=aggregations\n     state=(get facetStates facet.key)\n     filter=(get facetFilters facet.key)\n     onChange=(action 'facetChanged')\n}}\n```"
-        },
-        "search-facet-language": {
-            "name": "search-facet-language",
-            "shortname": "search-facet-language",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "ember-osf",
-            "namespace": "",
-            "file": "addon/components/search-facet-language/component.js",
-            "line": 6,
-            "description": "Copied from Ember-SHARE.  Language facet.\n\n```handlebars\n{{search-facet-language\n     key=facet.key\n     options=facet\n     aggregations=aggregations\n     state=(get facetStates facet.key)\n     filter=(get facetFilters facet.key)\n     onChange=(action 'facetChanged')\n}}\n```"
-        },
         "search-facet-locked": {
             "name": "search-facet-locked",
             "shortname": "search-facet-locked",
@@ -2160,76 +2062,6 @@
             "file": "addon/components/search-facet-locked/component.js",
             "line": 4,
             "description": "Locked facet.  Filters that cannot be changed in client application.\n\n```handlebars\n{{search-facet-locked\n     key=facet.key\n     options=facet\n     aggregations=aggregations\n     state=(get facetStates facet.key)\n     filter=(get facetFilters facet.key)\n     onChange=(action 'facetChanged')\n}}\n```"
-        },
-        "search-facet-source": {
-            "name": "search-facet-source",
-            "shortname": "search-facet-source",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "ember-osf",
-            "namespace": "",
-            "file": "addon/components/search-facet-source/component.js",
-            "line": 6,
-            "description": "Copied from Ember-SHARE.  Sources facet. Uses C3 charts.\n\n```handlebars\n{{search-facet-source\n     key=facet.key\n     options=facet\n     aggregations=aggregations\n     state=(get facetStates facet.key)\n     filter=(get facetFilters facet.key)\n     onChange=(action 'facetChanged')\n}}\n```"
-        },
-        "search-facet-typeahead": {
-            "name": "search-facet-typeahead",
-            "shortname": "search-facet-typeahead",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "ember-osf",
-            "namespace": "",
-            "file": "addon/components/search-facet-typeahead/component.js",
-            "line": 6,
-            "description": "Copied from Ember-SHARE.  Typeahead facet - used for items like organization, tags, people filter.\n\n```handlebars\n{{search-facet-typeahead\n     key=facet.key\n     options=facet\n     aggregations=aggregations\n     state=(get facetStates facet.key)\n     filter=(get facetFilters facet.key)\n     onChange=(action 'facetChanged')\n}}\n```"
-        },
-        "search-facet-worktype": {
-            "name": "search-facet-worktype",
-            "shortname": "search-facet-worktype",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "ember-osf",
-            "namespace": "",
-            "file": "addon/components/search-facet-worktype/component.js",
-            "line": 6,
-            "description": "Copied from Ember-SHARE.  Type facet.\n\n```handlebars\n{{search-facet-worktype\n     key=facet.key\n     options=facet\n     aggregations=aggregations\n     state=(get facetStates facet.key)\n     filter=(get facetFilters facet.key)\n     onChange=(action 'facetChanged')\n}}\n```"
-        },
-        "search-facet-worktype-button": {
-            "name": "search-facet-worktype-button",
-            "shortname": "search-facet-worktype-button",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "ember-osf",
-            "namespace": "",
-            "file": "addon/components/search-facet-worktype-button/component.js",
-            "line": 4,
-            "description": "Copied from Ember-SHARE.  Worktype button.\n\n```handlebars\n{{search-facet-worktype-button\n     key=facet.key\n     options=facet\n     aggregations=aggregations\n     state=(get facetStates facet.key)\n     filter=(get facetFilters facet.key)\n     onChange=(action 'facetChanged')\n}}\n```"
-        },
-        "search-facet-worktype-hierarchy": {
-            "name": "search-facet-worktype-hierarchy",
-            "shortname": "search-facet-worktype-hierarchy",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "ember-osf",
-            "namespace": "",
-            "file": "addon/components/search-facet-worktype-hierarchy/component.js",
-            "line": 4,
-            "description": "Copied from Ember-SHARE.\n\n```handlebars\n{{search-facet-worktype\n     key=facet.key\n     options=facet\n     aggregations=aggregations\n     state=(get facetStates facet.key)\n     filter=(get facetFilters facet.key)\n     onChange=(action 'facetChanged')\n}}\n```"
         },
         "search-help-modal": {
             "name": "search-help-modal",
@@ -2257,7 +2089,7 @@
             "namespace": "",
             "file": "addon/components/search-result/component.js",
             "line": 8,
-            "description": "Adapted from Ember-SHARE and Ember Preprints\nUsed for search results on discover page.\n\n```handlebars\n{{search-result\n     detailRoute=detailRoute\n     addFilter='addFilter'\n     result=result\n     queryParams=queryParams\n     filterReplace=filterReplace\n     updateFilters=(action 'updateFilters')\n}}\n```"
+            "description": "Adapted from Ember-SHARE and Ember Preprints\nUsed for search results on discover page.\n\n```handlebars\n{{search-result\n     detailRoute=detailRoute\n     addFilter='addFilter'\n     result=result\n     queryParamsState=queryParamsState\n     filterReplace=filterReplace\n     updateFilters=(action 'updateFilters')\n}}\n```"
         },
         "sign-up": {
             "name": "sign-up",
@@ -2371,7 +2203,7 @@
             "submodule": "const",
             "namespace": "",
             "file": "addon/const/service-links.js",
-            "line": 41
+            "line": 43
         },
         "buildSecondaryNavLinks": {
             "name": "buildSecondaryNavLinks",
@@ -3045,21 +2877,6 @@
             "line": 10,
             "description": "Model for OSF APIv2 log entries. This model may be used with one of several API endpoints. It may be queried directly,\n or accessed via relationship fields.\nFor field and usage information, see:\n* https://api.osf.io/v2/docs/#!/v2/Node_Log_Detail_GET\n* https://api.osf.io/v2/docs/#!/v2/Node_Log_List_GET\n* https://api.osf.io/v2/docs/#!/v2/Registration_Log_List_GET"
         },
-        "Metaschema": {
-            "name": "Metaschema",
-            "shortname": "Metaschema",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "ember-osf",
-            "submodule": "models",
-            "namespace": "",
-            "file": "addon/models/metaschema.js",
-            "line": 10,
-            "description": "Model for OSF APIv2 metaschemas.\nThis model describes metaschemas and can be directly queried.\nFor information on how to retrieve metaschemas see:\n* https://api.osf.io/v2/docs/#!/v2/Meta_Schemas_List_GET\n* https://api.osf.io/v2/docs/#!/v2/Meta_Schema_Detail_GET"
-        },
         "NodeLink": {
             "name": "NodeLink",
             "shortname": "NodeLink",
@@ -3122,6 +2939,21 @@
             "line": 10,
             "description": "Model for OSF APIv2 preprints. This model may be used with one of several API endpoints. It may be queried directly,\n or accessed via relationship fields.\nFor field and usage information, see:\nhttps://api.osf.io/v2/docs/#!/v2/Preprint_List_GET\nhttps://api.osf.io/v2/docs/#!/v2/Preprint_Detail_GET\nhttps://api.osf.io/v2/docs/#!/v2/User_Preprints_GET"
         },
+        "Metaschema": {
+            "name": "Metaschema",
+            "shortname": "Metaschema",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "models",
+            "namespace": "",
+            "file": "addon/models/registration-metaschema.js",
+            "line": 10,
+            "description": "Model for OSF APIv2 metaschemas.\nThis model describes metaschemas and can be directly queried.\nFor information on how to retrieve metaschemas see:\n* https://api.osf.io/v2/docs/#!/v2/Meta_Schemas_List_GET\n* https://api.osf.io/v2/docs/#!/v2/Meta_Schema_Detail_GET"
+        },
         "Registration": {
             "name": "Registration",
             "shortname": "Registration",
@@ -3136,6 +2968,21 @@
             "file": "addon/models/registration.js",
             "line": 10,
             "description": "Model for OSF APIv2 registrations. This model may be used with one of several API endpoints. It may be queried directly,\n or accessed via relationship fields.\nFor field and usage information, see:\n* https://api.osf.io/v2/docs/#!/v2/Registration_List_GET\n* https://api.osf.io/v2/docs/#!/v2/Registration_Detail_GET\n* https://api.osf.io/v2/docs/#!/v2/Registration_Children_List_GET\n* https://api.osf.io/v2/docs/#!/v2/User_Registrations_GET"
+        },
+        "Subscription": {
+            "name": "Subscription",
+            "shortname": "Subscription",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "models",
+            "namespace": "",
+            "file": "addon/models/subscription.js",
+            "line": 10,
+            "description": "Model for OSF APIv2 subscriptions."
         },
         "Taxonomy": {
             "name": "Taxonomy",
@@ -3195,7 +3042,7 @@
             "submodule": "services",
             "namespace": "",
             "file": "addon/services/current-user.js",
-            "line": 8,
+            "line": 10,
             "description": "Access information about the currently logged in user",
             "extends": "Ember.Service"
         },
@@ -3277,20 +3124,6 @@
             "namespace": "",
             "file": "addon/utils/auth.js",
             "line": 10
-        },
-        "elastic-query": {
-            "name": "elastic-query",
-            "shortname": "elastic-query",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "ember-osf",
-            "submodule": "utils",
-            "namespace": "",
-            "file": "addon/utils/elastic-query.js",
-            "line": 9
         },
         "fix-special-char": {
             "name": "fix-special-char",
@@ -3727,7 +3560,7 @@
         },
         {
             "file": "addon/components/comment-form/component.js",
-            "line": 26,
+            "line": 27,
             "description": "Call a passed-in closure action to handle submitting a comment. Reset the form if save succeeds.",
             "itemtype": "method",
             "name": "addComment",
@@ -3744,240 +3577,8 @@
         },
         {
             "file": "addon/components/discover-page/component.js",
-            "line": 68,
-            "description": "Primary filters for service - currently setup for PREPRINTS and REGISTRIES. Ember-SHARE's equivalent is facetStates.",
-            "itemtype": "property",
-            "name": "activeFilters",
-            "type": "Object",
-            "default": "{ providers: [], subjects: [], types: [] }",
-            "class": "discover-page",
-            "module": "ember-osf",
-            "submodule": "components"
-        },
-        {
-            "file": "addon/components/discover-page/component.js",
-            "line": 74,
-            "description": "Contributors query parameter.  If \"contributors\" is one of your query params, it must be passed to the component so it can be reflected in the URL.",
-            "itemtype": "property",
-            "name": "contributors",
-            "type": "String",
-            "default": "''",
-            "class": "discover-page",
-            "module": "ember-osf",
-            "submodule": "components"
-        },
-        {
-            "file": "addon/components/discover-page/component.js",
             "line": 80,
-            "description": "Name of detail route for consuming application, like \"content\" or \"detail\". Override if search result title should link to detail route.",
-            "itemtype": "property",
-            "name": "detailRoute",
-            "type": "String",
-            "class": "discover-page",
-            "module": "ember-osf",
-            "submodule": "components"
-        },
-        {
-            "file": "addon/components/discover-page/component.js",
-            "line": 85,
-            "description": "Text header for top of discover page.",
-            "itemtype": "property",
-            "name": "discoverHeader",
-            "type": "String",
-            "class": "discover-page",
-            "module": "ember-osf",
-            "submodule": "components"
-        },
-        {
-            "file": "addon/components/discover-page/component.js",
-            "line": 90,
-            "description": "End query parameter.  If \"end\" is one of your query params, it must be passed to the component so it can be reflected in the URL.",
-            "itemtype": "property",
-            "name": "end",
-            "type": "String",
-            "default": "''",
-            "class": "discover-page",
-            "module": "ember-osf",
-            "submodule": "components"
-        },
-        {
-            "file": "addon/components/discover-page/component.js",
-            "line": 96,
-            "description": "A list of the components to be used for the search facets.  Each list item should be a dictionary including the key (SHARE filter),\ntitle (search-facet heading in UI), and component (name of component).",
-            "itemtype": "property",
-            "name": "facets",
-            "type": "Array",
-            "default": "[\n           { key: 'sources', title: 'Source', component: 'search-facet-source' },\n           { key: 'date', title: 'Date', component: 'search-facet-daterange' },\n           { key: 'type', title: 'Type', component: 'search-facet-worktype', data: this.get('processedTypes') },\n           { key: 'tags', title: 'Tag', component: 'search-facet-typeahead' },\n           { key: 'publishers', title: 'Publisher', component: 'search-facet-typeahead', base: 'agents', type: 'publisher' },\n           { key: 'funders', title: 'Funder', component: 'search-facet-typeahead', base: 'agents', type: 'funder' },\n           { key: 'language', title: 'Language', component: 'search-facet-language' },\n           { key: 'contributors', title: 'People', component: 'search-facet-typeahead', base: 'agents', type: 'person' }\n       ]",
-            "class": "discover-page",
-            "module": "ember-osf",
-            "submodule": "components"
-        },
-        {
-            "file": "addon/components/discover-page/component.js",
-            "line": 123,
-            "description": "For PREPRINTS ONLY.  Pass in the providers fetched in preprints app so they can be used in the provider carousel",
-            "itemtype": "property",
-            "name": "fetchedProviders",
-            "type": "Object",
-            "class": "discover-page",
-            "module": "ember-osf",
-            "submodule": "components"
-        },
-        {
-            "file": "addon/components/discover-page/component.js",
-            "line": 138,
-            "description": "For PREPRINTS and REGISTRIES. A mapping of activeFilters to facet names expected by SHARE. Ex. {'providers': 'sources'}",
-            "itemtype": "property",
-            "name": "filterMap",
-            "type": "Object",
-            "class": "discover-page",
-            "module": "ember-osf",
-            "submodule": "components"
-        },
-        {
-            "file": "addon/components/discover-page/component.js",
-            "line": 143,
-            "description": "For PREPRINTS and REGISTRIES. A mapping of filter names for front-end display. Ex. {OSF: 'OSF Preprints'}.",
-            "itemtype": "property",
-            "name": "filterReplace",
-            "type": "Object",
-            "class": "discover-page",
-            "module": "ember-osf",
-            "submodule": "components"
-        },
-        {
-            "file": "addon/components/discover-page/component.js",
-            "line": 148,
-            "description": "Funders query parameter.  If \"funders\" is one of your query params, it must be passed to the component so it can be reflected in the URL.",
-            "itemtype": "property",
-            "name": "funders",
-            "type": "String",
-            "default": "''",
-            "class": "discover-page",
-            "module": "ember-osf",
-            "submodule": "components"
-        },
-        {
-            "file": "addon/components/discover-page/component.js",
-            "line": 154,
-            "description": "Institutions query parameter.  If \"institutions\" is one of your query params, it must be passed to the component so it can be reflected in the URL.",
-            "itemtype": "property",
-            "name": "institutions",
-            "type": "String",
-            "default": "''",
-            "class": "discover-page",
-            "module": "ember-osf",
-            "submodule": "components"
-        },
-        {
-            "file": "addon/components/discover-page/component.js",
-            "line": 161,
-            "description": "Language query parameter.  If \"language\" is one of your query params, it must be passed to the component so it can be reflected in the URL.",
-            "itemtype": "property",
-            "name": "language",
-            "type": "String",
-            "default": "''",
-            "class": "discover-page",
-            "module": "ember-osf",
-            "submodule": "components"
-        },
-        {
-            "file": "addon/components/discover-page/component.js",
-            "line": 168,
-            "description": "Locked portions of search query that user cannot change.  Example: {'sources': 'PubMed Central'} will make PMC a locked source.",
-            "itemtype": "property",
-            "name": "lockedParams",
-            "type": "Object",
-            "class": "discover-page",
-            "module": "ember-osf",
-            "submodule": "components"
-        },
-        {
-            "file": "addon/components/discover-page/component.js",
-            "line": 175,
-            "description": "Organizations query parameter.  If \"organizations\" is one of your query params, it must be passed to the component so it can be reflected in the URL.",
-            "itemtype": "property",
-            "name": "organizations",
-            "type": "String",
-            "default": "''",
-            "class": "discover-page",
-            "module": "ember-osf",
-            "submodule": "components"
-        },
-        {
-            "file": "addon/components/discover-page/component.js",
-            "line": 181,
-            "description": "Page query parameter.  If \"page\" is one of your query params, it must be passed to the component so it can be reflected in the URL.",
-            "itemtype": "property",
-            "name": "page",
-            "type": "Integer",
-            "default": "1",
-            "class": "discover-page",
-            "module": "ember-osf",
-            "submodule": "components"
-        },
-        {
-            "file": "addon/components/discover-page/component.js",
-            "line": 187,
-            "description": "Provider query parameter.  If \"provider\" is one of your query params, it must be passed to the component so it can be reflected in the URL.",
-            "itemtype": "property",
-            "name": "provider",
-            "type": "String",
-            "default": "''",
-            "class": "discover-page",
-            "module": "ember-osf",
-            "submodule": "components"
-        },
-        {
-            "file": "addon/components/discover-page/component.js",
-            "line": 193,
-            "description": "Publishers query parameter.  If \"publishers\" is one of your query params, it must be passed to the component so it can be reflected in the URL.",
-            "itemtype": "property",
-            "name": "publishers",
-            "type": "String",
-            "default": "''",
-            "class": "discover-page",
-            "module": "ember-osf",
-            "submodule": "components"
-        },
-        {
-            "file": "addon/components/discover-page/component.js",
-            "line": 199,
-            "description": "q query parameter.  If \"q\" is one of your query params, it must be passed to the component so it can be reflected in the URL.",
-            "itemtype": "property",
-            "name": "q",
-            "type": "String",
-            "default": "''",
-            "class": "discover-page",
-            "module": "ember-osf",
-            "submodule": "components"
-        },
-        {
-            "file": "addon/components/discover-page/component.js",
-            "line": 205,
-            "description": "Declare on consuming application's controller for query params to be active in that route.",
-            "itemtype": "property",
-            "name": "queryParams",
-            "type": "Array",
-            "class": "discover-page",
-            "module": "ember-osf",
-            "submodule": "components"
-        },
-        {
-            "file": "addon/components/discover-page/component.js",
-            "line": 215,
-            "description": "For PREPRINTS and REGISTRIES.  Displays activeFilters box above search facets.",
-            "itemtype": "property",
-            "name": "showActiveFilters",
-            "type": "Boolean",
-            "class": "discover-page",
-            "module": "ember-osf",
-            "submodule": "components"
-        },
-        {
-            "file": "addon/components/discover-page/component.js",
-            "line": 221,
-            "description": "Size query parameter.  If \"size\" is one of your query params, it must be passed to the component so it can be reflected in the URL.",
+            "description": "Size query parameter.  If \"size\" is one of your query params, it must be passed to the component so it can be updated.",
             "itemtype": "property",
             "name": "size",
             "type": "Integer",
@@ -3988,8 +3589,8 @@
         },
         {
             "file": "addon/components/discover-page/component.js",
-            "line": 227,
-            "description": "Sort query parameter.  If \"sort\" is one of your query params, it must be passed to the component so it can be reflected in the URL.",
+            "line": 87,
+            "description": "Sort query parameter.  If \"sort\" is one of your query params, it must be passed to the component so it can be updated.",
             "itemtype": "property",
             "name": "sort",
             "type": "String",
@@ -4000,67 +3601,98 @@
         },
         {
             "file": "addon/components/discover-page/component.js",
-            "line": 233,
+            "line": 94,
+            "description": "Page query parameter.  If \"page\" is one of your query params, it must be passed to the component so it can be updated.",
+            "itemtype": "property",
+            "name": "page",
+            "type": "Integer",
+            "default": "1",
+            "class": "discover-page",
+            "module": "ember-osf",
+            "submodule": "components"
+        },
+        {
+            "file": "addon/components/discover-page/component.js",
+            "line": 101,
+            "description": "q query parameter.  If \"q\" is one of your query params, it must be passed to the component so it can be updated.",
+            "itemtype": "property",
+            "name": "q",
+            "type": "String",
+            "default": "''",
+            "class": "discover-page",
+            "module": "ember-osf",
+            "submodule": "components"
+        },
+        {
+            "file": "addon/components/discover-page/component.js",
+            "line": 108,
+            "description": "Name of detail route for consuming application, like \"content\" or \"detail\". Override if search result title should link to detail route.",
+            "itemtype": "property",
+            "name": "detailRoute",
+            "type": "String",
+            "class": "discover-page",
+            "module": "ember-osf",
+            "submodule": "components"
+        },
+        {
+            "file": "addon/components/discover-page/component.js",
+            "line": 114,
+            "description": "Text header for top of discover page.",
+            "itemtype": "property",
+            "name": "discoverHeader",
+            "type": "String",
+            "class": "discover-page",
+            "module": "ember-osf",
+            "submodule": "components"
+        },
+        {
+            "file": "addon/components/discover-page/component.js",
+            "line": 121,
+            "description": "For PREPRINTS ONLY.  Pass in the providers fetched in preprints app so they can be used in the provider carousel",
+            "itemtype": "property",
+            "name": "fetchedProviders",
+            "type": "Object",
+            "class": "discover-page",
+            "module": "ember-osf",
+            "submodule": "components"
+        },
+        {
+            "file": "addon/components/discover-page/component.js",
+            "line": 127,
+            "description": "For PREPRINTS and REGISTRIES. A mapping of filter names for front-end display. Ex. {OSF: 'OSF Preprints'}.",
+            "itemtype": "property",
+            "name": "filterReplace",
+            "type": "Object",
+            "class": "discover-page",
+            "module": "ember-osf",
+            "submodule": "components"
+        },
+        {
+            "file": "addon/components/discover-page/component.js",
+            "line": 133,
+            "description": "For PREPRINTS and REGISTRIES.  Displays activeFilters box above search facets.",
+            "itemtype": "property",
+            "name": "showActiveFilters",
+            "type": "Boolean",
+            "class": "discover-page",
+            "module": "ember-osf",
+            "submodule": "components"
+        },
+        {
+            "file": "addon/components/discover-page/component.js",
+            "line": 146,
             "description": "Sort dropdown options - Array of dictionaries.  Each dictionary should have display and sortBy keys.",
             "itemtype": "property",
             "name": "sortOptions",
             "type": "Array",
-            "default": "[{\n       display: 'Relevance',\n       sortBy: ''\n   }, {\n       display: 'Date Updated (Desc)',\n       sortBy: '-date_updated'\n   }, {\n       display: 'Date Updated (Asc)',\n       sortBy: 'date_updated'\n   }, {\n       display: 'Ingest Date (Asc)',\n       sortBy: 'date_created'\n   }, {\n       display: 'Ingest Date (Desc)',\n       sortBy: '-date_created'\n   }]",
+            "default": "[{\n       display: 'Relevance',\n       sortBy: ''\n      }]",
             "class": "discover-page",
             "module": "ember-osf",
             "submodule": "components"
         },
         {
             "file": "addon/components/discover-page/component.js",
-            "line": 269,
-            "description": "Sources query parameter.  If \"sources\" is one of your query params, it must be passed to the component so it can be reflected in the URL.",
-            "itemtype": "property",
-            "name": "sources",
-            "type": "String",
-            "default": "''",
-            "class": "discover-page",
-            "module": "ember-osf",
-            "submodule": "components"
-        },
-        {
-            "file": "addon/components/discover-page/component.js",
-            "line": 275,
-            "description": "Start query parameter.  If \"start\" is one of your query params, it must be passed to the component so it can be reflected in the URL.",
-            "itemtype": "property",
-            "name": "start",
-            "type": "String",
-            "default": "''",
-            "class": "discover-page",
-            "module": "ember-osf",
-            "submodule": "components"
-        },
-        {
-            "file": "addon/components/discover-page/component.js",
-            "line": 281,
-            "description": "Subject query parameter.  If \"subject\" is one of your query params, it must be passed to the component so it can be reflected in the URL.",
-            "itemtype": "property",
-            "name": "subject",
-            "type": "String",
-            "default": "''",
-            "class": "discover-page",
-            "module": "ember-osf",
-            "submodule": "components"
-        },
-        {
-            "file": "addon/components/discover-page/component.js",
-            "line": 287,
-            "description": "Tags query parameter.  If \"tags\" is one of your query params, it must be passed to the component so it can be reflected in the URL.",
-            "itemtype": "property",
-            "name": "tags",
-            "type": "String",
-            "default": "''",
-            "class": "discover-page",
-            "module": "ember-osf",
-            "submodule": "components"
-        },
-        {
-            "file": "addon/components/discover-page/component.js",
-            "line": 293,
+            "line": 171,
             "description": "themeProvider",
             "itemtype": "property",
             "name": "Preprint provider loaded from theme service. Should be passed from consuming service so it is loaded before SHARE is queried.",
@@ -4071,54 +3703,8 @@
             "submodule": "components"
         },
         {
-            "file": "addon/components/discover-page/component.js",
-            "line": 300,
-            "description": "type query parameter.  If \"type\" is one of your query params, it must be passed to the component so it can be reflected in the URL.",
-            "itemtype": "property",
-            "name": "type",
-            "type": "String",
-            "default": "''",
-            "class": "discover-page",
-            "module": "ember-osf",
-            "submodule": "components"
-        },
-        {
-            "file": "addon/components/discover-page/component.js",
-            "line": 391,
-            "description": "For PREPRINTS, REGISTRIES, RETRACTION WATCH - services where portion of query is restricted.\nBuilds the locked portion of the query.  For example, in preprints, types=['preprint', 'thesis']\nis something that cannot be modified by the user.",
-            "itemtype": "method",
-            "name": "buildLockedQueryBody",
-            "params": [
-                {
-                    "name": "lockedParams",
-                    "description": "- Locked param keys matched to the locked value.",
-                    "type": "Object"
-                }
-            ],
-            "return": {
-                "description": "queryBody - locked portion of query body",
-                "type": "Object"
-            },
-            "class": "discover-page",
-            "module": "ember-osf",
-            "submodule": "components"
-        },
-        {
-            "file": "addon/components/discover-page/component.js",
-            "line": 450,
-            "description": "Builds query body to send to SHARE from a combination of locked Params, facetFilters and activeFilters",
-            "itemtype": "method",
-            "name": "getQueryBody",
-            "return": {
-                "description": "queryBody"
-            },
-            "class": "discover-page",
-            "module": "ember-osf",
-            "submodule": "components"
-        },
-        {
             "file": "addon/components/eosf-project-nav/component.js",
-            "line": 43,
+            "line": 44,
             "description": "If this is a withdrawn registration, hide a block of buttons.",
             "itemtype": "property",
             "name": "isWithdrawnRegistration",
@@ -4128,7 +3714,7 @@
         },
         {
             "file": "addon/components/navbar-auth-dropdown/component.js",
-            "line": 33,
+            "line": 34,
             "description": "The URL to use for signup. May be overridden, eg for special campaign pages",
             "itemtype": "property",
             "name": "signupUrl",
@@ -4139,7 +3725,7 @@
         },
         {
             "file": "addon/components/new-navbar-auth-dropdown/component.js",
-            "line": 35,
+            "line": 33,
             "description": "The URL to use for signup. May be overridden, eg for special campaign pages",
             "itemtype": "property",
             "name": "signupUrl",
@@ -4150,7 +3736,7 @@
         },
         {
             "file": "addon/components/osf-navbar/component.js",
-            "line": 26,
+            "line": 27,
             "description": "Whether search icons and functionality show up",
             "itemtype": "property",
             "name": "hideSearch",
@@ -4164,7 +3750,7 @@
             "line": 32,
             "description": "Array of query params being used in consuming app",
             "itemtype": "property",
-            "name": "queryParams",
+            "name": "queryParamsState",
             "type": "Array",
             "class": "search-result",
             "module": "ember-osf"
@@ -4258,7 +3844,7 @@
         },
         {
             "file": "addon/const/service-links.js",
-            "line": 45,
+            "line": 47,
             "description": "Provides list of OSF services and their links",
             "itemtype": "property",
             "name": "osfServices",
@@ -5222,7 +4808,7 @@
         },
         {
             "file": "addon/services/current-user.js",
-            "line": 18,
+            "line": 61,
             "description": "If logged in, return the ID of the current user, else return null.",
             "itemtype": "property",
             "name": "currentUserId",
@@ -5233,7 +4819,7 @@
         },
         {
             "file": "addon/services/current-user.js",
-            "line": 33,
+            "line": 76,
             "description": "Fetch information about the currently logged in user. If no user is logged in, this method returns a rejected promise.",
             "itemtype": "method",
             "name": "load",
@@ -5247,12 +4833,47 @@
         },
         {
             "file": "addon/services/current-user.js",
-            "line": 54,
+            "line": 97,
             "description": "Return an observable promise proxy for the currently logged in user. If no user is logged in, resolves to null.",
             "itemtype": "property",
             "name": "user",
             "return": {
                 "description": "Promise proxy object that resolves to a user or null"
+            },
+            "class": "current-user",
+            "module": "ember-osf",
+            "submodule": "services"
+        },
+        {
+            "file": "addon/services/current-user.js",
+            "line": 110,
+            "description": "Return a simple hash of the currentUser ID if user is logged in, otherwise return a generated random string.\nsessionKey can be used to identify the current session or any general purposes.\nFor Elasticsearch requests, sessionKey is used as the \"preference\" URL parameter to ensure reproducible search results ordering.",
+            "itemtype": "property",
+            "name": "sessionKey",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "current-user",
+            "module": "ember-osf",
+            "submodule": "services"
+        },
+        {
+            "file": "addon/services/current-user.js",
+            "line": 126,
+            "description": "Generate a simple hash (numerical code) from a string.\nhttps://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript-jquery",
+            "itemtype": "method",
+            "name": "hashCode",
+            "params": [
+                {
+                    "name": "str",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
             },
             "class": "current-user",
             "module": "ember-osf",
@@ -6015,54 +5636,136 @@
             "submodule": "utils"
         },
         {
-            "file": "addon/utils/elastic-query.js",
-            "line": 13,
+            "file": "addon/utils/discover-page.js",
+            "line": 23,
+            "description": "For services where portion of query is restricted.\nBuilds the locked portion of the query.\nFor example, in preprints, types=['preprint', 'thesis']\nis something that cannot be modified by the user.",
             "itemtype": "method",
-            "name": "dateRangeFilter",
+            "name": "buildLockedQueryBody",
             "params": [
                 {
-                    "name": "String",
-                    "description": "field Name of the date field to filter"
-                },
-                {
-                    "name": "Object",
-                    "description": "start Beginning of date range"
-                },
-                {
-                    "name": "Object",
-                    "description": "end End of date range"
+                    "name": "lockedParams",
+                    "description": "- Locked param keys matched to the locked value.",
+                    "type": "Object"
                 }
             ],
             "return": {
-                "description": "filter"
+                "description": "queryBody - locked portion of query body",
+                "type": "List"
             },
-            "class": "elastic-query",
+            "class": "discover-page",
             "module": "ember-osf",
             "submodule": "utils"
         },
         {
-            "file": "addon/utils/elastic-query.js",
-            "line": 34,
+            "file": "addon/utils/discover-page.js",
+            "line": 55,
+            "description": "Construct queryBody for OSF facets",
             "itemtype": "method",
-            "name": "termsFilter",
+            "name": "buildQueryBody",
             "params": [
                 {
-                    "name": "String",
-                    "description": "field Name of the field to filter"
+                    "name": "queryParams",
+                    "description": "- Ember Parachute queryParams",
+                    "type": "Object"
                 },
                 {
-                    "name": "Array",
-                    "description": "terms List of terms to match"
+                    "name": "filters",
+                    "description": "- Filters for query body",
+                    "type": "List"
                 },
                 {
-                    "name": "Boolean",
-                    "description": "[all] If true (default), return an array of filters to match results with *all* of the terms. Otherwise, return a single filter to match results with *any* of the terms."
+                    "name": "queryParamsChanged",
+                    "description": "- Whether or not any queryParams differ from their defaults",
+                    "type": "Boolean"
                 }
             ],
             "return": {
-                "description": "filter"
+                "description": "queryBody - Stringified queryBody",
+                "type": "String"
             },
-            "class": "elastic-query",
+            "class": "discover-page",
+            "module": "ember-osf",
+            "submodule": "utils"
+        },
+        {
+            "file": "addon/utils/discover-page.js",
+            "line": 100,
+            "description": "Construct filters for OSF facets (e.g., providers, subjects, etc.)",
+            "itemtype": "method",
+            "name": "constructBasicFilters",
+            "params": [
+                {
+                    "name": "filterMap",
+                    "description": "- Mapping from OSF params to SHARE params",
+                    "type": "Object"
+                },
+                {
+                    "name": "filters",
+                    "description": "- Filters for query body",
+                    "type": "List"
+                },
+                {
+                    "name": "isProvider",
+                    "description": "- theme.isProvider",
+                    "type": "Boolean"
+                },
+                {
+                    "name": "queryParams",
+                    "description": "- Ember Parachute queryParams",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "filters - Filters for query body",
+                "type": "List"
+            },
+            "class": "discover-page",
+            "module": "ember-osf",
+            "submodule": "utils"
+        },
+        {
+            "file": "addon/utils/discover-page.js",
+            "line": 146,
+            "description": "Sort contributors by order cited and set bibliographic property",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "sortContributors",
+            "params": [
+                {
+                    "name": "contributors",
+                    "description": "- list.contributors from a SHARE ES result",
+                    "type": "List"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "List"
+            },
+            "class": "discover-page",
+            "module": "ember-osf",
+            "submodule": "utils"
+        },
+        {
+            "file": "addon/utils/discover-page.js",
+            "line": 165,
+            "description": "Make share data look like apiv2 preprints data and pull out identifiers",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "transformShareData",
+            "params": [
+                {
+                    "name": "result",
+                    "description": "- hit from a SHARE ES",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Object"
+            },
+            "class": "discover-page",
             "module": "ember-osf",
             "submodule": "utils"
         },

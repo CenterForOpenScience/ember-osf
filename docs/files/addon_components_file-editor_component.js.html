@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>addon/components/search-facet-typeahead/component.js - Ember OSF Addon</title>
+    <title>addon/components/file-editor/component.js - Ember OSF Addon</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.14.0</em>
+            <em>API Docs for: 0.19.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -56,10 +56,8 @@
                                 <li><a href="../classes/Contributor.html">Contributor</a></li>
                                 <li><a href="../classes/current-user.html">current-user</a></li>
                                 <li><a href="../classes/discover-page.html">discover-page</a></li>
-                                <li><a href="../classes/donate-banner.html">donate-banner</a></li>
                                 <li><a href="../classes/DraftRegistration.html">DraftRegistration</a></li>
                                 <li><a href="../classes/dropzone-widget.html">dropzone-widget</a></li>
-                                <li><a href="../classes/elastic-query.html">elastic-query</a></li>
                                 <li><a href="../classes/elem-id.html">elem-id</a></li>
                                 <li><a href="../classes/eosf-project-nav.html">eosf-project-nav</a></li>
                                 <li><a href="../classes/faceted-search.html">faceted-search</a></li>
@@ -127,20 +125,15 @@
                                 <li><a href="../classes/providerRegex.html">providerRegex</a></li>
                                 <li><a href="../classes/Registration.html">Registration</a></li>
                                 <li><a href="../classes/RegistrationActionsMixin.html">RegistrationActionsMixin</a></li>
+                                <li><a href="../classes/scheduled-banner.html">scheduled-banner</a></li>
                                 <li><a href="../classes/search-dropdown.html">search-dropdown</a></li>
-                                <li><a href="../classes/search-facet-daterange.html">search-facet-daterange</a></li>
-                                <li><a href="../classes/search-facet-language.html">search-facet-language</a></li>
                                 <li><a href="../classes/search-facet-locked.html">search-facet-locked</a></li>
-                                <li><a href="../classes/search-facet-source.html">search-facet-source</a></li>
-                                <li><a href="../classes/search-facet-typeahead.html">search-facet-typeahead</a></li>
-                                <li><a href="../classes/search-facet-worktype.html">search-facet-worktype</a></li>
-                                <li><a href="../classes/search-facet-worktype-button.html">search-facet-worktype-button</a></li>
-                                <li><a href="../classes/search-facet-worktype-hierarchy.html">search-facet-worktype-hierarchy</a></li>
                                 <li><a href="../classes/search-help-modal.html">search-help-modal</a></li>
                                 <li><a href="../classes/search-result.html">search-result</a></li>
                                 <li><a href="../classes/service-links.html">service-links</a></li>
                                 <li><a href="../classes/sign-up.html">sign-up</a></li>
                                 <li><a href="../classes/sortOptionDisplay.html">sortOptionDisplay</a></li>
+                                <li><a href="../classes/Subscription.html">Subscription</a></li>
                                 <li><a href="../classes/TaggableMixin.html">TaggableMixin</a></li>
                                 <li><a href="../classes/tags-widget.html">tags-widget</a></li>
                                 <li><a href="../classes/Taxonomy.html">Taxonomy</a></li>
@@ -197,139 +190,55 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: addon/components/search-facet-typeahead/component.js</h1>
+<h1 class="file-heading">File: addon/components/file-editor/component.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import layout from &#x27;./template&#x27;;
 import Ember from &#x27;ember&#x27;;
-import config from &#x27;ember-get-config&#x27;;
-import { termsFilter, getUniqueList } from &#x27;../../utils/elastic-query&#x27;;
+import layout from &#x27;./template&#x27;;
 
 /**
- * Copied from Ember-SHARE.  Typeahead facet - used for items like organization, tags, people filter.
- *
- * &#x60;&#x60;&#x60;handlebars
- * {{search-facet-typeahead
- *      key=facet.key
- *      options=facet
- *      aggregations=aggregations
- *      state=(get facetStates facet.key)
- *      filter=(get facetFilters facet.key)
- *      onChange=(action &#x27;facetChanged&#x27;)
- * }}
- * &#x60;&#x60;&#x60;
- * @class search-facet-typeahead
+ * @module ember-osf
+ * @submodule components
  */
-const RESULTS = 20;
+
+/**
+ * Edit the chosen file
+ *
+ * Sample usage:
+ * &#x60;&#x60;&#x60;handlebars
+ * {{file-editor
+     fileText=fileText
+     save=(action &#x27;save&#x27;)}}
+ * &#x60;&#x60;&#x60;
+ * @class file-editor
+ */
 
 export default Ember.Component.extend({
+    i18n: Ember.inject.service(),
+    classNames: [&#x27;file-editor&#x27;],
     layout,
+    fileText: &#x27;&#x27;,
+    unsavedText: &#x27;&#x27;,
 
-    filterType: Ember.computed(function() {
-        return termsFilter;
+    newText: Ember.computed(&#x27;fileText&#x27;, function() {
+        return String(this.get(&#x27;fileText&#x27;));
     }),
-
-    init() {
-        this._super(...arguments);
-        this.send(&#x27;changeFilter&#x27;, this.get(&#x27;state&#x27;));
-    },
-
-    placeholder: Ember.computed(function() {
-        return &#x27;Add &#x27; + this.get(&#x27;options.title&#x27;) + &#x27; filter&#x27;;
-    }),
-
-    selected: Ember.computed(&#x27;state&#x27;, function() {
-        let value = this.get(&#x27;state&#x27;);
-        return value ? value : [];
-    }),
-
-    changed: Ember.observer(&#x27;state&#x27;, function() {
-        let state = Ember.isBlank(this.get(&#x27;state&#x27;)) ? [] : this.get(&#x27;state&#x27;);
-        let previousState = this.get(&#x27;previousState&#x27;) || [];
-
-        if (Ember.compare(previousState, state) !== 0) {
-            let value = this.get(&#x27;state&#x27;);
-            this.send(&#x27;changeFilter&#x27;, value ? value : []);
-        }
-    }),
-
-    buildQueryObjectMatch(selected) {
-        let key = this.get(&#x27;key&#x27;);
-        let newValue = !selected[0] ? [] : selected;
-        let newFilter = this.get(&#x27;filterType&#x27;)(key, getUniqueList(newValue));
-        return { filter: newFilter, value: newValue };
-    },
-
-    handleTypeaheadResponse(response) {
-        return getUniqueList(response.hits.hits.map(next =&gt; next._source.name));
-    },
-
-    typeaheadQueryUrl() {
-        let base = this.get(&#x27;options.base&#x27;) || this.get(&#x27;key&#x27;);
-        return config.OSF.shareApiUrl + &#x60;/search/${base}/_search&#x60;;
-    },
-
-    buildTypeaheadQuery(text) {
-        const match = {
-            match: {
-                &#x27;name.autocomplete&#x27;: {
-                    query: text,
-                    operator: &#x27;and&#x27;,
-                    fuzziness: &#x27;AUTO&#x27;
-                }
-            }
-        };
-        const type = this.get(&#x27;options.type&#x27;);
-        if (type) {
-            return {
-                size: RESULTS,
-                query: {
-                    bool: {
-                        must: [match],
-                        filter: [{ term: { types: type } }]
-                    }
-                }
-            };
-        }
-        return { size: RESULTS, query: match };
-    },
-
-    _performSearch(term, resolve, reject) {
-        if (Ember.isBlank(term)) { return []; }
-
-        var data = JSON.stringify(this.buildTypeaheadQuery(term));
-
-        let jqDeferred = Ember.$.ajax({
-            url: this.typeaheadQueryUrl(),
-            crossDomain: true,
-            type: &#x27;POST&#x27;,
-            contentType: &#x27;application/json&#x27;,
-            data: data
-        }).then((json) =&gt;
-            resolve(this.handleTypeaheadResponse(json)),
-            reject
-        );
-
-        return new Ember.RSVP.Promise((resolve, reject) =&gt; {
-            jqDeferred.done((value) =&gt; resolve(value));
-            jqDeferred.fail((reason) =&gt; reject(reason));
-        });
-    },
 
     actions: {
-        changeFilter(selected) {
-            let { filter: filter, value: value } = this.buildQueryObjectMatch(selected);
-            this.set(&#x27;previousState&#x27;, this.get(&#x27;state&#x27;));
-            this.sendAction(&#x27;onChange&#x27;, this.get(&#x27;key&#x27;), filter, value);
+        valueUpdated(newValue) {
+            this.set(&#x27;unsavedText&#x27;, newValue);
         },
-
-        elasticSearch(term) {
-            return new Ember.RSVP.Promise((resolve, reject) =&gt; {
-                Ember.run.debounce(this, this._performSearch, term, resolve, reject, 250);
-            });
-        }
-    }
+        revertText() {
+            const fileText = this.get(&#x27;fileText&#x27;);
+            this.set(&#x27;fileText&#x27;, &#x27;&#x27;);
+            // Restore original text in next tick of the run loop to trigger re-render of ember-ace
+            Ember.run.next(() =&gt; this.set(&#x27;fileText&#x27;, fileText));
+        },
+        saveText() {
+            this.attrs.save(this.get(&#x27;unsavedText&#x27;));
+        },
+    },
 });
 
     </pre>
