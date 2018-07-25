@@ -279,14 +279,6 @@ export default {
                 chooseAnOSFProject: 'Choose an OSF project:',
                 loginToOSF: 'Login to OSF'
             },
-            licensePicker: {
-                chooseALicense: 'Choose a license',
-                copyrightHolders: 'Copyright Holders',
-                licenseFAQ: 'License FAQ',
-                required: '(required)',
-                save: 'Save',
-                year: 'Year'
-            },
             maintenanceBanner: {
                 and: 'and',
                 notice: 'Notice:',
