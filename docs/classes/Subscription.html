@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>addon/components/search-facet-worktype/component.js - Ember OSF Addon</title>
+    <title>Subscription - Ember OSF Addon</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.14.0</em>
+            <em>API Docs for: 0.19.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -56,10 +56,8 @@
                                 <li><a href="../classes/Contributor.html">Contributor</a></li>
                                 <li><a href="../classes/current-user.html">current-user</a></li>
                                 <li><a href="../classes/discover-page.html">discover-page</a></li>
-                                <li><a href="../classes/donate-banner.html">donate-banner</a></li>
                                 <li><a href="../classes/DraftRegistration.html">DraftRegistration</a></li>
                                 <li><a href="../classes/dropzone-widget.html">dropzone-widget</a></li>
-                                <li><a href="../classes/elastic-query.html">elastic-query</a></li>
                                 <li><a href="../classes/elem-id.html">elem-id</a></li>
                                 <li><a href="../classes/eosf-project-nav.html">eosf-project-nav</a></li>
                                 <li><a href="../classes/faceted-search.html">faceted-search</a></li>
@@ -127,20 +125,15 @@
                                 <li><a href="../classes/providerRegex.html">providerRegex</a></li>
                                 <li><a href="../classes/Registration.html">Registration</a></li>
                                 <li><a href="../classes/RegistrationActionsMixin.html">RegistrationActionsMixin</a></li>
+                                <li><a href="../classes/scheduled-banner.html">scheduled-banner</a></li>
                                 <li><a href="../classes/search-dropdown.html">search-dropdown</a></li>
-                                <li><a href="../classes/search-facet-daterange.html">search-facet-daterange</a></li>
-                                <li><a href="../classes/search-facet-language.html">search-facet-language</a></li>
                                 <li><a href="../classes/search-facet-locked.html">search-facet-locked</a></li>
-                                <li><a href="../classes/search-facet-source.html">search-facet-source</a></li>
-                                <li><a href="../classes/search-facet-typeahead.html">search-facet-typeahead</a></li>
-                                <li><a href="../classes/search-facet-worktype.html">search-facet-worktype</a></li>
-                                <li><a href="../classes/search-facet-worktype-button.html">search-facet-worktype-button</a></li>
-                                <li><a href="../classes/search-facet-worktype-hierarchy.html">search-facet-worktype-hierarchy</a></li>
                                 <li><a href="../classes/search-help-modal.html">search-help-modal</a></li>
                                 <li><a href="../classes/search-result.html">search-result</a></li>
                                 <li><a href="../classes/service-links.html">service-links</a></li>
                                 <li><a href="../classes/sign-up.html">sign-up</a></li>
                                 <li><a href="../classes/sortOptionDisplay.html">sortOptionDisplay</a></li>
+                                <li><a href="../classes/Subscription.html">Subscription</a></li>
                                 <li><a href="../classes/TaggableMixin.html">TaggableMixin</a></li>
                                 <li><a href="../classes/tags-widget.html">tags-widget</a></li>
                                 <li><a href="../classes/Taxonomy.html">Taxonomy</a></li>
@@ -197,112 +190,45 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: addon/components/search-facet-worktype/component.js</h1>
+<h1>Subscription Class</h1>
+<div class="box meta">
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-import Ember from &#x27;ember&#x27;;
-import layout from &#x27;./template&#x27;;
-import { termsFilter, getUniqueList } from &#x27;../../utils/elastic-query&#x27;;
-import config from &#x27;ember-get-config&#x27;;
 
-/**
- * Copied from Ember-SHARE.  Type facet.
- *
- * &#x60;&#x60;&#x60;handlebars
- * {{search-facet-worktype
- *      key=facet.key
- *      options=facet
- *      aggregations=aggregations
- *      state=(get facetStates facet.key)
- *      filter=(get facetFilters facet.key)
- *      onChange=(action &#x27;facetChanged&#x27;)
- * }}
- * &#x60;&#x60;&#x60;
- * @class search-facet-worktype
- */
+        <div class="foundat">
+            Defined in: <a href="../files/addon_models_subscription.js.html#l10"><code>addon&#x2F;models&#x2F;subscription.js:10</code></a>
+        </div>
 
-export default Ember.Component.extend({
-    layout,
-    category: &#x27;filter-facets&#x27;,
-    types: null,
+            Module: <a href="../modules/models.html">models</a><br>
+            Parent Module: <a href="../modules/ember-osf.html">ember-osf</a>
 
-    init() {
-        this.getTypes();
-        this._super(...arguments);
-        this.send(&#x27;setState&#x27;, this.get(&#x27;state&#x27;));
-    },
-    getTypes() {
-        // Ember-SHARE method
-        return Ember.$.ajax({
-            url: config.OSF.shareApiUrl + &#x27;/schema/creativework/hierarchy/&#x27;,
-            crossDomain: true,
-            type: &#x27;GET&#x27;,
-            contentType: &#x27;application/vnd.api+json&#x27;,
-        }).then((json) =&gt; {
-            if (json.data) {
-                this.set(&#x27;types&#x27;, json.data);
-            }
-        });
-    },
-    processedTypes: Ember.computed(&#x27;types&#x27;, function() {
-        // Ember-SHARE property
-        const types = this.get(&#x27;types&#x27;) &amp;&amp; this.get(&#x27;types&#x27;).CreativeWork ? this.get(&#x27;types&#x27;).CreativeWork.children : {};
-        return this.transformTypes(types);
-    }),
-    transformTypes(obj) {
-        // Ember-SHARE method
-        if (typeof (obj) !== &#x27;object&#x27;) {
-            return obj;
-        }
+</div>
 
-        for (let key in obj) {
-            let lowKey = key.replace(/([A-Z])/g, &#x27; $1&#x27;).trim().toLowerCase();
-            obj[lowKey] = this.transformTypes(obj[key]);
-            if (key !== lowKey) {
-                delete obj[key];
-            }
-        }
-        return obj;
-    },
-    selected: Ember.computed(&#x27;state&#x27;, function() {
-        return this.get(&#x27;state&#x27;) || [];
-    }),
 
-    changed: Ember.observer(&#x27;state&#x27;, function() {
-        let state = this.get(&#x27;state&#x27;);
-        state = Ember.isBlank(state) ? [] : state;
-        let previousState = this.get(&#x27;previousState&#x27;) || [];
+<div class="box intro">
+    <p>Model for OSF APIv2 subscriptions.</p>
 
-        if (Ember.compare(previousState, state) !== 0) {
-            let value = state || [];
-            this.send(&#x27;setState&#x27;, value);
-        }
-    }),
+</div>
 
-    buildQueryObjectMatch(selected) {
-        let newValue = !selected[0] ? [] : selected;
-        let newFilter = termsFilter(&#x27;types&#x27;, getUniqueList(newValue));
-        return { filter: newFilter, value: newValue };
-    },
 
-    actions: {
-        setState(selected) {
-            let key = this.get(&#x27;key&#x27;);
-            let { filter: filter, value: value } = this.buildQueryObjectMatch(selected.length ? selected : []);
-            this.set(&#x27;previousState&#x27;, this.get(&#x27;state&#x27;));
-            this.sendAction(&#x27;onChange&#x27;, key, filter, value);
-        },
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
 
-        toggle(type) {
-            let selected = this.get(&#x27;selected&#x27;);
-            selected = selected.includes(type) ? [] : [type];
-            this.send(&#x27;setState&#x27;, selected);
-        }
-    }
-});
+    </ul>
 
-    </pre>
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+
+
+
+        </div>
+
+
+
+
+    </div>
 </div>
                     </div>
                 </div>

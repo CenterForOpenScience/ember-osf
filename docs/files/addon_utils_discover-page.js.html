@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>addon/components/search-facet-worktype-button/component.js - Ember OSF Addon</title>
+    <title>addon/utils/discover-page.js - Ember OSF Addon</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.14.0</em>
+            <em>API Docs for: 0.19.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -56,10 +56,8 @@
                                 <li><a href="../classes/Contributor.html">Contributor</a></li>
                                 <li><a href="../classes/current-user.html">current-user</a></li>
                                 <li><a href="../classes/discover-page.html">discover-page</a></li>
-                                <li><a href="../classes/donate-banner.html">donate-banner</a></li>
                                 <li><a href="../classes/DraftRegistration.html">DraftRegistration</a></li>
                                 <li><a href="../classes/dropzone-widget.html">dropzone-widget</a></li>
-                                <li><a href="../classes/elastic-query.html">elastic-query</a></li>
                                 <li><a href="../classes/elem-id.html">elem-id</a></li>
                                 <li><a href="../classes/eosf-project-nav.html">eosf-project-nav</a></li>
                                 <li><a href="../classes/faceted-search.html">faceted-search</a></li>
@@ -127,20 +125,15 @@
                                 <li><a href="../classes/providerRegex.html">providerRegex</a></li>
                                 <li><a href="../classes/Registration.html">Registration</a></li>
                                 <li><a href="../classes/RegistrationActionsMixin.html">RegistrationActionsMixin</a></li>
+                                <li><a href="../classes/scheduled-banner.html">scheduled-banner</a></li>
                                 <li><a href="../classes/search-dropdown.html">search-dropdown</a></li>
-                                <li><a href="../classes/search-facet-daterange.html">search-facet-daterange</a></li>
-                                <li><a href="../classes/search-facet-language.html">search-facet-language</a></li>
                                 <li><a href="../classes/search-facet-locked.html">search-facet-locked</a></li>
-                                <li><a href="../classes/search-facet-source.html">search-facet-source</a></li>
-                                <li><a href="../classes/search-facet-typeahead.html">search-facet-typeahead</a></li>
-                                <li><a href="../classes/search-facet-worktype.html">search-facet-worktype</a></li>
-                                <li><a href="../classes/search-facet-worktype-button.html">search-facet-worktype-button</a></li>
-                                <li><a href="../classes/search-facet-worktype-hierarchy.html">search-facet-worktype-hierarchy</a></li>
                                 <li><a href="../classes/search-help-modal.html">search-help-modal</a></li>
                                 <li><a href="../classes/search-result.html">search-result</a></li>
                                 <li><a href="../classes/service-links.html">service-links</a></li>
                                 <li><a href="../classes/sign-up.html">sign-up</a></li>
                                 <li><a href="../classes/sortOptionDisplay.html">sortOptionDisplay</a></li>
+                                <li><a href="../classes/Subscription.html">Subscription</a></li>
                                 <li><a href="../classes/TaggableMixin.html">TaggableMixin</a></li>
                                 <li><a href="../classes/tags-widget.html">tags-widget</a></li>
                                 <li><a href="../classes/Taxonomy.html">Taxonomy</a></li>
@@ -197,55 +190,235 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: addon/components/search-facet-worktype-button/component.js</h1>
+<h1 class="file-heading">File: addon/utils/discover-page.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 import Ember from &#x27;ember&#x27;;
-import layout from &#x27;./template&#x27;;
+import config from &#x27;ember-get-config&#x27;;
 
 /**
- * Copied from Ember-SHARE.  Worktype button.
- *
- * &#x60;&#x60;&#x60;handlebars
- * {{search-facet-worktype-button
- *      key=facet.key
- *      options=facet
- *      aggregations=aggregations
- *      state=(get facetStates facet.key)
- *      filter=(get facetFilters facet.key)
- *      onChange=(action &#x27;facetChanged&#x27;)
- * }}
- * &#x60;&#x60;&#x60;
- * @class search-facet-worktype-button
+ * @module ember-osf
+ * @submodule utils
  */
 
-export default Ember.Component.extend({
-    layout,
-    selected: Ember.computed(&#x27;selectedTypes.[]&#x27;, function() {
-        let selectedTypes = this.get(&#x27;selectedTypes&#x27;);
-        return selectedTypes &amp;&amp; selectedTypes.includes(this.get(&#x27;type&#x27;));
-    }),
+/**
+ * @class discover-page
+ */
 
-    label: Ember.computed(&#x27;type&#x27;, function() {
-        if (this.get(&#x27;type&#x27;) === &#x27;creative work&#x27;) {
-            return &#x27;Not Categorized&#x27;;
-        }
-        // title case work types: &#x27;creative work&#x27; --&gt; &#x27;Creative Work&#x27;
-        return this.get(&#x27;type&#x27;).replace(/\w\S*/g, function(str) {return Ember.String.capitalize(str);});
-    }),
-
-    actions: {
-        click() {
-            this.$().blur();
-            this.sendAction(&#x27;onClick&#x27;, this.get(&#x27;type&#x27;));
+const MAX_SOURCES = 500;
+const elasticAggregations = {
+    sources: {
+        terms: {
+            field: &#x27;sources&#x27;,
+            size: MAX_SOURCES,
         },
+    },
+};
 
-        toggleBody() {
-            this.sendAction(&#x27;toggleCollapse&#x27;);
+/**
+ *  For services where portion of query is restricted.
+ *  Builds the locked portion of the query.
+ *  For example, in preprints, types=[&#x27;preprint&#x27;, &#x27;thesis&#x27;]
+ *  is something that cannot be modified by the user.
+ *
+ *  @method buildLockedQueryBody
+ *  @param {Object} lockedParams - Locked param keys matched to the locked value.
+ *  @return {List} queryBody - locked portion of query body
+*/
+function buildLockedQueryBody(lockedParams) {
+    const queryBody = [];
+    Object.keys(lockedParams).forEach((key) =&gt; {
+        const query = {};
+        let queryKey = [&#x60;${key}&#x60;];
+        if (key === &#x27;tags&#x27;) {
+            queryKey = key;
+        } else if (key === &#x27;contributors&#x27;) {
+            queryKey = &#x27;lists.contributors.name&#x27;;
         }
+        query[queryKey] = lockedParams[key];
+        if (key === &#x27;bool&#x27;) {
+            queryBody.push(query);
+        } else {
+            queryBody.push({
+                terms: query,
+            });
+        }
+    });
+    return queryBody;
+}
+
+/**
+ *  Construct queryBody for OSF facets
+ *
+ *  @method buildQueryBody
+ *  @param {Object} queryParams - Ember Parachute queryParams
+ *  @param {List} filters - Filters for query body
+ *  @param {Boolean} queryParamsChanged - Whether or not any queryParams differ from their defaults
+ *  @return {String} queryBody - Stringified queryBody
+*/
+function buildQueryBody(queryParams, filters, queryParamsChanged) {
+    let query = {
+        query_string: {
+            query: queryParams.q || &#x27;*&#x27;,
+        },
+    };
+
+    if (filters.length) {
+        query = {
+            bool: {
+                must: query,
+                filter: filters,
+            },
+        };
     }
-});
+
+    const queryBody = {
+        query,
+        from: (queryParams.page - 1) * queryParams.size,
+        aggregations: elasticAggregations,
+    };
+
+    let sortValue = queryParams.sort;
+    if (!queryParamsChanged) {
+        sortValue = &#x27;-date_modified&#x27;;
+    }
+
+    if (sortValue) {
+        const sortBy = {};
+        sortBy[sortValue.replace(/^-/, &#x27;&#x27;)] = sortValue[0] === &#x27;-&#x27; ? &#x27;desc&#x27; : &#x27;asc&#x27;;
+        queryBody.sort = sortBy;
+    }
+
+    return JSON.stringify(queryBody);
+}
+
+/**
+ *  Construct filters for OSF facets (e.g., providers, subjects, etc.)
+ *
+ *  @method constructBasicFilters
+ *  @param {Object} filterMap - Mapping from OSF params to SHARE params
+ *  @param {List} filters - Filters for query body
+ *  @param {Boolean} isProvider - theme.isProvider
+ *  @param {Object} queryParams - Ember Parachute queryParams
+ *  @return {List} filters - Filters for query body
+*/
+function constructBasicFilters(filterMap, filters, isProvider, queryParams) {
+    Object.keys(filterMap).forEach((key) =&gt; {
+        const val = filterMap[key];
+        const filterList = queryParams[key];
+
+        if (!filterList.length || (key === &#x27;provider&#x27; &amp;&amp; isProvider)) {
+            return;
+        }
+
+        if (val === &#x27;subjects&#x27;) {
+            const matched = [];
+            for (const filter of filterList) {
+                matched.push({
+                    match: {
+                        [val]: filter,
+                    },
+                });
+            }
+
+            filters.push({
+                bool: {
+                    should: matched,
+                },
+            });
+        } else {
+            filters.push({
+                terms: {
+                    [val]: filterList,
+                },
+            });
+        }
+    });
+
+    return filters;
+}
+
+/**
+ * Sort contributors by order cited and set bibliographic property
+ *
+ * @private
+ * @method sortContributors
+ * @param {List} contributors - list.contributors from a SHARE ES result
+ * @return {List}
+ */
+function sortContributors(contributors) {
+    return contributors
+        .sort((b, a) =&gt; (b.order_cited || -1) - (a.order_cited || -1))
+        .map(contributor =&gt; ({
+            users: Object.keys(contributor).reduce(
+                (acc, key) =&gt; Ember.merge(acc, { [Ember.String.camelize(key)]: contributor[key] }),
+                { bibliographic: contributor.relation !== &#x27;contributor&#x27; }
+            )
+        }));
+}
+
+/**
+ * Make share data look like apiv2 preprints data and pull out identifiers
+ *
+ * @private
+ * @method transformShareData
+ * @param {Object} result - hit from a SHARE ES
+ * @return {Object}
+ */
+function transformShareData(result) {
+    const transformedResult = Ember.merge(result._source, {
+        id: result._id,
+        type: &#x27;elastic-search-result&#x27;,
+        workType: result._source[&#x27;@type&#x27;],
+        abstract: result._source.description,
+        subjects: result._source.subjects.map(each =&gt; ({ text: each })),
+        subject_synonyms: result._source.subject_synonyms.map(each =&gt; ({ text: each })),
+        providers: result._source.sources.map(item =&gt; ({
+            name: item,
+        })),
+        hyperLinks: [ // Links that are hyperlinks from hit._source.lists.links
+            {
+                type: &#x27;share&#x27;,
+                url: &#x60;${config.OSF.shareBaseUrl}${result._source.type.replace(/ /g, &#x27;&#x27;)}/${result._id}&#x60;,
+            },
+        ],
+        infoLinks: [], // Links that are not hyperlinks  hit._source.lists.links
+        registrationType: result._source.registration_type, // for registries
+    });
+
+    result._source.identifiers.forEach(function(identifier) {
+        if (identifier.startsWith(&#x27;http://&#x27;)) {
+            transformedResult.hyperLinks.push({ url: identifier });
+        } else {
+            const spl = identifier.split(&#x27;://&#x27;);
+            const [type, uri] = spl;
+            transformedResult.infoLinks.push({ type, uri });
+        }
+    });
+
+    transformedResult.contributors = transformedResult.lists.contributors ?
+        sortContributors(transformedResult.lists.contributors) :
+        [];
+
+    // Temporary fix to handle half way migrated SHARE ES
+    // Only false will result in a false here.
+    transformedResult.contributors.map((contributor) =&gt; {
+        const contrib = contributor;
+        contrib.users.bibliographic = !(contributor.users.bibliographic === false);
+        return contrib;
+    });
+
+    return transformedResult;
+}
+
+export {
+    sortContributors,
+    transformShareData,
+    buildLockedQueryBody,
+    constructBasicFilters,
+    buildQueryBody,
+};
 
     </pre>
 </div>

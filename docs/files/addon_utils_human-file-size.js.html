@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>addon/utils/elastic-query.js - Ember OSF Addon</title>
+    <title>addon/utils/human-file-size.js - Ember OSF Addon</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.14.0</em>
+            <em>API Docs for: 0.19.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -56,10 +56,8 @@
                                 <li><a href="../classes/Contributor.html">Contributor</a></li>
                                 <li><a href="../classes/current-user.html">current-user</a></li>
                                 <li><a href="../classes/discover-page.html">discover-page</a></li>
-                                <li><a href="../classes/donate-banner.html">donate-banner</a></li>
                                 <li><a href="../classes/DraftRegistration.html">DraftRegistration</a></li>
                                 <li><a href="../classes/dropzone-widget.html">dropzone-widget</a></li>
-                                <li><a href="../classes/elastic-query.html">elastic-query</a></li>
                                 <li><a href="../classes/elem-id.html">elem-id</a></li>
                                 <li><a href="../classes/eosf-project-nav.html">eosf-project-nav</a></li>
                                 <li><a href="../classes/faceted-search.html">faceted-search</a></li>
@@ -127,20 +125,15 @@
                                 <li><a href="../classes/providerRegex.html">providerRegex</a></li>
                                 <li><a href="../classes/Registration.html">Registration</a></li>
                                 <li><a href="../classes/RegistrationActionsMixin.html">RegistrationActionsMixin</a></li>
+                                <li><a href="../classes/scheduled-banner.html">scheduled-banner</a></li>
                                 <li><a href="../classes/search-dropdown.html">search-dropdown</a></li>
-                                <li><a href="../classes/search-facet-daterange.html">search-facet-daterange</a></li>
-                                <li><a href="../classes/search-facet-language.html">search-facet-language</a></li>
                                 <li><a href="../classes/search-facet-locked.html">search-facet-locked</a></li>
-                                <li><a href="../classes/search-facet-source.html">search-facet-source</a></li>
-                                <li><a href="../classes/search-facet-typeahead.html">search-facet-typeahead</a></li>
-                                <li><a href="../classes/search-facet-worktype.html">search-facet-worktype</a></li>
-                                <li><a href="../classes/search-facet-worktype-button.html">search-facet-worktype-button</a></li>
-                                <li><a href="../classes/search-facet-worktype-hierarchy.html">search-facet-worktype-hierarchy</a></li>
                                 <li><a href="../classes/search-help-modal.html">search-help-modal</a></li>
                                 <li><a href="../classes/search-result.html">search-result</a></li>
                                 <li><a href="../classes/service-links.html">service-links</a></li>
                                 <li><a href="../classes/sign-up.html">sign-up</a></li>
                                 <li><a href="../classes/sortOptionDisplay.html">sortOptionDisplay</a></li>
+                                <li><a href="../classes/Subscription.html">Subscription</a></li>
                                 <li><a href="../classes/TaggableMixin.html">TaggableMixin</a></li>
                                 <li><a href="../classes/tags-widget.html">tags-widget</a></li>
                                 <li><a href="../classes/Taxonomy.html">Taxonomy</a></li>
@@ -197,115 +190,45 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: addon/utils/elastic-query.js</h1>
+<h1 class="file-heading">File: addon/utils/human-file-size.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import Ember from &#x27;ember&#x27;;
-import moment from &#x27;moment&#x27;;
-
 /**
  * @module ember-osf
  * @submodule utils
  */
 
 /**
- * @class elastic-query
+ * @class human-file-size
  */
 
 /**
- * @method dateRangeFilter
- * @param String field Name of the date field to filter
- * @param Object start Beginning of date range
- * @param Object end End of date range
- * @return filter
+ * Borrowed from osf code, transforms received number of bytes size into human-
+ * readable sizing.
+ *
+ * @method humanFileSize
+ * @param {Number|String} bytes Number of bytes
+ * @param {Boolean} bool Whether to use 1000 as the base for conversion or 1024
+ * @return {String}
  */
-function dateRangeFilter(field, start, end) {
-    if (start &amp;&amp; end) {
-        let filter = { range: {} };
-        filter.range[field] = {
-            gte: moment(start).format(),
-            lte: moment(end).format()
-        };
-        return filter;
-    } else {
-        return null;
+export default function humanFileSize(bytes, si) {
+//Borrowed from osfHelpers:
+//https://github.com/CenterForOpenScience/osf.io/blob/develop/website/static/js/osfHelpers.js#L645
+    var thresh = si ? 1000 : 1024;
+    if(Math.abs(bytes) &lt; thresh) {
+        return bytes + &#x27; B&#x27;;
     }
+    var units = si ?
+        [&#x27;kB&#x27;,&#x27;MB&#x27;,&#x27;GB&#x27;,&#x27;TB&#x27;,&#x27;PB&#x27;,&#x27;EB&#x27;,&#x27;ZB&#x27;,&#x27;YB&#x27;] :
+        [&#x27;KiB&#x27;,&#x27;MiB&#x27;,&#x27;GiB&#x27;,&#x27;TiB&#x27;,&#x27;PiB&#x27;,&#x27;EiB&#x27;,&#x27;ZiB&#x27;,&#x27;YiB&#x27;];
+    var u = -1;
+    do {
+        bytes /= thresh;
+        ++u;
+    } while(Math.abs(bytes) &gt;= thresh &amp;&amp; u &lt; units.length - 1);
+    return bytes.toFixed(1) + &#x27; &#x27; + units[u];
 }
-
-
-/**
- * @method termsFilter
- * @param String field Name of the field to filter
- * @param Array terms List of terms to match
- * @param Boolean [all] If true (default), return an array of filters to match results with *all* of the terms. Otherwise, return a single filter to match results with *any* of the terms.
- * @return filter
- */
-function termsFilter(field, terms, all = true) {
-    if (terms &amp;&amp; terms.length) {
-        if ([&#x27;contributors&#x27;, &#x27;funders&#x27;, &#x27;identifiers&#x27;, &#x27;tags&#x27;, &#x27;publishers&#x27;].includes(field)) {
-            field = field + &#x27;.exact&#x27;;
-        }
-        if (all) {
-            return terms.map(term =&gt; {
-                let filter = { term: {} };
-                // creative work filter should not include subtypes
-                if (term === &#x27;creative work&#x27; &amp;&amp; field === &#x27;types&#x27;) {
-                    filter.term.type = term;
-                } else {
-                    filter.term[field] = term;
-                }
-                return filter;
-            });
-        } else {
-            let filter = { terms: {} };
-            filter.terms[field] = terms;
-            return filter;
-        }
-    } else {
-        return null;
-    }
-}
-
-function uniqueFilter(value, index, self) {
-    return self.indexOf(value) === index;
-}
-
-function getUniqueList(data) {
-    return data.filter(uniqueFilter);
-}
-
-function encodeParams(tags) {
-    return tags.map(tag =&gt; tag.replace(/,/g, &#x27;,\\&#x27;));
-}
-
-function decodeParams(param) {
-    return param.split(/,(?!\\)/).map(function(tag) {
-        return tag.replace(/,\\/g, &#x27;,&#x27;);
-    });
-}
-
-function getSplitParams(params) {
-    if (!params.length) {
-        return params.slice(0);
-    } else if (params.length &amp;&amp; Ember.$.isArray(params[0])) {
-        return params[0];
-    } else if (params.length &amp;&amp; typeof (params) === &#x27;string&#x27;) {
-        return decodeParams(params);
-    } else if (params.length === 1) {
-        return decodeParams(params[0]);
-    }
-    return params;
-}
-
-export {
-    dateRangeFilter,
-    termsFilter,
-    getUniqueList,
-    encodeParams,
-    decodeParams,
-    getSplitParams
-};
 
     </pre>
 </div>

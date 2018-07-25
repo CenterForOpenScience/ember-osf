@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.14.0</em>
+            <em>API Docs for: 0.19.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -56,10 +56,8 @@
                                 <li><a href="../classes/Contributor.html">Contributor</a></li>
                                 <li><a href="../classes/current-user.html">current-user</a></li>
                                 <li><a href="../classes/discover-page.html">discover-page</a></li>
-                                <li><a href="../classes/donate-banner.html">donate-banner</a></li>
                                 <li><a href="../classes/DraftRegistration.html">DraftRegistration</a></li>
                                 <li><a href="../classes/dropzone-widget.html">dropzone-widget</a></li>
-                                <li><a href="../classes/elastic-query.html">elastic-query</a></li>
                                 <li><a href="../classes/elem-id.html">elem-id</a></li>
                                 <li><a href="../classes/eosf-project-nav.html">eosf-project-nav</a></li>
                                 <li><a href="../classes/faceted-search.html">faceted-search</a></li>
@@ -127,20 +125,15 @@
                                 <li><a href="../classes/providerRegex.html">providerRegex</a></li>
                                 <li><a href="../classes/Registration.html">Registration</a></li>
                                 <li><a href="../classes/RegistrationActionsMixin.html">RegistrationActionsMixin</a></li>
+                                <li><a href="../classes/scheduled-banner.html">scheduled-banner</a></li>
                                 <li><a href="../classes/search-dropdown.html">search-dropdown</a></li>
-                                <li><a href="../classes/search-facet-daterange.html">search-facet-daterange</a></li>
-                                <li><a href="../classes/search-facet-language.html">search-facet-language</a></li>
                                 <li><a href="../classes/search-facet-locked.html">search-facet-locked</a></li>
-                                <li><a href="../classes/search-facet-source.html">search-facet-source</a></li>
-                                <li><a href="../classes/search-facet-typeahead.html">search-facet-typeahead</a></li>
-                                <li><a href="../classes/search-facet-worktype.html">search-facet-worktype</a></li>
-                                <li><a href="../classes/search-facet-worktype-button.html">search-facet-worktype-button</a></li>
-                                <li><a href="../classes/search-facet-worktype-hierarchy.html">search-facet-worktype-hierarchy</a></li>
                                 <li><a href="../classes/search-help-modal.html">search-help-modal</a></li>
                                 <li><a href="../classes/search-result.html">search-result</a></li>
                                 <li><a href="../classes/service-links.html">service-links</a></li>
                                 <li><a href="../classes/sign-up.html">sign-up</a></li>
                                 <li><a href="../classes/sortOptionDisplay.html">sortOptionDisplay</a></li>
+                                <li><a href="../classes/Subscription.html">Subscription</a></li>
                                 <li><a href="../classes/TaggableMixin.html">TaggableMixin</a></li>
                                 <li><a href="../classes/tags-widget.html">tags-widget</a></li>
                                 <li><a href="../classes/Taxonomy.html">Taxonomy</a></li>
@@ -202,6 +195,11 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import Ember from &#x27;ember&#x27;;
+
+import { task, timeout } from &#x27;ember-concurrency&#x27;;
+import config from &#x27;ember-get-config&#x27;;
+
+import { authenticatedAJAX } from &#x27;ember-osf/utils/ajax-helpers&#x27;;
 import layout from &#x27;./template&#x27;;
 
 /**
@@ -231,12 +229,32 @@ const citationStyles = [
  * @param {node} node for which to fetch citations
  */
 export default Ember.Component.extend({
+    store: Ember.inject.service(),
+    i18n: Ember.inject.service(),
+
     layout,
     apa: null,
     chicago: null,
     mla: null,
     node: null,
-    store: Ember.inject.service(),
+
+    selectedStyle: &#x27;&#x27;,
+    citationText: &#x27;&#x27;,
+
+    styles: Ember.A([]),
+
+    placeholderMessage: Ember.computed(function() {
+        return this.get(&#x27;i18n&#x27;).t(&#x27;eosf.components.citationWidget.placeholderMessage&#x27;);
+    }),
+    loadingMessage: Ember.computed(function() {
+        return this.get(&#x27;i18n&#x27;).t(&#x27;eosf.components.citationWidget.loadingMessage&#x27;);
+    }),
+    noMatchesMessage: Ember.computed(function() {
+        return this.get(&#x27;i18n&#x27;).t(&#x27;eosf.components.citationWidget.noMatchesMessage&#x27;);
+    }),
+    searchMessage: Ember.computed(function() {
+        return this.get(&#x27;i18n&#x27;).t(&#x27;eosf.components.citationWidget.searchMessage&#x27;);
+    }),
 
     didReceiveAttrs() {
         const node = this.get(&#x27;node&#x27;);
@@ -246,6 +264,7 @@ export default Ember.Component.extend({
         }
 
         const citationLink = node.get(&#x27;links.relationships.citation.links.related.href&#x27;);
+        this.set(&#x27;citationLink&#x27;, citationLink);
 
         for (const { linkSuffix, attr } of citationStyles) {
             this.get(&#x27;store&#x27;)
@@ -253,7 +272,41 @@ export default Ember.Component.extend({
                 .ajax(&#x60;${citationLink}${linkSuffix}/&#x60;, &#x27;GET&#x27;)
                 .then(resp =&gt; this.set(attr, resp.data.attributes.citation));
         }
-    }
+    },
+
+    actions: {
+        selectStyle(style) {
+            this.set(&#x27;selectedStyle&#x27;, style);
+            this.get(&#x27;_selectStyle&#x27;).perform(style.id);
+        }
+    },
+
+    _selectStyle: task(function* (id) {
+        const citationLink = this.get(&#x27;citationLink&#x27;);
+        const response = yield authenticatedAJAX({ url: &#x60;${citationLink}${id}/&#x60; });
+        this.set(&#x27;citationText&#x27;, response.data.attributes.citation);
+    }).restartable(),
+
+    findStyles: task(function* (term) {
+        yield timeout(500);
+        const response = yield Ember.$.ajax({
+            method: &#x27;GET&#x27;,
+            url: &#x60;${config.OSF.apiUrl}/${config.OSF.apiNamespace}/citations/styles/?filter[title,short_title]=${term}&amp;page[size]=100&#x60;,
+            dataType: &#x27;json&#x27;,
+            contentType: &#x27;application/json&#x27;
+        });
+        if (response.links.next !== null) {
+            response.data.push({
+                attributes: {
+                    // TODO: Can (ask product) lazy load the rest of the styles when scrolled down, once @adlius&#x27;s PR is merged:
+                    // https://github.com/CenterForOpenScience/ember-osf/pull/338
+                    title: &#x60;${response.links.meta.total - 100} more, type more to narrow results&#x60;,
+                },
+                disabled: true,
+            });
+        }
+        return response.data;
+    }).restartable()
 });
 
     </pre>
