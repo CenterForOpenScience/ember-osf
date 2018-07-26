@@ -1,0 +1,15 @@
+{{#if hyperlink}}
+    <div class="dropdown pull-right">
+        <button class="dropdown-toggle btn-link share-popover-button" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" aria-label={{t 'eosf.navbar.togglePrimary'}} onclick={{action 'clickSharePopover' metricsExtra}}>
+            <span class="fa fa-share-alt"></span>
+        </button>
+        <div class="dropdown-menu share-popover" role="menu">
+            {{sharing-icons
+                title=title
+                description=description
+                hyperlink=hyperlink
+                metricsExtra=metricsExtra
+            }}
+        </div>
+    </div>
+{{/if}}
