@@ -26,11 +26,11 @@
         margin: 10px 10% 10px 20px;
         @media (max-width: 500px) {
             text-align: center;
-            margin: 10px 0px;
+            margin: 10px 0;
         }
     }
     @media (max-width: 500px) {
-        padding: 10px 0px;
+        padding: 10px 0;
         display: block;
     }
 }
