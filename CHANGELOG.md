@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Discover page components to include parent lineage if available
 
+### Removed
+- institution navbar waffle flag
+
 ## [0.19.0] - 2018-07-25
 ### Added
 - IP anonymization to Keen
