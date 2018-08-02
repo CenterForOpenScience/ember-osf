@@ -344,11 +344,11 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     }),
 
     init() {
-        // TODO Sort initial results on date_modified
         // Runs on initial render.
         this._super(...arguments);
-
-        this.get('getTypes').perform();
+        if (this.get('facets').find(this.isTypeFacet)) {
+            this.get('getTypes').perform();
+        }
         this.get('getCounts').perform();
     },
 });
