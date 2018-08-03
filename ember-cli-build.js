@@ -40,7 +40,6 @@ module.exports = function(defaults) {
     app.import(path.join(app.bowerDirectory, 'bootstrap-daterangepicker/daterangepicker.js'));
     app.import(path.join(app.bowerDirectory, 'lodash/lodash.js'));
 
-    app.import(path.join(app.bowerDirectory, 'jquery.tagsinput/src/jquery.tagsinput.js'));
     app.import(path.join(app.bowerDirectory, 'osf-style/css/base.css'));
     app.import(path.join(app.bowerDirectory, 'ember/ember-template-compiler.js'));
     app.import(path.join(app.bowerDirectory, 'jquery-mockjax/dist/jquery.mockjax.js'));
