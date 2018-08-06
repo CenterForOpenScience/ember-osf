@@ -22,6 +22,7 @@ const serviceLinks = {
     meetingsHome: `${osfUrl}meetings/`,
     myProjects: `${osfUrl}myprojects/`,
     myQuickFiles: `${osfUrl}quickfiles/`,
+    myRegistrations: `${osfUrl}myprojects/#registrations`,
     osfHome: osfUrl,
     osfSupport: `${osfUrl}support/`,
     preprintsDiscover: `${osfUrl}preprints/discover/`,

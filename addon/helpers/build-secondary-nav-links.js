@@ -105,6 +105,13 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
                     href: serviceLinks.myProjects,
                 }
             );
+            links.REGISTRIES.unshift(
+                {
+                    name: 'eosf.navbar.myRegistrations',
+                    href: serviceLinks.myRegistrations,
+                    type: 'myRegistrations'
+                }
+            );
             this.get('currentUser.user').then((user) => {
                 if (user.get('canViewReviews')) {
                     links.PREPRINTS.insertAt(1, {
