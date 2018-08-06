@@ -1,8 +1,6 @@
 import Ember from 'ember';
 import config from 'ember-get-config';
 
-import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
-
 /**
  * @module ember-osf
  * @submodule services
@@ -19,6 +17,7 @@ import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
 export default Ember.Service.extend({
     session: Ember.inject.service(),
     store: Ember.inject.service(),
+    currentUser: Ember.inject.service('current-user'),
 
     /**
      * Get a URL to download the given file.
@@ -394,13 +393,16 @@ export default Ember.Service.extend({
         });
 
         return new Ember.RSVP.Promise((resolve, reject) => {
-            let p = authenticatedAJAX({
+            const opts = {
                 url,
                 method,
                 headers,
                 data: options.data,
                 processData: false
-            });
+            };
+
+            let p = this.get('currentUser').authenticatedAJAX(opts);
+
             p.done((data) => resolve(data));
             p.fail((_, __, error) => reject(error));
         });

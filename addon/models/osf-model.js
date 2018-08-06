@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import DS from 'ember-data';
-import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
 
 /**
  * @module ember-osf
@@ -14,6 +13,8 @@ import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
  * @public
  */
 export default DS.Model.extend({
+    currentUser: Ember.inject.service('current-user'),
+
     links: DS.attr('links'),
     embeds: DS.attr('embed'),
 
@@ -64,7 +65,7 @@ export default DS.Model.extend({
                 };
 
                 var other = this.get(`_dirtyRelationships.${rel}`) || {};
-                Ember.merge(other, changes);
+                Ember.assign(other, changes);
                 this.set(`_dirtyRelationships.${rel}`, other);
             }
         });
@@ -90,13 +91,13 @@ export default DS.Model.extend({
                 reject(`Could not find a link for '${propertyName}' relationship`);
                 return;
             }
-            const options = Ember.merge({
+            const options = Ember.assign({
                 url,
                 data: queryParams,
                 headers: Ember.get(this.store.adapterFor(this.constructor.modelName), 'headers'),
             }, ajaxOptions);
 
-            authenticatedAJAX(options).then(
+            this.get('currentUser').authenticatedAJAX(options).then(
                 Ember.run.bind(this, this.__queryHasManyDone, resolve),
                 reject
             );

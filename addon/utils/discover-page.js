@@ -156,7 +156,7 @@ function sortContributors(contributors) {
         .sort((b, a) => (b.order_cited || -1) - (a.order_cited || -1))
         .map(contributor => ({
             users: Object.keys(contributor).reduce(
-                (acc, key) => Ember.merge(acc, { [Ember.String.camelize(key)]: contributor[key] }),
+                (acc, key) => Ember.assign(acc, { [Ember.String.camelize(key)]: contributor[key] }),
                 { bibliographic: contributor.relation !== 'contributor' }
             )
         }));
@@ -171,7 +171,7 @@ function sortContributors(contributors) {
  * @return {Object}
  */
 function transformShareData(result) {
-    const transformedResult = Ember.merge(result._source, {
+    const transformedResult = Ember.assign(result._source, {
         id: result._id,
         type: 'elastic-search-result',
         workType: result._source['@type'],

@@ -3,8 +3,6 @@ import Ember from 'ember';
 import Base from 'ember-simple-auth/authenticators/base';
 import config from 'ember-get-config';
 
-import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
-
 /**
  * @module ember-osf
  * @submodule authenticators
@@ -22,17 +20,21 @@ export default Base.extend({
     // HACK: Lets us clear session manually, rather than after .invalidate method resolves
     store: Ember.inject.service(),
     session: Ember.inject.service(),
+    currentUser: Ember.inject.service('current-user'),
 
     _test() {
-        return authenticatedAJAX({
-            method: 'GET',
-            url: `${config.OSF.apiUrl}/${config.OSF.apiNamespace}/`,
-            dataType: 'json',
-            contentType: 'application/json',
-            xhrFields: {
-                withCredentials: true
-            }
-        }).then(res => {
+
+      const opts = {
+          method: 'GET',
+          url: `${config.OSF.apiUrl}/${config.OSF.apiNamespace}/`,
+          dataType: 'json',
+          contentType: 'application/json',
+          xhrFields: {
+              withCredentials: true
+          }
+      }
+
+      return this.get('currentUser').authenticatedAJAX(opts).then(res => {
             // Push the result into the store for later use by the current-user service
             // Note: we have to deepcopy res because pushPayload mutates our data
             // and causes an infinite loop because reasons

@@ -31,6 +31,8 @@ import layout from './template';
 export default Ember.Component.extend({
     layout,
     session: Ember.inject.service(),
+    currentUser: Ember.inject.service('current-user'),
+
     classNameBindings: ['dropzone'],
     dropzone: true,
     enable: true,
@@ -68,6 +70,9 @@ export default Ember.Component.extend({
             return Dropzone.prototype._addFilesFromDirectory.call(directory, path);
         };
 
+        const currentUser = this.get('currentUser');
+        const authorizeXHR = currentUser.authorizeXHR.bind(currentUser);
+
         let drop = new CustomDropzone(`#${this.elementId}`, {
             url: file => typeof this.get('buildUrl') === 'function' ? this.get('buildUrl')(file) : this.get('buildUrl'),
             autoProcessQueue: false,
@@ -75,6 +80,7 @@ export default Ember.Component.extend({
             clickable: this.get('clickable'),
             dictDefaultMessage: this.get('defaultMessage') || 'Drop files here to upload',
             sending(file, xhr) {
+                authorizeXHR(xhr)
                 // Monkey patch to send the raw file instead of formData
                 xhr.send = xhr.send.bind(xhr, file);
             }
@@ -109,7 +115,7 @@ export default Ember.Component.extend({
         });
 
         // Set dropzone options
-        drop.options = Ember.merge(drop.options, dropzoneOptions);
+        drop.options = Ember.assign(drop.options, dropzoneOptions);
 
         // Attach dropzone event listeners: http://www.dropzonejs.com/#events
         drop.events.forEach(event => {

@@ -9,6 +9,7 @@ moduleFor('adapter:moderator', 'Unit | Adapter | moderator', {
         'adapter:moderator',
         'serializer:moderator',
         'service:session',
+        'service:current-user',
     ],
     beforeEach() {
         manualSetup(this.container);

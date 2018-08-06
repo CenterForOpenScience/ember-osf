@@ -57,7 +57,7 @@ export default Ember.Component.extend(Analytics, {
         }.bind(this));
         this._loadProjects(this.get('user'));
     },
-    currentUser: Ember.inject.service(),
+    currentUser: Ember.inject.service('current-user'),
     dropzone: Ember.computed.alias('edit'),
     edit: Ember.computed('user', function() {
         return this.get('user.id') === this.get('currentUser.currentUserId');
