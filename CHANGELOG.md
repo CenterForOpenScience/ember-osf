@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `cookie-banner` component
 - Sharing popover button to the discover search page
 - Whitelist functionality for preprint discover page
+- 'My Preprints' link to the Preprint navbar
 
 ### Removed
 - obsolete `initialWidth` parameter from mfrUrl
