@@ -78,6 +78,7 @@ export default {
             meetings: 'Meetings',
             myProjects: 'My Projects',
             myQuickFiles: 'My Quick Files',
+            myRegistrations: 'My Registrations',
             newProjects: 'New Projects',
             openScienceFramework: 'Open Science Framework',
             osf: 'OSF',
