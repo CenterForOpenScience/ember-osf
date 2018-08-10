@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `cookie-banner` component
 - Sharing popover button to the discover search page
 - Whitelist functionality for preprint discover page
+- itemsPerSlide to discover page carousel
 
 ### Changed
 - Discover page components to include parent lineage if available
