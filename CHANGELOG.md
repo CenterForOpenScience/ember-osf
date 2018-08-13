@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - Discover page components to include parent lineage if available
+- Normalize "Add a Preprint" language across screen sizes
 
 ### Removed
 - institution navbar waffle flag

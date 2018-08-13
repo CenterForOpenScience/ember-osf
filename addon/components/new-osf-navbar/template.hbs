@@ -55,11 +55,8 @@
                                 <li>
                                     <a href="{{navLink.href}}" onclick={{action 'click' 'link' (concat 'Navbar - ' navlink.name)}}>
                                         {{#if (eq navLink.type 'addAPreprint')}}
-                                            <span class="hidden-xs hidden-sm">
+                                            <span>
                                                 {{t navLink.name documentType=documentType}}
-                                            </span>
-                                            <span class="hidden-md hidden-lg hidden-xl">
-                                                {{t 'eosf.navbar.add'}}
                                             </span>
                                         {{else}}
                                             {{t navLink.name}}
