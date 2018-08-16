@@ -11,15 +11,6 @@
             }}
             {{!Title}}
             <h4>
-                {{#each lineage as |ancestor|}}
-                    <span class="ancestor">
-                        {{#each ancestor.identifiers as |link|}}
-                            {{#if (eq link ancestor.identifiers.lastObject)}}
-                                <a href="{{link}}">{{ancestor.title}}</a> / 
-                            {{/if}}
-                        {{/each}}
-                    </span>
-                {{/each}}
                 {{#if (and detailRoute osfID)}}
                     {{#link-to detailRoute osfID invokeAction=(action 'click' 'link' 'Discover - Result Title' osfID)}}
                         {{fix-special-char result.title}}
