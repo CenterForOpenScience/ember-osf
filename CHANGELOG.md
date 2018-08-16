@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.20.0] - 2018-08-16
+### Added
+- `cookie-banner` component
+- Sharing popover button to the discover search page
+- Whitelist functionality for preprint discover page
+- itemsPerSlide to discover page carousel
+
+### Changed
+- Discover page components to include parent lineage if available
+- FAQ link in `license-picker` component to point to update help guide article.
+
+### Removed
+- institution navbar waffle flag
+
 ## [0.19.1] - 2018-08-03
 ### Fixed
 - discover page load delay

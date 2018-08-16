@@ -1,0 +1,36 @@
+& {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    background-color: #263947;
+    color: white;
+    display: flex;
+    align-items: center;
+    z-index: 10;
+    a {
+        color: white;
+        text-decoration: underline;
+        &:hover,
+        &:visited {
+            color: #ADCCE6;
+        }
+    }
+    .flex-item-left {
+        margin: 10px 20px 10px 10%;
+        @media (max-width: 500px) {
+            margin: 5px 10px;
+            padding-bottom: 10px;
+        }
+    }
+    .flex-item-right {
+        margin: 10px 10% 10px 20px;
+        @media (max-width: 500px) {
+            text-align: center;
+            margin: 10px 0;
+        }
+    }
+    @media (max-width: 500px) {
+        padding: 10px 0;
+        display: block;
+    }
+}
