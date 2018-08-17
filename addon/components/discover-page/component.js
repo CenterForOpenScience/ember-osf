@@ -252,7 +252,7 @@ export default Ember.Component.extend(Analytics, hostAppName, {
 
         updateFilters(filterType, item) {
             item = typeof item === 'object' ? item.text : item;
-            const currentState = this.get(`queryParamsState.${filterType}.value`);
+            const currentState = this.get(`queryParamsState.${filterType}.value`).slice(0);
             const hasItem = currentState.includes(item);
 
             if (hasItem) {
@@ -344,11 +344,11 @@ export default Ember.Component.extend(Analytics, hostAppName, {
     }),
 
     init() {
-        // TODO Sort initial results on date_modified
         // Runs on initial render.
         this._super(...arguments);
-
-        this.get('getTypes').perform();
+        if (this.get('facets').find(this.isTypeFacet)) {
+            this.get('getTypes').perform();
+        }
         this.get('getCounts').perform();
     },
 });

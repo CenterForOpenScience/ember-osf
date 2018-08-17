@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>search-facet-language - Ember OSF Addon</title>
+    <title>addon/components/old-file-browser/component.js - Ember OSF Addon</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.14.0</em>
+            <em>API Docs for: 0.19.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -56,10 +56,8 @@
                                 <li><a href="../classes/Contributor.html">Contributor</a></li>
                                 <li><a href="../classes/current-user.html">current-user</a></li>
                                 <li><a href="../classes/discover-page.html">discover-page</a></li>
-                                <li><a href="../classes/donate-banner.html">donate-banner</a></li>
                                 <li><a href="../classes/DraftRegistration.html">DraftRegistration</a></li>
                                 <li><a href="../classes/dropzone-widget.html">dropzone-widget</a></li>
-                                <li><a href="../classes/elastic-query.html">elastic-query</a></li>
                                 <li><a href="../classes/elem-id.html">elem-id</a></li>
                                 <li><a href="../classes/eosf-project-nav.html">eosf-project-nav</a></li>
                                 <li><a href="../classes/faceted-search.html">faceted-search</a></li>
@@ -127,20 +125,15 @@
                                 <li><a href="../classes/providerRegex.html">providerRegex</a></li>
                                 <li><a href="../classes/Registration.html">Registration</a></li>
                                 <li><a href="../classes/RegistrationActionsMixin.html">RegistrationActionsMixin</a></li>
+                                <li><a href="../classes/scheduled-banner.html">scheduled-banner</a></li>
                                 <li><a href="../classes/search-dropdown.html">search-dropdown</a></li>
-                                <li><a href="../classes/search-facet-daterange.html">search-facet-daterange</a></li>
-                                <li><a href="../classes/search-facet-language.html">search-facet-language</a></li>
                                 <li><a href="../classes/search-facet-locked.html">search-facet-locked</a></li>
-                                <li><a href="../classes/search-facet-source.html">search-facet-source</a></li>
-                                <li><a href="../classes/search-facet-typeahead.html">search-facet-typeahead</a></li>
-                                <li><a href="../classes/search-facet-worktype.html">search-facet-worktype</a></li>
-                                <li><a href="../classes/search-facet-worktype-button.html">search-facet-worktype-button</a></li>
-                                <li><a href="../classes/search-facet-worktype-hierarchy.html">search-facet-worktype-hierarchy</a></li>
                                 <li><a href="../classes/search-help-modal.html">search-help-modal</a></li>
                                 <li><a href="../classes/search-result.html">search-result</a></li>
                                 <li><a href="../classes/service-links.html">service-links</a></li>
                                 <li><a href="../classes/sign-up.html">sign-up</a></li>
                                 <li><a href="../classes/sortOptionDisplay.html">sortOptionDisplay</a></li>
+                                <li><a href="../classes/Subscription.html">Subscription</a></li>
                                 <li><a href="../classes/TaggableMixin.html">TaggableMixin</a></li>
                                 <li><a href="../classes/tags-widget.html">tags-widget</a></li>
                                 <li><a href="../classes/Taxonomy.html">Taxonomy</a></li>
@@ -197,53 +190,168 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>search-facet-language Class</h1>
-<div class="box meta">
+<h1 class="file-heading">File: addon/components/old-file-browser/component.js</h1>
 
+<div class="file">
+    <pre class="code prettyprint linenums">
+import Ember from &#x27;ember&#x27;;
+import layout from &#x27;./template&#x27;;
 
-        <div class="foundat">
-            Defined in: <a href="../files/addon_components_search-facet-language_component.js.html#l6"><code>addon&#x2F;components&#x2F;search-facet-language&#x2F;component.js:6</code></a>
-        </div>
+import loadAll from &#x27;ember-osf/utils/load-relationship&#x27;;
 
-            Module: <a href="../modules/ember-osf.html">ember-osf</a>
+/**
+ * @module ember-osf
+ * @submodule components
+ */
 
-</div>
+/*
+ * Wrapper for file items. Includes state for the item&#x27;s row.
+ *
+ */
+let FileItem = Ember.ObjectProxy.extend({
+    isSelected: false,
 
+    // TODO (Abram) update childItems when &#x60;children&#x60; or &#x60;files&#x60; changes
+    // TODO (Abram) catch and display errors
+    childItems: Ember.computed(&#x27;_files.[]&#x27;, &#x27;_children.[]&#x27;, function() {
+        let files = this._setupLoadAll(&#x27;files&#x27;, &#x27;_files&#x27;, &#x27;_filesLoaded&#x27;);
+        let children = this._setupLoadAll(&#x27;children&#x27;, &#x27;_children&#x27;, &#x27;_childrenLoaded&#x27;);
 
-<div class="box intro">
-    <p>Copied from Ember-SHARE.  Language facet.</p>
-<pre class="code prettyprint"><code class="language-handlebars">{{search-facet-language
-     key=facet.key
-     options=facet
-     aggregations=aggregations
-     state=(get facetStates facet.key)
-     filter=(get facetFilters facet.key)
-     onChange=(action 'facetChanged')
-}}
-</code></pre>
+        let wrappedItems = Ember.A();
+        if (files) {
+            wrappedItems.addObjects(files.map(wrapItem));
+        }
+        if (children) {
+            wrappedItems.addObjects(children.map(wrapItem));
+        }
+        return wrappedItems;
+    }),
+    _files: null,
+    _children: null,
 
-</div>
+    childItemsLoaded: Ember.computed.and(&#x27;_filesLoaded&#x27;, &#x27;_childrenLoaded&#x27;),
+    _filesLoaded: false,
+    _childrenLoaded: false,
 
+    _setupLoadAll(relationship, destName, loaded) {
+        let dest = this.get(destName);
+        if (dest === null) {
+            let model = this.get(&#x27;content&#x27;);
+            if (relationship in model) {
+                dest = this.set(destName, Ember.A());
+                loadAll(model, relationship, dest).then(() =&gt; {
+                    this.set(loaded, true);
+                });
+            } else {
+                this.set(loaded, true);
+            }
+        }
+        return dest;
+    }
+});
 
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
+function wrapItem(item) {
+    if (item instanceof FileItem) {
+        return item;
+    }
+    return FileItem.create({
+        content: item
+    });
+}
 
-    </ul>
+function unwrapItem(item) {
+    if (item instanceof FileItem) {
+        return item.get(&#x27;content&#x27;);
+    }
+    return item;
+}
 
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
+/**
+ * File browser widget
+ *
+ * Sample usage:
+ * &#x60;&#x60;&#x60;handlebars
+ * {{old-file-browser
+ *  rootItem=item
+ *  openFile=(action &#x27;openFile&#x27;)
+ *  openNode=(action &#x27;openNode&#x27;)}}
+ * &#x60;&#x60;&#x60;
+ * @class old-file-browser
+ */
+export default Ember.Component.extend({
+    // TODO: Improve documentation in the future
+    layout,
+    classNames: [&#x27;old-file-browser&#x27;, &#x27;file-browser&#x27;],
+    itemHeight: 30,
 
+    breadcrumbs: null,
 
+    rootItem: Ember.computed(&#x27;breadcrumbs.[]&#x27;, {
+        get() {
+            return this.get(&#x27;breadcrumbs.firstObject&#x27;);
+        },
+        set(_, item) {
+            let wrappedItem = wrapItem(item);
+            this.set(&#x27;breadcrumbs&#x27;, Ember.A([wrappedItem]));
+        }
+    }),
+    atRoot: Ember.computed.equal(&#x27;breadcrumbs.length&#x27;, 1),
+    currentParent: Ember.computed.readOnly(&#x27;breadcrumbs.lastObject&#x27;),
+    items: Ember.computed.readOnly(&#x27;currentParent.childItems&#x27;),
+    itemsLoaded: Ember.computed.readOnly(&#x27;currentParent.childItemsLoaded&#x27;),
+    selectedItems: Ember.computed.filterBy(&#x27;items&#x27;, &#x27;isSelected&#x27;, true),
 
+    loadedChanged: Ember.observer(&#x27;itemsLoaded&#x27;, function() {
+        let containerWidth = this.$().width();
+        this.set(&#x27;itemWidth&#x27;, containerWidth);
+    }),
 
-        </div>
+    actions: {
+        selectItem(item) {
+            item.set(&#x27;isSelected&#x27;, true);
+            if (item.get(&#x27;isFile&#x27;) &amp;&amp; this.get(&#x27;selectFile&#x27;)) {
+                this.sendAction(&#x27;selectFile&#x27;, unwrapItem(item));
+            }
+            if (item.get(&#x27;isNode&#x27;) &amp;&amp; this.get(&#x27;selectNode&#x27;)) {
+                this.sendAction(&#x27;selectNode&#x27;, unwrapItem(item));
+            }
+        },
 
+        openItem(item) {
+            if (item.get(&#x27;isFile&#x27;) &amp;&amp; this.get(&#x27;openFile&#x27;)) {
+                this.sendAction(&#x27;openFile&#x27;, unwrapItem(item));
+            }
+            if (item.get(&#x27;isNode&#x27;) &amp;&amp; this.get(&#x27;openNode&#x27;)) {
+                this.sendAction(&#x27;openNode&#x27;, unwrapItem(item));
+            }
+            if (item.get(&#x27;canHaveChildren&#x27;)) {
+                this.send(&#x27;navigateToItem&#x27;, item);
+            }
+        },
 
+        navigateToItem(item) {
+            let breadcrumbs = this.get(&#x27;breadcrumbs&#x27;);
+            let index = breadcrumbs.indexOf(item);
+            if (index === -1) {
+                // TODO: Valid to assume item is a child of currentParent?
+                breadcrumbs.pushObject(item);
+            } else {
+                let slicedBread = breadcrumbs.slice(0, index + 1);
+                this.set(&#x27;breadcrumbs&#x27;, Ember.A(slicedBread));
+            }
+        },
 
+        navigateUp() {
+            let breadcrumbs = this.get(&#x27;breadcrumbs&#x27;);
+            if (breadcrumbs.length === 1) {
+                return;
+            }
+            breadcrumbs.popObject();
+        }
+    }
+});
 
-    </div>
+    </pre>
 </div>
                     </div>
                 </div>

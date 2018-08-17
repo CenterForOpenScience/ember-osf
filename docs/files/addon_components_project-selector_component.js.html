@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>addon/components/search-facet-language/component.js - Ember OSF Addon</title>
+    <title>addon/components/project-selector/component.js - Ember OSF Addon</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.14.0</em>
+            <em>API Docs for: 0.19.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -56,10 +56,8 @@
                                 <li><a href="../classes/Contributor.html">Contributor</a></li>
                                 <li><a href="../classes/current-user.html">current-user</a></li>
                                 <li><a href="../classes/discover-page.html">discover-page</a></li>
-                                <li><a href="../classes/donate-banner.html">donate-banner</a></li>
                                 <li><a href="../classes/DraftRegistration.html">DraftRegistration</a></li>
                                 <li><a href="../classes/dropzone-widget.html">dropzone-widget</a></li>
-                                <li><a href="../classes/elastic-query.html">elastic-query</a></li>
                                 <li><a href="../classes/elem-id.html">elem-id</a></li>
                                 <li><a href="../classes/eosf-project-nav.html">eosf-project-nav</a></li>
                                 <li><a href="../classes/faceted-search.html">faceted-search</a></li>
@@ -127,20 +125,15 @@
                                 <li><a href="../classes/providerRegex.html">providerRegex</a></li>
                                 <li><a href="../classes/Registration.html">Registration</a></li>
                                 <li><a href="../classes/RegistrationActionsMixin.html">RegistrationActionsMixin</a></li>
+                                <li><a href="../classes/scheduled-banner.html">scheduled-banner</a></li>
                                 <li><a href="../classes/search-dropdown.html">search-dropdown</a></li>
-                                <li><a href="../classes/search-facet-daterange.html">search-facet-daterange</a></li>
-                                <li><a href="../classes/search-facet-language.html">search-facet-language</a></li>
                                 <li><a href="../classes/search-facet-locked.html">search-facet-locked</a></li>
-                                <li><a href="../classes/search-facet-source.html">search-facet-source</a></li>
-                                <li><a href="../classes/search-facet-typeahead.html">search-facet-typeahead</a></li>
-                                <li><a href="../classes/search-facet-worktype.html">search-facet-worktype</a></li>
-                                <li><a href="../classes/search-facet-worktype-button.html">search-facet-worktype-button</a></li>
-                                <li><a href="../classes/search-facet-worktype-hierarchy.html">search-facet-worktype-hierarchy</a></li>
                                 <li><a href="../classes/search-help-modal.html">search-help-modal</a></li>
                                 <li><a href="../classes/search-result.html">search-result</a></li>
                                 <li><a href="../classes/service-links.html">service-links</a></li>
                                 <li><a href="../classes/sign-up.html">sign-up</a></li>
                                 <li><a href="../classes/sortOptionDisplay.html">sortOptionDisplay</a></li>
+                                <li><a href="../classes/Subscription.html">Subscription</a></li>
                                 <li><a href="../classes/TaggableMixin.html">TaggableMixin</a></li>
                                 <li><a href="../classes/tags-widget.html">tags-widget</a></li>
                                 <li><a href="../classes/Taxonomy.html">Taxonomy</a></li>
@@ -197,88 +190,65 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: addon/components/search-facet-language/component.js</h1>
+<h1 class="file-heading">File: addon/components/project-selector/component.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 import Ember from &#x27;ember&#x27;;
-import langs from &#x27;npm:langs&#x27;;
-import { termsFilter, getUniqueList } from &#x27;../../utils/elastic-query&#x27;;
 import layout from &#x27;./template&#x27;;
 
 /**
- * Copied from Ember-SHARE.  Language facet.
- *
- * &#x60;&#x60;&#x60;handlebars
- * {{search-facet-language
- *      key=facet.key
- *      options=facet
- *      aggregations=aggregations
- *      state=(get facetStates facet.key)
- *      filter=(get facetFilters facet.key)
- *      onChange=(action &#x27;facetChanged&#x27;)
- * }}
- * &#x60;&#x60;&#x60;
- * @class search-facet-language
+ * @module ember-osf
+ * @submodule components
  */
+
+/**
+ * project-selector - to be used within a modal to select existing projects or create a new one
+ * Mainly used in Quick Files as a way to move file to project
+ *
+ * Same usage:
+ * &#x60;&#x60;&#x60; handlebars
+ * {{project-selector
+ *  user=user
+ *  file=file
+ *  projectSelectState=projectSelectState
+ *  setSelectedNode=(action &#x27;setSelectedNode&#x27;)
+ *  changeProjectSelectState=(action &#x27;changeProjectSelectState&#x27;)
+ *  checkNodeTitleKeypress=(action &#x27;checkNodeTitleKeypress&#x27;)}
+ * &#x60;&#x60;&#x60;
+ * @class project-selector
+ */
+
 export default Ember.Component.extend({
     layout,
     i18n: Ember.inject.service(),
+    store: Ember.inject.service(),
+    panelActions: Ember.inject.service(&#x27;panelActions&#x27;),
+    user: null,
+    nodeTitle: null,
+    projectSelectState: &#x27;main&#x27;,
+    selectedProject: null,
+    isLoadingProjects: true,
+    showErrorMessage: null,
+    projectList: Ember.A(),
+    isProjectPublic: Ember.computed.alias(&#x27;selectedProject.public&#x27;),
 
-    init() {
-        this._super(...arguments);
-        let languageCodes = this.get(&#x27;state&#x27;) ? this.get(&#x27;state&#x27;) : [];
-        let languageNames = languageCodes.map(lang =&gt;
-            langs.where(&#x27;3&#x27;, lang).name
-        );
-        this.send(&#x27;changeFilter&#x27;, languageNames);
-    },
-
-    placeholder: Ember.computed(function() {
-        return &#x60;${this.get(&#x27;i18n&#x27;).t(&#x27;eosf.components.searchFacetLanguage.add&#x27;)} &#x60; + this.get(&#x27;options.title&#x27;) + &#x27; filter&#x27;;
-    }),
-
-    languages: langs.names(),
-
-    changed: Ember.observer(&#x27;state&#x27;, function() {
-        let state = Ember.isBlank(this.get(&#x27;state&#x27;)) ? [] : this.get(&#x27;state&#x27;);
-        let previousState = this.get(&#x27;previousState&#x27;) || [];
-
-        if (Ember.compare(previousState, state) !== 0) {
-            let value = this.get(&#x27;state&#x27;);
-            this.send(&#x27;changeFilter&#x27;, value ? value : []);
-        }
-    }),
-
-    buildQueryObject(selected) {
-        let key = this.get(&#x27;key&#x27;);
-        if (!Ember.$.isArray(selected)) {
-            selected = [selected];
-        }
-        let languageCodes = selected.map(lang =&gt;
-            langs.where(&#x27;name&#x27;, lang) ? langs.where(&#x27;name&#x27;, lang)[&#x27;3&#x27;] : langs.where(&#x27;3&#x27;, lang)[&#x27;3&#x27;]
-        );
-
-        let newFilter = termsFilter(key, getUniqueList(languageCodes));
-        return { filter: newFilter, value: languageCodes };
-    },
-
-    selected: Ember.computed(&#x27;state&#x27;, function() {
-        let languageCodes =  this.get(&#x27;state&#x27;) || [];
-        let languageNames = languageCodes.map(lang =&gt;
-            langs.where(&#x27;3&#x27;, lang).name
-        );
-        return languageNames;
+    isChildNode: Ember.computed(&#x27;selectedProject&#x27;, function() {
+        // sets the selected node and determines if node is child
+        let isChild = this.get(&#x27;selectedProject.links.relationships.parent&#x27;);
+        this.setSelectedNode(this.get(&#x27;selectedProject&#x27;), isChild);
+        return isChild;
     }),
 
     actions: {
-        changeFilter(languageNames) {
-            let key = this.get(&#x27;key&#x27;);
-            let { filter: filter, value: value } = this.buildQueryObject(languageNames || []);
-            this.set(&#x27;previousState&#x27;, this.get(&#x27;state&#x27;));
-            this.sendAction(&#x27;onChange&#x27;, key, filter, value);
-        }
-    }
+        changeState(state) {
+            this.set(&#x27;selectedProject&#x27;, null);
+            this.changeProjectSelectState(state);
+        },
+        checkNodeTitleKeypress(value) {
+            this.checkNodeTitleKeypress(value);
+        },
+    },
 });
 
     </pre>

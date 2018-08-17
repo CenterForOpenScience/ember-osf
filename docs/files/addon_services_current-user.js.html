@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.14.0</em>
+            <em>API Docs for: 0.19.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -56,10 +56,8 @@
                                 <li><a href="../classes/Contributor.html">Contributor</a></li>
                                 <li><a href="../classes/current-user.html">current-user</a></li>
                                 <li><a href="../classes/discover-page.html">discover-page</a></li>
-                                <li><a href="../classes/donate-banner.html">donate-banner</a></li>
                                 <li><a href="../classes/DraftRegistration.html">DraftRegistration</a></li>
                                 <li><a href="../classes/dropzone-widget.html">dropzone-widget</a></li>
-                                <li><a href="../classes/elastic-query.html">elastic-query</a></li>
                                 <li><a href="../classes/elem-id.html">elem-id</a></li>
                                 <li><a href="../classes/eosf-project-nav.html">eosf-project-nav</a></li>
                                 <li><a href="../classes/faceted-search.html">faceted-search</a></li>
@@ -127,20 +125,15 @@
                                 <li><a href="../classes/providerRegex.html">providerRegex</a></li>
                                 <li><a href="../classes/Registration.html">Registration</a></li>
                                 <li><a href="../classes/RegistrationActionsMixin.html">RegistrationActionsMixin</a></li>
+                                <li><a href="../classes/scheduled-banner.html">scheduled-banner</a></li>
                                 <li><a href="../classes/search-dropdown.html">search-dropdown</a></li>
-                                <li><a href="../classes/search-facet-daterange.html">search-facet-daterange</a></li>
-                                <li><a href="../classes/search-facet-language.html">search-facet-language</a></li>
                                 <li><a href="../classes/search-facet-locked.html">search-facet-locked</a></li>
-                                <li><a href="../classes/search-facet-source.html">search-facet-source</a></li>
-                                <li><a href="../classes/search-facet-typeahead.html">search-facet-typeahead</a></li>
-                                <li><a href="../classes/search-facet-worktype.html">search-facet-worktype</a></li>
-                                <li><a href="../classes/search-facet-worktype-button.html">search-facet-worktype-button</a></li>
-                                <li><a href="../classes/search-facet-worktype-hierarchy.html">search-facet-worktype-hierarchy</a></li>
                                 <li><a href="../classes/search-help-modal.html">search-help-modal</a></li>
                                 <li><a href="../classes/search-result.html">search-result</a></li>
                                 <li><a href="../classes/service-links.html">service-links</a></li>
                                 <li><a href="../classes/sign-up.html">sign-up</a></li>
                                 <li><a href="../classes/sortOptionDisplay.html">sortOptionDisplay</a></li>
+                                <li><a href="../classes/Subscription.html">Subscription</a></li>
                                 <li><a href="../classes/TaggableMixin.html">TaggableMixin</a></li>
                                 <li><a href="../classes/tags-widget.html">tags-widget</a></li>
                                 <li><a href="../classes/Taxonomy.html">Taxonomy</a></li>
@@ -202,7 +195,9 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import Ember from &#x27;ember&#x27;;
-
+import { task } from &#x27;ember-concurrency&#x27;;
+import config from &#x27;ember-get-config&#x27;;
+import { authenticatedAJAX } from &#x27;ember-osf/utils/ajax-helpers&#x27;;
 /**
  * @module ember-osf
  * @submodule services
@@ -217,6 +212,47 @@ import Ember from &#x27;ember&#x27;;
 export default Ember.Service.extend({
     store: Ember.inject.service(),
     session: Ember.inject.service(),
+    features: Ember.inject.service(),
+
+    waffleLoaded: false,
+
+    init() {
+        this._super(...arguments);
+        this.get(&#x27;setWaffle&#x27;).perform();
+
+        const session = this.get(&#x27;session&#x27;);
+
+        session.on(&#x27;authenticationSucceeded&#x27;, this, () =&gt; this.get(&#x27;setWaffle&#x27;).perform());
+        session.on(&#x27;invalidationSucceeded&#x27;, this, () =&gt; this.get(&#x27;setWaffle&#x27;).perform());
+    },
+
+    setWaffle: task(function* () {
+        const url = &#x60;${config.OSF.apiUrl}/v2/_waffle/&#x60;;
+        const { data } = yield authenticatedAJAX({
+            url,
+            method: &#x27;GET&#x27;,
+        });
+        for (const flag of data) {
+            const { name, active } = flag.attributes;
+            if (active) {
+                this.get(&#x27;features&#x27;).enable(name);
+            } else {
+                this.get(&#x27;features&#x27;).disable(name);
+            }
+        }
+        this.set(&#x27;waffleLoaded&#x27;, true);
+    }).restartable(),
+
+    getWaffle: task(function* (flag) {
+        const setWaffle = this.get(&#x27;setWaffle&#x27;);
+
+        if (setWaffle.isRunning) {
+            yield setWaffle.last;
+        } else if (!this.get(&#x27;waffleLoaded&#x27;)) {
+            yield setWaffle.perform();
+        }
+        return this.get(&#x27;features&#x27;).isEnabled(flag);
+    }),
 
     /**
      * If logged in, return the ID of the current user, else return null.
@@ -266,6 +302,43 @@ export default Ember.Service.extend({
             promise: this.load().catch(() =&gt; null),
         });
     }),
+
+    /**
+     * Return a simple hash of the currentUser ID if user is logged in, otherwise return a generated random string.
+     * sessionKey can be used to identify the current session or any general purposes.
+     * For Elasticsearch requests, sessionKey is used as the &quot;preference&quot; URL parameter to ensure reproducible search results ordering.
+     *
+     * @property sessionKey
+     * @return {String}
+     */
+    sessionKey: Ember.computed(&#x27;currentUserId&#x27;, function() {
+        let currentUserId = this.get(&#x27;currentUserId&#x27;);
+        if (currentUserId) {
+            return this.hashCode(currentUserId).toString();
+        }
+        return Math.random().toString(36).substr(2,10);
+    }),
+
+    /**
+     * Generate a simple hash (numerical code) from a string.
+     * https://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript-jquery
+     *
+     * @method hashCode
+     * @param  str {String}
+     * @return {String}
+     */
+
+    hashCode(str) {
+        let hash = 0, i, chr;
+        if (str.length === 0) return hash;
+        for (i = 0; i &lt; str.length; i++) {
+            chr   = str.charCodeAt(i);
+            hash  = ((hash &lt;&lt; 5) - hash) + chr;
+            hash |= 0;
+        }
+        return hash;
+    },
+
 });
 
     </pre>

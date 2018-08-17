@@ -188,6 +188,7 @@ function transformShareData(result) {
             },
         ],
         infoLinks: [], // Links that are not hyperlinks  hit._source.lists.links
+        registrationType: result._source.registration_type, // for registries
     });
 
     result._source.identifiers.forEach(function(identifier) {

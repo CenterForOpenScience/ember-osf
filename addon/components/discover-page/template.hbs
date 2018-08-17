@@ -70,6 +70,7 @@
                         <h3>{{t 'eosf.components.discoverPage.partnerRepositories'}}</h3>
                         <div class="row">
                             {{provider-carousel
+                                itemsPerSlide=5
                                 providers=fetchedProviders
                                 lightLogo=false
                             }}
@@ -192,6 +193,7 @@
                         filters=facetFilters
                         facetStates=queryParamsState
                         facets=facets
+                        whiteListedProviders=whiteListedProviders
                         aggregations=aggregations
                         updateFilters=(action 'updateFilters')
                         filterReplace=filterReplace
