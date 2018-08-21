@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [0.20.0] - 2018-08-16
 ### Added
+- `search-users` model that extends users
 - `cookie-banner` component
 - Sharing popover button to the discover search page
 - Whitelist functionality for preprint discover page
