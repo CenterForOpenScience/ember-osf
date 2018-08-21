@@ -55,9 +55,7 @@
                                 <li>
                                     <a href="{{navLink.href}}" onclick={{action 'click' 'link' (concat 'Navbar - ' navlink.name)}}>
                                         {{#if (eq navLink.type 'addAPreprint')}}
-                                            <span>
-                                                {{t navLink.name documentType=documentType}}
-                                            </span>
+                                            {{t navLink.name documentType=documentType}}
                                         {{else}}
                                             {{t navLink.name}}
                                         {{/if}}

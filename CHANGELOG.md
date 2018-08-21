@@ -3,8 +3,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+## [Unreleased] 
+### Added
+- Added `dateWithdrawn` and `withdrawalJustification` to `preprint` model
 
-## [Unreleased]
+### Changed
+- Normalize "Add a Preprint" language across screen sizes
+
+## [0.20.1] - 2018-08-16
+### Remove unwanted lineage code
+
+## [0.20.0] - 2018-08-16
 ### Added
 - `cookie-banner` component
 - Sharing popover button to the discover search page
@@ -13,7 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - Discover page components to include parent lineage if available
-- Normalize "Add a Preprint" language across screen sizes
+- FAQ link in `license-picker` component to point to update help guide article.
 
 ### Removed
 - institution navbar waffle flag
@@ -34,9 +43,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Removed
 - obsolete `initialWidth` parameter from mfrUrl
-
-### Changed
-- FAQ link in `license-picker` component to point to update help guide article.
 
 ## [0.18.0] - 2018-06-21
 ### Added
