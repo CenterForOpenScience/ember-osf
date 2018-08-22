@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>addon/components/search-facet-source/component.js - Ember OSF Addon</title>
+    <title>old-file-browser - Ember OSF Addon</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.14.0</em>
+            <em>API Docs for: 0.19.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -56,10 +56,8 @@
                                 <li><a href="../classes/Contributor.html">Contributor</a></li>
                                 <li><a href="../classes/current-user.html">current-user</a></li>
                                 <li><a href="../classes/discover-page.html">discover-page</a></li>
-                                <li><a href="../classes/donate-banner.html">donate-banner</a></li>
                                 <li><a href="../classes/DraftRegistration.html">DraftRegistration</a></li>
                                 <li><a href="../classes/dropzone-widget.html">dropzone-widget</a></li>
-                                <li><a href="../classes/elastic-query.html">elastic-query</a></li>
                                 <li><a href="../classes/elem-id.html">elem-id</a></li>
                                 <li><a href="../classes/eosf-project-nav.html">eosf-project-nav</a></li>
                                 <li><a href="../classes/faceted-search.html">faceted-search</a></li>
@@ -127,20 +125,15 @@
                                 <li><a href="../classes/providerRegex.html">providerRegex</a></li>
                                 <li><a href="../classes/Registration.html">Registration</a></li>
                                 <li><a href="../classes/RegistrationActionsMixin.html">RegistrationActionsMixin</a></li>
+                                <li><a href="../classes/scheduled-banner.html">scheduled-banner</a></li>
                                 <li><a href="../classes/search-dropdown.html">search-dropdown</a></li>
-                                <li><a href="../classes/search-facet-daterange.html">search-facet-daterange</a></li>
-                                <li><a href="../classes/search-facet-language.html">search-facet-language</a></li>
                                 <li><a href="../classes/search-facet-locked.html">search-facet-locked</a></li>
-                                <li><a href="../classes/search-facet-source.html">search-facet-source</a></li>
-                                <li><a href="../classes/search-facet-typeahead.html">search-facet-typeahead</a></li>
-                                <li><a href="../classes/search-facet-worktype.html">search-facet-worktype</a></li>
-                                <li><a href="../classes/search-facet-worktype-button.html">search-facet-worktype-button</a></li>
-                                <li><a href="../classes/search-facet-worktype-hierarchy.html">search-facet-worktype-hierarchy</a></li>
                                 <li><a href="../classes/search-help-modal.html">search-help-modal</a></li>
                                 <li><a href="../classes/search-result.html">search-result</a></li>
                                 <li><a href="../classes/service-links.html">service-links</a></li>
                                 <li><a href="../classes/sign-up.html">sign-up</a></li>
                                 <li><a href="../classes/sortOptionDisplay.html">sortOptionDisplay</a></li>
+                                <li><a href="../classes/Subscription.html">Subscription</a></li>
                                 <li><a href="../classes/TaggableMixin.html">TaggableMixin</a></li>
                                 <li><a href="../classes/tags-widget.html">tags-widget</a></li>
                                 <li><a href="../classes/Taxonomy.html">Taxonomy</a></li>
@@ -197,89 +190,51 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: addon/components/search-facet-source/component.js</h1>
+<h1>old-file-browser Class</h1>
+<div class="box meta">
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-/* global c3 */
-import Ember from &#x27;ember&#x27;;
-import layout from &#x27;./template&#x27;;
-import TypeaheadComponent from &#x27;../search-facet-typeahead/component&#x27;;
 
-/**
- * Copied from Ember-SHARE.  Sources facet. Uses C3 charts.
- *
- * &#x60;&#x60;&#x60;handlebars
- * {{search-facet-source
- *      key=facet.key
- *      options=facet
- *      aggregations=aggregations
- *      state=(get facetStates facet.key)
- *      filter=(get facetFilters facet.key)
- *      onChange=(action &#x27;facetChanged&#x27;)
- * }}
- * &#x60;&#x60;&#x60;
- * @class search-facet-source
- */
-export default TypeaheadComponent.extend({
-    layout,
-    c3: Ember.inject.service(),
-    i18n: Ember.inject.service(),
+        <div class="foundat">
+            Defined in: <a href="../files/addon_components_old-file-browser_component.js.html#l73"><code>addon&#x2F;components&#x2F;old-file-browser&#x2F;component.js:73</code></a>
+        </div>
 
-    sourcesList: Ember.computed(&#x27;aggregations&#x27;, function() {
-        let data = this.get(&#x27;aggregations.sources.buckets&#x27;);
-        return data ? data.map(next =&gt; next.key) : [];
-    }),
+            Module: <a href="../modules/components.html">components</a><br>
+            Parent Module: <a href="../modules/ember-osf.html">ember-osf</a>
 
-    dataChanged: Ember.observer(&#x27;aggregations&#x27;, function() {
-        let data = this.get(&#x27;aggregations.sources.buckets&#x27;);
-        this.updateDonut(data);
-    }),
+</div>
 
-    updateDonut(data) {
-        let columns = data.map(({ key, doc_count }) =&gt; [key, doc_count]); // jscs:ignore
-        let title = columns.length + (columns.length === 1 ? &#x60; ${this.get(&#x27;i18n&#x27;).t(&#x27;eosf.components.searchFacetSource.source&#x27;)}&#x60; : &#x60; ${this.get(&#x27;i18n&#x27;).t(&#x27;eosf.components.searchFacetSource.sources&#x27;)}&#x60; );
 
-        let donut = this.get(&#x27;donut&#x27;);
-        if (!donut) {
-            this.initDonut(title, columns);
-        } else {
-            donut.load({
-                columns,
-                unload: true
-            });
-            this.$(&#x27;.c3-chart-arcs-title&#x27;).text(title);
-        }
-    },
+<div class="box intro">
+    <p>File browser widget</p>
+<p>Sample usage:</p>
+<pre class="code prettyprint"><code class="language-handlebars">{{old-file-browser
+ rootItem=item
+ openFile=(action 'openFile')
+ openNode=(action 'openNode')}}
+</code></pre>
 
-    initDonut(title, columns) {
-        let element = this.$(&#x60;.donut&#x60;).get(0);
-        let donut = c3.generate({
-            bindto: element,
-            data: {
-                columns,
-                type: &#x27;donut&#x27;,
-                onclick: (d) =&gt; {
-                    let selected = this.get(&#x27;selected&#x27;);
-                    if (!selected.includes(d.name)) {
-                        this.send(&#x27;changeFilter&#x27;, [d.name, ...selected]);
-                    }
-                }
-            },
-            legend: { show: false },
-            donut: {
-                title,
-                label: {
-                    show: false
-                }
-            },
-            size: { height: 200 }
-        });
-        this.set(&#x27;donut&#x27;, donut);
-    },
-});
+</div>
 
-    </pre>
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+
+
+
+        </div>
+
+
+
+
+    </div>
 </div>
                     </div>
                 </div>

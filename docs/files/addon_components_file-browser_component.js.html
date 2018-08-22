@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.14.0</em>
+            <em>API Docs for: 0.19.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -56,10 +56,8 @@
                                 <li><a href="../classes/Contributor.html">Contributor</a></li>
                                 <li><a href="../classes/current-user.html">current-user</a></li>
                                 <li><a href="../classes/discover-page.html">discover-page</a></li>
-                                <li><a href="../classes/donate-banner.html">donate-banner</a></li>
                                 <li><a href="../classes/DraftRegistration.html">DraftRegistration</a></li>
                                 <li><a href="../classes/dropzone-widget.html">dropzone-widget</a></li>
-                                <li><a href="../classes/elastic-query.html">elastic-query</a></li>
                                 <li><a href="../classes/elem-id.html">elem-id</a></li>
                                 <li><a href="../classes/eosf-project-nav.html">eosf-project-nav</a></li>
                                 <li><a href="../classes/faceted-search.html">faceted-search</a></li>
@@ -127,20 +125,15 @@
                                 <li><a href="../classes/providerRegex.html">providerRegex</a></li>
                                 <li><a href="../classes/Registration.html">Registration</a></li>
                                 <li><a href="../classes/RegistrationActionsMixin.html">RegistrationActionsMixin</a></li>
+                                <li><a href="../classes/scheduled-banner.html">scheduled-banner</a></li>
                                 <li><a href="../classes/search-dropdown.html">search-dropdown</a></li>
-                                <li><a href="../classes/search-facet-daterange.html">search-facet-daterange</a></li>
-                                <li><a href="../classes/search-facet-language.html">search-facet-language</a></li>
                                 <li><a href="../classes/search-facet-locked.html">search-facet-locked</a></li>
-                                <li><a href="../classes/search-facet-source.html">search-facet-source</a></li>
-                                <li><a href="../classes/search-facet-typeahead.html">search-facet-typeahead</a></li>
-                                <li><a href="../classes/search-facet-worktype.html">search-facet-worktype</a></li>
-                                <li><a href="../classes/search-facet-worktype-button.html">search-facet-worktype-button</a></li>
-                                <li><a href="../classes/search-facet-worktype-hierarchy.html">search-facet-worktype-hierarchy</a></li>
                                 <li><a href="../classes/search-help-modal.html">search-help-modal</a></li>
                                 <li><a href="../classes/search-result.html">search-result</a></li>
                                 <li><a href="../classes/service-links.html">service-links</a></li>
                                 <li><a href="../classes/sign-up.html">sign-up</a></li>
                                 <li><a href="../classes/sortOptionDisplay.html">sortOptionDisplay</a></li>
+                                <li><a href="../classes/Subscription.html">Subscription</a></li>
                                 <li><a href="../classes/TaggableMixin.html">TaggableMixin</a></li>
                                 <li><a href="../classes/tags-widget.html">tags-widget</a></li>
                                 <li><a href="../classes/Taxonomy.html">Taxonomy</a></li>
@@ -243,12 +236,11 @@ export default Ember.Component.extend(Analytics, {
     selectedFile: null,
     node: null,
     nodeTitle: null,
-    newNodeType: null,
+    newProject: false,
     projectSelectState: &#x27;main&#x27;,
-    willCreateComponent: false,
-    willMoveToNode: false,
     isInputInvalid: true,
     nodeLink: Ember.computed.alias(&#x27;node.links.html&#x27;),
+    isMoving: false,
 
     init() {
         this._super(...arguments);
@@ -587,8 +579,6 @@ export default Ember.Component.extend(Analytics, {
         closeModal() {
             if (this.get(&#x27;modalOpen&#x27;) == &#x27;move&#x27;) {
                 this.set(&#x27;projectSelectState&#x27;, &#x27;main&#x27;);
-                this.set(&#x27;willCreateComponent&#x27;, false);
-                this.set(&#x27;willMoveToNode&#x27;, false);
             }
             this.set(&#x27;modalOpen&#x27;, false);
         },
@@ -609,59 +599,32 @@ export default Ember.Component.extend(Analytics, {
         },
         checkNodeTitleKeypress(value) {
             this.set(&#x27;nodeTitle&#x27;, value);
-            if (this.get(&#x27;nodeTitle&#x27;)) {
-                this.set(&#x27;isInputInvalid&#x27;, false);
-            } else {
-                this.set(&#x27;isInputInvalid&#x27;, true);
-            }
+            this.set(&#x27;isInputInvalid&#x27;, Ember.isBlank(value));
         },
         changeProjectSelectState(state) {
             this.set(&#x27;projectSelectState&#x27;, state);
-            this.set(&#x27;willCreateComponent&#x27;, false);
-            this.set(&#x27;willMoveToNode&#x27;, false);
-            if (!this.get(&#x27;isInputInvalid&#x27;)) {
-                this.set(&#x27;isInputInvalid&#x27;, true);
-            }
-        },
-        updateCreateOrMoveNode(state) {
-            if (state == &#x27;create&#x27;) {
-                this.set(&#x27;willCreateComponent&#x27;, true);
-                this.set(&#x27;willMoveToNode&#x27;, false);
-                this.set(&#x27;isInputInvalid&#x27;, true);
-            } else {
-                this.set(&#x27;willCreateComponent&#x27;, false);
-                this.set(&#x27;willMoveToNode&#x27;, true);
-                this.set(&#x27;isInputInvalid&#x27;, false);
-            }
+            this.set(&#x27;isInputInvalid&#x27;, true);
         },
         setSelectedNode(node, isChild) {
             this.set(&#x27;node&#x27;, node);
             this.set(&#x27;isChildNode&#x27;, isChild);
+            this.set(&#x27;isInputInvalid&#x27;, false);
         },
         setMoveFile() {
+            this.set(&#x27;isMoving&#x27;, true);
             let selectedItem = this.get(&#x27;selectedItems.firstObject&#x27;);
             let title = this.get(&#x27;nodeTitle&#x27;);
 
             if (this.get(&#x27;projectSelectState&#x27;) == &#x27;newProject&#x27;) {
-                this.set(&#x27;newNodeType&#x27;, &#x27;project&#x27;);
+                this.set(&#x27;newProject&#x27;, true);
                 this._createProject(title).then(project =&gt; {
                     this.set(&#x27;node&#x27;, project);
                     this._addNewNodeToList(this.get(&#x27;user&#x27;), project);
                     this._moveFile(selectedItem, project);
                 });
             } else if (this.get(&#x27;projectSelectState&#x27;) == &#x27;existingProject&#x27;) {
-                if (this.get(&#x27;willCreateComponent&#x27;)) {
-                    this.set(&#x27;newNodeType&#x27;, &#x27;component&#x27;);
-                    this._createComponent(title).then(component =&gt; {
-                        this.set(&#x27;node&#x27;, component);
-                        this._addNewNodeToList(this.get(&#x27;user&#x27;), component);
-                        this._moveFile(selectedItem, component);
-                    });
-                } else if (this.get(&#x27;willMoveToNode&#x27;)) {
-                    this._moveFile(selectedItem, this.get(&#x27;node&#x27;));
-
-                    this.set(&#x27;newNodeType&#x27;, null);
-                }
+                this._moveFile(selectedItem, this.get(&#x27;node&#x27;));
+                this.set(&#x27;newProject&#x27;, false);
             }
         },
     },
@@ -675,13 +638,6 @@ export default Ember.Component.extend(Analytics, {
                 this.get(&#x27;i18n&#x27;).t(&#x27;eosf.components.moveToProject.couldNotCreateProject&#x27;)
             ));
     },
-    _createComponent(title) {
-        return this.get(&#x27;node&#x27;)
-            .addChild(title, null, &#x27;&#x27;, true)
-            .catch(() =&gt; this.get(&#x27;toast&#x27;).error(
-                this.get(&#x27;i18n&#x27;).t(&#x27;eosf.components.moveToProject.couldNotCreateComponent&#x27;)
-            ));
-    },
     _moveFile(item, node) {
         item.move(node)
             .then(() =&gt; {
@@ -693,12 +649,12 @@ export default Ember.Component.extend(Analytics, {
                 this.set(&#x27;modalOpen&#x27;, &#x27;successMove&#x27;);
                 this.set(&#x27;projectSelectState&#x27;, &#x27;main&#x27;);
                 this.set(&#x27;willCreateComponent&#x27;, false);
-                this.set(&#x27;willMoveToNode&#x27;, false);
                 this.send(&#x27;track&#x27;, &#x27;move&#x27;, &#x27;track&#x27;, &#x27;Quick Files - Move to project&#x27;);
             })
             .catch(() =&gt; this.get(&#x27;toast&#x27;).error(
                 this.get(&#x27;i18n&#x27;).t(&#x27;eosf.components.moveToProject.couldNotMoveFile&#x27;)
-            ));
+            ))
+            .then(() =&gt; this.set(&#x27;isMoving&#x27;, false));
     },
 });
 

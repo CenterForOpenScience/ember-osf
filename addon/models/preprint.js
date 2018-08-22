@@ -34,6 +34,8 @@ export default OsfModel.extend({
     preprintDoiCreated: DS.attr('date'),
     description: DS.attr('fixstring'),
     tags: DS.attr(),
+    dateWithdrawn: DS.attr('date'),
+    withdrawalJustification: DS.attr('fixstring'),
 
     // Relationships
     node: DS.belongsTo('node', { inverse: null, async: true }),

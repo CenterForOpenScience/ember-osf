@@ -3,13 +3,44 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+## [Unreleased] 
+### Added
+- Added `dateWithdrawn` and `withdrawalJustification` to `preprint` model
+- 'My Preprints' link to the Preprint navbar
 
-## [Unreleased]
+### Changed
+- Normalize "Add a Preprint" language across screen sizes
+
+## [0.20.1] - 2018-08-16
+### Remove unwanted lineage code
+
+## [0.20.0] - 2018-08-16
 ### Added
 - `cookie-banner` component
 - Sharing popover button to the discover search page
 - Whitelist functionality for preprint discover page
-- 'My Preprints' link to the Preprint navbar
+- itemsPerSlide to discover page carousel
+
+### Changed
+- Discover page components to include parent lineage if available
+- FAQ link in `license-picker` component to point to update help guide article.
+
+### Removed
+- institution navbar waffle flag
+
+## [0.19.1] - 2018-08-03
+### Fixed
+- discover page load delay
+
+## [0.19.0] - 2018-07-25
+### Added
+- IP anonymization to Keen
+
+### Changed
+- spinners to match style guide
+
+### Fixed
+- scrolling issue
 
 ### Removed
 - obsolete `initialWidth` parameter from mfrUrl
@@ -21,7 +52,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - `metaschema` model into `registration-metaschema`
 - `scheduled-banner` component to display the banner image centered and adapt to different image heights.
-- Discover page components to include parent lineage if available
 
 ## [0.17.1] - 2018-06-20
 ### Added

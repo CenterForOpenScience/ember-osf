@@ -42,7 +42,6 @@ module.exports = {
             apiNamespace: 'v2', // URL suffix (after host)
             backend: BACKEND,
             redirectUri: eitherConfig('REDIRECT_URI'),
-            institutionsLandingFlag: 'institutions_nav_bar',
         };
 
         // Fetch configuration information for the application
