@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Added `dateWithdrawn` and `withdrawalJustification` to `preprint` model
 
+### Changed
+- Normalize "Add a Preprint" language across screen sizes
+
 ## [0.20.1] - 2018-08-16
 ### Remove unwanted lineage code
 
