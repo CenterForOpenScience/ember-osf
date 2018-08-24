@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Normalize "Add a Preprint" language across screen sizes
 
+### Changed
+- `users` model to use urlForQuery to allow searching via `/search/users/`
+
 ## [0.20.1] - 2018-08-16
 ### Remove unwanted lineage code
 
