@@ -4,6 +4,7 @@ export default OsfAdapter.extend({
     buildURL(modelName, id, snapshot, requestType) { // jshint ignore:line
         if (requestType === 'createRecord' || requestType === 'findRecord') {
             var nodeId;
+            var preprintId;
             var sendEmail = true;
             if (snapshot) {
                 nodeId = snapshot.record.get('nodeId');
@@ -11,8 +12,13 @@ export default OsfAdapter.extend({
             } else {
                 nodeId = id.split('-').shift();
             }
-
+            let type = 'node';
             let node = this.store.peekRecord('node', nodeId);
+            if (!node) {
+                node = this.store.peekRecord('preprint', nodeId);
+                type = 'preprint';
+            }
+
             if (node) {
                 let base = this._buildRelationshipURL(
                     node._internalModel.createSnapshot(),
@@ -24,7 +30,11 @@ export default OsfAdapter.extend({
                 }
 
                 // Needed for Ember Data to update the inverse record's (the node's) relationship
-                var requestUrl = `${base}?embed=node`;
+                if (type == 'preprint') {
+                    var requestUrl = `${base}?embed=preprint`;
+                } else {
+                    var requestUrl = `${base}?embed=node`;
+                }
 
                 if (!sendEmail) {
                     requestUrl += `&send_email=false`;
