@@ -105,6 +105,13 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
                     href: serviceLinks.myProjects,
                 }
             );
+            links.PREPRINTS.unshift(
+                {
+                    name: 'eosf.navbar.myPreprints',
+                    href: serviceLinks.myPreprints,
+                    type: 'myPreprints'
+                }
+            );
             this.get('currentUser.user').then((user) => {
                 if (user.get('canViewReviews')) {
                     links.PREPRINTS.insertAt(1, {

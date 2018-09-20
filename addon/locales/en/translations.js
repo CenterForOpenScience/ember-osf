@@ -76,6 +76,7 @@ export default {
             donate: 'Donate',
             goHome: 'Go home',
             meetings: 'Meetings',
+            myPreprints: 'My Preprints',
             myProjects: 'My Projects',
             myQuickFiles: 'My Quick Files',
             newProjects: 'New Projects',

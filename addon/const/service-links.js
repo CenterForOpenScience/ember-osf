@@ -20,6 +20,7 @@ const osfUrl = config.OSF.url;
 const serviceLinks = {
     exploreActivity: `${osfUrl}explore/activity/`,
     meetingsHome: `${osfUrl}meetings/`,
+    myPreprints: `${osfUrl}myprojects/#preprints`,
     myProjects: `${osfUrl}myprojects/`,
     myQuickFiles: `${osfUrl}quickfiles/`,
     osfHome: osfUrl,
