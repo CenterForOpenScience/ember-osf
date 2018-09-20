@@ -39,6 +39,12 @@ export default {
             singular: 'thesis',
             singularCapitalized: 'Thesis',
         },
+        supplementalProject: {
+            plural: 'supplemental projects',
+            pluralCapitalized: 'Supplemental Projects',
+            singular: 'supplemental project',
+            singularCapitalized: 'Supplemental Project',
+        }
     },
     eosf: {
         authDropdown: {
