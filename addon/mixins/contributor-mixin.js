@@ -98,7 +98,9 @@ export default Ember.Mixin.create({
     },
 
     removeContributor(contributor) {
-        return contributor.destroyRecord();
+        return contributor.destroyRecord().then(rec => {
+            this.get('store')._removeFromIdMap(rec._internalModel);
+        });
     },
 
     updateContributor(contributor, permissions, bibliographic) {
