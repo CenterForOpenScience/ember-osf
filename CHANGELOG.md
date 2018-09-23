@@ -3,7 +3,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
-## [Unreleased] 
+
+## [Unreleased]
+
+## [0.21.0] - 2018-09-20 
+### Added
+- Added `dateWithdrawn` and `withdrawalJustification` to `preprint` model
+- 'My Preprints' link to the Preprint navbar
+
+### Changed
+- `users` model to use urlForQuery to allow searching via `/search/users/`
+- Normalize "Add a Preprint" language across screen sizes
 
 ## [0.20.1] - 2018-08-16
 ### Remove unwanted lineage code

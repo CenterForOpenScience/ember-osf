@@ -38,6 +38,8 @@ export default OsfModel.extend(ContributorMixin, {
     public: DS.attr('boolean'),
     // List of strings
     currentUserPermissions: DS.attr(),
+    dateWithdrawn: DS.attr('date'),
+    withdrawalJustification: DS.attr('fixstring'),
 
     // Relationships
     node: DS.belongsTo('node', { inverse: null, async: true }),
