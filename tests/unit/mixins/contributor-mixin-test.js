@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import ContributorMixinMixin from '@centerforopenscience/ember-osf/mixins/contributor-mixin';
+import ContributorMixinMixin from 'ember-osf/mixins/contributor-mixin';
 import { module, test } from 'qunit';
 
 module('Unit | Mixin | contributor mixin');
