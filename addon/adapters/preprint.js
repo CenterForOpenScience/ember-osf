@@ -2,15 +2,25 @@ import OsfAdapter from './osf-adapter';
 
 export default OsfAdapter.extend({
     // Overrides updateRecord on OsfAdapter. Is identical to JSONAPIAdapter > Update Record (parent's parent method).
-    // Updates to preprints do not need special handling.
     updateRecord(store, type, snapshot) {
-        var data = {};
-        var serializer = store.serializerFor(type.modelName);
+        let data = {};
+        let url = null;
 
-        serializer.serializeIntoHash(data, type, snapshot, { includeId: true });
-
-        var id = snapshot.id;
-        var url = this.buildURL(type.modelName, id, snapshot, 'updateRecord');
+        if (snapshot.record.get('_dirtyRelationships')['node'] && snapshot.record.get('_dirtyRelationships')['node']['remove'].length && !snapshot.record.get('_dirtyRelationships')['node']['add'].length) {
+            // Supplemental project has been selected for removal.
+            // Send request to relationship link to remove node
+            url = this._buildRelationshipURL(snapshot, 'node');
+            data = {
+                'data': null
+            };
+        } else {
+            // Preprint attributes and/or relationships have been modified.
+            // Send patch request to preprint detail link
+            const serializer = store.serializerFor(type.modelName);
+            serializer.serializeIntoHash(data, type, snapshot, { includeId: true });
+            var id = snapshot.id;
+            url = this.buildURL(type.modelName, id, snapshot, 'updateRecord');
+        }
 
         return this.ajax(url, 'PATCH', { data: data });
     }
