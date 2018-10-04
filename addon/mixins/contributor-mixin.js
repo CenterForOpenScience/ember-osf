@@ -60,14 +60,18 @@ export default Ember.Mixin.create({
 
     addContributors(contributors, sendEmail) {
         let payload = contributors.map(contrib => {
-            let c = this.store.createRecord('contributor', {
+            let contribData = {
                 permission: contrib.permission,
                 bibliographic: contrib.bibliographic,
                 nodeId: this.get('id'),
                 userId: contrib.userId,
                 id: this.get('id') + '-' + contrib.userId,
-                unregisteredContributor: null
-            });
+            };
+            if (contrib.unregisteredContributor) {
+                contribData['fullName'] = contrib.unregisteredContributor;
+            };
+            let c = this.store.createRecord('contributor', contribData);
+
             return c.serialize({
                 includeId: true,
                 includeUser: true
