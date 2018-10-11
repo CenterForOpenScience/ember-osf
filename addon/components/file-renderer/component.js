@@ -28,7 +28,7 @@ export default Ember.Component.extend({
     version: null,
     mfrUrl: Ember.computed('download', 'version', function() {
         let download = this.get('download');
-        if (download.indexOf('?') !== -1) {
+        if (download.includes('?')) {
             download = download + '&mode=render';
         } else {
             download = download + '?direct&mode=render';
