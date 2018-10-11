@@ -69,7 +69,7 @@ export default Ember.Mixin.create({
             };
             if (contrib.unregisteredContributor) {
                 contribData['fullName'] = contrib.unregisteredContributor;
-            };
+            }
             let c = this.store.createRecord('contributor', contribData);
 
             return c.serialize({
