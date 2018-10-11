@@ -2,6 +2,8 @@ import OsfAdapter from './osf-adapter';
 
 export default OsfAdapter.extend({
     // Overrides updateRecord on OsfAdapter. Is identical to JSONAPIAdapter > Update Record (parent's parent method).
+    // NOTE: With this implementation,
+    // the app cannot remove a `node` relationship and update other attributes/relationship with one .save() call.
     updateRecord(store, type, snapshot) {
         let data = {};
         let url = null;
