@@ -4,9 +4,8 @@ import { module, test } from 'qunit';
 
 module('Unit | Mixin | contributor mixin');
 
-// Replace this with your real tests.
 test('it works', function(assert) {
-  let ContributorMixinObject = Ember.Object.extend(ContributorMixinMixin);
-  let subject = ContributorMixinObject.create();
-  assert.ok(subject);
+    const ContributorMixinObject = Ember.Object.extend(ContributorMixinMixin);
+    const subject = ContributorMixinObject.create();
+    assert.ok(subject);
 });

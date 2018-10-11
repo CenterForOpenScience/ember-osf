@@ -3,9 +3,9 @@ import OsfAdapter from './osf-adapter';
 export default OsfAdapter.extend({
     buildURL(modelName, id, snapshot, requestType) { // jshint ignore:line
         if (requestType === 'createRecord' || requestType === 'findRecord') {
-            var nodeId;
-            var sendEmail = true;
-            var requestUrl;
+            let nodeId;
+            let sendEmail = true;
+            let requestUrl;
 
             if (snapshot) {
                 nodeId = snapshot.record.get('nodeId');

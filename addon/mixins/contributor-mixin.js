@@ -12,7 +12,7 @@ export default Ember.Mixin.create({
         if (!userId) {
             return new Ember.RSVP.Promise((resolve) => resolve(false));
         }
-        var contribId = `${this.get('id')}-${userId}`;
+        const contribId = `${this.get('id')}-${userId}`;
         return this.store.findRecord('contributor', contribId).then(() => true, () => false);
     },
 
@@ -20,12 +20,12 @@ export default Ember.Mixin.create({
         // Some duplicate logic from osf-model#save needed to support
         // contributor edits being saved through the node
         // Note: order is important here so _dirtyRelationships gets set by the _super call
-        var promise = this._super(...arguments);
+        const promise = this._super(...arguments);
         if (!this.get('_dirtyRelationships.contributors')) {
             this.set('_dirtyRelationships.contributors', {});
         }
 
-        var contributors = this.hasMany('contributors').hasManyRelationship;
+        const contributors = this.hasMany('contributors').hasManyRelationship;
         this.set(
             '_dirtyRelationships.contributors.update',
             contributors.members.list.filter(m => !m.getRecord().get('isNew') && Object.keys(m.getRecord().changedAttributes()).length > 0)
@@ -45,7 +45,7 @@ export default Ember.Mixin.create({
         return promise;
     },
     addContributor(userId, permission, isBibliographic, sendEmail, fullName, email) {
-        let contrib = this.store.createRecord('contributor', {
+        const contrib = this.store.createRecord('contributor', {
             permission: permission,
             bibliographic: isBibliographic,
             sendEmail: sendEmail,
@@ -59,8 +59,8 @@ export default Ember.Mixin.create({
     },
 
     addContributors(contributors, sendEmail) {
-        let payload = contributors.map(contrib => {
-            let contribData = {
+        const payload = contributors.map(contrib => {
+            const contribData = {
                 permission: contrib.permission,
                 bibliographic: contrib.bibliographic,
                 nodeId: this.get('id'),
@@ -68,9 +68,9 @@ export default Ember.Mixin.create({
                 id: this.get('id') + '-' + contrib.userId,
             };
             if (contrib.unregisteredContributor) {
-                contribData['fullName'] = contrib.unregisteredContributor;
+                contribData.fullName = contrib.unregisteredContributor;
             }
-            let c = this.store.createRecord('contributor', contribData);
+            const c = this.store.createRecord('contributor', contribData);
 
             return c.serialize({
                 includeId: true,
@@ -93,7 +93,7 @@ export default Ember.Mixin.create({
             isBulk: true
         }).then(resp => {
             this.store.pushPayload(resp);
-            var createdContribs = Ember.A();
+            const createdContribs = Ember.A();
             resp.data.map((contrib) => {
                 createdContribs.push(this.store.peekRecord('contributor', contrib.id));
             });

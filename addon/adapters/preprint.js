@@ -20,7 +20,7 @@ export default OsfAdapter.extend({
             // Send patch request to preprint detail link
             const serializer = store.serializerFor(type.modelName);
             serializer.serializeIntoHash(data, type, snapshot, { includeId: true });
-            var id = snapshot.id;
+            const id = snapshot.id;
             url = this.buildURL(type.modelName, id, snapshot, 'updateRecord');
         }
 
