@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import DS from 'ember-data';
+import config from 'ember-get-config';
 
 import OsfModel from './osf-model';
 
@@ -50,4 +51,26 @@ export default OsfModel.extend({
             return fullName;
         }
     }),
+
+    // custom model method to claim unregistered user
+    claimUnregisteredUser(preprintId, email) {
+        const userId = this.get('id');
+        const url = `${config.OSF.apiUrl}/v2/users/${userId}/claim/`;
+        const id = preprintId;
+        const payload = {
+            data: {
+                attributes: {
+                    email,
+                    id,
+                },
+            },
+        };
+        return Ember.$.ajax({
+            url,
+            crossDomain: true,
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(payload),
+        });
+    },
 });
