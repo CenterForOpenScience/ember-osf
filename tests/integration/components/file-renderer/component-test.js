@@ -25,29 +25,34 @@ test('it renders', function(assert) {
 
 test('file rendering defaults', function(assert) {
 
-    let download = 'someTruthyValue';
-    this.set('download', download);
+    let links = {
+        download:'someTruthyValue'
+    };
+    this.set('links', links);
     this.render(hbs`
-      {{#file-renderer download=download}}
+      {{#file-renderer links=links}}
         {{/file-renderer}}
     `);
 
     assert.equal(this.$('iframe').attr('height'), '100%');
     assert.equal(this.$('iframe').attr('width'), '100%');
-    assert.equal(this.$('iframe').attr('src'), config.OSF.renderUrl + "?url=" + encodeURIComponent(download + '?direct&mode=render'));
+    assert.equal(this.$('iframe').attr('src'), config.OSF.renderUrl + "?url=" + encodeURIComponent(links.download + '?direct&mode=render'));
 });
 
 test('specify file rendering parameters', function(assert) {
-    this.set('download', 'http://cos.io/');
+    let links = {
+        download: 'http://cos.io/',
+    };
+    this.set('links', links);
     this.set('height', '500');
     this.set('width', '500');
 
     this.render(hbs`
-        {{#file-renderer download=download height=height width=width}}
+        {{#file-renderer links=links height=height width=width}}
         {{/file-renderer}}
     `);
 
     assert.equal(this.$('iframe').attr('height'), '500');
     assert.equal(this.$('iframe').attr('width'), '500');
-    assert.equal(this.$('iframe').attr('src'), config.OSF.renderUrl + "?url=" + encodeURIComponent('http://cos.io/' + '?direct&mode=render'));
+    assert.equal(this.$('iframe').attr('src'), config.OSF.renderUrl + "?url=" + encodeURIComponent(links.download + '?direct&mode=render'));
 });
