@@ -6,7 +6,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [0.21.0] - 2018-09-20 
+### Added
+- Contributor mixin to share contributor-related methods between nodes and preprints
+- New fields added to `preprint` model for node-preprint divorce
+- Default message in `old-file-browser` if no files found
+
+### Changed
+- Node-preprint divorce changes
+- `contributor` model now shared between nodes and preprints. `preprint` relationship added to `contributor` model
+- Modify `contributor` adapter to talk to both node/preprint contributor endpoints
+- `Preprint` adapter has an option to unset a supplemental project from a preprint
+- Fix for building mfrURLs
+
+## [0.21.0] - 2018-09-20
 ### Added
 - Added `dateWithdrawn` and `withdrawalJustification` to `preprint` model
 - 'My Preprints' link to the Preprint navbar
