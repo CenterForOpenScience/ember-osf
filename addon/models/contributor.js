@@ -54,5 +54,8 @@ export default OsfModel.extend({
 
     node: DS.belongsTo('node', {
         inverse: 'contributors'
+    }),
+    preprint: DS.belongsTo('preprint', {
+        inverse: 'contributors'
     })
 });

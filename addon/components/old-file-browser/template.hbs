@@ -14,19 +14,24 @@
 {{/if}}
 
 <div class='old-file-browser-list file-browser-list'>
-    {{#ember-collection
-        items=items
-        cell-layout=(fixed-grid-layout itemWidth itemHeight)
-        as |item|
-    }}
-        {{old-file-browser-item
-            item=item
-            navigateToItem=(action 'navigateToItem')
-            selectItem=(action 'selectItem')
-            openItem=(action 'openItem')
-        }}
-    {{/ember-collection}}
-    {{#unless itemsLoaded}}
-        {{fa-icon 'spinner' size=3 pulse=true}}
-    {{/unless}}
+    {{#if itemsLoaded}}
+        {{#if items}}
+            {{#ember-collection
+                items=items
+                cell-layout=(fixed-grid-layout itemWidth itemHeight)
+                as |item|
+            }}
+                {{old-file-browser-item
+                    item=item
+                    navigateToItem=(action 'navigateToItem')
+                    selectItem=(action 'selectItem')
+                    openItem=(action 'openItem')
+                }}
+            {{/ember-collection}}
+        {{else}}
+            <p class='p-l-md p-t-xs text-muted'><em> No files found </em></p>
+        {{/if}}
+    {{else}}
+        <p class='p-l-md p-t-xs'> {{fa-icon 'spinner' size=3 pulse=true}} </p>
+    {{/if}}
 </div>
