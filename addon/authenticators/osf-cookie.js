@@ -26,7 +26,7 @@ export default Base.extend({
     _test() {
         return authenticatedAJAX({
             method: 'GET',
-            url: `${config.OSF.apiUrl}/${config.OSF.apiNamespace}/users/me/`,
+            url: `${config.OSF.apiUrl}/${config.OSF.apiNamespace}/`,
             dataType: 'json',
             contentType: 'application/json',
             xhrFields: {
@@ -36,7 +36,11 @@ export default Base.extend({
             // Push the result into the store for later use by the current-user service
             // Note: we have to deepcopy res because pushPayload mutates our data
             // and causes an infinite loop because reasons
-            this.get('store').pushPayload(Ember.copy(res, true));
+            if (res['meta']['current_user'] !== null ){
+                this.get('store').pushPayload(Ember.copy(res['meta']['current_user'], true));
+            } else {
+                return Ember.RSVP.reject();
+            }
             return res.data;
         });
     },
