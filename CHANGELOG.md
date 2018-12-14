@@ -4,7 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [0.21.0] - 2018-09-20 
+## [0.22.0] - 2018-12-13
+
+### Added
+- Contributor mixin to share contributor-related methods between nodes and preprints
+- New fields added to `preprint` model for node-preprint divorce
+- Default message in `old-file-browser` if no files found
+
+### Changed
+- Node-preprint divorce changes
+- `contributor` model now shared between nodes and preprints. `preprint` relationship added to `contributor` model
+- Modify `contributor` adapter to talk to both node/preprint contributor endpoints
+- `Preprint` adapter has an option to unset a supplemental project from a preprint
+- Fix for building mfrURLs
+
+## [0.21.0] - 2018-09-20
 ### Added
 - Added `dateWithdrawn` and `withdrawalJustification` to `preprint` model
 - 'My Preprints' link to the Preprint navbar
