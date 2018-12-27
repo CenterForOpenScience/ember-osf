@@ -41,7 +41,7 @@ export default Base.extend({
             } else {
                 return Ember.RSVP.reject();
             }
-            return res.data;
+            return res['meta']['current_user']['data'];
         });
     },
     restore(/* data */) {
