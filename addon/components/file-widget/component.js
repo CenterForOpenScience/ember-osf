@@ -26,7 +26,7 @@ export default Ember.Component.extend({
     authUrl: getAuthUrl(),
     i18n: Ember.inject.service(),
     session: Ember.inject.service(),
-    currentUser: Ember.inject.service(),
+    currentUser: Ember.inject.service('current-user'),
     fileManager: Ember.inject.service(),
     user: null,
     query: null,

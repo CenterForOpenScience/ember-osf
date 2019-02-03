@@ -25,7 +25,7 @@ export default Ember.Component.extend(AnalyticsMixin, {
     layout,
     tagName: '',
     session: Ember.inject.service(),
-    currentUser: Ember.inject.service(),
+    currentUser: Ember.inject.service('current-user'),
     i18n: Ember.inject.service(),
     notAuthenticated: Ember.computed.not('session.isAuthenticated'),
     redirectUrl: null,

@@ -42,6 +42,13 @@ module.exports = {
             apiNamespace: 'v2', // URL suffix (after host)
             backend: BACKEND,
             redirectUri: eitherConfig('REDIRECT_URI'),
+            institutionsLandingFlag: 'institutions_nav_bar',
+            apiHeaders: {
+                ACCEPT: 'application/vnd.api+json; version=2.6'
+            },
+            cookies: {
+                csrf: 'api-csrf',
+            },
         };
 
         // Fetch configuration information for the application

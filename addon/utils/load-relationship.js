@@ -23,7 +23,7 @@ export function loadPage(model, relationship, pageSize, page, options = {}) {
         'page[size]': pageSize || 10,
         page: page || 1
     };
-    query = Ember.merge(query, options || {});
+    query = Ember.assign(query, options || {});
     Ember.set(model, 'query-params', query);
 
     return model.queryHasMany(relationship, query).then(results => {
@@ -47,7 +47,7 @@ export default function loadAll(model, relationship, dest, options = {}) {
         'page[size]': 10,
         page: page
     };
-    query = Ember.merge(query, options || {});
+    query = Ember.assign(query, options || {});
     Ember.set(model, 'query-params', query);
 
     return model.queryHasMany(relationship, query).then(results => {

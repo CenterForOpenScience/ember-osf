@@ -13,7 +13,7 @@ export default OsfSerializer.extend({
                 includeUser: true
             };
         }
-        Ember.merge(opts, options);
+        Ember.assign(opts, options);
 
         // APIv2 expects contributor information to be nested under relationships.
         if (opts.includeUser) {

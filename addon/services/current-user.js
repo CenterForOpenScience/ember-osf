@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import { task } from 'ember-concurrency';
 import config from 'ember-get-config';
-import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
 /**
  * @module ember-osf
  * @submodule services
@@ -17,8 +16,11 @@ export default Ember.Service.extend({
     store: Ember.inject.service(),
     session: Ember.inject.service(),
     features: Ember.inject.service(),
+    cookies: Ember.inject.service(),
 
     waffleLoaded: false,
+    csrfCookie: config.OSF.cookies.csrf,
+    apiHeaders: config.OSF.apiHeaders,
 
     init() {
         this._super(...arguments);
@@ -32,7 +34,7 @@ export default Ember.Service.extend({
 
     setWaffle: task(function* () {
         const url = `${config.OSF.apiUrl}/v2/_waffle/`;
-        const { data } = yield authenticatedAJAX({
+        const { data } = yield this.authenticatedAJAX({
             url,
             method: 'GET',
         });
@@ -65,13 +67,69 @@ export default Ember.Service.extend({
      * @type {String|null}
      */
     currentUserId: Ember.computed('session.data.authenticated', function() {
-        var session = this.get('session');
+        const session = this.get('session');
         if (session.get('isAuthenticated')) {
             return session.get('data.authenticated.id');
         } else {
             return null;
         }
     }),
+
+    /**
+     * Performs an AJAX request with any additional authorization config as needed for the configured authorization type.
+     * Allows manual AJAX requests to be authorization-agnostic when using this addon.
+     *
+     * Primarily used to set XHR flags on manual AJAX requests, for cookie based authorization.
+     * @method authenticatedAJAX
+     * @param {Object} options
+     * @param {Boolean} addApiHeaders
+     * @return {Promise}
+     */
+    authenticatedAJAX(options, addApiHeaders = true) {
+        const opts = Ember.assign({}, options);
+
+        if (config.authorizationType === 'cookie') {
+            opts.xhrFields = Ember.assign({
+                    withCredentials: true
+                }, opts.xhrFields || {});
+        }
+
+        if (addApiHeaders) {
+            opts.headers = Ember.assign({}, this.ajaxHeaders(), opts.headers || {});
+        }
+
+        return Ember.$.ajax(opts);
+    },
+
+    /**
+     * @method authorizeXHR
+     * @param  {XMLHttpRequest} xhr
+     * @param  {Boolean} addApiHeaders
+     */
+    authorizeXHR(xhr, addApiHeaders) {
+        if (addApiHeaders) {
+            Object.entries(this.ajaxHeaders()).forEach(([key, value]) => {
+                  xhr.setRequestHeader(key, value);
+            });
+        }
+        xhr.withCredentials = true;
+    },
+    /**
+     * Return headers that should be included with every AJAX request to the API
+     * @method ajaxHeaders
+     */
+    ajaxHeaders() {
+        const headers = Ember.assign({}, this.apiHeaders);
+        const csrfCookie = this.csrfCookie;
+        const cookies = Ember.get(this, 'cookies');
+        const csrfToken = cookies.read(csrfCookie);
+
+        if (csrfToken) {
+            headers['X-CSRFToken'] = csrfToken;
+        }
+
+        return headers;
+    },
 
     /**
      * Fetch information about the currently logged in user. If no user is logged in, this method returns a rejected promise.

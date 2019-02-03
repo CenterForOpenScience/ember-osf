@@ -3,7 +3,6 @@ import Ember from 'ember';
 import { task, timeout } from 'ember-concurrency';
 import config from 'ember-get-config';
 
-import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
 import layout from './template';
 
 /**
@@ -35,6 +34,7 @@ const citationStyles = [
 export default Ember.Component.extend({
     store: Ember.inject.service(),
     i18n: Ember.inject.service(),
+    currentUser: Ember.inject.service('current-user'),
 
     layout,
     apa: null,
@@ -87,7 +87,7 @@ export default Ember.Component.extend({
 
     _selectStyle: task(function* (id) {
         const citationLink = this.get('citationLink');
-        const response = yield authenticatedAJAX({ url: `${citationLink}${id}/` });
+        const response = yield this.get('currentUser').authenticatedAJAX({ url: `${citationLink}${id}/` });
         this.set('citationText', response.data.attributes.citation);
     }).restartable(),
 
