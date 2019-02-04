@@ -1,10 +1,13 @@
 /* eslint-env node */
 
+const DotReporter = require('testem/lib/reporters/dot_reporter');
+
 module.exports = {
     framework: 'qunit',
     test_page: 'tests/index.html?hidepassed',
     timeout: 540,
     disable_watching: true,
+    reporter: new DotReporter(),
     launch_in_ci: [
         'Chrome',
         'Firefox',
