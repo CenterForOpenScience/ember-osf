@@ -52,12 +52,6 @@ test('it has an attribute: dateRegistered', function(assert) {
     assert.ok(hasAttr);
 });
 
-test('it has an attribute: username', function(assert) {
-    var model = this.subject();
-    var hasAttr = Object.keys(model.toJSON()).indexOf('username') > -1;
-    assert.ok(hasAttr);
-});
-
 test('it has an attribute: fullName', function(assert) {
     var model = this.subject();
     var hasAttr = Object.keys(model.toJSON()).indexOf('fullName') > -1;

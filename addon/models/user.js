@@ -2,6 +2,7 @@ import Ember from 'ember';
 import DS from 'ember-data';
 import config from 'ember-get-config';
 
+import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
 import OsfModel from './osf-model';
 
 /**
@@ -25,8 +26,6 @@ export default OsfModel.extend({
     familyName: DS.attr('fixstring'),
 
     dateRegistered: DS.attr('date'),
-    // email
-    username: DS.attr('fixstring'),
 
     nodes: DS.hasMany('nodes'),
     registrations: DS.hasMany('registrations'),
@@ -37,6 +36,7 @@ export default OsfModel.extend({
     institutions: DS.hasMany('institutions', {
         inverse: 'users'
     }),
+    emails: DS.hasMany('user-emails'),
 
     // Calculated fields
     profileURL: Ember.computed.alias('links.html'),
@@ -65,7 +65,7 @@ export default OsfModel.extend({
                 },
             },
         };
-        return Ember.$.ajax({
+        return authenticatedAJAX({
             url,
             crossDomain: true,
             type: 'POST',
