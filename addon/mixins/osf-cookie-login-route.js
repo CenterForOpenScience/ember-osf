@@ -25,15 +25,13 @@ export default Ember.Mixin.create({
         if (this.get('session.isAuthenticated')) return;
 
         // Block transition until auth attempt resolves. If auth fails, let the page load normally.
-        return this.get('session').authenticate('authenticator:osf-cookie')
-            .catch(err => {
-                Ember.Logger.log('Authentication failed: ', err);
-                // If `err` is not `undefined` and `err.readyState` is `0`, signaling a network error
-                // We transition to the `error-no-api` route while keeping the transition target url.
-                if (err && err.readyState === 0 && transition.targetName !== 'error-no-api') {
-                    this.transitionTo('error-no-api', transitionTargetUrl(transition).slice(1));
-                    return;
-                }
-            });
+        return this.get('session').authenticate('authenticator:osf-cookie');
+    },
+    actions: {
+        error(err) {
+            // To manually transition to a wildcard route
+            // we need to pass a arbitrary, non-empty argument as the model
+            return this.intermediateTransitionTo('error-no-api', 'no-api');
+        }
     }
 });
