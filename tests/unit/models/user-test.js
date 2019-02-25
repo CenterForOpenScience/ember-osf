@@ -11,6 +11,7 @@ moduleForModel('user', 'Unit | Model | user', {
             'model:registration',
             'model:file',
             'model:review-action',
+            'model:user-email',
             'transform:fixstring',
             'transform:links',
             'transform:embed']
