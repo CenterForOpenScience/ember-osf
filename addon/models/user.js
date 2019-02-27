@@ -2,7 +2,6 @@ import Ember from 'ember';
 import DS from 'ember-data';
 import config from 'ember-get-config';
 
-import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
 import OsfModel from './osf-model';
 
 /**
@@ -20,6 +19,8 @@ import OsfModel from './osf-model';
  * @class User
  */
 export default OsfModel.extend({
+    currentUser: Ember.inject.service(),
+
     fullName: DS.attr('fixstring'),
     givenName: DS.attr('fixstring'),
     middleNames: DS.attr(),
@@ -65,7 +66,7 @@ export default OsfModel.extend({
                 },
             },
         };
-        return authenticatedAJAX({
+        return this.get('currentUser').authenticatedAJAX({
             url,
             crossDomain: true,
             type: 'POST',
