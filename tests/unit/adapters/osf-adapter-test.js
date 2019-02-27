@@ -20,7 +20,7 @@ const currentUserStub = CurrentUser.extend({
 moduleFor('adapter:osf-adapter', 'Unit | Adapter | osf adapter', {
     needs: [
         'model:comment', 'model:contributor', 'model:draft-registration', 'model:file-provider', 'model:citation',
-        'model:institution', 'model:log', 'model:node', 'model:node-link', 'model:registration', 'model:user', 'model:preprint', 'model:wiki',
+        'model:institution', 'model:log', 'model:node', 'model:node-link', 'model:registration', 'model:user', 'model:user-email','model:preprint', 'model:wiki',
         'adapter:osf-adapter', 'adapter:node', 'adapter:user',
         'serializer:node',
         'service:session', 'service:cookies',
