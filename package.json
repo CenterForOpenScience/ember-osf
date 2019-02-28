@@ -88,7 +88,7 @@
     "ember-cli-clipboard": "0.8.1",
     "ember-cli-htmlbars": "2.0.1",
     "ember-cli-htmlbars-inline-precompile": "0.4.3",
-    "ember-cli-sass": "^6.2.0",
+    "ember-cli-sass": "^7.0.0",
     "ember-cli-shims": "1.0.2",
     "ember-collapsible-panel": "^2.1.1",
     "ember-component-css": "^0.6.0",

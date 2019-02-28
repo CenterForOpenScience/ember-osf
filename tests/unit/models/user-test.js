@@ -11,6 +11,7 @@ moduleForModel('user', 'Unit | Model | user', {
             'model:registration',
             'model:file',
             'model:review-action',
+            'model:user-email',
             'transform:fixstring',
             'transform:links',
             'transform:embed']
@@ -49,12 +50,6 @@ test('it has an attribute: familyName', function(assert) {
 test('it has an attribute: dateRegistered', function(assert) {
     var model = this.subject();
     var hasAttr = Object.keys(model.toJSON()).indexOf('dateRegistered') > -1;
-    assert.ok(hasAttr);
-});
-
-test('it has an attribute: username', function(assert) {
-    var model = this.subject();
-    var hasAttr = Object.keys(model.toJSON()).indexOf('username') > -1;
     assert.ok(hasAttr);
 });
 

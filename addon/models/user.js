@@ -19,14 +19,14 @@ import OsfModel from './osf-model';
  * @class User
  */
 export default OsfModel.extend({
+    currentUser: Ember.inject.service(),
+
     fullName: DS.attr('fixstring'),
     givenName: DS.attr('fixstring'),
     middleNames: DS.attr(),
     familyName: DS.attr('fixstring'),
 
     dateRegistered: DS.attr('date'),
-    // email
-    username: DS.attr('fixstring'),
 
     nodes: DS.hasMany('nodes'),
     registrations: DS.hasMany('registrations'),
@@ -37,6 +37,7 @@ export default OsfModel.extend({
     institutions: DS.hasMany('institutions', {
         inverse: 'users'
     }),
+    emails: DS.hasMany('user-emails'),
 
     // Calculated fields
     profileURL: Ember.computed.alias('links.html'),
@@ -65,7 +66,7 @@ export default OsfModel.extend({
                 },
             },
         };
-        return Ember.$.ajax({
+        return this.get('currentUser').authenticatedAJAX({
             url,
             crossDomain: true,
             type: 'POST',
