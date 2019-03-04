@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import InfinityRoute from 'ember-infinity/mixins/route';
 
-const assign = Ember.assign || Ember.merge;
+const assign = Ember.assign;
 
 /**
  * @module ember-osf

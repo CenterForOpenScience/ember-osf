@@ -23,7 +23,7 @@ export default Ember.Component.extend({
     layout,
     i18n: Ember.inject.service(),
     session: Ember.inject.service(),
-    currentUser: Ember.inject.service(),
+    currentUser: Ember.inject.service('current-user'),
 
     tagName: 'li',
     classNames: ['dropdown', 'secondary-nav-dropdown'],

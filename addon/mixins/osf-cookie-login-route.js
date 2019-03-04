@@ -21,11 +21,16 @@ export default Ember.Mixin.create({
 
         // TODO: Should this check for resolution of a promise?
         this._super(...arguments);
-
         if (this.get('session.isAuthenticated')) return;
 
-        // Block transition until auth attempt resolves. If auth fails, let the page load normally.
-        return this.get('session').authenticate('authenticator:osf-cookie')
-            .catch(err => Ember.Logger.log('Authentication failed: ', err));
+        // Block transition until auth attempt resolves.
+        return this.get('session').authenticate('authenticator:osf-cookie');
+    },
+    actions: {
+        error() {
+            // To manually transition to a wildcard route
+            // we need to pass a arbitrary, non-empty argument as the model
+            return this.intermediateTransitionTo('error-no-api', 'no-api');
+        }
     }
 });

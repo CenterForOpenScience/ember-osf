@@ -1,8 +1,21 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
+import { task } from 'ember-concurrency';
+import CurrentUser from 'ember-osf/services/current-user';
+
+const currentUserStub = CurrentUser.extend({
+    setWaffle: task(function* () {
+        // do_nothing
+    }),
+})
+
 moduleForComponent('search-dropdown', 'Integration | Component | search dropdown', {
-  integration: true
+  integration: true,
+  beforeEach() {
+      this.register('service:current-user', currentUserStub);
+      this.inject.service('current-user');
+  },
 });
 
 test('it renders', function(assert) {

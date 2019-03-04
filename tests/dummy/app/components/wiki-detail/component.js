@@ -1,8 +1,9 @@
 import Ember from 'ember';
 import layout from './template';
-import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
 
 export default Ember.Component.extend({
+    currentUser: Ember.inject.service('current-user'),
+
     layout,
     showContent: false,
     wikiContent: '',
@@ -10,7 +11,7 @@ export default Ember.Component.extend({
         toggleContent: function() {
             Ember.run.once(this, function() {
                 let url = this.get('wiki.links.download');
-                authenticatedAJAX({
+                this.get('currentUser').authenticatedAJAX({
                     method: 'GET',
                     url: url,
                     xhrFields: {

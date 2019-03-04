@@ -1,8 +1,8 @@
+import Ember from 'ember';
 import DS from 'ember-data';
 
 import OsfModel from './osf-model';
 import FileItemMixin from 'ember-osf/mixins/file-item';
-import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
 
 /**
  * @module ember-osf
@@ -22,8 +22,9 @@ import { authenticatedAJAX } from 'ember-osf/utils/ajax-helpers';
  * @class File
  */
 export default OsfModel.extend(FileItemMixin, {
-    _isFileModel: true,
+    currentUser: Ember.inject.service('current-user'),
 
+    _isFileModel: true,
     name: DS.attr('fixstring'),
     kind: DS.attr('fixstring'),
     guid: DS.attr('fixstring'),
@@ -51,7 +52,7 @@ export default OsfModel.extend(FileItemMixin, {
     checkout: DS.attr('fixstring'),
 
     rename(newName, conflict = 'replace') {
-        return authenticatedAJAX({
+        const opts = {
             url: this.get('links.upload'),
             type: 'POST',
             xhrFields: {
@@ -65,7 +66,9 @@ export default OsfModel.extend(FileItemMixin, {
                 rename: newName,
                 conflict: conflict
             }),
-        }).done(response => {
+        };
+
+        return this.get('currentUser').authenticatedAJAX(opts).done(response => {
             this.set('name', response.data.attributes.name);
         });
     },
@@ -84,25 +87,28 @@ export default OsfModel.extend(FileItemMixin, {
         );
     },
     getContents() {
-        return authenticatedAJAX({
+        const opts = {
             url: this.get('links.download'),
             type: 'GET',
             data: {
                 direct: true,
                 mode: 'render',
             },
-        });
+        };
+        return this.get('currentUser').authenticatedAJAX(opts);
     },
     updateContents(data) {
-        return authenticatedAJAX({
+        const opts = {
             url: this.get('links.upload'),
             type: 'PUT',
             xhrFields: { withCredentials: true },
             data: data,
-        }).then(() => this.reload());
+        }
+
+        return this.get('currentUser').authenticatedAJAX(opts).then(() => this.reload());
     },
     move(node) {
-        return authenticatedAJAX({
+        const opts = {
             url: this.get('links.move'),
             type: 'POST',
             xhrFields: { withCredentials: true },
@@ -114,6 +120,8 @@ export default OsfModel.extend(FileItemMixin, {
                 path: '/',
                 resource: node.id,
             }),
-        }).then(() => this.reload());
+        };
+
+        return this.get('currentUser').authenticatedAJAX(opts).then(() => this.reload());
     },
 });

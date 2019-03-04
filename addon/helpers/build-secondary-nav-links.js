@@ -16,7 +16,7 @@ import { serviceLinks } from '../const/service-links';
 
 export default Ember.Helper.extend({  // Helper defined using a class, so can inject dependencies.
     session: Ember.inject.service(),
-    currentUser: Ember.inject.service(),
+    currentUser: Ember.inject.service('current-user'),
     compute(params) { // Helpers defined using a class need a compute function
         const currentService = params[0].toUpperCase();
         const baseServiceUrl = params[1];

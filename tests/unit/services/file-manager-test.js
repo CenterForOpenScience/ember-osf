@@ -3,6 +3,8 @@ import {moduleFor} from 'ember-qunit';
 import FactoryGuy, { manualSetup, mockUpdate } from 'ember-data-factory-guy';
 import wait from 'ember-test-helpers/wait';
 import test from 'ember-sinon-qunit/test-support/test';
+import CurrentUser from 'ember-osf/services/current-user';
+import { task } from 'ember-concurrency';
 
 /*
  * assertions:
@@ -72,7 +74,6 @@ function assertSettings(assert, actual, expected) {
     }
 }
 
-
 let fakeAccessToken = 'thisisafakeaccesstoken';
 let fakeUserID = 'thisisafakeuseridbanana';
 let sessionStub = Ember.Service.extend({
@@ -83,18 +84,26 @@ let sessionStub = Ember.Service.extend({
         authenticated: {
             id: fakeUserID
         }
-    }
+    },
+    on(){}
 });
+
+const currentUserStub = CurrentUser.extend({
+    setWaffle: task(function* () {
+        // do_nothing
+    }),
+})
 
 moduleFor('service:file-manager', 'Unit | Service | file manager', {
     unit: true,
     needs: [
         'model:file', 'model:file-version', 'model:comment', 'model:node',
         'transform:links', 'transform:embed', 'transform:fixstring', 'model:user',
-        'service:features',
+        'service:features', 'service:current-user', 'service:cookies',
     ],
     beforeEach() {
         this.register('service:session', sessionStub);
+        this.register('service:current-user', currentUserStub);
 
         // FactoryGuy setup
         manualSetup(this.container);
@@ -103,6 +112,7 @@ moduleFor('service:file-manager', 'Unit | Service | file manager', {
 
 test('test waterbutler request', function (assert) {
     this.inject.service('session');
+    this.inject.service('current-user');
     assert.expect(4);
     let service = this.subject();
     let file = FactoryGuy.make('file');

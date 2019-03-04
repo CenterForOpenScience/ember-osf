@@ -21,22 +21,27 @@ import config from 'ember-get-config';
  */
 export default Ember.Component.extend({
     layout,
-    download: null,
+    links: null,
     width: '100%',
     height: '100%',
     allowfullscreen: true,
     version: null,
-    mfrUrl: Ember.computed('download', 'version', function() {
-        let download = this.get('download');
-        if (download.includes('?')) {
-            download = download + '&mode=render';
+    mfrUrl: Ember.computed('links.download', 'links.version', 'links.render', function() {
+        if (this.get('links.render') != null) {
+            return this.get('links.render')
         } else {
-            download = download + '?direct&mode=render';
+            let download = this.get('links.download');
+            if (download.includes('?')) {
+                download = download + '&mode=render';
+            } else {
+                download = download + '?direct&mode=render';
+            }
+            if (this.get('version')) {
+                download += '&version=' + this.get('version');
+            }
+            const fallbackMfrRenderUrl = config.OSF.renderUrl + '?url=' + encodeURIComponent(download);
+            return fallbackMfrRenderUrl;
         }
-        if (this.get('version')) {
-            download += '&version=' + this.get('version');
-        }
-        return config.OSF.renderUrl + '?url=' + encodeURIComponent(download);
     }),
 
     didRender() {

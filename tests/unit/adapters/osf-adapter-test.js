@@ -3,35 +3,39 @@ import Ember from 'ember';
 import {moduleFor, skip} from 'ember-qunit';
 import test from 'ember-sinon-qunit/test-support/test';
 import FactoryGuy, {manualSetup} from 'ember-data-factory-guy';
+import CurrentUser from 'ember-osf/services/current-user';
+import { task } from 'ember-concurrency';
 
-import DS from 'ember-data';
 import JSONAPIAdapter from 'ember-data/adapters/json-api';
 
 import OsfAdapter from 'ember-osf/adapters/osf-adapter';
 
+
+const currentUserStub = CurrentUser.extend({
+    setWaffle: task(function* () {
+        // do_nothing
+    }),
+})
+
 moduleFor('adapter:osf-adapter', 'Unit | Adapter | osf adapter', {
     needs: [
         'model:comment', 'model:contributor', 'model:draft-registration', 'model:file-provider', 'model:citation',
-        'model:institution', 'model:log', 'model:node', 'model:node-link', 'model:registration', 'model:user', 'model:preprint', 'model:wiki',
+        'model:institution', 'model:log', 'model:node', 'model:node-link', 'model:registration', 'model:user', 'model:user-email','model:preprint', 'model:wiki',
         'adapter:osf-adapter', 'adapter:node', 'adapter:user',
         'serializer:node',
-        'service:session',
+        'service:session', 'service:cookies',
+        'service:current-user', 'service:features',
         'transform:links', 'transform:embed', 'transform:fixstring'
     ],
     beforeEach() {
+        this.register('service:current-user', currentUserStub);
         manualSetup(this.container);
     }
 });
 
 test('#buildURL appends a trailing slash if missing', function (assert) {
     var url = 'http://localhost:8000/v2/users/me';
-    this.stub(
-        DS.JSONAPIAdapter.prototype,
-        'buildURL',
-        function () {
-            return url;
-        }
-    );
+
     let adapter = this.subject();
     let user = FactoryGuy.make('user');
     let result = adapter.buildURL(
@@ -46,13 +50,7 @@ test('#buildURL appends a trailing slash if missing', function (assert) {
 
 test('#buildURL _only_ appends a trailing slash if missing', function (assert) {
     var url = 'http://localhost:8000/v2/users/me/';
-    this.stub(
-        DS.JSONAPIAdapter.prototype,
-        'buildURL',
-        function () {
-            return url;
-        }
-    );
+
     let adapter = this.subject();
     let user = FactoryGuy.make('user');
     let result = adapter.buildURL(
@@ -523,6 +521,8 @@ test('#updateRecord handles both dirtyRelationships and the parent record', func
 });
 
 test('#ajaxOptions adds bulk contentType if request is bulk', function (assert) {
+    this.inject.service('current-user');
+
     let adapter = this.subject();
     var opts = adapter.ajaxOptions(null, null, {
         isBulk: true

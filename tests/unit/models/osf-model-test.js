@@ -1,14 +1,25 @@
 import Ember from 'ember';
 import { moduleForModel, test } from 'ember-qunit';
+import CurrentUser from 'ember-osf/services/current-user';
+import { task } from 'ember-concurrency';
+
+const currentUserStub = CurrentUser.extend({
+    setWaffle: task(function* () {
+        // do_nothing
+    }),
+})
 
 moduleForModel('osf-model', 'Unit | Model | osf model', {
   // Specify the other units that are required for this test.
-  needs: ['model:user', 'model:node']
+  needs: ['model:user', 'model:node', 'service:current-user', 'service:session', 'service:features', 'service:cookies'],
+  beforeEach() {
+      this.register('service:current-user', currentUserStub);
+      this.inject.service('current-user');
+  }
 });
 
 test('it exists', function(assert) {
     let model = this.subject();
-    // let store = this.store();
     assert.ok(!!model);
 });
 

@@ -21,12 +21,17 @@ import {
  * @uses GenericDataAdapterMixin
  */
 export default DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
-    headers: {
-        ACCEPT: 'application/vnd.api+json; version=2.6'
-    },
+    currentUser: Ember.inject.service('current-user'),
+
     authorizer: config['ember-simple-auth'].authorizer,
     host: config.OSF.apiUrl,
     namespace: config.OSF.apiNamespace,
+
+    headers: Ember.computed('currentUser', function(){
+        const currentUser = this.get('currentUser');
+        return currentUser.ajaxHeaders();
+    }).volatile(),
+
     /**
      * Overrides buildQuery method - Allows users to embed resources with findRecord
      * OSF APIv2 does not have "include" functionality, instead we use 'embed'.
@@ -41,7 +46,7 @@ export default DS.JSONAPIAdapter.extend(GenericDataAdapterMixin, {
             query.embed = query.include;
         }
         delete query.include;
-        return Ember.merge(query, Ember.getWithDefault(snapshot, 'adapterOptions.query', {}));
+        return Ember.assign(query, Ember.getWithDefault(snapshot, 'adapterOptions.query', {}));
     },
     buildURL(modelName, id, snapshot, requestType) {
         var url = this._super(...arguments);
