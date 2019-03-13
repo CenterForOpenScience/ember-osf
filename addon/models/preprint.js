@@ -53,6 +53,7 @@ export default OsfModel.extend(ContributorMixin, {
         allowBulkRemove: true,
         inverse: 'preprint'
     }),
+    requests: DS.hasMany('preprint-requests', { inverse: 'target', async: true }),
     uniqueSubjects: Ember.computed('subjects', function() {
         if (!this.get('subjects')) return [];
         return this.get('subjects').reduce((acc, val) => acc.concat(val), []).uniqBy('id');
