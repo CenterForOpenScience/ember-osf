@@ -10,6 +10,7 @@ moduleForModel('preprint', 'Unit | Model | preprint', {
             'model:review-action',
             'model:node',
             'model:license',
+            'model:preprint-request',
             'transform:fixstring',
             'transform:links',
             'transform:embed',]
