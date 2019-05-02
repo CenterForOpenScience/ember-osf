@@ -43,13 +43,21 @@ export default Ember.Component.extend({
             return fallbackMfrRenderUrl;
         }
     }),
+    mfrOrigin: Ember.computed('mfrUrl', function() {
+        const urlParts = this.get('mfrUrl').split('/');
+        if (urlParts.length < 3) {
+            // if unable to extract mfr origin, just return config mfrUrl
+            return config.OSF.mfrUrl;
+        }
+        return `${urlParts[0]}//${urlParts[2]}`;
+    }),
 
     didRender() {
         this._super(...arguments);
 
         if (this.get('allowCommenting')) {
             Ember.$('iframe').on('load', function() {
-                Ember.$('iframe')[0].contentWindow.postMessage('startHypothesis', config.OSF.mfrUrl);
+                Ember.$('iframe')[0].contentWindow.postMessage('startHypothesis', this.get('mfrOrigin'));
             });
         }
     },
