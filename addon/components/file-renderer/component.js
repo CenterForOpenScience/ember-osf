@@ -56,9 +56,9 @@ export default Ember.Component.extend({
         this._super(...arguments);
 
         if (this.get('allowCommenting')) {
-            Ember.$('iframe').on('load', function() {
-                Ember.$('iframe')[0].contentWindow.postMessage('startHypothesis', this.get('mfrOrigin'));
-            });
+            Ember.$('iframe').on('load', () =>
+                Ember.$('iframe')[0].contentWindow.postMessage('startHypothesis', this.get('mfrOrigin'))
+            );
         }
     },
 });
