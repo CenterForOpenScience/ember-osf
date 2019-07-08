@@ -1,7 +1,21 @@
 <div class="form-group">
     {{#if isTextArea}}
-        {{textarea value=value type=type placeholder=placeholder class="form-control" name=valuePath}}
-
+        {{textarea
+            value=value
+            type=type
+            placeholder=placeholder
+            class="form-control"
+            name=valuePath
+            rows=rows
+            columns=columns
+            name=name
+            selectionEnd=selectionEnd
+            selectionStart=selectionStart
+            autocomplete=autocomplete
+            wrap=wrap
+            lang=lang
+            dir=dir
+        }}
     {{else if isDateField}}
         {{bootstrap-datepicker type=type value=value placeholder=placeholder class="form-control" name=valuePath focus-out="forceParse"}}
 
