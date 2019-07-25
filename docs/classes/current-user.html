@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.19.0</em>
+            <em>API Docs for: 0.25.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,12 +38,13 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
-                                <li><a href="../classes/ajax-helpers.html">ajax-helpers</a></li>
                                 <li><a href="../classes/Analytics.html">Analytics</a></li>
                                 <li><a href="../classes/auth.html">auth</a></li>
                                 <li><a href="../classes/author-link.html">author-link</a></li>
                                 <li><a href="../classes/buildSecondaryNavLinks.html">buildSecondaryNavLinks</a></li>
                                 <li><a href="../classes/CasAuthenticatedRouteMixin.html">CasAuthenticatedRouteMixin</a></li>
+                                <li><a href="../classes/ChronosJournals.html">ChronosJournals</a></li>
+                                <li><a href="../classes/ChronosSubmissions.html">ChronosSubmissions</a></li>
                                 <li><a href="../classes/Citation.html">Citation</a></li>
                                 <li><a href="../classes/citation-widget.html">citation-widget</a></li>
                                 <li><a href="../classes/Collection.html">Collection</a></li>
@@ -131,6 +132,24 @@
                                 <li><a href="../classes/search-help-modal.html">search-help-modal</a></li>
                                 <li><a href="../classes/search-result.html">search-result</a></li>
                                 <li><a href="../classes/service-links.html">service-links</a></li>
+                                <li><a href="../classes/sharing-icons.html">sharing-icons</a></li>
+                                <li><a href="../classes/sharing-icons-popover
+                
+                Sample usage:
+                {{sharing-icons
+                    title=title
+                    description=description
+                    hyperlink=hyperlink
+                    metricsExtra=metricsExtra
+                }}.html">sharing-icons-popover
+                
+                Sample usage:
+                {{sharing-icons
+                    title=title
+                    description=description
+                    hyperlink=hyperlink
+                    metricsExtra=metricsExtra
+                }}</a></li>
                                 <li><a href="../classes/sign-up.html">sign-up</a></li>
                                 <li><a href="../classes/sortOptionDisplay.html">sortOptionDisplay</a></li>
                                 <li><a href="../classes/Subscription.html">Subscription</a></li>
@@ -198,7 +217,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/addon_services_current-user.js.html#l10"><code>addon&#x2F;services&#x2F;current-user.js:10</code></a>
+            Defined in: <a href="../files/addon_services_current-user.js.html#l9"><code>addon&#x2F;services&#x2F;current-user.js:9</code></a>
         </div>
 
             Module: <a href="../modules/services.html">services</a><br>
@@ -243,6 +262,18 @@
                             </li>
                             <li class="index-item method public inherited">
                                 <a href="#method_addObserver">addObserver</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_ajaxHeaders">ajaxHeaders</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_authenticatedAJAX">authenticatedAJAX</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_authorizeXHR">authorizeXHR</a>
 
                             </li>
                             <li class="index-item method private inherited">
@@ -600,6 +631,180 @@ any of these values, to write an observer that has no parameters at all.
 
                     <div class="param-description">
                         The method to invoke.
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_ajaxHeaders" class="method item">
+    <h3 class="name"><code>ajaxHeaders</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_services_current-user.js.html#l117"><code>addon&#x2F;services&#x2F;current-user.js:117</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Return headers that should be included with every AJAX request to the API</p>
+
+    </div>
+
+
+
+
+</div>
+<div id="method_authenticatedAJAX" class="method item">
+    <h3 class="name"><code>authenticatedAJAX</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>options</code>
+                </li>
+                <li class="arg">
+                        <code>addApiHeaders</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="crosslink external" target="_blank">Promise</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_services_current-user.js.html#l78"><code>addon&#x2F;services&#x2F;current-user.js:78</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Performs an AJAX request with any additional authorization config as needed for the configured authorization type.
+Allows manual AJAX requests to be authorization-agnostic when using this addon.</p>
+<p>Primarily used to set XHR flags on manual AJAX requests, for cookie based authorization.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">options</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">addApiHeaders</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="crosslink external" target="_blank">Promise</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_authorizeXHR" class="method item">
+    <h3 class="name"><code>authorizeXHR</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>xhr</code>
+                </li>
+                <li class="arg">
+                        <code>addApiHeaders</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/addon_services_current-user.js.html#l104"><code>addon&#x2F;services&#x2F;current-user.js:104</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">xhr</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest" class="crosslink external" target="_blank">XMLHttpRequest</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">addApiHeaders</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+
+
+                    <div class="param-description">
+                         
                     </div>
 
                 </li>
@@ -1182,7 +1387,7 @@ person.getWithDefault('lastName', 'Doe');
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_services_current-user.js.html#l126"><code>addon&#x2F;services&#x2F;current-user.js:126</code></a>
+        <a href="../files/addon_services_current-user.js.html#l184"><code>addon&#x2F;services&#x2F;current-user.js:184</code></a>
         </p>
 
 
@@ -1442,7 +1647,7 @@ application.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_services_current-user.js.html#l76"><code>addon&#x2F;services&#x2F;current-user.js:76</code></a>
+        <a href="../files/addon_services_current-user.js.html#l134"><code>addon&#x2F;services&#x2F;current-user.js:134</code></a>
         </p>
 
 
@@ -2345,7 +2550,7 @@ mislead your users to think they can override the property in a subclass).
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_services_current-user.js.html#l61"><code>addon&#x2F;services&#x2F;current-user.js:61</code></a>
+        <a href="../files/addon_services_current-user.js.html#l63"><code>addon&#x2F;services&#x2F;current-user.js:63</code></a>
         </p>
 
 
@@ -2513,7 +2718,7 @@ mislead your users to think they can override the property in a subclass).
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_services_current-user.js.html#l110"><code>addon&#x2F;services&#x2F;current-user.js:110</code></a>
+        <a href="../files/addon_services_current-user.js.html#l168"><code>addon&#x2F;services&#x2F;current-user.js:168</code></a>
         </p>
 
 
@@ -2540,7 +2745,7 @@ For Elasticsearch requests, sessionKey is used as the &quot;preference&quot; URL
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_services_current-user.js.html#l97"><code>addon&#x2F;services&#x2F;current-user.js:97</code></a>
+        <a href="../files/addon_services_current-user.js.html#l155"><code>addon&#x2F;services&#x2F;current-user.js:155</code></a>
         </p>
 
 

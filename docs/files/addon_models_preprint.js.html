@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.19.0</em>
+            <em>API Docs for: 0.25.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,12 +38,13 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
-                                <li><a href="../classes/ajax-helpers.html">ajax-helpers</a></li>
                                 <li><a href="../classes/Analytics.html">Analytics</a></li>
                                 <li><a href="../classes/auth.html">auth</a></li>
                                 <li><a href="../classes/author-link.html">author-link</a></li>
                                 <li><a href="../classes/buildSecondaryNavLinks.html">buildSecondaryNavLinks</a></li>
                                 <li><a href="../classes/CasAuthenticatedRouteMixin.html">CasAuthenticatedRouteMixin</a></li>
+                                <li><a href="../classes/ChronosJournals.html">ChronosJournals</a></li>
+                                <li><a href="../classes/ChronosSubmissions.html">ChronosSubmissions</a></li>
                                 <li><a href="../classes/Citation.html">Citation</a></li>
                                 <li><a href="../classes/citation-widget.html">citation-widget</a></li>
                                 <li><a href="../classes/Collection.html">Collection</a></li>
@@ -131,6 +132,24 @@
                                 <li><a href="../classes/search-help-modal.html">search-help-modal</a></li>
                                 <li><a href="../classes/search-result.html">search-result</a></li>
                                 <li><a href="../classes/service-links.html">service-links</a></li>
+                                <li><a href="../classes/sharing-icons.html">sharing-icons</a></li>
+                                <li><a href="../classes/sharing-icons-popover
+                
+                Sample usage:
+                {{sharing-icons
+                    title=title
+                    description=description
+                    hyperlink=hyperlink
+                    metricsExtra=metricsExtra
+                }}.html">sharing-icons-popover
+                
+                Sample usage:
+                {{sharing-icons
+                    title=title
+                    description=description
+                    hyperlink=hyperlink
+                    metricsExtra=metricsExtra
+                }}</a></li>
                                 <li><a href="../classes/sign-up.html">sign-up</a></li>
                                 <li><a href="../classes/sortOptionDisplay.html">sortOptionDisplay</a></li>
                                 <li><a href="../classes/Subscription.html">Subscription</a></li>
@@ -197,6 +216,7 @@
 import Ember from &#x27;ember&#x27;;
 import DS from &#x27;ember-data&#x27;;
 import OsfModel from &#x27;./osf-model&#x27;;
+import ContributorMixin from &#x27;ember-osf/mixins/contributor-mixin&#x27;;
 
 /**
  * @module ember-osf
@@ -212,7 +232,7 @@ import OsfModel from &#x27;./osf-model&#x27;;
  * https://api.osf.io/v2/docs/#!/v2/User_Preprints_GET
  * @class Preprint
  */
-export default OsfModel.extend({
+export default OsfModel.extend(ContributorMixin, {
 
     title: DS.attr(&#x27;fixstring&#x27;),
     // TODO: May be a relationship in the future pending APIv2 changes
@@ -230,15 +250,25 @@ export default OsfModel.extend({
     preprintDoiCreated: DS.attr(&#x27;date&#x27;),
     description: DS.attr(&#x27;fixstring&#x27;),
     tags: DS.attr(),
+    public: DS.attr(&#x27;boolean&#x27;),
+    // List of strings
+    currentUserPermissions: DS.attr(),
+    dateWithdrawn: DS.attr(&#x27;date&#x27;),
+    withdrawalJustification: DS.attr(&#x27;fixstring&#x27;),
 
     // Relationships
     node: DS.belongsTo(&#x27;node&#x27;, { inverse: null, async: true }),
     license: DS.belongsTo(&#x27;license&#x27;, { inverse: null }),
     primaryFile: DS.belongsTo(&#x27;file&#x27;, { inverse: null }),
     provider: DS.belongsTo(&#x27;preprint-provider&#x27;, { inverse: &#x27;preprints&#x27;, async: true }),
+    files: DS.hasMany(&#x27;file-provider&#x27;),
     reviewActions: DS.hasMany(&#x27;review-action&#x27;, { inverse: &#x27;target&#x27;, async: true }),
-    contributors: DS.hasMany(&#x27;contributors&#x27;, { async: true }),
-
+    contributors: DS.hasMany(&#x27;contributors&#x27;, {
+        allowBulkUpdate: true,
+        allowBulkRemove: true,
+        inverse: &#x27;preprint&#x27;
+    }),
+    requests: DS.hasMany(&#x27;preprint-requests&#x27;, { inverse: &#x27;target&#x27;, async: true }),
     uniqueSubjects: Ember.computed(&#x27;subjects&#x27;, function() {
         if (!this.get(&#x27;subjects&#x27;)) return [];
         return this.get(&#x27;subjects&#x27;).reduce((acc, val) =&gt; acc.concat(val), []).uniqBy(&#x27;id&#x27;);

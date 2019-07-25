@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.19.0</em>
+            <em>API Docs for: 0.25.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,12 +38,13 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
-                                <li><a href="../classes/ajax-helpers.html">ajax-helpers</a></li>
                                 <li><a href="../classes/Analytics.html">Analytics</a></li>
                                 <li><a href="../classes/auth.html">auth</a></li>
                                 <li><a href="../classes/author-link.html">author-link</a></li>
                                 <li><a href="../classes/buildSecondaryNavLinks.html">buildSecondaryNavLinks</a></li>
                                 <li><a href="../classes/CasAuthenticatedRouteMixin.html">CasAuthenticatedRouteMixin</a></li>
+                                <li><a href="../classes/ChronosJournals.html">ChronosJournals</a></li>
+                                <li><a href="../classes/ChronosSubmissions.html">ChronosSubmissions</a></li>
                                 <li><a href="../classes/Citation.html">Citation</a></li>
                                 <li><a href="../classes/citation-widget.html">citation-widget</a></li>
                                 <li><a href="../classes/Collection.html">Collection</a></li>
@@ -131,6 +132,24 @@
                                 <li><a href="../classes/search-help-modal.html">search-help-modal</a></li>
                                 <li><a href="../classes/search-result.html">search-result</a></li>
                                 <li><a href="../classes/service-links.html">service-links</a></li>
+                                <li><a href="../classes/sharing-icons.html">sharing-icons</a></li>
+                                <li><a href="../classes/sharing-icons-popover
+                
+                Sample usage:
+                {{sharing-icons
+                    title=title
+                    description=description
+                    hyperlink=hyperlink
+                    metricsExtra=metricsExtra
+                }}.html">sharing-icons-popover
+                
+                Sample usage:
+                {{sharing-icons
+                    title=title
+                    description=description
+                    hyperlink=hyperlink
+                    metricsExtra=metricsExtra
+                }}</a></li>
                                 <li><a href="../classes/sign-up.html">sign-up</a></li>
                                 <li><a href="../classes/sortOptionDisplay.html">sortOptionDisplay</a></li>
                                 <li><a href="../classes/Subscription.html">Subscription</a></li>
@@ -197,7 +216,6 @@
 import Ember from &#x27;ember&#x27;;
 import { task } from &#x27;ember-concurrency&#x27;;
 import config from &#x27;ember-get-config&#x27;;
-import { authenticatedAJAX } from &#x27;ember-osf/utils/ajax-helpers&#x27;;
 /**
  * @module ember-osf
  * @submodule services
@@ -213,8 +231,11 @@ export default Ember.Service.extend({
     store: Ember.inject.service(),
     session: Ember.inject.service(),
     features: Ember.inject.service(),
+    cookies: Ember.inject.service(),
 
     waffleLoaded: false,
+    csrfCookie: config.OSF.cookies.csrf,
+    apiHeaders: config.OSF.apiHeaders,
 
     init() {
         this._super(...arguments);
@@ -228,7 +249,7 @@ export default Ember.Service.extend({
 
     setWaffle: task(function* () {
         const url = &#x60;${config.OSF.apiUrl}/v2/_waffle/&#x60;;
-        const { data } = yield authenticatedAJAX({
+        const { data } = yield this.authenticatedAJAX({
             url,
             method: &#x27;GET&#x27;,
         });
@@ -261,13 +282,69 @@ export default Ember.Service.extend({
      * @type {String|null}
      */
     currentUserId: Ember.computed(&#x27;session.data.authenticated&#x27;, function() {
-        var session = this.get(&#x27;session&#x27;);
+        const session = this.get(&#x27;session&#x27;);
         if (session.get(&#x27;isAuthenticated&#x27;)) {
             return session.get(&#x27;data.authenticated.id&#x27;);
         } else {
             return null;
         }
     }),
+
+    /**
+     * Performs an AJAX request with any additional authorization config as needed for the configured authorization type.
+     * Allows manual AJAX requests to be authorization-agnostic when using this addon.
+     *
+     * Primarily used to set XHR flags on manual AJAX requests, for cookie based authorization.
+     * @method authenticatedAJAX
+     * @param {Object} options
+     * @param {Boolean} addApiHeaders
+     * @return {Promise}
+     */
+    authenticatedAJAX(options, addApiHeaders = true) {
+        const opts = Ember.assign({}, options);
+
+        if (config.authorizationType === &#x27;cookie&#x27;) {
+            opts.xhrFields = Ember.assign({
+                    withCredentials: true
+                }, opts.xhrFields || {});
+        }
+
+        if (addApiHeaders) {
+            opts.headers = Ember.assign({}, this.ajaxHeaders(), opts.headers || {});
+        }
+
+        return Ember.$.ajax(opts);
+    },
+
+    /**
+     * @method authorizeXHR
+     * @param  {XMLHttpRequest} xhr
+     * @param  {Boolean} addApiHeaders
+     */
+    authorizeXHR(xhr, addApiHeaders) {
+        if (addApiHeaders) {
+            Object.entries(this.ajaxHeaders()).forEach(([key, value]) =&gt; {
+                  xhr.setRequestHeader(key, value);
+            });
+        }
+        xhr.withCredentials = true;
+    },
+    /**
+     * Return headers that should be included with every AJAX request to the API
+     * @method ajaxHeaders
+     */
+    ajaxHeaders() {
+        const headers = Ember.assign({}, this.apiHeaders);
+        const csrfCookie = this.csrfCookie;
+        const cookies = Ember.get(this, &#x27;cookies&#x27;);
+        const csrfToken = cookies.read(csrfCookie);
+
+        if (csrfToken) {
+            headers[&#x27;X-CSRFToken&#x27;] = csrfToken;
+        }
+
+        return headers;
+    },
 
     /**
      * Fetch information about the currently logged in user. If no user is logged in, this method returns a rejected promise.

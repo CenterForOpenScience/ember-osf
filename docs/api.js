@@ -3,6 +3,8 @@ YUI.add("yuidoc-meta", function(Y) {
     "classes": [
         "Analytics",
         "CasAuthenticatedRouteMixin",
+        "ChronosJournals",
+        "ChronosSubmissions",
         "Citation",
         "Collection",
         "Comment",
@@ -46,7 +48,6 @@ YUI.add("yuidoc-meta", function(Y) {
         "TaggableMixin",
         "Taxonomy",
         "User",
-        "ajax-helpers",
         "auth",
         "author-link",
         "buildSecondaryNavLinks",
@@ -98,6 +99,8 @@ YUI.add("yuidoc-meta", function(Y) {
         "search-help-modal",
         "search-result",
         "service-links",
+        "sharing-icons",
+        "sharing-icons-popover\n\nSample usage:\n{{sharing-icons\n    title=title\n    description=description\n    hyperlink=hyperlink\n    metricsExtra=metricsExtra\n}}",
         "sign-up",
         "sortOptionDisplay",
         "tags-widget",
@@ -183,7 +186,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "utils",
             "name": "utils",
-            "description": "Helper functions for asynchronous behavior"
+            "description": "Common JS helper functions and shared logic"
         }
     ],
     "elements": []
