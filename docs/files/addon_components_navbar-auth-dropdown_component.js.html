@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.19.0</em>
+            <em>API Docs for: 0.25.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,12 +38,13 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
-                                <li><a href="../classes/ajax-helpers.html">ajax-helpers</a></li>
                                 <li><a href="../classes/Analytics.html">Analytics</a></li>
                                 <li><a href="../classes/auth.html">auth</a></li>
                                 <li><a href="../classes/author-link.html">author-link</a></li>
                                 <li><a href="../classes/buildSecondaryNavLinks.html">buildSecondaryNavLinks</a></li>
                                 <li><a href="../classes/CasAuthenticatedRouteMixin.html">CasAuthenticatedRouteMixin</a></li>
+                                <li><a href="../classes/ChronosJournals.html">ChronosJournals</a></li>
+                                <li><a href="../classes/ChronosSubmissions.html">ChronosSubmissions</a></li>
                                 <li><a href="../classes/Citation.html">Citation</a></li>
                                 <li><a href="../classes/citation-widget.html">citation-widget</a></li>
                                 <li><a href="../classes/Collection.html">Collection</a></li>
@@ -131,6 +132,24 @@
                                 <li><a href="../classes/search-help-modal.html">search-help-modal</a></li>
                                 <li><a href="../classes/search-result.html">search-result</a></li>
                                 <li><a href="../classes/service-links.html">service-links</a></li>
+                                <li><a href="../classes/sharing-icons.html">sharing-icons</a></li>
+                                <li><a href="../classes/sharing-icons-popover
+                
+                Sample usage:
+                {{sharing-icons
+                    title=title
+                    description=description
+                    hyperlink=hyperlink
+                    metricsExtra=metricsExtra
+                }}.html">sharing-icons-popover
+                
+                Sample usage:
+                {{sharing-icons
+                    title=title
+                    description=description
+                    hyperlink=hyperlink
+                    metricsExtra=metricsExtra
+                }}</a></li>
                                 <li><a href="../classes/sign-up.html">sign-up</a></li>
                                 <li><a href="../classes/sortOptionDisplay.html">sortOptionDisplay</a></li>
                                 <li><a href="../classes/Subscription.html">Subscription</a></li>
@@ -219,7 +238,7 @@ export default Ember.Component.extend({
     layout,
     i18n: Ember.inject.service(),
     session: Ember.inject.service(),
-    currentUser: Ember.inject.service(),
+    currentUser: Ember.inject.service(&#x27;current-user&#x27;),
 
     tagName: &#x27;li&#x27;,
     classNames: [&#x27;dropdown&#x27;, &#x27;secondary-nav-dropdown&#x27;],

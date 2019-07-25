@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.19.0</em>
+            <em>API Docs for: 0.25.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,12 +38,13 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
-                                <li><a href="../classes/ajax-helpers.html">ajax-helpers</a></li>
                                 <li><a href="../classes/Analytics.html">Analytics</a></li>
                                 <li><a href="../classes/auth.html">auth</a></li>
                                 <li><a href="../classes/author-link.html">author-link</a></li>
                                 <li><a href="../classes/buildSecondaryNavLinks.html">buildSecondaryNavLinks</a></li>
                                 <li><a href="../classes/CasAuthenticatedRouteMixin.html">CasAuthenticatedRouteMixin</a></li>
+                                <li><a href="../classes/ChronosJournals.html">ChronosJournals</a></li>
+                                <li><a href="../classes/ChronosSubmissions.html">ChronosSubmissions</a></li>
                                 <li><a href="../classes/Citation.html">Citation</a></li>
                                 <li><a href="../classes/citation-widget.html">citation-widget</a></li>
                                 <li><a href="../classes/Collection.html">Collection</a></li>
@@ -131,6 +132,24 @@
                                 <li><a href="../classes/search-help-modal.html">search-help-modal</a></li>
                                 <li><a href="../classes/search-result.html">search-result</a></li>
                                 <li><a href="../classes/service-links.html">service-links</a></li>
+                                <li><a href="../classes/sharing-icons.html">sharing-icons</a></li>
+                                <li><a href="../classes/sharing-icons-popover
+                
+                Sample usage:
+                {{sharing-icons
+                    title=title
+                    description=description
+                    hyperlink=hyperlink
+                    metricsExtra=metricsExtra
+                }}.html">sharing-icons-popover
+                
+                Sample usage:
+                {{sharing-icons
+                    title=title
+                    description=description
+                    hyperlink=hyperlink
+                    metricsExtra=metricsExtra
+                }}</a></li>
                                 <li><a href="../classes/sign-up.html">sign-up</a></li>
                                 <li><a href="../classes/sortOptionDisplay.html">sortOptionDisplay</a></li>
                                 <li><a href="../classes/Subscription.html">Subscription</a></li>
@@ -199,7 +218,7 @@ import DS from &#x27;ember-data&#x27;;
 import OsfModel from &#x27;./osf-model&#x27;;
 
 import FileItemMixin from &#x27;ember-osf/mixins/file-item&#x27;;
-
+import ContributorMixin from &#x27;ember-osf/mixins/contributor-mixin&#x27;;
 /**
  * @module ember-osf
  * @submodule models
@@ -217,7 +236,7 @@ import FileItemMixin from &#x27;ember-osf/mixins/file-item&#x27;;
  * * https://api.osf.io/v2/docs/#!/v2/User_Nodes_GET
  * @class Node
  */
-export default OsfModel.extend(FileItemMixin, {
+export default OsfModel.extend(FileItemMixin, ContributorMixin, {
     isNode: true,
 
     title: DS.attr(&#x27;fixstring&#x27;),
@@ -319,50 +338,6 @@ export default OsfModel.extend(FileItemMixin, {
      */
     isAnonymous: Ember.computed.bool(&#x27;meta.anonymous&#x27;),
 
-    /**
-     * Determine whether the specified user ID is a contributor on this node
-     * @method isContributor
-     * @param {String} userId
-     * @return {boolean} Whether the specified user is a contributor on this node
-     */
-    isContributor(userId) {
-        // Return true if there is at least one matching contributor for this user ID
-        if (!userId) {
-            return new Ember.RSVP.Promise((resolve) =&gt; resolve(false));
-        }
-        var contribId = &#x60;${this.get(&#x27;id&#x27;)}-${userId}&#x60;;
-        return this.store.findRecord(&#x27;contributor&#x27;, contribId).then(() =&gt; true, () =&gt; false);
-    },
-
-    save() {
-        // Some duplicate logic from osf-model#save needed to support
-        // contributor edits being saved through the node
-        // Note: order is important here so _dirtyRelationships gets set by the _super call
-        var promise = this._super(...arguments);
-        if (!this.get(&#x27;_dirtyRelationships.contributors&#x27;)) {
-            this.set(&#x27;_dirtyRelationships.contributors&#x27;, {});
-        }
-
-        var contributors = this.hasMany(&#x27;contributors&#x27;).hasManyRelationship;
-        this.set(
-            &#x27;_dirtyRelationships.contributors.update&#x27;,
-            contributors.members.list.filter(m =&gt; !m.getRecord().get(&#x27;isNew&#x27;) &amp;&amp; Object.keys(m.getRecord().changedAttributes()).length &gt; 0)
-        );
-        // Need to included created contributors even in relationship
-        // hasLoaded is false
-        this.set(
-            &#x27;_dirtyRelationships.contributors.create&#x27;,
-            contributors.members.list.filter(m =&gt; m.getRecord().get(&#x27;isNew&#x27;))
-        );
-        // Contributors are a &#x27;real&#x27; delete, not just a de-reference
-        this.set(
-            &#x27;_dirtyRelationships.contributors.delete&#x27;,
-            this.get(&#x27;_dirtyRelationships.contributors.remove&#x27;) || []
-        );
-        this.set(&#x27;_dirtyRelationships.contributors.remove&#x27;, []);
-        return promise;
-    },
-
     addChild(title, description=null, category=&#x27;project&#x27;, isPublic) {
         let child = this.store.createRecord(&#x27;node&#x27;, {
             title,
@@ -374,100 +349,6 @@ export default OsfModel.extend(FileItemMixin, {
 
         return child.save();
     },
-
-    addContributor(userId, permission, isBibliographic, sendEmail, fullName, email) {
-        let contrib = this.store.createRecord(&#x27;contributor&#x27;, {
-            permission: permission,
-            bibliographic: isBibliographic,
-            sendEmail: sendEmail,
-            nodeId: this.get(&#x27;id&#x27;),
-            userId: userId,
-            fullName: fullName,
-            email: email
-        });
-
-        return contrib.save();
-    },
-
-    addContributors(contributors, sendEmail) {
-        let payload = contributors.map(contrib =&gt; {
-            let c = this.store.createRecord(&#x27;contributor&#x27;, {
-                permission: contrib.permission,
-                bibliographic: contrib.bibliographic,
-                nodeId: this.get(&#x27;id&#x27;),
-                userId: contrib.userId,
-                id: this.get(&#x27;id&#x27;) + &#x27;-&#x27; + contrib.userId,
-                unregisteredContributor: null
-            });
-            return c.serialize({
-                includeId: true,
-                includeUser: true
-            }).data;
-        });
-
-        let emailQuery = &#x27;&#x27;;
-        if (!sendEmail) {
-            emailQuery = &#x27;?send_email=false&#x27;;
-        } else if (sendEmail === &#x27;preprint&#x27;) {
-            emailQuery = &#x27;?send_email=preprint&#x27;;
-        }
-
-        // TODO Get this working properly - should not be an ajax request in the future.
-        return this.store.adapterFor(&#x27;contributor&#x27;).ajax(this.get(&#x27;links.relationships.contributors.links.related.href&#x27;) + emailQuery, &#x27;POST&#x27;, {
-            data: {
-                data: payload
-            },
-            isBulk: true
-        }).then(resp =&gt; {
-            this.store.pushPayload(resp);
-            var createdContribs = Ember.A();
-            resp.data.map((contrib) =&gt; {
-                createdContribs.push(this.store.peekRecord(&#x27;contributor&#x27;, contrib.id));
-            });
-            return createdContribs;
-        });
-    },
-
-    removeContributor(contributor) {
-        return contributor.destroyRecord();
-    },
-
-    updateContributor(contributor, permissions, bibliographic) {
-        if (!Ember.isEmpty(permissions))
-            contributor.set(&#x27;permission&#x27;, permissions);
-        if (!Ember.isEmpty(bibliographic))
-            contributor.set(&#x27;bibliographic&#x27;, bibliographic);
-        return contributor.save();
-    },
-
-    updateContributors(contributors, permissionsChanges, bibliographicChanges) {
-        let payload = contributors
-            .filter(contrib =&gt; contrib.id in permissionsChanges || contrib.id in bibliographicChanges)
-            .map(contrib =&gt; {
-                if (contrib.id in permissionsChanges) {
-                    contrib.set(&#x27;permission&#x27;, permissionsChanges[contrib.id]);
-                }
-
-                if (contrib.id in bibliographicChanges) {
-                    contrib.set(&#x27;bibliographic&#x27;, bibliographicChanges[contrib.id]);
-                }
-
-                return contrib.serialize({
-                    includeId: true,
-                    includeUser: false
-                }).data;
-            });
-
-        return this.store.adapterFor(&#x27;contributor&#x27;).ajax(this.get(&#x27;links.relationships.contributors.links.related.href&#x27;), &#x27;PATCH&#x27;, {
-            data: {
-                data: payload
-            },
-            isBulk: true
-        }).then(resp =&gt; {
-            this.store.pushPayload(resp);
-            return contributors;
-        });
-    }
 });
 
     </pre>

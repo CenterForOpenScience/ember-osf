@@ -4,7 +4,7 @@
         "description": "Ember components for interacting with the Open Science Framework",
         "url": "https://github.com/CenterForOpenScience/ember-osf",
         "logo": "https://cdn.cos.io/static/images/cos_wide.png",
-        "version": "0.19.0"
+        "version": "0.25.0"
     },
     "files": {
         "addon/adapters/osf-adapter.js": {
@@ -102,6 +102,13 @@
             "classes": {
                 "comment-pane": 1
             },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/components/cookie-banner/component.js": {
+            "name": "addon/components/cookie-banner/component.js",
+            "modules": {},
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
@@ -376,6 +383,24 @@
             "fors": {},
             "namespaces": {}
         },
+        "addon/components/sharing-icons/component.js": {
+            "name": "addon/components/sharing-icons/component.js",
+            "modules": {},
+            "classes": {
+                "sharing-icons": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/components/sharing-icons-popover/component.js": {
+            "name": "addon/components/sharing-icons-popover/component.js",
+            "modules": {},
+            "classes": {
+                "sharing-icons-popover\n\nSample usage:\n{{sharing-icons\n    title=title\n    description=description\n    hyperlink=hyperlink\n    metricsExtra=metricsExtra\n}}": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "addon/components/sign-up/component.js": {
             "name": "addon/components/sign-up/component.js",
             "modules": {},
@@ -543,6 +568,13 @@
             "fors": {},
             "namespaces": {}
         },
+        "addon/mixins/contributor-mixin.js": {
+            "name": "addon/mixins/contributor-mixin.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "addon/mixins/file-cache-bypass.js": {
             "name": "addon/mixins/file-cache-bypass.js",
             "modules": {},
@@ -687,11 +719,29 @@
             "fors": {},
             "namespaces": {}
         },
-        "addon/models/citation.js": {
-            "name": "addon/models/citation.js",
+        "addon/models/chronos-journal.js": {
+            "name": "addon/models/chronos-journal.js",
             "modules": {
                 "models": 1
             },
+            "classes": {
+                "ChronosJournals": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/models/chronos-submission.js": {
+            "name": "addon/models/chronos-submission.js",
+            "modules": {},
+            "classes": {
+                "ChronosSubmissions": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "addon/models/citation.js": {
+            "name": "addon/models/citation.js",
+            "modules": {},
             "classes": {
                 "Citation": 1
             },
@@ -920,20 +970,11 @@
             "fors": {},
             "namespaces": {}
         },
-        "addon/utils/ajax-helpers.js": {
-            "name": "addon/utils/ajax-helpers.js",
+        "addon/utils/auth.js": {
+            "name": "addon/utils/auth.js",
             "modules": {
                 "utils": 1
             },
-            "classes": {
-                "ajax-helpers": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "addon/utils/auth.js": {
-            "name": "addon/utils/auth.js",
-            "modules": {},
             "classes": {
                 "auth": 1
             },
@@ -1000,7 +1041,8 @@
                 "models": 1,
                 "serializers": 1,
                 "services": 1,
-                "transforms": 1
+                "transforms": 1,
+                "utils": 1
             },
             "elements": {},
             "classes": {
@@ -1014,8 +1056,8 @@
                 "comment-detail": 1,
                 "comment-form": 1,
                 "comment-pane": 1,
-                "discover-page": 1,
                 "dropzone-widget": 1,
+                "discover-page": 1,
                 "eosf-project-nav": 1,
                 "faceted-search": 1,
                 "file-browser": 1,
@@ -1042,6 +1084,8 @@
                 "search-facet-locked": 1,
                 "search-help-modal": 1,
                 "search-result": 1,
+                "sharing-icons": 1,
+                "sharing-icons-popover\n\nSample usage:\n{{sharing-icons\n    title=title\n    description=description\n    hyperlink=hyperlink\n    metricsExtra=metricsExtra\n}}": 1,
                 "sign-up": 1,
                 "tags-widget": 1,
                 "total-share-results": 1,
@@ -1076,6 +1120,8 @@
                 "PaginatedRouteMixin": 1,
                 "RegistrationActionsMixin": 1,
                 "TaggableMixin": 1,
+                "ChronosJournals": 1,
+                "ChronosSubmissions": 1,
                 "Citation": 1,
                 "Collection": 1,
                 "CommentReport": 1,
@@ -1200,6 +1246,8 @@
                 "project-selector": 1,
                 "scheduled-banner": 1,
                 "search-dropdown": 1,
+                "sharing-icons": 1,
+                "sharing-icons-popover\n\nSample usage:\n{{sharing-icons\n    title=title\n    description=description\n    hyperlink=hyperlink\n    metricsExtra=metricsExtra\n}}": 1,
                 "sign-up": 1,
                 "tags-widget": 1
             },
@@ -1228,7 +1276,7 @@
             "module": "ember-osf",
             "namespace": "",
             "file": "addon/const/service-links.js",
-            "line": 43,
+            "line": 44,
             "description": "Predefined constants that are frequently referenced"
         },
         "helpers": {
@@ -1290,6 +1338,8 @@
             "submodules": {},
             "elements": {},
             "classes": {
+                "ChronosJournals": 1,
+                "ChronosSubmissions": 1,
                 "Citation": 1,
                 "Collection": 1,
                 "CommentReport": 1,
@@ -1317,7 +1367,7 @@
             "module": "ember-osf",
             "namespace": "",
             "file": "addon/models/user.js",
-            "line": 11,
+            "line": 12,
             "description": "Ember-data models for interacting with the OSF APIv2"
         },
         "serializers": {
@@ -1376,18 +1426,18 @@
             "elements": {},
             "classes": {
                 "discover-page": 1,
-                "ajax-helpers": 1,
                 "auth": 1,
                 "fix-special-char": 1,
                 "human-file-size": 1
             },
             "fors": {},
+            "is_submodule": 1,
             "namespaces": {},
-            "tag": "module",
+            "module": "ember-osf",
+            "namespace": "",
             "file": "addon/utils/human-file-size.js",
             "line": 6,
-            "description": "Helper functions for asynchronous behavior",
-            "module": "ember-osf"
+            "description": "Common JS helper functions and shared logic"
         }
     },
     "classes": {
@@ -1422,7 +1472,7 @@
             "submodule": "authenticators",
             "namespace": "",
             "file": "addon/authenticators/osf-cookie.js",
-            "line": 13,
+            "line": 11,
             "description": "Ember-simple-auth compatible authenticator based on session cookie.\n\nIntended to be used with the authorizer of the same name.",
             "extends": "ember-simple-auth/BaseAuthenticator"
         },
@@ -1501,7 +1551,7 @@
             "submodule": "components",
             "namespace": "",
             "file": "addon/components/citation-widget/component.js",
-            "line": 29,
+            "line": 28,
             "description": "Lists citations for node in APA, MLA, and Chicago formats",
             "params": [
                 {
@@ -1622,21 +1672,6 @@
                 }
             ]
         },
-        "discover-page": {
-            "name": "discover-page",
-            "shortname": "discover-page",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "ember-osf",
-            "submodule": "utils",
-            "namespace": "",
-            "file": "addon/utils/discover-page.js",
-            "line": 9,
-            "description": "Discover-page component. Builds a search interface utilizing SHARE.\nSee retraction-watch, registries, and preprints discover pages for working examples.\n\nMajority adapted from Ember-SHARE https://github.com/CenterForOpenScience/ember-share, with additions from PREPRINTS\nand REGISTRIES discover pages. Original Ember-SHARE facets and PREPRINTS/REGISTRIES facets behave differently at this time.\nYou can build a discover-page that uses Ember-SHARE type facets -OR- PREPRINTS/REGISTRIES type facets.  Would not recommend\nmixing until code is combined.\n\nHow to Use:\nPass in custom text like searchPlaceholder.  The facets property will enable you to customize the filters\non the left-hand side of the discover page. Sort options are the sort dropdown options. Each query parameter must be passed in individually,\nso they are reflected in the URL.  Logo and custom colors must be placed in the consuming application's stylesheet. Individual components\ncan additionally be overridden in your application.\n\n Sample usage:\n ```handlebars\n{{discover-page\n  consumingService=consumingService\n  searchPlaceholder=searchPlaceholder\n  detailRoute=detailRoute\n  discoverHeader=discoverHeader\n  themeProvider=themeProvider\n\n  sortOptions=sortOptions\n  filterReplace=filterReplace\n  whiteListedProviders=whiteListedProviders\n  fetchedProviders=externalProviders\n\n  facets=facets\n  results=results\n  numberOfResults=numberOfResults\n  aggregations=aggregations\n  queryParamsState=queryParamsState\n\n  showActiveFilters=showActiveFilters\n  loading=fetchData.isRunning\n\n  clearFilters=(action 'clearFilters')\n  search=(action 'search')\n\n  size=size\n  page=page\n  q=q\n  sort=sort\n }}\n {{!-- plus any query params (e.g. provider=provider) --}}\n ```"
-        },
         "dropzone-widget": {
             "name": "dropzone-widget",
             "shortname": "dropzone-widget",
@@ -1651,6 +1686,21 @@
             "file": "addon/components/dropzone-widget/component.js",
             "line": 14,
             "description": "Support file uploads via dropzone.\nAccepts dropzone event listeners as parameters (e.g. success, error, addedfile)\n\nSample usage:\n```handlebars\n{{dropzone-widget\n  preUpload=attrs.preUpload\n  buildUrl=buildUrl\n  success=attrs.success\n  defaultMessage=defaultMessage\n  options=dropzoneOptions\n  clickable=clickable}}\n```"
+        },
+        "discover-page": {
+            "name": "discover-page",
+            "shortname": "discover-page",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "utils",
+            "namespace": "",
+            "file": "addon/utils/discover-page.js",
+            "line": 9,
+            "description": "Discover-page component. Builds a search interface utilizing SHARE.\nSee retraction-watch, registries, and preprints discover pages for working examples.\n\nMajority adapted from Ember-SHARE https://github.com/CenterForOpenScience/ember-share, with additions from PREPRINTS\nand REGISTRIES discover pages. Original Ember-SHARE facets and PREPRINTS/REGISTRIES facets behave differently at this time.\nYou can build a discover-page that uses Ember-SHARE type facets -OR- PREPRINTS/REGISTRIES type facets.  Would not recommend\nmixing until code is combined.\n\nHow to Use:\nPass in custom text like searchPlaceholder.  The facets property will enable you to customize the filters\non the left-hand side of the discover page. Sort options are the sort dropdown options. Each query parameter must be passed in individually,\nso they are reflected in the URL.  Logo and custom colors must be placed in the consuming application's stylesheet. Individual components\ncan additionally be overridden in your application.\n\n Sample usage:\n ```handlebars\n{{discover-page\n  consumingService=consumingService\n  searchPlaceholder=searchPlaceholder\n  detailRoute=detailRoute\n  discoverHeader=discoverHeader\n  themeProvider=themeProvider\n\n  sortOptions=sortOptions\n  filterReplace=filterReplace\n  whiteListedProviders=whiteListedProviders\n  fetchedProviders=externalProviders\n\n  facets=facets\n  results=results\n  numberOfResults=numberOfResults\n  aggregations=aggregations\n  queryParamsState=queryParamsState\n\n  showActiveFilters=showActiveFilters\n  loading=fetchData.isRunning\n\n  clearFilters=(action 'clearFilters')\n  search=(action 'search')\n\n  size=size\n  page=page\n  q=q\n  sort=sort\n }}\n {{!-- plus any query params (e.g. provider=provider) --}}\n ```"
         },
         "eosf-project-nav": {
             "name": "eosf-project-nav",
@@ -2091,6 +2141,36 @@
             "line": 8,
             "description": "Adapted from Ember-SHARE and Ember Preprints\nUsed for search results on discover page.\n\n```handlebars\n{{search-result\n     detailRoute=detailRoute\n     addFilter='addFilter'\n     result=result\n     queryParamsState=queryParamsState\n     filterReplace=filterReplace\n     updateFilters=(action 'updateFilters')\n}}\n```"
         },
+        "sharing-icons": {
+            "name": "sharing-icons",
+            "shortname": "sharing-icons",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "components",
+            "namespace": "",
+            "file": "addon/components/sharing-icons/component.js",
+            "line": 13,
+            "description": "Display sharing icons\n\nSample usage:\n{{sharing-icons\n    title=title\n    description=result.description\n    hyperlink=hyperlink\n    facebookAppId: null // leave blank to not show facebook icon\n    metricsExtra=result.id\n}}"
+        },
+        "sharing-icons-popover\n\nSample usage:\n{{sharing-icons\n    title=title\n    description=description\n    hyperlink=hyperlink\n    metricsExtra=metricsExtra\n}}": {
+            "name": "sharing-icons-popover\n\nSample usage:\n{{sharing-icons\n    title=title\n    description=description\n    hyperlink=hyperlink\n    metricsExtra=metricsExtra\n}}",
+            "shortname": "sharing-icons-popover\n\nSample usage:\n{{sharing-icons\n    title=title\n    description=description\n    hyperlink=hyperlink\n    metricsExtra=metricsExtra\n}}",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "components",
+            "namespace": "",
+            "file": "addon/components/sharing-icons-popover/component.js",
+            "line": 10,
+            "description": "Display a share icon that pops out sharing options"
+        },
         "sign-up": {
             "name": "sign-up",
             "shortname": "sign-up",
@@ -2203,7 +2283,7 @@
             "submodule": "const",
             "namespace": "",
             "file": "addon/const/service-links.js",
-            "line": 43
+            "line": 44
         },
         "buildSecondaryNavLinks": {
             "name": "buildSecondaryNavLinks",
@@ -2712,6 +2792,36 @@
             "description": "Controller mixin that implements basic tagging functionality. Uses the model defined in the model hook.",
             "extends": "Ember.Mixin"
         },
+        "ChronosJournals": {
+            "name": "ChronosJournals",
+            "shortname": "ChronosJournals",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "models",
+            "namespace": "",
+            "file": "addon/models/chronos-journal.js",
+            "line": 10,
+            "description": "Model for OSF APIv2 citation styles"
+        },
+        "ChronosSubmissions": {
+            "name": "ChronosSubmissions",
+            "shortname": "ChronosSubmissions",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-osf",
+            "submodule": "models",
+            "namespace": "",
+            "file": "addon/models/chronos-submission.js",
+            "line": 10,
+            "description": "Model for OSF APIv2 citation styles"
+        },
         "Citation": {
             "name": "Citation",
             "shortname": "Citation",
@@ -2919,7 +3029,7 @@
             "submodule": "models",
             "namespace": "",
             "file": "addon/models/osf-model.js",
-            "line": 10,
+            "line": 9,
             "description": "Common properties and behaviors shared by all OSF APIv2 models",
             "access": "public",
             "tagname": ""
@@ -2936,7 +3046,7 @@
             "submodule": "models",
             "namespace": "",
             "file": "addon/models/preprint.js",
-            "line": 10,
+            "line": 11,
             "description": "Model for OSF APIv2 preprints. This model may be used with one of several API endpoints. It may be queried directly,\n or accessed via relationship fields.\nFor field and usage information, see:\nhttps://api.osf.io/v2/docs/#!/v2/Preprint_List_GET\nhttps://api.osf.io/v2/docs/#!/v2/Preprint_Detail_GET\nhttps://api.osf.io/v2/docs/#!/v2/User_Preprints_GET"
         },
         "Metaschema": {
@@ -3011,7 +3121,7 @@
             "submodule": "models",
             "namespace": "",
             "file": "addon/models/user.js",
-            "line": 11,
+            "line": 12,
             "description": "Model for OSF APIv2 users. This model may be used with one of several API endpoints. It may be queried directly,\n or accessed via relationship fields.\nFor field and usage information, see:\n* https://api.osf.io/v2/docs/#!/v2/User_List_GET\n* https://api.osf.io/v2/docs/#!/v2/User_Detail_GET\n* https://api.osf.io/v2/docs/#!/v2/Institution_User_List_GET"
         },
         "OsfSerializer": {
@@ -3042,7 +3152,7 @@
             "submodule": "services",
             "namespace": "",
             "file": "addon/services/current-user.js",
-            "line": 10,
+            "line": 9,
             "description": "Access information about the currently logged in user",
             "extends": "Ember.Service"
         },
@@ -3058,7 +3168,7 @@
             "submodule": "services",
             "namespace": "",
             "file": "addon/services/file-manager.js",
-            "line": 11,
+            "line": 9,
             "description": "An Ember service for doing things to files.\nEssentially a wrapper for the Waterbutler API.\nhttp://waterbutler.readthedocs.io/",
             "extends": "Ember.Service"
         },
@@ -3096,20 +3206,6 @@
             "uses": [
                 "fix-special-char"
             ]
-        },
-        "ajax-helpers": {
-            "name": "ajax-helpers",
-            "shortname": "ajax-helpers",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "utils",
-            "namespace": "",
-            "file": "addon/utils/ajax-helpers.js",
-            "line": 11,
-            "description": "Helper functions to support AJAX requests"
         },
         "auth": {
             "name": "auth",
@@ -3175,7 +3271,7 @@
     "classitems": [
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 30,
+            "line": 35,
             "description": "Overrides buildQuery method - Allows users to embed resources with findRecord\nOSF APIv2 does not have \"include\" functionality, instead we use 'embed'.\nUsage: findRecord(type, id, {include: 'resource'}) or findRecord(type, id, {include: ['resource1', resource2]})\nSwaps included resources with embedded resources",
             "itemtype": "method",
             "name": "buildQuery",
@@ -3185,7 +3281,7 @@
         },
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 75,
+            "line": 80,
             "description": "Construct a URL for a relationship create/update/delete.",
             "itemtype": "method",
             "name": "_buildRelationshipURL",
@@ -3213,7 +3309,7 @@
         },
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 93,
+            "line": 98,
             "description": "Handle creation of related resources",
             "itemtype": "method",
             "name": "_createRelated",
@@ -3257,7 +3353,7 @@
         },
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 121,
+            "line": 126,
             "description": "Handle add(s) of related resources. This differs from CREATEs in that the related\nrecord is already saved and is just being associated with the inverse record.",
             "itemtype": "method",
             "name": "_addRelated",
@@ -3301,7 +3397,7 @@
         },
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 142,
+            "line": 147,
             "description": "Handle update(s) of related resources",
             "itemtype": "method",
             "name": "_updateRelated",
@@ -3345,7 +3441,7 @@
         },
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 164,
+            "line": 169,
             "description": "Handle removal of related resources. This differs from DELETEs in that the related\nrecord is not deleted, just dissociated from the inverse record.",
             "itemtype": "method",
             "name": "_removeRelated",
@@ -3389,7 +3485,7 @@
         },
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 183,
+            "line": 188,
             "description": "Handle deletion of related resources",
             "itemtype": "method",
             "name": "_deleteRelated",
@@ -3433,7 +3529,7 @@
         },
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 200,
+            "line": 205,
             "description": "A helper for making _*Related requests",
             "itemtype": "method",
             "name": "_doRelatedRequest",
@@ -3482,7 +3578,7 @@
         },
         {
             "file": "addon/adapters/osf-adapter.js",
-            "line": 257,
+            "line": 262,
             "description": "Delegate a series of requests based on a snapshot, relationship, and a change.\nThe change argument can be 'delete', 'remove', 'update', 'add', 'create'",
             "itemtype": "method",
             "name": "_handleRelatedRequest",
@@ -3521,7 +3617,7 @@
         },
         {
             "file": "addon/authenticators/osf-cookie.js",
-            "line": 47,
+            "line": 53,
             "description": "Send a request to the flask application to trigger invalidation of session remotely",
             "itemtype": "method",
             "name": "invalidate",
@@ -3531,7 +3627,7 @@
         },
         {
             "file": "addon/authenticators/osf-cookie.js",
-            "line": 65,
+            "line": 71,
             "description": "For now, simply verify that a token is present and can be used",
             "itemtype": "method",
             "name": "authenticate",
@@ -3844,7 +3940,7 @@
         },
         {
             "file": "addon/const/service-links.js",
-            "line": 47,
+            "line": 48,
             "description": "Provides list of OSF services and their links",
             "itemtype": "property",
             "name": "osfServices",
@@ -3988,6 +4084,26 @@
             "class": "CommentableMixin",
             "module": "ember-osf",
             "submodule": "mixins"
+        },
+        {
+            "file": "addon/mixins/contributor-mixin.js",
+            "line": 4,
+            "description": "Determine whether the specified user ID is a contributor on this node",
+            "itemtype": "method",
+            "name": "isContributor",
+            "params": [
+                {
+                    "name": "userId",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "Whether the specified user is a contributor on this node",
+                "type": "Boolean"
+            },
+            "class": "FileCacheBypassMixin",
+            "module": "ember-osf"
         },
         {
             "file": "addon/mixins/host-app-name.js",
@@ -4744,29 +4860,8 @@
             "submodule": "models"
         },
         {
-            "file": "addon/models/node.js",
-            "line": 126,
-            "description": "Determine whether the specified user ID is a contributor on this node",
-            "itemtype": "method",
-            "name": "isContributor",
-            "params": [
-                {
-                    "name": "userId",
-                    "description": "",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "Whether the specified user is a contributor on this node",
-                "type": "Boolean"
-            },
-            "class": "Node",
-            "module": "ember-osf",
-            "submodule": "models"
-        },
-        {
             "file": "addon/models/osf-model.js",
-            "line": 29,
+            "line": 30,
             "description": "Looks up relationship on model and returns hasManyRelationship\nor belongsToRelationship object.",
             "itemtype": "method",
             "name": "resolveRelationship",
@@ -4808,7 +4903,7 @@
         },
         {
             "file": "addon/services/current-user.js",
-            "line": 61,
+            "line": 63,
             "description": "If logged in, return the ID of the current user, else return null.",
             "itemtype": "property",
             "name": "currentUserId",
@@ -4819,7 +4914,64 @@
         },
         {
             "file": "addon/services/current-user.js",
-            "line": 76,
+            "line": 78,
+            "description": "Performs an AJAX request with any additional authorization config as needed for the configured authorization type.\nAllows manual AJAX requests to be authorization-agnostic when using this addon.\n\nPrimarily used to set XHR flags on manual AJAX requests, for cookie based authorization.",
+            "itemtype": "method",
+            "name": "authenticatedAJAX",
+            "params": [
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "addApiHeaders",
+                    "description": "",
+                    "type": "Boolean"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Promise"
+            },
+            "class": "current-user",
+            "module": "ember-osf",
+            "submodule": "services"
+        },
+        {
+            "file": "addon/services/current-user.js",
+            "line": 104,
+            "itemtype": "method",
+            "name": "authorizeXHR",
+            "params": [
+                {
+                    "name": "xhr",
+                    "description": "",
+                    "type": "XMLHttpRequest"
+                },
+                {
+                    "name": "addApiHeaders",
+                    "description": "",
+                    "type": "Boolean"
+                }
+            ],
+            "class": "current-user",
+            "module": "ember-osf",
+            "submodule": "services"
+        },
+        {
+            "file": "addon/services/current-user.js",
+            "line": 117,
+            "description": "Return headers that should be included with every AJAX request to the API",
+            "itemtype": "method",
+            "name": "ajaxHeaders",
+            "class": "current-user",
+            "module": "ember-osf",
+            "submodule": "services"
+        },
+        {
+            "file": "addon/services/current-user.js",
+            "line": 134,
             "description": "Fetch information about the currently logged in user. If no user is logged in, this method returns a rejected promise.",
             "itemtype": "method",
             "name": "load",
@@ -4833,7 +4985,7 @@
         },
         {
             "file": "addon/services/current-user.js",
-            "line": 97,
+            "line": 155,
             "description": "Return an observable promise proxy for the currently logged in user. If no user is logged in, resolves to null.",
             "itemtype": "property",
             "name": "user",
@@ -4846,7 +4998,7 @@
         },
         {
             "file": "addon/services/current-user.js",
-            "line": 110,
+            "line": 168,
             "description": "Return a simple hash of the currentUser ID if user is logged in, otherwise return a generated random string.\nsessionKey can be used to identify the current session or any general purposes.\nFor Elasticsearch requests, sessionKey is used as the \"preference\" URL parameter to ensure reproducible search results ordering.",
             "itemtype": "property",
             "name": "sessionKey",
@@ -4860,7 +5012,7 @@
         },
         {
             "file": "addon/services/current-user.js",
-            "line": 126,
+            "line": 184,
             "description": "Generate a simple hash (numerical code) from a string.\nhttps://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript-jquery",
             "itemtype": "method",
             "name": "hashCode",
@@ -4881,7 +5033,7 @@
         },
         {
             "file": "addon/services/file-manager.js",
-            "line": 23,
+            "line": 22,
             "description": "Get a URL to download the given file.",
             "itemtype": "method",
             "name": "getDownloadUrl",
@@ -4924,7 +5076,7 @@
         },
         {
             "file": "addon/services/file-manager.js",
-            "line": 51,
+            "line": 50,
             "description": "Download the contents of the given file.",
             "itemtype": "method",
             "name": "getContents",
@@ -4965,7 +5117,7 @@
         },
         {
             "file": "addon/services/file-manager.js",
-            "line": 68,
+            "line": 67,
             "description": "Upload a new version of an existing file.",
             "itemtype": "method",
             "name": "updateContents",
@@ -5011,7 +5163,7 @@
         },
         {
             "file": "addon/services/file-manager.js",
-            "line": 94,
+            "line": 93,
             "description": "Check out a file, so only the current user can modify it.",
             "itemtype": "method",
             "name": "checkOut",
@@ -5032,7 +5184,7 @@
         },
         {
             "file": "addon/services/file-manager.js",
-            "line": 113,
+            "line": 112,
             "description": "Check in a file, so anyone with permission can modify it.",
             "itemtype": "method",
             "name": "checkOut",
@@ -5053,7 +5205,7 @@
         },
         {
             "file": "addon/services/file-manager.js",
-            "line": 131,
+            "line": 130,
             "description": "Create a new folder",
             "itemtype": "method",
             "name": "addSubfolder",
@@ -5099,7 +5251,7 @@
         },
         {
             "file": "addon/services/file-manager.js",
-            "line": 162,
+            "line": 161,
             "description": "Upload a file",
             "itemtype": "method",
             "name": "uploadFile",
@@ -5150,7 +5302,7 @@
         },
         {
             "file": "addon/services/file-manager.js",
-            "line": 191,
+            "line": 190,
             "description": "Rename a file or folder",
             "itemtype": "method",
             "name": "rename",
@@ -5196,7 +5348,7 @@
         },
         {
             "file": "addon/services/file-manager.js",
-            "line": 212,
+            "line": 211,
             "description": "Move (or copy) a file or folder",
             "itemtype": "method",
             "name": "move",
@@ -5276,7 +5428,7 @@
         },
         {
             "file": "addon/services/file-manager.js",
-            "line": 253,
+            "line": 252,
             "description": "Copy a file or folder.\nConvenience method for `move` with `options.copy == true`.",
             "itemtype": "method",
             "name": "copy",
@@ -5349,7 +5501,7 @@
         },
         {
             "file": "addon/services/file-manager.js",
-            "line": 286,
+            "line": 285,
             "description": "Delete a file or folder",
             "itemtype": "method",
             "name": "deleteFile",
@@ -5390,7 +5542,7 @@
         },
         {
             "file": "addon/services/file-manager.js",
-            "line": 312,
+            "line": 311,
             "description": "Check whether the given url corresponds to a model that is currently\nreloading after a file operation.\n\nUsed by `mixin:file-cache-bypass` to avoid a race condition where the\ncache might return stale, inaccurate data.",
             "itemtype": "method",
             "name": "isReloadingUrl",
@@ -5411,7 +5563,7 @@
         },
         {
             "file": "addon/services/file-manager.js",
-            "line": 328,
+            "line": 327,
             "description": "Hash set of URLs for `model.reload()` calls that are still pending.",
             "itemtype": "property",
             "name": "_reloadingUrls",
@@ -5423,7 +5575,7 @@
         },
         {
             "file": "addon/services/file-manager.js",
-            "line": 336,
+            "line": 335,
             "description": "Force-reload a model from the API.",
             "itemtype": "method",
             "name": "_reloadModel",
@@ -5446,7 +5598,7 @@
         },
         {
             "file": "addon/services/file-manager.js",
-            "line": 370,
+            "line": 369,
             "description": "Make a Waterbutler request",
             "itemtype": "method",
             "name": "_waterbutlerRequest",
@@ -5494,7 +5646,7 @@
         },
         {
             "file": "addon/services/file-manager.js",
-            "line": 409,
+            "line": 411,
             "description": "Get the `file` model for a newly created file.",
             "itemtype": "method",
             "name": "_getNewFileInfo",
@@ -5552,26 +5704,6 @@
             "class": "theme",
             "module": "ember-osf",
             "submodule": "services"
-        },
-        {
-            "file": "addon/utils/ajax-helpers.js",
-            "line": 16,
-            "description": "Performs an AJAX request with any additional authorization config as needed for the configured authorization type.\nAllows manual AJAX requests to be authorization-agnostic when using this addon.\n\nPrimarily used to set XHR flags on manual AJAX requests, for cookie based authorization.",
-            "itemtype": "method",
-            "name": "authenticatedAJAX",
-            "params": [
-                {
-                    "name": "options",
-                    "description": "",
-                    "type": "Object"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Promise"
-            },
-            "class": "ajax-helpers",
-            "module": "utils"
         },
         {
             "file": "addon/utils/auth.js",

@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.19.0</em>
+            <em>API Docs for: 0.25.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,12 +38,13 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
-                                <li><a href="../classes/ajax-helpers.html">ajax-helpers</a></li>
                                 <li><a href="../classes/Analytics.html">Analytics</a></li>
                                 <li><a href="../classes/auth.html">auth</a></li>
                                 <li><a href="../classes/author-link.html">author-link</a></li>
                                 <li><a href="../classes/buildSecondaryNavLinks.html">buildSecondaryNavLinks</a></li>
                                 <li><a href="../classes/CasAuthenticatedRouteMixin.html">CasAuthenticatedRouteMixin</a></li>
+                                <li><a href="../classes/ChronosJournals.html">ChronosJournals</a></li>
+                                <li><a href="../classes/ChronosSubmissions.html">ChronosSubmissions</a></li>
                                 <li><a href="../classes/Citation.html">Citation</a></li>
                                 <li><a href="../classes/citation-widget.html">citation-widget</a></li>
                                 <li><a href="../classes/Collection.html">Collection</a></li>
@@ -131,6 +132,24 @@
                                 <li><a href="../classes/search-help-modal.html">search-help-modal</a></li>
                                 <li><a href="../classes/search-result.html">search-result</a></li>
                                 <li><a href="../classes/service-links.html">service-links</a></li>
+                                <li><a href="../classes/sharing-icons.html">sharing-icons</a></li>
+                                <li><a href="../classes/sharing-icons-popover
+                
+                Sample usage:
+                {{sharing-icons
+                    title=title
+                    description=description
+                    hyperlink=hyperlink
+                    metricsExtra=metricsExtra
+                }}.html">sharing-icons-popover
+                
+                Sample usage:
+                {{sharing-icons
+                    title=title
+                    description=description
+                    hyperlink=hyperlink
+                    metricsExtra=metricsExtra
+                }}</a></li>
                                 <li><a href="../classes/sign-up.html">sign-up</a></li>
                                 <li><a href="../classes/sortOptionDisplay.html">sortOptionDisplay</a></li>
                                 <li><a href="../classes/Subscription.html">Subscription</a></li>
@@ -196,6 +215,7 @@
     <pre class="code prettyprint linenums">
 import Ember from &#x27;ember&#x27;;
 import DS from &#x27;ember-data&#x27;;
+import config from &#x27;ember-get-config&#x27;;
 
 import OsfModel from &#x27;./osf-model&#x27;;
 
@@ -214,14 +234,14 @@ import OsfModel from &#x27;./osf-model&#x27;;
  * @class User
  */
 export default OsfModel.extend({
+    currentUser: Ember.inject.service(),
+
     fullName: DS.attr(&#x27;fixstring&#x27;),
     givenName: DS.attr(&#x27;fixstring&#x27;),
     middleNames: DS.attr(),
     familyName: DS.attr(&#x27;fixstring&#x27;),
 
     dateRegistered: DS.attr(&#x27;date&#x27;),
-    // email
-    username: DS.attr(&#x27;fixstring&#x27;),
 
     nodes: DS.hasMany(&#x27;nodes&#x27;),
     registrations: DS.hasMany(&#x27;registrations&#x27;),
@@ -232,6 +252,7 @@ export default OsfModel.extend({
     institutions: DS.hasMany(&#x27;institutions&#x27;, {
         inverse: &#x27;users&#x27;
     }),
+    emails: DS.hasMany(&#x27;user-emails&#x27;),
 
     // Calculated fields
     profileURL: Ember.computed.alias(&#x27;links.html&#x27;),
@@ -246,6 +267,28 @@ export default OsfModel.extend({
             return fullName;
         }
     }),
+
+    // custom model method to claim unregistered user
+    claimUnregisteredUser(preprintId, email) {
+        const userId = this.get(&#x27;id&#x27;);
+        const url = &#x60;${config.OSF.apiUrl}/v2/users/${userId}/claim/&#x60;;
+        const id = preprintId;
+        const payload = {
+            data: {
+                attributes: {
+                    email,
+                    id,
+                },
+            },
+        };
+        return this.get(&#x27;currentUser&#x27;).authenticatedAJAX({
+            url,
+            crossDomain: true,
+            type: &#x27;POST&#x27;,
+            contentType: &#x27;application/json&#x27;,
+            data: JSON.stringify(payload),
+        });
+    },
 });
 
     </pre>

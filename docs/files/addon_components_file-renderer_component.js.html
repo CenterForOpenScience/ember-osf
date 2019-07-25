@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.19.0</em>
+            <em>API Docs for: 0.25.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,12 +38,13 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
-                                <li><a href="../classes/ajax-helpers.html">ajax-helpers</a></li>
                                 <li><a href="../classes/Analytics.html">Analytics</a></li>
                                 <li><a href="../classes/auth.html">auth</a></li>
                                 <li><a href="../classes/author-link.html">author-link</a></li>
                                 <li><a href="../classes/buildSecondaryNavLinks.html">buildSecondaryNavLinks</a></li>
                                 <li><a href="../classes/CasAuthenticatedRouteMixin.html">CasAuthenticatedRouteMixin</a></li>
+                                <li><a href="../classes/ChronosJournals.html">ChronosJournals</a></li>
+                                <li><a href="../classes/ChronosSubmissions.html">ChronosSubmissions</a></li>
                                 <li><a href="../classes/Citation.html">Citation</a></li>
                                 <li><a href="../classes/citation-widget.html">citation-widget</a></li>
                                 <li><a href="../classes/Collection.html">Collection</a></li>
@@ -131,6 +132,24 @@
                                 <li><a href="../classes/search-help-modal.html">search-help-modal</a></li>
                                 <li><a href="../classes/search-result.html">search-result</a></li>
                                 <li><a href="../classes/service-links.html">service-links</a></li>
+                                <li><a href="../classes/sharing-icons.html">sharing-icons</a></li>
+                                <li><a href="../classes/sharing-icons-popover
+                
+                Sample usage:
+                {{sharing-icons
+                    title=title
+                    description=description
+                    hyperlink=hyperlink
+                    metricsExtra=metricsExtra
+                }}.html">sharing-icons-popover
+                
+                Sample usage:
+                {{sharing-icons
+                    title=title
+                    description=description
+                    hyperlink=hyperlink
+                    metricsExtra=metricsExtra
+                }}</a></li>
                                 <li><a href="../classes/sign-up.html">sign-up</a></li>
                                 <li><a href="../classes/sortOptionDisplay.html">sortOptionDisplay</a></li>
                                 <li><a href="../classes/Subscription.html">Subscription</a></li>
@@ -217,26 +236,44 @@ import config from &#x27;ember-get-config&#x27;;
  */
 export default Ember.Component.extend({
     layout,
-    download: null,
+    links: null,
     width: &#x27;100%&#x27;,
     height: &#x27;100%&#x27;,
     allowfullscreen: true,
     version: null,
-    mfrUrl: Ember.computed(&#x27;download&#x27;, &#x27;version&#x27;, function() {
-        let download = this.get(&#x27;download&#x27;) + &#x27;?direct&amp;mode=render&#x27;;
-        if (this.get(&#x27;version&#x27;)) {
-            download += &#x27;&amp;version=&#x27; + this.get(&#x27;version&#x27;);
+    mfrUrl: Ember.computed(&#x27;links.download&#x27;, &#x27;links.version&#x27;, &#x27;links.render&#x27;, function() {
+        if (this.get(&#x27;links.render&#x27;) != null) {
+            return this.get(&#x27;links.render&#x27;)
+        } else {
+            let download = this.get(&#x27;links.download&#x27;);
+            if (download.includes(&#x27;?&#x27;)) {
+                download = download + &#x27;&amp;mode=render&#x27;;
+            } else {
+                download = download + &#x27;?direct&amp;mode=render&#x27;;
+            }
+            if (this.get(&#x27;version&#x27;)) {
+                download += &#x27;&amp;version=&#x27; + this.get(&#x27;version&#x27;);
+            }
+            const fallbackMfrRenderUrl = config.OSF.renderUrl + &#x27;?url=&#x27; + encodeURIComponent(download);
+            return fallbackMfrRenderUrl;
         }
-        return config.OSF.renderUrl + &#x27;?url=&#x27; + encodeURIComponent(download);
+    }),
+    mfrOrigin: Ember.computed(&#x27;mfrUrl&#x27;, function() {
+        const urlParts = this.get(&#x27;mfrUrl&#x27;).split(&#x27;/&#x27;);
+        if (urlParts.length &lt; 3) {
+            // if unable to extract mfr origin, just return config mfrUrl
+            return config.OSF.mfrUrl;
+        }
+        return &#x60;${urlParts[0]}//${urlParts[2]}&#x60;;
     }),
 
     didRender() {
         this._super(...arguments);
 
         if (this.get(&#x27;allowCommenting&#x27;)) {
-            Ember.$(&#x27;iframe&#x27;).on(&#x27;load&#x27;, function() {
-                Ember.$(&#x27;iframe&#x27;)[0].contentWindow.postMessage(&#x27;startHypothesis&#x27;, config.OSF.mfrUrl);
-            });
+            Ember.$(&#x27;iframe&#x27;).on(&#x27;load&#x27;, () =&gt;
+                Ember.$(&#x27;iframe&#x27;)[0].contentWindow.postMessage(&#x27;startHypothesis&#x27;, this.get(&#x27;mfrOrigin&#x27;))
+            );
         }
     },
 });
