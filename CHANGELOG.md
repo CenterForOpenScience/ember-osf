@@ -4,7 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.25.0] - 2019-07-25
+- `chronos-submission` adapter
+    - override urlForUpdateRecord() to construct the correct url
+    - override updateRecord() to send PUT/PATCH to endpoint when there's no dirty attrs
+- pass html attributes to Textarea component
 
 ## [0.24.3] - 2019-07-02
 ### Fixed

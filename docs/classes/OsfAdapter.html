@@ -17,7 +17,7 @@
                 <h1><img src="https://cdn.cos.io/static/images/cos_wide.png" title="Ember OSF Addon"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.19.0</em>
+            <em>API Docs for: 0.25.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,12 +38,13 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
-                                <li><a href="../classes/ajax-helpers.html">ajax-helpers</a></li>
                                 <li><a href="../classes/Analytics.html">Analytics</a></li>
                                 <li><a href="../classes/auth.html">auth</a></li>
                                 <li><a href="../classes/author-link.html">author-link</a></li>
                                 <li><a href="../classes/buildSecondaryNavLinks.html">buildSecondaryNavLinks</a></li>
                                 <li><a href="../classes/CasAuthenticatedRouteMixin.html">CasAuthenticatedRouteMixin</a></li>
+                                <li><a href="../classes/ChronosJournals.html">ChronosJournals</a></li>
+                                <li><a href="../classes/ChronosSubmissions.html">ChronosSubmissions</a></li>
                                 <li><a href="../classes/Citation.html">Citation</a></li>
                                 <li><a href="../classes/citation-widget.html">citation-widget</a></li>
                                 <li><a href="../classes/Collection.html">Collection</a></li>
@@ -131,6 +132,24 @@
                                 <li><a href="../classes/search-help-modal.html">search-help-modal</a></li>
                                 <li><a href="../classes/search-result.html">search-result</a></li>
                                 <li><a href="../classes/service-links.html">service-links</a></li>
+                                <li><a href="../classes/sharing-icons.html">sharing-icons</a></li>
+                                <li><a href="../classes/sharing-icons-popover
+                
+                Sample usage:
+                {{sharing-icons
+                    title=title
+                    description=description
+                    hyperlink=hyperlink
+                    metricsExtra=metricsExtra
+                }}.html">sharing-icons-popover
+                
+                Sample usage:
+                {{sharing-icons
+                    title=title
+                    description=description
+                    hyperlink=hyperlink
+                    metricsExtra=metricsExtra
+                }}</a></li>
                                 <li><a href="../classes/sign-up.html">sign-up</a></li>
                                 <li><a href="../classes/sortOptionDisplay.html">sortOptionDisplay</a></li>
                                 <li><a href="../classes/Subscription.html">Subscription</a></li>
@@ -656,7 +675,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_adapters_osf-adapter.js.html#l121"><code>addon&#x2F;adapters&#x2F;osf-adapter.js:121</code></a>
+        <a href="../files/addon_adapters_osf-adapter.js.html#l126"><code>addon&#x2F;adapters&#x2F;osf-adapter.js:126</code></a>
         </p>
 
 
@@ -821,7 +840,7 @@ record is already saved and is just being associated with the inverse record.</p
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_adapters_osf-adapter.js.html#l75"><code>addon&#x2F;adapters&#x2F;osf-adapter.js:75</code></a>
+        <a href="../files/addon_adapters_osf-adapter.js.html#l80"><code>addon&#x2F;adapters&#x2F;osf-adapter.js:80</code></a>
         </p>
 
 
@@ -987,7 +1006,7 @@ record is already saved and is just being associated with the inverse record.</p
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_adapters_osf-adapter.js.html#l93"><code>addon&#x2F;adapters&#x2F;osf-adapter.js:93</code></a>
+        <a href="../files/addon_adapters_osf-adapter.js.html#l98"><code>addon&#x2F;adapters&#x2F;osf-adapter.js:98</code></a>
         </p>
 
 
@@ -1107,7 +1126,7 @@ record is already saved and is just being associated with the inverse record.</p
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_adapters_osf-adapter.js.html#l183"><code>addon&#x2F;adapters&#x2F;osf-adapter.js:183</code></a>
+        <a href="../files/addon_adapters_osf-adapter.js.html#l188"><code>addon&#x2F;adapters&#x2F;osf-adapter.js:188</code></a>
         </p>
 
 
@@ -1230,7 +1249,7 @@ record is already saved and is just being associated with the inverse record.</p
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_adapters_osf-adapter.js.html#l200"><code>addon&#x2F;adapters&#x2F;osf-adapter.js:200</code></a>
+        <a href="../files/addon_adapters_osf-adapter.js.html#l205"><code>addon&#x2F;adapters&#x2F;osf-adapter.js:205</code></a>
         </p>
 
 
@@ -1357,7 +1376,7 @@ record is already saved and is just being associated with the inverse record.</p
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_adapters_osf-adapter.js.html#l257"><code>addon&#x2F;adapters&#x2F;osf-adapter.js:257</code></a>
+        <a href="../files/addon_adapters_osf-adapter.js.html#l262"><code>addon&#x2F;adapters&#x2F;osf-adapter.js:262</code></a>
         </p>
 
 
@@ -1605,7 +1624,7 @@ properties will lookup on the container lazily.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_adapters_osf-adapter.js.html#l164"><code>addon&#x2F;adapters&#x2F;osf-adapter.js:164</code></a>
+        <a href="../files/addon_adapters_osf-adapter.js.html#l169"><code>addon&#x2F;adapters&#x2F;osf-adapter.js:169</code></a>
         </p>
 
 
@@ -1887,7 +1906,7 @@ scheduled for execution by the <code>destroy</code> method.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_adapters_osf-adapter.js.html#l142"><code>addon&#x2F;adapters&#x2F;osf-adapter.js:142</code></a>
+        <a href="../files/addon_adapters_osf-adapter.js.html#l147"><code>addon&#x2F;adapters&#x2F;osf-adapter.js:147</code></a>
         </p>
 
 
@@ -2348,7 +2367,7 @@ deferring.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/addon_adapters_osf-adapter.js.html#l30"><code>addon&#x2F;adapters&#x2F;osf-adapter.js:30</code></a>
+        <a href="../files/addon_adapters_osf-adapter.js.html#l35"><code>addon&#x2F;adapters&#x2F;osf-adapter.js:35</code></a>
         </p>
 
 
