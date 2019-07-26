@@ -3,7 +3,7 @@ import OsfModel from './osf-model';
 
 export default OsfModel.extend({
     actionTrigger: DS.attr('string'),
-    comment: DS.attr('string'),
+    comment: DS.attr('fixstring'),
     auto: DS.attr('boolean'),
     dateModified: DS.attr('date'),
 
