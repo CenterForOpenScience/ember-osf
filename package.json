@@ -1,6 +1,6 @@
 {
   "name": "@centerforopenscience/ember-osf",
-  "version": "0.25.0",
+  "version": "0.26.0",
   "description": "Reusable ember models and components for interacting with the Open Science Framework",
   "directories": {
     "doc": "docs",
