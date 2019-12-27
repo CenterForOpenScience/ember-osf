@@ -17,6 +17,7 @@ import OsfModel from './osf-model';
 */
 export default OsfModel.extend({
     size: DS.attr('number'),
+    name: DS.attr('string'),
     dateCreated: DS.attr('date'),
     contentType: DS.attr('fixstring')
 });
