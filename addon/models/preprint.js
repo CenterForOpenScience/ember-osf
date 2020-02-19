@@ -41,7 +41,7 @@ export default OsfModel.extend(ContributorMixin, {
     hasDataLinks: DS.attr('boolean'),
     hasPreregLinks: DS.attr('boolean'),
     dataLinks: DS.attr(),
-    preregLinkInfo: DS.attr(),
+    preregLinkInfo: DS.attr('string'),
     preregLinks: DS.attr(),
     conflictOfInterestStatement: DS.attr('fixstring'),
     whyNoData: DS.attr('fixstring'),
