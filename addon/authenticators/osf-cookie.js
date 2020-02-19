@@ -21,6 +21,7 @@ export default Base.extend({
     store: Ember.inject.service(),
     session: Ember.inject.service(),
     currentUser: Ember.inject.service('current-user'),
+    features: Ember.inject.service(),
 
     _test() {
 
@@ -35,6 +36,14 @@ export default Base.extend({
       }
 
       return this.get('currentUser').authenticatedAJAX(opts).then(res => {
+            if (Array.isArray(res.meta.active_flags)) {
+                this.get('features').setup(
+                    res.meta.active_flags.reduce(function(acc, flag) {
+                        acc[flag] = true;
+                        return acc;
+                    }, {}),
+                );
+            }
             // Push the result into the store for later use by the current-user service
             // Note: we have to deepcopy res because pushPayload mutates our data
             // and causes an infinite loop because reasons
