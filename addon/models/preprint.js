@@ -36,6 +36,16 @@ export default OsfModel.extend(ContributorMixin, {
     description: DS.attr('fixstring'),
     tags: DS.attr(),
     public: DS.attr('boolean'),
+    /* Sloan fields */
+    hasCoi: DS.attr('boolean'),
+    hasDataLinks: DS.attr('boolean'),
+    hasPreregLinks: DS.attr('boolean'),
+    dataLinks: DS.attr(),
+    preregLinkInfo: DS.attr('string'),
+    preregLinks: DS.attr(),
+    conflictOfInterestStatement: DS.attr('fixstring'),
+    whyNoData: DS.attr('fixstring'),
+    whyNoPrereg: DS.attr('fixstring'),
     // List of strings
     currentUserPermissions: DS.attr(),
     dateWithdrawn: DS.attr('date'),
