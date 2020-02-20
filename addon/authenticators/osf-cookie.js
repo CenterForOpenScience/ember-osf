@@ -41,8 +41,8 @@ export default Base.extend({
                     res.meta.active_flags.reduce(function(acc, flag) {
                         acc[flag] = true;
                         return acc;
-                    }, {}),
-                );
+                    }, {})
+                )
             }
             // Push the result into the store for later use by the current-user service
             // Note: we have to deepcopy res because pushPayload mutates our data
