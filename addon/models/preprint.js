@@ -38,8 +38,8 @@ export default OsfModel.extend(ContributorMixin, {
     public: DS.attr('boolean'),
     /* Sloan fields */
     hasCoi: DS.attr('boolean'),
-    hasDataLinks: DS.attr('boolean'),
-    hasPreregLinks: DS.attr('boolean'),
+    hasDataLinks: DS.attr('string'),
+    hasPreregLinks: DS.attr('string'),
     dataLinks: DS.attr(),
     preregLinkInfo: DS.attr('string'),
     preregLinks: DS.attr(),
