@@ -1,6 +1,6 @@
 {
   "name": "@centerforopenscience/ember-osf",
-  "version": "0.27.0",
+  "version": "0.28.0",
   "description": "Reusable ember models and components for interacting with the Open Science Framework",
   "directories": {
     "doc": "docs",
@@ -121,5 +121,9 @@
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
+  },
+  "volta": {
+    "node": "8.17.0",
+    "yarn": "1.21.1"
   }
 }
