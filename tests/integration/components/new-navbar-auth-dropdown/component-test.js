@@ -25,6 +25,7 @@ test('it renders when session is authenticated', function (assert) {
   assert.notOk(this.$('.btn-top-login').length, 'log in button does not exists for authenticated');
   assert.notOk(this.$('.btn-top-signup').length, 'sign up button does not exists for authenticated');
   assert.ok(this.$('.osf-profile-image').length, 'has gravatar for authenticated session');
+  assert.ok(this.$('.nav-profile-name').length, 'has username for authenticated session')
   assert.notEqual(this.$().text().trim(), '');
 });
 
@@ -35,5 +36,6 @@ test('it renders when session is not authenticated', function (assert) {
   assert.ok(this.$('.btn-top-login').length, 'log in button exists for unauthenticated');
   assert.ok(this.$('.btn-top-signup').length, 'sign up button exists for unauthenticated');
   assert.notOk(this.$('.osf-profile-image').length, 'no gravatar for unauthenticated session');
+  assert.notOk(this.$('.nav-profile-name').length, 'no username for unauthenticated session')
   assert.notEqual(this.$().text().trim(), '');
 });
