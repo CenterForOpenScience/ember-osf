@@ -1,4 +1,4 @@
-{{# if session.isAuthenticated }}
+{{#if session.isAuthenticated }}
     {{! TODO: Replace display name functionality if possible- for now truncate via CSS at end of label }}
     {{#bs-dropdown tagName='li' classNames="secondary-nav-dropdown" as |dd|}}
         {{#dd.toggle tagName="a" classNames="btn-link"}}
