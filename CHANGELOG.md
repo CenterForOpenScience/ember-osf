@@ -4,6 +4,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [Unreleased
+### Added
+- nested dependencies resolutions
+    - `bower` to `^1.8.8`
+    - `cryptiles` to `^4.1.2`
+    - `deep-extend` to `^0.5.1`
+    - `diff` to `^3.5.0`
+    - `handlebars` to `^4.3.`
+    - `mime` to `^1.4.1`
+    - `minimatch` to `^3.0.2`
+    - `minimist` to `^1.2.3`
+    - `mixin-deep` to `^1.3.2`
+    - `merge` to `^1.2.1`
+    - `lodash.defaultsdeep` to `^4.6.1`
+    - `lodash.template` to `^4.5.0`
+    - `lodash.merge` to `^4.6.2`
+    - `lodash.mergewith` to `^4.6.2`
+    - `lodash-es` to `^4.17.14`
+    - `set-value` to `^2.0.1`
+    - `sshpk` to `^1.13.2`
+    - `tar` to `^2.2.2`
+    - `uglify-js` to `^2.6.0`
+    - `ws` to `^1.1.5`
+
 ## [0.30.1] - 2020-04-20
 ### Fixed
 - donate link
