@@ -141,9 +141,9 @@ accepts@~1.3.4:
     mime-types "~2.1.16"
     negotiator "0.6.1"
 
-ace-builds@^1.2.8:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/ace-builds/-/ace-builds-1.3.0.tgz#9245a414d0b2ee039ee01f5b97a6d9f10cf436fa"
+ace-builds@^1.4.1:
+  version "1.4.11"
+  resolved "https://registry.yarnpkg.com/ace-builds/-/ace-builds-1.4.11.tgz#b1f19a891afcef1d26522473082baf80067e855f"
 
 acorn-jsx@^3.0.0:
   version "3.0.1"
@@ -3028,11 +3028,11 @@ elliptic@^6.0.0:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.0"
 
-ember-ace@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/ember-ace/-/ember-ace-1.2.0.tgz#93115b20f99c18c49ccaea026fcbf8c00c175997"
+ember-ace@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/ember-ace/-/ember-ace-2.0.1.tgz#075842fc26b8f5b71ccb49ebec5571cd85ec7b5e"
   dependencies:
-    ace-builds "^1.2.8"
+    ace-builds "^1.4.1"
     broccoli-merge-trees "^2.0.0"
     broccoli-plugin "^1.2.1"
     ember-cli-babel "^6.6.0"
