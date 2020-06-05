@@ -82,7 +82,7 @@
     "broccoli-merge-trees": "2.0.0",
     "broccoli-sass-source-maps": "2.0.0",
     "config": "1.26.1",
-    "ember-ace": "^1.2.0",
+    "ember-ace": "^2.0.1",
     "ember-bootstrap-datepicker": "^2.0.3",
     "ember-cli-babel": "^6.8.1",
     "ember-cli-clipboard": "0.8.1",
