@@ -56,7 +56,7 @@ export default Base.extend({
         });
     },
     restore(/* data */) {
-        return this._test().fail(this.invalidate);
+        return this._test().fail((err) => { this.invalidate(err); });
     },
 
     /**
