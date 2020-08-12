@@ -50,13 +50,13 @@ export default Base.extend({
             if (res['meta']['current_user'] !== null ){
                 this.get('store').pushPayload(Ember.copy(res['meta']['current_user'], true));
             } else {
-                return Ember.RSVP.reject();
+                return Ember.$.Deferred().reject();
             }
             return res['meta']['current_user']['data'];
         });
     },
     restore(/* data */) {
-        return this._test().fail(this.invalidate);
+        return this._test().fail((err) => { this.invalidate(err); });
     },
 
     /**
