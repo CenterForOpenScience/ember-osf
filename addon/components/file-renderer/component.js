@@ -25,6 +25,7 @@ export default Ember.Component.extend({
     width: '100%',
     height: '100%',
     allowfullscreen: true,
+    referrerpolicy: 'no-referrer-when-downgrade',
     version: null,
     mfrUrl: Ember.computed('links.download', 'links.version', 'links.render', function() {
         if (this.get('links.render') != null) {
