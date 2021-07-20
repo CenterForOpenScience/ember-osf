@@ -184,6 +184,7 @@ export default {
                 removeRegistrationType: 'Remove registration type',
                 removeSubject: 'Remove subject',
                 search: 'Search',
+                searchInputBox: 'Search input box',
                 searchLoading: 'Search loading',
                 searchPlaceholder: 'Search...',
                 share: 'SHARE',
