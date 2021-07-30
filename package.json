@@ -17,7 +17,6 @@
     "preversion": "git-branch-is develop && yarn test",
     "postversion": "yarn run docs",
     "make-release": "git-branch-is develop && git flow release start $npm_package_version && git flow release finish $npm_package_version",
-    "coveralls": "cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
     "type": "git",
