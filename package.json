@@ -16,7 +16,7 @@
     "bump-version": "npm --no-git-tag-version version ",
     "preversion": "git-branch-is develop && yarn test",
     "postversion": "yarn run docs",
-    "make-release": "git-branch-is develop && git flow release start $npm_package_version && git flow release finish $npm_package_version",
+    "make-release": "git-branch-is develop && git flow release start $npm_package_version && git flow release finish $npm_package_version"
   },
   "repository": {
     "type": "git",
