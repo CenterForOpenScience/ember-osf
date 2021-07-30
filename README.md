@@ -1,9 +1,9 @@
 # Ember OSF
 
-`master` Build Status: [`![Master Build Status](https://github.com/CenterForOpenScience/ember-osf/workflows/CI.yml/badge.svg?branch=master)
+`master` Build Status: ![Master Build Status](https://github.com/CenterForOpenScience/ember-osf/workflows/CI/badge.svg?branch=master)
 [![npm Version](https://img.shields.io/npm/v/@centerforopenscience/ember-osf.svg)](https://www.npmjs.com/package/@centerforopenscience/ember-osf)
 
-`develop` Build Status: [![Develop Build Status](https://github.com/CenterForOpenScience/ember-osf/workflows/CI.yml/badge.svg?branch=develop)
+`develop` Build Status: ![Develop Build Status](https://github.com/CenterForOpenScience/ember-osf/workflows/CI/badge.svg?branch=develop)
 [![Coverage Status](https://coveralls.io/repos/github/CenterForOpenScience/ember-osf/badge.svg?branch=develop)](https://coveralls.io/github/CenterForOpenScience/ember-osf?branch=develop)
 
 This repo contains code for interacting with the [OSF APIv2](https://api.osf.io/v2/) inside of an Ember app. See
