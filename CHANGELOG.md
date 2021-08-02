@@ -6,7 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [0.31.2] - 2021-07-30
 - Added a span with an aria label around the search text input box.
-
+- Fixed color contrast on search results
+- Fixed color contrast on footer links
 ## [0.31.1] - 2020-10-08
 ### Fixed
 - broken hypothes.is integration; explicitly set MFR iframe referrer policy to `no-referrer-when-downgrade`
