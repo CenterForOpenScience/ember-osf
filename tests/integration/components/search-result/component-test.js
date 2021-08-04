@@ -52,7 +52,7 @@ test('it renders', function(assert) {
     assert.ok(this.$('.comma-list').text(), 'Todd Frak ...');
     assert.ok(this.$('em:contains(2017-04-19)'));
     assert.ok(this.$('.subject-preview:contains(psychology)'));
-    assert.ok(this.$('.text-muted').length);
+    assert.ok(this.$('[data-test-search-description]').length);
     assert.ok(this.$('.search-result-providers:contains(test provider1 | test provider2)'));
     assert.ok(this.$('span:contains(April 2017)'));
 

@@ -2,7 +2,7 @@
 
 ### Checking your code
 
-Code style checking is part of the Travis build, and PRs that do not meet the code style guidelines will not be merged. You can run these checks locally with:
+Code style checking is part of CI, and PRs that do not meet the code style guidelines will not be merged. You can run these checks locally with:
 `npm run check-style`
 
 ### Naming conventions
@@ -21,10 +21,10 @@ _(In Progress)_ We plan to use the [ember-i18n](https://github.com/jamesarosen/e
 
 We will use "pod" style structure for all of the components in this addon. This means when generating component scaffolds with ember-cli you must pass the --pod flag: `ember g component my-component --pod`. Basically components should be structured like:
 
-- addon/components/<name>/
-  - component.js
-  - template.hbs
-  - style.scss (optional)
+-   addon/components/<name>/
+    -   component.js
+    -   template.hbs
+    -   style.scss (optional)
 
 #### Styling components
 
@@ -32,20 +32,21 @@ Leveraging the [ember-component-css](https://github.com/ebryn/ember-component-cs
 
 # Testing
 
-
 ## Unit tests
 
 We aim to have near-full test coverage of the code in this addon. That said we want to avoid testing the Ember core or third-party libraries, so some general guidelines for unit tets (minumum requirements):
 
 **Models**
 _Do test_:
-- helper methods
-- custom transforms
+
+-   helper methods
+-   custom transforms
 
 **Components/Mixins**
 _Do test_:
-- methods
-- computed values
+
+-   methods
+-   computed values
 
 ## Integration tests
 
@@ -54,4 +55,3 @@ Integration tests allow us to see how components behave while actually running i
 #### Accessibility checks
 
 We will use the [ember-a11y-testing](https://github.com/trentmwillis/ember-a11y-testing) addon to run a11y checks on all components.
-
