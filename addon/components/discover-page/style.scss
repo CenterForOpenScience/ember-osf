@@ -84,3 +84,12 @@
     background-color: transparent;
     cursor: pointer;
 }
+
+.searchBoxOverride input {
+    height: 46px;
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.33333;
+    border-top-left-radius: 6px !important;
+    border-bottom-left-radius: 6px !important;
+}
