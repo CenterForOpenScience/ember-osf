@@ -5,7 +5,7 @@
         {{/if}}
         <div class="form-inline">
             <div class="form-group">
-                <label> {{t 'eosf.components.licensePicker.chooseALicense'}} <span style="color: #f99; font-weight: 400"> {{t 'eosf.components.licensePicker.required'}}</span></label>
+                <label> {{t 'eosf.components.licensePicker.chooseALicense'}} <span style="color: #e50000; font-weight: 400"> {{t 'eosf.components.licensePicker.required'}}</span></label>
                 {{license-list licenses=licensesAvailable currentLicense=nodeLicense showCategories=showCategories select=(action 'selectLicense')}}
                 <small><a target='_blank' rel="noopener" href='https://openscience.zendesk.com/hc/en-us/articles/360019930493-Preprint-FAQs#how_should_i_license_my_preprint'>{{t 'eosf.components.licensePicker.licenseFAQ'}}</a></small>
             </div>
@@ -16,7 +16,7 @@
                 <label>
                     {{t 'eosf.components.licensePicker.year'}}
                     {{#if yearRequired }}
-                        <span style="color: #f99; font-weight: 400"> {{t 'eosf.components.licensePicker.required'}}</span>
+                        <span style="color: #e50000; font-weight: 400"> {{t 'eosf.components.licensePicker.required'}}</span>
                     {{/if}}
                 </label>
             </p>
@@ -28,7 +28,7 @@
                 <label>
                     {{t 'eosf.components.licensePicker.copyrightHolders'}}
                     {{#if copyrightHoldersRequired}}
-                        <span style="color: #f99; font-weight: 400"> {{t 'eosf.components.licensePicker.required'}}</span>
+                        <span style="color: #e50000; font-weight: 400"> {{t 'eosf.components.licensePicker.required'}}</span>
                     {{/if}}
                 </label>
             </p>

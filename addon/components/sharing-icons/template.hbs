@@ -1,7 +1,35 @@
-<a class="m-r-xs text-smaller" href={{twitterHref}} onclick={{action 'shareLink' twitterHref 'Twitter' 'click' 'Content - tweet' metricsExtra}}>{{fa-icon 'twitter-square' size=2 }}</a>
+<a
+    class="m-r-xs text-smaller"
+    aria-label={{t 'eosf.components.sharing.twitter'}}
+    href={{twitterHref}}
+    onclick={{action 'shareLink' twitterHref 'Twitter' 'click' 'Content - tweet' metricsExtra}}
+>
+    {{fa-icon 'twitter-square' size=2}}
+</a>
 {{!-- facebook app ids are required for sharing and will not always exit --}}
 {{#if facebookHref}} 
-    <a class="m-r-xs text-smaller" href={{facebookHref}} onclick={{action 'shareLink' facebookHref 'Facebook' 'click' 'Content - share' metricsExtra}}>{{fa-icon 'facebook-square' size=2 }}</a>
+    <a
+        class="m-r-xs text-smaller"
+        aria-label={{t 'eosf.components.sharing.facebook'}}
+        href={{facebookHref}}
+        onclick={{action 'shareLink' facebookHref 'Facebook' 'click' 'Content - share' metricsExtra}}
+    >
+        {{fa-icon 'facebook-square' size=2}}
+    </a>
 {{/if}}
-<a class="m-r-xs text-smaller" href={{linkedinHref}} onclick={{action 'shareLink' linkedinHref 'LinkedIn' 'click' 'Content - share' metricsExtra}}>{{fa-icon 'linkedin-square' size=2 }}</a>
-<a class="m-r-xs text-smaller" href={{emailHref}} onclick={{action 'shareLink' emailHref 'link' 'click' 'Content - email' metricsExtra}}>{{fa-icon 'envelope-square' size=2 }}</a>
+<a
+    class="m-r-xs text-smaller"
+    aria-label={{t 'eosf.components.sharing.linkedin'}}
+    href={{linkedinHref}}
+    onclick={{action 'shareLink' linkedinHref 'LinkedIn' 'click' 'Content - share' metricsExtra}}
+>
+    {{fa-icon 'linkedin-square' size=2}}
+</a>
+<a
+    class="m-r-xs text-smaller"
+    aria-label={{t 'eosf.components.sharing.email'}}
+    href={{emailHref}}
+    onclick={{action 'shareLink' emailHref 'link' 'click' 'Content - email' metricsExtra}}
+>
+    {{fa-icon 'envelope-square' size=2 }}
+</a>
