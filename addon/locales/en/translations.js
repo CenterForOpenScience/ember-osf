@@ -431,6 +431,12 @@ export default {
                 showResult: 'Expand search result',
                 withdrawn: 'Withdrawn'
             },
+            sharing: {
+                twitter: 'Twitter',
+                facebook: 'Facebook',
+                linkedin: 'LinkedIn',
+                email: 'Email'
+            },
             totalShareResults: {
                 searchableEvents: `{{count}} searchable events`,
                 searchablePreprints: `{{count}} searchable {{preprintWords.preprints}}`,

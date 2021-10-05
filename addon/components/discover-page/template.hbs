@@ -31,8 +31,9 @@
             <div class="col-xs-12 col-sm-8 col-sm-offset-2">
                 {{!SEARCH BAR}}
                 <div class="input-group input-group-lg">
-                    <span class="searchBoxOverride" aria-label={{t 'eosf.components.discoverPage.searchInputBox'}}>
+                    <span class="searchBoxOverride">
                         {{input
+                            (html-attributes aria-label='Search')
                             id="searchBox"
                             value=q
                             class="form-control"
