@@ -1,5 +1,5 @@
 
-<select class="form-control" onchange={{action 'select' value='target.value'}}>
+<select aria-labelledby='ChooseALicenseLabel' class="form-control" onchange={{action 'select' value='target.value'}}>
     {{#if showCategories}}
         {{#each categories as |category|}}
             {{#if category.title}}
