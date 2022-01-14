@@ -50,6 +50,7 @@ export default OsfModel.extend(ContributorMixin, {
     currentUserPermissions: DS.attr(),
     dateWithdrawn: DS.attr('date'),
     withdrawalJustification: DS.attr('fixstring'),
+    apiMeta: DS.attr(),
 
     // Relationships
     node: DS.belongsTo('node', { inverse: null, async: true }),

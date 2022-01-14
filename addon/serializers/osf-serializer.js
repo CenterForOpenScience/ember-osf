@@ -141,5 +141,13 @@ export default DS.JSONAPISerializer.extend({
             documentHash.meta.total_pages = Math.ceil(documentHash.meta.total / documentHash.meta.per_page);
         }
         return documentHash;
+    },
+
+    normalizeSingleResponse(_, __, ___, ____, requestType) {
+        const documentHash = this._super(...arguments);
+        if (requestType === 'findRecord' && documentHash.meta) {
+            documentHash.data.attributes.apiMeta = documentHash.meta;
+        }
+        return documentHash;
     }
 });
