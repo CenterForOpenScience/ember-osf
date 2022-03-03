@@ -6566,6 +6566,11 @@ fake-xml-http-request@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/fake-xml-http-request/-/fake-xml-http-request-1.6.0.tgz#bd0ac79ae3e2660098282048a12c730a6f64d550"
 
+faker@~3.0.0:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/faker/-/faker-3.0.1.tgz#c36278cd423f3c5375bc270466a223485c0e7bb2"
+  integrity sha1-w2J4zUI/PFN1vCcEZqIjSFwOe7I=
+
 fast-deep-equal@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-2.0.1.tgz#7b05218ddf9667bf7f370bf7fdb2cb15fdd0aa49"
