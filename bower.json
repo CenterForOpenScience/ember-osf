@@ -3,7 +3,6 @@
   "dependencies": {
     "ember": "lts-2-8",
     "ember-qunit-notifications": "0.1.0",
-    "Faker": "~3.0.0",
     "pretender": "~0.10.1",
     "lodash": "~3.7.0",
     "dropzone": "~4.3.0",
