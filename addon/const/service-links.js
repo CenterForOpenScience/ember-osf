@@ -28,7 +28,7 @@ const serviceLinks = {
     preprintsDiscover: `${osfUrl}preprints/discover/`,
     preprintsHome: `${osfUrl}preprints/`,
     preprintsSubmit: `${osfUrl}preprints/submit/`,
-    preprintsSupport: 'https://openscience.zendesk.com/hc/en-us/categories/360001530554-Preprints',
+    preprintsSupport: 'https://osf-support.helpscoutdocs.com/',
     profile: `${osfUrl}profile/`,
     registriesDiscover: `${osfUrl}registries/discover/`,
     registriesHome: `${osfUrl}registries/`,
