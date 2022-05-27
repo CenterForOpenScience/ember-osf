@@ -58,7 +58,10 @@ export default Ember.Component.extend({
 
         if (this.get('allowCommenting')) {
             Ember.$('iframe').on('load', () =>
-                Ember.$('iframe')[0].contentWindow.postMessage('startHypothesis', this.get('mfrOrigin'))
+                Ember.$('iframe')[0].contentWindow.postMessage(
+                    {type: 'startHypothesis', parentUrl: window.location.toString()},
+                    this.get('mfrOrigin')
+                )
             );
         }
     },
