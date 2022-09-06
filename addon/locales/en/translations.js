@@ -295,6 +295,9 @@ export default {
                 save: 'Save',
                 year: 'Year:'
             },
+            fileRenderer: {
+                mfrTitle: 'Rendering of document'
+            },
             maintenanceBanner: {
                 and: 'and',
                 notice: 'Notice:',
