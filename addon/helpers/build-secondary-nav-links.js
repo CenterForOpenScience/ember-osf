@@ -47,7 +47,7 @@ export default Ember.Helper.extend({  // Helper defined using a class, so can in
                 },
                 {
                     name: 'eosf.navbar.search',
-                    href: Ember.isEmpty(baseServiceUrl) ? serviceLinks.preprintsDiscover : baseServiceUrl + 'discover',
+                    href: serviceLinks.search,
                     type: 'search'
                 },
                 {
