@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [0.37.0]
 - Reroute users to new search page
+- Remove bower in favor of yarn
 ## [0.36.0]
 - Add title element to mfr iframe in file renderer
 - Remove redundant aria-label on discover page sort-by button
