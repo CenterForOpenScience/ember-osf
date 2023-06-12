@@ -6,7 +6,7 @@ module('Unit | Mixin | host app name');
 
 test('host-app-name mixin holds the hosting application name', function(assert) {
     let objectA = Ember.Component.extend(hostAppName);
-    let componentA = objectA.create();
+    let componentA = objectA.create({ renderer: {} });
     assert.equal(hostAppName.detect(componentA), true);
     assert.equal(componentA.get('hostAppName'), 'Dummy App');
 });
