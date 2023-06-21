@@ -12,8 +12,8 @@ module.exports = function(defaults) {
       sassOptions: {
           includePaths: [
               'node_modules/bootstrap-sass/assets/stylesheets',
-              'node_modules/osf-style/sass',
-              'node_modules/bootstrap-daterangepicker',
+              'bower_components/osf-style/sass',
+              'bower_components/bootstrap-daterangepicker',
               'tests/dummy/app/components',
           ]
       },
@@ -34,15 +34,15 @@ module.exports = function(defaults) {
       },
     });
 
-    app.import(path.join('node_modules', 'dropzone/dist/basic.css'));
-    app.import(path.join('node_modules', 'dropzone/dist/dropzone.css'));
-    app.import(path.join('node_modules', 'dropzone/dist/dropzone.js'));
-    app.import(path.join('node_modules', 'bootstrap-daterangepicker/daterangepicker.js'));
-    app.import(path.join('node_modules', 'lodash/index.js'));
+    app.import(path.join(app.bowerDirectory, 'dropzone/dist/basic.css'));
+    app.import(path.join(app.bowerDirectory, 'dropzone/dist/dropzone.css'));
+    app.import(path.join(app.bowerDirectory, 'dropzone/dist/dropzone.js'));
+    app.import(path.join(app.bowerDirectory, 'bootstrap-daterangepicker/daterangepicker.js'));
+    app.import(path.join(app.bowerDirectory, 'lodash/lodash.js'));
 
-    app.import(path.join('node_modules', 'jquery-tags-input/src/jquery.tagsinput.js'));
-    app.import(path.join('node_modules', 'osf-style/css/base.css'));
-    app.import(path.join('node_modules', 'ember-source/dist/ember-template-compiler.js'));
-    app.import(path.join('node_modules', 'jquery-mockjax/dist/jquery.mockjax.js'));
+    app.import(path.join(app.bowerDirectory, 'jquery.tagsinput/src/jquery.tagsinput.js'));
+    app.import(path.join(app.bowerDirectory, 'osf-style/css/base.css'));
+    app.import(path.join(app.bowerDirectory, 'ember/ember-template-compiler.js'));
+    app.import(path.join(app.bowerDirectory, 'jquery-mockjax/dist/jquery.mockjax.js'));
     return app.toTree();
 };
