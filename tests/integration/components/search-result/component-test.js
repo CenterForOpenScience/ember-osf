@@ -64,7 +64,7 @@ test('showBody renders', function(assert) {
     let preprint = result.create({
         hyperLinks: [{ title: 'test title', url: 'http://google.com' }, { title: 'test title 2', url: 'http://osf.io' }],
         infoLinks: [{ type: 'test type 1', uri: 'ksavmz740asd' }, {type: 'test type 2', uri: 'asdkjr48avn'}],
-        tags: 'test tag'
+        tags: ['test tag'],
     });
     this.set('preprint', preprint);
     render(this, 'result=preprint showBody=true');

@@ -3597,9 +3597,22 @@ bootstrap-datepicker@^1.6.4:
   dependencies:
     jquery ">=1.7.1 <4.0.0"
 
+bootstrap-daterangepicker@2.1.23:
+  version "2.1.23"
+  resolved "https://registry.yarnpkg.com/bootstrap-daterangepicker/-/bootstrap-daterangepicker-2.1.23.tgz#8ecdeb6a6bf4cb55211752455a6aec2ca480035e"
+  integrity sha512-LTZY7A1R8PZAx5wOvMfEw2pYhAtPQpbOKPn2roRU2NFsOtYCg+p65STgJS1dlXjdFT2IDLnE8k3N+cf9Md7hqw==
+  dependencies:
+    jquery ">=1.10"
+    moment "^2.9.0"
+
 bootstrap-sass@^3.0.0, bootstrap-sass@^3.3.7:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/bootstrap-sass/-/bootstrap-sass-3.4.1.tgz#6843c73b1c258a0ac5cb2cc6f6f5285b664a8e9a"
+
+bootstrap@~3.3.5:
+  version "3.3.7"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-3.3.7.tgz#5a389394549f23330875a3b150656574f8a9eb71"
+  integrity sha512-qcFaisBrcBhTFkz1IUnGDYnX6ZWfFzH8zOixUDtHW9Ip+r+7MfMFav2rzy7cIHc7rgIg7xjhWBoo1mS/U26j4g==
 
 bower-config@^1.3.0:
   version "1.4.1"
@@ -5530,6 +5543,11 @@ dot-prop@^4.1.0:
   dependencies:
     is-obj "^1.0.0"
 
+dropzone@~4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/dropzone/-/dropzone-4.3.0.tgz#48b0b8f2ad092872e4b535b672a7c3f1a1d67c91"
+  integrity sha512-KAP4sc9wjaU5xLhZ7olSH1ni72IbXk2l9iF9Ai5p3slwDtKTJunKkQpdFg7voyOcUU+6j75xEhHh+yPqd/Z/PA==
+
 duplexer2@^0.1.2, duplexer2@~0.1.0, duplexer2@~0.1.2:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/duplexer2/-/duplexer2-0.1.4.tgz#8b12dab878c0d69e3e7891051662a32fc6bddcc1"
@@ -6150,7 +6168,7 @@ ember-cli-valid-component-name@^1.0.0:
   dependencies:
     silent-error "^1.0.0"
 
-ember-cli-version-checker@^1.0.2, ember-cli-version-checker@^1.1.4, ember-cli-version-checker@^1.1.6, ember-cli-version-checker@^1.2.0, ember-cli-version-checker@^1.3.1:
+ember-cli-version-checker@^1.0.2, ember-cli-version-checker@^1.1.4, ember-cli-version-checker@^1.1.6, ember-cli-version-checker@^1.1.7, ember-cli-version-checker@^1.2.0, ember-cli-version-checker@^1.3.1:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/ember-cli-version-checker/-/ember-cli-version-checker-1.3.1.tgz#0bc2d134c830142da64bf9627a0eded10b61ae72"
   dependencies:
@@ -6687,6 +6705,11 @@ ember-power-select@^1.10.4:
     ember-text-measurer "^0.4.0"
     ember-truth-helpers "^2.0.0"
 
+ember-qunit-notifications@^0.0.1-security:
+  version "0.0.1-security"
+  resolved "https://registry.yarnpkg.com/ember-qunit-notifications/-/ember-qunit-notifications-0.0.1-security.tgz#53f862c5eba65074cf9d4318ea803baad75b8d0f"
+  integrity sha512-wiwQJdr7/5rWj3MUmRpfT0UTRngA8QIBvWaRiwD8s4IjMwOfxUDIZWYiuzob4j44Eag2ix/84dzjNAf0qBRQBA==
+
 ember-qunit@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/ember-qunit/-/ember-qunit-3.3.0.tgz#98c0c8d9473808fa7be48808989255cbfa70e760"
@@ -6793,6 +6816,24 @@ ember-sinon@0.7.0, ember-sinon@~0.7.0:
     broccoli-merge-trees "^1.2.1"
     ember-cli-babel "^5.1.7"
     sinon "^2.1.0"
+
+ember-source@^2.11.0:
+  version "2.11.0"
+  resolved "https://registry.yarnpkg.com/ember-source/-/ember-source-2.11.0.tgz#fada3652feaaa5ed1fffd40c9ec68ca995801d73"
+  integrity sha512-BHPfYXxxbNL3y9i6nig52WKnUNEcwHSjn+dpTY4zowppxY+WCI4QzdqpNPM8V/ULry2wqIkOTDGW82GbUWStXQ==
+  dependencies:
+    broccoli-stew "^1.2.0"
+    ember-cli-get-component-path-option "^1.0.0"
+    ember-cli-normalize-entity-name "^1.0.0"
+    ember-cli-path-utils "^1.0.0"
+    ember-cli-string-utils "^1.0.0"
+    ember-cli-test-info "^1.0.0"
+    ember-cli-valid-component-name "^1.0.0"
+    ember-cli-version-checker "^1.1.7"
+    jquery "^3.1.1"
+    resolve "^1.1.7"
+    rsvp "^3.3.3"
+    simple-dom "^0.3.0"
 
 ember-string-ishtmlsafe-polyfill@^2.0.0:
   version "2.0.0"
@@ -7418,7 +7459,7 @@ extsprintf@1.3.0, extsprintf@^1.2.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.3.0.tgz#96918440e3041a7a414f8c52e3c574eb3c3e1e05"
 
-fake-xml-http-request@^1.6.0:
+fake-xml-http-request@^1.2.1, fake-xml-http-request@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/fake-xml-http-request/-/fake-xml-http-request-1.6.0.tgz#bd0ac79ae3e2660098282048a12c730a6f64d550"
 
@@ -7723,6 +7764,11 @@ follow-redirects@^1.0.0:
 font-awesome@^4.7.0:
   version "4.7.0"
   resolved "https://registry.yarnpkg.com/font-awesome/-/font-awesome-4.7.0.tgz#8fa8cf0411a1a31afd07b06d2902bb9fc815a133"
+
+font-awesome@~4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/font-awesome/-/font-awesome-4.5.0.tgz#1e9d7ccf7d63bdbe57000e18d5188cb2557e70f8"
+  integrity sha512-XGGY8CN/NT8e5fKOC/K7CESNQ3+2oYOfZqwZcKgEMtcmTiHtFIH+XZWRoU0HtcdwhtSkpWXLfTIUlTdJ4PhX8A==
 
 for-in@^1.0.1, for-in@^1.0.2:
   version "1.0.2"
@@ -9071,9 +9117,22 @@ istextorbinary@2.1.0:
     editions "^1.1.1"
     textextensions "1 || 2"
 
-jquery@>=1.12.0, "jquery@>=1.7.1 <4.0.0":
-  version "3.5.1"
-  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.5.1.tgz#d7b4d08e1bfdb86ad2f1a3d039ea17304717abb5"
+jquery-mockjax@2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/jquery-mockjax/-/jquery-mockjax-2.1.1.tgz#60e411e8bb308584b26f8ea13d855e9cd161d58b"
+  integrity sha512-f+l44509nFtAiIB4fZwgUjzKm9IUtV+XGfPf9SRQNHD9Rn8oYgaAvg2Vb5Rw6P+PhDm7AjMjzjAwsmBr+fdfRw==
+  dependencies:
+    jquery "^2.1.3"
+
+jquery-tags-input@^1.3.5:
+  version "1.3.5"
+  resolved "https://registry.yarnpkg.com/jquery-tags-input/-/jquery-tags-input-1.3.5.tgz#1c89cb95c61983ad14386d30a006920476b93ed7"
+  integrity sha512-CIqhxb44s62D9LooqjM4ef2DHzHuiqZI+viFpAo6/Hhn0LbhP0llFKermjLcHEexcMBWMtfhTIj7Cg44fXvD1g==
+
+jquery@>=1.10, jquery@>=1.12.0, jquery@>=1.7, "jquery@>=1.7.1 <4.0.0", jquery@^2.1.3, jquery@^3.1.1, jquery@~2.1.3:
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-2.1.4.tgz#228bde698a0c61431dc2630a6a154f15890d2317"
+  integrity sha512-wWR+eCq/T/Qt0NcFyM+QVho0ZVzWxFYANijmSMImXiM5mjr1aOaf4SF0eOEPc92bbK2L2vDpxw3lIszus7eO8Q==
 
 js-base64@^2.1.8, js-base64@^2.1.9:
   version "2.4.3"
@@ -9820,6 +9879,11 @@ lodash@^4.0.0, lodash@^4.14.0, lodash@^4.17.10, lodash@^4.17.15, lodash@^4.17.19
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
   integrity sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==
 
+lodash@~3.7.0:
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.7.0.tgz#3678bd8ab995057c07ade836ed2ef087da811d45"
+  integrity sha512-73GDDlioRJOCHV8N9gnBEpjdWI34+e9AvMnS4qdqdMfl8/yH/dJP1tfuqUFccZ/deZQlHuJiRSuKXjKIfDwBOg==
+
 log-driver@1.2.5:
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/log-driver/-/log-driver-1.2.5.tgz#7ae4ec257302fd790d557cb10c97100d857b0056"
@@ -10289,6 +10353,11 @@ moment-timezone@^0.5.13:
 moment@^2.19.3:
   version "2.21.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.21.0.tgz#2a114b51d2a6ec9e6d83cf803f838a878d8a023a"
+
+moment@^2.9.0:
+  version "2.29.4"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.4.tgz#3dbe052889fe7c1b2ed966fcb3a77328964ef108"
+  integrity sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==
 
 morgan@^1.8.1:
   version "1.10.0"
@@ -10769,6 +10838,10 @@ osenv@0, osenv@^0.1.3, osenv@^0.1.4:
     os-homedir "^1.0.0"
     os-tmpdir "^1.0.0"
 
+"osf-style@https://github.com/CenterforOpenScience/osf-style.git#1.3.0":
+  version "1.3.0"
+  resolved "https://github.com/CenterforOpenScience/osf-style.git#116c7a642a5bb2e2c6c96cc25602ab5427727c9a"
+
 output-file-sync@^1.1.0:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/output-file-sync/-/output-file-sync-1.1.2.tgz#d0a33eefe61a205facb90092e826598d5245ce76"
@@ -11161,6 +11234,14 @@ pretender@^1.6.0:
   dependencies:
     fake-xml-http-request "^1.6.0"
     route-recognizer "^0.3.3"
+
+pretender@~0.10.1:
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/pretender/-/pretender-0.10.1.tgz#7bb16fe82b29f8df7d6dd34d2ccc5affc35d45e7"
+  integrity sha512-eJPOZcPWWEYNUGlNgR01ElD1Yjs0+fd22xeInKBMmvfeak+Cfogw+oy6p0vfljD1pSsUbr7FOYUtg6/QLxEWtQ==
+  dependencies:
+    fake-xml-http-request "^1.2.1"
+    route-recognizer "^0.1.9"
 
 printf@^0.2.3:
   version "0.2.5"
@@ -12000,6 +12081,11 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^2.0.0"
     inherits "^2.0.1"
 
+route-recognizer@^0.1.9:
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/route-recognizer/-/route-recognizer-0.1.11.tgz#810d8e5702abb4056d6dcb8e865c5685e7c14eb7"
+  integrity sha512-7JNu5mXQVa39zxmUKyk/bfpeF2WyEC5JKVTJO5HATcoUQpcQsI3eLzhwGU69xeOagQxfOQ+yr2sSv0G8xy+vQA==
+
 route-recognizer@^0.3.3:
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/route-recognizer/-/route-recognizer-0.3.3.tgz#1d365e27fa6995e091675f7dc940a8c00353bd29"
@@ -12346,6 +12432,11 @@ silent-error@^1.1.1:
   integrity sha512-n4iEKyNcg4v6/jpb3c0/iyH2G1nzUNl7Gpqtn/mHIJK9S/q/7MCfoO4rwVOoO59qPFIc0hVHvMbiOJ0NdtxKKw==
   dependencies:
     debug "^2.2.0"
+
+simple-dom@^0.3.0:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/simple-dom/-/simple-dom-0.3.2.tgz#0663d10f1556f1500551d518f56e3aba0871371d"
+  integrity sha512-QbBkNBtadi3AXgM6bnoQU9ZwNJ/gUR3V+WBIg8R8kqH0PiJH5uP1723Uycenir+Tmtsr/wc+CG6njFrtv0kZ9g==
 
 simple-fmt@~0.1.0:
   version "0.1.0"
@@ -13249,6 +13340,13 @@ type-is@~1.6.15:
   dependencies:
     media-typer "0.3.0"
     mime-types "~2.1.15"
+
+typeahead.js@^0.11.1:
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/typeahead.js/-/typeahead.js-0.11.1.tgz#4e64e671b22310a8606f4aec805924ba84b015b8"
+  integrity sha512-yGaLzGjVHyryZdNfrWz2NHXUwEO7hrlVmGMGCo5+6mH3nEEhcQ0Te3mK3G60uRnxfERu8twOWSU4WmwScbwhMg==
+  dependencies:
+    jquery ">=1.7"
 
 typedarray@^0.0.6, typedarray@~0.0.5:
   version "0.0.6"
