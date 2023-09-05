@@ -20,13 +20,14 @@ environment if you plan to modify and test this addon in isolation.
 
 -   `git clone` this repository
 -   `yarn install --frozen-lockfile`
+-   `bower install`
 
 ## Using this addon in another Ember app
 
 ### For production use
 
 Other applications that wish to consume this addon should add the following line manually to the consuming Ember app's
-`package.json` file, then run `yarn install` inside that app.
+`package.json` file, then run `yarn install` and `bower install` inside that app.
 
 `"ember-osf": "git+https://github.com/CenterForOpenScience/ember-osf.git#NewestCommitHashGoesHere",`
 
@@ -49,7 +50,7 @@ import OsfTokenLoginRouteMixin from "ember-osf/mixins/osf-token-login-route";
 export default Ember.Route.extend(OsfLoginRouteMixin);
 ```
 
-> **Note**: Running ember install will automatically install many npm dependencies for ember-osf.
+> **Note**: Running ember install will automatically install many bower and npm dependencies for ember-osf.
 
 ## Configuration
 

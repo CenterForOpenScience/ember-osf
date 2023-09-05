@@ -3,6 +3,9 @@ FROM quay.io/centerforopenscience/ember-base
 COPY ./package.json ./yarn.lock ./.yarnrc ./
 RUN yarn --frozen-lockfile --ignore-engines
 
+COPY ./.bowerrc ./bower.json ./
+RUN ./node_modules/.bin/bower install --allow-root --config.interactive=false
+
 COPY ./ ./
 
 ARG GIT_COMMIT=
