@@ -77,23 +77,29 @@ export default Ember.Component.extend({
     },
 
     _loadDefaultStyles: task(function* () {
-        const provider = this.get('node').get('provider');
-        const providerCitationStyles = yield provider.get('citationStyles');
-
+        const node = this.get('node');
+        if (!node) {
+            return;
+        }
         const citationLink = this.get('node').get('links.relationships.citation.links.related.href');
         this.set('citationLink', citationLink);
 
-        if (providerCitationStyles.length) {
-            for (const style of providerCitationStyles.toArray()) {
-                style.fetchCitation(this.get('node'));
+        const provider = node.get('provider');
+        if (provider) {
+            const providerCitationStyles = yield provider.get('citationStyles');
+
+            if (providerCitationStyles.length) {
+                for (const style of providerCitationStyles.toArray()) {
+                    style.fetchCitation(this.get('node'));
+                }
+                return;
             }
-        } else {
-            for (const { linkSuffix, attr } of citationStyles) {
-                yield this.get('store')
-                    .adapterFor('node')
-                    .ajax(`${citationLink}${linkSuffix}/`, 'GET')
-                    .then(resp => this.set(attr, resp.data.attributes.citation));
-            }
+        }
+        for (const { linkSuffix, attr } of citationStyles) {
+            yield this.get('store')
+                .adapterFor('node')
+                .ajax(`${citationLink}${linkSuffix}/`, 'GET')
+                .then(resp => this.set(attr, resp.data.attributes.citation));
         }
     }).on('init').restartable(),
 

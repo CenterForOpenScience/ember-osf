@@ -1,6 +1,6 @@
 import { moduleForModel, test } from 'ember-qunit';
 
-moduleForModel('citation-styles', 'Unit | Model | citation styles', {
+moduleForModel('citation-style', 'Unit | Model | citation style', {
   // Specify the other units that are required for this test.
   needs: []
 });
