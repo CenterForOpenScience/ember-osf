@@ -36,6 +36,7 @@ export default OsfModel.extend({
     highlightedTaxonomies: DS.hasMany('taxonomy'),
     preprints: DS.hasMany('preprint', { inverse: 'provider', async: true }),
     licensesAcceptable: DS.hasMany('license', { inverse: null }),
+    citationStyles: DS.hasMany('citation-style', { inverse: null, async: true }),
 
     hasHighlightedSubjects: Ember.computed.alias('links.relationships.highlighted_taxonomies.links.related.meta.has_highlighted_subjects'),
     documentType: Ember.computed('i18n', 'preprintWord', function () {
