@@ -22,7 +22,7 @@ export default OsfModel.extend({
     shareSource: DS.attr('string'),
     preprintWord: DS.attr('string'),
     facebookAppId: DS.attr('number'),
-    inSloanStudy: DS.attr('boolean'),
+    assertionsEnabled: DS.attr('boolean'),
 
     // Reviews settings
     permissions: DS.attr(),
