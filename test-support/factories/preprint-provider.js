@@ -12,6 +12,7 @@ FactoryGuy.define('preprint-provider', {
         emailSupport: 'support+fake@osf.io',
         headerText: () => faker.lorem.words(3),
         taxonomy: FactoryGuy.hasMany('taxonomy', 20),
+        assertionsEnabled: true,
     },
     traits: {
         isOSF: {
