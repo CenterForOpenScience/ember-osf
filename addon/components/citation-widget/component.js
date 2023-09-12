@@ -47,6 +47,7 @@ export default Ember.Component.extend({
 
     styles: Ember.A([]),
 
+    provider: Ember.computed.alias('node.provider'),
     placeholderMessage: Ember.computed(function() {
         return this.get('i18n').t('eosf.components.citationWidget.placeholderMessage');
     }),
@@ -66,16 +67,6 @@ export default Ember.Component.extend({
         if (!node) {
             return;
         }
-
-        const citationLink = node.get('links.relationships.citation.links.related.href');
-        this.set('citationLink', citationLink);
-
-        for (const { linkSuffix, attr } of citationStyles) {
-            this.get('store')
-                .adapterFor('node')
-                .ajax(`${citationLink}${linkSuffix}/`, 'GET')
-                .then(resp => this.set(attr, resp.data.attributes.citation));
-        }
     },
 
     actions: {
@@ -84,6 +75,33 @@ export default Ember.Component.extend({
             this.get('_selectStyle').perform(style.id);
         }
     },
+
+    _loadDefaultStyles: task(function* () {
+        const node = this.get('node');
+        if (!node) {
+            return;
+        }
+        const citationLink = this.get('node').get('links.relationships.citation.links.related.href');
+        this.set('citationLink', citationLink);
+
+        const provider = node.get('provider');
+        if (provider) {
+            const providerCitationStyles = yield provider.get('citationStyles');
+
+            if (providerCitationStyles.length) {
+                for (const style of providerCitationStyles.toArray()) {
+                    style.fetchCitation(this.get('node'));
+                }
+                return;
+            }
+        }
+        for (const { linkSuffix, attr } of citationStyles) {
+            yield this.get('store')
+                .adapterFor('node')
+                .ajax(`${citationLink}${linkSuffix}/`, 'GET')
+                .then(resp => this.set(attr, resp.data.attributes.citation));
+        }
+    }).on('init').restartable(),
 
     _selectStyle: task(function* (id) {
         const citationLink = this.get('citationLink');
