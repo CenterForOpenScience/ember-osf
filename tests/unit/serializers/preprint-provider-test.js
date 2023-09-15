@@ -5,7 +5,8 @@ moduleForModel('preprint-provider', 'Unit | Serializer | preprint provider', {
         'serializer:preprint-provider',
         'model:taxonomy',
         'model:preprint',
-        'model:license'
+        'model:license',
+        'model:citation-style'
     ]
 });
 
