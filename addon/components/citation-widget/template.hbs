@@ -1,11 +1,16 @@
 <div>
     <div id="citationList" class="m-b-md">
-        <div class="f-w-xl">{{t 'eosf.components.citationWidget.apa'}}</div>
-        <span> {{apa}} </span>
-        <div class="f-w-xl m-t-md">{{t 'eosf.components.citationWidget.mla'}}</div>
-        <span> {{mla}} </span>
-        <div class="f-w-xl m-t-md">{{t 'eosf.components.citationWidget.chicago'}}</div>
-        <span> {{chicago}} </span>
+        {{#each provider.citationStyles as |style index|}}
+            <div class="f-w-xl {{if index 'm-t-md'}}">{{style.title}}</div>
+            <span> {{style.nodeCitation}} </span>
+        {{else}}
+            <div class="f-w-xl">{{t 'eosf.components.citationWidget.apa'}}</div>
+            <span> {{apa}} </span>
+            <div class="f-w-xl m-t-md">{{t 'eosf.components.citationWidget.mla'}}</div>
+            <span> {{mla}} </span>
+            <div class="f-w-xl m-t-md">{{t 'eosf.components.citationWidget.chicago'}}</div>
+            <span> {{chicago}} </span>
+        {{/each}}
     </div>
     <p><strong>{{t 'eosf.components.citationWidget.getMoreCitations'}}</strong></p>
     {{#power-select

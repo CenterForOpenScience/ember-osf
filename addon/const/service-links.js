@@ -33,7 +33,7 @@ const serviceLinks = {
     registriesDiscover: `${osfUrl}registries/discover/`,
     registriesHome: `${osfUrl}registries/`,
     registriesSupport: 'https://openscience.zendesk.com/hc/en-us/categories/360001550953-Registrations',
-    search: `${osfUrl}search?resourceType=osf:Preprints`,
+    search: `${osfUrl}search/`,
     settings: `${osfUrl}settings/`,
     settingsNotifications: `${osfUrl}settings/notifications/`,
     reviewsHome: `${osfUrl}reviews/`,
